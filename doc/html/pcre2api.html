@@ -70,15 +70,15 @@ document for an overview of all the PCRE2 documentation.
 <b>  pcre2_compile_context *<i>ccontext</i>);</b>
 <br>
 <br>
-<b>pcre2_code_free(pcre2_code *<i>code</i>);</b>
+<b>void pcre2_code_free(pcre2_code *<i>code</i>);</b>
 <br>
 <br>
-<b>pcre2_match_data_create(uint32_t <i>ovecsize</i>,</b>
+<b>pcre2_match_data *pcre2_match_data_create(uint32_t <i>ovecsize</i>,</b>
 <b>  pcre2_general_context *<i>gcontext</i>);</b>
 <br>
 <br>
-<b>pcre2_match_data_create_from_pattern(const pcre2_code *<i>code</i>,</b>
-<b>  pcre2_general_context *<i>gcontext</i>);</b>
+<b>pcre2_match_data *pcre2_match_data_create_from_pattern(</b>
+<b>  const pcre2_code *<i>code</i>, pcre2_general_context *<i>gcontext</i>);</b>
 <br>
 <br>
 <b>int pcre2_match(const pcre2_code *<i>code</i>, PCRE2_SPTR <i>subject</i>,</b>
@@ -143,6 +143,10 @@ document for an overview of all the PCRE2 documentation.
 <b>  const unsigned char *<i>tables</i>);</b>
 <br>
 <br>
+<b>int pcre2_set_max_pattern_length(pcre2_compile_context *<i>ccontext</i>,</b>
+<b>  PCRE2_SIZE <i>value</i>);</b>
+<br>
+<br>
 <b>int pcre2_set_newline(pcre2_compile_context *<i>ccontext</i>,</b>
 <b>  uint32_t <i>value</i>);</b>
 <br>
@@ -174,6 +178,10 @@ document for an overview of all the PCRE2 documentation.
 <br>
 <b>int pcre2_set_match_limit(pcre2_match_context *<i>mcontext</i>,</b>
 <b>  uint32_t <i>value</i>);</b>
+<br>
+<br>
+<b>int pcre2_set_offset_limit(pcre2_match_context *<i>mcontext</i>,</b>
+<b>  PCRE2_SIZE <i>value</i>);</b>
 <br>
 <br>
 <b>int pcre2_set_recursion_limit(pcre2_match_context *<i>mcontext</i>,</b>
@@ -266,12 +274,12 @@ document for an overview of all the PCRE2 documentation.
 <br><a name="SEC9" href="#TOC1">PCRE2 NATIVE API SERIALIZATION FUNCTIONS</a><br>
 <P>
 <b>int32_t pcre2_serialize_decode(pcre2_code **<i>codes</i>,</b>
-<b>  int32_t <i>number_of_codes</i>, const uint32_t *<i>bytes</i>,</b>
+<b>  int32_t <i>number_of_codes</i>, const uint8_t *<i>bytes</i>,</b>
 <b>  pcre2_general_context *<i>gcontext</i>);</b>
 <br>
 <br>
-<b>int32_t pcre2_serialize_encode(pcre2_code **<i>codes</i>,</b>
-<b>  int32_t <i>number_of_codes</i>, uint32_t **<i>serialized_bytes</i>,</b>
+<b>int32_t pcre2_serialize_encode(const pcre2_code **<i>codes</i>,</b>
+<b>  int32_t <i>number_of_codes</i>, uint8_t **<i>serialized_bytes</i>,</b>
 <b>  PCRE2_SIZE *<i>serialized_size</i>, pcre2_general_context *<i>gcontext</i>);</b>
 <br>
 <br>
@@ -610,6 +618,7 @@ of the following compile-time parameters:
   PCRE2's character tables
   The newline character sequence
   The compile time nested parentheses limit
+  The maximum length of the pattern string 
   An external function for stack checking
 </pre>
 A compile context is also required if you are using custom memory management.
@@ -648,6 +657,15 @@ interpreted matching functions, <i>pcre2_match()</i> and
 The value must be the result of a call to <i>pcre2_maketables()</i>, whose only
 argument is a general context. This function builds a set of character tables
 in the current locale.
+<b>int pcre2_set_max_pattern_length(pcre2_compile_context *<i>ccontext</i>,</b>
+<b>  PCRE2_SIZE <i>value</i>);</b>
+<br>
+<br>
+This sets a maximum length, in code units, for the pattern string that is to be 
+compiled. If the pattern is longer, an error is generated. This facility is 
+provided so that applications that accept patterns from external sources can 
+limit their size. The default is the largest number that a PCRE2_SIZE variable 
+can hold, which is effectively unlimited.
 <b>int pcre2_set_newline(pcre2_compile_context *<i>ccontext</i>,</b>
 <b>  uint32_t <i>value</i>);</b>
 <br>
@@ -697,6 +715,7 @@ A match context is required if you want to change the default values of any
 of the following match-time parameters:
 <pre>
   A callout function
+  The offset limit for matching an unanchored pattern
   The limit for calling <i>match()</i>
   The limit for calling <i>match()</i> recursively
 </pre>
@@ -729,6 +748,30 @@ This sets up a "callout" function, which PCRE2 will call at specified points
 during a matching operation. Details are given in the
 <a href="pcre2callout.html"><b>pcre2callout</b></a>
 documentation.
+<b>int pcre2_set_offset_limit(pcre2_match_context *<i>mcontext</i>,</b>
+<b>  PCRE2_SIZE <i>value</i>);</b>
+<br>
+<br>
+The <i>offset_limit</i> parameter limits how far an unanchored search can
+advance in the subject string. The default value is PCRE2_UNSET. The
+<b>pcre2_match()</b> and <b>pcre2_dfa_match()</b> functions return
+PCRE2_ERROR_NOMATCH if a match with a starting point before or at the given
+offset is not found. For example, if the pattern /abc/ is matched against
+"123abc" with an offset limit less than 3, the result is PCRE2_ERROR_NO_MATCH.
+A match can never be found if the <i>startoffset</i> argument of
+<b>pcre2_match()</b> or <b>pcre2_dfa_match()</b> is greater than the offset
+limit.
+</P>
+<P>
+When using this facility, you must set PCRE2_USE_OFFSET_LIMIT when calling
+<b>pcre2_compile()</b> so that when JIT is in use, different code can be
+compiled. If a match is started with a non-default match limit when
+PCRE2_USE_OFFSET_LIMIT is not set, an error is generated.
+</P>
+<P>
+The offset limit facility can be used to track progress when searching large
+subject strings. See also the PCRE2_FIRSTLINE option, which requires a match to
+start within the first line of the subject.
 <b>int pcre2_set_match_limit(pcre2_match_context *<i>mcontext</i>,</b>
 <b>  uint32_t <i>value</i>);</b>
 <br>
@@ -936,7 +979,7 @@ The <i>where</i> argument should point to a buffer that is at least 24 code
 units long. (The exact length required can be found by calling
 <b>pcre2_config()</b> with <b>where</b> set to NULL.) If PCRE2 has been compiled
 without Unicode support, the buffer is filled with the text "Unicode not
-supported". Otherwise, the Unicode version string (for example, "7.0.0") is
+supported". Otherwise, the Unicode version string (for example, "8.0.0") is
 inserted. The number of code units used is returned. This is the length of the
 string plus one unit for the terminating zero.
 <pre>
@@ -961,7 +1004,7 @@ zero.
 <b>  pcre2_compile_context *<i>ccontext</i>);</b>
 <br>
 <br>
-<b>pcre2_code_free(pcre2_code *<i>code</i>);</b>
+<b>void pcre2_code_free(pcre2_code *<i>code</i>);</b>
 </P>
 <P>
 The <b>pcre2_compile()</b> function compiles a pattern into an internal form.
@@ -1084,6 +1127,18 @@ end of the subject, for compatibility with Perl. If you want a multiline
 circumflex also to match after a terminating newline, you must set
 PCRE2_ALT_CIRCUMFLEX.
 <pre>
+  PCRE2_ALT_VERBNAMES
+</pre>
+By default, for compatibility with Perl, the name in any verb sequence such as
+(*MARK:NAME) is any sequence of characters that does not include a closing
+parenthesis. The name is not processed in any way, and it is not possible to
+include a closing parenthesis in the name. However, if the PCRE2_ALT_VERBNAMES
+option is set, normal backslash processing is applied to verb names and only an
+unescaped closing parenthesis terminates the name. A closing parenthesis can be
+included in a name either as \) or between \Q and \E. If the PCRE2_EXTENDED
+option is set, unescaped whitespace in verb names is skipped and #-comments are
+recognized, exactly as in the rest of the pattern.
+<pre>
   PCRE2_AUTO_CALLOUT
 </pre>
 If this bit is set, <b>pcre2_compile()</b> automatically inserts callout items,
@@ -1156,7 +1211,8 @@ built.
 </pre>
 If this option is set, an unanchored pattern is required to match before or at
 the first newline in the subject string, though the matched text may continue
-over the newline.
+over the newline. See also PCRE2_USE_OFFSET_LIMIT, which provides a more
+general limiting facility.
 <pre>
   PCRE2_MATCH_UNSET_BACKREF
 </pre>
@@ -1195,7 +1251,8 @@ This option locks out the use of \C in the pattern that is being compiled.
 This escape can cause unpredictable behaviour in UTF-8 or UTF-16 modes, because
 it may leave the current matching point in the middle of a multi-code-unit
 character. This option may be useful in applications that process patterns from
-external sources.
+external sources. Note that there is also a build-time option that permanently 
+locks out the use of \C.
 <pre>
   PCRE2_NEVER_UCP
 </pre>
@@ -1338,6 +1395,17 @@ support.
 This option inverts the "greediness" of the quantifiers so that they are not
 greedy by default, but become greedy if followed by "?". It is not compatible
 with Perl. It can also be set by a (?U) option setting within the pattern.
+<pre>
+  PCRE2_USE_OFFSET_LIMIT
+</pre>
+This option must be set for <b>pcre2_compile()</b> if
+<b>pcre2_set_offset_limit()</b> is going to be used to set a non-default offset
+limit in a match context for matches that use this pattern. An error is
+generated if an offset limit is set without this option. For more details, see
+the description of <b>pcre2_set_offset_limit()</b> in the
+<a href="#matchcontext">section</a>
+that describes match contexts. See also the PCRE2_FIRSTLINE
+option above.
 <pre>
   PCRE2_UTF
 </pre>
@@ -1778,12 +1846,12 @@ documentation.
 <a name="matchdatablock"></a></P>
 <br><a name="SEC25" href="#TOC1">THE MATCH DATA BLOCK</a><br>
 <P>
-<b>pcre2_match_data_create(uint32_t <i>ovecsize</i>,</b>
+<b>pcre2_match_data *pcre2_match_data_create(uint32_t <i>ovecsize</i>,</b>
 <b>  pcre2_general_context *<i>gcontext</i>);</b>
 <br>
 <br>
-<b>pcre2_match_data_create_from_pattern(const pcre2_code *<i>code</i>,</b>
-<b>  pcre2_general_context *<i>gcontext</i>);</b>
+<b>pcre2_match_data *pcre2_match_data_create_from_pattern(</b>
+<b>  const pcre2_code *<i>code</i>, pcre2_general_context *<i>gcontext</i>);</b>
 <br>
 <br>
 <b>void pcre2_match_data_free(pcre2_match_data *<i>match_data</i>);</b>
@@ -2010,12 +2078,20 @@ If the pattern is anchored, such a match can occur only if the pattern contains
 </pre>
 When PCRE2_UTF is set at compile time, the validity of the subject as a UTF
 string is checked by default when <b>pcre2_match()</b> is subsequently called.
-The entire string is checked before any other processing takes place, and a
+If a non-zero starting offset is given, the check is applied only to that part
+of the subject that could be inspected during matching, and there is a check
+that the starting offset points to the first code unit of a character or to the
+end of the subject. If there are no lookbehind assertions in the pattern, the
+check starts at the starting offset. Otherwise, it starts at the length of the
+longest lookbehind before the starting offset, or at the start of the subject
+if there are not that many characters before the starting offset. Note that the
+sequences \b and \B are one-character lookbehinds.
+</P>
+<P>
+The check is carried out before any other processing takes place, and a
 negative error code is returned if the check fails. There are several UTF error
 codes for each code unit width, corresponding to different problems with the
-code unit sequence. The value of <i>startoffset</i> is also checked, to ensure
-that it points to the start of a character or to the end of the subject. There
-are discussions about the validity of
+code unit sequence. There are discussions about the validity of
 <a href="pcre2unicode.html#utf8strings">UTF-8 strings,</a>
 <a href="pcre2unicode.html#utf16strings">UTF-16 strings,</a>
 and
@@ -2552,32 +2628,17 @@ same number causes an error at compile time.
 <b>int pcre2_substitute(const pcre2_code *<i>code</i>, PCRE2_SPTR <i>subject</i>,</b>
 <b>  PCRE2_SIZE <i>length</i>, PCRE2_SIZE <i>startoffset</i>,</b>
 <b>  uint32_t <i>options</i>, pcre2_match_data *<i>match_data</i>,</b>
-<b>  pcre2_match_context *<i>mcontext</i>, PCRE2_SPTR \fIreplacementzfP,</b>
+<b>  pcre2_match_context *<i>mcontext</i>, PCRE2_SPTR <i>replacement</i>,</b>
 <b>  PCRE2_SIZE <i>rlength</i>, PCRE2_UCHAR *\fIoutputbuffer\zfP,</b>
 <b>  PCRE2_SIZE *<i>outlengthptr</i>);</b>
+</P>
+<P>
 This function calls <b>pcre2_match()</b> and then makes a copy of the subject
 string in <i>outputbuffer</i>, replacing the part that was matched with the
 <i>replacement</i> string, whose length is supplied in <b>rlength</b>. This can
-be given as PCRE2_ZERO_TERMINATED for a zero-terminated string.
-</P>
-<P>
-In the replacement string, which is interpreted as a UTF string in UTF mode,
-and is checked for UTF validity unless the PCRE2_NO_UTF_CHECK option is set, a
-dollar character is an escape character that can specify the insertion of
-characters from capturing groups in the pattern. The following forms are
-recognized:
-<pre>
-  $$      insert a dollar character
-  $&#60;n&#62;    insert the contents of group &#60;n&#62;
-  ${&#60;n&#62;}  insert the contents of group &#60;n&#62;
-</pre>
-Either a group number or a group name can be given for &#60;n&#62;. Curly brackets are
-required only if the following character would be interpreted as part of the
-number or name. The number may be zero to include the entire matched string.
-For example, if the pattern a(b)c is matched with "=abc=" and the replacement
-string "+$1$0$1+", the result is "=+babcb+=". Group insertion is done by
-calling <b>pcre2_copy_byname()</b> or <b>pcre2_copy_bynumber()</b> as
-appropriate.
+be given as PCRE2_ZERO_TERMINATED for a zero-terminated string. Matches in 
+which a \K item in a lookahead in the pattern causes the match to end before
+it starts are not supported, and give rise to an error return.
 </P>
 <P>
 The first seven arguments of <b>pcre2_substitute()</b> are the same as for
@@ -2588,25 +2649,113 @@ functions from the match context, if provided, or else those that were used to
 allocate memory for the compiled code.
 </P>
 <P>
-There is one additional option, PCRE2_SUBSTITUTE_GLOBAL, which causes the
+The <i>outlengthptr</i> argument must point to a variable that contains the
+length, in code units, of the output buffer. If the function is successful,
+the value is updated to contain the length of the new string, excluding the
+trailing zero that is automatically added. If the function is not successful,
+the value is set to PCRE2_UNSET for general errors (such as output buffer too
+small). For syntax errors in the replacement string, the value is set to the
+offset in the replacement string where the error was detected.
+</P>
+<P>
+In the replacement string, which is interpreted as a UTF string in UTF mode,
+and is checked for UTF validity unless the PCRE2_NO_UTF_CHECK option is set, a
+dollar character is an escape character that can specify the insertion of
+characters from capturing groups or (*MARK) items in the pattern. The following
+forms are always recognized:
+<pre>
+  $$                  insert a dollar character
+  $&#60;n&#62; or ${&#60;n&#62;}      insert the contents of group &#60;n&#62;
+  $*MARK or ${*MARK}  insert the name of the last (*MARK) encountered
+</pre>
+Either a group number or a group name can be given for &#60;n&#62;. Curly brackets are
+required only if the following character would be interpreted as part of the
+number or name. The number may be zero to include the entire matched string.
+For example, if the pattern a(b)c is matched with "=abc=" and the replacement
+string "+$1$0$1+", the result is "=+babcb+=".
+</P>
+<P>
+The facility for inserting a (*MARK) name can be used to perform simple
+simultaneous substitutions, as this <b>pcre2test</b> example shows:
+<pre>
+  /(*:pear)apple|(*:orange)lemon/g,replace=${*MARK}
+      apple lemon
+   2: pear orange
+</pre>
+There is an additional option, PCRE2_SUBSTITUTE_GLOBAL, which causes the
 function to iterate over the subject string, replacing every matching
 substring. If this is not set, only the first matching substring is replaced.
 </P>
 <P>
-The <i>outlengthptr</i> argument must point to a variable that contains the
-length, in code units, of the output buffer. It is updated to contain the
-length of the new string, excluding the trailing zero that is automatically
-added.
+A second additional option, PCRE2_SUBSTITUTE_EXTENDED, causes extra processing
+to be applied to the replacement string. Without this option, only the dollar
+character is special, and only the group insertion forms listed above are
+valid. When PCRE2_SUBSTITUTE_EXTENDED is set, two things change:
 </P>
 <P>
-The function returns the number of replacements that were made. This may be
-zero if no matches were found, and is never greater than 1 unless
-PCRE2_SUBSTITUTE_GLOBAL is set. In the event of an error, a negative error code
-is returned. Except for PCRE2_ERROR_NOMATCH (which is never returned), any
-errors from <b>pcre2_match()</b> or the substring copying functions are passed
-straight back. PCRE2_ERROR_BADREPLACEMENT is returned for an invalid
-replacement string (unrecognized sequence following a dollar sign), and
-PCRE2_ERROR_NOMEMORY is returned if the output buffer is not big enough.
+Firstly, backslash in a replacement string is interpreted as an escape
+character. The usual forms such as \n or \x{ddd} can be used to specify
+particular character codes, and backslash followed by any non-alphanumeric
+character quotes that character. Extended quoting can be coded using \Q...\E,
+exactly as in pattern strings.
+</P>
+<P>
+There are also four escape sequences for forcing the case of inserted letters.
+The insertion mechanism has three states: no case forcing, force upper case,
+and force lower case. The escape sequences change the current state: \U and
+\L change to upper or lower case forcing, respectively, and \E (when not
+terminating a \Q quoted sequence) reverts to no case forcing. The sequences
+\u and \l force the next character (if it is a letter) to upper or lower
+case, respectively, and then the state automatically reverts to no case
+forcing. Case forcing applies to all inserted  characters, including those from
+captured groups and letters within \Q...\E quoted sequences.
+</P>
+<P>
+Note that case forcing sequences such as \U...\E do not nest. For example,
+the result of processing "\Uaa\LBB\Ecc\E" is "AAbbcc"; the final \E has no
+effect.
+</P>
+<P>
+The second effect of setting PCRE2_SUBSTITUTE_EXTENDED is to add more
+flexibility to group substitution. The syntax is similar to that used by Bash:
+<pre>
+  ${&#60;n&#62;:-&#60;string&#62;}
+  ${&#60;n&#62;:+&#60;string1&#62;:&#60;string2&#62;}
+</pre>
+As before, &#60;n&#62; may be a group number or a name. The first form specifies a
+default value. If group &#60;n&#62; is set, its value is inserted; if not, &#60;string&#62; is
+expanded and the result inserted. The second form specifies strings that are
+expanded and inserted when group &#60;n&#62; is set or unset, respectively. The first
+form is just a convenient shorthand for
+<pre>
+  ${&#60;n&#62;:+${&#60;n&#62;}:&#60;string&#62;}
+</pre>
+Backslash can be used to escape colons and closing curly brackets in the
+replacement strings. A change of the case forcing state within a replacement
+string remains in force afterwards, as shown in this <b>pcre2test</b> example:
+<pre>
+  /(some)?(body)/substitute_extended,replace=${1:+\U:\L}HeLLo
+      body
+   1: hello
+      somebody
+   1: HELLO
+</pre>
+If successful, the function returns the number of replacements that were made.
+This may be zero if no matches were found, and is never greater than 1 unless
+PCRE2_SUBSTITUTE_GLOBAL is set.
+</P>
+<P>
+In the event of an error, a negative error code is returned. Except for
+PCRE2_ERROR_NOMATCH (which is never returned), errors from <b>pcre2_match()</b>
+are passed straight back. PCRE2_ERROR_NOMEMORY is returned if the output buffer
+is not big enough. PCRE2_ERROR_BADREPLACEMENT is used for miscellaneous syntax
+errors in the replacement string, with more particular errors being
+PCRE2_ERROR_BADREPESCAPE (invalid escape sequence),
+PCRE2_ERROR_REPMISSING_BRACE (closing curly bracket not found),
+PCRE2_BADSUBSTITUTION (syntax error in extended group substitution), and
+PCRE2_BADSUBPATTERN (the pattern match ended before it started). As for all
+PCRE2 errors, a text message that describes the error can be obtained by
+calling <b>pcre2_get_error_message()</b>.
 </P>
 <br><a name="SEC35" href="#TOC1">DUPLICATE SUBPATTERN NAMES</a><br>
 <P>
@@ -2838,8 +2987,8 @@ There are in addition the following errors that are specific to
   PCRE2_ERROR_DFA_UITEM
 </pre>
 This return is given if <b>pcre2_dfa_match()</b> encounters an item in the
-pattern that it does not support, for instance, the use of \C or a back
-reference.
+pattern that it does not support, for instance, the use of \C in a UTF mode or
+a back reference.
 <pre>
   PCRE2_ERROR_DFA_UCOND
 </pre>
@@ -2883,7 +3032,7 @@ Cambridge, England.
 </P>
 <br><a name="SEC40" href="#TOC1">REVISION</a><br>
 <P>
-Last updated: 22 April 2015
+Last updated: 05 November 2015
 <br>
 Copyright &copy; 1997-2015 University of Cambridge.
 <br>

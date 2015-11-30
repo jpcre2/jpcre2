@@ -139,7 +139,8 @@ sure both macros are undefined; an emulation function will then be used. */
    allows for longer patterns in extreme cases. */
 #define LINK_SIZE 2
 
-/* Define to the sub-directory where libtool stores uninstalled libraries. */
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
 #define LT_OBJDIR ".libs/"
 
 /* The value of MATCH_LIMIT determines the default number of times the
@@ -170,6 +171,9 @@ sure both macros are undefined; an emulation function will then be used. */
    overflow caused by enormously large patterns. */
 #define MAX_NAME_SIZE 32
 
+/* Defining NEVER_BACKSLASH_C locks out the use of \C in all patterns. */
+/* #undef NEVER_BACKSLASH_C */
+
 /* The value of NEWLINE_DEFAULT determines the default newline character
    sequence. PCRE2 client programs can override this by selecting other values
    at run time. The valid values are 1 (CR), 2 (LF), 3 (CRLF), 4 (ANY), and 5
@@ -186,7 +190,7 @@ sure both macros are undefined; an emulation function will then be used. */
 #define PACKAGE_NAME "PCRE2"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PCRE2 10.20"
+#define PACKAGE_STRING "PCRE2 10.21-RC1"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "pcre2"
@@ -195,7 +199,7 @@ sure both macros are undefined; an emulation function will then be used. */
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "10.20"
+#define PACKAGE_VERSION "10.21-RC1"
 
 /* The value of PARENS_NEST_LIMIT specifies the maximum depth of nested
    parentheses (of any kind) in a pattern. This limits the amount of system
@@ -282,7 +286,7 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef SUPPORT_VALGRIND */
 
 /* Version number of package */
-#define VERSION "10.20"
+#define VERSION "10.21-RC1"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
