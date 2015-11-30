@@ -150,7 +150,7 @@ sanity checks). */
 
 #define PCRE2_SUBSTITUTE_GLOBAL   0x00000100u
 #define PCRE2_SUBSTITUTE_EXTENDED 0x00000200u
-#define PCRE2_SUBSTITUTE_UEMPTY   0x00000400u /*unset group will be ignored*/
+#define PCRE2_SUBSTITUTE_UEMPTY   0x00000400u /*unset groups will be ignored*/
 
 /* Newline and \R settings, for use in compile contexts. The newline values
 must be kept in step with values set in config.h and both sets must all be
