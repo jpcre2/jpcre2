@@ -556,7 +556,7 @@ do
           if (rc < 0) 
             {
             /*Unset error is to be ignored if uempty is true*/
-            if(uempty && rc == PCRE2_ERROR_UNSET) goto EMPTY_SUBSTITUTE;
+            if(uempty && (rc == PCRE2_ERROR_UNSET || rc == PCRE2_ERROR_NOSUBSTRING)) goto EMPTY_SUBSTITUTE;
             goto PTREXIT;
             }
           for (entry = first; entry <= last; entry += rc)
@@ -583,7 +583,7 @@ do
         
         /* If uempty is true, then unset group will be replaced with empty string
          excluding special cases for extended option*/
-        if(uempty && rc == PCRE2_ERROR_UNSET && special == 0) goto EMPTY_SUBSTITUTE;
+        if(uempty && (rc == PCRE2_ERROR_UNSET || rc == PCRE2_ERROR_NOSUBSTRING) && special == 0) goto EMPTY_SUBSTITUTE;
         if (rc < 0 && (special == 0 || rc != PCRE2_ERROR_UNSET)) goto PTREXIT;
 
         /* If special is '+' we have a 'set' and possibly an 'unset' text,
