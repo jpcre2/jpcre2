@@ -64,7 +64,7 @@ namespace jpcre2_utils{
 
 namespace jpcre2{
 
-    #define REGEX_STRING_MAX std::numeric_limits<int>::max()
+    #define REGEX_STRING_MAX std::numeric_limits<int>::max() //This limits the maximum length of string that can be handled by default.
     #define DEFAULT_LOCALE "none"
     
     typedef std::map<std::string,std::string> MapNas; //Map for Named substring
@@ -112,20 +112,24 @@ namespace jpcre2{
         std::string getPattern(){return pat_str;}
         void setPattern(const std::string& pat){pat_str=pat;}
         
-        void setLocale(const std::string& loc){mylocale=loc;}
-        std::string getLocale(){return mylocale;}
+        void setLocale(const std::string& loc){mylocale=loc;}   ///Sets LC_CTYPE
+        std::string getLocale(){return mylocale;}               ///Gets LC_CTYPE
         
-        pcre2_code* getPcreCode(){return code;}
-        void free(void){pcre2_code_free(code);}
+        pcre2_code* getPcreCode(){return code;}                 ///returns address to compiled regex
+        void free(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
         
+        ///Compiles the regex.
         void compile(void){compile(pat_str,modifier,mylocale);}
         void compile(const std::string& re,const std::string& mod="", const std::string& loc=DEFAULT_LOCALE);
         
+        ///returns a replaced string after performing regex replace
         std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX);
         std::string replace( std::string mains, std::string repl,size_t out_size){return replace(mains,repl,"",out_size);}
         
+        ///returns true for successful match, stores the match results in the specified vectors
         bool match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false);
         
+        ///Error handling
         std::string getErrorMessage(int err_num);
         std::string getErrorMessage();
         std::string getWarningMessage(){return current_warning_msg;}
@@ -172,7 +176,6 @@ namespace jpcre2{
         for(int i=0;i<(int)mod.length();i++){
             switch (mod[i]){
                 case 'e': compile_opts |= PCRE2_MATCH_UNSET_BACKREF;break;
-                case 'g': action_opts  |= PCRE2_SUBSTITUTE_GLOBAL;break;
                 case 'i': compile_opts |= PCRE2_CASELESS;break;
                 case 'm': compile_opts |= PCRE2_MULTILINE;break;
                 case 's': compile_opts |= PCRE2_DOTALL;break;
@@ -181,7 +184,7 @@ namespace jpcre2{
                 case 'A': compile_opts |= PCRE2_ANCHORED;action_opts |= PCRE2_ANCHORED;break;
                 case 'D': compile_opts |= PCRE2_DOLLAR_ENDONLY;break;
                 case 'J': compile_opts |= PCRE2_DUPNAMES;break;
-                case 'S': opt_jit_compile=true;jit_opts |= PCRE2_JIT_COMPLETE;break;//optimization opt this should be default
+                case 'S': opt_jit_compile=true;jit_opts |= PCRE2_JIT_COMPLETE;break; ///Optimization opt
                 case 'U': compile_opts |= PCRE2_UNGREEDY;break;
                 default : break;
             }

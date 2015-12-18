@@ -41,6 +41,7 @@ g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 ##Functions:
 
 ```lang-c++
+
 void parseReplacementOpts(const std::string& mod);
 void parseCompileOpts(const std::string& mod);
 void parseOpts(const std::string& mod){parseReplacementOpts(mod);parseCompileOpts(mod);}
@@ -51,20 +52,24 @@ void setModifier(const std::string& mod){modifier=mod;}
 std::string getPattern(){return pat_str;}
 void setPattern(const std::string& pat){pat_str=pat;}
 
-void setLocale(const std::string& loc){mylocale=loc;}
-std::string getLocale(){return mylocale;}
+void setLocale(const std::string& loc){mylocale=loc;}   ///Sets LC_CTYPE
+std::string getLocale(){return mylocale;}               ///Gets LC_CTYPE
 
+pcre2_code* getPcreCode(){return code;}                 ///returns address to compiled regex
+void free(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
+
+///Compiles the regex.
 void compile(void){compile(pat_str,modifier,mylocale);}
 void compile(const std::string& re,const std::string& mod="", const std::string& loc=DEFAULT_LOCALE);
 
-pcre2_code* getPcreCode(){return code;}
-void free(void){pcre2_code_free(code);}
-
+///returns a replaced string after performing regex replace
 std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX);
 std::string replace( std::string mains, std::string repl,size_t out_size){return replace(mains,repl,"",out_size);}
 
+///returns true for successful match, stores the match results in the specified vectors
 bool match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false);
 
+///Error handling
 std::string getErrorMessage(int err_num);
 std::string getErrorMessage();
 std::string getWarningMessage(){return current_warning_msg;}
