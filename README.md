@@ -40,7 +40,7 @@ g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 
 ##Functions:
 
-```lang-c++
+```lang-cpp
 
 void parseReplacementOpts(const std::string& mod);
 void parseCompileOpts(const std::string& mod);
