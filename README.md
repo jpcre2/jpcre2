@@ -1,4 +1,4 @@
-#C++ wrapper for several utilitoes of PCRE2 Library
+#C++ wrapper for several utilities of PCRE2 Library
 
 PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.
 
@@ -53,6 +53,7 @@ void setPattern(const std::string& pat){pat_str=pat;}
 
 void setLocale(const std::string& loc){mylocale=loc;}
 std::string getLocale(){return mylocale;}
+
 void compile(void){compile(pat_str,modifier,mylocale);}
 void compile(const std::string& re,const std::string& mod="", const std::string& loc=DEFAULT_LOCALE);
 
