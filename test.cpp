@@ -11,11 +11,14 @@ int main(){
     jpcre2::VecNtN vec_nn0;    ///Vector to store Named substring to Number Map.
     
     jpcre2::Pcre2Regex re("(?:(?<name>\\d+)|(?<name>\\w+))\\s*(?<nam>\\d+d)","Jiu");
-
-    ///Compile the pattern
-    try{re.compile();}
-    catch(std::string e){std::cout<<e;}
+    ///                       ^this is the pattern                             ^this is the modifier
+    ///We can also use re.setPattern() and re.setModifier() to set pattern and modifier.
     
+    ///Compile the pattern
+    try{re.compile();}                      ///Always use try catch block to avoid                
+    catch(std::string e){std::cout<<e;}     ///unexpected termination of program in case of errors
+    
+    ///subject string
     std::string s="(I am a digit 67d আ 89d 4323d 3432D)";
     
     try{std::cout<<"\nrepl: "<<re.replace(s,"$1$22${name}","xE",2);}

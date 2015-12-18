@@ -76,21 +76,22 @@ PCRE2_SIZE getErrorOffset(){return error_offset;}
 
 #Testing:
 
-###test.cpp:
+1. **test.cpp**: Contains an example code for match and replace function.
+2. **test_match.cpp**: Contains an example code for match function.
+3. **test_replace.cpp**: Contains an example code for replace function.
 
-Contains an example code for match and replace function.
+#Screenshots of some test outputs:
 
-###test_match.cpp:
-
-Contains an example code for match function.
-
-###test_replace.cpp:
-Contains an example code for replace function.
-
-#Screenshots of some outputs:
+test_match:
+----------
 
 ![jpcre2 screenshot1](img/s1_1.png)
 ![jpcre2 screenshot2](img/s1_2.png)
 ![jpcre2 screenshot3](img/s1_3.png)
 ![jpcre2 screenshot4](img/s1_4.png)
+
+test_replace:
+-------------
+
+![jpcre2 screenshot5](img/s2_1.png)
 
