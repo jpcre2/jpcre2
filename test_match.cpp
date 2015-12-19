@@ -15,14 +15,14 @@ int main(){
     ///We can also use re.setPattern() and re.setModifier() to set pattern and modifier.
     
     ///Compile the pattern
-    try{re.compile();}                      ///Always use try catch block to avoid                
-    catch(std::string e){std::cout<<e;}     ///unexpected termination of program in case of errors
+    try{re.compile();}                                  ///Always use try catch block to avoid                
+    catch(int e){std::cout<<re.getErrorMessage(e);}     ///unexpected termination of program in case of errors
     
     ///subject string
     std::string s="(I am a digit 67d আ 89d 4323d 3432D)";
     
     try{re.match(s,vec_num0,vec_nas0,vec_nn0,true);}          ///true makes it to find all matches
-    catch(std::string e){std::cout<<e;}   
+    catch(int e){std::cout<<re.getErrorMessage(e);}   
     
     ///Now let's access the matched data
     

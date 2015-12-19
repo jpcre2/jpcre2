@@ -7,25 +7,118 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 #Requirements:
 
 1. C++ compiler with C++11 support.
-2. pcre2 library.
+2. pcre2 library (`version >=10.21`).
+
+If the required `pcre2` version is not available in the official channel, download <a href="https://github.com/jpcre2">my fork of the library from here</a>, Or use <a href="https://github.com/jpcre2/pcre2">this repository</a> which will always be kept compatible with `jpcre2`.
 
 #How To:
 
-Just `#include` the `jpcre2.hpp` file in your program and you are done. 
+##How to compile:
 
-Note that it requires the `pcre2` library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
+1. `#include` the `jpcre2.hpp` file in your program. 
 
-In general case the compile command with `gcc` would be:
+2. Compile with `pcre2` library linked and c++11 enabled.
+
+**Example:**
+
+A simple *mycpp.cpp* file should be compiled with the following command with GCC.
 
 ```
 g++ -std=c++11 mycpp.cpp -lpcre2-8
 ```
 
-If your pcre2 library is not in the standard library path, then add the path:
+`-lpcre1-8` should be changed to the actual library i.e for 16 bit code unit: `-lpcre2-16` and for 32 bit code unit: `-lpcre2-32`.
+
+If your `pcre2` library is not in the standard library path, then add the path:
 
 ```
 g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 ```
+
+**Note that** it requires the `pcre2` library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
+
+##How to code:
+
+<ol>
+<li>
+First create a Pcre2Regex object. This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
+</li>
+<ol>
+<li>Each object for each regex pattern.
+</li>
+<li>Pattern and modifier can be initialized with constructor (<code>Pcre2Regex(pattern,modifier)</code>) or with member functions <code>setPattern()</code> and <code>setModifier()</code>.
+Ex:<pre><code>
+Pcre2Regex re("\\d\\w+","Sugi");   //Initialize pattern and modifier with constructor
+re.setPattern("\\w\\S+");          //This sets the pattern
+re.setModifier("g");               //This adds the modifier to existing one.</code></pre>
+</li>
+<li>
+N.B: Every time you change the pattern, you will need to recompile it. Every time you change compile modifier, you will need to recompile the pattern to apply the change.
+</li>
+</ol>
+<li>
+Compile the pattern and catch any errors:
+<pre><code>
+try{re.compile();}                          //This compiles the previously set pattern and modifier
+catch(int e){/*Handle error*//*std::cout<<re.getErrorMessage(e)<<std::endl;*/}
+try{re.compile("pattern","mgi");}           //This compiles the pattern and modifier provided.
+catch(int e){/*Handle error*//*std::cout<<re.getErrorMessage(e)<<std::endl;*/}
+</code></pre>
+</li>
+<li>
+Now you can perform match or replace against the pattern. Use the <code>match()</code> member function to preform regex match and the <code>replace()</code> member function to perform regex replace.
+<ol>
+<li>
+Match: The <code>match()</code> member function takes the subject string and some specialized vectors (vectors of maps of substrings) as its arguments and a last argument to tell whether to match all or only the first. It puts the results in the maps of the vectors and returns true on successful match and false otherwise.
+<ul>
+<li>
+<pre><code>
+re.match("I am a subject string",vec_num);       //vec_num will be populated with numbered substrings.
+</code></pre>
+Access the substrings like this:
+<pre><code>
+for(int i=0;i<(int)vec_num.size();i++){
+    //This loop will iterate only once if find_all is false.
+    //i=0 is the first match found, i=2 is the second and so forth
+    for(auto const& ent : vec_num[i]){
+    //ent.first is the number/position of substring found
+    //ent.second is the substring itself
+    //when ent.first is 0, ent.second is the total match.
+    }
+}
+</code></pre>
+</li>
+<li>
+Other variations of this function can be used to get named substrings and the position of named substrings. Simply pass the appropriate vectors in the match function:
+<pre><code>
+re.match("I am a subject string",vec_num,vec_nas,vec_nn);
+</code></pre>
+And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same.
+</li>
+</ul>
+</li>
+
+<li>
+Replace: The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and two optional arguments (modifier and the size of the resultant string) and returns the resultant string after performing the replacement operation.
+<ul>
+<li>
+<pre><code>
+re.replace("replace this string according to the pattern","with this string","mgi");
+//mgi is the modifier passed (multiline, global, case insensitive).
+//Access substrings/captured groups with ${1234},$1234 (for numbered substrings) or ${name} (for named substrings)
+</code></pre>
+</li>
+<li>
+If you pass the size of the resultant string with the replace function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called twice to adjust the size to hold the whole resultant string and avoid <code>PCRE2_ERROR_NOMEMORY</code> error. Two consecutive call of the same function may affect overall performance of your code.
+</li>
+</ul>
+</li>
+</ol>
+</li>
+
+
+</ol>
+
 
 #Insight:
 
