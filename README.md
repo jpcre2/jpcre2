@@ -39,27 +39,6 @@ g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 
 **Note that** it requires the `pcre2` library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
 
-#test
-
-1. this a sample line
-  ```cpp
-Pcre2Regex re("\\d\\w+","Sugi");   //Initialize pattern and modifier with constructor
-re.setPattern("\\w\\S+");          //This sets the pattern
-re.setModifier("g");               //This sets the modifier.
-  ```
-  Access the substrings like this: 
-  ```cpp
-for(int i=0;i&lt;(int)vec_num.size();i++){
-    //This loop will iterate only once if find_all is false.
-    //i=0 is the first match found, i=2 is the second and so forth
-    for(auto const&amp; ent : vec_num[i]){
-    //ent.first is the number/position of substring found
-    //ent.second is the substring itself
-    //when ent.first is 0, ent.second is the total match.
-    }
-}
-  ```
-
 ##How to code:
 
 <ol>
@@ -70,7 +49,7 @@ First create a <code>Pcre2Regex</code> object. This object will hold the pattern
 <li>Each object for each regex pattern.
 </li>
 <li>Pattern and modifier can be initialized with constructor (<code>Pcre2Regex(pattern,modifier)</code>) or with member functions <code>setPattern()</code> and <code>setModifier()</code>.
-Ex:<pre><code>
+Ex:<pre class="highlight"><code class="highlight-source-c++">
 Pcre2Regex re("\\d\\w+","Sugi");   //Initialize pattern and modifier with constructor
 re.setPattern("\\w\\S+");          //This sets the pattern
 re.setModifier("g");               //This sets the modifier.
@@ -82,7 +61,7 @@ N.B: Every time you change the pattern, you will need to recompile it and every 
   </ol>
 <li>
 Compile the pattern and catch any errors:
-<pre><code>
+<pre class="highlight"><code class="highlight-source-c++">
 try{re.compile();}                          //This compiles the previously set pattern and modifier
 catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
 try{re.compile("pattern","mgi");}           //This compiles the pattern and modifier provided.
@@ -103,7 +82,7 @@ re.match("I am a subject string",vec_num);
 //vec_num will be populated with numbered substrings.
 </code></pre>
 Access the substrings like this:
-<pre><code>
+<pre class="highlight"><code class="highlight-source-c++">
 for(int i=0;i&lt;(int)vec_num.size();i++){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=2 is the second and so forth
@@ -128,7 +107,7 @@ And access the substrings by looping through the vectors and associated maps. Th
 </li>
     <ul>
 <li>
-<pre><code>
+<pre class="highlight"><code class="highlight-source-c++">
 re.replace("replace this string according to the pattern","with this string","mgi");
 //mgi is the modifier passed (multiline, global, case insensitive).
 //Access substrings/captured groups with ${1234},$1234 (for numbered substrings) or ${name} (for named substrings)
