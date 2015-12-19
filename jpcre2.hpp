@@ -155,7 +155,7 @@ namespace jpcre2{
         bool match(const std::string& subject,VecNum& vec_num,bool find_all=false);
         bool match(const std::string& subject,VecNas& vec_nas,bool find_all=false);
         bool match(const std::string& subject,VecNtN& vec_nn,bool find_all=false);
-        
+    
         ///Error handling
         std::string getErrorMessage(int err_num);
         std::string getErrorMessage();

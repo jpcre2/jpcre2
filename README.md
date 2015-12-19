@@ -41,7 +41,7 @@ g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 
 <ol>
 <li>
-First create a Pcre2Regex object. This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
+First create a <code>Pcre2Regex</code> object. This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
 </li>
   <ol>
 <li>Each object for each regex pattern.
@@ -54,7 +54,7 @@ re.setModifier("g");               //This adds the modifier to existing one.
 </code></pre>
 </li>
 <li>
-N.B: Every time you change the pattern, you will need to recompile it. Every time you change compile modifier, you will need to recompile the pattern to apply the change.
+N.B: Every time you change the pattern, you will need to recompile it and every time you change compile modifier, you will need to recompile the pattern to apply the change.
 </li>
   </ol>
 <li>
@@ -71,12 +71,13 @@ Now you can perform match or replace against the pattern. Use the <code>match()<
 </li>
   <ol>
 <li>
-Match: The <code>match()</code> member function takes the subject string and some specialized vectors (vectors of maps of substrings) as its arguments and a last argument to tell whether to match all or only the first. It puts the results in the maps of the vectors and returns true on successful match and false otherwise.
+**Match:** The <code>match()</code> member function takes the subject string and some specialized vectors (vectors of maps of substrings) as its arguments and a last argument to tell whether to match all or only the first. It puts the results in the maps of the vectors and returns true on successful match and false otherwise.
 </li>
     <ul>
 <li>
 <pre><code>
-re.match("I am a subject string",vec_num);       //vec_num will be populated with numbered substrings.
+re.match("I am a subject string",vec_num);
+//vec_num will be populated with numbered substrings.
 </code></pre>
 Access the substrings like this:
 <pre><code>
@@ -96,11 +97,11 @@ Other variations of this function can be used to get named substrings and the po
 <pre><code>
 re.match("I am a subject string",vec_num,vec_nas,vec_nn);
 </code></pre>
-And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same.
+And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same and they can be passed in any sequence (i.e the order of the vectors as arguments is not important).
 </li>
     </ul>
 <li>
-Replace: The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and two optional arguments (modifier and the size of the resultant string) and returns the resultant string after performing the replacement operation.
+**Replace:** The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and two optional arguments (modifier and the size of the resultant string) and returns the resultant string after performing the replacement operation.
 </li>
     <ul>
 <li>
@@ -158,6 +159,27 @@ std::string replace( std::string mains, std::string repl,size_t out_size){return
 
 ///returns true for successful match, stores the match results in the specified vectors
 bool match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false);
+
+///Other variants of match function
+///3-vector variants
+bool match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false);
+bool match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false);
+bool match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false);
+bool match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,bool find_all=false);
+bool match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,bool find_all=false);
+
+///2-vector variants
+bool match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,bool find_all=false);
+bool match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,bool find_all=false);
+bool match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false);
+bool match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false);
+bool match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false);
+bool match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false);
+
+///1-vector variants
+bool match(const std::string& subject,VecNum& vec_num,bool find_all=false);
+bool match(const std::string& subject,VecNas& vec_nas,bool find_all=false);
+bool match(const std::string& subject,VecNtN& vec_nn,bool find_all=false);
 
 ///Error handling
 std::string getErrorMessage(int err_num);
