@@ -61,29 +61,29 @@ N.B: Every time you change the pattern, you will need to recompile it. Every tim
 Compile the pattern and catch any errors:
 <pre><code>
 try{re.compile();}                          //This compiles the previously set pattern and modifier
-catch(int e){/*Handle error*//*std::cout<<re.getErrorMessage(e)<<std::endl;*/}
+catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
 try{re.compile("pattern","mgi");}           //This compiles the pattern and modifier provided.
-catch(int e){/*Handle error*//*std::cout<<re.getErrorMessage(e)<<std::endl;*/}
+catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
 </code></pre>
 </li>
 <li>
 Now you can perform match or replace against the pattern. Use the <code>match()</code> member function to preform regex match and the <code>replace()</code> member function to perform regex replace.
 </li>
-<ol>
+  <ol>
 <li>
 Match: The <code>match()</code> member function takes the subject string and some specialized vectors (vectors of maps of substrings) as its arguments and a last argument to tell whether to match all or only the first. It puts the results in the maps of the vectors and returns true on successful match and false otherwise.
 </li>
-<ul>
+    <ul>
 <li>
 <pre><code>
 re.match("I am a subject string",vec_num);       //vec_num will be populated with numbered substrings.
 </code></pre>
 Access the substrings like this:
 <pre><code>
-for(int i=0;i<(int)vec_num.size();i++){
+for(int i=0;i&lt;(int)vec_num.size();i++){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=2 is the second and so forth
-    for(auto const& ent : vec_num[i]){
+    for(auto const&amp; ent : vec_num[i]){
     //ent.first is the number/position of substring found
     //ent.second is the substring itself
     //when ent.first is 0, ent.second is the total match.
@@ -98,12 +98,11 @@ re.match("I am a subject string",vec_num,vec_nas,vec_nn);
 </code></pre>
 And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same.
 </li>
-</ul>
-
+    </ul>
 <li>
 Replace: The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and two optional arguments (modifier and the size of the resultant string) and returns the resultant string after performing the replacement operation.
 </li>
-<ul>
+    <ul>
 <li>
 <pre><code>
 re.replace("replace this string according to the pattern","with this string","mgi");
@@ -114,10 +113,9 @@ re.replace("replace this string according to the pattern","with this string","mg
 <li>
 If you pass the size of the resultant string with the replace function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called twice to adjust the size to hold the whole resultant string and avoid <code>PCRE2_ERROR_NOMEMORY</code> error. Two consecutive call of the same function may affect overall performance of your code.
 </li>
-</ul>
+    </ul>
+  </ol>
 </ol>
-</ol>
-
 
 #Insight:
 
