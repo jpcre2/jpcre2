@@ -25,7 +25,7 @@ Knowing how to use it in your C++ code and finally compile it comprises the basi
 
 A simple *mycpp.cpp* file should be compiled with the following command with GCC.
 
-```
+```shell
 g++ -std=c++11 mycpp.cpp -lpcre2-8
 ```
 
@@ -33,7 +33,7 @@ g++ -std=c++11 mycpp.cpp -lpcre2-8
 
 If your `pcre2` library is not in the standard library path, then add the path:
 
-```
+```shell
 g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 ```
 
