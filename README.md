@@ -13,8 +13,6 @@ If the required `pcre2` version is not available in the official channel, downlo
 
 #How To:
 
-Knowing how to use it in your C++ code and finally compile it comprises the basic knowledge of `jpcre2`.
-
 ##How to compile:
 
 1. `#include` the `jpcre2.hpp` file in your program. 
