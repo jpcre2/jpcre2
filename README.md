@@ -49,7 +49,7 @@ First create a <code>Pcre2Regex</code> object. This object will hold the pattern
 <li>Each object for each regex pattern.
 </li>
 <li>Pattern and modifier can be initialized with constructor (<code>Pcre2Regex(pattern,modifier)</code>) or with member functions <code>setPattern()</code> and <code>setModifier()</code>.
-Ex:<pre class="highlight"><code class="highlight-source-c++">
+Ex:<pre class="highlight"><code class="highlight-source-c++ cpp">
 Pcre2Regex re("\\d\\w+","Sugi");   //Initialize pattern and modifier with constructor
 re.setPattern("\\w\\S+");          //This sets the pattern
 re.setModifier("g");               //This sets the modifier.
@@ -61,7 +61,7 @@ N.B: Every time you change the pattern, you will need to recompile it and every 
   </ol>
 <li>
 Compile the pattern and catch any errors:
-<pre class="highlight"><code class="highlight-source-c++">
+<pre class="highlight"><code class="highlight-source-c++ cpp">
 try{re.compile();}                          //This compiles the previously set pattern and modifier
 catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
 try{re.compile("pattern","mgi");}           //This compiles the pattern and modifier provided.
@@ -82,7 +82,7 @@ re.match("I am a subject string",vec_num);
 //vec_num will be populated with numbered substrings.
 </code></pre>
 Access the substrings like this:
-<pre class="highlight"><code class="highlight-source-c++">
+<pre class="highlight"><code class="highlight-source-c++ cpp">
 for(int i=0;i&lt;(int)vec_num.size();i++){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=2 is the second and so forth
@@ -107,14 +107,14 @@ And access the substrings by looping through the vectors and associated maps. Th
 </li>
     <ul>
 <li>
-<pre class="highlight"><code class="highlight-source-c++">
+<pre class="highlight prettyprint"><code class="highlight-source-c++ cpp">
 re.replace("replace this string according to the pattern","with this string","mgi");
 //mgi is the modifier passed (multiline, global, case insensitive).
 //Access substrings/captured groups with ${1234},$1234 (for numbered substrings) or ${name} (for named substrings)
 </code></pre>
 </li>
 <li>
-If you pass the size of the resultant string with the replace function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called *twice* to adjust the size to hold the whole resultant string in order to avoid <code>PCRE2_ERROR_NOMEMORY</code> error. Two consecutive call of the same function may affect overall performance of your code.
+If you pass the size of the resultant string with the replace function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called <i>twice</i> to adjust the size to hold the whole resultant string in order to avoid <code>PCRE2_ERROR_NOMEMORY</code> error. Two consecutive call of the same function may affect overall performance of your code.
 </li>
     </ul>
   </ol>
