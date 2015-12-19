@@ -43,19 +43,20 @@ g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 <li>
 First create a Pcre2Regex object. This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
 </li>
-<ol>
+  <ol>
 <li>Each object for each regex pattern.
 </li>
 <li>Pattern and modifier can be initialized with constructor (<code>Pcre2Regex(pattern,modifier)</code>) or with member functions <code>setPattern()</code> and <code>setModifier()</code>.
 Ex:<pre><code>
 Pcre2Regex re("\\d\\w+","Sugi");   //Initialize pattern and modifier with constructor
 re.setPattern("\\w\\S+");          //This sets the pattern
-re.setModifier("g");               //This adds the modifier to existing one.</code></pre>
+re.setModifier("g");               //This adds the modifier to existing one.
+</code></pre>
 </li>
 <li>
 N.B: Every time you change the pattern, you will need to recompile it. Every time you change compile modifier, you will need to recompile the pattern to apply the change.
 </li>
-</ol>
+  </ol>
 <li>
 Compile the pattern and catch any errors:
 <pre><code>
@@ -67,9 +68,11 @@ catch(int e){/*Handle error*//*std::cout<<re.getErrorMessage(e)<<std::endl;*/}
 </li>
 <li>
 Now you can perform match or replace against the pattern. Use the <code>match()</code> member function to preform regex match and the <code>replace()</code> member function to perform regex replace.
+</li>
 <ol>
 <li>
 Match: The <code>match()</code> member function takes the subject string and some specialized vectors (vectors of maps of substrings) as its arguments and a last argument to tell whether to match all or only the first. It puts the results in the maps of the vectors and returns true on successful match and false otherwise.
+</li>
 <ul>
 <li>
 <pre><code>
@@ -96,10 +99,10 @@ re.match("I am a subject string",vec_num,vec_nas,vec_nn);
 And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same.
 </li>
 </ul>
-</li>
 
 <li>
 Replace: The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and two optional arguments (modifier and the size of the resultant string) and returns the resultant string after performing the replacement operation.
+</li>
 <ul>
 <li>
 <pre><code>
@@ -112,11 +115,7 @@ re.replace("replace this string according to the pattern","with this string","mg
 If you pass the size of the resultant string with the replace function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called twice to adjust the size to hold the whole resultant string and avoid <code>PCRE2_ERROR_NOMEMORY</code> error. Two consecutive call of the same function may affect overall performance of your code.
 </li>
 </ul>
-</li>
 </ol>
-</li>
-
-
 </ol>
 
 
