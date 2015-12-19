@@ -41,14 +41,11 @@ g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 
 #test
 
-1. this a sample line
-```cpp
+1. this a sample line ```cpp
 Pcre2Regex re("\\d\\w+","Sugi");   //Initialize pattern and modifier with constructor
 re.setPattern("\\w\\S+");          //This sets the pattern
 re.setModifier("g");               //This sets the modifier.
-```
-Access the substrings like this:
-```cpp
+```Access the substrings like this: ```cpp
 for(int i=0;i&lt;(int)vec_num.size();i++){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=2 is the second and so forth
