@@ -13,6 +13,8 @@ If the required `pcre2` version is not available in the official channel, downlo
 
 #How To:
 
+Knowing how to use it in your C++ code and finally compile it comprises the basic knowledge of `jpcre2`.
+
 ##How to compile:
 
 1. `#include` the `jpcre2.hpp` file in your program. 
@@ -50,7 +52,7 @@ First create a <code>Pcre2Regex</code> object. This object will hold the pattern
 Ex:<pre><code>
 Pcre2Regex re("\\d\\w+","Sugi");   //Initialize pattern and modifier with constructor
 re.setPattern("\\w\\S+");          //This sets the pattern
-re.setModifier("g");               //This adds the modifier to existing one.
+re.setModifier("g");               //This sets the modifier.
 </code></pre>
 </li>
 <li>
@@ -101,7 +103,7 @@ And access the substrings by looping through the vectors and associated maps. Th
 </li>
     </ul>
 <li>
-<b>Replace:</b> The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and two optional arguments (modifier and the size of the resultant string) and returns the resultant string after performing the replacement operation.
+<b>Replace:</b> The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and two optional arguments (modifier and the size of the resultant string) and returns the resultant string after performing the replacement operation. If no modifier is passed an empty modifier is assumed.
 </li>
     <ul>
 <li>
@@ -112,7 +114,7 @@ re.replace("replace this string according to the pattern","with this string","mg
 </code></pre>
 </li>
 <li>
-If you pass the size of the resultant string with the replace function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called twice to adjust the size to hold the whole resultant string and avoid <code>PCRE2_ERROR_NOMEMORY</code> error. Two consecutive call of the same function may affect overall performance of your code.
+If you pass the size of the resultant string with the replace function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called *twice* to adjust the size to hold the whole resultant string in order to avoid <code>PCRE2_ERROR_NOMEMORY</code> error. Two consecutive call of the same function may affect overall performance of your code.
 </li>
     </ul>
   </ol>
@@ -122,16 +124,22 @@ If you pass the size of the resultant string with the replace function, then mak
 
 ##Namespaces:
 
-1. jpcre2_utils
-2. jpcre2
+1. **jpcre2_utils :** Some utility functions used by `jpcre2`.
+2. **jpcre2 :** This is the namespace you will be using in your code to access `jpcre2` classes and functions.
 
 ##Classes:
 
-1. Pcre2Regex
+1. **Pcre2Regex :** This is the main class which holds the key utilities of `jpcre2`. Every regex needs an object of this class.
 
 ##Functions:
 
-```lang-cpp
+```cpp
+
+Pcre2Regex(){pat_str="";modifier="";mylocale=DEFAULT_LOCALE;}
+Pcre2Regex(const std::string& re,const std::string& mod="",const std::string& loc=DEFAULT_LOCALE)
+{pat_str=re;modifier=mod;mylocale=loc;}
+
+~Pcre2Regex(){free();}
 
 void parseReplacementOpts(const std::string& mod);
 void parseCompileOpts(const std::string& mod);
@@ -150,10 +158,13 @@ pcre2_code* getPcreCode(){return code;}                 ///returns address to co
 void free(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
 
 ///Compiles the regex.
+///If pattern or modifier or both not passed, they will be defaulted to previously set value.
 void compile(void){compile(pat_str,modifier,mylocale);}
-void compile(const std::string& re,const std::string& mod="", const std::string& loc=DEFAULT_LOCALE);
+void compile(const std::string& re,const std::string& mod,const std::string& loc=DEFAULT_LOCALE);
+void compile(const std::string& re){compile(re,modifier,mylocale);}
 
 ///returns a replaced string after performing regex replace
+///If modifier is not passed it will be defaulted to empty string
 std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX);
 std::string replace( std::string mains, std::string repl,size_t out_size){return replace(mains,repl,"",out_size);}
 

@@ -54,8 +54,9 @@ Dsclaimer:
 #define PCRE2_CODE_UNIT_WIDTH 8 /* default code unit width */
 #endif
 
+extern "C"{
 #include <pcre2.h>
-
+}
 
 namespace jpcre2_utils{
     template<typename T>
@@ -125,10 +126,13 @@ namespace jpcre2{
         void free(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
         
         ///Compiles the regex.
+        ///If pattern or modifier or both not passed, they will be defaulted to previously set value.
         void compile(void){compile(pat_str,modifier,mylocale);}
-        void compile(const std::string& re,const std::string& mod="", const std::string& loc=DEFAULT_LOCALE);
+        void compile(const std::string& re,const std::string& mod,const std::string& loc=DEFAULT_LOCALE);
+        void compile(const std::string& re){compile(re,modifier,mylocale);}
         
         ///returns a replaced string after performing regex replace
+        ///If modifier is not passed it will be defaulted to empty string
         std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX);
         std::string replace( std::string mains, std::string repl,size_t out_size){return replace(mains,repl,"",out_size);}
         
@@ -155,7 +159,7 @@ namespace jpcre2{
         bool match(const std::string& subject,VecNum& vec_num,bool find_all=false);
         bool match(const std::string& subject,VecNas& vec_nas,bool find_all=false);
         bool match(const std::string& subject,VecNtN& vec_nn,bool find_all=false);
-    
+        
         ///Error handling
         std::string getErrorMessage(int err_num);
         std::string getErrorMessage();
@@ -177,8 +181,10 @@ namespace jpcre2{
     
     
     void Pcre2Regex::parseReplacementOpts(const std::string& mod){
-        action_opts=PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
-            ///parse pcre options
+        action_opts=0;
+        action_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
+        
+        ///parse pcre options
         for(int i=0;i<(int)mod.length();i++){
             switch (mod[i]){
                 case 'e': action_opts  |= PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
@@ -193,8 +199,8 @@ namespace jpcre2{
     
     void Pcre2Regex::parseCompileOpts(const std::string& mod){
         compile_opts=0;
+        jit_opts=0;
         opt_jit_compile=false;
-        jit_opts=PCRE2_JIT_COMPLETE;
         
         ///default options
         compile_opts |=  PCRE2_ALT_BSUX;              //\u \U \x will act as javascript standard
