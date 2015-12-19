@@ -25,7 +25,7 @@ Knowing how to use it in your C++ code and finally compile it comprises the basi
 
 A simple *mycpp.cpp* file should be compiled with the following command with GCC.
 
-```shell
+```sh
 g++ -std=c++11 mycpp.cpp -lpcre2-8
 ```
 
@@ -33,11 +33,32 @@ g++ -std=c++11 mycpp.cpp -lpcre2-8
 
 If your `pcre2` library is not in the standard library path, then add the path:
 
-```shell
+```sh
 g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 ```
 
 **Note that** it requires the `pcre2` library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
+
+#test
+
+1. this a sample line
+```cpp
+Pcre2Regex re("\\d\\w+","Sugi");   //Initialize pattern and modifier with constructor
+re.setPattern("\\w\\S+");          //This sets the pattern
+re.setModifier("g");               //This sets the modifier.
+```
+Access the substrings like this:
+```cpp
+for(int i=0;i&lt;(int)vec_num.size();i++){
+    //This loop will iterate only once if find_all is false.
+    //i=0 is the first match found, i=2 is the second and so forth
+    for(auto const&amp; ent : vec_num[i]){
+    //ent.first is the number/position of substring found
+    //ent.second is the substring itself
+    //when ent.first is 0, ent.second is the total match.
+    }
+}
+```
 
 ##How to code:
 
