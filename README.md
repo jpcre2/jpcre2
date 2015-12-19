@@ -58,7 +58,7 @@ N.B: Every time you change the pattern, you will need to recompile it and every 
 </li>
   </ol>
 <li>
-Compile the pattern and catch any errors:
+Compile the pattern and catch any error exception:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
 try{re.compile();}                          //This compiles the previously set pattern and modifier
 catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
@@ -75,8 +75,10 @@ Now you can perform match or replace against the pattern. Use the <code>match()<
 </li>
     <ul>
 <li>
-<pre><code>
-re.match("I am a subject string",vec_num);
+Perform match and catch any error exception:
+<pre class="highlight"><code class="highlight-source-c++ cpp">
+try{re.match("I am a subject string",vec_num);}
+catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
 //vec_num will be populated with numbered substrings.
 </code></pre>
 Access the substrings like this:
@@ -94,8 +96,9 @@ for(int i=0;i&lt;(int)vec_num.size();i++){
 </li>
 <li>
 Other variations of this function can be used to get named substrings and the position of named substrings. Simply pass the appropriate vectors in the match function:
-<pre><code>
-re.match("I am a subject string",vec_num,vec_nas,vec_nn);
+<pre class="highlight"><code class="highlight-source-c++ cpp">
+try{re.match("I am a subject string",vec_num,vec_nas,vec_nn);}
+catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
 </code></pre>
 And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same and they can be passed in any sequence (i.e the order of the vectors as arguments is not important).
 </li>
@@ -105,8 +108,10 @@ And access the substrings by looping through the vectors and associated maps. Th
 </li>
     <ul>
 <li>
+Perform replace and catch any error exception:
 <pre class="highlight prettyprint"><code class="highlight-source-c++ cpp">
-re.replace("replace this string according to the pattern","with this string","mgi");
+try{re.replace("replace this string according to the pattern","with this string","mgi");}
+catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
 //mgi is the modifier passed (multiline, global, case insensitive).
 //Access substrings/captured groups with ${1234},$1234 (for numbered substrings) or ${name} (for named substrings)
 </code></pre>
