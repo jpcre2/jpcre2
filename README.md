@@ -85,7 +85,7 @@ Access the substrings like this:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
 for(int i=0;i&lt;(int)vec_num.size();i++){
     //This loop will iterate only once if find_all is false.
-    //i=0 is the first match found, i=2 is the second and so forth
+    //i=0 is the first match found, i=1 is the second and so forth
     for(auto const&amp; ent : vec_num[i]){
     //ent.first is the number/position of substring found
     //ent.second is the substring itself
