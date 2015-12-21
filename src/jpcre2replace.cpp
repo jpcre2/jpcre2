@@ -1,5 +1,5 @@
 #include <iostream>
-#include "header-only/jpcre2.h"
+#include "jpcre2.h"
 
 #define getLine(a) std::getline(std::cin,a,'\n');
 
@@ -12,11 +12,11 @@ int main(){
     
     std::cout<<"Enter modifiers (eimsuxADJSU): "<<std::endl;
     getLine(mod);
-    jpcre2::Pcre2Regex re(pat,mod);
+    jpcre2::Pcre2Regex re;
     
     
     ///Compile the pattern
-    try{re.compile();}                      ///Always use try catch block to avoid                
+    try{re.compile(pat,mod);}                      ///Always use try catch block to avoid                
     catch(int e){std::cout<<re.getErrorMessage(e);}     ///unexpected termination of program in case of errors
     
     

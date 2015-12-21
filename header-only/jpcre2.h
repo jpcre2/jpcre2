@@ -72,6 +72,12 @@ namespace jpcre2{
     #define REGEX_STRING_MAX std::numeric_limits<int>::max() //This limits the maximum length of string that can be handled by default.
     #define DEFAULT_LOCALE "none"
     
+    ///Errors// jpcre2 error codes are positive numbers
+    #define JPCRE2_ERROR_INVALID_MODIFIER             (2)
+    
+    ///Option bits
+    #define JPCRE2_VALIDATE_MODIFIER                  0x0000001u
+    
     typedef std::map<std::string,std::string> MapNas; //Map for Named substring
     typedef std::map<int,std::string> MapNum;         //Map for Numbered substring
     typedef std::map<std::string,int> MapNtN;         //Map for Named substring to Numbered substring
@@ -82,7 +88,7 @@ namespace jpcre2{
     
     class Pcre2Regex{
         
-        private:
+        protected:
         
         std::string pat_str;
         std::string modifier;
@@ -90,8 +96,8 @@ namespace jpcre2{
         pcre2_code *code;
         int error_number;
         PCRE2_SIZE error_offset;
-        uint32_t compile_opts,action_opts,jit_opts;
-        int error_code;
+        uint32_t compile_opts,action_opts,jit_opts,jpcre2_compile_opts,jpcre2_action_opts;
+        int error_code,jpcre2_error_offset;
         std::string mylocale;
         
         ///other opts
@@ -100,40 +106,42 @@ namespace jpcre2{
         // Warning msg 
         std::string current_warning_msg;
         
+        ///Only allowed object declaration is Pcre2Regex re; i.e re=Pcre2Regex() and such are not allowed.
+        ///This is to prevent segmentation fault regarding the call of function pcre2_code_free() 
+        ///inside destructor which is essential to avoid memory leaks.
+        Pcre2Regex(Pcre2Regex&);
+        void operator=(Pcre2Regex&);
+        
+        ///We can't let user call this function explicitly
+        void freeRegexMemory(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
+        void parseReplacementOpts(const std::string& mod,uint32_t opt_bits);
+        void parseCompileOpts(const std::string& mod,uint32_t opt_bits);
+        
         public:
         
-        ///constructor must not call compile() function.
-        Pcre2Regex(){pat_str="";modifier="";mylocale=DEFAULT_LOCALE;}
-        Pcre2Regex(const std::string& re,const std::string& mod="",const std::string& loc=DEFAULT_LOCALE)
-        {pat_str=re;modifier=mod;mylocale=loc;}
+
+        Pcre2Regex(){init();compile("","");}  ///dummy compile, needed to avoid segmentation fault.
         
         ~Pcre2Regex(){freeRegexMemory();}
         
-        void parseReplacementOpts(const std::string& mod);
-        void parseCompileOpts(const std::string& mod);
-        void parseOpts(const std::string& mod){parseReplacementOpts(mod);parseCompileOpts(mod);}
-        
+        void init(void){pat_str="";modifier="";mylocale=DEFAULT_LOCALE;error_number=0;error_offset=0;error_code=0;jpcre2_error_offset=0;jpcre2_compile_opts=0;}
+            
         std::string getModifier(){return modifier;}
-        void setModifier(const std::string& mod){modifier=mod;}
-        
         std::string getPattern(){return pat_str;}
-        void setPattern(const std::string& pat){pat_str=pat;}
-        
-        void setLocale(const std::string& loc){mylocale=loc;}   ///Sets LC_CTYPE
         std::string getLocale(){return mylocale;}               ///Gets LC_CTYPE
-        
-        pcre2_code* getPcreCode(){return code;}                 ///returns address to compiled regex
-        void freeRegexMemory(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
+        pcre2_code* getPcreCode(){return code;}                 ///returns pointer to compiled regex
         
         ///Compiles the regex.
         ///If pattern or modifier or both not passed, they will be defaulted to previously set value.
-        void compile(void){compile(pat_str,modifier,mylocale);}
-        void compile(const std::string& re,const std::string& mod,const std::string& loc=DEFAULT_LOCALE);
-        void compile(const std::string& re){compile(re,modifier,mylocale);}
+        void compile(void){compile(pat_str,modifier,mylocale,jpcre2_compile_opts);}
+        void compile(const std::string& re,const std::string& mod,const std::string& loc,uint32_t opt_bits);
+        void compile(const std::string& re,const std::string& mod,const std::string& loc){compile(re,mod,loc,0);}
+        void compile(const std::string& re,const std::string& mod="",uint32_t opt_bits=0){compile(re,mod,mylocale,opt_bits);}
         
         ///returns a replaced string after performing regex replace
         ///If modifier is not passed it will be defaulted to empty string
-        std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX);
+        std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX,uint32_t opt_bits=0);
+        std::string replace( std::string mains, std::string repl,const std::string& mod,uint32_t opt_bits){return replace(mains,repl,mod,REGEX_STRING_MAX,opt_bits);}
         std::string replace( std::string mains, std::string repl,size_t out_size){return replace(mains,repl,"",out_size);}
         
         ///returns true for successful match, stores the match results in the specified vectors
@@ -160,6 +168,9 @@ namespace jpcre2{
         bool match(const std::string& subject,VecNas& vec_nas,bool find_all=false);
         bool match(const std::string& subject,VecNtN& vec_nn,bool find_all=false);
         
+        ///0-vector variants //useful for true-false check
+        bool match(const std::string& subject);
+        
         ///Error handling
         std::string getErrorMessage(int err_num);
         std::string getErrorMessage();
@@ -185,13 +196,18 @@ namespace jpcre2{
     }
     
     std::string jpcre2::Pcre2Regex::getErrorMessage(int err_num){
-        PCRE2_UCHAR buffer[4024];
-        pcre2_get_error_message(err_num, buffer, sizeof(buffer));
-        return jpcre2_utils::toString((PCRE2_UCHAR*)buffer)+"; error offset: "+jpcre2_utils::toString((int)error_offset);
+        if(err_num==JPCRE2_ERROR_INVALID_MODIFIER){
+            return "Invalid Modifier: "+jpcre2_utils::toString((char)jpcre2_error_offset);
+        }
+        else{
+            PCRE2_UCHAR buffer[4024];
+            pcre2_get_error_message(err_num, buffer, sizeof(buffer));
+            return jpcre2_utils::toString((PCRE2_UCHAR*)buffer)+"; error offset: "+jpcre2_utils::toString((int)error_offset);
+        }
     }
     
     
-    void jpcre2::Pcre2Regex::parseReplacementOpts(const std::string& mod){
+    void jpcre2::Pcre2Regex::parseReplacementOpts(const std::string& mod,uint32_t opt_bits){
         action_opts=0;
         action_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
         
@@ -202,13 +218,15 @@ namespace jpcre2{
                 case 'E': action_opts  |= PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
                 case 'g': action_opts  |= PCRE2_SUBSTITUTE_GLOBAL;break;
                 case 'x': action_opts  |= PCRE2_SUBSTITUTE_EXTENDED;break;
-                default : break;
+                default : if((opt_bits & JPCRE2_VALIDATE_MODIFIER)!=0)
+                          {jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;
             }
         }
     }
     
     
-    void jpcre2::Pcre2Regex::parseCompileOpts(const std::string& mod){
+    void jpcre2::Pcre2Regex::parseCompileOpts(const std::string& mod,uint32_t opt_bits){
+
         compile_opts=0;
         jit_opts=0;
         opt_jit_compile=false;
@@ -230,22 +248,24 @@ namespace jpcre2{
                 case 'J': compile_opts |= PCRE2_DUPNAMES;break;
                 case 'S': opt_jit_compile=true;jit_opts |= PCRE2_JIT_COMPLETE;break; ///Optimization opt
                 case 'U': compile_opts |= PCRE2_UNGREEDY;break;
-                default : break;
+                default : if((opt_bits & JPCRE2_VALIDATE_MODIFIER)!=0)
+                          {jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;
             }
         }
     }
     
     
-    void jpcre2::Pcre2Regex :: compile(const std::string& re,const std::string& mod, const std::string& loc){
+    void jpcre2::Pcre2Regex :: compile(const std::string& re,const std::string& mod, const std::string& loc,uint32_t opt_bits){
         pattern=(PCRE2_SPTR)re.c_str();
         mylocale=loc;
-        
-        ///populate class compile_opts actions opts etc...
-        parseCompileOpts(mod);
+        jpcre2_compile_opts=opt_bits;
         
         ///populate some class vars
         pat_str=re;
         modifier=mod;
+        
+        ///populate class compile_opts actions opts etc...
+        parseCompileOpts(mod,opt_bits);
     
     /*************************************************************************
     * Now we are going to compile the regular expression pattern, and handle *
@@ -275,7 +295,8 @@ namespace jpcre2{
         /* Compilation failed: print the error message and exit. */
     
         if (code == NULL){
-            freeRegexMemory();
+            ///must not free regex memory, the only function has that right is the destroyer.
+            ///freeRegexMemory();
             throw(error_number);
         }
         else if(opt_jit_compile){
@@ -292,9 +313,10 @@ namespace jpcre2{
     }
     
     
-    std::string jpcre2::Pcre2Regex :: replace( std::string mains, std::string repl,const std::string& mod,PCRE2_SIZE out_size){
+    std::string jpcre2::Pcre2Regex :: replace( std::string mains, std::string repl,const std::string& mod,PCRE2_SIZE out_size,uint32_t opt_bits){
+        jpcre2_action_opts=opt_bits;
         
-        parseReplacementOpts(mod);
+        parseReplacementOpts(mod,opt_bits);
         PCRE2_SPTR subject = (PCRE2_SPTR)mains.c_str();
         PCRE2_SIZE subject_length = strlen((char *)subject);
         PCRE2_SPTR replace = (PCRE2_SPTR)repl.c_str();
@@ -774,6 +796,12 @@ namespace jpcre2{
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
     
+    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject){
+        VecNas vec_nas;
+        VecNum vec_num;
+        VecNtN vec_nn;
+        return match(subject,vec_num,vec_nas,vec_nn,false);
+    }
 
 
 

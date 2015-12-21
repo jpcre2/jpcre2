@@ -1,7 +1,7 @@
 #include <iostream>
-#include "header-only/jpcre2.h"
+#include "jpcre2.h"
 
-
+#define getLine(a) std::getline(std::cin,a,'\n');
 
 
 int main(){
@@ -10,20 +10,33 @@ int main(){
     jpcre2::VecNas vec_nas0;   ///Vector to store named substring Map.
     jpcre2::VecNtN vec_nn0;    ///Vector to store Named substring to Number Map.
     
-    jpcre2::Pcre2Regex re("(?:(?<name>\\d+)|(?<name>\\w+))\\s*(?<nam>\\d+d)","Jiu");
-    ///                       ^this is the pattern                             ^this is the modifier
-    ///We can also use re.setPattern() and re.setModifier() to set pattern and modifier.
+   
+    std::string pat,mod,subject;
+    {
+    jpcre2::Pcre2Regex re;
+}
+ loop:
+{
+   jpcre2::Pcre2Regex re;
+    std::cout<<"Enter pattern: ";
+    getLine(pat);
+    cp:
+    std::cout<<"Enter modifiers (eimsuxADJSU): ";
+    getLine(mod);
     
     ///Compile the pattern
-    try{re.compile();}                                  ///Always use try catch block to avoid                
-    catch(int e){std::cout<<re.getErrorMessage(e);}     ///unexpected termination of program in case of errors
+    try{re.compile(pat,mod);}                                  ///Always use try catch block to avoid                
+    catch(int e){std::cout<<re.getErrorMessage(e)<<std::endl;goto cp;}     ///unexpected termination of program in case of errors
     
+
     ///subject string
-    std::string s="(I am a digit 67d আ 89d 4323d 3432D)";
+    std::cout<<"\nEnter subject string (enter quit to quit): "<<std::endl;
+    getLine(subject);
+    if(subject=="quit")return 0;
     
-    try{re.match(s,vec_num0,vec_nas0,vec_nn0,true);}          ///true makes it to find all matches
-    catch(int e){std::cout<<re.getErrorMessage(e);}   
-    
+    try{re.match(subject,vec_num0,vec_nas0,vec_nn0,true);}          ///true makes it to find all matches
+    catch(int e){std::cout<<re.getErrorMessage(e);goto loop;}   
+}
     ///Now let's access the matched data
     
     ///Each of these vectors contains a map
@@ -62,5 +75,6 @@ int main(){
             std::cout<<"\n\t"<<ent.first<<": "<<ent.second<<"\n";
         }
     }
+    if(subject!="quit")goto loop;
 	return 0;
 }

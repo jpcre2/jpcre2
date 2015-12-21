@@ -1,7 +1,7 @@
 #include <iostream>
-#include "header-only/jpcre2.h"
+#include "jpcre2.h"
 
-#define getLine(a) std::getline(std::cin,a,'\n');
+
 
 
 int main(){
@@ -10,27 +10,18 @@ int main(){
     jpcre2::VecNas vec_nas0;   ///Vector to store named substring Map.
     jpcre2::VecNtN vec_nn0;    ///Vector to store Named substring to Number Map.
     
-    
-    std::string pat,mod,subject;
-    
-    std::cout<<"Enter pattern: "<<std::endl;
-    getLine(pat);
-    
-    std::cout<<"Enter modifiers (eimsuxADJSU): "<<std::endl;
-    getLine(mod);
-    jpcre2::Pcre2Regex re(pat,mod);
+    jpcre2::Pcre2Regex re;
+    ///                       ^this is the pattern                             ^this is the modifier
+    ///We can also use re.setPattern() and re.setModifier() to set pattern and modifier.
     
     ///Compile the pattern
-    try{re.compile();}                                  ///Always use try catch block to avoid                
+    try{re.compile("(?:(?<name>\\d+)|(?<name>\\w+))\\s*(?<nam>\\d+d)","Jiu");}                                  ///Always use try catch block to avoid                
     catch(int e){std::cout<<re.getErrorMessage(e);}     ///unexpected termination of program in case of errors
     
-    loop:
     ///subject string
-    std::cout<<"\nEnter subject string (enter quit to quit): "<<std::endl;
-    getLine(subject);
-    if(subject=="quit")return 0;
+    std::string s="(I am a digit 67d আ 89d 4323d 3432D)";
     
-    try{re.match(subject,vec_num0,vec_nas0,vec_nn0,true);}          ///true makes it to find all matches
+    try{re.match(s,vec_num0,vec_nas0,vec_nn0,true);}          ///true makes it to find all matches
     catch(int e){std::cout<<re.getErrorMessage(e);}   
     
     ///Now let's access the matched data
@@ -71,6 +62,5 @@ int main(){
             std::cout<<"\n\t"<<ent.first<<": "<<ent.second<<"\n";
         }
     }
-    if(subject!="quit")goto loop;
 	return 0;
 }
