@@ -6,7 +6,7 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 <div id="requires"></div>
 #Requirements:
 
-1. C++ compiler with C++11 support.
+1. C++ compiler with C++11 support (optional but recommended).
 2. pcre2 library (`version >=10.21`).
 
 If the required `pcre2` version is not available in the official channel, download <a href="https://github.com/jpcre2">my fork of the library from here</a>, Or use <a href="https://github.com/jpcre2/pcre2">this repository</a> which will always be kept compatible with `jpcre2`.
@@ -16,9 +16,9 @@ If the required `pcre2` version is not available in the official channel, downlo
 
 ##How to compile:
 
-1. `#include` the `jpcre2.hpp` file in your program. 
+1. `#include` the `jpcre2.h` (from **header-only** directory) file in your program. 
 
-2. Compile with `pcre2` library linked and c++11 enabled.
+2. Compile with `pcre2` library linked.
 
 **Example:**
 
@@ -143,7 +143,7 @@ Pcre2Regex(){pat_str="";modifier="";mylocale=DEFAULT_LOCALE;}
 Pcre2Regex(const std::string& re,const std::string& mod="",const std::string& loc=DEFAULT_LOCALE)
 {pat_str=re;modifier=mod;mylocale=loc;}
 
-~Pcre2Regex(){free();}
+~Pcre2Regex(){freeRegexMemory();}
 
 void parseReplacementOpts(const std::string& mod);
 void parseCompileOpts(const std::string& mod);
@@ -159,7 +159,7 @@ void setLocale(const std::string& loc){mylocale=loc;}   ///Sets LC_CTYPE
 std::string getLocale(){return mylocale;}               ///Gets LC_CTYPE
 
 pcre2_code* getPcreCode(){return code;}                 ///returns address to compiled regex
-void free(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
+void freeRegexMemory(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
 
 ///Compiles the regex.
 ///If pattern or modifier or both not passed, they will be defaulted to previously set value.
@@ -211,6 +211,8 @@ PCRE2_SIZE getErrorOffset(){return error_offset;}
 1. **test.cpp**: Contains an example code for match and replace function.
 2. **test_match.cpp**: Contains an example code for match function.
 3. **test_replace.cpp**: Contains an example code for replace function.
+4. **jpcre2match**: Another matching example.
+5. **jpcre2replace**: Another replacement example.
 
 #Screenshots of some test outputs:
 
