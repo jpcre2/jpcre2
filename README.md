@@ -67,7 +67,7 @@ try{
     re.compile("pattern","mgi");          //This compiles the pattern and modifier provided.
     
     //Another way is to use constructor to initialize and compile at the same time:
-    jpcre2::Regex re2("pattern","mgi");
+    jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod. Try to use it always.
 }
 catch(int e){
     /*Handle error*/
@@ -101,11 +101,11 @@ for(int i=0;i&lt;(int)vec_num.size();i++){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=1 is the second and so forth
     for(auto const&amp; ent : vec_num[i]){
-    //ent.first is the number/position of substring found
-    //ent.second is the substring itself
-    //when ent.first is 0, ent.second is the total match.
-    //for(auto const&amp; ent : vec_num[i]):C++11 feature
-    //If you want &lt;C++11 method, see pcre2match.cpp.
+        //ent.first is the number/position of substring found
+        //ent.second is the substring itself
+        //when ent.first is 0, ent.second is the total match.
+        //for(auto const&amp; ent : vec_num[i]):C++11 feature
+        //If you want &lt;C++11 method, see pcre2match.cpp.
     }
 }
 </code></pre>
@@ -132,7 +132,7 @@ And access the substrings by looping through the vectors and associated maps. Th
 Perform replace and catch any error exception:
 <pre class="highlight prettyprint"><code class="highlight-source-c++ cpp">
 try{
-    re.replace("replace this string according to the pattern","with this string","mgi");
+    std::cout&lt;&lt;re.replace("replace this string according to the pattern","with this string","mgi")&lt;&lt;std::endl;
     //mgi is the modifier passed (multiline, global, case insensitive).
     //Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
     // or ${name} (for named substrings) in the replacement part
@@ -181,8 +181,6 @@ void compile(const std::string& re,uint32_t opt_bits=0){compile(re,"",DEFAULT_LO
 ///returns a replaced string after performing regex replace
 ///If modifier is not passed it will be defaulted to empty string
 std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX,uint32_t opt_bits=0);
-std::string replace( std::string mains, std::string repl,const std::string& mod,uint32_t opt_bits){return replace(mains,repl,mod,REGEX_STRING_MAX,opt_bits);}
-std::string replace( std::string mains, std::string repl,size_t out_size){return replace(mains,repl,"",out_size);}
 
 ///returns true for successful match, stores the match results in the specified vectors
 bool match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false);
