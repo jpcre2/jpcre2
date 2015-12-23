@@ -1,188 +1,5 @@
-/***********************************************************************
- * C++ wrapper for several utilities of PCRE2 Library
- * ********************************************************************/
 
-/* 
-This is a public C++ wrapper for several utilities of the PCRE library, second API, to be
-#included by applications that call PCRE2 functions.
-
-           Copyright (c) 2015 Md. Jahidul Hamid
-
------------------------------------------------------------------------------
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice,
-      this list of conditions and the following disclaimer.
-
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-
-    * The names of its contributors may be used to endorse or promote 
-      products derived from this software without specific prior written
-      permission.
-      
-Dsclaimer:
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-    ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-    POSSIBILITY OF SUCH DAMAGE.
-    
-*/
-
-
-
-#ifndef JPCRE2_HPP
-#define JPCRE2_HPP
-
-///You should define PCRE2_CODE_UNIT_WIDTH before including this header (jpcre2).
-#ifndef PCRE2_CODE_UNIT_WIDTH
-#define PCRE2_CODE_UNIT_WIDTH 8 /* default code unit width */
-#endif
-
-#include "pcre2.h"
-
-
-
-#ifdef __cplusplus
-
-#include <string>
-#include <cstring>
-#include <sstream>
-#include <limits>
-#include <vector>
-#include <map>
-
-namespace jpcre2_utils{
-    template<typename T>
-    std::string toString(T a);
-}
-
-namespace jpcre2{
-
-    #define REGEX_STRING_MAX std::numeric_limits<int>::max() //This limits the maximum length of string that can be handled by default.
-    #define DEFAULT_LOCALE "none"
-    
-    ///Errors// jpcre2 error codes are positive numbers
-    #define JPCRE2_ERROR_INVALID_MODIFIER             (2)
-    
-    ///Option bits
-    #define JPCRE2_VALIDATE_MODIFIER                  0x0000001u
-    
-    typedef std::map<std::string,std::string> MapNas; //Map for Named substring
-    typedef std::map<int,std::string> MapNum;         //Map for Numbered substring
-    typedef std::map<std::string,int> MapNtN;         //Map for Named substring to Numbered substring
-    typedef std::vector<MapNas> VecNas;               //Vector of MapNas
-    typedef std::vector<MapNtN> VecNtN;               //Vector of MapNtN
-    typedef std::vector<MapNum> VecNum;               //Vector of MapNum
-    
-    
-    class Pcre2Regex{
-        
-        protected:
-        
-        std::string pat_str;
-        std::string modifier;
-        PCRE2_SPTR pattern;
-        pcre2_code *code;
-        int error_number;
-        PCRE2_SIZE error_offset;
-        uint32_t compile_opts,action_opts,jit_opts,jpcre2_compile_opts,jpcre2_action_opts;
-        int error_code,jpcre2_error_offset;
-        std::string mylocale;
-        
-        ///other opts
-        bool opt_jit_compile;
-        
-        // Warning msg 
-        std::string current_warning_msg;
-        
-        ///Only allowed object declaration is Pcre2Regex re; i.e re=Pcre2Regex() and such are not allowed.
-        ///This is to prevent segmentation fault regarding the call of function pcre2_code_free() 
-        ///inside destructor which is essential to avoid memory leaks.
-        Pcre2Regex(Pcre2Regex&);
-        void operator=(Pcre2Regex&);
-        
-        ///We can't let user call this function explicitly
-        void freeRegexMemory(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
-        void parseReplacementOpts(const std::string& mod,uint32_t opt_bits);
-        void parseCompileOpts(const std::string& mod,uint32_t opt_bits);
-        
-        public:
-        
-
-        Pcre2Regex(){init();compile("","");}  ///dummy compile, needed to avoid segmentation fault.
-        
-        ~Pcre2Regex(){freeRegexMemory();}
-        
-        void init(void){pat_str="";modifier="";mylocale=DEFAULT_LOCALE;error_number=0;error_offset=0;error_code=0;jpcre2_error_offset=0;jpcre2_compile_opts=0;}
-            
-        std::string getModifier(){return modifier;}
-        std::string getPattern(){return pat_str;}
-        std::string getLocale(){return mylocale;}               ///Gets LC_CTYPE
-        pcre2_code* getPcreCode(){return code;}                 ///returns pointer to compiled regex
-        
-        ///Compiles the regex.
-        ///If pattern or modifier or both not passed, they will be defaulted to previously set value.
-        void compile(void){compile(pat_str,modifier,mylocale,jpcre2_compile_opts);}
-        void compile(const std::string& re,const std::string& mod,const std::string& loc,uint32_t opt_bits);
-        void compile(const std::string& re,const std::string& mod,const std::string& loc){compile(re,mod,loc,0);}
-        void compile(const std::string& re,const std::string& mod="",uint32_t opt_bits=0){compile(re,mod,mylocale,opt_bits);}
-        
-        ///returns a replaced string after performing regex replace
-        ///If modifier is not passed it will be defaulted to empty string
-        std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX,uint32_t opt_bits=0);
-        std::string replace( std::string mains, std::string repl,const std::string& mod,uint32_t opt_bits){return replace(mains,repl,mod,REGEX_STRING_MAX,opt_bits);}
-        std::string replace( std::string mains, std::string repl,size_t out_size){return replace(mains,repl,"",out_size);}
-        
-        ///returns true for successful match, stores the match results in the specified vectors
-        bool match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false);
-        
-        ///Other variants of match function
-        ///3-vector variants
-        bool match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false);
-        bool match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false);
-        bool match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false);
-        bool match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,bool find_all=false);
-        bool match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,bool find_all=false);
-        
-        ///2-vector variants
-        bool match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,bool find_all=false);
-        bool match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,bool find_all=false);
-        bool match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false);
-        bool match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false);
-        bool match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false);
-        bool match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false);
-        
-        ///1-vector variants
-        bool match(const std::string& subject,VecNum& vec_num,bool find_all=false);
-        bool match(const std::string& subject,VecNas& vec_nas,bool find_all=false);
-        bool match(const std::string& subject,VecNtN& vec_nn,bool find_all=false);
-        
-        ///0-vector variants //useful for true-false check
-        bool match(const std::string& subject);
-        
-        ///Error handling
-        std::string getErrorMessage(int err_num);
-        std::string getErrorMessage();
-        std::string getWarningMessage(){return current_warning_msg;}
-        int getErrorNumber(){return error_number;}
-        int getErrorCode(){return error_code;}
-        PCRE2_SIZE getErrorOffset(){return error_offset;}
-    };
-    
-
-} ///jpcre2 namespace
-
+#include "jpcre2.h"
 
     template<typename T>
     std::string jpcre2_utils::toString(T a){
@@ -191,11 +8,11 @@ namespace jpcre2{
         return ss.str();
     }
 
-    std::string jpcre2::Pcre2Regex::getErrorMessage(){
+    std::string jpcre2::Regex::getErrorMessage(){
         return getErrorMessage(error_code);
     }
     
-    std::string jpcre2::Pcre2Regex::getErrorMessage(int err_num){
+    std::string jpcre2::Regex::getErrorMessage(int err_num){
         if(err_num==JPCRE2_ERROR_INVALID_MODIFIER){
             return "Invalid Modifier: "+jpcre2_utils::toString((char)jpcre2_error_offset);
         }
@@ -207,7 +24,7 @@ namespace jpcre2{
     }
     
     
-    void jpcre2::Pcre2Regex::parseReplacementOpts(const std::string& mod,uint32_t opt_bits){
+    void jpcre2::Regex::parseReplacementOpts(const std::string& mod,uint32_t opt_bits){
         action_opts=0;
         action_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
         
@@ -219,13 +36,13 @@ namespace jpcre2{
                 case 'g': action_opts  |= PCRE2_SUBSTITUTE_GLOBAL;break;
                 case 'x': action_opts  |= PCRE2_SUBSTITUTE_EXTENDED;break;
                 default : if((opt_bits & JPCRE2_VALIDATE_MODIFIER)!=0)
-                          {jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;
+                          {error_code=jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;
             }
         }
     }
     
     
-    void jpcre2::Pcre2Regex::parseCompileOpts(const std::string& mod,uint32_t opt_bits){
+    void jpcre2::Regex::parseCompileOpts(const std::string& mod,uint32_t opt_bits){
 
         compile_opts=0;
         jit_opts=0;
@@ -249,20 +66,20 @@ namespace jpcre2{
                 case 'S': opt_jit_compile=true;jit_opts |= PCRE2_JIT_COMPLETE;break; ///Optimization opt
                 case 'U': compile_opts |= PCRE2_UNGREEDY;break;
                 default : if((opt_bits & JPCRE2_VALIDATE_MODIFIER)!=0)
-                          {jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;
+                          {error_code=jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;
             }
         }
     }
     
     
-    void jpcre2::Pcre2Regex :: compile(const std::string& re,const std::string& mod, const std::string& loc,uint32_t opt_bits){
+    void jpcre2::Regex :: compile(const std::string& re,const std::string& mod, const std::string& loc,uint32_t opt_bits){
         pattern=(PCRE2_SPTR)re.c_str();
-        mylocale=loc;
-        jpcre2_compile_opts=opt_bits;
         
         ///populate some class vars
         pat_str=re;
         modifier=mod;
+        mylocale=loc;
+        jpcre2_compile_opts=opt_bits;
         
         ///populate class compile_opts actions opts etc...
         parseCompileOpts(mod,opt_bits);
@@ -313,7 +130,9 @@ namespace jpcre2{
     }
     
     
-    std::string jpcre2::Pcre2Regex :: replace( std::string mains, std::string repl,const std::string& mod,PCRE2_SIZE out_size,uint32_t opt_bits){
+    std::string jpcre2::Regex :: replace( std::string mains, std::string repl,const std::string& mod,PCRE2_SIZE out_size,uint32_t opt_bits){
+        
+        ///populate some class vars
         jpcre2_action_opts=opt_bits;
         
         parseReplacementOpts(mod,opt_bits);
@@ -373,7 +192,7 @@ namespace jpcre2{
     }
     
     
-    bool jpcre2::Pcre2Regex::match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all){
+    bool jpcre2::Regex::match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all){
         
         //Clear all verctors
         vec_num.clear();
@@ -737,66 +556,66 @@ namespace jpcre2{
     
     ///Other variants of match function
     ///3-vector variants
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,bool find_all){
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,bool find_all){
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,bool find_all){
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,bool find_all){
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,bool find_all){
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
     
     ///2-vector variants
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,bool find_all){
         VecNtN vec_nn;
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,bool find_all){
         VecNtN vec_nn;
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,bool find_all){
         VecNas vec_nas;
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,bool find_all){
         VecNas vec_nas;
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,bool find_all){
         VecNum vec_num;
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_all){
         VecNum vec_num;
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
     
     ///1-vector variants
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNum& vec_num,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,bool find_all){
         VecNas vec_nas;
         VecNtN vec_nn;
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNas& vec_nas,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,bool find_all){
         VecNtN vec_nn;
         VecNum vec_num;
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject,VecNtN& vec_nn,bool find_all){
+    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,bool find_all){
         VecNas vec_nas;
         VecNum vec_num;
         return match(subject,vec_num,vec_nas,vec_nn,find_all);
     }
     
-    inline bool jpcre2::Pcre2Regex :: match(const std::string& subject){
+    inline bool jpcre2::Regex :: match(const std::string& subject){
         VecNas vec_nas;
         VecNum vec_num;
         VecNtN vec_nn;
@@ -804,8 +623,3 @@ namespace jpcre2{
     }
 
 
-
-
-
-#endif
-#endif

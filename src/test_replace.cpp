@@ -5,7 +5,7 @@
 
 
 int main(){
-    jpcre2::Pcre2Regex re;
+    jpcre2::Regex re;
     ///                       ^this is the pattern                             ^modifiers
     ///We can also use re.setPattern() and re.setModifier() to set pattern and modifier.
 

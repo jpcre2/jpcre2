@@ -7,12 +7,12 @@
 int main(){
     std::string pat,mod,subject,repl,repl_mod;
     
-    std::cout<<"Enter pattern: "<<std::endl;
+    std::cout<<"\nEnter pattern: "<<std::endl;
     getLine(pat);
     
-    std::cout<<"Enter modifiers (eimsuxADJSU): "<<std::endl;
+    std::cout<<"\nEnter modifiers (eimsuxADJSU): "<<std::endl;
     getLine(mod);
-    jpcre2::Pcre2Regex re;
+    jpcre2::Regex re;
     
     
     ///Compile the pattern
@@ -20,7 +20,6 @@ int main(){
     catch(int e){std::cout<<re.getErrorMessage(e);}     ///unexpected termination of program in case of errors
     
     
-    loop:
     ///subject string
     std::cout<<"\nEnter subject string (enter quit to quit): "<<std::endl;
     getLine(subject);
@@ -39,6 +38,6 @@ int main(){
     ///otherwise internal substitute function will be called twice which will eat up some additional resource.
     catch(int e){std::cout<<re.getErrorMessage(e);}
     
-    if(subject!="quit")goto loop;
+    main();
 	return 0;
 }

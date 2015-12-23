@@ -16,19 +16,21 @@ If the required `pcre2` version is not available in the official channel, downlo
 
 ##How to compile:
 
-1. `#include` the `jpcre2.h` (from **header-only** directory) file in your program. 
+###Without installing it as a library:
+
+1. Include `jpcre2.h` and `jpcre2.cpp` in your project and `#include` the header in your code.
 
 2. Compile with `pcre2` library linked.
 
 **Example:**
 
-A simple *mycpp.cpp* file should be compiled with the following command with GCC.
+A *mycpp.cpp* file can be compiled with the following command with GCC.
 
 ```sh
-g++ -std=c++11 mycpp.cpp -lpcre2-8
+g++ mycpp.cpp jpcre2.cpp jpcre2.h -lpcre2-8
 ```
 
-`-lpcre1-8` should be changed to the actual library i.e for 16 bit code unit: `-lpcre2-16` and for 32 bit code unit: `-lpcre2-32`.
+`-lpcre2-8` should be changed to the actual library i.e for 16 bit code unit: `-lpcre2-16` and for 32 bit code unit: `-lpcre2-32`.
 
 If your `pcre2` library is not in the standard library path, then add the path:
 
@@ -38,19 +40,39 @@ g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 
 **Note that** it requires the `pcre2` library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
 
+###By installing jpcre2 as a library:
+
+1. Install it with `./configure`, `make`, `sudo make install`.
+2. `#include <jpcre2.h>` in your code.
+3. Build/compile by linking with jpcre2 library.
+
+An example command for GCC would be:
+
+```sh
+g++  mycpp.cpp -ljpcre2 -lpcre2-8
+```
+
 ##How to code:
 
 <ol>
 <li>
-First create a <code>Pcre2Regex</code> object. This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
-<pre class="highlight"><code class="highlight-source-c++ cpp">jpcre2::Pcre2Regex re;   //Create object</code></pre>
+First create a <code>jpcre2::Regex</code> object. This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
+<pre class="highlight"><code class="highlight-source-c++ cpp">jpcre2::Regex re;   //Create object</code></pre>
 Each object for each regex pattern.
 </li>
 <li>
 Compile the pattern and catch any error exception:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
-try{re.compile("pattern","mgi");}           //This compiles the pattern and modifier provided.
-catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
+try{
+    re.compile("pattern","mgi");          //This compiles the pattern and modifier provided.
+    
+    //Another way is to use constructor to initialize and compile at the same time:
+    jpcre2::Regex re2("pattern","mgi");
+}
+catch(int e){
+    /*Handle error*/
+    std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+}
 </code></pre>
 </li>
 <li>
@@ -64,9 +86,14 @@ Now you can perform match or replace against the pattern. Use the <code>match()<
 <li>
 Perform match and catch any error exception:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
-try{re.match("I am a subject string",vec_num);}
-catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
-//vec_num will be populated with numbered substrings.
+try{
+    re.match("I am a subject string",vec_num);
+    //vec_num will be populated with numbered substrings.
+}
+catch(int e){
+    /*Handle error*/
+    std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+}
 </code></pre>
 Access the substrings like this:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
@@ -77,6 +104,8 @@ for(int i=0;i&lt;(int)vec_num.size();i++){
     //ent.first is the number/position of substring found
     //ent.second is the substring itself
     //when ent.first is 0, ent.second is the total match.
+    //for(auto const&amp; ent : vec_num[i]):C++11 feature
+    //If you want &lt;C++11 method, see pcre2match.cpp.
     }
 }
 </code></pre>
@@ -84,8 +113,13 @@ for(int i=0;i&lt;(int)vec_num.size();i++){
 <li>
 Other variations of this function can be used to get named substrings and the position of named substrings. Simply pass the appropriate vectors in the match function:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
-try{re.match("I am a subject string",vec_num,vec_nas,vec_nn);}
-catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
+try{
+    re.match("I am a subject string",vec_num,vec_nas,vec_nn);
+}
+catch(int e){
+    /*Handle error*/
+    std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+}
 </code></pre>
 And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same and they can be passed in any sequence (i.e the order of the vectors as arguments is not important).
 </li>
@@ -97,10 +131,17 @@ And access the substrings by looping through the vectors and associated maps. Th
 <li>
 Perform replace and catch any error exception:
 <pre class="highlight prettyprint"><code class="highlight-source-c++ cpp">
-try{re.replace("replace this string according to the pattern","with this string","mgi");}
-catch(int e){/*Handle error*//*std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;*/}
-//mgi is the modifier passed (multiline, global, case insensitive).
-//Access substrings/captured groups with ${1234},$1234 (for numbered substrings) or ${name} (for named substrings)
+try{
+    re.replace("replace this string according to the pattern","with this string","mgi");
+    //mgi is the modifier passed (multiline, global, case insensitive).
+    //Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
+    // or ${name} (for named substrings) in the replacement part
+}
+catch(int e){
+    /*Handle error*/
+    std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+}
+
 </code></pre>
 </li>
 <li>
@@ -119,43 +160,28 @@ If you pass the size of the resultant string with the replace function, then mak
 
 ##Classes:
 
-1. **Pcre2Regex :** This is the main class which holds the key utilities of `jpcre2`. Every regex needs an object of this class.
+1. **Regex :** This is the main class which holds the key utilities of `jpcre2`. Every regex needs an object of this class.
 
 ##Functions:
 
 ```cpp
-
-Pcre2Regex(){pat_str="";modifier="";mylocale=DEFAULT_LOCALE;}
-Pcre2Regex(const std::string& re,const std::string& mod="",const std::string& loc=DEFAULT_LOCALE)
-{pat_str=re;modifier=mod;mylocale=loc;}
-
-~Pcre2Regex(){freeRegexMemory();}
-
-void parseReplacementOpts(const std::string& mod);
-void parseCompileOpts(const std::string& mod);
-void parseOpts(const std::string& mod){parseReplacementOpts(mod);parseCompileOpts(mod);}
-
 std::string getModifier(){return modifier;}
-void setModifier(const std::string& mod){modifier=mod;}
-
 std::string getPattern(){return pat_str;}
-void setPattern(const std::string& pat){pat_str=pat;}
-
-void setLocale(const std::string& loc){mylocale=loc;}   ///Sets LC_CTYPE
 std::string getLocale(){return mylocale;}               ///Gets LC_CTYPE
-
-pcre2_code* getPcreCode(){return code;}                 ///returns address to compiled regex
-void freeRegexMemory(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
+uint32_t getCompileOpts(){return jpcre2_compile_opts;}
+uint32_t getActionOpts(){return jpcre2_action_opts;}
 
 ///Compiles the regex.
-///If pattern or modifier or both not passed, they will be defaulted to previously set value.
-void compile(void){compile(pat_str,modifier,mylocale);}
-void compile(const std::string& re,const std::string& mod,const std::string& loc=DEFAULT_LOCALE);
-void compile(const std::string& re){compile(re,modifier,mylocale);}
+///If any argument is not passed, it will be left empty
+void compile(const std::string& re,const std::string& mod,const std::string& loc,uint32_t opt_bits);
+void compile(const std::string& re,const std::string& mod,const std::string& loc){compile(re,mod,loc,0);}
+void compile(const std::string& re,const std::string& mod,uint32_t opt_bits=0){compile(re,mod,DEFAULT_LOCALE,opt_bits);}
+void compile(const std::string& re,uint32_t opt_bits=0){compile(re,"",DEFAULT_LOCALE,opt_bits);}
 
 ///returns a replaced string after performing regex replace
 ///If modifier is not passed it will be defaulted to empty string
-std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX);
+std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX,uint32_t opt_bits=0);
+std::string replace( std::string mains, std::string repl,const std::string& mod,uint32_t opt_bits){return replace(mains,repl,mod,REGEX_STRING_MAX,opt_bits);}
 std::string replace( std::string mains, std::string repl,size_t out_size){return replace(mains,repl,"",out_size);}
 
 ///returns true for successful match, stores the match results in the specified vectors
@@ -181,6 +207,9 @@ bool match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_a
 bool match(const std::string& subject,VecNum& vec_num,bool find_all=false);
 bool match(const std::string& subject,VecNas& vec_nas,bool find_all=false);
 bool match(const std::string& subject,VecNtN& vec_nn,bool find_all=false);
+
+///0-vector variants //useful for true-false check
+bool match(const std::string& subject);  ///find_all=true is not meaningful
 
 ///Error handling
 std::string getErrorMessage(int err_num);

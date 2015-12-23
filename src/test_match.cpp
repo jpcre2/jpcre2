@@ -1,7 +1,7 @@
 #include <iostream>
 #include "jpcre2.h"
 
-
+///This example requires C++11, see pcre2match.cpp for a non c++11 example.
 
 
 int main(){
@@ -10,7 +10,7 @@ int main(){
     jpcre2::VecNas vec_nas0;   ///Vector to store named substring Map.
     jpcre2::VecNtN vec_nn0;    ///Vector to store Named substring to Number Map.
     
-    jpcre2::Pcre2Regex re;
+    jpcre2::Regex re;
     ///                       ^this is the pattern                             ^this is the modifier
     ///We can also use re.setPattern() and re.setModifier() to set pattern and modifier.
     
