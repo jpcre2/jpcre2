@@ -52,6 +52,8 @@ An example command for GCC would be:
 g++  mycpp.cpp -ljpcre2 -lpcre2-8
 ```
 
+If you are in Windows, build a library from `jpcre2.h` and `jpcre2.cpp` with your favourite IDE or use it as it is.
+
 ##How to code:
 
 <ol>
