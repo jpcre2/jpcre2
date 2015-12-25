@@ -12,19 +12,14 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 If the required `pcre2` version is not available in the official channel, download <a href="https://github.com/jpcre2">my fork of the library from here</a>, Or use <a href="https://github.com/jpcre2/pcre2">this repository</a> which will always be kept compatible with `jpcre2`.
 
 <div id="how-to"></div>
-#How To:
+#Install/Include:
 
-##How to compile:
+It can be installed as a separate library or can be used directly in a project by including the appropriate sources:
 
-###Without installing it as a library:
+1. **jpcre2.h**
+2. **jpcre2.cpp**
 
-1. Include `jpcre2.h` and `jpcre2.cpp` in your project and `#include` the header in your code.
-
-2. Compile with `pcre2` library linked.
-
-**Example:**
-
-A *mycpp.cpp* file can be compiled with the following command with GCC.
+An example compile/build command with GCC would be:
 
 ```sh
 g++ mycpp.cpp jpcre2.cpp jpcre2.h -lpcre2-8
@@ -32,19 +27,26 @@ g++ mycpp.cpp jpcre2.cpp jpcre2.h -lpcre2-8
 
 `-lpcre2-8` should be changed to the actual library i.e for 16 bit code unit: `-lpcre2-16` and for 32 bit code unit: `-lpcre2-32`.
 
-If your `pcre2` library is not in the standard library path, then add the path:
+If your PCRE2 library is not in the standard library path, then add the path:
 
 ```sh
 g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 ```
 
-**Note that** it requires the `pcre2` library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
+**Note that** it requires the PCRE2 library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
 
-###Installing jpcre2 as a library:
+**Installing jpcre2 as a library:**
 
-1. Install it with `./configure`, `make`, `sudo make install`.
-2. `#include <jpcre2.h>` in your code.
-3. Build/compile by linking with jpcre2 library.
+To install it in a Unix based system, run:
+```sh
+./configure
+make
+sudo make install
+```
+Now to use it:
+
+1. `#include <jpcre2.h>` in your code.
+2. Build/compile by linking with jpcre2 and PCRE2 library.
 
 An example command for GCC would be:
 
@@ -52,7 +54,7 @@ An example command for GCC would be:
 g++  mycpp.cpp -ljpcre2 -lpcre2-8 #sequence is important
 ```
 
-If you are in Windows, build a library from `jpcre2.h` and `jpcre2.cpp` with your favourite IDE or use it as it is.
+If you are in a non-Unix system (e.g Windows), build a library from the jpcre2 sources with your favourite IDE or use it as it is.
 
 **Note:**
 
@@ -67,7 +69,7 @@ The definition of <i>PCRE2_CODE_UNIT_WIDTH</i> is needed by the original <em>pcr
 </li>
 </ol>
 
-##How to code:
+#How to code:
 
 <ol>
 <li>
@@ -79,7 +81,7 @@ Each object for each regex pattern.
 Compile the pattern and catch any error exception:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
 try{
-    re.compile("pattern","mgi");          //This compiles the pattern and modifier provided.
+    re.compile("pattern","mi");          //This compiles the pattern and modifier provided.
     
     //Another way is to use constructor to initialize and compile at the same time:
     jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod. Try to use it always.
@@ -147,8 +149,8 @@ And access the substrings by looping through the vectors and associated maps. Th
 Perform replace and catch any error exception:
 <pre class="highlight prettyprint"><code class="highlight-source-c++ cpp">
 try{
-    std::cout&lt;&lt;re.replace("replace this string according to the pattern","with this string","mgi")&lt;&lt;std::endl;
-    //mgi is the modifier passed (multiline, global, case insensitive).
+    std::cout&lt;&lt;re.replace("replace this string according to the pattern","with this string","gE")&lt;&lt;std::endl;
+    //gE is the modifier passed (global and unknown-unset-empty).
     //Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
     // or ${name} (for named substrings) in the replacement part
 }
@@ -168,16 +170,18 @@ If you pass the size of the resultant string with the replace function, then mak
 
 #Insight:
 
-##Namespaces:
+Let's take a quick look what's inside and how things are working here:
+
+###Namespaces:
 
 1. **jpcre2_utils :** Some utility functions used by `jpcre2`.
 2. **jpcre2 :** This is the namespace you will be using in your code to access `jpcre2` classes and functions.
 
-##Classes:
+###Classes:
 
 1. **Regex :** This is the main class which holds the key utilities of `jpcre2`. Every regex needs an object of this class.
 
-##Functions:
+###Functions:
 
 ```cpp
 std::string getModifier(){return modifier;}
@@ -234,9 +238,9 @@ PCRE2_SIZE getErrorOffset(){return error_offset;}
 ```
 
 <div id="modifiers"></div>
-##Modifiers:
+###Modifiers:
 
-jpcre2 uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. Two types of modifiers are available: **compile modifiers** and **action modifiers**.
+jpcre2 uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. Two types of modifiers are available: **compile modifiers** and **action modifiers**:
 
 <div id="compile-modifiers"></div>
 
@@ -268,8 +272,8 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
   * **x** : Extended replacement operation. It enables some Bash like features:
     1. `${<n>:-<string>}`
     2. `${<n>:+<string1>:<string2>}`
-    
-  As before, `<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
+
+  `<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
 
 
 #Testing:
