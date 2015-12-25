@@ -241,9 +241,9 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
 <div id="compile-modifiers"></div>
 
 1. **Compile modifiers:** Modifiers that are used to compile a regex. They define the behavior of a regex pattern. The modifiers have more or less the same meaning as the [PHP regex modifiers](http://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and X` (marked with <sup>*</sup>). The available compile modifiers are:
-  * **e**<sup>*</sup> : It is equivalent to *PCRE2_MATCH_UNSET_BACKREF* option of PCRE2 library. As the name suggests, it matches unset back-references in the pattern.
+  * **e**<sup>\*</sup> : It is equivalent to *PCRE2_MATCH_UNSET_BACKREF* option of PCRE2 library. As the name suggests, it matches unset back-references in the pattern.
   * **i** : Case-insensitive. Equivalent to *PCRE2_CASELESS* option.
-  * **j**<sup>*</sup> : `\u \U \x` will act as javascript standard.
+  * **j**<sup>\*</sup> : `\u \U \x` will act as javascript standard.
     * `\U` matches an upper case "U" character (by default it causes a compile time error if this option is not set).
     * `\u` matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).
     * `\x` matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after `\x`, but it may have zero, one, or two digits (so, for example, `\xz` matches a binary zero character followed by z) ).
@@ -254,7 +254,7 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
   * **A** : Match only at the first position. It is equivalent to *PCRE2_ANCHORED* option.
   * **D** : A dollar meta-character in the pattern matches only at the end of the subject string. Without this modifier, a dollar also matches immediately before the final character if it is a newline (but not before any other newlines). This modifier is ignored if *m* modifier is set. Equivalent to *PCRE2_DOLLAR_ENDONLY* option.
   * **J** : Allow duplicate names for subpatterns. Equivalent to *PCRE2_DUPNAMES* option.
-  * **X**<sup>*</sup> : It provides some extra functionality. For example, if it is set with the *u* modifier, it will enable Unicode support along with UTF support i.e even `\w \d` will work as Unicode. For example: `\w` will match ‍`অ`(It's the first letter of Bengali word). This modifier itself has no meaning. It only provides enhancement for other modifiers.
+  * **X**<sup>\*</sup> : It provides some extra functionality. For example, if it is set with the *u* modifier, it will enable Unicode support along with UTF support i.e even `\w \d` will work as Unicode. For example: `\w` will match ‍`অ`(It's the first letter of Bengali word). This modifier itself has no meaning. It only provides enhancement for other modifiers.
   * **S** : When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching/replacing. It may also be beneficial for a very long subject string or pattern. Equivalent to an extra compilation with JIT_COMPILER with the option *PCRE2_JIT_COMPLETE*.
   * **U** : This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by `?`. Equivalent to *PCRE2_UNGREEDY* option.
 
