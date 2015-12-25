@@ -26,11 +26,13 @@
     
     void jpcre2::Regex::parseReplacementOpts(const std::string& mod,uint32_t opt_bits){
         action_opts=0;
+        match_opts=0;
         action_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
         
         ///parse pcre options
         for(int i=0;i<(int)mod.length();i++){
             switch (mod[i]){
+                case 'A': match_opts   |= PCRE2_ANCHORED;break;
                 case 'e': action_opts  |= PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
                 case 'E': action_opts  |= PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
                 case 'g': action_opts  |= PCRE2_SUBSTITUTE_GLOBAL;break;
@@ -48,22 +50,23 @@
         jit_opts=0;
         opt_jit_compile=false;
         
-        ///default options
-        compile_opts |=  PCRE2_ALT_BSUX;              //\u \U \x will act as javascript standard
+        ///default options          
         
         ///parse pcre options
         for(int i=0;i<(int)mod.length();i++){
             switch (mod[i]){
                 case 'e': compile_opts |= PCRE2_MATCH_UNSET_BACKREF;break;
                 case 'i': compile_opts |= PCRE2_CASELESS;break;
+                case 'j': compile_opts |= PCRE2_ALT_BSUX;break;     ///\u \U \x will act as javascript standard
                 case 'm': compile_opts |= PCRE2_MULTILINE;break;
                 case 's': compile_opts |= PCRE2_DOTALL;break;
-                case 'u': compile_opts |= PCRE2_UTF;compile_opts |= PCRE2_UCP;break;
+                case 'u': compile_opts |= PCRE2_UTF;break;
                 case 'x': compile_opts |= PCRE2_EXTENDED;break;
-                case 'A': compile_opts |= PCRE2_ANCHORED;action_opts |= PCRE2_ANCHORED;break;
+                case 'A': compile_opts |= PCRE2_ANCHORED;break;
                 case 'D': compile_opts |= PCRE2_DOLLAR_ENDONLY;break;
                 case 'J': compile_opts |= PCRE2_DUPNAMES;break;
                 case 'S': opt_jit_compile=true;jit_opts |= PCRE2_JIT_COMPLETE;break; ///Optimization opt
+                case 'X': compile_opts |= PCRE2_UCP;break;
                 case 'U': compile_opts |= PCRE2_UNGREEDY;break;
                 default : if((opt_bits & JPCRE2_VALIDATE_MODIFIER)!=0)
                           {error_code=jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;

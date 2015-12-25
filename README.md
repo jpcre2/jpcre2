@@ -6,8 +6,8 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 <div id="requires"></div>
 #Requirements:
 
-1. C++ compiler with C++11 support (optional but recommended).
-2. pcre2 library (`version >=10.21`).
+1. pcre2 library (`version >=10.21`).
+2. C++ compiler with C++11 support (optional but recommended).
 
 If the required `pcre2` version is not available in the official channel, download <a href="https://github.com/jpcre2">my fork of the library from here</a>, Or use <a href="https://github.com/jpcre2/pcre2">this repository</a> which will always be kept compatible with `jpcre2`.
 
@@ -40,7 +40,7 @@ g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 
 **Note that** it requires the `pcre2` library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
 
-###By installing jpcre2 as a library:
+###Installing jpcre2 as a library:
 
 1. Install it with `./configure`, `make`, `sudo make install`.
 2. `#include <jpcre2.h>` in your code.
@@ -49,10 +49,23 @@ g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
 An example command for GCC would be:
 
 ```sh
-g++  mycpp.cpp -ljpcre2 -lpcre2-8
+g++  mycpp.cpp -ljpcre2 -lpcre2-8 #sequence is important
 ```
 
 If you are in Windows, build a library from `jpcre2.h` and `jpcre2.cpp` with your favourite IDE or use it as it is.
+
+**Note:**
+
+<ol>
+<li>
+<i>jpcre2</i> is independent of PCRE2_CODE_UNIT_WIDTH i.e it can work with any PCRE2_CODE_UNIT_WIDTH as long as they are accepted by the original pcre2 library. If you are using a <i>pcre2</i> library with <code>PCRE2_CODE_UNIT_WIDTH != 8</code> then you will need to define it before you include <i>jpcre2.h</i> in your code. Ex:
+<pre><code>#define PCRE2_CODE_UNIT_WIDTH 16
+#include <jpcre2.h></code></pre>
+</li>
+<li>
+The definition of <i>PCRE2_CODE_UNIT_WIDTH</i> is needed by the original <em>pcre2</em> library. <i>jpcre2</i> defines it to <code>8</code> if it isn't defined already.
+</li>
+</ol>
 
 ##How to code:
 
@@ -219,6 +232,43 @@ int getErrorNumber(){return error_number;}
 int getErrorCode(){return error_code;}
 PCRE2_SIZE getErrorOffset(){return error_offset;}
 ```
+
+<div id="modifiers"></div>
+##Modifiers:
+
+jpcre2 uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. Two types of modifiers are available: **compile modifiers** and **action modifiers**.
+
+<div id="compile-modifiers"></div>
+
+1. **Compile modifiers:** Modifiers that are used to compile a regex. They define the behavior of a regex pattern. The modifiers have more or less the same meaning as the [PHP regex modifiers](http://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and X`. The available compile modifiers are:
+  * **e** : It is equivalent to *PCRE2_MATCH_UNSET_BACKREF* option of PCRE2 library. As the name suggests, it matches unset back-references in the pattern.
+  * **i** : Case-insensitive. Equivalent to *PCRE2_CASELESS* option.
+  * **j** : `\u \U \x` will act as javascript standard.
+   1. `\U` matches an upper case "U" character (by default it causes a compile time error if this option is not set).
+   2. `\u` matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).
+   3. `\x` matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after `\x`, but it may have zero, one, or two digits (so, for example, `\xz` matches a binary zero character followed by z) ).
+  * **m** : Multi-line regex. Equivalent to *PCRE2_MULTILINE* option.
+  * **s** : If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to *PCRE2_DOTALL* option.
+  * **u** : Enable UTF support.Treat pattern and subjects as UTF strings. It is equivalent to *PCRE2_UTF* option.
+  * **x** : Whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, enables commentary in pattern. Equivalent to *PCRE2_EXTENDED* option.
+  * **A** : Match only at the first position. It is equivalent to *PCRE2_ANCHORED* option.
+  * **D** : A dollar meta-character in the pattern matches only at the end of the subject string. Without this modifier, a dollar also matches immediately before the final character if it is a newline (but not before any other newlines). This modifier is ignored if *m* modifier is set. Equivalent to *PCRE2_DOLLAR_ENDONLY* option.
+  * **J** : Allow duplicate names for subpatterns. Equivalent to *PCRE2_DUPNAMES* option.
+  * **X** : It provides some extra functionality. For example, if it is set with the *u* modifier, it will enable Unicode support along with UTF support i.e even `\w \d` will work as Unicode. For example: `\w` will match ‍`অ`(It's the first letter of Bengali word). This modifier itself has no meaning. It only provides enhancement for other modifiers.
+  * **S** : When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching/replacing. It may also be beneficial for a very long subject string or pattern. Equivalent to an extra compilation with JIT_COMPILER with the option *PCRE2_JIT_COMPLETE*.
+  * **U** : This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by `?`. Equivalent to *PCRE2_UNGREEDY* option.
+
+<div id="action-modifiers"></div>
+
+2. **Action modifiers:** Modifiers that are used per action i.e match or replace. These modifiers are not compiled in the regex itself, rather it is used per call of each function. Available action modifiers are:
+  * **A** : Match at start. Equivalent to *PCRE2_ANCHORED*. Can be used in `match()` function.
+  * **e** : Replaces unset group with empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY*. Can be used in `replace()` function.
+  * **E** : Extension of *e* modifier. Sets even unknown groups to empty string. Equivalent to `PCRE2_SUBSTITUTE_UNSET_EMPTY | PCRE2_SUBSTITUTE_UNKNOWN_UNSET`.
+  * **g** : Global replacement. Can be used with `replace()` function.
+  * **x** : Extended replacement operation. It enables some Bash like features:
+   1. `${<n>:-<string>}`
+   2. `${<n>:+<string1>:<string2>}`
+  As before, `<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
 
 
 #Testing:

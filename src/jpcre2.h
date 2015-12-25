@@ -96,7 +96,7 @@ namespace jpcre2{
         pcre2_code *code;
         int error_number;
         PCRE2_SIZE error_offset;
-        uint32_t compile_opts,action_opts,jit_opts,jpcre2_compile_opts,jpcre2_action_opts;
+        uint32_t compile_opts,action_opts,jit_opts,jpcre2_compile_opts,jpcre2_action_opts,match_opts;
         int error_code,jpcre2_error_offset;
         std::string mylocale;
         
