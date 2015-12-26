@@ -97,15 +97,16 @@ Now you can perform match or replace against the pattern. Use the <code>match()<
 </li>
   <ol>
 <li>
-<b>Match:</b> The <code>match()</code> member function takes the subject string and some specialized vectors (vectors of maps of substrings) as its arguments and a last argument to tell whether to match all or only the first. It puts the results in the maps of the vectors and returns true on successful match and false otherwise.
+<b>Match:</b> The <code>match()</code> member function takes the subject string and some specialized vectors (vectors of maps of substrings) as its arguments and a last set of argument to tell whether to match all or only the first and to define some other criteria (see <a href="#match-function">match function</a> for more details). It puts the results in the maps of the vectors and returns the number of matches (0 if there is no match).
 </li>
     <ul>
 <li>
 Perform match and catch any error exception:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
 try{
-    re.match("I am a subject string",vec_num);
+    int count=re.match("I am a subject string",vec_num);
     //vec_num will be populated with numbered substrings.
+    //count is the total number of matches found
 }
 catch(int e){
     /*Handle error*/
@@ -142,7 +143,7 @@ And access the substrings by looping through the vectors and associated maps. Th
 </li>
     </ul>
 <li>
-<b>Replace:</b> The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and two optional arguments (modifier and the size of the resultant string) and returns the resultant string after performing the replacement operation. If no modifier is passed an empty modifier is assumed.
+<b>Replace:</b> The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and other optional arguments (modifier and the size of the resultant string etc... see <a href="#replace-function">replace function</a> for more details) and returns the resultant string after performing the replacement operation. If no modifier is passed an empty modifier is assumed.
 </li>
     <ul>
 <li>
@@ -187,46 +188,10 @@ Let's take a quick look what's inside and how things are working here:
 std::string getModifier(){return modifier;}
 std::string getPattern(){return pat_str;}
 std::string getLocale(){return mylocale;}               ///Gets LC_CTYPE
-uint32_t getCompileOpts(){return jpcre2_compile_opts;}
-uint32_t getActionOpts(){return jpcre2_action_opts;}
+uint32_t getCompileOpts(){return compile_opts;}         ///returns the compile opts used for compilation
+uint32_t getReplacementOpts(){return replace_opts;}     ///returns the currently used replacement opts
+uint32_t getMatchOpts(){return match_opts;}             ///returns the currently used match opts
 
-///Compiles the regex.
-///If any argument is not passed, it will be left empty
-void compile(const std::string& re,const std::string& mod,const std::string& loc,uint32_t opt_bits);
-void compile(const std::string& re,const std::string& mod,const std::string& loc){compile(re,mod,loc,0);}
-void compile(const std::string& re,const std::string& mod,uint32_t opt_bits=0){compile(re,mod,DEFAULT_LOCALE,opt_bits);}
-void compile(const std::string& re,uint32_t opt_bits=0){compile(re,"",DEFAULT_LOCALE,opt_bits);}
-
-///returns a replaced string after performing regex replace
-///If modifier is not passed it will be defaulted to empty string
-std::string replace( std::string mains, std::string repl,const std::string& mod="",PCRE2_SIZE out_size=REGEX_STRING_MAX,uint32_t opt_bits=0);
-
-///returns true for successful match, stores the match results in the specified vectors
-bool match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false);
-
-///Other variants of match function
-///3-vector variants
-bool match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false);
-bool match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false);
-bool match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false);
-bool match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,bool find_all=false);
-bool match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,bool find_all=false);
-
-///2-vector variants
-bool match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,bool find_all=false);
-bool match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,bool find_all=false);
-bool match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false);
-bool match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false);
-bool match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false);
-bool match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false);
-
-///1-vector variants
-bool match(const std::string& subject,VecNum& vec_num,bool find_all=false);
-bool match(const std::string& subject,VecNas& vec_nas,bool find_all=false);
-bool match(const std::string& subject,VecNtN& vec_nn,bool find_all=false);
-
-///0-vector variants //useful for true-false check
-bool match(const std::string& subject);  ///find_all=true is not meaningful
 
 ///Error handling
 std::string getErrorMessage(int err_num);
@@ -235,6 +200,65 @@ std::string getWarningMessage(){return current_warning_msg;}
 int getErrorNumber(){return error_number;}
 int getErrorCode(){return error_code;}
 PCRE2_SIZE getErrorOffset(){return error_offset;}
+
+
+///Compiles the regex.
+///If any argument is not passed, it will be left empty
+void compile(const std::string& re,const std::string& mod,const std::string& loc,options opt_bits, uint32_t pcre2_opts=0);
+void compile(const std::string& re,const std::string& mod,const std::string& loc, uint32_t pcre2_opts=0)
+            {compile(re,mod,loc,DEFAULT_OPTIONS);}
+void compile(const std::string& re,const std::string& mod,options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0)
+            {compile(re,mod,DEFAULT_LOCALE,opt_bits);}
+void compile(const std::string& re,options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0)
+            {compile(re,"",DEFAULT_LOCALE,opt_bits);}
+
+///returns a replaced string after performing regex replace
+///If modifier is not passed it will be defaulted to empty string
+std::string replace( std::string mains, std::string repl,const std::string& mod="",
+                    PCRE2_SIZE out_size=REGEX_STRING_MAX,options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+
+///returns the number of matches, stores the match results in the specified vectors
+Uint match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+
+///Other variants of match function
+///3-vector variants
+Uint match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+
+///2-vector variants
+Uint match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+
+///1-vector variants
+Uint match(const std::string& subject,VecNum& vec_num,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNas& vec_nas,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+Uint match(const std::string& subject,VecNtN& vec_nn,bool find_all=false,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+
+///0-vector variants //useful for just to get the match count
+Uint match(const std::string& subject,
+            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
 ```
 
 <div id="modifiers"></div>
@@ -265,7 +289,7 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
 <div id="action-modifiers"></div>
 
 2. **Action modifiers:** Modifiers that are used per action i.e match or replace. These modifiers are not compiled in the regex itself, rather it is used per call of each function. Available action modifiers are:
-  * **A** : Match at start. Equivalent to *PCRE2_ANCHORED*. Can be used in `match()` function.
+  * **A** : Match at start. Equivalent to *PCRE2_ANCHORED*. Can be used in `match()` function. Setting this option only at match time (i.e regex was not compiled with this option) will disable optimization during match time.
   * **e** : Replaces unset group with empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY*. Can be used in `replace()` function.
   * **E** : Extension of *e* modifier. Sets even unknown groups to empty string. Equivalent to `PCRE2_SUBSTITUTE_UNSET_EMPTY | PCRE2_SUBSTITUTE_UNKNOWN_UNSET`.
   * **g** : Global replacement. Can be used with `replace()` function.

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "jpcre2.h"
+#include "jpcre2.cpp"
 
 #define getLine(a) std::getline(std::cin,a,'\n');
 
@@ -20,7 +20,7 @@ int main(){
     std::cout<<"Enter pattern: ";
     getLine(pat);
     cp:
-    std::cout<<"Enter modifiers (eimsuxADJSU): ";
+    std::cout<<"Enter compile modifiers (eijmsuxADJSXU): ";
     getLine(mod);
     
     ///Compile pattern
@@ -31,9 +31,12 @@ int main(){
     ///subject string
     std::cout<<"\nEnter subject string (enter quit to quit): "<<std::endl;
     getLine(subject);
+    std::string ac_mod;
+    std::cout<<"\nEnter action (matching) modifier (A): "<<std::endl;
+    getLine(ac_mod);
     if(subject=="quit")return 0;
-    bool matched=false;
-    try{matched=re.match(subject,vec_num0,vec_nas0,vec_nn0,true);}          ///true makes it to find all matches
+    int matched=0;
+    try{matched=re.match(subject,vec_num0,vec_nas0,vec_nn0,true,ac_mod,jpcre2::VALIDATE_MODIFIER);}          ///true makes it to find all matches
     catch(int e){std::cout<<re.getErrorMessage(e);}   
 
     ///Now let's access the matched data
@@ -41,6 +44,7 @@ int main(){
     ///Each of these vectors contains a map
     ///and each of the maps contains all the substrings that are matched against the pattern.
     ///All the matches in all the maps combines the total match throughout the entire string.
+    std::cout<<"\nTotal number of matches: "<<matched<<std::endl;
     if(matched){
         for(int i=0;i<(int)vec_num0.size();i++){
             

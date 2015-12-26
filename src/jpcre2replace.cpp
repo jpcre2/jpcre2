@@ -1,5 +1,5 @@
 #include <iostream>
-#include "jpcre2.h"
+#include "jpcre2.cpp"
 
 #define getLine(a) std::getline(std::cin,a,'\n');
 
@@ -10,7 +10,7 @@ int main(){
     std::cout<<"\nEnter pattern: "<<std::endl;
     getLine(pat);
     
-    std::cout<<"\nEnter modifiers (eimsuxADJSU): "<<std::endl;
+    std::cout<<"\nEnter compile modifiers (eijmsuxADJSXU): "<<std::endl;
     getLine(mod);
     jpcre2::Regex re;
     
@@ -28,7 +28,7 @@ int main(){
     std::cout<<"\nEnter replacement string: "<<std::endl;
     getLine(repl);
     
-    std::cout<<"\nEnter replacement modifiers: "<<std::endl;
+    std::cout<<"\nEnter action (replacement) modifiers (eEgx): "<<std::endl;
     getLine(repl_mod);
     
     //perform replace

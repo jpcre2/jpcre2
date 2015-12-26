@@ -1,5 +1,5 @@
 
-#include "jpcre2.h"
+#include "/home/jahid/Git/github/jpcre2/jpcre2/src/jpcre2.h"
 
     template<typename T>
     std::string jpcre2_utils::toString(T a){
@@ -23,28 +23,41 @@
         }
     }
     
-    
-    void jpcre2::Regex::parseReplacementOpts(const std::string& mod,uint32_t opt_bits){
-        action_opts=0;
+        
+    void jpcre2::Regex::parseMatchOpts(const std::string& mod,jpcre2::options opt_bits){
         match_opts=0;
-        action_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
         
         ///parse pcre options
         for(int i=0;i<(int)mod.length();i++){
             switch (mod[i]){
                 case 'A': match_opts   |= PCRE2_ANCHORED;break;
-                case 'e': action_opts  |= PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
-                case 'E': action_opts  |= PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
-                case 'g': action_opts  |= PCRE2_SUBSTITUTE_GLOBAL;break;
-                case 'x': action_opts  |= PCRE2_SUBSTITUTE_EXTENDED;break;
-                default : if((opt_bits & JPCRE2_VALIDATE_MODIFIER)!=0)
+                default : if((opt_bits & VALIDATE_MODIFIER)!=0)
+                          {error_code=jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;
+            }
+        }
+    }
+    
+    void jpcre2::Regex::parseReplacementOpts(const std::string& mod,jpcre2::options opt_bits){
+        replace_opts=0;
+        replace_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; ///This enables returning the required length of string
+        ///in case substitute fails due to insufficient memory. It is required to try again with the correct amount of
+        ///memory allocation.
+        
+        ///parse pcre options
+        for(int i=0;i<(int)mod.length();i++){
+            switch (mod[i]){
+                case 'e': replace_opts  |= PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
+                case 'E': replace_opts  |= PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
+                case 'g': replace_opts  |= PCRE2_SUBSTITUTE_GLOBAL;break;
+                case 'x': replace_opts  |= PCRE2_SUBSTITUTE_EXTENDED;break;
+                default : if((opt_bits & VALIDATE_MODIFIER)!=0)
                           {error_code=jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;
             }
         }
     }
     
     
-    void jpcre2::Regex::parseCompileOpts(const std::string& mod,uint32_t opt_bits){
+    void jpcre2::Regex::parseCompileOpts(const std::string& mod,jpcre2::options opt_bits){
 
         compile_opts=0;
         jit_opts=0;
@@ -65,27 +78,29 @@
                 case 'A': compile_opts |= PCRE2_ANCHORED;break;
                 case 'D': compile_opts |= PCRE2_DOLLAR_ENDONLY;break;
                 case 'J': compile_opts |= PCRE2_DUPNAMES;break;
-                case 'S': opt_jit_compile=true;jit_opts |= PCRE2_JIT_COMPLETE;break; ///Optimization opt
-                case 'X': compile_opts |= PCRE2_UCP;break;
+                case 'S': opt_jit_compile=true;jit_opts |= PCRE2_JIT_COMPLETE;break;    ///Optimization opt
+                case 'X': compile_opts |= PCRE2_UCP;break;                              ///This is an enhancement opt
                 case 'U': compile_opts |= PCRE2_UNGREEDY;break;
-                default : if((opt_bits & JPCRE2_VALIDATE_MODIFIER)!=0)
+                default : if((opt_bits & VALIDATE_MODIFIER)!=0)
                           {error_code=jpcre2_error_offset=(int)mod[i];throw(JPCRE2_ERROR_INVALID_MODIFIER);}break;
             }
         }
     }
     
     
-    void jpcre2::Regex :: compile(const std::string& re,const std::string& mod, const std::string& loc,uint32_t opt_bits){
+    void jpcre2::Regex :: compile(const std::string& re,const std::string& mod, const std::string& loc,
+                                    jpcre2::options opt_bits, uint32_t pcre2_opts){
         pattern=(PCRE2_SPTR)re.c_str();
         
         ///populate some class vars
         pat_str=re;
         modifier=mod;
         mylocale=loc;
-        jpcre2_compile_opts=opt_bits;
         
-        ///populate class compile_opts actions opts etc...
+        ///populate compile_opts...
         parseCompileOpts(mod,opt_bits);
+        ///Now add other PCRE2 options to the compile_opts
+        compile_opts |= pcre2_opts;
     
     /*************************************************************************
     * Now we are going to compile the regular expression pattern, and handle *
@@ -133,12 +148,14 @@
     }
     
     
-    std::string jpcre2::Regex :: replace( std::string mains, std::string repl,const std::string& mod,PCRE2_SIZE out_size,uint32_t opt_bits){
+    std::string jpcre2::Regex :: replace( std::string mains, std::string repl,const std::string& mod,PCRE2_SIZE out_size,jpcre2::options opt_bits, uint32_t pcre2_opts){
         
         ///populate some class vars
-        jpcre2_action_opts=opt_bits;
         
         parseReplacementOpts(mod,opt_bits);
+        ///Now add PCRE2 options to replace_opts
+        replace_opts |= pcre2_opts;
+        
         PCRE2_SPTR subject = (PCRE2_SPTR)mains.c_str();
         PCRE2_SIZE subject_length = strlen((char *)subject);
         PCRE2_SPTR replace = (PCRE2_SPTR)repl.c_str();
@@ -152,7 +169,7 @@
             subject,                           /*Points to the subject string*/
             subject_length,                    /*Length of the subject string*/
             0,                                 /*Offset in the subject at which to start matching*/
-            action_opts,                       /*Option bits*/
+            replace_opts,                      /*Option bits*/
             0,                                 /*Points to a match data block, or is NULL*/
             0,                                 /*Points to a match context, or is NULL*/
             replace,                           /*Points to the replacement string*/
@@ -167,13 +184,13 @@
             /// Second retry in case output buffer was not big enough
             outlengthptr++;  /// It was changed to required length
             output_buffer=(PCRE2_UCHAR*)realloc(output_buffer,outlengthptr * sizeof(PCRE2_UCHAR));
-            if((action_opts & PCRE2_SUBSTITUTE_OVERFLOW_LENGTH) !=0 && ret == (int)PCRE2_ERROR_NOMEMORY){
+            if((replace_opts & PCRE2_SUBSTITUTE_OVERFLOW_LENGTH) !=0 && ret == (int)PCRE2_ERROR_NOMEMORY){
                 ret=pcre2_substitute(
                 code,                              /*Points to the compiled pattern*/
                 subject,                           /*Points to the subject string*/
                 subject_length,                    /*Length of the subject string*/
                 0,                                 /*Offset in the subject at which to start matching*/
-                action_opts,                       /*Option bits*/
+                replace_opts,                      /*Option bits*/
                 0,                                 /*Points to a match data block, or is NULL*/
                 0,                                 /*Points to a match context, or is NULL*/
                 replace,                           /*Points to the replacement string*/
@@ -195,12 +212,17 @@
     }
     
     
-    bool jpcre2::Regex::match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all){
+    jpcre2::Uint jpcre2::Regex::match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         
         //Clear all verctors
         vec_num.clear();
         vec_nas.clear();
         vec_nn.clear();
+        
+        ///parse modifiers and get match_opts
+        parseMatchOpts(mod,opt_bits);
+        ///match_opts is now available for use add PCRE2 opts to it.
+        match_opts |= pcre2_opts;
         
         PCRE2_SPTR subject=(PCRE2_SPTR)s.c_str();
         MapNum num_map0;
@@ -231,7 +253,7 @@
             subject,              /* the subject string */
             subject_length,       /* the length of the subject */
             0,                    /* start at offset 0 in the subject */
-            0,                    /* default options */
+            match_opts,           /* default options */
             match_data,           /* block for storing the result */
             NULL);                /* use default match context */
     
@@ -274,22 +296,23 @@
       
         }
     
-    
+        ///get the numbered substrings for this match
         for (int i = 0; i < rc; i++){
             std::string value;
-            PCRE2_SPTR substring_start = subject + ovector[2*i];
-            size_t substring_length = ovector[2*i+1] - ovector[2*i];
-            std::string tmps1=jpcre2_utils::toString((char *)substring_start);
-            value=tmps1.substr(0,substring_length);
-            ///It's better to not use pcre2_substring_get_bynumber() unless required,
-            ///otherwise we will have to deal with returned error codes and memor
-            //~ PCRE2_UCHAR **bufferptr;
-            //~ PCRE2_SIZE bufflen=REGEX_STRING_MAX;
-            //~ bufferptr=(PCRE2_UCHAR**)malloc(bufflen * sizeof(PCRE2_UCHAR));
-            //~ pcre2_substring_get_bynumber(match_data, (uint32_t)i, bufferptr, &bufflen);
-            //~ value=jpcre2_utils::toString((char*)*bufferptr);
-            //~ ///free(bufferptr);                   ///must free memory
-            //~ pcre2_substring_free(*bufferptr);          ///must free memory
+            //~ PCRE2_SPTR substring_start = subject + ovector[2*i];
+            //~ size_t substring_length = ovector[2*i+1] - ovector[2*i];
+            //~ std::string tmps1=jpcre2_utils::toString((char *)substring_start);
+            //~ value=tmps1.substr(0,substring_length);
+            ///If we use pcre2_substring_get_bynumber()
+            ///we will have to deal with returned error codes and memory
+            PCRE2_UCHAR **bufferptr;
+            PCRE2_SIZE bufflen/*=REGEX_STRING_MAX*/;
+            pcre2_substring_length_bynumber(match_data, (uint32_t)i, &bufflen);         ///get the substring length
+            bufferptr=(PCRE2_UCHAR**)malloc((bufflen+1) * sizeof(PCRE2_UCHAR));         ///prepare a buffer with that length
+            pcre2_substring_get_bynumber(match_data, (uint32_t)i, bufferptr, &bufflen); ///fill the buffer with the substring
+            value=jpcre2_utils::toString((char*)*bufferptr);
+            ///free(bufferptr);                        ///must free memory
+            pcre2_substring_free(*bufferptr);          ///Free the buffer.
             num_map0[i]=value;
         }
         
@@ -399,7 +422,7 @@
         if (!find_all){
             pcre2_match_data_free(match_data);      /* Release the memory that was used */
             //pcre2_code_free(re);                  /// Don't do this. This function has no right to modify regex.
-            return false;                           /* Exit the program. */
+            return vec_num.size();                           /* Exit the program. */
         }
     
         /* Before running the loop, check for UTF-8 and whether CRLF is a valid newline
@@ -420,10 +443,11 @@
         /* Loop for second and subsequent matches */
     
         for (;;){
-            num_map0.clear();                         ///must clear map before filling it with new values
+            ///must clear map before filling it with new values
+            num_map0.clear();                         
             nas_map0.clear();
             nn_map0.clear();
-            uint32_t options = 0;                       /* Normally no options */
+            uint32_t options = match_opts;              /*  options */
             PCRE2_SIZE start_offset = ovector[1];       /* Start at end of previous match */
             
             /* If the previous match was for an empty string, we are finished if we are
@@ -432,7 +456,7 @@
             
             if (ovector[0] == ovector[1]){
                 if (ovector[0] == subject_length) break;
-                options = PCRE2_NOTEMPTY_ATSTART | PCRE2_ANCHORED;
+                options |= PCRE2_NOTEMPTY_ATSTART | PCRE2_ANCHORED;
                 }
             
               /* Run the next matching operation */
@@ -481,7 +505,7 @@
             if (rc < 0){
                 pcre2_match_data_free(match_data);
                 //pcre2_code_free(code);           //must not do this. This function has no right to modify regex.
-                return false;
+                return vec_num.size();   ///We got at least one match so of course it's true.
             }
             
             
@@ -489,7 +513,7 @@
             if (rc == 0){
                 /* The match succeeded, but the output vector wasn't big enough. This
                 should not happen. */
-                return false;
+                return vec_num.size();   ///We got at least one match so of course it's true.
             }
             
             /* As before, get substrings stored in the output vector by number, and then
@@ -553,76 +577,92 @@
     
         pcre2_match_data_free(match_data);
         /// Must not free pcre2_code* code. This function has no right to modify regex.
-        return true;
+        return vec_num.size();  ///We got at least one match so of course it's true.
     }
     
     
     ///Other variants of match function
     ///3-vector variants
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,bool find_all){
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,bool find_all){
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,bool find_all){
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,bool find_all){
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,bool find_all){
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
     
     ///2-vector variants
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,bool find_all){
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNtN vec_nn;
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,bool find_all){
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNtN vec_nn;
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,bool find_all){
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNas vec_nas;
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,bool find_all){
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNas vec_nas;
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,bool find_all){
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNum vec_num;
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_all){
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNum vec_num;
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
     
     ///1-vector variants
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,bool find_all){
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNum& vec_num,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNas vec_nas;
         VecNtN vec_nn;
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,bool find_all){
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNas& vec_nas,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNtN vec_nn;
         VecNum vec_num;
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
-    inline bool jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,bool find_all){
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,VecNtN& vec_nn,
+                                    bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNas vec_nas;
         VecNum vec_num;
-        return match(subject,vec_num,vec_nas,vec_nn,find_all);
+        return match(subject,vec_num,vec_nas,vec_nn,find_all,mod,opt_bits,pcre2_opts);
     }
     
-    inline bool jpcre2::Regex :: match(const std::string& subject){
+    ///0-vector variants
+    inline jpcre2::Uint jpcre2::Regex :: match(const std::string& subject,
+                                                  const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
         VecNas vec_nas;
         VecNum vec_num;
         VecNtN vec_nn;
-        return match(subject,vec_num,vec_nas,vec_nn,false);
+        return match(subject,vec_num,vec_nas,vec_nn,false,mod,opt_bits,pcre2_opts);
     }
 
 
