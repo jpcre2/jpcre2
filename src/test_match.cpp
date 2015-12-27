@@ -15,15 +15,16 @@ int main(){
     ///We can also use re.setPattern() and re.setModifier() to set pattern and modifier.
     
     ///Compile the pattern
-    try{re.compile("(?:(?<name>\\d+)|(?<name>\\w+))\\s*(?<nam>\\d+d)","Jiu");}                                  ///Always use try catch block to avoid                
+    try{re.compile("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)","JiuX");} ///Always use try catch block to avoid                
     catch(int e){std::cout<<re.getErrorMessage(e);}     ///unexpected termination of program in case of errors
     
     ///subject string
-    std::string s="(I am a digit 67d আ 89d 4323d 3432D)";
-    
-    try{re.match(s,vec_num0,vec_nas0,vec_nn0,true);}          ///true makes it to find all matches
+    std::string s="(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56)";
+    int count=0;
+    try{count=re.match(s,vec_num0,vec_nas0,vec_nn0,true);}          ///true makes it to find all matches
     catch(int e){std::cout<<re.getErrorMessage(e);}   
     
+    std::cout<<"\nTotal number of mathces: "<<count<<std::endl;
     ///Now let's access the matched data
     
     ///Each of these vectors contains a map

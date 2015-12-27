@@ -1,5 +1,5 @@
 
-#include "/home/jahid/Git/github/jpcre2/jpcre2/src/jpcre2.h"
+#include "jpcre2.h"
 
     template<typename T>
     std::string jpcre2_utils::toString(T a){
@@ -20,6 +20,7 @@
             PCRE2_UCHAR buffer[4024];
             pcre2_get_error_message(err_num, buffer, sizeof(buffer));
             return jpcre2_utils::toString((PCRE2_UCHAR*)buffer)+"; error offset: "+jpcre2_utils::toString((int)error_offset);
+            
         }
     }
     
@@ -161,10 +162,12 @@
         PCRE2_SPTR replace = (PCRE2_SPTR)repl.c_str();
         PCRE2_SIZE replace_length = strlen((char *)replace);
         PCRE2_SIZE outlengthptr=(PCRE2_SIZE)out_size;
-        
+        int ret=0,try_count=0;
         PCRE2_UCHAR* output_buffer;
         output_buffer=(PCRE2_UCHAR*)malloc(outlengthptr * sizeof(PCRE2_UCHAR));
-        int ret=pcre2_substitute(
+        
+        loop:
+        ret=pcre2_substitute(
             code,                              /*Points to the compiled pattern*/
             subject,                           /*Points to the subject string*/
             subject_length,                    /*Length of the subject string*/
@@ -177,51 +180,134 @@
             output_buffer,                     /*Points to the output buffer*/
             &outlengthptr                      /*Points to the length of the output buffer*/
         );
-        error_code=ret;
+        error_code=(int)ret;
         error_offset=ret;
         
         if (ret < 0){
-            /// Second retry in case output buffer was not big enough
-            outlengthptr++;  /// It was changed to required length
-            output_buffer=(PCRE2_UCHAR*)realloc(output_buffer,outlengthptr * sizeof(PCRE2_UCHAR));
-            if((replace_opts & PCRE2_SUBSTITUTE_OVERFLOW_LENGTH) !=0 && ret == (int)PCRE2_ERROR_NOMEMORY){
-                ret=pcre2_substitute(
-                code,                              /*Points to the compiled pattern*/
-                subject,                           /*Points to the subject string*/
-                subject_length,                    /*Length of the subject string*/
-                0,                                 /*Offset in the subject at which to start matching*/
-                replace_opts,                      /*Option bits*/
-                0,                                 /*Points to a match data block, or is NULL*/
-                0,                                 /*Points to a match context, or is NULL*/
-                replace,                           /*Points to the replacement string*/
-                replace_length,                    /*Length of the replacement string*/
-                output_buffer,                     /*Points to the output buffer*/
-                &outlengthptr                      /*Points to the length of the output buffer*/
-                );
-                error_offset=(int)ret;
-                error_code=ret;
+            ///Handle errors
+            if((replace_opts & PCRE2_SUBSTITUTE_OVERFLOW_LENGTH) !=0 && ret == (int)PCRE2_ERROR_NOMEMORY && try_count<1){
+                /// Second retry in case output buffer was not big enough
+                outlengthptr++;  /// It was changed to required length
+                output_buffer=(PCRE2_UCHAR*)realloc(output_buffer,outlengthptr * sizeof(PCRE2_UCHAR));
                 
-                if(ret<0){throw(ret);}
-                
+                goto loop;
             }
-            else throw(ret);
+            else {::free(output_buffer);throw(ret);}
         }
         std::string result=jpcre2_utils::toString((char*)output_buffer);
-        free(output_buffer);
+        ::free(output_buffer);
         return result;
     }
     
     
-    jpcre2::Uint jpcre2::Regex::match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all,const std::string& mod,jpcre2::options opt_bits, uint32_t pcre2_opts){
+    void jpcre2::Regex::getNumberedSubstrings(int rc, pcre2_match_data *match_data,jpcre2::MapNum& num_map0){
+        for (int i = 0; i < rc; i++){
+            std::string value;
+            //~ PCRE2_SPTR substring_start = subject + ovector[2*i];
+            //~ size_t substring_length = ovector[2*i+1] - ovector[2*i];
+            //~ std::string tmps1=jpcre2_utils::toString((char *)substring_start);
+            //~ value=tmps1.substr(0,substring_length);
+            ///If we use pcre2_substring_get_bynumber(),
+            ///we will have to deal with returned error codes and memory
+            PCRE2_UCHAR **bufferptr;
+            PCRE2_SIZE bufflen/*=REGEX_STRING_MAX*/;
+            pcre2_substring_length_bynumber(match_data,(uint32_t)i,&bufflen);
+            bufferptr=(PCRE2_UCHAR**)malloc(bufflen * sizeof(PCRE2_UCHAR));
+            int ret=pcre2_substring_get_bynumber(match_data, (uint32_t)i, bufferptr, &bufflen);
+            if(ret<0){
+                switch(ret){
+                    case PCRE2_ERROR_NOMEMORY: throw(ret);break;
+                    default:break;   ///Other errors should be ignored
+                }
+            }
+            value=jpcre2_utils::toString((char*)*bufferptr);
+            ///pcre2_substring_free(*bufferptr); 
+            ///must free memory, pcre2_substring_free() yields to segmentation fault in several cases ( try '(?<name>\d)?' )
+            /// (may be a bug?)
+            ///Instead use free() to free the memory
+            ::free(bufferptr);                  ///must free memory
+            num_map0[i]=value;
+        }
+        
+    }
+    
+    void jpcre2::Regex::getNamedSubstrings(int namecount,int name_entry_size,PCRE2_SPTR tabptr, pcre2_match_data *match_data,
+                                                            jpcre2::MapNas& nas_map0, jpcre2::MapNtN& nn_map0){
+        
+        for (int i = 0; i < namecount; i++){
+            std::string key,value,value1;
+            
+            //~ #if PCRE2_CODE_UNIT_WIDTH == 8
+            int n = (tabptr[0] << 8) | tabptr[1];
+            key=jpcre2_utils::toString((char*)(tabptr+2));
+            //~ #elif PCRE2_CODE_UNIT_WIDTH == 16
+            //~ int n = tabptr[0];
+            //~ key=jpcre2_utils::toString((char*)(tabptr+1));
+            //~ #elif PCRE2_CODE_UNIT_WIDTH == 32
+            //~ int n = tabptr[0];
+            //~ key=jpcre2_utils::toString((char*)(tabptr+1));
+            //~ #else
+            //~ #error PCRE2_CODE_UNIT_WIDTH must be 8 or 16 or 32
+            //~ #endif
+            
+            //~ std::string tmps2=jpcre2_utils::toString((char*)(subject + ovector[2*n]));
+            //~ //std::string key=tmps1.substr(0,name_entry_size - 3);
+            //~ value1=tmps2.substr(0,(ovector[2*n+1] - ovector[2*n]));
+            PCRE2_UCHAR **bufferptr;
+            PCRE2_SIZE bufflen/*=REGEX_STRING_MAX*/;
+            pcre2_substring_length_byname(match_data,(PCRE2_SPTR)key.c_str(),&bufflen);
+            bufferptr=(PCRE2_UCHAR **)malloc((bufflen+1) * sizeof(PCRE2_UCHAR));
+            int ret=pcre2_substring_get_byname(match_data, (PCRE2_SPTR)key.c_str(), bufferptr, &bufflen);
+            if(ret<0){
+                switch(ret){
+                    case PCRE2_ERROR_NOMEMORY: throw(ret);break;
+                    default:break;   ///Other errors should be ignored
+                }
+            }
+            value=jpcre2_utils::toString((char *)*bufferptr);
+            
+            ///Let's get the value again, this time with number
+            ///We will match this value with the previous
+            ///If it matches, then we got the right one,
+            ///Otherwise the number is not valid for the corresponding name
+            ///we will skip this iteration, if that happens.
+            ///Don't use pcre2_substring_number_from_name() to get the number for the name (It's messy).
+            ::free(bufferptr);
+            pcre2_substring_length_bynumber(match_data,(uint32_t)n,&bufflen);
+            bufferptr=(PCRE2_UCHAR **)malloc(bufflen * sizeof(PCRE2_UCHAR));
+            ret=pcre2_substring_get_bynumber(match_data, (uint32_t)n, bufferptr, &bufflen);
+            if(ret<0){
+                switch(ret){
+                    case PCRE2_ERROR_NOMEMORY: throw(ret);break;
+                    default:break;   ///Other errors should be ignored
+                }
+            }
+            value1=jpcre2_utils::toString((char *)*bufferptr);
+            
+            ///pcre2_substring_free(*bufferptr); 
+            ///must free memory, pcre2_substring_free() yields to segmentation fault in several cases ( try '(?<name>\d)?' )
+            /// (may be a bug?)
+            ///Instead use free() to free the memory
+            ::free(bufferptr);                  ///must free memory
+            if(value!=value1){tabptr += name_entry_size;continue;}
+            nas_map0[key]=value;
+            nn_map0[key]=n;
+            tabptr += name_entry_size;
+            
+        }
+    }
+    
+    jpcre2::Uint jpcre2::Regex::match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all,
+                                                            const std::string& mod,jpcre2::options opt_bits,uint32_t pcre2_opts){
         
         //Clear all verctors
         vec_num.clear();
         vec_nas.clear();
         vec_nn.clear();
         
-        ///parse modifiers and get match_opts
+        ///Make the  match_opts available
         parseMatchOpts(mod,opt_bits);
-        ///match_opts is now available for use add PCRE2 opts to it.
+        ///Add pcre2_opts to match_opts
         match_opts |= pcre2_opts;
         
         PCRE2_SPTR subject=(PCRE2_SPTR)s.c_str();
@@ -253,7 +339,7 @@
             subject,              /* the subject string */
             subject_length,       /* the length of the subject */
             0,                    /* start at offset 0 in the subject */
-            match_opts,           /* default options */
+            match_opts,                    /* default options */
             match_data,           /* block for storing the result */
             NULL);                /* use default match context */
     
@@ -296,25 +382,8 @@
       
         }
     
-        ///get the numbered substrings for this match
-        for (int i = 0; i < rc; i++){
-            std::string value;
-            //~ PCRE2_SPTR substring_start = subject + ovector[2*i];
-            //~ size_t substring_length = ovector[2*i+1] - ovector[2*i];
-            //~ std::string tmps1=jpcre2_utils::toString((char *)substring_start);
-            //~ value=tmps1.substr(0,substring_length);
-            ///If we use pcre2_substring_get_bynumber()
-            ///we will have to deal with returned error codes and memory
-            PCRE2_UCHAR **bufferptr;
-            PCRE2_SIZE bufflen/*=REGEX_STRING_MAX*/;
-            pcre2_substring_length_bynumber(match_data, (uint32_t)i, &bufflen);         ///get the substring length
-            bufferptr=(PCRE2_UCHAR**)malloc((bufflen+1) * sizeof(PCRE2_UCHAR));         ///prepare a buffer with that length
-            pcre2_substring_get_bynumber(match_data, (uint32_t)i, bufferptr, &bufflen); ///fill the buffer with the substring
-            value=jpcre2_utils::toString((char*)*bufferptr);
-            ///free(bufferptr);                        ///must free memory
-            pcre2_substring_free(*bufferptr);          ///Free the buffer.
-            num_map0[i]=value;
-        }
+        ///Let's get the numbered substrings
+        getNumberedSubstrings(rc,match_data,num_map0);
         
         
         
@@ -357,31 +426,10 @@
             bytes, most significant first. */
     
             tabptr = name_table;
-            for (int i = 0; i < namecount; i++){
-                int n = (tabptr[0] << 8) | tabptr[1];
-                std::string tmps1=jpcre2_utils::toString((char*)(tabptr+2));
-                std::string tmps2=jpcre2_utils::toString((char*)(subject + ovector[2*n]));
-                std::string key=tmps1.substr(0,name_entry_size - 3);
-                std::string value,value1;
-                value1=tmps2.substr(0,(ovector[2*n+1] - ovector[2*n]));
-                PCRE2_UCHAR **bufferptr;
-                PCRE2_SIZE bufflen=REGEX_STRING_MAX;
-                bufferptr=(PCRE2_UCHAR **)malloc(bufflen * sizeof(PCRE2_UCHAR));
-                int ret=pcre2_substring_get_byname(match_data, (PCRE2_SPTR)key.c_str(), bufferptr, &bufflen);
-                if(ret<0){
-                    switch(ret){
-                        case PCRE2_ERROR_NOMEMORY: throw(ret);break;
-                        default:break;   ///Other errors should be ignored
-                    }
-                }
-                value=jpcre2_utils::toString((char *)*bufferptr);
-                //~ free(bufferptr);                  ///must free memory
-                pcre2_substring_free(*bufferptr);          ///must free memory
-                if(value!=value1){tabptr += name_entry_size;continue;}
-                nas_map0[key]=value1;
-                nn_map0[key]=n;
-                tabptr += name_entry_size;
-            }
+            
+            ///Let's get the named substrings
+            getNamedSubstrings(namecount,name_entry_size,tabptr,match_data,nas_map0,nn_map0);
+            
         }
         
         
@@ -443,11 +491,10 @@
         /* Loop for second and subsequent matches */
     
         for (;;){
-            ///must clear map before filling it with new values
-            num_map0.clear();                         
+            num_map0.clear();                         ///must clear map before filling it with new values
             nas_map0.clear();
             nn_map0.clear();
-            uint32_t options = match_opts;              /*  options */
+            uint32_t options = match_opts;                       /* Normally no options */
             PCRE2_SIZE start_offset = ovector[1];       /* Start at end of previous match */
             
             /* If the previous match was for an empty string, we are finished if we are
@@ -505,7 +552,7 @@
             if (rc < 0){
                 pcre2_match_data_free(match_data);
                 //pcre2_code_free(code);           //must not do this. This function has no right to modify regex.
-                return vec_num.size();   ///We got at least one match so of course it's true.
+                return vec_num.size();
             }
             
             
@@ -513,58 +560,21 @@
             if (rc == 0){
                 /* The match succeeded, but the output vector wasn't big enough. This
                 should not happen. */
-                return vec_num.size();   ///We got at least one match so of course it's true.
+                return vec_num.size();
             }
             
             /* As before, get substrings stored in the output vector by number, and then
             also any named substrings. */
             
-            for (int i = 0; i < rc; i++){
-                std::string value;
-                PCRE2_SPTR substring_start = subject + ovector[2*i];
-                size_t substring_length = ovector[2*i+1] - ovector[2*i];
-                std::string tmps1=jpcre2_utils::toString((char *)substring_start);
-                value=tmps1.substr(0,substring_length);
-                ///It's better to not use pcre2_substring_get_bynumber() unless required,
-                ///otherwise we will have to deal with returned error codes and memory
-                //~ PCRE2_UCHAR **bufferptr;
-                //~ PCRE2_SIZE bufflen=REGEX_STRING_MAX;
-                //~ bufferptr=(PCRE2_UCHAR**)malloc(bufflen * sizeof(PCRE2_UCHAR));
-                //~ pcre2_substring_get_bynumber(match_data, (uint32_t)i, bufferptr, &bufflen);
-                //~ value=jpcre2_utils::toString((char*)*bufferptr);
-                //~ ///free(bufferptr);                   ///must free memory
-                //~ pcre2_substring_free(*bufferptr);          ///must free memory
-                num_map0[i]=value;
-            }
+            ///Let's get the numbered substrings
+            getNumberedSubstrings(rc,match_data,num_map0);
             
             if (namecount <= 0);  /*No named substrings*/
             else{
                 PCRE2_SPTR tabptr = name_table;
-                for (int i = 0; i < namecount; i++){
-                    int n = (tabptr[0] << 8) | tabptr[1];
-                    std::string tmps1=jpcre2_utils::toString((char*)(tabptr+2));
-                    std::string tmps2=jpcre2_utils::toString((char*)(subject + ovector[2*n]));
-                    std::string key=tmps1.substr(0,name_entry_size - 3);
-                    std::string value,value1;
-                    value1=tmps2.substr(0,(ovector[2*n+1] - ovector[2*n]));
-                    PCRE2_UCHAR **bufferptr;
-                    PCRE2_SIZE bufflen=REGEX_STRING_MAX;
-                    bufferptr=(PCRE2_UCHAR **)malloc(bufflen * sizeof(PCRE2_UCHAR));
-                    int ret=pcre2_substring_get_byname(match_data, (PCRE2_SPTR)key.c_str(), bufferptr, &bufflen);
-                    if(ret<0){
-                        switch(ret){
-                            case PCRE2_ERROR_NOMEMORY: throw(ret);break;
-                            default:break;   ///Other errors should be ignored
-                        }
-                    }
-                    value=jpcre2_utils::toString((char *)*bufferptr);
-                    //~ free(bufferptr);                  ///must free memory
-                    pcre2_substring_free(*bufferptr);          ///must free memory
-                    if(value!=value1){tabptr += name_entry_size;continue;}
-                    nn_map0[key]=n;
-                    nas_map0[key]=value1;
-                    tabptr += name_entry_size;
-                }
+                
+                ///Let's get the named substrings
+                getNamedSubstrings(namecount,name_entry_size,tabptr,match_data,nas_map0,nn_map0);
             }
             
             
@@ -577,7 +587,7 @@
     
         pcre2_match_data_free(match_data);
         /// Must not free pcre2_code* code. This function has no right to modify regex.
-        return vec_num.size();  ///We got at least one match so of course it's true.
+        return vec_num.size();
     }
     
     

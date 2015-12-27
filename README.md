@@ -51,7 +51,7 @@ Now to use it:
 An example command for GCC would be:
 
 ```sh
-g++  mycpp.cpp -ljpcre2 -lpcre2-8 #sequence is important
+g++  mycpp.cpp -ljpcre2-8 -lpcre2-8 #sequence is important
 ```
 
 If you are in a non-Unix system (e.g Windows), build a library from the jpcre2 sources with your favourite IDE or use it as it is.
@@ -59,14 +59,9 @@ If you are in a non-Unix system (e.g Windows), build a library from the jpcre2 s
 **Note:**
 
 <ol>
-<li>
-<i>jpcre2</i> is independent of PCRE2_CODE_UNIT_WIDTH i.e it can work with any PCRE2_CODE_UNIT_WIDTH as long as they are accepted by the original pcre2 library. If you are using a <i>pcre2</i> library with <code>PCRE2_CODE_UNIT_WIDTH != 8</code> then you will need to define it before you include <i>jpcre2.h</i> in your code. Ex:
-<pre><code class="cpp">#define PCRE2_CODE_UNIT_WIDTH 16
-#include &lt;jpcre2.h&gt;</code></pre>
+<li>PCRE2_CODE_UNIT_WIDTH other than 8 is not supported in this version.
 </li>
-<li>
-The definition of <i>PCRE2_CODE_UNIT_WIDTH</i> is needed by the original <em>pcre2</em> library. <i>jpcre2</i> defines it to <code>8</code> if it isn't defined already.
-</li>
+<li>To use the PCRE2 POSIX compatible library, add the `-lpcre2-posix` along with the others.
 </ol>
 
 #How to code:
@@ -317,9 +312,4 @@ test_match:
 ![jpcre2 screenshot2](img/s1_2.png)
 ![jpcre2 screenshot3](img/s1_3.png)
 ![jpcre2 screenshot4](img/s1_4.png)
-
-test_replace:
--------------
-
-![jpcre2 screenshot5](img/s2_1.png)
 

@@ -124,17 +124,18 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
 	"$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libjpcre2_la_DEPENDENCIES =
-am__objects_1 = libjpcre2_la-jpcre2.lo
-am_libjpcre2_la_OBJECTS = $(am__objects_1)
-libjpcre2_la_OBJECTS = $(am_libjpcre2_la_OBJECTS)
+libjpcre2_8_la_DEPENDENCIES =
+am__objects_1 = libjpcre2_8_la-jpcre2.lo
+am_libjpcre2_8_la_OBJECTS = $(am__objects_1)
+libjpcre2_8_la_OBJECTS = $(am_libjpcre2_8_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libjpcre2_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(libjpcre2_la_CXXFLAGS) \
-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+libjpcre2_8_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_2 = jpcre2match-jpcre2.$(OBJEXT)
 am_jpcre2match_OBJECTS = jpcre2match-jpcre2match.$(OBJEXT) \
@@ -205,9 +206,9 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libjpcre2_la_SOURCES) $(jpcre2match_SOURCES) \
+SOURCES = $(libjpcre2_8_la_SOURCES) $(jpcre2match_SOURCES) \
 	$(jpcre2replace_SOURCES)
-DIST_SOURCES = $(libjpcre2_la_SOURCES) $(jpcre2match_SOURCES) \
+DIST_SOURCES = $(libjpcre2_8_la_SOURCES) $(jpcre2match_SOURCES) \
 	$(jpcre2replace_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -387,17 +388,17 @@ jpcre2replace_CXXFLAGS = \
 
 
 #Building a library
-lib_LTLIBRARIES = libjpcre2.la
-libjpcre2_la_SOURCES = \
+lib_LTLIBRARIES = libjpcre2-8.la
+libjpcre2_8_la_SOURCES = \
   $(JPCRE2_SOURCES)
 
-libjpcre2_la_CXXFLAGS = \
+libjpcre2_8_la_CXXFLAGS = \
   $(AM_LIB_PATH) \
   $(AM_LDFLAGS) \
   $(AM_CXXFLAGS) \
   -fPIC
 
-libjpcre2_la_LIBADD = 
+libjpcre2_8_la_LIBADD = 
 all: all-am
 
 .SUFFIXES:
@@ -468,8 +469,8 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libjpcre2.la: $(libjpcre2_la_OBJECTS) $(libjpcre2_la_DEPENDENCIES) $(EXTRA_libjpcre2_la_DEPENDENCIES) 
-	$(AM_V_CXXLD)$(libjpcre2_la_LINK) -rpath $(libdir) $(libjpcre2_la_OBJECTS) $(libjpcre2_la_LIBADD) $(LIBS)
+libjpcre2-8.la: $(libjpcre2_8_la_OBJECTS) $(libjpcre2_8_la_DEPENDENCIES) $(EXTRA_libjpcre2_8_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(libjpcre2_8_la_LINK) -rpath $(libdir) $(libjpcre2_8_la_OBJECTS) $(libjpcre2_8_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -538,7 +539,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2match-jpcre2match.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2replace-jpcre2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2replace-jpcre2replace.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libjpcre2_la-jpcre2.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libjpcre2_8_la-jpcre2.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -561,12 +562,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
-libjpcre2_la-jpcre2.lo: jpcre2.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_la_CXXFLAGS) $(CXXFLAGS) -MT libjpcre2_la-jpcre2.lo -MD -MP -MF $(DEPDIR)/libjpcre2_la-jpcre2.Tpo -c -o libjpcre2_la-jpcre2.lo `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libjpcre2_la-jpcre2.Tpo $(DEPDIR)/libjpcre2_la-jpcre2.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2.cpp' object='libjpcre2_la-jpcre2.lo' libtool=yes @AMDEPBACKSLASH@
+libjpcre2_8_la-jpcre2.lo: jpcre2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) -MT libjpcre2_8_la-jpcre2.lo -MD -MP -MF $(DEPDIR)/libjpcre2_8_la-jpcre2.Tpo -c -o libjpcre2_8_la-jpcre2.lo `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libjpcre2_8_la-jpcre2.Tpo $(DEPDIR)/libjpcre2_8_la-jpcre2.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2.cpp' object='libjpcre2_8_la-jpcre2.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_la_CXXFLAGS) $(CXXFLAGS) -c -o libjpcre2_la-jpcre2.lo `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) -c -o libjpcre2_8_la-jpcre2.lo `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
 
 jpcre2match-jpcre2match.o: jpcre2match.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-jpcre2match.o -MD -MP -MF $(DEPDIR)/jpcre2match-jpcre2match.Tpo -c -o jpcre2match-jpcre2match.o `test -f 'jpcre2match.cpp' || echo '$(srcdir)/'`jpcre2match.cpp

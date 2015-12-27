@@ -1,5 +1,5 @@
 #include <iostream>
-#include "jpcre2.cpp"
+#include "jpcre2.h"
 
 #define getLine(a) std::getline(std::cin,a,'\n');
 

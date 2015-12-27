@@ -1,7 +1,5 @@
 EXTRA_DIST =
 
-
-
 EXTRA_DIST += \
   jpcre2.cpp \
   jpcre2.h \
@@ -40,13 +38,13 @@ jpcre2replace_CXXFLAGS = \
   
   
 #Building a library
-lib_LTLIBRARIES = libjpcre2.la
-libjpcre2_la_SOURCES = \
+lib_LTLIBRARIES = libjpcre2-8.la
+libjpcre2_8_la_SOURCES = \
   $(JPCRE2_SOURCES)
-libjpcre2_la_CXXFLAGS = \
+libjpcre2_8_la_CXXFLAGS = \
   $(AM_LIB_PATH) \
   $(AM_LDFLAGS) \
   $(AM_CXXFLAGS) \
   -fPIC
-libjpcre2_la_LIBADD =
+libjpcre2_8_la_LIBADD =
 
