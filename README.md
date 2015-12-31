@@ -268,9 +268,9 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
   * **e**<sup>\*</sup> : It is equivalent to *PCRE2_MATCH_UNSET_BACKREF* option of PCRE2 library. As the name suggests, it matches unset back-references in the pattern.
   * **i** : Case-insensitive. Equivalent to *PCRE2_CASELESS* option.
   * **j**<sup>\*</sup> : `\u \U \x` will act as javascript standard.
-    * `\U` matches an upper case "U" character (by default it causes a compile time error if this option is not set).
-    * `\u` matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).
-    * `\x` matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after `\x`, but it may have zero, one, or two digits (so, for example, `\xz` matches a binary zero character followed by z) ).
+     * `\U` matches an upper case "U" character (by default it causes a compile time error if this option is not set).
+     * `\u` matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).
+     * `\x` matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after `\x`, but it may have zero, one, or two digits (so, for example, `\xz` matches a binary zero character followed by z) ).
   * **m** : Multi-line regex. Equivalent to *PCRE2_MULTILINE* option.
   * **s** : If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to *PCRE2_DOTALL* option.
   * **u** : Enable UTF support.Treat pattern and subjects as UTF strings. It is equivalent to *PCRE2_UTF* option.
@@ -290,8 +290,8 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
   * **E** : Extension of *e* modifier. Sets even unknown groups to empty string. Equivalent to `PCRE2_SUBSTITUTE_UNSET_EMPTY | PCRE2_SUBSTITUTE_UNKNOWN_UNSET`.
   * **g** : Global replacement. Can be used with `replace()` function.
   * **x** : Extended replacement operation. It enables some Bash like features:
-    1. `${<n>:-<string>}`
-    2. `${<n>:+<string1>:<string2>}`
+     1. `${<n>:-<string>}`
+     2. `${<n>:+<string1>:<string2>}`
 
   `<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
 
