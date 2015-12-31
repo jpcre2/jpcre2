@@ -97,7 +97,7 @@ Now you can perform match or replace against the pattern. Use the <code>match()<
 </li>
   <ol>
 <li>
-<b>Match:</b> The <code>match()</code> member function can take upto an optional argument (subject) and returns an object of the class <i>RegexMatch</i> which then in turn can be used to pass various parameters using  available member functions (method chaining) of <i>RegexMatch</i> class. The end function in the method chain should always be the <code>execute()</code> function which returns the result (number of matches found).
+<b>Match:</b> The <code>match()</code> member function can take an optional argument (subject) and returns an object of the class <i>RegexMatch</i> which then in turn can be used to pass various parameters using  available member functions (method chaining) of <i>RegexMatch</i> class. The end function in the method chain should always be the <code>execute()</code> function which returns the result (number of matches found).
 </li>
     <ul>
 <li>
