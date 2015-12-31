@@ -3,7 +3,6 @@
 
 #define getLine(a) std::getline(std::cin,a,'\n');
 
-///This example doesn't require >=C++11
 
 int main(){
 
@@ -15,7 +14,7 @@ int main(){
     std::string pat,mod,subject;
     
     ///create an object
-    jpcre2::Regex re;     ///An empty object is not supposed to throw any error in normal cases.
+    jpcre2::Regex re;     ///An empty object is not supposed to throw any exception in normal cases.
 
     std::cout<<"Enter pattern: ";
     getLine(pat);
@@ -24,20 +23,36 @@ int main(){
     getLine(mod);
     
     ///Compile pattern
-    try{re.compile(pat,mod);}                                              ///Always use try catch block to avoid                
-    catch(int e){std::cout<<re.getErrorMessage(e)<<std::endl;goto cp;}     ///unexpected termination of program in case of errors
+    try{re.compile(pat,mod).execute();}
+    catch(int e){std::cout<<re.getErrorMessage(e)<<std::endl;goto cp;}
+           
+    /***************************************************************************************************************
+     * Always use try catch block to catch any exception and avoid unexpected termination of the program.
+     * All jpcre2 exceptions are of type int (integer)
+     * *************************************************************************************************************/
     
 
     ///subject string
     std::cout<<"\nEnter subject string (enter quit to quit): "<<std::endl;
     getLine(subject);
     std::string ac_mod;
-    std::cout<<"\nEnter action (matching) modifier (A): "<<std::endl;
+    loop2:
+    std::cout<<"\nEnter action (matching) modifier (Ag): "<<std::endl;
     getLine(ac_mod);
     if(subject=="quit")return 0;
-    int matched=0;
-    try{matched=re.match(subject,vec_num0,vec_nas0,vec_nn0,true,ac_mod,jpcre2::VALIDATE_MODIFIER);}          ///true makes it to find all matches
-    catch(int e){std::cout<<re.getErrorMessage(e);}   
+    size_t matched=0;
+    try{matched=re.match(subject)                            //Invoke the match() function
+                  .modifiers(ac_mod)                         //Set various options
+                  .numberedSubstringVector(vec_num0)        //...
+                  .namedSubstringVector(vec_nas0)           //...
+                  .nameToNumberMapVector(vec_nn0)           //...
+                  .jpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
+                  .pcre2Options(PCRE2_ANCHORED)              //...
+                  .execute();                                //Finally execute it.
+    }                               
+    catch(int e){std::cout<<re.getErrorMessage(e);
+        if(e==jpcre2::ERROR::INVALID_MODIFIER) goto loop2;
+    }  
 
     ///Now let's access the matched data
     

@@ -7,7 +7,7 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 #Requirements:
 
 1. pcre2 library (`version >=10.21`).
-2. C++ compiler with C++11 support (optional but recommended).
+2. C++ compiler with C++11 support.
 
 If the required `pcre2` version is not available in the official channel, download <a href="https://github.com/jpcre2">my fork of the library from here</a>, Or use <a href="https://github.com/jpcre2/pcre2">this repository</a> which will always be kept compatible with `jpcre2`.
 
@@ -18,14 +18,16 @@ It can be installed as a separate library or can be used directly in a project b
 
 1. **jpcre2.h**
 2. **jpcre2.cpp**
+3. **jpcre2_match.cpp**
+4. **jpcre2_replace.cpp**
 
 An example compile/build command with GCC would be:
 
 ```sh
-g++ mycpp.cpp jpcre2.cpp jpcre2.h -lpcre2-8
+g++ mycpp.cpp jpcre2_match.cpp jpcre2_replace.cpp jpcre2.cpp jpcre2.h -lpcre2-8
 ```
 
-`-lpcre2-8` should be changed to the actual library i.e for 16 bit code unit: `-lpcre2-16` and for 32 bit code unit: `-lpcre2-32`.
+*Currently only the 8-bit library is supported by jpcre2.
 
 If your PCRE2 library is not in the standard library path, then add the path:
 
@@ -76,10 +78,15 @@ Each object for each regex pattern.
 Compile the pattern and catch any error exception:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
 try{
-    re.compile("pattern","mi");          //This compiles the pattern and modifier provided.
+    re.compile()                                                            //Invoke the compile() function
+      .pattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")     //set various parameters
+      .modifiers("JiuX")                                                    //...
+      .jpcre2Options(jpcre2::VALIDATE_MODIFIER)                             //...
+      .pcre2Options(0)                                                      //...
+      .execute();                                                           //Finaly execute it.   
     
     //Another way is to use constructor to initialize and compile at the same time:
-    jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod. Try to use it always.
+    jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
 }
 catch(int e){
     /*Handle error*/
@@ -92,15 +99,20 @@ Now you can perform match or replace against the pattern. Use the <code>match()<
 </li>
   <ol>
 <li>
-<b>Match:</b> The <code>match()</code> member function takes the subject string and some specialized vectors (vectors of maps of substrings) as its arguments and a last set of argument to tell whether to match all or only the first and to define some other criteria (see <a href="#match-function">match function</a> for more details). It puts the results in the maps of the vectors and returns the number of matches (0 if there is no match).
+<b>Match:</b> The <code>match()</code> member function can take upto an optional argument (subject) and returns an object of the class *RegexMatch* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexMatch* class. The end function in the method chain should always be the `execute()` function which returns the result (number of matches found).
 </li>
     <ul>
 <li>
 Perform match and catch any error exception:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
+jpcre2::VecNum vec_num;
 try{
-    int count=re.match("I am a subject string",vec_num);
-    //vec_num will be populated with numbered substrings.
+    size_t count=re.match(subject)                            //Invoke the match() function
+                   .modifiers(ac_mod)                         //Set various options
+                   .numberedSubstringVector(vec_num)        //...
+                   .jpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
+                   .execute();                                //Finally execute it.
+    //vec_num will be populated with maps of numbered substrings.
     //count is the total number of matches found
 }
 catch(int e){
@@ -124,31 +136,49 @@ for(int i=0;i&lt;(int)vec_num.size();i++){
 </code></pre>
 </li>
 <li>
-Other variations of this function can be used to get named substrings and the position of named substrings. Simply pass the appropriate vectors in the match function:
+To get named substrings or name to number mapping, simply pass the appropriate vectors with `numberedSubstringVector()` and/or `namedSubstringVector()` and/or `nameToNumberMapVector()`:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
+jpcre2::VecNum vec_num;   ///Vector to store numbured substring Map.
+jpcre2::VecNas vec_nas;   ///Vector to store named substring Map.
+jpcre2::VecNtN vec_ntn;    ///Vector to store Named substring to Number Map.
+std::string ac_mod="g"; // g is for global match. Equivalent to using findAll() or FIND_ALL in jpcre2Options()
 try{
-    re.match("I am a subject string",vec_num,vec_nas,vec_nn);
+    re.match(subject)                            //Invoke the match() function
+      .modifiers(ac_mod)                         //Set various options
+      .numberedSubstringVector(vec_num)         //...
+      .namedSubstringVector(vec_nas)            //...
+      .nameToNumberMapVector(vec_ntn)           //...
+      .jpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
+      .pcre2Options(PCRE2_ANCHORED)              //...
+      .execute();                                //Finally execute it.
 }
 catch(int e){
     /*Handle error*/
     std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
 }
 </code></pre>
-And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same and they can be passed in any sequence (i.e the order of the vectors as arguments is not important).
+And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same and can be accessed by the same way.
 </li>
     </ul>
 <li>
-<b>Replace:</b> The <code>replace()</code> member function takes the subject string as first argument and replacement string as the second argument and other optional arguments (modifier and the size of the resultant string etc... see <a href="#replace-function">replace function</a> for more details) and returns the resultant string after performing the replacement operation. If no modifier is passed an empty modifier is assumed.
+<b>Replace:</b> The <code>replace()</code> member function can take upto two optional arguments (subject and replacement string) and returns an object of the class *RegexReplace* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexReplace* class. The end function in the method chain should always be the `execute()` function which returns the result (replaced string).
 </li>
     <ul>
 <li>
 Perform replace and catch any error exception:
 <pre class="highlight prettyprint"><code class="highlight-source-c++ cpp">
 try{
-    std::cout&lt;&lt;re.replace("replace this string according to the pattern","with this string","gE")&lt;&lt;std::endl;
+    std::cout&lt;&lt;
+    re.replace()                                                        //Invoke the replace() function
+      .subject(s)                                                       //Set various parameters
+      .replaceWith("(replaced:$1)(replaced:$2)(replaced:${word})")      //...
+      .modifiers("gE")                                                  //...
+      .jpcre2Options(jpcre2::VALIDATE_MODIFIER)                         //...
+      .pcre2Options(0)                                                  //...
+      .execute();                                                       //Finally execute it.
     //gE is the modifier passed (global and unknown-unset-empty).
     //Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
-    // or ${name} (for named substrings) in the replacement part
+    // or ${name} (for named substrings) in the replacement part i.e in replaceWith()
 }
 catch(int e){
     /*Handle error*/
@@ -158,7 +188,7 @@ catch(int e){
 </code></pre>
 </li>
 <li>
-If you pass the size of the resultant string with the replace function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called <i>twice</i> to adjust the size to hold the whole resultant string in order to avoid <code>PCRE2_ERROR_NOMEMORY</code> error. Two consecutive call of the same function may affect overall performance of your code.
+If you pass the size of the resultant string with `bufferSize()` function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called <i>twice</i> to adjust the size of the buffer to hold the whole resultant string in order to avoid <code>PCRE2_ERROR_NOMEMORY</code> error.
 </li>
     </ul>
   </ol>
@@ -176,84 +206,54 @@ Let's take a quick look what's inside and how things are working here:
 ###Classes:
 
 1. **Regex :** This is the main class which holds the key utilities of `jpcre2`. Every regex needs an object of this class.
+2. **RegexMatch:** This is the class that holds all the useful functions to perform regex match according to the compiled pattern.
+3. **RegexReplace:** This is the class that holds all the useful functions to perform replacement according to the compiled pattern.
 
-###Functions:
+###Functions & their usable forms at a glance:
 
 ```cpp
-std::string getModifier(){return modifier;}
-std::string getPattern(){return pat_str;}
-std::string getLocale(){return mylocale;}               ///Gets LC_CTYPE
-uint32_t getCompileOpts(){return compile_opts;}         ///returns the compile opts used for compilation
-uint32_t getReplacementOpts(){return replace_opts;}     ///returns the currently used replacement opts
-uint32_t getMatchOpts(){return match_opts;}             ///returns the currently used match opts
-
+std::string getModifier();
+std::string getPattern();
+std::string getLocale();                ///Gets LC_CTYPE
+uint32_t getCompileOpts();              ///returns the compile opts used for compilation
 
 ///Error handling
 std::string getErrorMessage(int err_num);
 std::string getErrorMessage();
-std::string getWarningMessage(){return current_warning_msg;}
-int getErrorNumber(){return error_number;}
-int getErrorCode(){return error_code;}
-PCRE2_SIZE getErrorOffset(){return error_offset;}
+std::string getWarningMessage();
+int getErrorNumber();
+int getErrorCode();
+PCRE2_SIZE getErrorOffset();
+
+void               compile()
+                  .pattern(const String& re)
+                  .modifiers(const String& x)
+                  .locale(const String& x)
+                  .jpcre2Options(uint32_t x)
+                  .pcre2Options(uint32_t x)
+                  .execute();
+
+size_t             match()
+                  .subject(const String& s)
+                  .modifiers(const String& s)
+                  .numberedSubstringsVector(VecNum& vec_num)
+                  .namedSubstringsVector(VecNas& vec_nas)
+                  .nameToNumberMapsVector(VecNtN& vec_ntn)
+                  .jpcre2Options(uint32_t x)
+                  .pcre2Options(uint32_t x)
+                  .findAll()
+                  .execute();
+                  
+std::string        replace()
+                  .subject(const String& s)
+                  .replaceWith(const String& s)
+                  .modifiers(const String& s)
+                  .jpcre2Options(uint32_t x)
+                  .pcre2Options(uint32_t x)
+                  .bufferSize(PCRE2_SIZE x)
+                  .execute();
 
 
-///Compiles the regex.
-///If any argument is not passed, it will be left empty
-void compile(const std::string& re,const std::string& mod,const std::string& loc,options opt_bits, uint32_t pcre2_opts=0);
-void compile(const std::string& re,const std::string& mod,const std::string& loc, uint32_t pcre2_opts=0)
-            {compile(re,mod,loc,DEFAULT_OPTIONS);}
-void compile(const std::string& re,const std::string& mod,options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0)
-            {compile(re,mod,DEFAULT_LOCALE,opt_bits);}
-void compile(const std::string& re,options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0)
-            {compile(re,"",DEFAULT_LOCALE,opt_bits);}
-
-///returns a replaced string after performing regex replace
-///If modifier is not passed it will be defaulted to empty string
-std::string replace( std::string mains, std::string repl,const std::string& mod="",
-                    PCRE2_SIZE out_size=REGEX_STRING_MAX,options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-
-///returns the number of matches, stores the match results in the specified vectors
-Uint match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-
-///Other variants of match function
-///3-vector variants
-Uint match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-
-///2-vector variants
-Uint match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-
-///1-vector variants
-Uint match(const std::string& subject,VecNum& vec_num,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNas& vec_nas,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-Uint match(const std::string& subject,VecNtN& vec_nn,bool find_all=false,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-
-///0-vector variants //useful for just to get the match count
-Uint match(const std::string& subject,
-            const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
 ```
 
 <div id="modifiers"></div>
@@ -297,11 +297,10 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
 
 #Testing:
 
-1. **test.cpp**: Contains an example code for match and replace function.
 2. **test_match.cpp**: Contains an example code for match function.
 3. **test_replace.cpp**: Contains an example code for replace function.
-4. **jpcre2match**: Another matching example.
-5. **jpcre2replace**: Another replacement example.
+4. **test_match2.cpp**: Another matching example.
+5. **test_replace2.cpp**: Another replacement example.
 
 #Screenshots of some test outputs:
 

@@ -2,7 +2,7 @@ AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIR([m4])
 include([ax_cxx_compile_stdcxx.m4])
 
-AC_INIT([jpcre2], [10.21.01], [https://github.com/jpcre2/jpcre2/issues])
+AC_INIT([jpcre2], [10.21.02], [https://github.com/jpcre2/jpcre2/issues])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.h])
 #AC_CONFIG_HEADERS([config.h])
@@ -26,7 +26,7 @@ CXXFLAGS="-O2"
 
 
 #check for c++11 support and add flags
-AX_CXX_COMPILE_STDCXX([11], [noext], [optional])
+AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
 
 
 # Checks for typedefs, structures, and compiler characteristics.

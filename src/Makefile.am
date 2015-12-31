@@ -1,20 +1,23 @@
 EXTRA_DIST =
 
 EXTRA_DIST += \
+  jpcre2_match.cpp \
+  jpcre2_replace.cpp \
   jpcre2.cpp \
   jpcre2.h \
-  jpcre2match.cpp \
-  jpcre2replace.cpp \
   test_match.cpp \
   test_replace.cpp \
-  test.cpp
+  test_match2.cpp \
+  test_replace2.cpp
   
 include_HEADERS = \
   jpcre2.h
   
-bin_PROGRAMS = jpcre2match jpcre2replace
+noinst_PROGRAMS = jpcre2match jpcre2replace
 
 JPCRE2_SOURCES = \
+  jpcre2_match.cpp \
+  jpcre2_replace.cpp \
   jpcre2.cpp \
   jpcre2.h
 
@@ -22,7 +25,7 @@ AM_LDFLAGS = -lpcre2-8
 
 #Building jpcre2match
 jpcre2match_SOURCES = \
-  jpcre2match.cpp \
+  test_match2.cpp \
   $(JPCRE2_SOURCES)
 jpcre2match_CXXFLAGS = \
   $(AM_CXXFLAGS) \
@@ -30,7 +33,7 @@ jpcre2match_CXXFLAGS = \
 
 #Building jpcre2replace
 jpcre2replace_SOURCES = \
-  jpcre2replace.cpp \
+  test_replace2.cpp \
   $(JPCRE2_SOURCES)
 jpcre2replace_CXXFLAGS = \
   $(AM_CXXFLAGS) \

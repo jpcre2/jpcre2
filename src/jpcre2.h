@@ -62,177 +62,263 @@ Dsclaimer:
 #include <vector>
 #include <map>
 
-namespace jpcre2_utils{
-    
-    
-    #define Glue(a,b) a##b 
-    
-    template<typename T>
-    std::string toString(T a);
-}
 
 namespace jpcre2{
     
-    typedef unsigned long long Uint;
-    typedef unsigned short Ush;
-
+    ///Errors // JPCRE2 error codes are positive numbers while PCRE2 error codes are negative numbers
+    namespace ERROR {
+    enum { INVALID_MODIFIER                 = 2 };
+    }
+    
     #define REGEX_STRING_MAX std::numeric_limits<int>::max() //This limits the maximum length of string that can be handled by default.
                                                              //This limit may or may not be used.
     #define DEFAULT_LOCALE "none"   ///We won't do anything about locale if it is set to "none" 
     
-    ///Errors // JPCRE2 error codes are positive numbers while PCRE2 error codes are negative numbers
-    #define JPCRE2_ERROR_INVALID_MODIFIER             (2)
+    ///Option bits. These are the options for JPCRE2.
+    enum {  NONE                                = 0x0000000u,
+            VALIDATE_MODIFIER                   = 0x0000001u,
+            FIND_ALL                            = 0x0000002u };
     
-    ///Option bits. These are the options for JPCRE2. The type of these options is: jpcre2::options
-    ///This is to make a distinction between PCRE2 options which are of uint32_t type.
-    enum options { DEFAULT_OPTIONS                   = 0x0000000u,
-                   VALIDATE_MODIFIER                 = 0x0000001u };
     
-    typedef std::map<std::string,std::string> MapNas; //Map for Named substring
-    typedef std::map<int,std::string> MapNum;         //Map for Numbered substring
-    typedef std::map<std::string,int> MapNtN;         //Map for Named substring to Numbered substring
+    
+    
+    typedef size_t Uint;
+    typedef unsigned short Ush;
+    typedef std::string String;
+    
+    typedef std::map<String,String> MapNas;       //Map for Named substring
+    typedef std::map<Uint,String> MapNum;         //Map for Numbered substring
+    typedef std::map<String,Uint> MapNtN;         //Map for Named substring to Numbered substring
     typedef std::vector<MapNas> VecNas;               //Vector of MapNas
     typedef std::vector<MapNtN> VecNtN;               //Vector of MapNtN
     typedef std::vector<MapNum> VecNum;               //Vector of MapNum
     
     
+    ///declare classes
+    class Regex;
+    class RegexMatch;
+    class RegexReplace;
+    
+    
+    ///define classes
+    
+    class RegexMatch{
+        
+        private: 
+        
+            Regex* re;    ///We will use this to access private members in Regex
+            
+            String m_subject,m_modifier;
+            uint32_t match_opts,jpcre2_match_opts;
+            
+            ///vectors to contain the matches and maps of associated substrings
+            VecNum* p_vec_num;
+            VecNas* p_vec_nas;
+            VecNtN* p_vec_ntn;
+            
+            void parseMatchOpts(const String& mod);
+            void getNumberedSubstrings(int rc, pcre2_match_data *match_data,MapNum& num_map0);
+            void getNamedSubstrings(int namecount,int name_entry_size,PCRE2_SPTR tabptr, pcre2_match_data *match_data,
+                                                                                     MapNas& nas_map0, MapNtN& nn_map0);
+                                                                                     
+            ///returns the number of matches, stores the match results in the specified vectors
+            Uint match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,
+                                            const std::string& mod,uint32_t opt_bits,uint32_t pcre2_opts);
+                                            
+            void init(String s=""){p_vec_num=nullptr;p_vec_nas=nullptr;p_vec_ntn=nullptr;
+                                    m_subject=s;m_modifier="";match_opts=0;jpcre2_match_opts=NONE;}
+                            
+            RegexMatch(RegexMatch&){init();}
+            //~ RegexMatch& operator=(RegexMatch&){init(); return this;}
+            //~ RegexMatch& operator=(RegexMatch&,const String& s){init(s); return this;}
+            RegexMatch(const String& s){init(s);}
+            RegexMatch(){init();}
+            ~RegexMatch(){}
+            
+            
+            ///define buddies for RegexMatch
+            friend class Regex;
+            
+            
+        public:
+           
+            ///Chained functions for taking parameters
+            RegexMatch& numberedSubstringVector(VecNum& vec_num)       {p_vec_num=&vec_num;            return *this;}
+            RegexMatch& namedSubstringVector(VecNas& vec_nas)          {p_vec_nas=&vec_nas;            return *this;}
+            RegexMatch& nameToNumberMapVector(VecNtN& vec_ntn)         {p_vec_ntn=&vec_ntn;            return *this;}
+            RegexMatch& subject(const String& s)                               {m_subject=s;                   return *this;}
+            RegexMatch& modifiers(const String& s)                             {m_modifier=s;                  return *this;}
+            RegexMatch& jpcre2Options(uint32_t x=NONE)                  {jpcre2_match_opts=x;           return *this;}
+            RegexMatch& pcre2Options(uint32_t x=NONE)                   {match_opts=x;                  return *this;}
+            RegexMatch& findAll()                                       {jpcre2_match_opts |= FIND_ALL; return *this;}
+            
+            Uint execute(){
+                VecNum vec_num0;
+                VecNas vec_nas0;
+                VecNtN vec_ntn0;
+                
+                VecNum& vec_num = p_vec_num ? *p_vec_num : vec_num0;
+                VecNas& vec_nas = p_vec_nas ? *p_vec_nas : vec_nas0;
+                VecNtN& vec_ntn = p_vec_ntn ? *p_vec_ntn : vec_ntn0;
+                
+                return match(m_subject,vec_num,vec_nas,vec_ntn,m_modifier,jpcre2_match_opts,match_opts);               
+            }
+    };
+    
+    
+    class RegexReplace{
+        
+        private: 
+        
+            Regex* re;    ///We will use this to access private members in Regex
+            
+            String r_subject,r_modifier,r_replw;
+            uint32_t replace_opts,jpcre2_replace_opts;
+            PCRE2_SIZE buffer_size;
+            
+            
+            void parseReplacementOpts(const String& mod);
+            
+            ///returns a replaced string after performing regex replace
+            String replace( String mains, String repl,const String& mod,
+                                PCRE2_SIZE out_size,uint32_t opt_bits, uint32_t pcre2_opts);
+                                            
+            void init(const String& s=""){r_subject=s;r_modifier="";r_replw="";replace_opts=0;
+                                            jpcre2_replace_opts=NONE;buffer_size=REGEX_STRING_MAX;}
+            void init(const String& s,const String& repl){r_subject=s;r_modifier="";r_replw=repl;replace_opts=0;
+                                            jpcre2_replace_opts=NONE;buffer_size=REGEX_STRING_MAX;}
+                            
+            RegexReplace(RegexReplace&){init();}
+            //~ RegexMatch& operator=(RegexMatch&){init(); return this;}
+            //~ RegexMatch& operator=(RegexMatch&,const String& s){init(s); return this;}
+            RegexReplace(const String& s,const String& repl){init(s,repl);}
+            RegexReplace(const String& s=""){init(s);}
+            ~RegexReplace(){}
+            
+            
+            ///define buddies for RegexReplace
+            friend class Regex;
+            
+            
+        public:
+           
+            ///Chained functions for taking parameters
+            RegexReplace& subject(const String& s)                        {r_subject=s;                   return *this;}
+            RegexReplace& replaceWith(const String& s)                    {r_replw=s;                     return *this;}
+            RegexReplace& modifiers(const String& s)                      {r_modifier=s;                  return *this;}
+            RegexReplace& jpcre2Options(uint32_t x=NONE)                  {jpcre2_replace_opts=x;         return *this;}
+            RegexReplace& pcre2Options(uint32_t x=NONE)                   {replace_opts=x;                return *this;}
+            RegexReplace& bufferSize(PCRE2_SIZE x)                        {buffer_size=x;                 return *this;}
+            
+            
+            String execute(){
+                
+                return replace(r_subject,r_replw,r_modifier,buffer_size,jpcre2_replace_opts,replace_opts);          
+            }
+    };
+    
+    
     class Regex{
         
         private:
+        
+            RegexMatch rm;
+            RegexReplace rr;
             
-            
-            std::string pat_str;
-            std::string modifier;
-            PCRE2_SPTR pattern;
+            String pat_str;
+            String modifier;
+            PCRE2_SPTR c_pattern;
             pcre2_code *code;
             int error_number;
             PCRE2_SIZE error_offset;
-            uint32_t compile_opts,replace_opts,jit_opts,match_opts;
+            uint32_t compile_opts,jit_opts,jpcre2_compile_opts;
             int error_code,jpcre2_error_offset;
-            std::string mylocale;
+            String mylocale;
+            String current_action;
             
             ///other opts
             bool opt_jit_compile;
             
             
             // Warning msg 
-            std::string current_warning_msg;
+            String current_warning_msg;
             
             ///Regex re=Regex(); and such are not allowed.
-            Regex(Regex&);
-            void operator=(Regex&);
+            Regex(const Regex&);
+            void operator=(const Regex&);
             
             ///We can't let user call this function explicitly
             void freeRegexMemory(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
             
-            void parseMatchOpts(const std::string& mod,options opt_bits);
-            void parseReplacementOpts(const std::string& mod,options opt_bits);
-            void parseCompileOpts(const std::string& mod,options opt_bits);
-            ///The above parse functions always initialize the option bits to 0 and then add options
             
-            void init(){pat_str="";modifier="";mylocale=DEFAULT_LOCALE;error_number=0;error_offset=0;error_code=0;
-                            jpcre2_error_offset=0;match_opts=0;replace_opts=0;compile_opts=0;
-                            compile("","");}    ///init() must perform a dummy compile, otherwise it will yield to a 
-                            /// segmentation fault when regex is not initialized and goes out of scope, due to a call of
-                            ///freeRegexMemory() in the destructor.
+            void parseCompileOpts(const String& mod,uint32_t opt_bits);
                             
             pcre2_code* getPcreCode(){return code;}                 ///returns pointer to compiled regex
             
-            void getNumberedSubstrings(int rc, pcre2_match_data *match_data,MapNum& num_map0);
-            void getNamedSubstrings(int namecount,int name_entry_size,PCRE2_SPTR tabptr, pcre2_match_data *match_data,
-                                                                                     MapNas& nas_map0, MapNtN& nn_map0);
+            
+            void init(const String& re=""){ pat_str=re;modifier="";mylocale=DEFAULT_LOCALE;error_number=0;
+                                            error_offset=0;error_code=0;jpcre2_error_offset=0;compile_opts=0;
+                                            compileRegex("","",DEFAULT_LOCALE,0,0);}
+            void init(const String& re, const String& mod){ pat_str=re;modifier=mod;mylocale=DEFAULT_LOCALE;error_number=0;
+                                                            error_offset=0;error_code=0;jpcre2_error_offset=0;compile_opts=0;
+                                                            compileRegex("","",DEFAULT_LOCALE,0,0);}  
+                ///init() must perform a dummy compile, otherwise it will yield to a 
+                /// segmentation fault when regex is not initialized and goes out of scope, due to a call of
+                ///freeRegexMemory() in the destructor.
+            
+            
+            ///Compiles the regex.
+            void compileRegex(const String& re,const String& mod,const String& loc,uint32_t opt_bits, uint32_t pcre2_opts);
+                            
+                            
+            ///Define buddies for Regex
+            friend class RegexMatch;
+            friend class RegexReplace;
             
         public:
-            
     
-            //~ Regex(){init();}
-            Regex(const std::string& re="",const std::string& mod="",const std::string& loc=DEFAULT_LOCALE,
-                                                    options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0)
-                {init();compile(re,mod,loc,opt_bits,pcre2_opts);}
-            //~ Regex(const std::string& re,const std::string& mod,const std::string& loc,options opt_bits, uint32_t pcre2_opts=0)
-                //~ {init();compile(re,mod,loc,opt_bits,pcre2_opts);}
-            //~ Regex(const std::string& re,const std::string& mod,options opt_bits, uint32_t pcre2_opts=0)
-                //~ {init();compile(re,mod,opt_bits,pcre2_opts);}
-            //~ Regex(const std::string& re,options opt_bits, uint32_t pcre2_opts=0)
-                //~ {init();compile(re,opt_bits,pcre2_opts);}
+            Regex(){init();}
+            Regex(const String& re)                     {init(re);    }
+            Regex(const String& re, const String& mod)  {init(re,mod);}
             
             ~Regex(){freeRegexMemory();}
             
                 
-            std::string getModifier(){return modifier;}
-            std::string getPattern(){return pat_str;}
-            std::string getLocale(){return mylocale;}               ///Gets LC_CTYPE
-            uint32_t getCompileOpts(){return compile_opts;}         ///returns the compile opts used for compilation
-            uint32_t getReplacementOpts(){return replace_opts;}     ///returns the currently used replacement opts
-            uint32_t getMatchOpts(){return match_opts;}             ///returns the currently used match opts
+            String getModifier()        {return modifier;    }
+            String getPattern()         {return pat_str;     }
+            String getLocale()          {return mylocale;    }      ///Gets LC_CTYPE
+            uint32_t getCompileOpts()   {return compile_opts;}      ///returns the compile opts used for compilation
             
             
             ///Error handling
-            std::string getErrorMessage(int err_num);
-            std::string getErrorMessage();
-            std::string getWarningMessage(){return current_warning_msg;}
-            int getErrorNumber(){return error_number;}
-            int getErrorCode(){return error_code;}
-            PCRE2_SIZE getErrorOffset(){return error_offset;}
+            String getErrorMessage(int err_num);
+            String getErrorMessage();
+            String getWarningMessage()      {return current_warning_msg;}
+            int getErrorNumber()            {return error_number;}
+            PCRE2_SIZE getErrorOffset()     {return error_offset;}
+            int getErrorCode()              {return error_code;}
             
             
-            ///Compiles the regex.
-            ///If any argument is not passed, it will be left empty
-            void compile(const std::string& re,const std::string& mod,const std::string& loc,options opt_bits, uint32_t pcre2_opts=0);
-            void compile(const std::string& re,const std::string& mod,const std::string& loc, uint32_t pcre2_opts=0)
-                        {compile(re,mod,loc,DEFAULT_OPTIONS);}
-            void compile(const std::string& re,const std::string& mod,options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0)
-                        {compile(re,mod,DEFAULT_LOCALE,opt_bits);}
-            void compile(const std::string& re,options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0)
-                        {compile(re,"",DEFAULT_LOCALE,opt_bits);}
+            Regex& compile(const String& re,const String& mod)  {pat_str=re; modifier=mod;  return *this;}
+            Regex& compile(const String& re="")                 {pat_str=re;                return *this;}
+            Regex& pattern(const String& re)                    {pat_str=re;                return *this;}
+            Regex& modifiers(const String& x)                   {modifier=x;                return *this;}
+            Regex& locale(const String& x)                      {mylocale=x;                return *this;}
+            Regex& jpcre2Options(uint32_t x)                    {jpcre2_compile_opts=x;     return *this;}
+            Regex& pcre2Options(uint32_t x)                     {compile_opts=x;            return *this;}
             
-            ///returns a replaced string after performing regex replace
-            ///If modifier is not passed it will be defaulted to empty string
-            std::string replace( std::string mains, std::string repl,const std::string& mod="",
-                                PCRE2_SIZE out_size=REGEX_STRING_MAX,options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+            void execute(void){
+                compileRegex(pat_str,modifier,mylocale,jpcre2_compile_opts,compile_opts);
+            }
             
-            ///returns the number of matches, stores the match results in the specified vectors
-            Uint match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
             
-            ///Other variants of match function
-            ///3-vector variants
-            Uint match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,VecNum& vec_num,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,VecNas& vec_nas,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+            ///This is the match() function that will be called by users
+            RegexMatch& match(String s=""){rm=RegexMatch(s);rm.re = this;return rm;}
             
-            ///2-vector variants
-            Uint match(const std::string& subject,VecNum& vec_num,VecNas& vec_nas,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNas& vec_nas,VecNum& vec_num,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNum& vec_num,VecNtN& vec_nn,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNtN& vec_nn,VecNum& vec_num,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNas& vec_nas,VecNtN& vec_nn,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNtN& vec_nn,VecNas& vec_nas,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            
-            ///1-vector variants
-            Uint match(const std::string& subject,VecNum& vec_num,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNas& vec_nas,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            Uint match(const std::string& subject,VecNtN& vec_nn,bool find_all=false,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
-            
-            ///0-vector variants //useful for just to get the match count
-            Uint match(const std::string& subject,
-                        const std::string& mod="",options opt_bits=DEFAULT_OPTIONS, uint32_t pcre2_opts=0);
+            ///This is the replace function that will be called by users
+            RegexReplace& replace() {rr=RegexReplace();rr.re=this;return rr;}
+            RegexReplace& replace(const String& mains) {rr=RegexReplace(mains);rr.re=this;return rr;}
+            RegexReplace& replace(const String& mains,const String& repl) {rr=RegexReplace(mains,repl);rr.re=this;return rr;}
             
     };
     
@@ -240,6 +326,14 @@ namespace jpcre2{
 } ///jpcre2 namespace
 
 
+namespace jpcre2_utils{
+    
+    
+    #define Glue(a,b) a##b 
+    
+    template<typename T>
+    jpcre2::String toString(T a);
+}
 
 
 

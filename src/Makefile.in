@@ -80,7 +80,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = jpcre2match$(EXEEXT) jpcre2replace$(EXEEXT)
+noinst_PROGRAMS = jpcre2match$(EXEEXT) jpcre2replace$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/config/depcomp $(include_HEADERS)
@@ -121,11 +121,11 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
-	"$(DESTDIR)$(includedir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libjpcre2_8_la_DEPENDENCIES =
-am__objects_1 = libjpcre2_8_la-jpcre2.lo
+am__objects_1 = libjpcre2_8_la-jpcre2_match.lo \
+	libjpcre2_8_la-jpcre2_replace.lo libjpcre2_8_la-jpcre2.lo
 am_libjpcre2_8_la_OBJECTS = $(am__objects_1)
 libjpcre2_8_la_OBJECTS = $(am_libjpcre2_8_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -136,17 +136,21 @@ libjpcre2_8_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-PROGRAMS = $(bin_PROGRAMS)
-am__objects_2 = jpcre2match-jpcre2.$(OBJEXT)
-am_jpcre2match_OBJECTS = jpcre2match-jpcre2match.$(OBJEXT) \
+PROGRAMS = $(noinst_PROGRAMS)
+am__objects_2 = jpcre2match-jpcre2_match.$(OBJEXT) \
+	jpcre2match-jpcre2_replace.$(OBJEXT) \
+	jpcre2match-jpcre2.$(OBJEXT)
+am_jpcre2match_OBJECTS = jpcre2match-test_match2.$(OBJEXT) \
 	$(am__objects_2)
 jpcre2match_OBJECTS = $(am_jpcre2match_OBJECTS)
 jpcre2match_LDADD = $(LDADD)
 jpcre2match_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(jpcre2match_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__objects_3 = jpcre2replace-jpcre2.$(OBJEXT)
-am_jpcre2replace_OBJECTS = jpcre2replace-jpcre2replace.$(OBJEXT) \
+am__objects_3 = jpcre2replace-jpcre2_match.$(OBJEXT) \
+	jpcre2replace-jpcre2_replace.$(OBJEXT) \
+	jpcre2replace-jpcre2.$(OBJEXT)
+am_jpcre2replace_OBJECTS = jpcre2replace-test_replace2.$(OBJEXT) \
 	$(am__objects_3)
 jpcre2replace_OBJECTS = $(am_jpcre2replace_OBJECTS)
 jpcre2replace_LDADD = $(LDADD)
@@ -356,12 +360,15 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = jpcre2.cpp jpcre2.h jpcre2match.cpp jpcre2replace.cpp \
-	test_match.cpp test_replace.cpp test.cpp
+EXTRA_DIST = jpcre2_match.cpp jpcre2_replace.cpp jpcre2.cpp jpcre2.h \
+	test_match.cpp test_replace.cpp test_match2.cpp \
+	test_replace2.cpp
 include_HEADERS = \
   jpcre2.h
 
 JPCRE2_SOURCES = \
+  jpcre2_match.cpp \
+  jpcre2_replace.cpp \
   jpcre2.cpp \
   jpcre2.h
 
@@ -369,7 +376,7 @@ AM_LDFLAGS = -lpcre2-8
 
 #Building jpcre2match
 jpcre2match_SOURCES = \
-  jpcre2match.cpp \
+  test_match2.cpp \
   $(JPCRE2_SOURCES)
 
 jpcre2match_CXXFLAGS = \
@@ -379,7 +386,7 @@ jpcre2match_CXXFLAGS = \
 
 #Building jpcre2replace
 jpcre2replace_SOURCES = \
-  jpcre2replace.cpp \
+  test_replace2.cpp \
   $(JPCRE2_SOURCES)
 
 jpcre2replace_CXXFLAGS = \
@@ -471,49 +478,9 @@ clean-libLTLIBRARIES:
 
 libjpcre2-8.la: $(libjpcre2_8_la_OBJECTS) $(libjpcre2_8_la_DEPENDENCIES) $(EXTRA_libjpcre2_8_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(libjpcre2_8_la_LINK) -rpath $(libdir) $(libjpcre2_8_la_OBJECTS) $(libjpcre2_8_la_LIBADD) $(LIBS)
-install-binPROGRAMS: $(bin_PROGRAMS)
-	@$(NORMAL_INSTALL)
-	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(bindir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(bindir)" || exit 1; \
-	fi; \
-	for p in $$list; do echo "$$p $$p"; done | \
-	sed 's/$(EXEEXT)$$//' | \
-	while read p p1; do if test -f $$p \
-	 || test -f $$p1 \
-	  ; then echo "$$p"; echo "$$p"; else :; fi; \
-	done | \
-	sed -e 'p;s,.*/,,;n;h' \
-	    -e 's|.*|.|' \
-	    -e 'p;x;s,.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/' | \
-	sed 'N;N;N;s,\n, ,g' | \
-	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1 } \
-	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
-	    if ($$2 == $$4) files[d] = files[d] " " $$1; \
-	    else { print "f", $$3 "/" $$4, $$1; } } \
-	  END { for (d in files) print "f", d, files[d] }' | \
-	while read type dir files; do \
-	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
-	    test -z "$$files" || { \
-	    echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
-	    $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
-	    } \
-	; done
 
-uninstall-binPROGRAMS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
-	files=`for p in $$list; do echo "$$p"; done | \
-	  sed -e 'h;s,^.*/,,;s/$(EXEEXT)$$//;$(transform)' \
-	      -e 's/$$/$(EXEEXT)/' \
-	`; \
-	test -n "$$list" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(bindir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(bindir)" && rm -f $$files
-
-clean-binPROGRAMS:
-	@list='$(bin_PROGRAMS)'; test -n "$$list" || exit 0; \
+clean-noinstPROGRAMS:
+	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
 	echo " rm -f" $$list; \
 	rm -f $$list || exit $$?; \
 	test -n "$(EXEEXT)" || exit 0; \
@@ -536,10 +503,16 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2match-jpcre2.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2match-jpcre2match.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2match-jpcre2_match.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2match-jpcre2_replace.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2match-test_match2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2replace-jpcre2.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2replace-jpcre2replace.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2replace-jpcre2_match.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2replace-jpcre2_replace.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jpcre2replace-test_replace2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libjpcre2_8_la-jpcre2.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libjpcre2_8_la-jpcre2_match.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libjpcre2_8_la-jpcre2_replace.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -562,6 +535,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
+libjpcre2_8_la-jpcre2_match.lo: jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) -MT libjpcre2_8_la-jpcre2_match.lo -MD -MP -MF $(DEPDIR)/libjpcre2_8_la-jpcre2_match.Tpo -c -o libjpcre2_8_la-jpcre2_match.lo `test -f 'jpcre2_match.cpp' || echo '$(srcdir)/'`jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libjpcre2_8_la-jpcre2_match.Tpo $(DEPDIR)/libjpcre2_8_la-jpcre2_match.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_match.cpp' object='libjpcre2_8_la-jpcre2_match.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) -c -o libjpcre2_8_la-jpcre2_match.lo `test -f 'jpcre2_match.cpp' || echo '$(srcdir)/'`jpcre2_match.cpp
+
+libjpcre2_8_la-jpcre2_replace.lo: jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) -MT libjpcre2_8_la-jpcre2_replace.lo -MD -MP -MF $(DEPDIR)/libjpcre2_8_la-jpcre2_replace.Tpo -c -o libjpcre2_8_la-jpcre2_replace.lo `test -f 'jpcre2_replace.cpp' || echo '$(srcdir)/'`jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libjpcre2_8_la-jpcre2_replace.Tpo $(DEPDIR)/libjpcre2_8_la-jpcre2_replace.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_replace.cpp' object='libjpcre2_8_la-jpcre2_replace.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) -c -o libjpcre2_8_la-jpcre2_replace.lo `test -f 'jpcre2_replace.cpp' || echo '$(srcdir)/'`jpcre2_replace.cpp
+
 libjpcre2_8_la-jpcre2.lo: jpcre2.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) -MT libjpcre2_8_la-jpcre2.lo -MD -MP -MF $(DEPDIR)/libjpcre2_8_la-jpcre2.Tpo -c -o libjpcre2_8_la-jpcre2.lo `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libjpcre2_8_la-jpcre2.Tpo $(DEPDIR)/libjpcre2_8_la-jpcre2.Plo
@@ -569,19 +556,47 @@ libjpcre2_8_la-jpcre2.lo: jpcre2.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libjpcre2_8_la_CXXFLAGS) $(CXXFLAGS) -c -o libjpcre2_8_la-jpcre2.lo `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
 
-jpcre2match-jpcre2match.o: jpcre2match.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-jpcre2match.o -MD -MP -MF $(DEPDIR)/jpcre2match-jpcre2match.Tpo -c -o jpcre2match-jpcre2match.o `test -f 'jpcre2match.cpp' || echo '$(srcdir)/'`jpcre2match.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2match-jpcre2match.Tpo $(DEPDIR)/jpcre2match-jpcre2match.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2match.cpp' object='jpcre2match-jpcre2match.o' libtool=no @AMDEPBACKSLASH@
+jpcre2match-test_match2.o: test_match2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-test_match2.o -MD -MP -MF $(DEPDIR)/jpcre2match-test_match2.Tpo -c -o jpcre2match-test_match2.o `test -f 'test_match2.cpp' || echo '$(srcdir)/'`test_match2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2match-test_match2.Tpo $(DEPDIR)/jpcre2match-test_match2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_match2.cpp' object='jpcre2match-test_match2.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2match-jpcre2match.o `test -f 'jpcre2match.cpp' || echo '$(srcdir)/'`jpcre2match.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2match-test_match2.o `test -f 'test_match2.cpp' || echo '$(srcdir)/'`test_match2.cpp
 
-jpcre2match-jpcre2match.obj: jpcre2match.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-jpcre2match.obj -MD -MP -MF $(DEPDIR)/jpcre2match-jpcre2match.Tpo -c -o jpcre2match-jpcre2match.obj `if test -f 'jpcre2match.cpp'; then $(CYGPATH_W) 'jpcre2match.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2match.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2match-jpcre2match.Tpo $(DEPDIR)/jpcre2match-jpcre2match.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2match.cpp' object='jpcre2match-jpcre2match.obj' libtool=no @AMDEPBACKSLASH@
+jpcre2match-test_match2.obj: test_match2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-test_match2.obj -MD -MP -MF $(DEPDIR)/jpcre2match-test_match2.Tpo -c -o jpcre2match-test_match2.obj `if test -f 'test_match2.cpp'; then $(CYGPATH_W) 'test_match2.cpp'; else $(CYGPATH_W) '$(srcdir)/test_match2.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2match-test_match2.Tpo $(DEPDIR)/jpcre2match-test_match2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_match2.cpp' object='jpcre2match-test_match2.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2match-jpcre2match.obj `if test -f 'jpcre2match.cpp'; then $(CYGPATH_W) 'jpcre2match.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2match.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2match-test_match2.obj `if test -f 'test_match2.cpp'; then $(CYGPATH_W) 'test_match2.cpp'; else $(CYGPATH_W) '$(srcdir)/test_match2.cpp'; fi`
+
+jpcre2match-jpcre2_match.o: jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-jpcre2_match.o -MD -MP -MF $(DEPDIR)/jpcre2match-jpcre2_match.Tpo -c -o jpcre2match-jpcre2_match.o `test -f 'jpcre2_match.cpp' || echo '$(srcdir)/'`jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2match-jpcre2_match.Tpo $(DEPDIR)/jpcre2match-jpcre2_match.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_match.cpp' object='jpcre2match-jpcre2_match.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2match-jpcre2_match.o `test -f 'jpcre2_match.cpp' || echo '$(srcdir)/'`jpcre2_match.cpp
+
+jpcre2match-jpcre2_match.obj: jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-jpcre2_match.obj -MD -MP -MF $(DEPDIR)/jpcre2match-jpcre2_match.Tpo -c -o jpcre2match-jpcre2_match.obj `if test -f 'jpcre2_match.cpp'; then $(CYGPATH_W) 'jpcre2_match.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_match.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2match-jpcre2_match.Tpo $(DEPDIR)/jpcre2match-jpcre2_match.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_match.cpp' object='jpcre2match-jpcre2_match.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2match-jpcre2_match.obj `if test -f 'jpcre2_match.cpp'; then $(CYGPATH_W) 'jpcre2_match.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_match.cpp'; fi`
+
+jpcre2match-jpcre2_replace.o: jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-jpcre2_replace.o -MD -MP -MF $(DEPDIR)/jpcre2match-jpcre2_replace.Tpo -c -o jpcre2match-jpcre2_replace.o `test -f 'jpcre2_replace.cpp' || echo '$(srcdir)/'`jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2match-jpcre2_replace.Tpo $(DEPDIR)/jpcre2match-jpcre2_replace.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_replace.cpp' object='jpcre2match-jpcre2_replace.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2match-jpcre2_replace.o `test -f 'jpcre2_replace.cpp' || echo '$(srcdir)/'`jpcre2_replace.cpp
+
+jpcre2match-jpcre2_replace.obj: jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-jpcre2_replace.obj -MD -MP -MF $(DEPDIR)/jpcre2match-jpcre2_replace.Tpo -c -o jpcre2match-jpcre2_replace.obj `if test -f 'jpcre2_replace.cpp'; then $(CYGPATH_W) 'jpcre2_replace.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_replace.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2match-jpcre2_replace.Tpo $(DEPDIR)/jpcre2match-jpcre2_replace.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_replace.cpp' object='jpcre2match-jpcre2_replace.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2match-jpcre2_replace.obj `if test -f 'jpcre2_replace.cpp'; then $(CYGPATH_W) 'jpcre2_replace.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_replace.cpp'; fi`
 
 jpcre2match-jpcre2.o: jpcre2.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -MT jpcre2match-jpcre2.o -MD -MP -MF $(DEPDIR)/jpcre2match-jpcre2.Tpo -c -o jpcre2match-jpcre2.o `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
@@ -597,19 +612,47 @@ jpcre2match-jpcre2.obj: jpcre2.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2match_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2match-jpcre2.obj `if test -f 'jpcre2.cpp'; then $(CYGPATH_W) 'jpcre2.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2.cpp'; fi`
 
-jpcre2replace-jpcre2replace.o: jpcre2replace.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -MT jpcre2replace-jpcre2replace.o -MD -MP -MF $(DEPDIR)/jpcre2replace-jpcre2replace.Tpo -c -o jpcre2replace-jpcre2replace.o `test -f 'jpcre2replace.cpp' || echo '$(srcdir)/'`jpcre2replace.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2replace-jpcre2replace.Tpo $(DEPDIR)/jpcre2replace-jpcre2replace.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2replace.cpp' object='jpcre2replace-jpcre2replace.o' libtool=no @AMDEPBACKSLASH@
+jpcre2replace-test_replace2.o: test_replace2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -MT jpcre2replace-test_replace2.o -MD -MP -MF $(DEPDIR)/jpcre2replace-test_replace2.Tpo -c -o jpcre2replace-test_replace2.o `test -f 'test_replace2.cpp' || echo '$(srcdir)/'`test_replace2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2replace-test_replace2.Tpo $(DEPDIR)/jpcre2replace-test_replace2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_replace2.cpp' object='jpcre2replace-test_replace2.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2replace-jpcre2replace.o `test -f 'jpcre2replace.cpp' || echo '$(srcdir)/'`jpcre2replace.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2replace-test_replace2.o `test -f 'test_replace2.cpp' || echo '$(srcdir)/'`test_replace2.cpp
 
-jpcre2replace-jpcre2replace.obj: jpcre2replace.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -MT jpcre2replace-jpcre2replace.obj -MD -MP -MF $(DEPDIR)/jpcre2replace-jpcre2replace.Tpo -c -o jpcre2replace-jpcre2replace.obj `if test -f 'jpcre2replace.cpp'; then $(CYGPATH_W) 'jpcre2replace.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2replace.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2replace-jpcre2replace.Tpo $(DEPDIR)/jpcre2replace-jpcre2replace.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2replace.cpp' object='jpcre2replace-jpcre2replace.obj' libtool=no @AMDEPBACKSLASH@
+jpcre2replace-test_replace2.obj: test_replace2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -MT jpcre2replace-test_replace2.obj -MD -MP -MF $(DEPDIR)/jpcre2replace-test_replace2.Tpo -c -o jpcre2replace-test_replace2.obj `if test -f 'test_replace2.cpp'; then $(CYGPATH_W) 'test_replace2.cpp'; else $(CYGPATH_W) '$(srcdir)/test_replace2.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2replace-test_replace2.Tpo $(DEPDIR)/jpcre2replace-test_replace2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_replace2.cpp' object='jpcre2replace-test_replace2.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2replace-jpcre2replace.obj `if test -f 'jpcre2replace.cpp'; then $(CYGPATH_W) 'jpcre2replace.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2replace.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2replace-test_replace2.obj `if test -f 'test_replace2.cpp'; then $(CYGPATH_W) 'test_replace2.cpp'; else $(CYGPATH_W) '$(srcdir)/test_replace2.cpp'; fi`
+
+jpcre2replace-jpcre2_match.o: jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -MT jpcre2replace-jpcre2_match.o -MD -MP -MF $(DEPDIR)/jpcre2replace-jpcre2_match.Tpo -c -o jpcre2replace-jpcre2_match.o `test -f 'jpcre2_match.cpp' || echo '$(srcdir)/'`jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2replace-jpcre2_match.Tpo $(DEPDIR)/jpcre2replace-jpcre2_match.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_match.cpp' object='jpcre2replace-jpcre2_match.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2replace-jpcre2_match.o `test -f 'jpcre2_match.cpp' || echo '$(srcdir)/'`jpcre2_match.cpp
+
+jpcre2replace-jpcre2_match.obj: jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -MT jpcre2replace-jpcre2_match.obj -MD -MP -MF $(DEPDIR)/jpcre2replace-jpcre2_match.Tpo -c -o jpcre2replace-jpcre2_match.obj `if test -f 'jpcre2_match.cpp'; then $(CYGPATH_W) 'jpcre2_match.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_match.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2replace-jpcre2_match.Tpo $(DEPDIR)/jpcre2replace-jpcre2_match.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_match.cpp' object='jpcre2replace-jpcre2_match.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2replace-jpcre2_match.obj `if test -f 'jpcre2_match.cpp'; then $(CYGPATH_W) 'jpcre2_match.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_match.cpp'; fi`
+
+jpcre2replace-jpcre2_replace.o: jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -MT jpcre2replace-jpcre2_replace.o -MD -MP -MF $(DEPDIR)/jpcre2replace-jpcre2_replace.Tpo -c -o jpcre2replace-jpcre2_replace.o `test -f 'jpcre2_replace.cpp' || echo '$(srcdir)/'`jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2replace-jpcre2_replace.Tpo $(DEPDIR)/jpcre2replace-jpcre2_replace.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_replace.cpp' object='jpcre2replace-jpcre2_replace.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2replace-jpcre2_replace.o `test -f 'jpcre2_replace.cpp' || echo '$(srcdir)/'`jpcre2_replace.cpp
+
+jpcre2replace-jpcre2_replace.obj: jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -MT jpcre2replace-jpcre2_replace.obj -MD -MP -MF $(DEPDIR)/jpcre2replace-jpcre2_replace.Tpo -c -o jpcre2replace-jpcre2_replace.obj `if test -f 'jpcre2_replace.cpp'; then $(CYGPATH_W) 'jpcre2_replace.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_replace.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/jpcre2replace-jpcre2_replace.Tpo $(DEPDIR)/jpcre2replace-jpcre2_replace.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_replace.cpp' object='jpcre2replace-jpcre2_replace.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -c -o jpcre2replace-jpcre2_replace.obj `if test -f 'jpcre2_replace.cpp'; then $(CYGPATH_W) 'jpcre2_replace.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_replace.cpp'; fi`
 
 jpcre2replace-jpcre2.o: jpcre2.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(jpcre2replace_CXXFLAGS) $(CXXFLAGS) -MT jpcre2replace-jpcre2.o -MD -MP -MF $(DEPDIR)/jpcre2replace-jpcre2.Tpo -c -o jpcre2replace-jpcre2.o `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
@@ -737,10 +780,8 @@ distdir: $(DISTFILES)
 check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(HEADERS)
-install-binPROGRAMS: install-libLTLIBRARIES
-
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -775,8 +816,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool mostlyclean-am
+clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+	clean-noinstPROGRAMS mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -802,7 +843,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS install-libLTLIBRARIES
+install-exec-am: install-libLTLIBRARIES
 
 install-html: install-html-am
 
@@ -842,27 +883,25 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
-	uninstall-libLTLIBRARIES
+uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES
 
 .MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
-	clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool cscopelist-am ctags ctags-am distclean \
-	distclean-compile distclean-generic distclean-libtool \
-	distclean-tags distdir dvi dvi-am html html-am info info-am \
-	install install-am install-binPROGRAMS install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am \
+.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
+	clean-libLTLIBRARIES clean-libtool clean-noinstPROGRAMS \
+	cscopelist-am ctags ctags-am distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
 	install-includeHEADERS install-info install-info-am \
 	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-includeHEADERS uninstall-libLTLIBRARIES
+	tags tags-am uninstall uninstall-am uninstall-includeHEADERS \
+	uninstall-libLTLIBRARIES
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
