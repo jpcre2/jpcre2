@@ -61,7 +61,7 @@ int main(){
     ///All the matches in all the maps combines the total match throughout the entire string.
     std::cout<<"\nTotal number of matches: "<<matched<<std::endl;
     if(matched){
-        for(int i=0;i<(int)vec_num0.size();i++){
+        for(size_t i=0;i<vec_num0.size();i++){
             
             
             std::cout<< "\n################## Match no: "<<i+1<<" ####################\n";

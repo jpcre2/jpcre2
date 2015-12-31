@@ -78,12 +78,12 @@ Each object for each regex pattern.
 Compile the pattern and catch any error exception:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
 try{
-    re.compile()                                                            //Invoke the compile() function
-      .pattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")     //set various parameters
-      .modifiers("JiuX")                                                    //...
-      .jpcre2Options(jpcre2::VALIDATE_MODIFIER)                             //...
-      .pcre2Options(0)                                                      //...
-      .execute();                                                           //Finaly execute it.   
+    re.compile()            //Invoke the compile() function
+      .pattern(pat)         //set various parameters
+      .modifiers("JiuX")    //...
+      .jpcre2Options(0)     //...
+      .pcre2Options(0)      //...
+      .execute();           //Finaly execute it.   
     
     //Another way is to use constructor to initialize and compile at the same time:
     jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
@@ -109,7 +109,7 @@ jpcre2::VecNum vec_num;
 try{
     size_t count=re.match(subject)                            //Invoke the match() function
                    .modifiers(ac_mod)                         //Set various options
-                   .numberedSubstringVector(vec_num)        //...
+                   .numberedSubstringVector(vec_num)          //...
                    .jpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
                    .execute();                                //Finally execute it.
     //vec_num will be populated with maps of numbered substrings.
@@ -122,7 +122,7 @@ catch(int e){
 </code></pre>
 Access the substrings like this:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
-for(int i=0;i&lt;(int)vec_num.size();i++){
+for(size_t i=0;i&lt;vec_num.size();i++){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=1 is the second and so forth
     for(auto const&amp; ent : vec_num[i]){
@@ -145,9 +145,9 @@ std::string ac_mod="g"; // g is for global match. Equivalent to using findAll() 
 try{
     re.match(subject)                            //Invoke the match() function
       .modifiers(ac_mod)                         //Set various options
-      .numberedSubstringVector(vec_num)         //...
-      .namedSubstringVector(vec_nas)            //...
-      .nameToNumberMapVector(vec_ntn)           //...
+      .numberedSubstringVector(vec_num)          //...
+      .namedSubstringVector(vec_nas)             //...
+      .nameToNumberMapVector(vec_ntn)            //...
       .jpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
       .pcre2Options(PCRE2_ANCHORED)              //...
       .execute();                                //Finally execute it.
@@ -169,13 +169,13 @@ Perform replace and catch any error exception:
 <pre class="highlight prettyprint"><code class="highlight-source-c++ cpp">
 try{
     std::cout&lt;&lt;
-    re.replace()                                                        //Invoke the replace() function
-      .subject(s)                                                       //Set various parameters
-      .replaceWith("(replaced:$1)(replaced:$2)(replaced:${word})")      //...
-      .modifiers("gE")                                                  //...
-      .jpcre2Options(jpcre2::VALIDATE_MODIFIER)                         //...
-      .pcre2Options(0)                                                  //...
-      .execute();                                                       //Finally execute it.
+    re.replace()        //Invoke the replace() function
+      .subject(s)       //Set various parameters
+      .replaceWith(s2)  //...
+      .modifiers("gE")  //...
+      .jpcre2Options(0) //...
+      .pcre2Options(0)  //...
+      .execute();       //Finally execute it.
     //gE is the modifier passed (global and unknown-unset-empty).
     //Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
     // or ${name} (for named substrings) in the replacement part i.e in replaceWith()
@@ -226,32 +226,32 @@ int getErrorCode();
 PCRE2_SIZE getErrorOffset();
 
 void               compile()
-                  .pattern(const String& re)
-                  .modifiers(const String& x)
-                  .locale(const String& x)
-                  .jpcre2Options(uint32_t x)
-                  .pcre2Options(uint32_t x)
-                  .execute();
+                   pattern(const String& re)
+                   modifiers(const String& x)
+                   locale(const String& x)
+                   jpcre2Options(uint32_t x)
+                   pcre2Options(uint32_t x)
+                   execute();
 
 size_t             match()
-                  .subject(const String& s)
-                  .modifiers(const String& s)
-                  .numberedSubstringsVector(VecNum& vec_num)
-                  .namedSubstringsVector(VecNas& vec_nas)
-                  .nameToNumberMapsVector(VecNtN& vec_ntn)
-                  .jpcre2Options(uint32_t x)
-                  .pcre2Options(uint32_t x)
-                  .findAll()
-                  .execute();
+                   subject(const String& s)
+                   modifiers(const String& s)
+                   numberedSubstringsVector(VecNum& vec_num)
+                   namedSubstringsVector(VecNas& vec_nas)
+                   nameToNumberMapsVector(VecNtN& vec_ntn)
+                   jpcre2Options(uint32_t x)
+                   pcre2Options(uint32_t x)
+                   findAll()
+                   execute();
                   
 std::string        replace()
-                  .subject(const String& s)
-                  .replaceWith(const String& s)
-                  .modifiers(const String& s)
-                  .jpcre2Options(uint32_t x)
-                  .pcre2Options(uint32_t x)
-                  .bufferSize(PCRE2_SIZE x)
-                  .execute();
+                   subject(const String& s)
+                   replaceWith(const String& s)
+                   modifiers(const String& s)
+                   jpcre2Options(uint32_t x)
+                   pcre2Options(uint32_t x)
+                   bufferSize(PCRE2_SIZE x)
+                   execute();
 
 
 ```
