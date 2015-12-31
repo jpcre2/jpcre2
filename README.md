@@ -27,8 +27,6 @@ An example compile/build command with GCC would be:
 g++ mycpp.cpp jpcre2_match.cpp jpcre2_replace.cpp jpcre2.cpp jpcre2.h -lpcre2-8
 ```
 
-*Currently only the 8-bit library is supported by jpcre2.
-
 If your PCRE2 library is not in the standard library path, then add the path:
 
 ```sh
@@ -157,7 +155,7 @@ catch(int e){
     std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
 }
 </code></pre>
-And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same and can be accessed by the same way.
+And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same and can be accessed in the same way.
 </li>
     </ul>
 <li>
@@ -212,6 +210,8 @@ Let's take a quick look what's inside and how things are working here:
 ###Functions at a glance:
 
 ```cpp
+//Class Regex
+
 std::string getModifier()
 std::string getPattern()
 std::string getLocale()                ///Gets LC_CTYPE
@@ -235,6 +235,9 @@ Regex&              pcre2Options(uint32_t x)
 void                execute()
 
 RegexMatch&         match()
+
+//Class RegexMatch
+
 RegexMatch&         numberedSubstringVector(VecNum& vec_num)
 RegexMatch&         namedSubstringVector(VecNas& vec_nas)
 RegexMatch&         nameToNumberMapVector(VecNtN& vec_ntn)
@@ -245,8 +248,10 @@ RegexMatch&         pcre2Options(uint32_t x=NONE)
 RegexMatch&         findAll()
 size_t              execute()
 
-                  
 RegexReplace&       replace()
+
+//Class RegexReplace
+
 RegexReplace&       subject(const String& s)
 RegexReplace&       replaceWith(const String& s)
 RegexReplace&       modifiers(const String& s)
