@@ -30,7 +30,7 @@ g++ mycpp.cpp jpcre2_match.cpp jpcre2_replace.cpp jpcre2.cpp jpcre2.h -lpcre2-8
 If your PCRE2 library is not in the standard library path, then add the path:
 
 ```sh
-g++ -std=c++11 mycpp.cpp -L/path/to/your/pcre2/library -lpcre2-8
+g++ -std=c++11 mycpp.cpp ... -L/path/to/your/pcre2/library -lpcre2-8
 ```
 
 **Note that** it requires the PCRE2 library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
