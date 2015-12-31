@@ -97,7 +97,7 @@ Now you can perform match or replace against the pattern. Use the <code>match()<
 </li>
   <ol>
 <li>
-<b>Match:</b> The <code>match()</code> member function can take upto an optional argument (subject) and returns an object of the class *RegexMatch* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexMatch* class. The end function in the method chain should always be the `execute()` function which returns the result (number of matches found).
+<b>Match:</b> The <code>match()</code> member function can take upto an optional argument (subject) and returns an object of the class <i>RegexMatch</i> which then in turn can be used to pass various parameters using  available member functions (method chaining) of <i>RegexMatch</i> class. The end function in the method chain should always be the <code>execute()</code> function which returns the result (number of matches found).
 </li>
     <ul>
 <li>
@@ -134,7 +134,7 @@ for(size_t i=0;i&lt;vec_num.size();i++){
 </code></pre>
 </li>
 <li>
-To get named substrings or name to number mapping, simply pass the appropriate vectors with `numberedSubstringVector()` and/or `namedSubstringVector()` and/or `nameToNumberMapVector()`:
+To get named substrings or name to number mapping, simply pass the appropriate vectors with <code>numberedSubstringVector()</code> and/or <code>namedSubstringVector()</code> and/or <code>nameToNumberMapVector()</code>:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
 jpcre2::VecNum vec_num;   ///Vector to store numbured substring Map.
 jpcre2::VecNas vec_nas;   ///Vector to store named substring Map.
@@ -159,7 +159,7 @@ And access the substrings by looping through the vectors and associated maps. Th
 </li>
     </ul>
 <li>
-<b>Replace:</b> The <code>replace()</code> member function can take upto two optional arguments (subject and replacement string) and returns an object of the class *RegexReplace* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexReplace* class. The end function in the method chain should always be the `execute()` function which returns the result (replaced string).
+<b>Replace:</b> The <code>replace()</code> member function can take upto two optional arguments (subject and replacement string) and returns an object of the class <i>RegexReplace</i> which then in turn can be used to pass various parameters using  available member functions (method chaining) of <i>RegexReplace</i> class. The end function in the method chain should always be the <code>execute()</code> function which returns the result (replaced string).
 </li>
     <ul>
 <li>
@@ -186,7 +186,7 @@ catch(int e){
 </code></pre>
 </li>
 <li>
-If you pass the size of the resultant string with `bufferSize()` function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called <i>twice</i> to adjust the size of the buffer to hold the whole resultant string in order to avoid <code>PCRE2_ERROR_NOMEMORY</code> error.
+If you pass the size of the resultant string with <code>bufferSize()</code> function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called <i>twice</i> to adjust the size of the buffer to hold the whole resultant string in order to avoid <code>PCRE2_ERROR_NOMEMORY</code> error.
 </li>
     </ul>
   </ol>
