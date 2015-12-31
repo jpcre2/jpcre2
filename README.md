@@ -209,50 +209,51 @@ Let's take a quick look what's inside and how things are working here:
 2. **RegexMatch:** This is the class that holds all the useful functions to perform regex match according to the compiled pattern.
 3. **RegexReplace:** This is the class that holds all the useful functions to perform replacement according to the compiled pattern.
 
-###Functions & their usable forms at a glance:
+###Functions at a glance:
 
 ```cpp
-std::string getModifier();
-std::string getPattern();
-std::string getLocale();                ///Gets LC_CTYPE
-uint32_t getCompileOpts();              ///returns the compile opts used for compilation
+std::string getModifier()
+std::string getPattern()
+std::string getLocale()                ///Gets LC_CTYPE
+uint32_t getCompileOpts()              ///returns the compile opts used for compilation
 
 ///Error handling
-std::string getErrorMessage(int err_num);
-std::string getErrorMessage();
-std::string getWarningMessage();
-int getErrorNumber();
-int getErrorCode();
-PCRE2_SIZE getErrorOffset();
+std::string getErrorMessage(int err_num)
+std::string getErrorMessage()
+std::string getWarningMessage()
+int getErrorNumber()
+int getErrorCode()
+PCRE2_SIZE getErrorOffset()
 
-void               compile()
-                   pattern(const String& re)
-                   modifiers(const String& x)
-                   locale(const String& x)
-                   jpcre2Options(uint32_t x)
-                   pcre2Options(uint32_t x)
-                   execute();
+Regex&              compile(const String& re,const String& mod)
+Regex&              compile(const String& re="")
+Regex&              pattern(const String& re)
+Regex&              modifiers(const String& x)
+Regex&              locale(const String& x)
+Regex&              jpcre2Options(uint32_t x)
+Regex&              pcre2Options(uint32_t x)
+void                execute()
 
-size_t             match()
-                   subject(const String& s)
-                   modifiers(const String& s)
-                   numberedSubstringsVector(VecNum& vec_num)
-                   namedSubstringsVector(VecNas& vec_nas)
-                   nameToNumberMapsVector(VecNtN& vec_ntn)
-                   jpcre2Options(uint32_t x)
-                   pcre2Options(uint32_t x)
-                   findAll()
-                   execute();
+RegexMatch&         match()
+RegexMatch&         numberedSubstringVector(VecNum& vec_num)
+RegexMatch&         namedSubstringVector(VecNas& vec_nas)
+RegexMatch&         nameToNumberMapVector(VecNtN& vec_ntn)
+RegexMatch&         subject(const String& s)
+RegexMatch&         modifiers(const String& s)
+RegexMatch&         jpcre2Options(uint32_t x=NONE)
+RegexMatch&         pcre2Options(uint32_t x=NONE)
+RegexMatch&         findAll()
+size_t              execute()
+
                   
-std::string        replace()
-                   subject(const String& s)
-                   replaceWith(const String& s)
-                   modifiers(const String& s)
-                   jpcre2Options(uint32_t x)
-                   pcre2Options(uint32_t x)
-                   bufferSize(PCRE2_SIZE x)
-                   execute();
-
+RegexReplace&       replace()
+RegexReplace&       subject(const String& s)
+RegexReplace&       replaceWith(const String& s)
+RegexReplace&       modifiers(const String& s)
+RegexReplace&       jpcre2Options(uint32_t x=NONE)
+RegexReplace&       pcre2Options(uint32_t x=NONE)
+RegexReplace&       bufferSize(PCRE2_SIZE x)
+std::string         execute()
 
 ```
 
