@@ -83,6 +83,7 @@ namespace jpcre2{
     
     
     typedef size_t Uint;
+    typedef size_t SIZE_T;
     typedef unsigned short Ush;
     typedef std::string String;
     
