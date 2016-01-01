@@ -247,7 +247,7 @@ RegexMatch&         modifiers(const String& s)
 RegexMatch&         jpcre2Options(uint32_t x=NONE)
 RegexMatch&         pcre2Options(uint32_t x=NONE)
 RegexMatch&         findAll()
-size_t              execute()  //executes the match operation
+SIZE_T              execute()  //executes the match operation
 
 
 //Class RegexReplace
@@ -258,7 +258,7 @@ RegexReplace&       modifiers(const String& s)
 RegexReplace&       jpcre2Options(uint32_t x=NONE)
 RegexReplace&       pcre2Options(uint32_t x=NONE)
 RegexReplace&       bufferSize(PCRE2_SIZE x)
-std::string         execute() //executes the replacement operation
+String              execute() //executes the replacement operation
 
 ```
 
