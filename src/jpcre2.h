@@ -244,9 +244,9 @@ namespace jpcre2{
             // Warning msg 
             String current_warning_msg;
             
-            ///Regex re=Regex(); and such are not allowed.
-            Regex(const Regex&);
-            void operator=(const Regex&);
+            //~ ///Regex re=Regex(); and such are not allowed.
+            //~ Regex(const Regex&);
+            //~ void operator=(const Regex&);
             
             ///We can't let user call this function explicitly
             void freeRegexMemory(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
@@ -277,10 +277,9 @@ namespace jpcre2{
             friend class RegexReplace;
             
         public:
-    
+            Regex(const Regex&){init();}
             Regex(){init();}
-            Regex(const String& re)                     {init(re);    }
-            Regex(const String& re, const String& mod)  {init(re,mod);}
+            Regex(const String& re, const String& mod="")  {init(re,mod);}
             
             ~Regex(){freeRegexMemory();}
             
