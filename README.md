@@ -305,7 +305,7 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
 These options are meaningful only for the jpcre2 library itself not the original PCRE2 library. We use the `jpcre2Options()` function to pass these options.
 
 1. **jpcre2::NONE**: This is the default option. Equivalent to 0 (zero).
-2. **jpcre2::VALIDATE_MODIFIER**: If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message by `getErrorMessage(error_code)` member function.
+2. **jpcre2::VALIDATE_MODIFIER**: If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message with `getErrorMessage(error_code)` member function.
 3. **jpcre2::FIND_ALL**: This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `modifiers()` function.
 
 ###PCRE2 options:
