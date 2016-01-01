@@ -212,17 +212,17 @@ Let's take a quick look what's inside and how things are working here:
 ```cpp
 //Class Regex
 
-std::string getModifier()
-std::string getPattern()
-std::string getLocale()                ///Gets LC_CTYPE
-uint32_t getCompileOpts()              ///returns the compile opts used for compilation
+String     getModifier()
+String     getPattern()
+String     getLocale()       ///Gets LC_CTYPE
+uint32_t   getCompileOpts()  ///Returns the compile opts used for compilation
 
 ///Error handling
-std::string getErrorMessage(int err_num)
-std::string getErrorMessage()
-std::string getWarningMessage()
-int getErrorNumber()
-int getErrorCode()
+String     getErrorMessage(int err_num)
+String     getErrorMessage()
+String     getWarningMessage()
+int        getErrorNumber()
+int        getErrorCode()
 PCRE2_SIZE getErrorOffset()
 
 Regex&              compile(const String& re,const String& mod)
