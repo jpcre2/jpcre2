@@ -322,8 +322,13 @@ While having its own way of doing things, JPCRE2 also supports the traditional P
 test_match:
 ----------
 
+```
+subject = "(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56)"
+pattern = "(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)"
+```
+
 ![jpcre2 screenshot1](img/s1_1.png)
 ![jpcre2 screenshot2](img/s1_2.png)
 ![jpcre2 screenshot3](img/s1_3.png)
-![jpcre2 screenshot4](img/s1_4.png)
+
 
