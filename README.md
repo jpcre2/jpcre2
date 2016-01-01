@@ -64,7 +64,7 @@ If you are in a non-Unix system (e.g Windows), build a library from the jpcre2 s
 <li>To use the PCRE2 POSIX compatible library, add the `-lpcre2-posix` along with the others.
 </ol>
 
-#How to code:
+#How to code with jpcre2:
 
 <ol>
 <li>
@@ -81,7 +81,7 @@ try{
       .modifiers("JiuX")    //...
       .jpcre2Options(0)     //...
       .pcre2Options(0)      //...
-      .execute();           //Finaly execute it.   
+      .execute();           //Finaly execute it.
     
     //Another way is to use constructor to initialize and compile at the same time:
     jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
@@ -232,9 +232,10 @@ Regex&              modifiers(const String& x)
 Regex&              locale(const String& x)
 Regex&              jpcre2Options(uint32_t x)
 Regex&              pcre2Options(uint32_t x)
-void                execute()
+void                execute()  //executes the compile operation.
 
 RegexMatch&         match()
+RegexReplace&       replace()
 
 //Class RegexMatch
 
@@ -246,9 +247,8 @@ RegexMatch&         modifiers(const String& s)
 RegexMatch&         jpcre2Options(uint32_t x=NONE)
 RegexMatch&         pcre2Options(uint32_t x=NONE)
 RegexMatch&         findAll()
-size_t              execute()
+size_t              execute()  //executes the match operation
 
-RegexReplace&       replace()
 
 //Class RegexReplace
 
@@ -258,7 +258,7 @@ RegexReplace&       modifiers(const String& s)
 RegexReplace&       jpcre2Options(uint32_t x=NONE)
 RegexReplace&       pcre2Options(uint32_t x=NONE)
 RegexReplace&       bufferSize(PCRE2_SIZE x)
-std::string         execute()
+std::string         execute() //executes the replacement operation
 
 ```
 
@@ -298,15 +298,28 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
      1. `${<n>:-<string>}`
      2. `${<n>:+<string1>:<string2>}`
 
-  `<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
+  `<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
 
+<div id="jpcre2-options"></div>
+
+###jpcre2 options:
+
+These options are meaningful only for the jpcre2 library itself not the original PCRE2 library. We use the `jpcre2Options()` function to pass these options.
+
+1. **jpcre2::NONE**: This is the default option. Equivalent to 0 (zero).
+2. **jpcre2::VALIDATE_MODIFIER**: If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message by `getErrorMessage(error_code)` member function.
+3. **jpcre2::FIND_ALL**: This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `modifiers()` function.
+
+###PCRE2 options:
+
+While having its own way of doing things, jpcre2 also supports the traditional PCRE2 options to be passed. We use the `pcre2Options()` function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
 
 #Testing:
 
 2. **test_match.cpp**: Contains an example code for match function.
 3. **test_replace.cpp**: Contains an example code for replace function.
-4. **test_match2.cpp**: Another matching example.
-5. **test_replace2.cpp**: Another replacement example.
+4. **test_match2.cpp**: Another matching example. The makefile creates a binary of this (jpcre2match).
+5. **test_replace2.cpp**: Another replacement example. The makefile creates a binary of this (jpcre2replace).
 
 #Screenshots of some test outputs:
 
