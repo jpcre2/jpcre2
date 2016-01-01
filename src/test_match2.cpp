@@ -19,7 +19,7 @@ int main(){
     std::cout<<"Enter pattern: ";
     getLine(pat);
     cp:
-    std::cout<<"Enter compile modifiers (eijmsuxADJSXU): ";
+    std::cout<<"Enter compile modifiers (eijmnsuxADJSU): ";
     getLine(mod);
     
     ///Compile pattern

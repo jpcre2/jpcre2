@@ -78,8 +78,10 @@ Dsclaimer:
             switch (mod[i]){
                 case 'e': compile_opts |= PCRE2_MATCH_UNSET_BACKREF;break;
                 case 'i': compile_opts |= PCRE2_CASELESS;break;
-                case 'j': compile_opts |= PCRE2_ALT_BSUX;break;     ///\u \U \x will act as javascript standard
+                case 'j': compile_opts |= PCRE2_ALT_BSUX                  ///\u \U \x will act as javascript standard
+                                       | PCRE2_MATCH_UNSET_BACKREF;break; ///unset back-references will act as javascript std.
                 case 'm': compile_opts |= PCRE2_MULTILINE;break;
+                case 'n': compile_opts |= PCRE2_UTF | PCRE2_UCP;break;
                 case 's': compile_opts |= PCRE2_DOTALL;break;
                 case 'u': compile_opts |= PCRE2_UTF;break;
                 case 'x': compile_opts |= PCRE2_EXTENDED;break;
@@ -87,7 +89,6 @@ Dsclaimer:
                 case 'D': compile_opts |= PCRE2_DOLLAR_ENDONLY;break;
                 case 'J': compile_opts |= PCRE2_DUPNAMES;break;
                 case 'S': opt_jit_compile=true;jit_opts |= PCRE2_JIT_COMPLETE;break;    ///Optimization opt
-                case 'X': compile_opts |= PCRE2_UCP;break;                              ///This is an enhancement opt
                 case 'U': compile_opts |= PCRE2_UNGREEDY;break;
                 default : if((opt_bits & VALIDATE_MODIFIER)!=0)
                           {error_code=jpcre2_error_offset=(int)mod[i];throw((int)ERROR::INVALID_MODIFIER);}break;

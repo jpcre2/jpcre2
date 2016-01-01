@@ -10,7 +10,7 @@ int main(){
     std::cout<<"\nEnter pattern: ";
     getLine(pat);
     
-    std::cout<<"\nEnter compile modifiers (eijmsuxADJSXU): ";
+    std::cout<<"\nEnter compile modifiers (eijmnsuxADJSU): ";
     getLine(mod);
     jpcre2::Regex re;     ///An empty object is not supposed to throw any exception in normal cases.
     
