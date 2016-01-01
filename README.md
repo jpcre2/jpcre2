@@ -6,10 +6,10 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 <div id="requires"></div>
 #Requirements:
 
-1. pcre2 library (`version >=10.21`).
+1. PCRE2 library (`version >=10.21`).
 2. C++ compiler with C++11 support.
 
-If the required `pcre2` version is not available in the official channel, download <a href="https://github.com/jpcre2">my fork of the library from here</a>, Or use <a href="https://github.com/jpcre2/pcre2">this repository</a> which will always be kept compatible with `jpcre2`.
+If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2">my fork of the library from here</a>, Or use <a href="https://github.com/jpcre2/pcre2">this repository</a> which will always be kept compatible with JPCRE2.
 
 <div id="how-to"></div>
 #Install/Include:
@@ -35,7 +35,7 @@ g++ -std=c++11 mycpp.cpp ... -L/path/to/your/pcre2/library -lpcre2-8
 
 **Note that** it requires the PCRE2 library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
 
-**Installing jpcre2 as a library:**
+**Installing JPCRE2 as a library:**
 
 To install it in a Unix based system, run:
 ```sh
@@ -46,7 +46,7 @@ sudo make install
 Now to use it:
 
 1. `#include <jpcre2.h>` in your code.
-2. Build/compile by linking with jpcre2 and PCRE2 library.
+2. Build/compile by linking with JPCRE2 and PCRE2 library.
 
 An example command for GCC would be:
 
@@ -54,17 +54,17 @@ An example command for GCC would be:
 g++  mycpp.cpp -ljpcre2-8 -lpcre2-8 #sequence is important
 ```
 
-If you are in a non-Unix system (e.g Windows), build a library from the jpcre2 sources with your favourite IDE or use it as it is.
+If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 sources with your favourite IDE or use it as it is.
 
 **Note:**
 
 <ol>
 <li>PCRE2_CODE_UNIT_WIDTH other than 8 is not supported in this version.
 </li>
-<li>To use the PCRE2 POSIX compatible library, add the `-lpcre2-posix` along with the others.
+<li>To use the PCRE2 POSIX compatible library, add the <code>-lpcre2-posix</code> along with the others.
 </ol>
 
-#How to code with jpcre2:
+#How to code with JPCRE2:
 
 <ol>
 <li>
@@ -198,12 +198,12 @@ Let's take a quick look what's inside and how things are working here:
 
 ###Namespaces:
 
-1. **jpcre2_utils :** Some utility functions used by `jpcre2`.
-2. **jpcre2 :** This is the namespace you will be using in your code to access `jpcre2` classes and functions.
+1. **jpcre2_utils :** Some utility functions used by JPCRE2.
+2. **jpcre2 :** This is the namespace you will be using in your code to access JPCRE2 classes and functions.
 
 ###Classes:
 
-1. **Regex :** This is the main class which holds the key utilities of `jpcre2`. Every regex needs an object of this class.
+1. **Regex :** This is the main class which holds the key utilities of JPCRE2. Every regex needs an object of this class.
 2. **RegexMatch:** This is the class that holds all the useful functions to perform regex match according to the compiled pattern.
 3. **RegexReplace:** This is the class that holds all the useful functions to perform replacement according to the compiled pattern.
 
@@ -265,7 +265,7 @@ std::string         execute() //executes the replacement operation
 <div id="modifiers"></div>
 ###Modifiers:
 
-jpcre2 uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. Two types of modifiers are available: **compile modifiers** and **action modifiers**:
+JPCRE2 uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. Two types of modifiers are available: **compile modifiers** and **action modifiers**:
 
 <div id="compile-modifiers"></div>
 
@@ -300,9 +300,9 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
 
 <div id="jpcre2-options"></div>
 
-###jpcre2 options:
+###JPCRE2 options:
 
-These options are meaningful only for the jpcre2 library itself not the original PCRE2 library. We use the `jpcre2Options()` function to pass these options.
+These options are meaningful only for the JPCRE2 library itself not the original PCRE2 library. We use the `jpcre2Options()` function to pass these options.
 
 1. **jpcre2::NONE**: This is the default option. Equivalent to 0 (zero).
 2. **jpcre2::VALIDATE_MODIFIER**: If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message with `getErrorMessage(error_code)` member function.
@@ -310,7 +310,7 @@ These options are meaningful only for the jpcre2 library itself not the original
 
 ###PCRE2 options:
 
-While having its own way of doing things, jpcre2 also supports the traditional PCRE2 options to be passed. We use the `pcre2Options()` function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent *PCRE2_SUBSTITUTE_GLOBAL* to have the same effect.
+While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `pcre2Options()` function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent *PCRE2_SUBSTITUTE_GLOBAL* to have the same effect.
 
 #Testing:
 
