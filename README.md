@@ -270,7 +270,7 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
 <div id="compile-modifiers"></div>
 
 1. **Compile modifiers:** Modifiers that are used to compile a regex. They define the behavior of a regex pattern. The modifiers have more or less the same meaning as the [PHP regex modifiers](http://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>*</sup>). The available compile modifiers are:
-  * **e** : Unset back-references in the pattern will match to empty strings. Equivalent to *PCRE2_MATCH_UNSET_BACKREF*.
+  * **e**<sup>\*</sup> : Unset back-references in the pattern will match to empty strings. Equivalent to *PCRE2_MATCH_UNSET_BACKREF*.
   * **i** : Case-insensitive. Equivalent to *PCRE2_CASELESS* option.
   * **j**<sup>\*</sup> : `\u \U \x` and unset back-referencees will act as JavaScript standard.
      * `\U` matches an upper case "U" character (by default it causes a compile time error if this option is not set).
@@ -278,7 +278,7 @@ jpcre2 uses modifiers to control various options, type, behavior of the regex an
      * `\x` matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after `\x`, but it may have zero, one, or two digits (so, for example, `\xz` matches a binary zero character followed by z) ).
      * Unset back-references in the pattern will match to empty strings.
   * **m** : Multi-line regex. Equivalent to *PCRE2_MULTILINE* option.
-  * **n** : Enable Unicode support for `\w \d` etc... in pattern. Equivalent to *PCRE2_UTF | PCRE2_UCP*.
+  * **n**<sup>\*</sup> : Enable Unicode support for `\w \d` etc... in pattern. Equivalent to *PCRE2_UTF | PCRE2_UCP*.
   * **s** : If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to *PCRE2_DOTALL* option.
   * **u** : Enable UTF support.Treat pattern and subjects as UTF strings. It is equivalent to *PCRE2_UTF* option.
   * **x** : Whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, enables commentary in pattern. Equivalent to *PCRE2_EXTENDED* option.
