@@ -78,7 +78,7 @@ Compile the pattern and catch any error exception:
 try{
     re.compile()            //Invoke the compile() function
       .pattern(pat)         //set various parameters
-      .modifiers("Jin")    //...
+      .modifiers("Jin")     //...
       .jpcre2Options(0)     //...
       .pcre2Options(0)      //...
       .execute();           //Finaly execute it.
@@ -127,8 +127,6 @@ for(size_t i=0;i&lt;vec_num.size();i++){
         //ent.first is the number/position of substring found
         //ent.second is the substring itself
         //when ent.first is 0, ent.second is the total match.
-        //for(auto const&amp; ent : vec_num[i]):C++11 feature
-        //If you want &lt;C++11 method, see pcre2match.cpp.
     }
 }
 </code></pre>
