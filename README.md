@@ -267,7 +267,7 @@ JPCRE2 uses modifiers to control various options, type, behavior of the regex an
 
 <div id="compile-modifiers"></div>
 
-1. **Compile modifiers:** Modifiers that are used to compile a regex. They define the behavior of a regex pattern. The modifiers have more or less the same meaning as the [PHP regex modifiers](http://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>*</sup>). The available compile modifiers are:
+1. **Compile modifiers:** Modifiers that are used to compile a regex. They define the behavior of a regex pattern. The modifiers have more or less the same meaning as the [PHP regex modifiers](https://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>*</sup>). The available compile modifiers are:
   * **e**<sup>\*</sup> : Unset back-references in the pattern will match to empty strings. Equivalent to *PCRE2_MATCH_UNSET_BACKREF*.
   * **i** : Case-insensitive. Equivalent to *PCRE2_CASELESS* option.
   * **j**<sup>\*</sup> : `\u \U \x` and unset back-referencees will act as JavaScript standard.
