@@ -326,9 +326,13 @@ While having its own way of doing things, JPCRE2 also supports the traditional P
 ###Some common functions and their properties:
 
 **`jpcre2Options()`:** This adds the JPCRE2 Options specified with the exiting ones. Multiple call will add further specified options.
+
 **`pcre2Options()`:** This adds the PCRE2 Options specified with the exiting ones. Multiple call will add further specified options.
+
 **`modifiers()`:** This sets the modifier i.e the modifier gets re-initiated. Multiple call will overwrite exiting value.
+
 **`subject()`:** This sets the subject i.e subject gets re-initiated. Multiple call will overwrite exiting value.
+
 **`pattern()`:** This sets the pattern i.e pattern gets re-initiated. Multiple call will overwrite exiting value.
 
 **Common properties:**
