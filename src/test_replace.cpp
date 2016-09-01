@@ -1,5 +1,8 @@
 #include <iostream>
 #include "jpcre2.h"
+#include "jpcre2.cpp"
+#include "jpcre2_match.cpp"
+#include "jpcre2_replace.cpp"
 
 
 

@@ -45,7 +45,7 @@ Dsclaimer:
     
         
     void jpcre2::RegexReplace::parseReplacementOpts(const String& mod){
-        replace_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; ///This enables returning the required length of string
+        replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; ///This enables returning the required length of string
         ///in case substitute fails due to insufficient memory. It is required to try again with the correct amount of
         ///memory allocation.
         
