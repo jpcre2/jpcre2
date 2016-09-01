@@ -42,9 +42,10 @@ Dsclaimer:
 
 #include "jpcre2.h"
 
-    void jpcre2::RegexMatch::parseMatchOpts(const String& mod){
-        ///This function works by retaining previous value
-        match_opts = 0;jpcre2_match_opts = 0;
+    void jpcre2::RegexMatch::parseMatchOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts){
+        ///This function sets opts from scratch
+        match_opts = pcre2_opts;
+        jpcre2_match_opts = opt_bits;
         ///parse pcre and jpcre2 options
         for(size_t i=0;i<mod.length();++i){
             switch (mod[i]){
@@ -157,22 +158,19 @@ Dsclaimer:
     jpcre2::Uint jpcre2::RegexMatch::match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,
                                             const std::string& mod,uint32_t opt_bits,uint32_t pcre2_opts){
         
-        //Clear all verctors
+        ///Clear all verctors
         vec_num.clear();
         vec_nas.clear();
         vec_nn.clear();
         
-        // If code is null, there's no need to proceed any further
+        /// If code is null, there's no need to proceed any further
         if(re->null_code) return vec_num.size();
         
-        ///Add opt_bits to jpcre2_match_opts before running parseMatchOpts()
-        ///This may require additional filter in future
-        jpcre2_match_opts |= opt_bits;
-        ///Add pcre2_opts to match_opts
-        match_opts |= pcre2_opts;
+        ///Parse match_opts from scratch
+        parseMatchOpts(mod, opt_bits, pcre2_opts);
         
-        ///Make additions to available options
-        parseMatchOpts(mod);
+        jpcre2_match_opts |= opt_bits;
+        match_opts |= pcre2_opts;
         
         
         PCRE2_SPTR subject=(PCRE2_SPTR)s.c_str();

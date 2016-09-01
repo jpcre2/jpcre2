@@ -1,5 +1,8 @@
 #include <iostream>
 #include "jpcre2.h"
+#include "jpcre2.cpp"
+#include "jpcre2_match.cpp"
+#include "jpcre2_replace.cpp"
 
 
 
@@ -15,10 +18,12 @@ int main(){
     try{re.compile()                                                            //Invoke the compile() function
           .pattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")     //set various parameters
           .modifiers("nJ")                                                      //...
-          .jpcre2Options(jpcre2::VALIDATE_MODIFIER)                             //...
+          .jpcre2Options(jpcre2::VALIDATE_MODIFIER                              //modifier goes through validation check
+                            | jpcre2::JIT_COMPILE                               //perform JIT compile
+                            | jpcre2::ERROR_ALL)                                //treat warnings as errors
           .pcre2Options(0)                                                      //...
           .execute();}                                                          //Finaly execute it.               
-    catch(int e){std::cout<<re.getErrorMessage(e);}
+    catch(int e){std::cerr<<re.getErrorMessage(e);}
     
     /***************************************************************************************************************
      * Always use try catch to catch any exception and avoid unexpected termination of the program.
@@ -37,9 +42,9 @@ int main(){
                   .namedSubstringVector(vec_nas0)            //...
                   .nameToNumberMapVector(vec_nn0)            //...
                   .jpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
-                  .pcre2Options(PCRE2_ANCHORED)              //...
+                  .pcre2Options(0)                           //...
                   .execute();}                               //Finaly execute it.
-    catch(int e){std::cout<<re.getErrorMessage(e);}
+    catch(int e){std::cerr<<re.getErrorMessage(e);}
     
     
     std::cout<<"\nTotal number of mathces: "<<count<<std::endl;

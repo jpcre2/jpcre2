@@ -44,8 +44,10 @@ Dsclaimer:
     
     
         
-    void jpcre2::RegexReplace::parseReplacementOpts(const String& mod){
-        replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; ///This enables returning the required length of string
+    void jpcre2::RegexReplace::parseReplacementOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts){
+        ///This function sets opts from scratch
+        jpcre2_replace_opts = opt_bits;
+        replace_opts = pcre2_opts | PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; ///This enables returning the required length of string
         ///in case substitute fails due to insufficient memory. It is required to try again with the correct amount of
         ///memory allocation.
         
@@ -56,7 +58,7 @@ Dsclaimer:
                 case 'E': replace_opts  |= PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
                 case 'g': replace_opts  |= PCRE2_SUBSTITUTE_GLOBAL;break;
                 case 'x': replace_opts  |= PCRE2_SUBSTITUTE_EXTENDED;break;
-                default : if((jpcre2_replace_opts & VALIDATE_MODIFIER)!=0)
+                default : if((opt_bits & VALIDATE_MODIFIER)!=0)
                           {re->error_code=re->jpcre2_error_offset=(int)mod[i];throw((int)ERROR::INVALID_MODIFIER);}break;
             }
         }
@@ -68,14 +70,9 @@ Dsclaimer:
         
         /// If code is null, there's no need to proceed any further
         if(re->null_code) return mains;
-        ///populate some class vars
-        ///Add PCRE2 options to replace_opts
-        replace_opts |= pcre2_opts;
-        ///Add opt_bits to jpcre2_replace_opts
-        jpcre2_replace_opts |= opt_bits;
         
-        ///Make additions to replace_opts
-        parseReplacementOpts(mod);
+        ///Parse replace_opts from scratch
+        parseReplacementOpts(mod, opt_bits, pcre2_opts);
         
         PCRE2_SPTR subject = (PCRE2_SPTR)mains.c_str();
         PCRE2_SIZE subject_length = strlen((char *)subject);

@@ -1,5 +1,8 @@
 #include <iostream>
 #include "jpcre2.h"
+#include "jpcre2.cpp"
+#include "jpcre2_match.cpp"
+#include "jpcre2_replace.cpp"
 
 #define getLine(a) std::getline(std::cin,a,'\n');
 
@@ -47,7 +50,7 @@ int main(){
                   .namedSubstringVector(vec_nas0)            //...
                   .nameToNumberMapVector(vec_nn0)            //...
                   .jpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
-                  .pcre2Options(PCRE2_ANCHORED)              //...
+                  .pcre2Options(0)                           //...
                   .execute();                                //Finally execute it.
     }                               
     catch(int e){std::cout<<re.getErrorMessage(e);

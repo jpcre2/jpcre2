@@ -58,6 +58,9 @@ Dsclaimer:
         if(err_num==ERROR::INVALID_MODIFIER){
             return "Invalid Modifier: "+utils::toString((char)jpcre2_error_offset);
         }
+        else if(err_num == ERROR::JIT_COMPILE_FAILED) {
+            return "JIT compilation failed! Is it supported?";
+        }
         else{
             PCRE2_UCHAR buffer[4024];
             pcre2_get_error_message(err_num, buffer, sizeof(buffer));
@@ -67,14 +70,10 @@ Dsclaimer:
     }
     
     
-    void jpcre2::Regex::parseCompileOpts(const String& mod,uint32_t opt_bits){
-
-        compile_opts=0;
-        jit_opts=0;
-        opt_jit_compile=false;
-        
-        ///default options          
-        
+    void jpcre2::Regex::parseCompileOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts){
+        ///This function sets opts from scratch
+        compile_opts = pcre2_opts;
+        jpcre2_compile_opts = opt_bits;
         ///parse pcre options
         for(size_t i=0;i<mod.length();++i){
             switch (mod[i]){
@@ -90,7 +89,7 @@ Dsclaimer:
                 case 'A': compile_opts |= PCRE2_ANCHORED;break;
                 case 'D': compile_opts |= PCRE2_DOLLAR_ENDONLY;break;
                 case 'J': compile_opts |= PCRE2_DUPNAMES;break;
-                case 'S': opt_jit_compile=true;jit_opts |= PCRE2_JIT_COMPLETE;break;    ///Optimization opt
+                case 'S': jpcre2_compile_opts |= JIT_COMPILE;break;    ///Optimization opt
                 case 'U': compile_opts |= PCRE2_UNGREEDY;break;
                 default : if((opt_bits & VALIDATE_MODIFIER)!=0)
                           {error_code=jpcre2_error_offset=(int)mod[i];throw((int)ERROR::INVALID_MODIFIER);}break;
@@ -108,10 +107,8 @@ Dsclaimer:
         modifier=mod;
         mylocale=loc;
         
-        ///populate compile_opts...
-        parseCompileOpts(mod,opt_bits);
-        ///Now add other PCRE2 options to the compile_opts
-        compile_opts |= pcre2_opts;
+        ///populate compile_opts from scratch
+        parseCompileOpts(mod,opt_bits, pcre2_opts);
     
     /*************************************************************************
     * Now we are going to compile the regular expression pattern, and handle *
@@ -128,7 +125,6 @@ Dsclaimer:
             std::setlocale(LC_CTYPE,loc_old.c_str());
         }
     
-		
         null_code = false;
         
         code = pcre2_compile(
@@ -150,12 +146,15 @@ Dsclaimer:
             code = pcre2_compile((PCRE2_SPTR)"", PCRE2_ZERO_TERMINATED,0,&error_number,&error_offset,ccontext);
             throw(error_number);
         }
-        else if(opt_jit_compile){
+        else if((jpcre2_compile_opts & JIT_COMPILE) != 0){
             ///perform jit compilation:
-            int jit_ret=pcre2_jit_compile(code, jit_opts);
+            int jit_ret=pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
             if(jit_ret!=0){
-                //{throw(JIT_COMPILE_ERROR);};      // Must not throw any exception here
-                current_warning_msg="JIT compilation failed! Is it supported?";
+                if((jpcre2_compile_opts & ERROR_ALL) != 0) {
+                    error_code = jpcre2_error_offset = ERROR::JIT_COMPILE_FAILED;
+                    throw((int)ERROR::JIT_COMPILE_FAILED);
+                }
+                else current_warning_msg="JIT compilation failed! Is it supported?";
             }  
         }
     }

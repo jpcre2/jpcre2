@@ -67,7 +67,10 @@ namespace jpcre2{
     
     ///Errors // JPCRE2 error codes are positive numbers while PCRE2 error codes are negative numbers
     namespace ERROR {
-    enum { INVALID_MODIFIER                 = 2 };
+    enum { 
+            INVALID_MODIFIER                 = 2,
+            JIT_COMPILE_FAILED               = 3
+        };
     }
     
     #define REGEX_STRING_MAX std::numeric_limits<int>::max() //This limits the maximum length of string that can be handled by default.
@@ -77,7 +80,10 @@ namespace jpcre2{
     ///Option bits. These are the options for JPCRE2.
     enum {  NONE                                = 0x0000000u,
             VALIDATE_MODIFIER                   = 0x0000001u,
-            FIND_ALL                            = 0x0000002u };
+            FIND_ALL                            = 0x0000002u, //find all during match
+            JIT_COMPILE                         = 0x0000004u, //prform JIT compilation during pattern compilation
+            ERROR_ALL                           = 0x0000008u  //treat warnings as error and throw exception
+         };
     
     
     
@@ -90,9 +96,9 @@ namespace jpcre2{
     typedef std::map<String,String> MapNas;       //Map for Named substring
     typedef std::map<Uint,String> MapNum;         //Map for Numbered substring
     typedef std::map<String,Uint> MapNtN;         //Map for Named substring to Numbered substring
-    typedef std::vector<MapNas> VecNas;               //Vector of MapNas
-    typedef std::vector<MapNtN> VecNtN;               //Vector of MapNtN
-    typedef std::vector<MapNum> VecNum;               //Vector of MapNum
+    typedef std::vector<MapNas> VecNas;           //Vector of MapNas
+    typedef std::vector<MapNtN> VecNtN;           //Vector of MapNtN
+    typedef std::vector<MapNum> VecNum;           //Vector of MapNum
     
     
     ///declare classes
@@ -117,7 +123,7 @@ namespace jpcre2{
             VecNas* p_vec_nas;
             VecNtN* p_vec_ntn;
             
-            void parseMatchOpts(const String& mod);
+            void parseMatchOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts);
             void getNumberedSubstrings(int rc, pcre2_match_data *match_data,MapNum& num_map0);
             void getNamedSubstrings(int namecount,int name_entry_size,PCRE2_SPTR tabptr, pcre2_match_data *match_data,
                                                                                      MapNas& nas_map0, MapNtN& nn_map0);
@@ -126,12 +132,16 @@ namespace jpcre2{
             Uint match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,
                                             const std::string& mod,uint32_t opt_bits,uint32_t pcre2_opts);
                                             
-            void init(String s=""){p_vec_num=nullptr;p_vec_nas=nullptr;p_vec_ntn=nullptr;
-                                    m_subject=s;m_modifier="";match_opts=0;jpcre2_match_opts=NONE;}
+            void init(String s=""){
+                                    p_vec_num=nullptr;
+                                    p_vec_nas=nullptr;
+                                    p_vec_ntn=nullptr;
+                                    m_subject=s;
+                                    m_modifier="";
+                                    match_opts=jpcre2_match_opts=0;
+                                  }
                             
             RegexMatch(RegexMatch&){init();}
-            //~ RegexMatch& operator=(RegexMatch&){init(); return this;}
-            //~ RegexMatch& operator=(RegexMatch&,const String& s){init(s); return this;}
             RegexMatch(const String& s){init(s);}
             RegexMatch(){init();}
             ~RegexMatch(){}
@@ -144,14 +154,14 @@ namespace jpcre2{
         public:
            
             ///Chained functions for taking parameters
-            RegexMatch& numberedSubstringVector(VecNum& vec_num)       {p_vec_num=&vec_num;            return *this;}
-            RegexMatch& namedSubstringVector(VecNas& vec_nas)          {p_vec_nas=&vec_nas;            return *this;}
-            RegexMatch& nameToNumberMapVector(VecNtN& vec_ntn)         {p_vec_ntn=&vec_ntn;            return *this;}
-            RegexMatch& subject(const String& s)                               {m_subject=s;                   return *this;}
-            RegexMatch& modifiers(const String& s)                             {m_modifier=s;                  return *this;}
-            RegexMatch& jpcre2Options(uint32_t x=NONE)                  {jpcre2_match_opts=x;           return *this;}
-            RegexMatch& pcre2Options(uint32_t x=NONE)                   {match_opts=x;                  return *this;}
-            RegexMatch& findAll()                                       {jpcre2_match_opts |= FIND_ALL; return *this;}
+            RegexMatch& numberedSubstringVector(VecNum& vec_num)       {p_vec_num=&vec_num;             return *this;}
+            RegexMatch& namedSubstringVector(VecNas& vec_nas)          {p_vec_nas=&vec_nas;             return *this;}
+            RegexMatch& nameToNumberMapVector(VecNtN& vec_ntn)         {p_vec_ntn=&vec_ntn;             return *this;}
+            RegexMatch& subject(const String& s)                       {m_subject=s;                    return *this;}
+            RegexMatch& modifiers(const String& s)                     {m_modifier=s;                   return *this;}
+            RegexMatch& jpcre2Options(uint32_t x=0)                    {jpcre2_match_opts |= x;         return *this;}
+            RegexMatch& pcre2Options(uint32_t x=0)                     {match_opts |= x;                return *this;}
+            RegexMatch& findAll()                                      {jpcre2_match_opts |= FIND_ALL;  return *this;}
             
             Uint execute(){
                 VecNum vec_num0;
@@ -178,22 +188,24 @@ namespace jpcre2{
             PCRE2_SIZE buffer_size;
             
             
-            void parseReplacementOpts(const String& mod);
+            void parseReplacementOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts);
             
             ///returns a replaced string after performing regex replace
             String replace( String mains, String repl,const String& mod,
                                 PCRE2_SIZE out_size,uint32_t opt_bits, uint32_t pcre2_opts);
                                             
-            void init(const String& s=""){r_subject=s;r_modifier="";r_replw="";replace_opts=0;
-                                            jpcre2_replace_opts=NONE;buffer_size=REGEX_STRING_MAX;}
-            void init(const String& s,const String& repl){r_subject=s;r_modifier="";r_replw=repl;replace_opts=0;
-                                            jpcre2_replace_opts=NONE;buffer_size=REGEX_STRING_MAX;}
+            void init_vars(){ 
+                              replace_opts=jpcre2_replace_opts=0;
+                              buffer_size=REGEX_STRING_MAX;
+                              r_modifier="";
+                            }
+            void init(const String& s=""){ r_subject=s;r_modifier="";r_replw="";init_vars(); }
+            void init(const String& s,const String& repl){ r_subject=s;r_replw=repl;init_vars(); }
                             
             RegexReplace(RegexReplace&){init();}
-            //~ RegexMatch& operator=(RegexMatch&){init(); return this;}
-            //~ RegexMatch& operator=(RegexMatch&,const String& s){init(s); return this;}
             RegexReplace(const String& s,const String& repl){init(s,repl);}
-            RegexReplace(const String& s=""){init(s);}
+            RegexReplace(const String& s){init(s);}
+            RegexReplace(){init();}
             ~RegexReplace(){}
             
             
@@ -207,8 +219,8 @@ namespace jpcre2{
             RegexReplace& subject(const String& s)                        {r_subject=s;                   return *this;}
             RegexReplace& replaceWith(const String& s)                    {r_replw=s;                     return *this;}
             RegexReplace& modifiers(const String& s)                      {r_modifier=s;                  return *this;}
-            RegexReplace& jpcre2Options(uint32_t x=NONE)                  {jpcre2_replace_opts=x;         return *this;}
-            RegexReplace& pcre2Options(uint32_t x=NONE)                   {replace_opts=x;                return *this;}
+            RegexReplace& jpcre2Options(uint32_t x=NONE)                  {jpcre2_replace_opts |= x;      return *this;}
+            RegexReplace& pcre2Options(uint32_t x=NONE)                   {replace_opts |= x;             return *this;}
             RegexReplace& bufferSize(PCRE2_SIZE x)                        {buffer_size=x;                 return *this;}
             
             
@@ -232,13 +244,12 @@ namespace jpcre2{
             pcre2_code *code;
             int error_number;
             PCRE2_SIZE error_offset;
-            uint32_t compile_opts,jit_opts,jpcre2_compile_opts;
+            uint32_t compile_opts,jpcre2_compile_opts;
             int error_code,jpcre2_error_offset;
             String mylocale;
             String current_action;
             
             ///other opts
-            bool opt_jit_compile;
             bool null_code; //whether code was null after compilation
             
             
@@ -253,22 +264,35 @@ namespace jpcre2{
             void freeRegexMemory(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
             
             
-            void parseCompileOpts(const String& mod,uint32_t opt_bits);
+            void parseCompileOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts);
                             
             pcre2_code* getPcreCode(){return code;}                 ///returns pointer to compiled regex
             
-            
-            void init(const String& re=""){ pat_str=re;modifier="";mylocale=DEFAULT_LOCALE;error_number=0;
-                                            error_offset=0;error_code=0;jpcre2_error_offset=0;
-                                            compile_opts=jpcre2_compile_opts=jit_opts=opt_jit_compile=0;
-                                            compileRegex("","",DEFAULT_LOCALE,0,0);null_code = false;}
-            void init(const String& re, const String& mod){ pat_str=re;modifier=mod;mylocale=DEFAULT_LOCALE;error_number=0;
-                                                            error_offset=0;error_code=0;jpcre2_error_offset=0;
-                                                            compile_opts=jpcre2_compile_opts=jit_opts=opt_jit_compile=0;
-                                                            compileRegex("","",DEFAULT_LOCALE,0,0);null_code = false;}  
-                ///init() must perform a dummy compile, otherwise it will yield to a 
-                /// segmentation fault when regex is not initialized and goes out of scope, due to a call of
-                ///freeRegexMemory() in the destructor.
+            void init_vars(){ mylocale = DEFAULT_LOCALE;
+                              error_number = error_offset = error_code = jpcre2_error_offset = 0;
+                              compile_opts = jpcre2_compile_opts = 0;
+                              null_code = false;
+                              }
+                              
+            void init(const String& re="") { pat_str=re;modifier="";
+                                             init_vars();
+                                             compileRegex(pat_str,modifier,DEFAULT_LOCALE,jpcre2_compile_opts,compile_opts);
+                                           }
+            void init(const String& re, const String& mod)
+                                           { pat_str=re;modifier=mod;
+                                             init_vars();
+                                             compileRegex(pat_str,modifier,DEFAULT_LOCALE,jpcre2_compile_opts,compile_opts);
+                                           }
+            void init(const String& re, uint32_t pcre2_opts, uint32_t opt_bits=0) 
+                                                            { pat_str=re;modifier="";
+                                                               init_vars();
+                                                               compile_opts |= pcre2_opts;
+                                                               jpcre2_compile_opts |= opt_bits;
+                                                               compileRegex(pat_str,modifier,DEFAULT_LOCALE,jpcre2_compile_opts,compile_opts);
+                                                             }
+            ///init() must perform a dummy compile, otherwise it will yield to a 
+            /// segmentation fault when regex is not initialized and goes out of scope, due to a call of
+            ///freeRegexMemory() in the destructor.
             
             
             ///Compiles the regex.
@@ -307,8 +331,8 @@ namespace jpcre2{
             Regex& pattern(const String& re)                    {pat_str=re;                return *this;}
             Regex& modifiers(const String& x)                   {modifier=x;                return *this;}
             Regex& locale(const String& x)                      {mylocale=x;                return *this;}
-            Regex& jpcre2Options(uint32_t x)                    {jpcre2_compile_opts=x;     return *this;}
-            Regex& pcre2Options(uint32_t x)                     {compile_opts=x;            return *this;}
+            Regex& jpcre2Options(uint32_t x)                    {jpcre2_compile_opts |= x;  return *this;}
+            Regex& pcre2Options(uint32_t x)                     {compile_opts |= x;         return *this;}
             
             void execute(void){
                 compileRegex(pat_str,modifier,mylocale,jpcre2_compile_opts,compile_opts);
