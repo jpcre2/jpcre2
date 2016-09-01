@@ -1,9 +1,15 @@
 sudo: required
-dist: xenial
+dist: trusty
 language: cpp
 before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -q
-  - sudo apt-get install pcre2-utils -y
+  - sudo apt-get install g++-4.9 -y
+  - export CXX="g++-4.9"
+  - git clone --branch=master https://github.com/jpcre2/pcre2
+  - cd pcre2
+  - ./autogen.sh && ./configure && make
+  - sudo make install
+  - cd -
 script: ./autogen.sh && ./configure && make && make check
 
