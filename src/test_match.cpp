@@ -48,7 +48,7 @@ int main(){
     ///Each of these vectors contains a map
     ///and each of the maps contains all the substrings that are matched against the pattern.
     ///All the matches in all the maps combines the total match throughout the entire string.
-    for(int i=0;i<(int)vec_num0.size();++i){
+    for(size_t i=0;i<vec_num0.size();++i){
         
         
         std::cout<< "\n################## Match no: "<<i+1<<" ####################\n";
