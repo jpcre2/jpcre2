@@ -11,3 +11,8 @@
 /config/* linguist-vendored
 /m4/* linguist-vendored
 *.md linguist-documentation
+*.am linguist-vendored
+*.in linguist-vendored
+*.m4 linguist-vendored
+*.ac linguist-vendored
+*.scan linguist-vendored
