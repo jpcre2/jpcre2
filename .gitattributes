@@ -14,7 +14,6 @@ configure diff=nodif
 /config/* linguist-vendored
 /m4/* linguist-vendored
 *.md linguist-documentation
-configure linguist-vendored
 *.in linguist-vendored
 *.m4 linguist-vendored
 *.scan linguist-vendored
