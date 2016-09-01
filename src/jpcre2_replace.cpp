@@ -114,7 +114,7 @@ Dsclaimer:
             }
             else {::free(output_buffer);throw(ret);}
         }
-        String result=jpcre2::utils::toString((char*)output_buffer);
+        String result=utils::toString((char*)output_buffer);
         ::free(output_buffer);
         return result;
     }

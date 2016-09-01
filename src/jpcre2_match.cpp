@@ -64,7 +64,7 @@ Dsclaimer:
             String value;
             //~ PCRE2_SPTR substring_start = subject + ovector[2*i];
             //~ size_t substring_length = ovector[2*i+1] - ovector[2*i];
-            //~ String tmps1=jpcre2::utils::toString((char *)substring_start);
+            //~ String tmps1=utils::toString((char *)substring_start);
             //~ value=tmps1.substr(0,substring_length);
             ///If we use pcre2_substring_get_bynumber(),
             ///we will have to deal with returned error codes and memory
@@ -79,7 +79,7 @@ Dsclaimer:
                     default:break;   ///Other errors should be ignored
                 }
             }
-            value=jpcre2::utils::toString((char*)*bufferptr);
+            value=utils::toString((char*)*bufferptr);
             ///pcre2_substring_free(*bufferptr); 
             ///must free memory, pcre2_substring_free() yields to segmentation fault in several cases ( try '(?<name>\d)?' )
             /// (may be a bug?)
@@ -97,18 +97,18 @@ Dsclaimer:
             
             //~ #if PCRE2_CODE_UNIT_WIDTH == 8
             int n = (tabptr[0] << 8) | tabptr[1];
-            key=jpcre2::utils::toString((char*)(tabptr+2));
+            key=utils::toString((char*)(tabptr+2));
             //~ #elif PCRE2_CODE_UNIT_WIDTH == 16
             //~ int n = tabptr[0];
-            //~ key=jpcre2::utils::toString((char*)(tabptr+1));
+            //~ key=utils::toString((char*)(tabptr+1));
             //~ #elif PCRE2_CODE_UNIT_WIDTH == 32
             //~ int n = tabptr[0];
-            //~ key=jpcre2::utils::toString((char*)(tabptr+1));
+            //~ key=utils::toString((char*)(tabptr+1));
             //~ #else
             //~ #error PCRE2_CODE_UNIT_WIDTH must be 8 or 16 or 32
             //~ #endif
             
-            //~ String tmps2=jpcre2::utils::toString((char*)(subject + ovector[2*n]));
+            //~ String tmps2=utils::toString((char*)(subject + ovector[2*n]));
             //~ //String key=tmps1.substr(0,name_entry_size - 3);
             //~ value1=tmps2.substr(0,(ovector[2*n+1] - ovector[2*n]));
             PCRE2_UCHAR **bufferptr;
@@ -122,7 +122,7 @@ Dsclaimer:
                     default:break;   ///Other errors should be ignored
                 }
             }
-            value=jpcre2::utils::toString((char *)*bufferptr);
+            value=utils::toString((char *)*bufferptr);
             
             ///Let's get the value again, this time with number
             ///We will match this value with the previous
@@ -140,7 +140,7 @@ Dsclaimer:
                     default:break;   ///Other errors should be ignored
                 }
             }
-            value1=jpcre2::utils::toString((char *)*bufferptr);
+            value1=utils::toString((char *)*bufferptr);
             
             ///pcre2_substring_free(*bufferptr); 
             ///must free memory, pcre2_substring_free() yields to segmentation fault in several cases ( try '(?<name>\d)?' )

@@ -2,7 +2,7 @@ AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIR([m4])
 include([ax_cxx_compile_stdcxx.m4])
 
-AC_INIT([jpcre2], [10.21.03], [https://github.com/jpcre2/jpcre2/issues])
+AC_INIT([jpcre2], [10.22.01], [https://github.com/jpcre2/jpcre2/issues])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.h])
 #AC_CONFIG_HEADERS([config.h])
@@ -21,10 +21,19 @@ AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
 AM_DISABLE_SHARED
 
+remember_set_CXXFLAGS="$CXXFLAGS"
 
 AC_PROG_CXX
 AC_PROG_CC
-CXXFLAGS=" "
+#CXXFLAGS=
+
+if test "x$remember_set_CXXFLAGS" = "x"; then
+  if test "$CXXFLAGS" = "-g -O2"; then
+    CXXFLAGS=""
+  elif test "$CXXFLAGS" = "-g"; then
+    CXXFLAGS=""
+  fi
+fi
 
 
 #check for c++11 support and add flags

@@ -56,12 +56,12 @@ Dsclaimer:
     
     jpcre2::String jpcre2::Regex::getErrorMessage(int err_num){
         if(err_num==ERROR::INVALID_MODIFIER){
-            return "Invalid Modifier: "+jpcre2::utils::toString((char)jpcre2_error_offset);
+            return "Invalid Modifier: "+utils::toString((char)jpcre2_error_offset);
         }
         else{
             PCRE2_UCHAR buffer[4024];
             pcre2_get_error_message(err_num, buffer, sizeof(buffer));
-            return jpcre2::utils::toString((PCRE2_UCHAR*)buffer)+"; error offset: "+jpcre2::utils::toString((int)error_offset);
+            return utils::toString((PCRE2_UCHAR*)buffer)+"; error offset: "+utils::toString((int)error_offset);
             
         }
     }
@@ -76,7 +76,7 @@ Dsclaimer:
         ///default options          
         
         ///parse pcre options
-        for(int i=0;i<(int)mod.length();i++){
+        for(size_t i=0;i<mod.length();++i){
             switch (mod[i]){
                 case 'e': compile_opts |= PCRE2_MATCH_UNSET_BACKREF;break;
                 case 'i': compile_opts |= PCRE2_CASELESS;break;
@@ -122,7 +122,7 @@ Dsclaimer:
         
         if(loc!="none"){
             String loc_old;
-            loc_old=jpcre2::utils::toString(std::setlocale(LC_CTYPE,loc.c_str()));
+            loc_old=utils::toString(std::setlocale(LC_CTYPE,loc.c_str()));
             const unsigned char *tables = pcre2_maketables(NULL);
             pcre2_set_character_tables(ccontext, tables);
             std::setlocale(LC_CTYPE,loc_old.c_str());
