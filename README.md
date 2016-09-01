@@ -120,7 +120,7 @@ catch(int e){
 </code></pre>
 Access the substrings like this:
 <pre class="highlight"><code class="highlight-source-c++ cpp">
-for(size_t i=0;i&lt;vec_num.size();i++){
+for(size_t i=0;i&lt;vec_num.size();++i){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=1 is the second and so forth
     for(auto const&amp; ent : vec_num[i]){
@@ -196,7 +196,7 @@ Let's take a quick look what's inside and how things are working here:
 
 ###Namespaces:
 
-1. **jpcre2_utils :** Some utility functions used by JPCRE2.
+1. **jpcre2::utils :** Some utility functions used by JPCRE2.
 2. **jpcre2 :** This is the namespace you will be using in your code to access JPCRE2 classes and functions.
 
 ###Classes:

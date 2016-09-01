@@ -4606,6 +4606,7 @@ esac
 # Checks for programs.
 
 
+
 case `pwd` in
   *\ * | *\	*)
     { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Libtool does not cope well with whitespace in \`pwd\`" >&5
@@ -12294,6 +12295,7 @@ CC=$lt_save_CC
 
 
 
+
 # Check whether --enable-shared was given.
 if test "${enable_shared+set}" = set; then :
   enableval=$enable_shared; p=${PACKAGE-default}
@@ -16765,7 +16767,7 @@ else
 fi
 
 
-CXXFLAGS="-O2"
+CXXFLAGS=" "
 
 
 #check for c++11 support and add flags

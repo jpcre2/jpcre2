@@ -9,7 +9,7 @@ EXTRA_DIST += \
   test_replace.cpp \
   test_match2.cpp \
   test_replace2.cpp
-  
+
 include_HEADERS = \
   jpcre2.h
   

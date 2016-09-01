@@ -14,7 +14,9 @@ AC_TYPE_INT64_T
 # Checks for programs.
 
 AC_PROG_INSTALL
+
 LT_INIT([disable-shared])
+
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
 AM_DISABLE_SHARED
@@ -22,7 +24,7 @@ AM_DISABLE_SHARED
 
 AC_PROG_CXX
 AC_PROG_CC
-CXXFLAGS="-O2"
+CXXFLAGS=" "
 
 
 #check for c++11 support and add flags
