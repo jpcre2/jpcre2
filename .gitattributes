@@ -2,9 +2,7 @@
 # let git show off diff hunk headers, help git diff -L:
 # https://git-scm.com/docs/gitattributes
 *.cpp diff=cpp
-*.in diff=nodiff
-*.m4 diff=nodiff
-configure diff=nodif
+configure diff=nodiff
 
 # omit from git archive
 .gitattributes export-ignore
@@ -15,6 +13,6 @@ configure diff=nodif
 /config/* linguist-vendored
 /m4/* linguist-vendored
 *.md linguist-documentation
-*.in linguist-vendored
-*.m4 linguist-vendored
+*.in linguist-vendored diff=nodiff
+*.m4 linguist-vendored diff=nodiff
 *.scan linguist-vendored
