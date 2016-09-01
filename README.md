@@ -11,7 +11,7 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 1. PCRE2 library (`version >=10.21`).
 2. C++ compiler with C++11 support.
 
-If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2">my fork of the library from here</a>, Or use <a href="https://github.com/jpcre2/pcre2">this repository</a> which will always be kept compatible with JPCRE2.
+If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library from here</a> which will always be kept compatible with JPCRE2.
 
 <div id="how-to"></div>
 #Install/Include:
