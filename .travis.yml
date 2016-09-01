@@ -6,7 +6,7 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install g++ -y
   - export CXX="g++"
-  - git clone --branch=master https://github.com/jpcre2/pcre2
+  - git clone --branch=release https://github.com/jpcre2/pcre2
   - cd pcre2
   - chmod +x ./autogen.sh
   - ./autogen.sh && ./configure && make

@@ -15,6 +15,5 @@
 *.am linguist-vendored
 *.in linguist-vendored
 *.m4 linguist-vendored
-*.ac linguist-vendored
 *.scan linguist-vendored
 *.sh linguist-vendored
