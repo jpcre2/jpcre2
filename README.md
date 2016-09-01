@@ -85,6 +85,7 @@ try{
     
     //Another way is to use constructor to initialize and compile at the same time:
     jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
+    // This one is faster than invoking compile() and execute() explicitly
 }
 catch(int e){
     /*Handle error*/
