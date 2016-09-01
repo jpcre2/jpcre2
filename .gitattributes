@@ -1,3 +1,4 @@
+
 # let git show off diff hunk headers, help git diff -L:
 # https://git-scm.com/docs/gitattributes
 *.cpp diff=cpp
@@ -16,3 +17,4 @@
 *.m4 linguist-vendored
 *.ac linguist-vendored
 *.scan linguist-vendored
+*.sh linguist-vendored
