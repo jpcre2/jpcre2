@@ -307,6 +307,7 @@ namespace jpcre2{
             Regex(const Regex&){init();}
             Regex(){init();}
             Regex(const String& re, const String& mod="")  {init(re,mod);}
+            Regex(const String& re, uint32_t pcre2_opts, uint32_t opt_bits=0)  {init(re, pcre2_opts, opt_bits);}
             
             ~Regex(){freeRegexMemory();}
             

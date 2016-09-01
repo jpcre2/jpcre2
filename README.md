@@ -80,14 +80,16 @@ Compile the pattern and catch any error exception:
 try{
     re.compile()            //Invoke the compile() function
       .pattern(pat)         //set various parameters
-      .modifiers("Jin")     //...
-      .jpcre2Options(0)     //...
-      .pcre2Options(0)      //...
+      .modifiers("Jin")     //Always sets the modifier
+      .jpcre2Options(0)     //Adds the option
+      .pcre2Options(0)      //Adds the option
       .execute();           //Finaly execute it.
     
     //Another way is to use constructor to initialize and compile at the same time:
     jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
-    // This one is faster than invoking compile() and execute() explicitly
+    jpcre2::Regex re3("pattern3", PCRE2_ANCHORED);
+    jpcre2::Regex re4("pattern4", PCRE2_ANCHORED, jpcre2::JIT_COMPILE);
+    // Using constructor to compile the regex is faster than invoking compile() and execute() explicitly
 }
 catch(int e){
     /*Handle error*/
@@ -211,8 +213,14 @@ Let's take a quick look what's inside and how things are working here:
 ###Functions at a glance:
 
 ```cpp
-//Class Regex
+////Class Regex
 
+//Constructors
+Regex()
+Regex(const String& re, const String& mod="")
+Regex(const String& re, uint32_t pcre2_opts, uint32_t jpcre2_opts=0)
+
+//Getters
 String     getModifier()
 String     getPattern()
 String     getLocale()       ///Gets LC_CTYPE
@@ -238,7 +246,7 @@ void                execute()  //executes the compile operation.
 RegexMatch&         match()
 RegexReplace&       replace()
 
-//Class RegexMatch
+////Class RegexMatch
 
 RegexMatch&         numberedSubstringVector(VecNum& vec_num)
 RegexMatch&         namedSubstringVector(VecNas& vec_nas)
@@ -251,7 +259,7 @@ RegexMatch&         findAll()
 SIZE_T              execute()  //executes the match operation
 
 
-//Class RegexReplace
+////Class RegexReplace
 
 RegexReplace&       subject(const String& s)
 RegexReplace&       replaceWith(const String& s)
@@ -308,10 +316,25 @@ These options are meaningful only for the JPCRE2 library itself not the original
 1. **jpcre2::NONE**: This is the default option. Equivalent to 0 (zero).
 2. **jpcre2::VALIDATE_MODIFIER**: If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message with `getErrorMessage(error_code)` member function.
 3. **jpcre2::FIND_ALL**: This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `modifiers()` function.
+4. **jpcre2::ERROR_ALL**: Treat warnings as errors and throw exception.
+5. **jpcre2::JIT_COMPILE**: This is same as passing the **S** modifier during pattern compilation.
 
 ###PCRE2 options:
 
 While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `pcre2Options()` function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent *PCRE2_SUBSTITUTE_GLOBAL* to have the same effect.
+
+###Some common functions and their properties:
+
+**`jpcre2Options()`:** This adds the JPCRE2 Options specified with the exiting ones. Multiple call will add further specified options.
+**`pcre2Options()`:** This adds the PCRE2 Options specified with the exiting ones. Multiple call will add further specified options.
+**`modifiers()`:** This sets the modifier i.e the modifier gets re-initiated. Multiple call will overwrite exiting value.
+**`subject()`:** This sets the subject i.e subject gets re-initiated. Multiple call will overwrite exiting value.
+**`pattern()`:** This sets the pattern i.e pattern gets re-initiated. Multiple call will overwrite exiting value.
+
+**Common properties:**
+
+1. All other functions except `jpcre2Options()` and `pcre2Options()` re-initiates the corresponding value/s.
+2. All values get re-initiated during the three function calls: `compile()`, `match()` and `replace()`.
 
 #Testing:
 

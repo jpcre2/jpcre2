@@ -3,8 +3,11 @@ Change Log for JPCRE2
 
 Version 10.22.01 - Thu Sep  1 16:19:57 UTC 2016
 -----------------------------------------------
-* Make will produce 4 binaries: match (for test_match2.cpp), match0 (for test_match.cpp), replace (for test_replace2.cpp) and replace0 (for test_replace.cpp)
-* Minor other changes not worth mentioning
+
+* Add ERROR_ALL to treat warnings as errors
+* jpcre2Options() and pcre2Options() won't re-initiate value. Multiple calls of this function will add specified options
+* Add JPCRE2 option JIT_COMPILE and corresponding error JIT_COMPILE_FAILED
+
 
 Version 10.21.03 - Thu Sep  1 01:56:12 UTC 2016
 -----------------------------------------------
