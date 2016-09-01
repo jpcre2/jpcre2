@@ -6,5 +6,5 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install g++-4.9 -y
   - export CXX="g++-4.9"
-script: ./configure && make && make check
+script: ./autogen.sh && ./configure && make && make check
 
