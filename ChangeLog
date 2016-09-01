@@ -4,7 +4,7 @@ Change Log for JPCRE2
 Version 10.21.03 - Thu Sep  1 01:56:12 UTC 2016
 -----------------------------------------------
 
-1. Bug fix: invalid regex could produce segementation fault
+1. Bug fix: invalid regex could produce segmentation fault
 2. Performance improvement
 3. Automake 1.15
 
