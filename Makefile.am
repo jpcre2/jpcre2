@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
-SUBDIRS =src
+SUBDIRS = src
 
 EXTRA_DIST = autogen.sh \
   m4/ax_cxx_compile_stdcxx.m4 \

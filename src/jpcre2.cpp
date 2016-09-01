@@ -41,10 +41,12 @@ Dsclaimer:
 
 #include "jpcre2.h"
 
-    template<typename T>
-    jpcre2::String jpcre2_utils::toString(T a){
-        std::stringstream ss;
-        ss <<a;
+    template<class T>
+    jpcre2::String jpcre2::utils::toString(T a){
+		thread_local std::ostringstream ss;
+		ss.str("");
+		ss.clear();
+        ss << a;
         return ss.str();
     }
 
@@ -54,12 +56,12 @@ Dsclaimer:
     
     jpcre2::String jpcre2::Regex::getErrorMessage(int err_num){
         if(err_num==ERROR::INVALID_MODIFIER){
-            return "Invalid Modifier: "+jpcre2_utils::toString((char)jpcre2_error_offset);
+            return "Invalid Modifier: "+jpcre2::utils::toString((char)jpcre2_error_offset);
         }
         else{
             PCRE2_UCHAR buffer[4024];
             pcre2_get_error_message(err_num, buffer, sizeof(buffer));
-            return jpcre2_utils::toString((PCRE2_UCHAR*)buffer)+"; error offset: "+jpcre2_utils::toString((int)error_offset);
+            return jpcre2::utils::toString((PCRE2_UCHAR*)buffer)+"; error offset: "+jpcre2::utils::toString((int)error_offset);
             
         }
     }
@@ -120,13 +122,15 @@ Dsclaimer:
         
         if(loc!="none"){
             String loc_old;
-            loc_old=jpcre2_utils::toString(std::setlocale(LC_CTYPE,loc.c_str()));
+            loc_old=jpcre2::utils::toString(std::setlocale(LC_CTYPE,loc.c_str()));
             const unsigned char *tables = pcre2_maketables(NULL);
             pcre2_set_character_tables(ccontext, tables);
             std::setlocale(LC_CTYPE,loc_old.c_str());
         }
     
-    
+		
+        null_code = false;
+        
         code = pcre2_compile(
             c_pattern,                    /* the pattern */
             PCRE2_ZERO_TERMINATED,      /* indicates pattern is zero-terminated */
@@ -141,6 +145,9 @@ Dsclaimer:
         if (code == NULL){
             ///must not free regex memory, the only function has that right is the destroyer.
             ///freeRegexMemory();
+            /// Perform a dummy compile, code must not be NULL
+            null_code = true;
+            code = pcre2_compile((PCRE2_SPTR)"", PCRE2_ZERO_TERMINATED,0,&error_number,&error_offset,ccontext);
             throw(error_number);
         }
         else if(opt_jit_compile){

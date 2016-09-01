@@ -1,10 +1,10 @@
-m4trace:aclocal.m4:1150: -1- m4_include([m4/ax_cxx_compile_stdcxx.m4])
-m4trace:aclocal.m4:1151: -1- m4_include([m4/libtool.m4])
-m4trace:aclocal.m4:1152: -1- m4_include([m4/ltoptions.m4])
-m4trace:aclocal.m4:1153: -1- m4_include([m4/ltsugar.m4])
-m4trace:aclocal.m4:1154: -1- m4_include([m4/ltversion.m4])
-m4trace:aclocal.m4:1155: -1- m4_include([m4/lt~obsolete.m4])
-m4trace:configure.ac:5: -1- AC_INIT([jpcre2], [10.21.02], [https://github.com/jpcre2/jpcre2/issues])
+m4trace:aclocal.m4:1153: -1- m4_include([m4/ax_cxx_compile_stdcxx.m4])
+m4trace:aclocal.m4:1154: -1- m4_include([m4/libtool.m4])
+m4trace:aclocal.m4:1155: -1- m4_include([m4/ltoptions.m4])
+m4trace:aclocal.m4:1156: -1- m4_include([m4/ltsugar.m4])
+m4trace:aclocal.m4:1157: -1- m4_include([m4/ltversion.m4])
+m4trace:aclocal.m4:1158: -1- m4_include([m4/lt~obsolete.m4])
+m4trace:configure.ac:5: -1- AC_INIT([jpcre2], [10.21.03], [https://github.com/jpcre2/jpcre2/issues])
 m4trace:configure.ac:5: -1- m4_pattern_forbid([^_?A[CHUM]_])
 m4trace:configure.ac:5: -1- m4_pattern_forbid([_AC_])
 m4trace:configure.ac:5: -1- m4_pattern_forbid([^LIBOBJS$], [do not use LIBOBJS directly, use AC_LIBOBJ (see section `AC_LIBOBJ vs LIBOBJS'])
@@ -69,6 +69,9 @@ m4trace:configure.ac:5: -1- m4_pattern_allow([^sharedstatedir$])
 m4trace:configure.ac:5: -1- AC_SUBST([localstatedir], ['${prefix}/var'])
 m4trace:configure.ac:5: -1- AC_SUBST_TRACE([localstatedir])
 m4trace:configure.ac:5: -1- m4_pattern_allow([^localstatedir$])
+m4trace:configure.ac:5: -1- AC_SUBST([runstatedir], ['${localstatedir}/run'])
+m4trace:configure.ac:5: -1- AC_SUBST_TRACE([runstatedir])
+m4trace:configure.ac:5: -1- m4_pattern_allow([^runstatedir$])
 m4trace:configure.ac:5: -1- AC_SUBST([includedir], ['${prefix}/include'])
 m4trace:configure.ac:5: -1- AC_SUBST_TRACE([includedir])
 m4trace:configure.ac:5: -1- m4_pattern_allow([^includedir$])
@@ -155,7 +158,7 @@ m4trace:configure.ac:5: -1- m4_pattern_allow([^target_alias$])
 m4trace:configure.ac:6: -1- AC_CONFIG_AUX_DIR([config])
 m4trace:configure.ac:10: -1- AM_INIT_AUTOMAKE
 m4trace:configure.ac:10: -1- m4_pattern_allow([^AM_[A-Z]+FLAGS$])
-m4trace:configure.ac:10: -1- AM_AUTOMAKE_VERSION([1.14.1])
+m4trace:configure.ac:10: -1- AM_AUTOMAKE_VERSION([1.15])
 m4trace:configure.ac:10: -1- AC_REQUIRE_AUX_FILE([install-sh])
 m4trace:configure.ac:10: -1- AC_SUBST([INSTALL_PROGRAM])
 m4trace:configure.ac:10: -1- AC_SUBST_TRACE([INSTALL_PROGRAM])
@@ -461,8 +464,7 @@ m4trace:configure.ac:17: -1- m4_pattern_allow([^RANLIB$])
 m4trace:configure.ac:17: -1- m4_pattern_allow([LT_OBJDIR])
 m4trace:configure.ac:17: -1- AC_DEFINE_TRACE_LITERAL([LT_OBJDIR])
 m4trace:configure.ac:17: -1- m4_pattern_allow([^LT_OBJDIR$])
-m4trace:configure.ac:17: -1- AH_OUTPUT([LT_OBJDIR], [/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+m4trace:configure.ac:17: -1- AH_OUTPUT([LT_OBJDIR], [/* Define to the sub-directory where libtool stores uninstalled libraries. */
 @%:@undef LT_OBJDIR])
 m4trace:configure.ac:17: -1- LT_SUPPORTED_TAG([CC])
 m4trace:configure.ac:17: -1- AC_SUBST([MANIFEST_TOOL])
@@ -483,21 +485,25 @@ m4trace:configure.ac:17: -1- m4_pattern_allow([^OTOOL$])
 m4trace:configure.ac:17: -1- AC_SUBST([OTOOL64])
 m4trace:configure.ac:17: -1- AC_SUBST_TRACE([OTOOL64])
 m4trace:configure.ac:17: -1- m4_pattern_allow([^OTOOL64$])
+m4trace:configure.ac:17: -1- AC_SUBST([LT_SYS_LIBRARY_PATH])
+m4trace:configure.ac:17: -1- AC_SUBST_TRACE([LT_SYS_LIBRARY_PATH])
+m4trace:configure.ac:17: -1- m4_pattern_allow([^LT_SYS_LIBRARY_PATH$])
 m4trace:configure.ac:17: -1- AH_OUTPUT([HAVE_DLFCN_H], [/* Define to 1 if you have the <dlfcn.h> header file. */
 @%:@undef HAVE_DLFCN_H])
 m4trace:configure.ac:17: -1- AC_DEFINE_TRACE_LITERAL([HAVE_DLFCN_H])
 m4trace:configure.ac:17: -1- m4_pattern_allow([^HAVE_DLFCN_H$])
 m4trace:configure.ac:18: -1- AC_PROG_LIBTOOL
 m4trace:configure.ac:18: -1- _m4_warn([obsolete], [The macro `AC_PROG_LIBTOOL' is obsolete.
-You should run autoupdate.], [m4/libtool.m4:107: AC_PROG_LIBTOOL is expanded from...
+You should run autoupdate.], [m4/libtool.m4:99: AC_PROG_LIBTOOL is expanded from...
 configure.ac:18: the top level])
 m4trace:configure.ac:18: -1- LT_INIT
+m4trace:configure.ac:19: -1- AM_PROG_LIBTOOL
 m4trace:configure.ac:19: -1- _m4_warn([obsolete], [The macro `AM_PROG_LIBTOOL' is obsolete.
-You should run autoupdate.], [m4/libtool.m4:108: AM_PROG_LIBTOOL is expanded from...
+You should run autoupdate.], [m4/libtool.m4:100: AM_PROG_LIBTOOL is expanded from...
 configure.ac:19: the top level])
 m4trace:configure.ac:19: -1- LT_INIT
 m4trace:configure.ac:20: -1- _m4_warn([obsolete], [The macro `AM_DISABLE_SHARED' is obsolete.
-You should run autoupdate.], [m4/ltoptions.m4:204: AM_DISABLE_SHARED is expanded from...
+You should run autoupdate.], [m4/ltoptions.m4:206: AM_DISABLE_SHARED is expanded from...
 configure.ac:20: the top level])
 m4trace:configure.ac:23: -1- AC_SUBST([CXX])
 m4trace:configure.ac:23: -1- AC_SUBST_TRACE([CXX])
@@ -547,6 +553,9 @@ m4trace:configure.ac:23: -1- m4_pattern_allow([^CXXCPP$])
 m4trace:configure.ac:23: -1- AC_SUBST([LD])
 m4trace:configure.ac:23: -1- AC_SUBST_TRACE([LD])
 m4trace:configure.ac:23: -1- m4_pattern_allow([^LD$])
+m4trace:configure.ac:23: -1- AC_SUBST([LT_SYS_LIBRARY_PATH])
+m4trace:configure.ac:23: -1- AC_SUBST_TRACE([LT_SYS_LIBRARY_PATH])
+m4trace:configure.ac:23: -1- m4_pattern_allow([^LT_SYS_LIBRARY_PATH$])
 m4trace:configure.ac:24: -1- AC_SUBST([CC])
 m4trace:configure.ac:24: -1- AC_SUBST_TRACE([CC])
 m4trace:configure.ac:24: -1- m4_pattern_allow([^CC$])

@@ -66,6 +66,8 @@ Dsclaimer:
     jpcre2::String jpcre2::RegexReplace::replace( String mains, String repl,const String& mod,
                                     PCRE2_SIZE out_size,uint32_t opt_bits, uint32_t pcre2_opts){
         
+        /// If code is null, there's no need to proceed any further
+        if(re->null_code) return mains;
         ///populate some class vars
         ///Add PCRE2 options to replace_opts
         replace_opts |= pcre2_opts;
@@ -86,7 +88,7 @@ Dsclaimer:
         
         loop:
         ret=pcre2_substitute(
-            re->code,                              /*Points to the compiled pattern*/
+            re->code,                          /*Points to the compiled pattern*/
             subject,                           /*Points to the subject string*/
             subject_length,                    /*Length of the subject string*/
             0,                                 /*Offset in the subject at which to start matching*/
@@ -112,7 +114,7 @@ Dsclaimer:
             }
             else {::free(output_buffer);throw(ret);}
         }
-        String result=jpcre2_utils::toString((char*)output_buffer);
+        String result=jpcre2::utils::toString((char*)output_buffer);
         ::free(output_buffer);
         return result;
     }

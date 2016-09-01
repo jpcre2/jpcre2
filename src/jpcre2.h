@@ -239,6 +239,7 @@ namespace jpcre2{
             
             ///other opts
             bool opt_jit_compile;
+            bool null_code; //whether code was null after compilation
             
             
             // Warning msg 
@@ -258,11 +259,13 @@ namespace jpcre2{
             
             
             void init(const String& re=""){ pat_str=re;modifier="";mylocale=DEFAULT_LOCALE;error_number=0;
-                                            error_offset=0;error_code=0;jpcre2_error_offset=0;compile_opts=0;
-                                            compileRegex("","",DEFAULT_LOCALE,0,0);}
+                                            error_offset=0;error_code=0;jpcre2_error_offset=0;
+                                            compile_opts=jpcre2_compile_opts=jit_opts=opt_jit_compile=0;
+                                            compileRegex("","",DEFAULT_LOCALE,0,0);null_code = false;}
             void init(const String& re, const String& mod){ pat_str=re;modifier=mod;mylocale=DEFAULT_LOCALE;error_number=0;
-                                                            error_offset=0;error_code=0;jpcre2_error_offset=0;compile_opts=0;
-                                                            compileRegex("","",DEFAULT_LOCALE,0,0);}  
+                                                            error_offset=0;error_code=0;jpcre2_error_offset=0;
+                                                            compile_opts=jpcre2_compile_opts=jit_opts=opt_jit_compile=0;
+                                                            compileRegex("","",DEFAULT_LOCALE,0,0);null_code = false;}  
                 ///init() must perform a dummy compile, otherwise it will yield to a 
                 /// segmentation fault when regex is not initialized and goes out of scope, due to a call of
                 ///freeRegexMemory() in the destructor.
@@ -322,18 +325,14 @@ namespace jpcre2{
             
     };
     
+    namespace utils{
+        template<typename T>
+        jpcre2::String toString(T a);
+            
+    }
 
 } ///jpcre2 namespace
 
-
-namespace jpcre2_utils{
-    
-    
-    #define Glue(a,b) a##b 
-    
-    template<typename T>
-    jpcre2::String toString(T a);
-}
 
 
 
