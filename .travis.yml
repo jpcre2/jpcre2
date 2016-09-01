@@ -13,4 +13,3 @@ before_install:
   - sudo make install
   - cd -
 script: ./autogen.sh && ./configure && make && make check
-
