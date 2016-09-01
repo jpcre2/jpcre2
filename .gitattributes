@@ -2,6 +2,8 @@
 # let git show off diff hunk headers, help git diff -L:
 # https://git-scm.com/docs/gitattributes
 *.cpp diff=cpp
+*.in diff=nodiff
+configure diff=nodif
 
 # omit from git archive
 .gitattributes export-ignore
