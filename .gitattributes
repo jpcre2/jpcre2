@@ -10,7 +10,7 @@ configure diff=nodif
 .gitignore export-ignore
 .travis.yml export-ignore
 
-# for linguist; let github identify our project as C++ instead of C due to pcre2
+# for linguist; let github identify our project as C++
 /config/* linguist-vendored
 /m4/* linguist-vendored
 *.md linguist-documentation
