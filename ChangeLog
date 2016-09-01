@@ -1,16 +1,26 @@
 Change Log for JPCRE2
 --------------------
 
-Version 10.21.01 - Mon Dec 21 01:07:05 UTC 2015
+Version 10.21.03 - Thu Sep  1 01:56:12 UTC 2016
 -----------------------------------------------
 
-1. Birth of JPCRE2
+1. Bug fix: invalid regex could produce segementation fault
+2. Performance improvement
+3. Automake 1.15
+
 
 Version 10.21.02 - Mon Dec 21 21:45:15 UTC 2015
 -----------------------------------------------
 
 1. Allow only Pcre2Regex re; object creation. Prevent any other types of object assignment.
-2. Improved match function/
+2. Improved match function
 3. Segmentation fault bug fixed
+
+
+Version 10.21.01 - Mon Dec 21 01:07:05 UTC 2015
+-----------------------------------------------
+
+1. Birth of JPCRE2
+
 
 ****
