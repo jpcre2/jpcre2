@@ -323,7 +323,7 @@ These options are meaningful only for the JPCRE2 library itself not the original
 
 While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `pcre2Options()` function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent *PCRE2_SUBSTITUTE_GLOBAL* to have the same effect.
 
-###Common properties of several:
+###Common properties of several functions:
 
 1. All other functions in method chain except `jpcre2Options()` and `pcre2Options()` re-initiates the corresponding value/s. Multiple call will overwrite existing value
 2. Multiple call to `jpcre2Options()` and `pcre2Options()` in the method chain will add further specified options.
