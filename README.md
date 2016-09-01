@@ -323,21 +323,10 @@ These options are meaningful only for the JPCRE2 library itself not the original
 
 While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `pcre2Options()` function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent *PCRE2_SUBSTITUTE_GLOBAL* to have the same effect.
 
-###Some common functions and their properties:
+###Common properties of several:
 
-**`jpcre2Options()`:** This adds the JPCRE2 Options specified with the exiting ones. Multiple call will add further specified options.
-
-**`pcre2Options()`:** This adds the PCRE2 Options specified with the exiting ones. Multiple call will add further specified options.
-
-**`modifiers()`:** This sets the modifier i.e the modifier gets re-initiated. Multiple call will overwrite exiting value.
-
-**`subject()`:** This sets the subject i.e subject gets re-initiated. Multiple call will overwrite exiting value.
-
-**`pattern()`:** This sets the pattern i.e pattern gets re-initiated. Multiple call will overwrite exiting value.
-
-**Common properties:**
-
-1. All other functions except `jpcre2Options()` and `pcre2Options()` re-initiates the corresponding value/s.
+1. All other functions in method chain except `jpcre2Options()` and `pcre2Options()` re-initiates the corresponding value/s. Multiple call will overwrite existing value
+2. Multiple call to `jpcre2Options()` and `pcre2Options()` in the method chain will add further specified options.
 2. All values get re-initiated during the three function calls: `compile()`, `match()` and `replace()`.
 
 #Testing:
