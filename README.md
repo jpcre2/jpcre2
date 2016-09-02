@@ -9,7 +9,7 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 #Requirements:
 
 1. PCRE2 library (`version >=10.21`).
-2. C++ compiler with C++11 support.
+
 
 If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a> which will always be kept compatible with JPCRE2.
 
@@ -131,10 +131,14 @@ catch(int e){
 for(size_t i=0;i<vec_num.size();++i){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=1 is the second and so forth
+    /*//=>C++11
     for(auto const& ent : vec_num[i]){
         //ent.first is the number/position of substring found
         //ent.second is the substring itself
         //when ent.first is 0, ent.second is the total match.
+    }*/
+    for(jpcre2::MapNum::iterator ent=vec_num0[i].begin();ent!=vec_num0[i].end();++ent){
+        std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
     }
 }
 ```
