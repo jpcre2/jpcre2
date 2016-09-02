@@ -45,10 +45,7 @@ To install it in a Unix based system, run:
 make
 sudo make install
 ```
-Now to use it:
-
-1. `#include <jpcre2.h>` in your code.
-2. Build/compile by linking with JPCRE2 and PCRE2 library.
+Now `#include <jpcre2.h>` in your code and build/compile by linking with both JPCRE2 and PCRE2 library.
 
 An example command for GCC would be:
 
@@ -58,25 +55,31 @@ g++  mycpp.cpp -ljpcre2-8 -lpcre2-8 #sequence is important
 
 If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 sources with your favourite IDE or use it as it is.
 
-**Note:**
+**Notes:**
 
-<ol>
-<li>PCRE2_CODE_UNIT_WIDTH other than 8 is not supported in this version.
-</li>
-<li>To use the PCRE2 POSIX compatible library, add the <code>-lpcre2-posix</code> along with the others.
-</ol>
+1. `PCRE2_CODE_UNIT_WIDTH` other than 8 is not supported in this version.
+2. To use the `PCRE2 POSIX` compatible library, add the `-lpcre2-posix` along with the others.
+
 
 #How to code with JPCRE2:
 
-<ol>
-<li>
-First create a <code>jpcre2::Regex</code> object (You can use temporary object too, see <a href="#short-examples">short examples</a>). This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
-<pre class="highlight"><code class="highlight-source-c++ cpp">jpcre2::Regex re;   //Create object</code></pre>
+<div id="compile"></div>
+###Compile a pattern
+
+**First create a `jpcre2::Regex`object**
+
+(You can use temporary object too, see [short examples](#short-examples)).
+
+This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
+
+```cpp
+jpcre2::Regex re;   //Create object
+```
 Each object for each regex pattern.
-</li>
-<li>
-Compile the pattern and catch any error exception:
-<pre class="highlight"><code class="highlight-source-c++ cpp">
+
+**Compile the pattern** and catch any error exception:
+
+```cpp
 try{
     re.compile()            //Invoke the compile() function
       .pattern(pat)         //set various parameters
@@ -93,21 +96,20 @@ try{
 }
 catch(int e){
     /*Handle error*/
-    std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+    std::cout<<re.getErrorMessage(e)<<std::endl;
 }
-</code></pre>
-</li>
-<li>
-Now you can perform match or replace against the pattern. Use the <code>match()</code> member function to preform regex match and the <code>replace()</code> member function to perform regex replace.
-</li>
-  <ol>
-<li>
-<b>Match:</b> The <code>match()</code> member function can take an optional argument (subject) and returns an object of the class <i>RegexMatch</i> which then in turn can be used to pass various parameters using  available member functions (method chaining) of <i>RegexMatch</i> class. The end function in the method chain should always be the <code>execute()</code> function which returns the result (number of matches found).
-</li>
-    <ul>
-<li>
-Perform match and catch any error exception:
-<pre class="highlight"><code class="highlight-source-c++ cpp">
+```
+
+Now you can perform match or replace against the pattern. Use the `match()` member function to preform regex match and the `replace()` member function to perform regex replace.
+
+<div id="match"></div>
+###Match
+
+The `match()` member function can take an optional argument (subject) and returns an object of the class *RegexMatch* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexMatch* class. The end function in the method chain must be the `execute()` function which returns the result (number of matches found).
+
+**Perform match** and catch any error exception:
+
+```cpp
 jpcre2::VecNum vec_num;
 try{
     size_t count=re.match(subject)                            //Invoke the match() function
@@ -120,11 +122,12 @@ try{
 }
 catch(int e){
     /*Handle error*/
-    std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+    std::cout<<re.getErrorMessage(e)<<std::endl;
 }
-</code></pre>
-Access the substrings like this:
-<pre class="highlight"><code class="highlight-source-c++ cpp">
+```
+**Iterate through the substrings:**
+
+```cpp
 for(size_t i=0;i&lt;vec_num.size();++i){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=1 is the second and so forth
@@ -134,15 +137,22 @@ for(size_t i=0;i&lt;vec_num.size();++i){
         //when ent.first is 0, ent.second is the total match.
     }
 }
-</code></pre>
-</li>
-<li>
-To get named substrings or name to number mapping, simply pass the appropriate vectors with <code>numberedSubstringVector()</code> and/or <code>namedSubstringVector()</code> and/or <code>nameToNumberMapVector()</code>:
-<pre class="highlight"><code class="highlight-source-c++ cpp">
+```
+**Access a substring** for a known position:
+
+```cpp
+std::cout<<vec_num[0][0]; // group 0 in first match
+std::cout<<vec_num[0][1]; // group 1 in first match
+std::cout<<vec_num[1][0]; // group 0 in second match
+```
+
+**To get named substrings and/or name to number mapping,** simply pass the appropriate vectors with `namedSubstringVector()` and/or `nameToNumberMapVector()`:
+
+```cpp
 jpcre2::VecNum vec_num;   ///Vector to store numbured substring Map.
 jpcre2::VecNas vec_nas;   ///Vector to store named substring Map.
-jpcre2::VecNtN vec_ntn;    ///Vector to store Named substring to Number Map.
-std::string ac_mod="g"; // g is for global match. Equivalent to using findAll() or FIND_ALL in jpcre2Options()
+jpcre2::VecNtN vec_ntn;   ///Vector to store Named substring to Number Map.
+std::string ac_mod="g";   // g is for global match. Equivalent to using findAll() or FIND_ALL in jpcre2Options()
 try{
     re.match(subject)                            //Invoke the match() function
       .modifiers(ac_mod)                         //Set various options
@@ -155,21 +165,33 @@ try{
 }
 catch(int e){
     /*Handle error*/
-    std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+    std::cout<<re.getErrorMessage(e)<<std::endl;
 }
-</code></pre>
-And access the substrings by looping through the vectors and associated maps. The size of all three vectors are the same and can be accessed in the same way.
-</li>
-    </ul>
-<li>
-<b>Replace:</b> The <code>replace()</code> member function can take upto two optional arguments (subject and replacement string) and returns an object of the class <i>RegexReplace</i> which then in turn can be used to pass various parameters using  available member functions (method chaining) of <i>RegexReplace</i> class. The end function in the method chain should always be the <code>execute()</code> function which returns the result (replaced string).
-</li>
-    <ul>
-<li>
-Perform replace and catch any error exception:
-<pre class="highlight prettyprint"><code class="highlight-source-c++ cpp">
+```
+**Iterating** through the vectors and associated maps are the same as the above example for numbered substrings. The size of all three vectors are the same and can be accessed in the same way.
+
+**Accesing a substring by name:**
+
+```cpp
+std::cout<<vec_nas[0]["name"]; // captured group by name in first match
+std::cout<<vec_nas[1]["name"]; // captured group by name in second match
+```
+
+**Getting the position of a captured group name:**
+
+```cpp
+std::cout<<vec_ntn[0]["name"]; // position of captured group 'name' in first match
+```
+
+###Replace/Substitute
+
+The `replace()` member function can take upto two optional arguments (subject and replacement string) and returns an object of the class *RegexReplace* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexReplace* class. The end function in the method chain must be the `execute()` function which returns the result (replaced string).
+
+**Perform replace** and catch any error exception:
+
+```cpp
 try{
-    std::cout&lt;&lt;
+    std::cout<<
     re.replace()        //Invoke the replace() function
       .subject(s)       //Set various parameters
       .replaceWith(s2)  //...
@@ -183,17 +205,10 @@ try{
 }
 catch(int e){
     /*Handle error*/
-    std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+    std::cout<<re.getErrorMessage(e)<<std::endl;
 }
-
-</code></pre>
-</li>
-<li>
-If you pass the size of the resultant string with <code>bufferSize()</code> function, then make sure it will be enough to store the whole resultant replaced string, otherwise the internal replace function (<code>pcre2_substitute()</code>) will be called <i>twice</i> to adjust the size of the buffer to hold the whole resultant string in order to avoid <code>PCRE2_ERROR_NOMEMORY</code> error.
-</li>
-    </ul>
-  </ol>
-</ol>
+```
+If you pass the size of the resultant string with `bufferSize()` function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function (`pcre2_substitute()`) will be called *twice* to adjust the size of the buffer to hold the whole resultant string in order to avoid `PCRE2_ERROR_NOMEMORY` error.
 
 #Insight:
 
@@ -201,15 +216,20 @@ Let's take a quick look what's inside and how things are working here:
 
 ###Namespaces:
 
-1. **jpcre2::utils :** Some utility functions used by JPCRE2.
-2. **jpcre2 :** This is the namespace you will be using in your code to access JPCRE2 classes and functions.
+Namespace | Details
+------- | -------
+jpcre2 | This is the namespace you will be using in your code to access JPCRE2 classes and functions.
+jpcre2::utils | Some utility functions used by JPCRE2.
 
 ###Classes:
 
-1. **Regex :** This is the main class which holds the key utilities of JPCRE2. Every regex needs an object of this class.
-2. **RegexMatch:** This is the class that holds all the useful functions to perform regex match according to the compiled pattern.
-3. **RegexReplace:** This is the class that holds all the useful functions to perform replacement according to the compiled pattern.
+Class | Details
+----- | -------
+Regex | This is the main class which holds the key utilities of JPCRE2. Every regex needs an object of this class.
+RegexMatch | This is the class that holds all the useful functions to perform regex match according to the compiled pattern.
+RegexReplace | This is the class that holds all the useful functions to perform replacement according to the compiled pattern.
 
+<div id="functions"></div>
 ###Functions at a glance:
 
 ```cpp
@@ -274,50 +294,52 @@ String              execute() //executes the replacement operation
 <div id="modifiers"></div>
 ###Modifiers:
 
-JPCRE2 uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. Two types of modifiers are available: **compile modifiers** and **action modifiers**:
+**JPCRE2** uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. Two types of modifiers are available: *compile modifiers* and *action modifiers*:
 
 <div id="compile-modifiers"></div>
+####Compile modifiers:
+Modifiers define the behavior of a regex pattern. The modifiers have more or less the same meaning as the [PHP regex modifiers](https://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>*</sup>). 
 
-1. **Compile modifiers:** Modifiers that are used to compile a regex. They define the behavior of a regex pattern. The modifiers have more or less the same meaning as the [PHP regex modifiers](https://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>*</sup>). The available compile modifiers are:
-  * **e**<sup>\*</sup> : Unset back-references in the pattern will match to empty strings. Equivalent to *PCRE2_MATCH_UNSET_BACKREF*.
-  * **i** : Case-insensitive. Equivalent to *PCRE2_CASELESS* option.
-  * **j**<sup>\*</sup> : `\u \U \x` and unset back-referencees will act as JavaScript standard.
-     * `\U` matches an upper case "U" character (by default it causes a compile time error if this option is not set).
-     * `\u` matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).
-     * `\x` matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after `\x`, but it may have zero, one, or two digits (so, for example, `\xz` matches a binary zero character followed by z) ).
-     * Unset back-references in the pattern will match to empty strings.
-  * **m** : Multi-line regex. Equivalent to *PCRE2_MULTILINE* option.
-  * **n**<sup>\*</sup> : Enable Unicode support for `\w \d` etc... in pattern. Equivalent to *PCRE2_UTF | PCRE2_UCP*.
-  * **s** : If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to *PCRE2_DOTALL* option.
-  * **u** : Enable UTF support.Treat pattern and subjects as UTF strings. It is equivalent to *PCRE2_UTF* option.
-  * **x** : Whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, enables commentary in pattern. Equivalent to *PCRE2_EXTENDED* option.
-  * **A** : Match only at the first position. It is equivalent to *PCRE2_ANCHORED* option.
-  * **D** : A dollar meta-character in the pattern matches only at the end of the subject string. Without this modifier, a dollar also matches immediately before the final character if it is a newline (but not before any other newlines). This modifier is ignored if *m* modifier is set. Equivalent to *PCRE2_DOLLAR_ENDONLY* option.
-  * **J** : Allow duplicate names for subpatterns. Equivalent to *PCRE2_DUPNAMES* option.
-  * **S** : When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching/replacing. It may also be beneficial for a very long subject string or pattern. Equivalent to an extra compilation with JIT_COMPILER with the option *PCRE2_JIT_COMPLETE*.
-  * **U** : This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by `?`. Equivalent to *PCRE2_UNGREEDY* option.
-2. **Action modifiers:** Modifiers that are used per action i.e match or replace. These modifiers are not compiled in the regex itself, rather it is used per call of each function. Available action modifiers are:
-  * **A** : Match at start. Equivalent to *PCRE2_ANCHORED*. Can be used in match operation. Setting this option only at match time (i.e regex was not compiled with this option) will disable optimization during match time.
-  * **e** : Replaces unset group with empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY*. Can be used in replace operation.
-  * **E** : Extension of *e* modifier. Sets even unknown groups to empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY | PCRE2_SUBSTITUTE_UNKNOWN_UNSET*.
-  * **g** : Global. Will perform global matching or replacement if passed.
-  * **x** : Extended replacement operation. It enables some Bash like features:
-     1. `${<n>:-<string>}`
-     2. `${<n>:+<string1>:<string2>}`
+Modifier | Details
+-------- | -------
+e<sup>\*</sup> | Unset back-references in the pattern will match to empty strings. Equivalent to *PCRE2_MATCH_UNSET_BACKREF*.
+i | Case-insensitive. Equivalent to *PCRE2_CASELESS* option.
+j<sup>\*</sup> | `\u \U \x` and unset back-referencees will act as JavaScript standard. <ul><li><code>\U</code> matches an upper case "U" character (by default it causes a compile time error if this option is not set).</li><li><code>\u</code> matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).</li><li><code>\x</code> matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after <code>\x</code>, but it may have zero, one, or two digits (so, for example, <code>\xz</code> matches a binary zero character followed by z) ).</li><li>Unset back-references in the pattern will match to empty strings.</li></ul>
+m | Multi-line regex. Equivalent to *PCRE2_MULTILINE* option.
+n<sup>\*</sup> | Enable Unicode support for `\w \d` etc... in pattern. Equivalent to *PCRE2_UTF | PCRE2_UCP*.
+s | If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to *PCRE2_DOTALL* option.
+u | Enable UTF support.Treat pattern and subjects as UTF strings. It is equivalent to *PCRE2_UTF* option.
+x | Whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, enables commentary in pattern. Equivalent to *PCRE2_EXTENDED* option.
+A | Match only at the first position. It is equivalent to *PCRE2_ANCHORED* option.
+D | A dollar meta-character in the pattern matches only at the end of the subject string. Without this modifier, a dollar also matches immediately before the final character if it is a newline (but not before any other newlines). This modifier is ignored if *m* modifier is set. Equivalent to *PCRE2_DOLLAR_ENDONLY* option.
+J | Allow duplicate names for subpatterns. Equivalent to *PCRE2_DUPNAMES* option.
+S | When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching/replacing. It may also be beneficial for a very long subject string or pattern. Equivalent to an extra compilation with JIT_COMPILER with the option *PCRE2_JIT_COMPLETE*.
+U | This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by `?`. Equivalent to *PCRE2_UNGREEDY* option.
 
-  `<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
+####Action modifiers:
+These modifiers are not compiled in the regex itself, rather it is used per call of each function.
+
+Modifier | Details
+------ | ------
+A | Match at start. Equivalent to *PCRE2_ANCHORED*. Can be used in match operation. Setting this option only at match time (i.e regex was not compiled with this option) will disable optimization during match time.
+e | Replaces unset group with empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY*. Can be used in replace operation.
+E | Extension of *e* modifier. Sets even unknown groups to empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY | PCRE2_SUBSTITUTE_UNKNOWN_UNSET*.
+g | Global. Will perform global matching or replacement if passed.
+x | Extended replacement operation. It enables some Bash like features: `${<n>:-<string>}` and `${<n>:+<string1>:<string2>}`.<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
 
 <div id="jpcre2-options"></div>
 
 ###JPCRE2 options:
 
-These options are meaningful only for the JPCRE2 library itself not the original PCRE2 library. We use the `jpcre2Options()` function to pass these options.
+These options are meaningful only for the **JPCRE2** library itself not the original **PCRE2** library. We use the `jpcre2Options()` function to pass these options.
 
-1. **jpcre2::NONE**: This is the default option. Equivalent to 0 (zero).
-2. **jpcre2::VALIDATE_MODIFIER**: If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message with `getErrorMessage(error_code)` member function.
-3. **jpcre2::FIND_ALL**: This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `modifiers()` function.
-4. **jpcre2::ERROR_ALL**: Treat warnings as errors and throw exception.
-5. **jpcre2::JIT_COMPILE**: This is same as passing the **S** modifier during pattern compilation.
+Option | Details
+------ | ------
+`jpcre2::NONE` | This is the default option. Equivalent to 0 (zero).
+`jpcre2::VALIDATE_MODIFIER` | If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message with `getErrorMessage(error_code)` member function.
+`jpcre2::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `modifiers()` function.
+`jpcre2::ERROR_ALL` | Treat warnings as errors and throw exception.
+`jpcre2::JIT_COMPILE` | This is same as passing the **S** modifier during pattern compilation.
 
 ###PCRE2 options:
 
@@ -480,10 +502,12 @@ jpcre2::Regex("^([^\t]+)\t([^\t]+)$").replace()
 
 #Testing:
 
-2. **test_match.cpp**: Contains an example code for match function.
-3. **test_replace.cpp**: Contains an example code for replace function.
-4. **test_match2.cpp**: Another matching example. The makefile creates a binary of this (jpcre2match).
-5. **test_replace2.cpp**: Another replacement example. The makefile creates a binary of this (jpcre2replace).
+CPP file | Details
+-------- | ------
+test_match.cpp | Contains an example code for match function.
+est_replace.cpp | Contains an example code for replace function.
+test_match2.cpp | Another matching example. The makefile creates a binary of this (jpcre2match).
+test_replace2.cpp | Another replacement example. The makefile creates a binary of this (jpcre2replace).
 
 #Screenshots of some test outputs:
 
