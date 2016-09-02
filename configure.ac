@@ -2,7 +2,7 @@ AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIR([m4])
 include([ax_cxx_compile_stdcxx.m4])
 
-AC_INIT([jpcre2], [10.22.05], [https://github.com/jpcre2/jpcre2/issues])
+AC_INIT([jpcre2], [10.22.06], [https://github.com/jpcre2/jpcre2/issues])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.h])
 #AC_CONFIG_HEADERS([config.h])
@@ -15,14 +15,14 @@ AC_TYPE_INT64_T
 
 AC_PROG_INSTALL
 
-LT_INIT([disable-shared])
+#AM_DISABLE_SHARED
 
-AC_PROG_LIBTOOL
-AM_PROG_LIBTOOL
-AM_DISABLE_SHARED
+LT_INIT([shared])
 
 AC_PROG_CXX
 AC_PROG_CC
+
+
 #CXXFLAGS=
 
 #check for c++11 support and add flags
@@ -36,13 +36,20 @@ AC_C_INLINE
 AC_TYPE_SIZE_T
 AC_TYPE_UINT32_T
 
+AC_CHECK_HEADERS([pcre2.h],
+	[AC_MSG_ERROR([Unable to find pcre2.h header])])
+
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([setlocale])
 
-AC_OUTPUT(Makefile src/Makefile)
 
+AC_CHECK_LIB([pcre2-8], [pcre2_code_free_8], [], [
+  AC_MSG_ERROR([unable to find pcre2-8 library])
+])
+
+AC_OUTPUT(Makefile src/Makefile)
 
 cat <<EOF
 
@@ -51,7 +58,12 @@ configuration summary:
     Install prefix .................... : ${prefix}
     C preprocessor .................... : ${CC}
     C++ compiler ...................... : ${CXX}
+    Linker ............................ : ${LD}
     C++ preprocessor flags ............ : ${CXXFLAGS}
     C++ compiler flags ................ : ${CXXFLAGS}
+    Linker flags ...................... : ${LDFLAGS}
+    Extra libraries ................... : ${LIBS}
+    Build shared library .............. : ${enable_shared}
+    Build static library .............. : ${enable_static}
 
 EOF

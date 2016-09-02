@@ -22,8 +22,6 @@ JPCRE2_SOURCES = \
   jpcre2.cpp \
   jpcre2.h
 
-AM_LDFLAGS = -lpcre2-8
-
 #Building match
 match_SOURCES = \
   test_match2.cpp \
@@ -71,7 +69,6 @@ libjpcre2_8_la_SOURCES = \
 libjpcre2_8_la_CXXFLAGS = \
   $(AM_LIB_PATH) \
   $(AM_LDFLAGS) \
-  $(AM_CXXFLAGS) \
-  -fPIC
+  $(AM_CXXFLAGS)
 libjpcre2_8_la_LIBADD =
 
