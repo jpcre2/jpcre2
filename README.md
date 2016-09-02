@@ -319,30 +319,30 @@ Modifiers define the behavior of a regex pattern. The modifiers have more or les
 
 Modifier | Details
 -------- | -------
-e<sup>\*</sup> | Unset back-references in the pattern will match to empty strings. Equivalent to *PCRE2_MATCH_UNSET_BACKREF*.
-i | Case-insensitive. Equivalent to *PCRE2_CASELESS* option.
-j<sup>\*</sup> | `\u \U \x` and unset back-referencees will act as JavaScript standard. <ul><li><code>\U</code> matches an upper case "U" character (by default it causes a compile time error if this option is not set).</li><li><code>\u</code> matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).</li><li><code>\x</code> matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after <code>\x</code>, but it may have zero, one, or two digits (so, for example, <code>\xz</code> matches a binary zero character followed by z) ).</li><li>Unset back-references in the pattern will match to empty strings.</li></ul>
-m | Multi-line regex. Equivalent to *PCRE2_MULTILINE* option.
-n<sup>\*</sup> | Enable Unicode support for `\w \d` etc... in pattern. Equivalent to *PCRE2_UTF | PCRE2_UCP*.
-s | If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to *PCRE2_DOTALL* option.
-u | Enable UTF support.Treat pattern and subjects as UTF strings. It is equivalent to *PCRE2_UTF* option.
-x | Whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, enables commentary in pattern. Equivalent to *PCRE2_EXTENDED* option.
-A | Match only at the first position. It is equivalent to *PCRE2_ANCHORED* option.
-D | A dollar meta-character in the pattern matches only at the end of the subject string. Without this modifier, a dollar also matches immediately before the final character if it is a newline (but not before any other newlines). This modifier is ignored if *m* modifier is set. Equivalent to *PCRE2_DOLLAR_ENDONLY* option.
-J | Allow duplicate names for subpatterns. Equivalent to *PCRE2_DUPNAMES* option.
-S | When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching/replacing. It may also be beneficial for a very long subject string or pattern. Equivalent to an extra compilation with JIT_COMPILER with the option *PCRE2_JIT_COMPLETE*.
-U | This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by `?`. Equivalent to *PCRE2_UNGREEDY* option.
+`e`<sup>\*</sup> | Unset back-references in the pattern will match to empty strings. Equivalent to *PCRE2_MATCH_UNSET_BACKREF*.
+`i` | Case-insensitive. Equivalent to *PCRE2_CASELESS* option.
+`j`<sup>\*</sup> | `\u \U \x` and unset back-referencees will act as JavaScript standard. <ul><li><code>\U</code> matches an upper case "U" character (by default it causes a compile time error if this option is not set).</li><li><code>\u</code> matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).</li><li><code>\x</code> matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after <code>\x</code>, but it may have zero, one, or two digits (so, for example, <code>\xz</code> matches a binary zero character followed by z) ).</li><li>Unset back-references in the pattern will match to empty strings.</li></ul>
+`m` | Multi-line regex. Equivalent to *PCRE2_MULTILINE* option.
+`n`<sup>\*</sup> | Enable Unicode support for `\w \d` etc... in pattern. Equivalent to *PCRE2_UTF | PCRE2_UCP*.
+`s` | If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to *PCRE2_DOTALL* option.
+`u` | Enable UTF support.Treat pattern and subjects as UTF strings. It is equivalent to *PCRE2_UTF* option.
+`x` | Whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, enables commentary in pattern. Equivalent to *PCRE2_EXTENDED* option.
+`A` | Match only at the first position. It is equivalent to *PCRE2_ANCHORED* option.
+`D` | A dollar meta-character in the pattern matches only at the end of the subject string. Without this modifier, a dollar also matches immediately before the final character if it is a newline (but not before any other newlines). This modifier is ignored if *m* modifier is set. Equivalent to *PCRE2_DOLLAR_ENDONLY* option.
+`J` | Allow duplicate names for subpatterns. Equivalent to *PCRE2_DUPNAMES* option.
+`S` | When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching/replacing. It may also be beneficial for a very long subject string or pattern. Equivalent to an extra compilation with JIT_COMPILER with the option *PCRE2_JIT_COMPLETE*.
+`U` | This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by `?`. Equivalent to *PCRE2_UNGREEDY* option.
 
 ####Action modifiers:
 These modifiers are not compiled in the regex itself, rather it is used per call of each function.
 
 Modifier | Details
 ------ | ------
-A | Match at start. Equivalent to *PCRE2_ANCHORED*. Can be used in match operation. Setting this option only at match time (i.e regex was not compiled with this option) will disable optimization during match time.
-e | Replaces unset group with empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY*. Can be used in replace operation.
-E | Extension of *e* modifier. Sets even unknown groups to empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY | PCRE2_SUBSTITUTE_UNKNOWN_UNSET*.
-g | Global. Will perform global matching or replacement if passed.
-x | Extended replacement operation. It enables some Bash like features: `${<n>:-<string>}` and `${<n>:+<string1>:<string2>}`.<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
+`A` | Match at start. Equivalent to *PCRE2_ANCHORED*. Can be used in match operation. Setting this option only at match time (i.e regex was not compiled with this option) will disable optimization during match time.
+`e` | Replaces unset group with empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY*. Can be used in replace operation.
+`E` | Extension of *e* modifier. Sets even unknown groups to empty string. Equivalent to *PCRE2_SUBSTITUTE_UNSET_EMPTY | PCRE2_SUBSTITUTE_UNKNOWN_UNSET*.
+`g` | Global. Will perform global matching or replacement if passed.
+`x` | Extended replacement operation. It enables some Bash like features: `${<n>:-<string>}` and `${<n>:+<string1>:<string2>}`.<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
 
 <div id="jpcre2-options"></div>
 
@@ -524,10 +524,10 @@ jpcre2::Regex("^([^\t]+)\t([^\t]+)$").replace()
 
 CPP file | Details
 -------- | ------
-test_match.cpp | Contains an example code for match function.
-est_replace.cpp | Contains an example code for replace function.
-test_match2.cpp | Another matching example. The makefile creates a binary of this (jpcre2match).
-test_replace2.cpp | Another replacement example. The makefile creates a binary of this (jpcre2replace).
+`test_match.cpp` | Contains an example code for match function.
+`test_replace.cpp` | Contains an example code for replace function.
+`test_match2.cpp` | Another matching example. The makefile creates a binary of this (jpcre2match).
+`test_replace2.cpp` | Another replacement example. The makefile creates a binary of this (jpcre2replace).
 
 #Screenshots of some test outputs:
 
