@@ -111,13 +111,14 @@ int main(){
     std::cout<<"\nCaptured group (word) of first match: "<<vec_nas[0]["word"];
     std::cout<<"\nCaptured group (digit) of first match: "<<vec_nas[0]["digit"];
     
-    ///If the existence of the particular name in the pattern is important use std::map::at() function
+    ///If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
+    /* //>=C++11
     try{
         ///This will throw exception becasue the substring name 'name' doesn't exist
         std::cout<<"\nCaptured group (name) of first match: "<<vec_nas[0].at("name");
     } catch(std::logic_error e){
         std::cout<<"\nCaptured group (name) doesn't exist";
-    }
+    }*/
     
     ///There were two matches found (vec_nas.size() == 2) in the above example
     std::cout<<"\nCaptured group (word) of second match: "<<vec_nas[1]["word"];
