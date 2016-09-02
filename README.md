@@ -83,9 +83,9 @@ Each object for each regex pattern.
 try{
     re.compile()               //Invoke the compile() function
       .setPattern(pat)         //set various parameters
-      .setModifiers("Jin")     //Always sets the modifier
-      .addJpcre2Options(0)     //Adds the option
-      .addPcre2Options(0)      //Adds the option
+      .setModifiers("Jin")     //sets the modifier
+      .addJpcre2Options(0)     //Adds the jpcre2 option
+      .addPcre2Options(0)      //Adds the pcre2 option
       .execute();              //Finaly execute it.
     
     //Another way is to use constructor to initialize and compile at the same time:
@@ -114,7 +114,7 @@ jpcre2::VecNum vec_num;
 try{
     size_t count=re.match(subject)                               //Invoke the match() function
                    .setModifiers(ac_mod)                         //Set various options
-                   .setNumberedSubstringVector(&vec_num)          //...
+                   .setNumberedSubstringVector(&vec_num)         //...
                    .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
                    .execute();                                   //Finally execute it.
     //vec_num will be populated with maps of numbered substrings.
@@ -128,7 +128,7 @@ catch(int e){
 **Iterate through the substrings:**
 
 ```cpp
-for(size_t i=0;i&lt;vec_num.size();++i){
+for(size_t i=0;i<vec_num.size();++i){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=1 is the second and so forth
     for(auto const& ent : vec_num[i]){
@@ -156,9 +156,9 @@ std::string ac_mod="g";   // g is for global match. Equivalent to using setFindA
 try{
     re.match(subject)                               //Invoke the match() function
       .setModifiers(ac_mod)                         //Set various options
-      .setNumberedSubstringVector(&vec_num)          //...
-      .setNamedSubstringVector(&vec_nas)             //...
-      .setNameToNumberMapVector(&vec_ntn)            //...
+      .setNumberedSubstringVector(&vec_num)         //...
+      .setNamedSubstringVector(&vec_nas)            //...
+      .setNameToNumberMapVector(&vec_ntn)           //...
       .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
       .addPcre2Options(PCRE2_ANCHORED)              //...
       .execute();                                   //Finally execute it.
