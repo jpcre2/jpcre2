@@ -240,8 +240,12 @@ Class | Details
 
 //Constructors
 Regex()
+Regex(const Regex& r)
 Regex(const String& re, const String& mod="")
 Regex(const String& re, uint32_t pcre2_opts, uint32_t jpcre2_opts=0)
+
+//Overloaded assignment operator
+Regex& operator=(const Regex& r)
 
 //Getters
 String     getModifier()
