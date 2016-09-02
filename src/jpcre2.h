@@ -1,12 +1,12 @@
-/***********************************************************************
- * C++ wrapper for several utilities of PCRE2 Library
+/**********************************************************************
+ * ******************* C++ wrapper of PCRE2 Library *******************
  * ********************************************************************/
 
 /* 
 This is a public C++ wrapper for several utilities of the PCRE library, second API, to be
 #included by applications that call PCRE2 functions.
 
-           Copyright (c) 2015 Md. Jahidul Hamid
+           Copyright (c) 2015-2016 Md. Jahidul Hamid
 
 -----------------------------------------------------------------------------
 Redistribution and use in source and binary forms, with or without
@@ -55,38 +55,14 @@ Dsclaimer:
 
 #ifdef __cplusplus
 
+#include <limits>
 #include <string>
 #include <cstring>
-#include <sstream>
-#include <limits>
 #include <vector>
 #include <map>
 
 
 namespace jpcre2{
-    
-    ///Errors // JPCRE2 error codes are positive numbers while PCRE2 error codes are negative numbers
-    namespace ERROR {
-    enum { 
-            INVALID_MODIFIER                 = 2,
-            JIT_COMPILE_FAILED               = 3
-        };
-    }
-    
-    #define REGEX_STRING_MAX std::numeric_limits<int>::max() //This limits the maximum length of string that can be handled by default.
-                                                             //This limit may or may not be used.
-    #define DEFAULT_LOCALE "none"   ///We won't do anything about locale if it is set to "none" 
-    
-    ///Option bits. These are the options for JPCRE2.
-    enum {  NONE                                = 0x0000000u,
-            VALIDATE_MODIFIER                   = 0x0000001u,
-            FIND_ALL                            = 0x0000002u, //find all during match
-            JIT_COMPILE                         = 0x0000004u, //prform JIT compilation during pattern compilation
-            ERROR_ALL                           = 0x0000008u  //treat warnings as error and throw exception
-         };
-    
-    
-    
     
     typedef size_t Uint;
     typedef size_t SIZE_T;
@@ -99,6 +75,26 @@ namespace jpcre2{
     typedef std::vector<MapNas> VecNas;           //Vector of MapNas
     typedef std::vector<MapNtN> VecNtN;           //Vector of MapNtN
     typedef std::vector<MapNum> VecNum;           //Vector of MapNum
+    
+    ///Errors // JPCRE2 error codes are positive numbers while PCRE2 error codes are negative numbers
+    namespace ERROR {
+        enum { 
+                INVALID_MODIFIER                 = 2,
+                JIT_COMPILE_FAILED               = 3
+            };
+    }
+    
+    extern const size_t REGEX_STRING_MAX; //Used by default to provide big enough buffer for replaced string
+    
+    extern const String DEFAULT_LOCALE;   ///We won't do anything about locale if it is set to "none" 
+    
+    ///Option bits. These are the options for JPCRE2.
+    enum {  NONE                                = 0x0000000u,
+            VALIDATE_MODIFIER                   = 0x0000001u,
+            FIND_ALL                            = 0x0000002u, //find all during match
+            JIT_COMPILE                         = 0x0000004u, //prform JIT compilation during pattern compilation
+            ERROR_ALL                           = 0x0000008u  //treat warnings as error and throw exception
+         };
     
     
     ///declare classes
@@ -181,9 +177,9 @@ namespace jpcre2{
         public:
            
             ///Chained functions for taking parameters
-            RegexMatch& setNumberedSubstringVector(VecNum* vec_num)       {p_vec_num=vec_num;             return *this;}
-            RegexMatch& setNamedSubstringVector(VecNas* vec_nas)          {p_vec_nas=vec_nas;             return *this;}
-            RegexMatch& setNameToNumberMapVector(VecNtN* vec_ntn)         {p_vec_ntn=vec_ntn;             return *this;}
+            RegexMatch& setNumberedSubstringVector(VecNum* vec_num)       {p_vec_num=vec_num;              return *this;}
+            RegexMatch& setNamedSubstringVector(VecNas* vec_nas)          {p_vec_nas=vec_nas;              return *this;}
+            RegexMatch& setNameToNumberMapVector(VecNtN* vec_ntn)         {p_vec_ntn=vec_ntn;              return *this;}
             RegexMatch& setSubject(const String& s)                       {m_subject=s;                    return *this;}
             RegexMatch& setModifiers(const String& s)                     {m_modifier=s;                   return *this;}
             RegexMatch& addJpcre2Options(uint32_t x)                      {jpcre2_match_opts |= x;         return *this;}
@@ -263,7 +259,6 @@ namespace jpcre2{
             
             String pat_str;
             String modifier;
-            PCRE2_SPTR c_pattern;
             pcre2_code *code;
             int error_number;
             PCRE2_SIZE error_offset;
@@ -294,23 +289,26 @@ namespace jpcre2{
                               error_number = error_offset = error_code = jpcre2_error_offset = 0;
                               compile_opts = jpcre2_compile_opts = 0;
                               null_code = false;
+                              pat_str=modifier="";
+                              code=NULL;
                               }
                               
-            void init(const String& re="") { pat_str=re;modifier="";
-                                             init_vars();
-                                             compileRegex(pat_str,modifier,DEFAULT_LOCALE,jpcre2_compile_opts,compile_opts);
+            void init(const String& re="") 
+                                           { init_vars();
+                                             pat_str=re;
+                                             //compileRegex(pat_str,modifier,DEFAULT_LOCALE,jpcre2_compile_opts,compile_opts);
                                            }
             void init(const String& re, const String& mod)
-                                           { pat_str=re;modifier=mod;
-                                             init_vars();
-                                             compileRegex(pat_str,modifier,DEFAULT_LOCALE,jpcre2_compile_opts,compile_opts);
+                                           { init_vars();
+                                             pat_str=re;modifier=mod;
+                                             //compileRegex(pat_str,modifier,DEFAULT_LOCALE,jpcre2_compile_opts,compile_opts);
                                            }
             void init(const String& re, uint32_t pcre2_opts, uint32_t opt_bits=0) 
-                                                            { pat_str=re;modifier="";
-                                                               init_vars();
+                                                             { init_vars();
+                                                               pat_str=re;
                                                                compile_opts |= pcre2_opts;
                                                                jpcre2_compile_opts |= opt_bits;
-                                                               compileRegex(pat_str,modifier,DEFAULT_LOCALE,jpcre2_compile_opts,compile_opts);
+                                                               //compileRegex(pat_str,modifier,DEFAULT_LOCALE,jpcre2_compile_opts,compile_opts);
                                                              }
             ///init() must perform a dummy compile, otherwise it will yield to a 
             /// segmentation fault when regex is not initialized and goes out of scope, due to a call of
@@ -325,11 +323,63 @@ namespace jpcre2{
             friend class RegexMatch;
             friend class RegexReplace;
             
+            void shallowCopy(const Regex& r){
+                rm = r.rm;
+                rr = r.rr;
+                pat_str = r.pat_str;
+                mylocale = r.mylocale;
+                modifier = r.modifier;
+                null_code = r. null_code;
+                error_code = r.error_code;
+                error_number = r.error_number;
+                error_offset = r.error_offset;
+                compile_opts = r.compile_opts;
+                current_action = r.current_action;
+                jpcre2_compile_opts = r.jpcre2_compile_opts;
+                jpcre2_error_offset = r.jpcre2_error_offset;
+                current_warning_msg = r.current_warning_msg;
+            }
+            void deepCopy(const Regex& r){
+                ///Now copy r.code if it is non-null
+                if(r.code){
+                    freeRegexMemory();  ///first release memory if it is non-NULL
+                    ///copy only if code is non-null
+                    code = pcre2_code_copy(r.code);
+                    ///pcre2_code_copy doesn't copy JIT memory
+                    ///JIT compilation is needed
+                    if((jpcre2_compile_opts & JIT_COMPILE) != 0){
+                    ///perform jit compilation:
+                        int jit_ret=pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
+                        if(jit_ret!=0){
+                            if((jpcre2_compile_opts & ERROR_ALL) != 0) {
+                                error_code = jpcre2_error_offset = ERROR::JIT_COMPILE_FAILED;
+                                throw((int)ERROR::JIT_COMPILE_FAILED);
+                            }
+                            else current_warning_msg="JIT compilation failed! Is it supported?";
+                        }  
+                    }
+                }
+                else code = NULL;
+            }
+            
         public:
-            Regex(const Regex&){init();}
             Regex(){init();}
-            Regex(const String& re, const String& mod="")  {init(re,mod);}
-            Regex(const String& re, uint32_t pcre2_opts, uint32_t opt_bits=0)  {init(re, pcre2_opts, opt_bits);}
+            Regex(const String& re, const String& mod="")  {init(re,mod);execute();}
+            Regex(const String& re, uint32_t pcre2_opts, uint32_t opt_bits=0)  {init(re, pcre2_opts, opt_bits);execute();}
+            
+            ///Deep copy constructor
+            Regex(const Regex& r){
+                ///shallow copy must be performed before deep copy
+                shallowCopy(r);
+                deepCopy(r);
+            }
+            Regex& operator=(const Regex& r){
+                if(this == &r) return *this;
+                ///shallow copy must be performed before deep copy
+                shallowCopy(r);
+                deepCopy(r);
+                return *this;
+            }
             
             ~Regex(){freeRegexMemory();}
             
@@ -376,8 +426,10 @@ namespace jpcre2{
     };
     
     namespace utils{
-        template<typename T>
-        jpcre2::String toString(T a);
+        String toString(int a);
+        String toString(char a);
+        String toString(const char* a);
+        String toString(PCRE2_UCHAR* a);
             
     }
 

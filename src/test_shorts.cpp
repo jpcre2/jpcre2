@@ -6,8 +6,7 @@ int main(){
     size_t count;
     ///Check if string matches the pattern
     /**
-     * The following can be used to check if a string matches a pattern. 
-     * If match is found 1 will be returned, 0 otherwise.
+     * The following uses a temporary Regex object.
      * */
     if(jpcre2::Regex("(\\d)|(\\w)").match("I am the subject").execute()) 
         std::cout<<"\nmatched";
@@ -152,6 +151,6 @@ int main(){
                                          .setSubject("I am the subject\tTo be swapped according to tab")
                                          .setReplaceWith("$2 $1")
                                          .execute();
-    
+
     return 0;
 }

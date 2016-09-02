@@ -1,12 +1,12 @@
-/***********************************************************************
- * C++ wrapper for several utilities of PCRE2 Library
+/**********************************************************************
+ * ******************* C++ wrapper of PCRE2 Library *******************
  * ********************************************************************/
 
 /* 
 This is a public C++ wrapper for several utilities of the PCRE library, second API, to be
 #included by applications that call PCRE2 functions.
 
-           Copyright (c) 2015 Md. Jahidul Hamid
+           Copyright (c) 2015-2016 Md. Jahidul Hamid
 
 -----------------------------------------------------------------------------
 Redistribution and use in source and binary forms, with or without
@@ -40,121 +40,140 @@ Dsclaimer:
 */
 
 #include "jpcre2.h"
+#include <cstdio> ///snprintf
+#include <cassert>
 
-    template<class T>
-    jpcre2::String jpcre2::utils::toString(T a){
-		thread_local std::ostringstream ss;
-		ss.str("");
-		ss.clear();
-        ss << a;
-        return ss.str();
-    }
+const size_t jpcre2::REGEX_STRING_MAX = std::numeric_limits<int>::max();
 
-    jpcre2::String jpcre2::Regex::getErrorMessage(){
-        return getErrorMessage(error_code);
+const jpcre2::String jpcre2::DEFAULT_LOCALE = "none";
+
+jpcre2::String jpcre2::utils::toString(const char* a){
+    if(a) return String(a);
+    else return "";
+}
+jpcre2::String jpcre2::utils::toString(char a){
+    if(a!='\0')return String(1, a);
+    else return "";
+}
+jpcre2::String jpcre2::utils::toString( int x ) {
+    int length = snprintf( NULL, 0, "%d", x );
+    assert( length >= 0 );
+    char* buf = new char[length + 1];
+    snprintf( buf, length + 1, "%d", x );
+    String str( buf );
+    delete[] buf;
+    return str;
+}
+jpcre2::String jpcre2::utils::toString(PCRE2_UCHAR* a){
+    if(a) return String((char*)a);
+    else return "";
+}
+
+jpcre2::String jpcre2::Regex::getErrorMessage(){
+    return getErrorMessage(error_code);
+}
+
+jpcre2::String jpcre2::Regex::getErrorMessage(int err_num){
+    if(err_num==ERROR::INVALID_MODIFIER){
+        return "Invalid Modifier: "+utils::toString((char)jpcre2_error_offset);
     }
-    
-    jpcre2::String jpcre2::Regex::getErrorMessage(int err_num){
-        if(err_num==ERROR::INVALID_MODIFIER){
-            return "Invalid Modifier: "+utils::toString((char)jpcre2_error_offset);
-        }
-        else if(err_num == ERROR::JIT_COMPILE_FAILED) {
-            return "JIT compilation failed! Is it supported?";
-        }
-        else{
-            PCRE2_UCHAR buffer[4024];
-            pcre2_get_error_message(err_num, buffer, sizeof(buffer));
-            return utils::toString((PCRE2_UCHAR*)buffer)+"; error offset: "+utils::toString((int)error_offset);
-            
-        }
+    else if(err_num == ERROR::JIT_COMPILE_FAILED) {
+        return "JIT compilation failed! Is it supported?";
     }
-    
-    
-    void jpcre2::Regex::parseCompileOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts){
-        ///This function sets opts from scratch
-        compile_opts = pcre2_opts;
-        jpcre2_compile_opts = opt_bits;
-        ///parse pcre options
-        for(size_t i=0;i<mod.length();++i){
-            switch (mod[i]){
-                case 'e': compile_opts |= PCRE2_MATCH_UNSET_BACKREF;break;
-                case 'i': compile_opts |= PCRE2_CASELESS;break;
-                case 'j': compile_opts |= PCRE2_ALT_BSUX                  ///\u \U \x will act as javascript standard
-                                       | PCRE2_MATCH_UNSET_BACKREF;break; ///unset back-references will act as javascript std.
-                case 'm': compile_opts |= PCRE2_MULTILINE;break;
-                case 'n': compile_opts |= PCRE2_UTF | PCRE2_UCP;break;
-                case 's': compile_opts |= PCRE2_DOTALL;break;
-                case 'u': compile_opts |= PCRE2_UTF;break;
-                case 'x': compile_opts |= PCRE2_EXTENDED;break;
-                case 'A': compile_opts |= PCRE2_ANCHORED;break;
-                case 'D': compile_opts |= PCRE2_DOLLAR_ENDONLY;break;
-                case 'J': compile_opts |= PCRE2_DUPNAMES;break;
-                case 'S': jpcre2_compile_opts |= JIT_COMPILE;break;    ///Optimization opt
-                case 'U': compile_opts |= PCRE2_UNGREEDY;break;
-                default : if((opt_bits & VALIDATE_MODIFIER)!=0)
-                          {error_code=jpcre2_error_offset=(int)mod[i];throw((int)ERROR::INVALID_MODIFIER);}break;
-            }
-        }
-    }
-    
-    
-    void jpcre2::Regex :: compileRegex(const String& re,const String& mod, const String& loc,
-                                    uint32_t opt_bits, uint32_t pcre2_opts){
-        c_pattern=(PCRE2_SPTR)re.c_str();
+    else{
+        PCRE2_UCHAR buffer[4024];
+        pcre2_get_error_message(err_num, buffer, sizeof(buffer));
+        return utils::toString((PCRE2_UCHAR*)buffer)+"; error offset: "+utils::toString((int)error_offset);
         
-        ///populate some class vars
-        pat_str=re;
-        modifier=mod;
-        mylocale=loc;
-        
-        ///populate compile_opts from scratch
-        parseCompileOpts(mod,opt_bits, pcre2_opts);
+    }
+}
+
+
+void jpcre2::Regex::parseCompileOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts){
+    ///This function sets opts from scratch
+    compile_opts = pcre2_opts;
+    jpcre2_compile_opts = opt_bits;
+    ///parse pcre options
+    for(size_t i=0;i<mod.length();++i){
+        switch (mod[i]){
+            case 'e': compile_opts |= PCRE2_MATCH_UNSET_BACKREF;break;
+            case 'i': compile_opts |= PCRE2_CASELESS;break;
+            case 'j': compile_opts |= PCRE2_ALT_BSUX                  ///\u \U \x will act as javascript standard
+                                   | PCRE2_MATCH_UNSET_BACKREF;break; ///unset back-references will act as javascript std.
+            case 'm': compile_opts |= PCRE2_MULTILINE;break;
+            case 'n': compile_opts |= PCRE2_UTF | PCRE2_UCP;break;
+            case 's': compile_opts |= PCRE2_DOTALL;break;
+            case 'u': compile_opts |= PCRE2_UTF;break;
+            case 'x': compile_opts |= PCRE2_EXTENDED;break;
+            case 'A': compile_opts |= PCRE2_ANCHORED;break;
+            case 'D': compile_opts |= PCRE2_DOLLAR_ENDONLY;break;
+            case 'J': compile_opts |= PCRE2_DUPNAMES;break;
+            case 'S': jpcre2_compile_opts |= JIT_COMPILE;break;    ///Optimization opt
+            case 'U': compile_opts |= PCRE2_UNGREEDY;break;
+            default : if((opt_bits & VALIDATE_MODIFIER)!=0)
+                      {error_code=jpcre2_error_offset=(int)mod[i];throw((int)ERROR::INVALID_MODIFIER);}break;
+        }
+    }
+}
+
+
+void jpcre2::Regex :: compileRegex(const String& re,const String& mod, const String& loc,
+                                uint32_t opt_bits, uint32_t pcre2_opts){
+    PCRE2_SPTR c_pattern=(PCRE2_SPTR)re.c_str();
     
+    ///populate some class vars
+    pat_str=re;
+    modifier=mod;
+    mylocale=loc;
+    
+    ///populate compile_opts from scratch
+    parseCompileOpts(mod,opt_bits, pcre2_opts);
+
     /*************************************************************************
     * Now we are going to compile the regular expression pattern, and handle *
     * any errors that are detected.                                          *
     *************************************************************************/
+
+    pcre2_compile_context *ccontext = pcre2_compile_context_create(NULL);
     
-        pcre2_compile_context *ccontext = pcre2_compile_context_create(NULL);
-        
-        if(loc!="none"){
-            String loc_old;
-            loc_old=utils::toString(std::setlocale(LC_CTYPE,loc.c_str()));
-            const unsigned char *tables = pcre2_maketables(NULL);
-            pcre2_set_character_tables(ccontext, tables);
-            std::setlocale(LC_CTYPE,loc_old.c_str());
-        }
-    
-        null_code = false;
-        
-        code = pcre2_compile(
-            c_pattern,                    /* the pattern */
-            PCRE2_ZERO_TERMINATED,      /* indicates pattern is zero-terminated */
-            compile_opts,               /* default options */
-            &error_number,              /* for error number */
-            &error_offset,              /* for error offset */
-            ccontext);                  /* use compile context */
-        
-        error_code=error_number;
-        /* Compilation failed: print the error message and exit. */
-    
-        if (code == NULL){
-            ///must not free regex memory, the only function has that right is the destroyer.
-            ///freeRegexMemory();
-            /// Perform a dummy compile, code must not be NULL
-            null_code = true;
-            code = pcre2_compile((PCRE2_SPTR)"", PCRE2_ZERO_TERMINATED,0,&error_number,&error_offset,ccontext);
-            throw(error_number);
-        }
-        else if((jpcre2_compile_opts & JIT_COMPILE) != 0){
-            ///perform jit compilation:
-            int jit_ret=pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
-            if(jit_ret!=0){
-                if((jpcre2_compile_opts & ERROR_ALL) != 0) {
-                    error_code = jpcre2_error_offset = ERROR::JIT_COMPILE_FAILED;
-                    throw((int)ERROR::JIT_COMPILE_FAILED);
-                }
-                else current_warning_msg="JIT compilation failed! Is it supported?";
-            }  
-        }
+    if(loc!="none"){
+        String loc_old;
+        loc_old=utils::toString(std::setlocale(LC_CTYPE,loc.c_str()));
+        const unsigned char *tables = pcre2_maketables(NULL);
+        pcre2_set_character_tables(ccontext, tables);
+        std::setlocale(LC_CTYPE,loc_old.c_str());
     }
+
+    null_code = false;
+    
+    code = pcre2_compile(
+        c_pattern,                  /* the pattern */
+        PCRE2_ZERO_TERMINATED,      /* indicates pattern is zero-terminated */
+        compile_opts,               /* default options */
+        &error_number,              /* for error number */
+        &error_offset,              /* for error offset */
+        ccontext);                  /* use compile context */
+    
+    error_code=error_number;
+    /* Compilation failed: print the error message and exit. */
+
+    if (code == NULL){
+        ///must not free regex memory, the only function has that right is the destroyer.
+        ///freeRegexMemory();
+        /// Perform a dummy compile, code must not be NULL
+        null_code = true;
+        code = pcre2_compile((PCRE2_SPTR)"", PCRE2_ZERO_TERMINATED,0,&error_number,&error_offset,ccontext);
+        throw(error_number);
+    }
+    else if((jpcre2_compile_opts & JIT_COMPILE) != 0){
+        ///perform jit compilation:
+        int jit_ret=pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
+        if(jit_ret!=0){
+            if((jpcre2_compile_opts & ERROR_ALL) != 0) {
+                error_code = jpcre2_error_offset = ERROR::JIT_COMPILE_FAILED;
+                throw((int)ERROR::JIT_COMPILE_FAILED);
+            }
+            else current_warning_msg="JIT compilation failed! Is it supported?";
+        }  
+    }
+}

@@ -105,7 +105,7 @@ Now you can perform match or replace against the pattern. Use the `match()` memb
 <div id="match"></div>
 ##Match
 
-The `match()` member function can take an optional argument (subject) and returns an object of the class *RegexMatch* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexMatch* class. The end function in the method chain must be the `execute()` function which returns the result (number of matches found).
+The `match()` member function can take two optional arguments (subject & modifier) and returns an object of the class *RegexMatch* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexMatch* class. The end function in the method chain must be the `execute()` function which returns the result (number of matches found).
 
 **Perform match** and catch any error exception:
 

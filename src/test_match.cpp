@@ -59,8 +59,8 @@ int main(){
         ///This vector contains maps with number as the key and the corresponding substring as the value
         std::cout<<"\n-------------------------------------------------------------------------";
         std::cout<< "\n--- Numbered Substrings (number: substring) for match "<<i+1<<" ---\n";
-        for(auto const& ent : vec_num0[i]){
-            std::cout<<"\n\t"<<ent.first<<": "<<ent.second<<"\n";
+        for(jpcre2::MapNum::iterator ent=vec_num0[i].begin();ent!=vec_num0[i].end();++ent){
+            std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
         }
         
         
@@ -68,8 +68,8 @@ int main(){
         ///This vector contains maps with name as the key and the corresponding substring as the value
         std::cout<<"\n-------------------------------------------------------------------------";
         std::cout<< "\n--- Named Substrings (name: substring) for match "<<i+1<<" ---\n";
-        for(auto const& ent : vec_nas0[i]){
-            std::cout<<"\n\t"<<ent.first<<": "<<ent.second<<"\n";
+        for(jpcre2::MapNas::iterator ent=vec_nas0[i].begin();ent!=vec_nas0[i].end();++ent){
+            std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
         }
         
         
@@ -78,8 +78,8 @@ int main(){
         ///i.e the number (of substring) can be accessed with the name for named substring.
         std::cout<<"\n-------------------------------------------------------------------------";
         std::cout<< "\n--- Name to number mapping (name: number/position) for match "<<i+1<<" ---\n";
-        for(auto const& ent : vec_nn0[i]){
-            std::cout<<"\n\t"<<ent.first<<": "<<ent.second<<"\n";
+        for(jpcre2::MapNtN::iterator ent=vec_nn0[i].begin();ent!=vec_nn0[i].end();++ent){
+            std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
         }
     }
 	return 0;
