@@ -64,7 +64,7 @@ If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 s
 #How to code with JPCRE2:
 
 <div id="compile"></div>
-###Compile a pattern
+##Compile a pattern
 
 **First create a `jpcre2::Regex`object**
 
@@ -103,7 +103,7 @@ catch(int e){
 Now you can perform match or replace against the pattern. Use the `match()` member function to preform regex match and the `replace()` member function to perform regex replace.
 
 <div id="match"></div>
-###Match
+##Match
 
 The `match()` member function can take an optional argument (subject) and returns an object of the class *RegexMatch* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexMatch* class. The end function in the method chain must be the `execute()` function which returns the result (number of matches found).
 
@@ -146,7 +146,7 @@ std::cout<<vec_num[0][1]; // group 1 in first match
 std::cout<<vec_num[1][0]; // group 0 in second match
 ```
 
-**To get named substrings and/or name to number mapping,** simply pass the appropriate vectors with `namedSubstringVector()` and/or `nameToNumberMapVector()`:
+**To get named substrings and/or name to number mapping,** pass the appropriate vectors with `namedSubstringVector()` and/or `nameToNumberMapVector()`:
 
 ```cpp
 jpcre2::VecNum vec_num;   ///Vector to store numbured substring Map.
@@ -183,7 +183,7 @@ std::cout<<vec_nas[1]["name"]; // captured group by name in second match
 std::cout<<vec_ntn[0]["name"]; // position of captured group 'name' in first match
 ```
 
-###Replace/Substitute
+##Replace/Substitute
 
 The `replace()` member function can take upto two optional arguments (subject and replacement string) and returns an object of the class *RegexReplace* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexReplace* class. The end function in the method chain must be the `execute()` function which returns the result (replaced string).
 
@@ -214,20 +214,20 @@ If you pass the size of the resultant string with `bufferSize()` function, make 
 
 Let's take a quick look what's inside and how things are working here:
 
-###Namespaces:
+##Namespaces:
 
 Namespace | Details
 ------- | -------
-jpcre2 | This is the namespace you will be using in your code to access JPCRE2 classes and functions.
-jpcre2::utils | Some utility functions used by JPCRE2.
+`jpcre2` | This is the namespace you will be using in your code to access JPCRE2 classes and functions.
+`jpcre2::utils` | Some utility functions used by JPCRE2.
 
-###Classes:
+##Classes:
 
 Class | Details
 ----- | -------
-Regex | This is the main class which holds the key utilities of JPCRE2. Every regex needs an object of this class.
-RegexMatch | This is the class that holds all the useful functions to perform regex match according to the compiled pattern.
-RegexReplace | This is the class that holds all the useful functions to perform replacement according to the compiled pattern.
+`Regex` | This is the main class which holds the key utilities of JPCRE2. Every regex needs an object of this class.
+`RegexMatch` | This is the class that holds all the useful functions to perform regex match according to the compiled pattern.
+`RegexReplace` | This is the class that holds all the useful functions to perform replacement according to the compiled pattern.
 
 <div id="functions"></div>
 ###Functions at a glance:
