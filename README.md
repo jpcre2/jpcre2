@@ -318,7 +318,7 @@ String              exec()    //wrapper of exec()
 
 <div id="compile-modifiers"></div>
 ####Compile modifiers:
-Modifiers define the behavior of a regex pattern. The modifiers have more or less the same meaning as the [PHP regex modifiers](https://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>*</sup>). 
+Modifiers define the behavior of a regex pattern. They have more or less the same meaning as the [PHP regex modifiers](https://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>*</sup>). 
 
 Modifier | Details
 -------- | -------
@@ -337,7 +337,7 @@ Modifier | Details
 `U` | This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by `?`. Equivalent to *PCRE2_UNGREEDY* option.
 
 ####Action modifiers:
-These modifiers are not compiled in the regex itself, rather it is used per call of each function.
+These modifiers are not compiled in the regex itself, rather it is used per call of each match or replace function.
 
 Modifier | Details
 ------ | ------
