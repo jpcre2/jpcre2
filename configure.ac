@@ -21,20 +21,9 @@ AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
 AM_DISABLE_SHARED
 
-remember_set_CXXFLAGS="$CXXFLAGS"
-
 AC_PROG_CXX
 AC_PROG_CC
 #CXXFLAGS=
-
-if test "x$remember_set_CXXFLAGS" = "x"; then
-  if test "$CXXFLAGS" = "-g -O2"; then
-    CXXFLAGS=""
-  elif test "$CXXFLAGS" = "-g"; then
-    CXXFLAGS=""
-  fi
-fi
-
 
 #check for c++11 support and add flags
 #AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
