@@ -76,14 +76,15 @@ int main(){
     ///Using the [] operator with jpcre2::MapNum will create new element if it doesn't exist
     /// i.e vec_num[0][3] were created in the above example.
     ///This should be ok, if existence of a particular substring is not important
-    
-    ///If the existence of a substring is important, use the std::map::at() function to access map elements
+
+    ///If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
+    /* //>=C++11
     try{
         ///This will throw exception, because substring 4 doesn't exist
         std::cout<<"\nCaptrued group 4 of frist match: "<<vec_num[0].at(4);
     } catch (std::logic_error e){
         std::cout<<"\nCaptrued group 4 doesn't exist";
-    }
+    }*/
     
     ///There were two matches found (vec_num.size() == 2) in the above example
     std::cout<<"\nTotal match of second match: "<<vec_num[1][0];      ///Total match (group 0) from second match
