@@ -1,6 +1,15 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.22.02 - Fri Sep  2 14:18:46 UTC 2016
+-----------------------------------------------
+
+1. Change function names: modifiers to setModifiers etc..
+2. Change function names: jpcre2Options to addJpcre2Options etc..
+3. Change findAll() to setFindAll(bool x=true)
+4. added removeJpcre2Options()
+5. added removePcre2Options()
+
 Version 10.22.02 - Fri Sep  2 11:43:52 UTC 2016
 -----------------------------------------------
 

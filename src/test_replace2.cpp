@@ -40,8 +40,8 @@ int main(){
     //perform replace
     
     try{std::cout<<"\nreplaced string: "<<re.replace(subject,repl)
-                                            .modifiers(repl_mod)
-                                            .jpcre2Options(jpcre2::VALIDATE_MODIFIER)
+                                            .setModifiers(repl_mod)
+                                            .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)
                                             .execute();}
     ///2 is the length of the returned string. Though, it will be expanded as needed, pass a large enough value to contain the string,
     ///otherwise internal substitute function will be called twice which will eat up some additional resource.

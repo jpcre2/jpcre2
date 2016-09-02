@@ -81,12 +81,12 @@ Each object for each regex pattern.
 
 ```cpp
 try{
-    re.compile()            //Invoke the compile() function
-      .pattern(pat)         //set various parameters
-      .modifiers("Jin")     //Always sets the modifier
-      .jpcre2Options(0)     //Adds the option
-      .pcre2Options(0)      //Adds the option
-      .execute();           //Finaly execute it.
+    re.compile()               //Invoke the compile() function
+      .setPattern(pat)         //set various parameters
+      .setModifiers("Jin")     //Always sets the modifier
+      .addJpcre2Options(0)     //Adds the option
+      .addPcre2Options(0)      //Adds the option
+      .execute();              //Finaly execute it.
     
     //Another way is to use constructor to initialize and compile at the same time:
     jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
@@ -112,11 +112,11 @@ The `match()` member function can take an optional argument (subject) and return
 ```cpp
 jpcre2::VecNum vec_num;
 try{
-    size_t count=re.match(subject)                            //Invoke the match() function
-                   .modifiers(ac_mod)                         //Set various options
-                   .numberedSubstringVector(vec_num)          //...
-                   .jpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
-                   .execute();                                //Finally execute it.
+    size_t count=re.match(subject)                               //Invoke the match() function
+                   .setModifiers(ac_mod)                         //Set various options
+                   .setNumberedSubstringVector(vec_num)          //...
+                   .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
+                   .execute();                                   //Finally execute it.
     //vec_num will be populated with maps of numbered substrings.
     //count is the total number of matches found
 }
@@ -152,16 +152,16 @@ std::cout<<vec_num[1][0]; // group 0 in second match
 jpcre2::VecNum vec_num;   ///Vector to store numbured substring Map.
 jpcre2::VecNas vec_nas;   ///Vector to store named substring Map.
 jpcre2::VecNtN vec_ntn;   ///Vector to store Named substring to Number Map.
-std::string ac_mod="g";   // g is for global match. Equivalent to using findAll() or FIND_ALL in jpcre2Options()
+std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Options()
 try{
-    re.match(subject)                            //Invoke the match() function
-      .modifiers(ac_mod)                         //Set various options
-      .numberedSubstringVector(vec_num)          //...
-      .namedSubstringVector(vec_nas)             //...
-      .nameToNumberMapVector(vec_ntn)            //...
-      .jpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
-      .pcre2Options(PCRE2_ANCHORED)              //...
-      .execute();                                //Finally execute it.
+    re.match(subject)                               //Invoke the match() function
+      .setModifiers(ac_mod)                         //Set various options
+      .setNumberedSubstringVector(vec_num)          //...
+      .setNamedSubstringVector(vec_nas)             //...
+      .setNameToNumberMapVector(vec_ntn)            //...
+      .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
+      .addPcre2Options(PCRE2_ANCHORED)              //...
+      .execute();                                   //Finally execute it.
 }
 catch(int e){
     /*Handle error*/
@@ -192,13 +192,13 @@ The `replace()` member function can take upto two optional arguments (subject an
 ```cpp
 try{
     std::cout<<
-    re.replace()        //Invoke the replace() function
-      .subject(s)       //Set various parameters
-      .replaceWith(s2)  //...
-      .modifiers("gE")  //...
-      .jpcre2Options(0) //...
-      .pcre2Options(0)  //...
-      .execute();       //Finally execute it.
+    re.replace()           //Invoke the replace() function
+      .setSubject(s)       //Set various parameters
+      .setReplaceWith(s2)  //...
+      .setModifiers("gE")  //...
+      .addJpcre2Options(0) //...
+      .addPcre2Options(0)  //...
+      .execute();          //Finally execute it.
     //gE is the modifier passed (global and unknown-unset-empty).
     //Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
     // or ${name} (for named substrings) in the replacement part i.e in replaceWith()
@@ -208,7 +208,7 @@ catch(int e){
     std::cout<<re.getErrorMessage(e)<<std::endl;
 }
 ```
-If you pass the size of the resultant string with `bufferSize()` function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function (`pcre2_substitute()`) will be called *twice* to adjust the size of the buffer to hold the whole resultant string in order to avoid `PCRE2_ERROR_NOMEMORY` error.
+If you pass the size of the resultant string with `setBufferSize()` function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function (`pcre2_substitute()`) will be called *twice* to adjust the size of the buffer to hold the whole resultant string in order to avoid `PCRE2_ERROR_NOMEMORY` error.
 
 #Insight:
 
@@ -256,38 +256,47 @@ PCRE2_SIZE getErrorOffset()
 
 Regex&              compile(const String& re,const String& mod)
 Regex&              compile(const String& re="")
-Regex&              pattern(const String& re)
-Regex&              modifiers(const String& x)
-Regex&              locale(const String& x)
-Regex&              jpcre2Options(uint32_t x)
-Regex&              pcre2Options(uint32_t x)
+Regex&              setPattern(const String& re)
+Regex&              setModifiers(const String& x)
+Regex&              setLocale(const String& x)
+Regex&              addJpcre2Options(uint32_t x)
+Regex&              addPcre2Options(uint32_t x)
+Regex&              removeJpcre2Options(uint32_t x)
+Regex&              removePcre2Options(uint32_t x)
 void                execute()  //executes the compile operation.
+void                exec()     //wrapper of execute()
 
 RegexMatch&         match()
 RegexReplace&       replace()
 
 ////Class RegexMatch
 
-RegexMatch&         numberedSubstringVector(VecNum& vec_num)
-RegexMatch&         namedSubstringVector(VecNas& vec_nas)
-RegexMatch&         nameToNumberMapVector(VecNtN& vec_ntn)
-RegexMatch&         subject(const String& s)
-RegexMatch&         modifiers(const String& s)
-RegexMatch&         jpcre2Options(uint32_t x=NONE)
-RegexMatch&         pcre2Options(uint32_t x=NONE)
-RegexMatch&         findAll()
+RegexMatch&         setNumberedSubstringVector(VecNum& vec_num)
+RegexMatch&         setNamedSubstringVector(VecNas& vec_nas)
+RegexMatch&         setNameToNumberMapVector(VecNtN& vec_ntn)
+RegexMatch&         setSubject(const String& s)
+RegexMatch&         setModifiers(const String& s)
+RegexMatch&         addJpcre2Options(uint32_t x)
+RegexMatch&         addPcre2Options(uint32_t x)
+RegexMatch&         removeJpcre2Options(uint32_t x)
+RegexMatch&         removePcre2Options(uint32_t x) 
+RegexMatch&         setFindAll(bool x=true)
 SIZE_T              execute()  //executes the match operation
+SIZE_T              exec()     //wrapper of execute()
 
 
 ////Class RegexReplace
 
-RegexReplace&       subject(const String& s)
-RegexReplace&       replaceWith(const String& s)
-RegexReplace&       modifiers(const String& s)
-RegexReplace&       jpcre2Options(uint32_t x=NONE)
-RegexReplace&       pcre2Options(uint32_t x=NONE)
-RegexReplace&       bufferSize(PCRE2_SIZE x)
+RegexReplace&       setSubject(const String& s)
+RegexReplace&       setReplaceWith(const String& s)
+RegexReplace&       setModifiers(const String& s)
+RegexReplace&       setBufferSize(PCRE2_SIZE x)
+RegexReplace&       addJpcre2Options(uint32_t x)
+RegexReplace&       addPcre2Options(uint32_t x)
+RegexReplace&       removeJpcre2Options(uint32_t x)
+RegexReplace&       removePcre2Options(uint32_t x)
 String              execute() //executes the replacement operation
+String              exec()    //wrapper of exec()
 
 ```
 
@@ -331,7 +340,7 @@ x | Extended replacement operation. It enables some Bash like features: `${<n>:-
 
 ###JPCRE2 options:
 
-These options are meaningful only for the **JPCRE2** library itself not the original **PCRE2** library. We use the `jpcre2Options()` function to pass these options.
+These options are meaningful only for the **JPCRE2** library itself not the original **PCRE2** library. We use the `addJpcre2Options()` function to pass these options.
 
 Option | Details
 ------ | ------
@@ -343,13 +352,7 @@ Option | Details
 
 ###PCRE2 options:
 
-While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `pcre2Options()` function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent *PCRE2_SUBSTITUTE_GLOBAL* to have the same effect.
-
-###Common properties of several functions:
-
-1. All other functions in method chain except `jpcre2Options()` and `pcre2Options()` re-initiates the corresponding value/s. Multiple call will overwrite existing value
-2. Multiple call to `jpcre2Options()` and `pcre2Options()` in the method chain will add further specified options.
-2. All values get re-initiated during the three function calls: `compile()`, `match()` and `replace()`.
+While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `addPcre2Options()` function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent *PCRE2_SUBSTITUTE_GLOBAL* to have the same effect.
 
 
 <div id="short-examples"></div>
@@ -375,7 +378,7 @@ else
  
 ///If you want to match all and get the match count, use the action modifier 'g':
 std::cout<<"\n"<<
-    jpcre2::Regex("(\\d)|(\\w)","m").match("I am the subject").modifiers("g").execute();
+    jpcre2::Regex("(\\d)|(\\w)","m").match("I am the subject").setModifiers("g").execute();
 
 /**
  * Modifiers passed to the Regex constructor or with compile() function are compile modifiers
@@ -408,9 +411,9 @@ std::cout<<"\n"<<
 jpcre2::VecNum vec_num;
 count = 
 jpcre2::Regex("(\\w+)\\s*(\\d+)","m").match("I am 23, I am digits 10")
-                                     .modifiers("g")
-                                     .numberedSubstringVector(vec_num)
-                                     .execute();
+                                     .setModifiers("g")
+                                     .setNumberedSubstringVector(vec_num)
+                                     .exec();
 std::cout<<"\nNumber of matches: "<<count/* or vec_num.size()*/;
 ///Now vec_num is populated with numbered substrings for each match
 ///The size of vec_num is the total match count
@@ -444,10 +447,10 @@ jpcre2::VecNas vec_nas;
 jpcre2::VecNtN vec_ntn; /// We will get name to number map vector too
 count = 
 jpcre2::Regex("(?<word>\\w+)\\s*(?<digit>\\d+)","m").match("I am 23, I am digits 10")
-                                                    .modifiers("g")
-                                                    ///.numberedSubstringVector(vec_num) /// We don't need it in this example
-                                                    .namedSubstringVector(vec_nas)
-                                                    .nameToNumberMapVector(vec_ntn) /// Additional (name to number maps)
+                                                    .setModifiers("g")
+                                                    ///.setNumberedSubstringVector(vec_num) /// We don't need it in this example
+                                                    .setNamedSubstringVector(vec_nas)
+                                                    .setNameToNumberMapVector(vec_ntn) /// Additional (name to number maps)
                                                     .execute();
 std::cout<<"\nNumber of matches: "<<vec_nas.size()/* or count */;
 ///Now vec_nas is populated with named substrings for each match
@@ -478,8 +481,8 @@ std::cout<<"\nPosition of captured group (digit) in first match: "<<vec_ntn[0]["
  * Replace pattern in a string with a replacement string
  * 
  * The replace() function can take a subject and replacement string as argument.
- * You can also pass the subject with subject() function in method chain,
- * replacement string with replaceWith() function in method chain, etc ...
+ * You can also pass the subject with setSubject() function in method chain,
+ * replacement string with setReplaceWith() function in method chain, etc ...
  * 
  * A call to replace() must end with the call to execute()
  * */
@@ -490,13 +493,13 @@ jpcre2::Regex("\\d").replace("I am the subject string 44","@").execute();
 
 std::cout<<"\n"<<
 ///replace all occrrences of a digit with @
-jpcre2::Regex("\\d").replace("I am the subject string 44","@").modifiers("g").execute();
+jpcre2::Regex("\\d").replace("I am the subject string 44","@").setModifiers("g").execute();
 
 ///swap two parts of a string
 std::cout<<"\n"<<
 jpcre2::Regex("^([^\t]+)\t([^\t]+)$").replace()
-                                     .subject("I am the subject\tTo be swapped according to tab")
-                                     .replaceWith("$2 $1")
+                                     .setSubject("I am the subject\tTo be swapped according to tab")
+                                     .setReplaceWith("$2 $1")
                                      .execute();
 ```
 

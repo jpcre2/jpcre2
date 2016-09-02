@@ -22,7 +22,7 @@ int main(){
      
     ///If you want to match all and get the match count, use the action modifier 'g':
     std::cout<<"\n"<<
-        jpcre2::Regex("(\\d)|(\\w)","m").match("I am the subject").modifiers("g").execute();
+        jpcre2::Regex("(\\d)|(\\w)","m").match("I am the subject").setModifiers("g").execute();
     
     /**
      * Modifiers passed to the Regex constructor or with compile() function are compile modifiers
@@ -55,9 +55,9 @@ int main(){
     jpcre2::VecNum vec_num;
     count = 
     jpcre2::Regex("(\\w+)\\s*(\\d+)","m").match("I am 23, I am digits 10")
-                                         .modifiers("g")
-                                         .numberedSubstringVector(vec_num)
-                                         .execute();
+                                         .setModifiers("g")
+                                         .setNumberedSubstringVector(vec_num)
+                                         .exec();
     std::cout<<"\nNumber of matches: "<<count/* or vec_num.size()*/;
     ///Now vec_num is populated with numbered substrings for each match
     ///The size of vec_num is the total match count
@@ -91,10 +91,10 @@ int main(){
     jpcre2::VecNtN vec_ntn; /// We will get name to number map vector too
     count = 
     jpcre2::Regex("(?<word>\\w+)\\s*(?<digit>\\d+)","m").match("I am 23, I am digits 10")
-                                                        .modifiers("g")
-                                                        ///.numberedSubstringVector(vec_num) /// We don't need it in this example
-                                                        .namedSubstringVector(vec_nas)
-                                                        .nameToNumberMapVector(vec_ntn) /// Additional (name to number maps)
+                                                        .setModifiers("g")
+                                                        ///.setNumberedSubstringVector(vec_num) /// We don't need it in this example
+                                                        .setNamedSubstringVector(vec_nas)
+                                                        .setNameToNumberMapVector(vec_ntn) /// Additional (name to number maps)
                                                         .execute();
     std::cout<<"\nNumber of matches: "<<vec_nas.size()/* or count */;
     ///Now vec_nas is populated with named substrings for each match
@@ -125,8 +125,8 @@ int main(){
      * Replace pattern in a string with a replacement string
      * 
      * The replace() function can take a subject and replacement string as argument.
-     * You can also pass the subject with subject() function in method chain,
-     * replacement string with replaceWith() function in method chain, etc ...
+     * You can also pass the subject with setSubject() function in method chain,
+     * replacement string with setReplaceWith() function in method chain, etc ...
      * 
      * A call to replace() must end with the call to execute()
      * */
@@ -137,13 +137,13 @@ int main(){
     
     std::cout<<"\n"<<
     ///replace all occrrences of a digit with @
-    jpcre2::Regex("\\d").replace("I am the subject string 44","@").modifiers("g").execute();
+    jpcre2::Regex("\\d").replace("I am the subject string 44","@").setModifiers("g").execute();
     
     ///swap two parts of a string
     std::cout<<"\n"<<
     jpcre2::Regex("^([^\t]+)\t([^\t]+)$").replace()
-                                         .subject("I am the subject\tTo be swapped according to tab")
-                                         .replaceWith("$2 $1")
+                                         .setSubject("I am the subject\tTo be swapped according to tab")
+                                         .setReplaceWith("$2 $1")
                                          .execute();
     
     return 0;

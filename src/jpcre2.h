@@ -154,15 +154,22 @@ namespace jpcre2{
         public:
            
             ///Chained functions for taking parameters
-            RegexMatch& numberedSubstringVector(VecNum& vec_num)       {p_vec_num=&vec_num;             return *this;}
-            RegexMatch& namedSubstringVector(VecNas& vec_nas)          {p_vec_nas=&vec_nas;             return *this;}
-            RegexMatch& nameToNumberMapVector(VecNtN& vec_ntn)         {p_vec_ntn=&vec_ntn;             return *this;}
-            RegexMatch& subject(const String& s)                       {m_subject=s;                    return *this;}
-            RegexMatch& modifiers(const String& s)                     {m_modifier=s;                   return *this;}
-            RegexMatch& jpcre2Options(uint32_t x=0)                    {jpcre2_match_opts |= x;         return *this;}
-            RegexMatch& pcre2Options(uint32_t x=0)                     {match_opts |= x;                return *this;}
-            RegexMatch& findAll()                                      {jpcre2_match_opts |= FIND_ALL;  return *this;}
+            RegexMatch& setNumberedSubstringVector(VecNum& vec_num)       {p_vec_num=&vec_num;             return *this;}
+            RegexMatch& setNamedSubstringVector(VecNas& vec_nas)          {p_vec_nas=&vec_nas;             return *this;}
+            RegexMatch& setNameToNumberMapVector(VecNtN& vec_ntn)         {p_vec_ntn=&vec_ntn;             return *this;}
+            RegexMatch& setSubject(const String& s)                       {m_subject=s;                    return *this;}
+            RegexMatch& setModifiers(const String& s)                     {m_modifier=s;                   return *this;}
+            RegexMatch& addJpcre2Options(uint32_t x)                      {jpcre2_match_opts |= x;         return *this;}
+            RegexMatch& addPcre2Options(uint32_t x)                       {match_opts |= x;                return *this;}
+            RegexMatch& removeJpcre2Options(uint32_t x)                   {jpcre2_match_opts &= ~x;        return *this;}
+            RegexMatch& removePcre2Options(uint32_t x)                    {match_opts &= ~x;               return *this;}
+            RegexMatch& setFindAll(bool x=true){
+                                                if(x) jpcre2_match_opts |= FIND_ALL;
+                                                else  jpcre2_match_opts &= ~FIND_ALL;
+                                                return *this;
+                                               }
             
+            Uint exec(){return execute();}
             Uint execute(){
                 VecNum vec_num0;
                 VecNas vec_nas0;
@@ -216,16 +223,17 @@ namespace jpcre2{
         public:
            
             ///Chained functions for taking parameters
-            RegexReplace& subject(const String& s)                        {r_subject=s;                   return *this;}
-            RegexReplace& replaceWith(const String& s)                    {r_replw=s;                     return *this;}
-            RegexReplace& modifiers(const String& s)                      {r_modifier=s;                  return *this;}
-            RegexReplace& jpcre2Options(uint32_t x=NONE)                  {jpcre2_replace_opts |= x;      return *this;}
-            RegexReplace& pcre2Options(uint32_t x=NONE)                   {replace_opts |= x;             return *this;}
-            RegexReplace& bufferSize(PCRE2_SIZE x)                        {buffer_size=x;                 return *this;}
+            RegexReplace& setSubject(const String& s)                        {r_subject=s;                   return *this;}
+            RegexReplace& setReplaceWith(const String& s)                    {r_replw=s;                     return *this;}
+            RegexReplace& setModifiers(const String& s)                      {r_modifier=s;                  return *this;}
+            RegexReplace& setBufferSize(PCRE2_SIZE x)                        {buffer_size=x;                 return *this;}
+            RegexReplace& addJpcre2Options(uint32_t x)                       {jpcre2_replace_opts |= x;      return *this;}
+            RegexReplace& addPcre2Options(uint32_t x)                        {replace_opts |= x;             return *this;}
+            RegexReplace& removeJpcre2Options(uint32_t x)                    {jpcre2_replace_opts &= ~x;     return *this;}
+            RegexReplace& removePcre2Options(uint32_t x)                     {replace_opts &= ~x;            return *this;}
             
-            
+            String exec(){return execute();}
             String execute(){
-                
                 return replace(r_subject,r_replw,r_modifier,buffer_size,jpcre2_replace_opts,replace_opts);          
             }
     };
@@ -327,14 +335,17 @@ namespace jpcre2{
             int getErrorCode()              {return error_code;}
             
             
-            Regex& compile(const String& re,const String& mod)  {pat_str=re; modifier=mod;  return *this;}
-            Regex& compile(const String& re="")                 {pat_str=re;                return *this;}
-            Regex& pattern(const String& re)                    {pat_str=re;                return *this;}
-            Regex& modifiers(const String& x)                   {modifier=x;                return *this;}
-            Regex& locale(const String& x)                      {mylocale=x;                return *this;}
-            Regex& jpcre2Options(uint32_t x)                    {jpcre2_compile_opts |= x;  return *this;}
-            Regex& pcre2Options(uint32_t x)                     {compile_opts |= x;         return *this;}
+            Regex& compile(const String& re,const String& mod)     {pat_str=re; modifier=mod;  return *this;}
+            Regex& compile(const String& re="")                    {pat_str=re;                return *this;}
+            Regex& setPattern(const String& re)                    {pat_str=re;                return *this;}
+            Regex& setModifiers(const String& x)                   {modifier=x;                return *this;}
+            Regex& setLocale(const String& x)                      {mylocale=x;                return *this;}
+            Regex& addJpcre2Options(uint32_t x)                    {jpcre2_compile_opts |= x;  return *this;}
+            Regex& addPcre2Options(uint32_t x)                     {compile_opts |= x;         return *this;}
+            Regex& removeJpcre2Options(uint32_t x)                 {jpcre2_compile_opts &= ~x; return *this;}
+            Regex& removePcre2Options(uint32_t x)                  {compile_opts &= ~x;        return *this;}
             
+            void exec(){execute();}
             void execute(void){
                 compileRegex(pat_str,modifier,mylocale,jpcre2_compile_opts,compile_opts);
             }
