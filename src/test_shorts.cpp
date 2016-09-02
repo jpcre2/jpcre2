@@ -56,9 +56,16 @@ int main(){
     count = 
     jpcre2::Regex("(\\w+)\\s*(\\d+)","m").match("I am 23, I am digits 10")
                                          .setModifiers("g")
-                                         .setNumberedSubstringVector(vec_num)
+                                         .setNumberedSubstringVector(&vec_num)
                                          .exec();
+    /**
+    * count (the return value) is guaranteed to give you the correct number of matches,
+    * while vec_num.size() may give you wrong result if any match result
+    * was failed to be inserted in the vector. This should not happen
+    * i.e count and vec_num.size() should always be equal.
+    * */
     std::cout<<"\nNumber of matches: "<<count/* or vec_num.size()*/;
+
     ///Now vec_num is populated with numbered substrings for each match
     ///The size of vec_num is the total match count
     ///vec_num[0] is the first match
@@ -93,8 +100,8 @@ int main(){
     jpcre2::Regex("(?<word>\\w+)\\s*(?<digit>\\d+)","m").match("I am 23, I am digits 10")
                                                         .setModifiers("g")
                                                         ///.setNumberedSubstringVector(vec_num) /// We don't need it in this example
-                                                        .setNamedSubstringVector(vec_nas)
-                                                        .setNameToNumberMapVector(vec_ntn) /// Additional (name to number maps)
+                                                        .setNamedSubstringVector(&vec_nas)
+                                                        .setNameToNumberMapVector(&vec_ntn) /// Additional (name to number maps)
                                                         .execute();
     std::cout<<"\nNumber of matches: "<<vec_nas.size()/* or count */;
     ///Now vec_nas is populated with named substrings for each match

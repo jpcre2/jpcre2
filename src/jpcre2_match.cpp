@@ -60,7 +60,7 @@ Dsclaimer:
 
 
 
-    void jpcre2::RegexMatch::getNumberedSubstrings(int rc, pcre2_match_data *match_data,jpcre2::MapNum& num_map0){
+    void jpcre2::RegexMatch::getNumberedSubstrings(int rc, pcre2_match_data *match_data,jpcre2::MapNum* num_map0){
         for (int i = 0; i < rc; i++){
             String value;
             //~ PCRE2_SPTR substring_start = subject + ovector[2*i];
@@ -86,12 +86,12 @@ Dsclaimer:
             /// (may be a bug?)
             ///Instead use free() to free the memory
             ::free(bufferptr);                  ///must free memory
-            num_map0[i]=value;
+            if(num_map0) (*num_map0)[i]=value;
         }
     }
     
     void jpcre2::RegexMatch::getNamedSubstrings(int namecount,int name_entry_size,PCRE2_SPTR tabptr, pcre2_match_data *match_data,
-                                                            jpcre2::MapNas& nas_map0, jpcre2::MapNtN& nn_map0){
+                                                            MapNas* nas_map0, MapNtN* ntn_map0){
         
         for (int i = 0; i < namecount; i++){
             String key,value,value1;
@@ -149,22 +149,18 @@ Dsclaimer:
             ///Instead use free() to free the memory
             ::free(bufferptr);                  ///must free memory
             if(value!=value1){tabptr += name_entry_size;continue;}
-            nas_map0[key]=value;
-            nn_map0[key]=n;
+            if(nas_map0) (*nas_map0)[key]=value;
+            if(ntn_map0) (*ntn_map0)[key]=n;
             tabptr += name_entry_size;
         }
     }
     
-    jpcre2::Uint jpcre2::RegexMatch::match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,
+    
+    jpcre2::Uint jpcre2::RegexMatch::match(const std::string& s,VecNum* vec_num,VecNas* vec_nas,VecNtN* vec_ntn,
                                             const std::string& mod,uint32_t opt_bits,uint32_t pcre2_opts){
-        
-        ///Clear all verctors
-        vec_num.clear();
-        vec_nas.clear();
-        vec_nn.clear();
-        
+
         /// If code is null, there's no need to proceed any further
-        if(re->null_code) return vec_num.size();
+        if(re->null_code) return 0;
         
         ///Parse match_opts from scratch
         parseMatchOpts(mod, opt_bits, pcre2_opts);
@@ -174,21 +170,25 @@ Dsclaimer:
         
         
         PCRE2_SPTR subject=(PCRE2_SPTR)s.c_str();
-        MapNum num_map0;
-        MapNas nas_map0;
-        MapNtN nn_map0;
         PCRE2_SPTR name_table;
         int crlf_is_newline;
         int namecount;
         int name_entry_size;
         int rc;
         int utf8;
+        size_t count=0;
         uint32_t option_bits;
         uint32_t newline;
         PCRE2_SIZE *ovector;
         size_t subject_length;
         pcre2_match_data *match_data;
         subject_length = strlen((char *)subject);
+        
+        
+        ///Clear all verctors and initialize maps
+        if(vec_num) { vec_num->clear(); num_map0 = new MapNum(); }
+        if(vec_nas) { vec_nas->clear(); nas_map0 = new MapNas(); }
+        if(vec_ntn) { vec_ntn->clear(); ntn_map0 = new MapNtN(); }
     
     
         /* Using this function ensures that the block is exactly the right size for
@@ -197,11 +197,11 @@ Dsclaimer:
         match_data = pcre2_match_data_create_from_pattern(re->code, NULL);
     
         rc = pcre2_match(
-            re->code,                 /* the compiled pattern */
+            re->code,             /* the compiled pattern */
             subject,              /* the subject string */
             subject_length,       /* the length of the subject */
             0,                    /* start at offset 0 in the subject */
-            match_opts,                    /* default options */
+            match_opts,           /* default options */
             match_data,           /* block for storing the result */
             NULL);                /* use default match context */
     
@@ -214,18 +214,18 @@ Dsclaimer:
             pcre2_match_data_free(match_data);      /* Release memory used for the match */
             //pcre2_code_free(code);                //must not free code. This function has no right to modify regex
             switch(rc){
-                case PCRE2_ERROR_NOMATCH: return vec_num.size(); break;
+                case PCRE2_ERROR_NOMATCH: return count; break;
                 /*
                 Handle other special cases if you like
                 */
                 default: throw(rc); break;
             }
-            return vec_num.size();
+            return count;
         }
     
+        ++count; //Increment the counter
         /* Match succeded. Get a pointer to the output vector, where string offsets are
         stored. */
-    
         ovector = pcre2_get_ovector_pointer(match_data);
     
     
@@ -240,13 +240,12 @@ Dsclaimer:
     
         if (rc == 0){
             //ovector was not big enough for all the captured substrings;
-            return vec_num.size();
+            return count;
       
         }
     
         ///Let's get the numbered substrings
-        getNumberedSubstrings(rc,match_data,num_map0);
-        
+        if(num_map0) getNumberedSubstrings(rc,match_data,num_map0);
         
         
     
@@ -262,10 +261,10 @@ Dsclaimer:
     
         (void)pcre2_pattern_info(
         re->code,                       /* the compiled pattern */
-        PCRE2_INFO_NAMECOUNT,       /* get the number of named substrings */
-        &namecount);                /* where to put the answer */
+        PCRE2_INFO_NAMECOUNT,           /* get the number of named substrings */
+        &namecount);                    /* where to put the answer */
     
-        if (namecount <= 0);        /*No named substrings*/
+        if (namecount <= 0);            /*No named substrings*/
         
         else{
             PCRE2_SPTR tabptr;
@@ -274,12 +273,12 @@ Dsclaimer:
             translating names to numbers, and the size of each entry in the table. */
     
             (void)pcre2_pattern_info(
-            re->code,                           /* the compiled pattern */
+            re->code,                       /* the compiled pattern */
             PCRE2_INFO_NAMETABLE,           /* address of the table */
             &name_table);                   /* where to put the answer */
     
             (void)pcre2_pattern_info(
-            re->code,                           /* the compiled pattern */
+            re->code,                       /* the compiled pattern */
             PCRE2_INFO_NAMEENTRYSIZE,       /* size of each entry in the table */
             &name_entry_size);              /* where to put the answer */
     
@@ -290,15 +289,15 @@ Dsclaimer:
             tabptr = name_table;
             
             ///Let's get the named substrings
-            getNamedSubstrings(namecount,name_entry_size,tabptr,match_data,nas_map0,nn_map0);
+            if(nas_map0 || ntn_map0) getNamedSubstrings(namecount,name_entry_size,tabptr,match_data,nas_map0,ntn_map0);
             
         }
         
         
         ///populate vector
-        vec_num.push_back(num_map0);
-        vec_nas.push_back(nas_map0);
-        vec_nn.push_back(nn_map0);
+        if(vec_num) vec_num->push_back(*num_map0);
+        if(vec_nas) vec_nas->push_back(*nas_map0);
+        if(vec_ntn) vec_ntn->push_back(*ntn_map0);
     
         /*************************************************************************
         * If the "-g" option was given on the command line, we want to continue  *
@@ -332,7 +331,7 @@ Dsclaimer:
         if ((jpcre2_match_opts & FIND_ALL) == 0){
             pcre2_match_data_free(match_data);      /* Release the memory that was used */
             //pcre2_code_free(re);                  /// Don't do this. This function has no right to modify regex.
-            return vec_num.size();                           /* Exit the program. */
+            return count;                           /* Exit the program. */
         }
     
         /* Before running the loop, check for UTF-8 and whether CRLF is a valid newline
@@ -353,9 +352,11 @@ Dsclaimer:
         /* Loop for second and subsequent matches */
     
         for (;;){
-            num_map0.clear();                         ///must clear map before filling it with new values
-            nas_map0.clear();
-            nn_map0.clear();
+            ///must clear map before filling it with new values
+            if(num_map0)num_map0->clear();                         
+            if(nas_map0)nas_map0->clear();
+            if(ntn_map0)ntn_map0->clear();
+            
             uint32_t options = match_opts;                       /* Normally no options */
             PCRE2_SIZE start_offset = ovector[1];       /* Start at end of previous match */
             
@@ -414,40 +415,41 @@ Dsclaimer:
             if (rc < 0){
                 pcre2_match_data_free(match_data);
                 //pcre2_code_free(code);           //must not do this. This function has no right to modify regex.
-                return vec_num.size();
+                return count;
             }
             
-            
+            /* match succeded */
+            ++count; //Increment the counter
             
             if (rc == 0){
                 /* The match succeeded, but the output vector wasn't big enough. This
                 should not happen. */
-                return vec_num.size();
+                return count;
             }
             
             /* As before, get substrings stored in the output vector by number, and then
             also any named substrings. */
             
             ///Let's get the numbered substrings
-            getNumberedSubstrings(rc,match_data,num_map0);
+            if(num_map0) getNumberedSubstrings(rc,match_data,num_map0);
             
             if (namecount <= 0);  /*No named substrings*/
             else{
                 PCRE2_SPTR tabptr = name_table;
                 
                 ///Let's get the named substrings
-                getNamedSubstrings(namecount,name_entry_size,tabptr,match_data,nas_map0,nn_map0);
+                if(nas_map0 || ntn_map0) getNamedSubstrings(namecount,name_entry_size,tabptr,match_data,nas_map0,ntn_map0);
             }
             
             
             ///populate vector
-            vec_num.push_back(num_map0);
-            vec_nas.push_back(nas_map0);
-            vec_nn.push_back(nn_map0);
+            if(vec_num)vec_num->push_back(*num_map0);
+            if(vec_nas)vec_nas->push_back(*nas_map0);
+            if(vec_ntn)vec_ntn->push_back(*ntn_map0);
             
         }      /* End of loop to find second and subsequent matches */
     
         pcre2_match_data_free(match_data);
         /// Must not free pcre2_code* code. This function has no right to modify regex.
-        return vec_num.size();
+        return count;
     }

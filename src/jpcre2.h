@@ -123,28 +123,55 @@ namespace jpcre2{
             VecNas* p_vec_nas;
             VecNtN* p_vec_ntn;
             
+            ///Maps to contain the captured groups
+            MapNum* num_map0;
+            MapNas* nas_map0;
+            MapNtN* ntn_map0;
+            
+            
             void parseMatchOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts);
-            void getNumberedSubstrings(int rc, pcre2_match_data *match_data,MapNum& num_map0);
+            void getNumberedSubstrings(int rc, pcre2_match_data *match_data,MapNum* num_map0);
             void getNamedSubstrings(int namecount,int name_entry_size,PCRE2_SPTR tabptr, pcre2_match_data *match_data,
-                                                                                     MapNas& nas_map0, MapNtN& nn_map0);
+                                                                                     MapNas* nas_map0, MapNtN* nn_map0);
                                                                                      
             ///returns the number of matches, stores the match results in the specified vectors
-            Uint match(const std::string& s,VecNum& vec_num,VecNas& vec_nas,VecNtN& vec_nn,
+            Uint match(const std::string& s,VecNum* vec_num,VecNas* vec_nas,VecNtN* vec_ntn,
                                             const std::string& mod,uint32_t opt_bits,uint32_t pcre2_opts);
                                             
-            void init(String s=""){
-                                    p_vec_num=nullptr;
-                                    p_vec_nas=nullptr;
-                                    p_vec_ntn=nullptr;
+            void init_vars()
+                                {
+                                    p_vec_num=NULL;
+                                    p_vec_nas=NULL;
+                                    p_vec_ntn=NULL;
+                                    num_map0=NULL;
+                                    nas_map0=NULL;
+                                    ntn_map0=NULL;
+                                    match_opts=jpcre2_match_opts=0;
+                                }
+            void init(const String& s="")
+                                {
+                                    init_vars();
                                     m_subject=s;
                                     m_modifier="";
-                                    match_opts=jpcre2_match_opts=0;
-                                  }
+                                }
+            void init(const String& s, const String& mod)
+                                {
+                                    init_vars();
+                                    m_subject=s;
+                                    m_modifier=mod;
+                                }
                             
+            RegexMatch(){init();}
             RegexMatch(RegexMatch&){init();}
             RegexMatch(const String& s){init(s);}
-            RegexMatch(){init();}
-            ~RegexMatch(){}
+            RegexMatch(const String& s, const String& mod){init(s,mod);}
+            
+            ~RegexMatch(){
+                ///Delete map pointers
+                if(num_map0) delete num_map0;
+                if(nas_map0) delete nas_map0;
+                if(ntn_map0) delete ntn_map0;
+            }
             
             
             ///define buddies for RegexMatch
@@ -154,9 +181,9 @@ namespace jpcre2{
         public:
            
             ///Chained functions for taking parameters
-            RegexMatch& setNumberedSubstringVector(VecNum& vec_num)       {p_vec_num=&vec_num;             return *this;}
-            RegexMatch& setNamedSubstringVector(VecNas& vec_nas)          {p_vec_nas=&vec_nas;             return *this;}
-            RegexMatch& setNameToNumberMapVector(VecNtN& vec_ntn)         {p_vec_ntn=&vec_ntn;             return *this;}
+            RegexMatch& setNumberedSubstringVector(VecNum* vec_num)       {p_vec_num=vec_num;             return *this;}
+            RegexMatch& setNamedSubstringVector(VecNas* vec_nas)          {p_vec_nas=vec_nas;             return *this;}
+            RegexMatch& setNameToNumberMapVector(VecNtN* vec_ntn)         {p_vec_ntn=vec_ntn;             return *this;}
             RegexMatch& setSubject(const String& s)                       {m_subject=s;                    return *this;}
             RegexMatch& setModifiers(const String& s)                     {m_modifier=s;                   return *this;}
             RegexMatch& addJpcre2Options(uint32_t x)                      {jpcre2_match_opts |= x;         return *this;}
@@ -170,17 +197,7 @@ namespace jpcre2{
                                                }
             
             Uint exec(){return execute();}
-            Uint execute(){
-                VecNum vec_num0;
-                VecNas vec_nas0;
-                VecNtN vec_ntn0;
-                
-                VecNum& vec_num = p_vec_num ? *p_vec_num : vec_num0;
-                VecNas& vec_nas = p_vec_nas ? *p_vec_nas : vec_nas0;
-                VecNtN& vec_ntn = p_vec_ntn ? *p_vec_ntn : vec_ntn0;
-                
-                return match(m_subject,vec_num,vec_nas,vec_ntn,m_modifier,jpcre2_match_opts,match_opts);               
-            }
+            Uint execute(){return match(m_subject,p_vec_num,p_vec_nas,p_vec_ntn,m_modifier,jpcre2_match_opts,match_opts);}
     };
     
     
@@ -193,7 +210,6 @@ namespace jpcre2{
             String r_subject,r_modifier,r_replw;
             uint32_t replace_opts,jpcre2_replace_opts;
             PCRE2_SIZE buffer_size;
-            
             
             void parseReplacementOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts);
             
@@ -214,7 +230,6 @@ namespace jpcre2{
             RegexReplace(const String& s){init(s);}
             RegexReplace(){init();}
             ~RegexReplace(){}
-            
             
             ///define buddies for RegexReplace
             friend class Regex;
@@ -260,7 +275,6 @@ namespace jpcre2{
             ///other opts
             bool null_code; //whether code was null after compilation
             
-            
             // Warning msg 
             String current_warning_msg;
             
@@ -269,7 +283,7 @@ namespace jpcre2{
             //~ void operator=(const Regex&);
             
             ///We can't let user call this function explicitly
-            void freeRegexMemory(void){pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
+            void freeRegexMemory(void){if(code) pcre2_code_free(code);}                 ///frees memory used for the compiled regex.
             
             
             void parseCompileOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts);
@@ -352,11 +366,11 @@ namespace jpcre2{
             
             
             ///This is the match() function that will be called by users
-            RegexMatch& match(String s=""){rm=RegexMatch(s);rm.re = this;return rm;}
+            RegexMatch& match(const String& s=""){rm=RegexMatch(s);rm.re = this;return rm;}
+            RegexMatch& match(const String& s, const String& mod){rm=RegexMatch(s, mod);rm.re = this;return rm;}
             
             ///This is the replace function that will be called by users
-            RegexReplace& replace() {rr=RegexReplace();rr.re=this;return rr;}
-            RegexReplace& replace(const String& mains) {rr=RegexReplace(mains);rr.re=this;return rr;}
+            RegexReplace& replace(const String& mains="") {rr=RegexReplace(mains);rr.re=this;return rr;}
             RegexReplace& replace(const String& mains,const String& repl) {rr=RegexReplace(mains,repl);rr.re=this;return rr;}
             
     };

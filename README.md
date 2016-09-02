@@ -114,7 +114,7 @@ jpcre2::VecNum vec_num;
 try{
     size_t count=re.match(subject)                               //Invoke the match() function
                    .setModifiers(ac_mod)                         //Set various options
-                   .setNumberedSubstringVector(vec_num)          //...
+                   .setNumberedSubstringVector(&vec_num)          //...
                    .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
                    .execute();                                   //Finally execute it.
     //vec_num will be populated with maps of numbered substrings.
@@ -131,7 +131,7 @@ catch(int e){
 for(size_t i=0;i&lt;vec_num.size();++i){
     //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=1 is the second and so forth
-    for(auto const&amp; ent : vec_num[i]){
+    for(auto const& ent : vec_num[i]){
         //ent.first is the number/position of substring found
         //ent.second is the substring itself
         //when ent.first is 0, ent.second is the total match.
@@ -146,7 +146,7 @@ std::cout<<vec_num[0][1]; // group 1 in first match
 std::cout<<vec_num[1][0]; // group 0 in second match
 ```
 
-**To get named substrings and/or name to number mapping,** pass the appropriate vectors with `namedSubstringVector()` and/or `nameToNumberMapVector()`:
+**To get named substrings and/or name to number mapping,** pass reference to the appropriate vectors with `namedSubstringVector()` and/or `nameToNumberMapVector()`:
 
 ```cpp
 jpcre2::VecNum vec_num;   ///Vector to store numbured substring Map.
@@ -156,9 +156,9 @@ std::string ac_mod="g";   // g is for global match. Equivalent to using setFindA
 try{
     re.match(subject)                               //Invoke the match() function
       .setModifiers(ac_mod)                         //Set various options
-      .setNumberedSubstringVector(vec_num)          //...
-      .setNamedSubstringVector(vec_nas)             //...
-      .setNameToNumberMapVector(vec_ntn)            //...
+      .setNumberedSubstringVector(&vec_num)          //...
+      .setNamedSubstringVector(&vec_nas)             //...
+      .setNameToNumberMapVector(&vec_ntn)            //...
       .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
       .addPcre2Options(PCRE2_ANCHORED)              //...
       .execute();                                   //Finally execute it.
@@ -266,14 +266,18 @@ Regex&              removePcre2Options(uint32_t x)
 void                execute()  //executes the compile operation.
 void                exec()     //wrapper of execute()
 
-RegexMatch&         match()
-RegexReplace&       replace()
+RegexMatch&         match(const String& s="")
+RegexMatch&         match(const String& s, const String& mod)
+
+RegexReplace&       replace(const String& mains="")
+RegexReplace&       replace(const String& mains,const String& repl)
+
 
 ////Class RegexMatch
 
-RegexMatch&         setNumberedSubstringVector(VecNum& vec_num)
-RegexMatch&         setNamedSubstringVector(VecNas& vec_nas)
-RegexMatch&         setNameToNumberMapVector(VecNtN& vec_ntn)
+RegexMatch&         setNumberedSubstringVector(VecNum* vec_num)
+RegexMatch&         setNamedSubstringVector(VecNas* vec_nas)
+RegexMatch&         setNameToNumberMapVector(VecNtN* vec_ntn)
 RegexMatch&         setSubject(const String& s)
 RegexMatch&         setModifiers(const String& s)
 RegexMatch&         addJpcre2Options(uint32_t x)
@@ -412,9 +416,16 @@ jpcre2::VecNum vec_num;
 count = 
 jpcre2::Regex("(\\w+)\\s*(\\d+)","m").match("I am 23, I am digits 10")
                                      .setModifiers("g")
-                                     .setNumberedSubstringVector(vec_num)
+                                     .setNumberedSubstringVector(&vec_num)
                                      .exec();
+/**
+* count (the return value) is guaranteed to give you the correct number of matches,
+* while vec_num.size() may give you wrong result if any match result
+* was failed to be inserted in the vector. This should not happen
+* i.e count and vec_num.size() should always be equal.
+* */
 std::cout<<"\nNumber of matches: "<<count/* or vec_num.size()*/;
+
 ///Now vec_num is populated with numbered substrings for each match
 ///The size of vec_num is the total match count
 ///vec_num[0] is the first match
@@ -449,8 +460,8 @@ count =
 jpcre2::Regex("(?<word>\\w+)\\s*(?<digit>\\d+)","m").match("I am 23, I am digits 10")
                                                     .setModifiers("g")
                                                     ///.setNumberedSubstringVector(vec_num) /// We don't need it in this example
-                                                    .setNamedSubstringVector(vec_nas)
-                                                    .setNameToNumberMapVector(vec_ntn) /// Additional (name to number maps)
+                                                    .setNamedSubstringVector(&vec_nas)
+                                                    .setNameToNumberMapVector(&vec_ntn) /// Additional (name to number maps)
                                                     .execute();
 std::cout<<"\nNumber of matches: "<<vec_nas.size()/* or count */;
 ///Now vec_nas is populated with named substrings for each match
