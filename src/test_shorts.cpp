@@ -15,8 +15,9 @@ int main(){
     /**
      * The above is a good example of using temporary objects to perform match (or replace)
      * 
-     * Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may not give you
-     * any performance boost.
+     * Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may or may not give you
+     * any performance boost (depends on the complexity of the pattern). The more complex 
+     * the pattern gets the more sense the S modifier makes.
      * */
      
     ///If you want to match all and get the match count, use the action modifier 'g':

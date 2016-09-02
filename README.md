@@ -222,16 +222,16 @@ Let's take a quick look what's inside and how things are working here:
 
 Namespace | Details
 ------- | -------
-`jpcre2` | This is the namespace you will be using in your code to access JPCRE2 classes and functions.
+`jpcre2` | This is the namespace that should be used to access JPCRE2 classes and functions.
 `jpcre2::utils` | Some utility functions used by JPCRE2.
 
 ##Classes:
 
 Class | Details
 ----- | -------
-`Regex` | This is the main class which holds the key utilities of JPCRE2. Every regex needs an object of this class.
-`RegexMatch` | This is the class that holds all the useful functions to perform regex match according to the compiled pattern.
-`RegexReplace` | This is the class that holds all the useful functions to perform replacement according to the compiled pattern.
+`Regex` | Main class that holds the key utilities of JPCRE2. Every regex needs an object of this class.
+`RegexMatch` | Contains functions to perform regex matching according to the compiled pattern.
+`RegexReplace` | Contains functions to perform replacement according to the compiled pattern.
 
 <div id="functions"></div>
 ###Functions at a glance:
@@ -380,8 +380,9 @@ else
 /**
  * The above is a good example of using temporary objects to perform match (or replace)
  * 
- * Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may not give you
- * any performance boost.
+ * Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may or may not give you
+ * any performance boost (depends on the complexity of the pattern). The more complex 
+ * the pattern gets the more sense the S modifier makes.
  * */
  
 ///If you want to match all and get the match count, use the action modifier 'g':
@@ -526,8 +527,8 @@ CPP file | Details
 -------- | ------
 `test_match.cpp` | Contains an example code for match function.
 `test_replace.cpp` | Contains an example code for replace function.
-`test_match2.cpp` | Another matching example. The makefile creates a binary of this (jpcre2match).
-`test_replace2.cpp` | Another replacement example. The makefile creates a binary of this (jpcre2replace).
+`test_match2.cpp` | Another matching example. Takes pattern, modifier & subject as inputs.
+`test_replace2.cpp` | Another replacement example. Takes input for pattern, modifier, subject and replacement string.
 
 #Screenshots of some test outputs:
 
