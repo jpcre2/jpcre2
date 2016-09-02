@@ -91,7 +91,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = match$(EXEEXT) replace$(EXEEXT) match0$(EXEEXT) \
-	replace0$(EXEEXT)
+	replace0$(EXEEXT) shorts$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
@@ -180,6 +180,14 @@ replace0_LDADD = $(LDADD)
 replace0_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(replace0_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am__objects_6 = shorts-jpcre2_match.$(OBJEXT) \
+	shorts-jpcre2_replace.$(OBJEXT) shorts-jpcre2.$(OBJEXT)
+am_shorts_OBJECTS = shorts-test_shorts.$(OBJEXT) $(am__objects_6)
+shorts_OBJECTS = $(am_shorts_OBJECTS)
+shorts_LDADD = $(LDADD)
+shorts_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(shorts_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -233,9 +241,10 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libjpcre2_8_la_SOURCES) $(match_SOURCES) $(match0_SOURCES) \
-	$(replace_SOURCES) $(replace0_SOURCES)
+	$(replace_SOURCES) $(replace0_SOURCES) $(shorts_SOURCES)
 DIST_SOURCES = $(libjpcre2_8_la_SOURCES) $(match_SOURCES) \
-	$(match0_SOURCES) $(replace_SOURCES) $(replace0_SOURCES)
+	$(match0_SOURCES) $(replace_SOURCES) $(replace0_SOURCES) \
+	$(shorts_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -387,7 +396,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = jpcre2_match.cpp jpcre2_replace.cpp jpcre2.cpp jpcre2.h \
 	test_match.cpp test_replace.cpp test_match2.cpp \
-	test_replace2.cpp
+	test_replace2.cpp test_shorts.cpp
 include_HEADERS = \
   jpcre2.h
 
@@ -435,6 +444,16 @@ replace0_SOURCES = \
   $(JPCRE2_SOURCES)
 
 replace0_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS)
+
+
+#Building shorts
+shorts_SOURCES = \
+  test_shorts.cpp \
+  $(JPCRE2_SOURCES)
+
+shorts_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
@@ -548,6 +567,10 @@ replace0$(EXEEXT): $(replace0_OBJECTS) $(replace0_DEPENDENCIES) $(EXTRA_replace0
 	@rm -f replace0$(EXEEXT)
 	$(AM_V_CXXLD)$(replace0_LINK) $(replace0_OBJECTS) $(replace0_LDADD) $(LIBS)
 
+shorts$(EXEEXT): $(shorts_OBJECTS) $(shorts_DEPENDENCIES) $(EXTRA_shorts_DEPENDENCIES) 
+	@rm -f shorts$(EXEEXT)
+	$(AM_V_CXXLD)$(shorts_LINK) $(shorts_OBJECTS) $(shorts_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -573,6 +596,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/replace0-jpcre2_match.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/replace0-jpcre2_replace.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/replace0-test_replace.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shorts-jpcre2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shorts-jpcre2_match.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shorts-jpcre2_replace.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shorts-test_shorts.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -839,6 +866,62 @@ replace0-jpcre2.obj: jpcre2.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2.cpp' object='replace0-jpcre2.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(replace0_CXXFLAGS) $(CXXFLAGS) -c -o replace0-jpcre2.obj `if test -f 'jpcre2.cpp'; then $(CYGPATH_W) 'jpcre2.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2.cpp'; fi`
+
+shorts-test_shorts.o: test_shorts.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -MT shorts-test_shorts.o -MD -MP -MF $(DEPDIR)/shorts-test_shorts.Tpo -c -o shorts-test_shorts.o `test -f 'test_shorts.cpp' || echo '$(srcdir)/'`test_shorts.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/shorts-test_shorts.Tpo $(DEPDIR)/shorts-test_shorts.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_shorts.cpp' object='shorts-test_shorts.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -c -o shorts-test_shorts.o `test -f 'test_shorts.cpp' || echo '$(srcdir)/'`test_shorts.cpp
+
+shorts-test_shorts.obj: test_shorts.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -MT shorts-test_shorts.obj -MD -MP -MF $(DEPDIR)/shorts-test_shorts.Tpo -c -o shorts-test_shorts.obj `if test -f 'test_shorts.cpp'; then $(CYGPATH_W) 'test_shorts.cpp'; else $(CYGPATH_W) '$(srcdir)/test_shorts.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/shorts-test_shorts.Tpo $(DEPDIR)/shorts-test_shorts.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_shorts.cpp' object='shorts-test_shorts.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -c -o shorts-test_shorts.obj `if test -f 'test_shorts.cpp'; then $(CYGPATH_W) 'test_shorts.cpp'; else $(CYGPATH_W) '$(srcdir)/test_shorts.cpp'; fi`
+
+shorts-jpcre2_match.o: jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -MT shorts-jpcre2_match.o -MD -MP -MF $(DEPDIR)/shorts-jpcre2_match.Tpo -c -o shorts-jpcre2_match.o `test -f 'jpcre2_match.cpp' || echo '$(srcdir)/'`jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/shorts-jpcre2_match.Tpo $(DEPDIR)/shorts-jpcre2_match.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_match.cpp' object='shorts-jpcre2_match.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -c -o shorts-jpcre2_match.o `test -f 'jpcre2_match.cpp' || echo '$(srcdir)/'`jpcre2_match.cpp
+
+shorts-jpcre2_match.obj: jpcre2_match.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -MT shorts-jpcre2_match.obj -MD -MP -MF $(DEPDIR)/shorts-jpcre2_match.Tpo -c -o shorts-jpcre2_match.obj `if test -f 'jpcre2_match.cpp'; then $(CYGPATH_W) 'jpcre2_match.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_match.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/shorts-jpcre2_match.Tpo $(DEPDIR)/shorts-jpcre2_match.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_match.cpp' object='shorts-jpcre2_match.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -c -o shorts-jpcre2_match.obj `if test -f 'jpcre2_match.cpp'; then $(CYGPATH_W) 'jpcre2_match.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_match.cpp'; fi`
+
+shorts-jpcre2_replace.o: jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -MT shorts-jpcre2_replace.o -MD -MP -MF $(DEPDIR)/shorts-jpcre2_replace.Tpo -c -o shorts-jpcre2_replace.o `test -f 'jpcre2_replace.cpp' || echo '$(srcdir)/'`jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/shorts-jpcre2_replace.Tpo $(DEPDIR)/shorts-jpcre2_replace.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_replace.cpp' object='shorts-jpcre2_replace.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -c -o shorts-jpcre2_replace.o `test -f 'jpcre2_replace.cpp' || echo '$(srcdir)/'`jpcre2_replace.cpp
+
+shorts-jpcre2_replace.obj: jpcre2_replace.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -MT shorts-jpcre2_replace.obj -MD -MP -MF $(DEPDIR)/shorts-jpcre2_replace.Tpo -c -o shorts-jpcre2_replace.obj `if test -f 'jpcre2_replace.cpp'; then $(CYGPATH_W) 'jpcre2_replace.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_replace.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/shorts-jpcre2_replace.Tpo $(DEPDIR)/shorts-jpcre2_replace.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2_replace.cpp' object='shorts-jpcre2_replace.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -c -o shorts-jpcre2_replace.obj `if test -f 'jpcre2_replace.cpp'; then $(CYGPATH_W) 'jpcre2_replace.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2_replace.cpp'; fi`
+
+shorts-jpcre2.o: jpcre2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -MT shorts-jpcre2.o -MD -MP -MF $(DEPDIR)/shorts-jpcre2.Tpo -c -o shorts-jpcre2.o `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/shorts-jpcre2.Tpo $(DEPDIR)/shorts-jpcre2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2.cpp' object='shorts-jpcre2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -c -o shorts-jpcre2.o `test -f 'jpcre2.cpp' || echo '$(srcdir)/'`jpcre2.cpp
+
+shorts-jpcre2.obj: jpcre2.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -MT shorts-jpcre2.obj -MD -MP -MF $(DEPDIR)/shorts-jpcre2.Tpo -c -o shorts-jpcre2.obj `if test -f 'jpcre2.cpp'; then $(CYGPATH_W) 'jpcre2.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/shorts-jpcre2.Tpo $(DEPDIR)/shorts-jpcre2.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='jpcre2.cpp' object='shorts-jpcre2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(shorts_CXXFLAGS) $(CXXFLAGS) -c -o shorts-jpcre2.obj `if test -f 'jpcre2.cpp'; then $(CYGPATH_W) 'jpcre2.cpp'; else $(CYGPATH_W) '$(srcdir)/jpcre2.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

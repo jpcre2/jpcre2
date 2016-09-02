@@ -8,12 +8,13 @@ EXTRA_DIST += \
   test_match.cpp \
   test_replace.cpp \
   test_match2.cpp \
-  test_replace2.cpp
+  test_replace2.cpp \
+  test_shorts.cpp
 
 include_HEADERS = \
   jpcre2.h
   
-noinst_PROGRAMS = match replace match0 replace0
+noinst_PROGRAMS = match replace match0 replace0 shorts
 
 JPCRE2_SOURCES = \
   jpcre2_match.cpp \
@@ -54,7 +55,14 @@ replace0_SOURCES = \
 replace0_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
-  
+
+#Building shorts
+shorts_SOURCES = \
+  test_shorts.cpp \
+  $(JPCRE2_SOURCES)
+shorts_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS)
   
 #Building a library
 lib_LTLIBRARIES = libjpcre2-8.la
