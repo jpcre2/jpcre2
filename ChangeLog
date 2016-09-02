@@ -1,7 +1,16 @@
 Change Log for JPCRE2
 --------------------
 
-Version 10.22.02 - Fri Sep  2 14:18:46 UTC 2016
+Version 10.22.05 - Fri Sep  2 21:00:46 UTC 2016
+-----------------------------------------------
+
+1. API change: Vectors are to be passed by reference
+2. Implement deep copy for copy constructor and assignment operator
+3. match() function can take two optional argument
+4. >=C++11 is no longer a requirement
+
+
+Version 10.22.03 - Fri Sep  2 14:18:46 UTC 2016
 -----------------------------------------------
 
 1. Change function names: modifiers to setModifiers etc..
