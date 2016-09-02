@@ -129,7 +129,6 @@ catch(int e){
 
 ```cpp
 for(size_t i=0;i<vec_num.size();++i){
-    //This loop will iterate only once if find_all is false.
     //i=0 is the first match found, i=1 is the second and so forth
     /*//=>C++11
     for(auto const& ent : vec_num[i]){
