@@ -70,7 +70,7 @@ If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 s
 
 <ol>
 <li>
-First create a <code>jpcre2::Regex</code> object (You can use temporary object too, see <a href="short-examples">short examples</a>). This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
+First create a <code>jpcre2::Regex</code> object (You can use temporary object too, see <a href="#short-examples">short examples</a>). This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
 <pre class="highlight"><code class="highlight-source-c++ cpp">jpcre2::Regex re;   //Create object</code></pre>
 Each object for each regex pattern.
 </li>
