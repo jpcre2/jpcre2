@@ -27,3 +27,4 @@ AC_FUNC_REALLOC
 AC_CHECK_FUNCS([setlocale])
 
 AC_OUTPUT
+
