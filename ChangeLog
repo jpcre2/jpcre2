@@ -1,6 +1,19 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.24.04 - Sat Sep  3 00:41:08 UTC 2016
+-----------------------------------------------
+
+1. Code optimization
+2. Remove `getErrorCode()` member fucntion
+3. Better error handling
+4. Rename `getCompileOpts()` to `getPcre2Options()`
+5. Add `getJpcre2Options()`
+6. `replace()` takes three optional arguments: subject, replaceWith and modifiers
+7. Add functions: `setPcre2Options()` and `setJpcre2Options()`
+8. Add function: `utils::getPcre2ErrorMessage(int err_num)`
+9. Three overloads of `compile()` function to make it consistent with the Regex constructor
+
 Version 10.24.03 - Sat Sep  3 00:41:08 UTC 2016
 -----------------------------------------------
 

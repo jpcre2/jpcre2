@@ -188,7 +188,7 @@ std::cout<<vec_ntn[0]["name"]; // position of captured group 'name' in first mat
 
 ##Replace/Substitute
 
-The `replace()` member function can take upto two optional arguments (subject and replacement string) and returns an object of the class *RegexReplace* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexReplace* class. The end function in the method chain must be the `execute()` function which returns the result (replaced string).
+The `replace()` member function can take upto three optional arguments (subject, replacement string and modifier) and returns an object of the class *RegexReplace* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexReplace* class. The end function in the method chain must be the `execute()` function which returns the result (replaced string).
 
 **Perform replace** and catch any error exception:
 
@@ -245,31 +245,39 @@ Regex(const String& re, const String& mod="")
 Regex(const String& re, uint32_t pcre2_opts, uint32_t jpcre2_opts=0)
 
 //Overloaded assignment operator
-Regex& operator=(const Regex& r)
+Regex&              operator=(const Regex& r)
 
 //Getters
-String     getModifier()
-String     getPattern()
-String     getLocale()       ///Gets LC_CTYPE
-uint32_t   getCompileOpts()  ///Returns the compile opts used for compilation
+String              getModifier()
+String              getPattern()
+String              getLocale()       ///Gets LC_CTYPE
+uint32_t            getPcre2Options()
+uint32_t            getJpcre2Options()
 
 ///Error handling
-String     getErrorMessage(int err_num)
-String     getErrorMessage()
-String     getWarningMessage()
-int        getErrorNumber()
-int        getErrorCode()
-PCRE2_SIZE getErrorOffset()
+String              getErrorMessage(int err_num, PCRE2_SIZE err_offset)
+String              getErrorMessage(int err_num)
+String              getErrorMessage()
+String              getWarningMessage()
+int                 getErrorNumber()
+PCRE2_SIZE          getErrorOffset()
 
+Regex&              compile(const String& re, uint32_t pcre2_opts, uint32_t jpcre2_opts=0)
 Regex&              compile(const String& re,const String& mod)
 Regex&              compile(const String& re="")
+
 Regex&              setPattern(const String& re)
 Regex&              setModifiers(const String& x)
 Regex&              setLocale(const String& x)
+Regex&              setJpcre2Options(uint32_t x)
+Regex&              setPcre2Options(uint32_t x)
+
 Regex&              addJpcre2Options(uint32_t x)
 Regex&              addPcre2Options(uint32_t x)
+
 Regex&              removeJpcre2Options(uint32_t x)
 Regex&              removePcre2Options(uint32_t x)
+
 void                execute()  //executes the compile operation.
 void                exec()     //wrapper of execute()
 
@@ -278,6 +286,7 @@ RegexMatch&         match(const String& s, const String& mod)
 
 RegexReplace&       replace(const String& mains="")
 RegexReplace&       replace(const String& mains,const String& repl)
+RegexReplace&       replace(const String& mains,const String& repl, const String& mod)
 
 
 ////Class RegexMatch
@@ -287,11 +296,16 @@ RegexMatch&         setNamedSubstringVector(VecNas* vec_nas)
 RegexMatch&         setNameToNumberMapVector(VecNtN* vec_ntn)
 RegexMatch&         setSubject(const String& s)
 RegexMatch&         setModifiers(const String& s)
+RegexMatch&         setJpcre2Options(uint32_t x)
+RegexMatch&         setPcre2Options(uint32_t x)
+RegexMatch&         setFindAll(bool x=true)
+
 RegexMatch&         addJpcre2Options(uint32_t x)
 RegexMatch&         addPcre2Options(uint32_t x)
+
 RegexMatch&         removeJpcre2Options(uint32_t x)
 RegexMatch&         removePcre2Options(uint32_t x) 
-RegexMatch&         setFindAll(bool x=true)
+
 SIZE_T              execute()  //executes the match operation
 SIZE_T              exec()     //wrapper of execute()
 
@@ -302,6 +316,8 @@ RegexReplace&       setSubject(const String& s)
 RegexReplace&       setReplaceWith(const String& s)
 RegexReplace&       setModifiers(const String& s)
 RegexReplace&       setBufferSize(PCRE2_SIZE x)
+RegexReplace&       setJpcre2Options(uint32_t x)
+RegexReplace&       setPcre2Options(uint32_t x)
 RegexReplace&       addJpcre2Options(uint32_t x)
 RegexReplace&       addPcre2Options(uint32_t x)
 RegexReplace&       removeJpcre2Options(uint32_t x)
@@ -309,6 +325,14 @@ RegexReplace&       removePcre2Options(uint32_t x)
 String              execute() //executes the replacement operation
 String              exec()    //wrapper of exec()
 
+
+////Namespace utils
+
+String              toString(int a)
+String              toString(char a)
+String              toString(const char* a)
+String              toString(PCRE2_UCHAR* a)
+String              getPcre2ErrorMessage(int err_num)
 ```
 
 <div id="modifiers"></div>

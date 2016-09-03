@@ -42,17 +42,14 @@ Dsclaimer:
 
 #include "jpcre2.h"
 
-void jpcre2::RegexMatch::parseMatchOpts(const String& mod, uint32_t opt_bits, uint32_t pcre2_opts){
-    ///This function sets opts from scratch
-    match_opts = pcre2_opts;
-    jpcre2_match_opts = opt_bits;
+void jpcre2::RegexMatch::parseMatchOpts(){
     ///parse pcre and jpcre2 options
-    for(size_t i=0;i<mod.length();++i){
-        switch (mod[i]){
+    for(size_t i=0;i<m_modifier.length();++i){
+        switch (m_modifier[i]){
             case 'A': match_opts        |= PCRE2_ANCHORED;break;
             case 'g': jpcre2_match_opts |= FIND_ALL;break;
             default : if((jpcre2_match_opts & VALIDATE_MODIFIER)!=0)
-                      {re->error_code=re->jpcre2_error_offset=(int)mod[i];throw((int)ERROR::INVALID_MODIFIER);}break;
+                      {re->error_number=re->error_offset=(int)m_modifier[i];throw((int)ERROR::INVALID_MODIFIER);}break;
         }
     }
 }
@@ -60,7 +57,7 @@ void jpcre2::RegexMatch::parseMatchOpts(const String& mod, uint32_t opt_bits, ui
 
 
 
-void jpcre2::RegexMatch::getNumberedSubstrings(int rc, pcre2_match_data *match_data,jpcre2::MapNum* num_map0){
+void jpcre2::RegexMatch::getNumberedSubstrings(int rc, pcre2_match_data *match_data){
     for (int i = 0; i < rc; i++){
         String value;
         //~ PCRE2_SPTR substring_start = subject + ovector[2*i];
@@ -76,7 +73,7 @@ void jpcre2::RegexMatch::getNumberedSubstrings(int rc, pcre2_match_data *match_d
         int ret=pcre2_substring_get_bynumber(match_data, (uint32_t)i, bufferptr, &bufflen);
         if(ret<0){
             switch(ret){
-                case PCRE2_ERROR_NOMEMORY: throw(ret);break;
+                case PCRE2_ERROR_NOMEMORY: throw(ret);
                 default:break;   ///Other errors should be ignored
             }
         }
@@ -86,12 +83,11 @@ void jpcre2::RegexMatch::getNumberedSubstrings(int rc, pcre2_match_data *match_d
         /// (may be a bug?)
         ///Instead use free() to free the memory
         ::free(bufferptr);                  ///must free memory
-        if(num_map0) (*num_map0)[i]=value;
+        if(num_map0) (*num_map0)[i]=value;  //This null check is paranoid
     }
 }
 
-void jpcre2::RegexMatch::getNamedSubstrings(int namecount,int name_entry_size,PCRE2_SPTR tabptr, pcre2_match_data *match_data,
-                                                        MapNas* nas_map0, MapNtN* ntn_map0){
+void jpcre2::RegexMatch::getNamedSubstrings(int namecount,int name_entry_size,PCRE2_SPTR tabptr, pcre2_match_data *match_data){
     
     for (int i = 0; i < namecount; i++){
         String key,value,value1;
@@ -119,7 +115,7 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount,int name_entry_size,PC
         int ret=pcre2_substring_get_byname(match_data, (PCRE2_SPTR)key.c_str(), bufferptr, &bufflen);
         if(ret<0){
             switch(ret){
-                case PCRE2_ERROR_NOMEMORY: throw(ret);break;
+                case PCRE2_ERROR_NOMEMORY: throw(ret);
                 default:break;   ///Other errors should be ignored
             }
         }
@@ -137,7 +133,7 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount,int name_entry_size,PC
         ret=pcre2_substring_get_bynumber(match_data, (uint32_t)n, bufferptr, &bufflen);
         if(ret<0){
             switch(ret){
-                case PCRE2_ERROR_NOMEMORY: throw(ret);break;
+                case PCRE2_ERROR_NOMEMORY: throw(ret);
                 default:break;   ///Other errors should be ignored
             }
         }
@@ -149,34 +145,29 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount,int name_entry_size,PC
         ///Instead use free() to free the memory
         ::free(bufferptr);                  ///must free memory
         if(value!=value1){tabptr += name_entry_size;continue;}
-        if(nas_map0) (*nas_map0)[key]=value;
-        if(ntn_map0) (*ntn_map0)[key]=n;
+        if(nas_map0) (*nas_map0)[key]=value;  //must check for null
+        if(ntn_map0) (*ntn_map0)[key]=n;      //must check for null
         tabptr += name_entry_size;
     }
 }
 
 
-jpcre2::Uint jpcre2::RegexMatch::match(const std::string& s,VecNum* vec_num,VecNas* vec_nas,VecNtN* vec_ntn,
-                                        const std::string& mod,uint32_t opt_bits,uint32_t pcre2_opts){
+jpcre2::SIZE_T jpcre2::RegexMatch::match(){
 
     /// If code is null, there's no need to proceed any further
-    if(re->null_code) return 0;
+    if(re->code == NULL) return 0;
     
-    ///Parse match_opts from scratch
-    parseMatchOpts(mod, opt_bits, pcre2_opts);
+    ///Parse options
+    parseMatchOpts();
     
-    jpcre2_match_opts |= opt_bits;
-    match_opts |= pcre2_opts;
-    
-    
-    PCRE2_SPTR subject=(PCRE2_SPTR)s.c_str();
+    PCRE2_SPTR subject=(PCRE2_SPTR)m_subject.c_str();
     PCRE2_SPTR name_table;
     int crlf_is_newline;
     int namecount;
     int name_entry_size;
     int rc;
     int utf8;
-    size_t count=0;
+    SIZE_T count = 0;
     uint32_t option_bits;
     uint32_t newline;
     PCRE2_SIZE *ovector;
@@ -207,18 +198,18 @@ jpcre2::Uint jpcre2::RegexMatch::match(const std::string& s,VecNum* vec_num,VecN
 
         /* Matching failed: handle error cases */
 
-    re->error_code=rc;
+    re->error_number=rc;
     re->error_offset=rc;
     
     if (rc < 0){
         pcre2_match_data_free(match_data);      /* Release memory used for the match */
         //pcre2_code_free(code);                //must not free code. This function has no right to modify regex
         switch(rc){
-            case PCRE2_ERROR_NOMATCH: return count; break;
+            case PCRE2_ERROR_NOMATCH: return count;
             /*
             Handle other special cases if you like
             */
-            default: throw(rc); break;
+            default: throw(rc);
         }
         return count;
     }
@@ -245,7 +236,7 @@ jpcre2::Uint jpcre2::RegexMatch::match(const std::string& s,VecNum* vec_num,VecN
     }
 
     ///Let's get the numbered substrings
-    if(num_map0) getNumberedSubstrings(rc,match_data,num_map0);
+    if(num_map0) getNumberedSubstrings(rc,match_data);
     
     
 
@@ -289,7 +280,7 @@ jpcre2::Uint jpcre2::RegexMatch::match(const std::string& s,VecNum* vec_num,VecN
         tabptr = name_table;
         
         ///Let's get the named substrings
-        if(nas_map0 || ntn_map0) getNamedSubstrings(namecount,name_entry_size,tabptr,match_data,nas_map0,ntn_map0);
+        if(nas_map0 || ntn_map0) getNamedSubstrings(namecount,name_entry_size,tabptr,match_data);
         
     }
     
@@ -431,14 +422,14 @@ jpcre2::Uint jpcre2::RegexMatch::match(const std::string& s,VecNum* vec_num,VecN
         also any named substrings. */
         
         ///Let's get the numbered substrings
-        if(num_map0) getNumberedSubstrings(rc,match_data,num_map0);
+        if(num_map0) getNumberedSubstrings(rc,match_data);
         
         if (namecount <= 0);  /*No named substrings*/
         else{
             PCRE2_SPTR tabptr = name_table;
             
             ///Let's get the named substrings
-            if(nas_map0 || ntn_map0) getNamedSubstrings(namecount,name_entry_size,tabptr,match_data,nas_map0,ntn_map0);
+            if(nas_map0 || ntn_map0) getNamedSubstrings(namecount,name_entry_size,tabptr,match_data);
         }
         
         
