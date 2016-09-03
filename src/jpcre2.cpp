@@ -159,7 +159,7 @@ void jpcre2::Regex :: compileRegex(){
                 error_offset = jit_ret;
                 throw((int)ERROR::JIT_COMPILE_FAILED);
             }
-            else current_warning_msg="JIT compilation failed! Is it supported?";
+            else current_warning_msg="JIT compile failed: "+utils::getPcre2ErrorMessage(jit_ret);
         }  
     }
 }
