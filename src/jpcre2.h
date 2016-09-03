@@ -156,7 +156,7 @@ namespace jpcre2{
                                 }
                             
             RegexMatch(){init();}
-            RegexMatch(RegexMatch&){init();}    /// No need to implement copy constructor
+            RegexMatch(const RegexMatch&){init();}    /// No need to implement copy constructor
             RegexMatch(const String& s){init(s);}
             RegexMatch(const String& s, const String& mod){init(s,mod);}
             
@@ -224,7 +224,7 @@ namespace jpcre2{
             void init(const String& s,const String& repl, const String& mod){ init_vars(); r_subject=s; r_replw=repl; r_modifier=mod; }
                             
             RegexReplace(){init();}
-            RegexReplace(RegexReplace&){init();}    /// No need to implement copy constructor
+            RegexReplace(const RegexReplace&){init();}    /// No need to implement copy constructor
             RegexReplace(const String& s){init(s);}
             RegexReplace(const String& s,const String& repl){init(s, repl);}
             RegexReplace(const String& s,const String& repl, const String& mod){init(s, repl, mod);}
