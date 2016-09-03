@@ -47,6 +47,7 @@ const jpcre2::SIZE_T jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<i
 
 const jpcre2::String jpcre2::LOCALE_NONE = "JPCRE2_NONE";
 const jpcre2::String jpcre2::LOCALE_DEFAULT = LOCALE_NONE;
+const jpcre2::String jpcre2::JIT_ERROR_MESSAGE_PREFIX = "JIT compilation failed! ";
 
 jpcre2::String jpcre2::utils::toString(const char* a){
     if(a) return String(a);
@@ -57,7 +58,7 @@ jpcre2::String jpcre2::utils::toString(char a){
     else return "";
 }
 jpcre2::String jpcre2::utils::toString(int x) {
-    int length = snprintf( NULL, 0, "%d", x );
+    int length = snprintf( 0, 0, "%d", x );
     assert( length >= 0 );
     char* buf = new char[length + 1];
     snprintf( buf, length + 1, "%d", x );
@@ -81,7 +82,7 @@ jpcre2::String jpcre2::Regex::getErrorMessage(int err_num, PCRE2_SIZE err_off){
         return "Invalid Modifier: "+utils::toString((char)err_off);
     }
     else if(err_num == ERROR::JIT_COMPILE_FAILED) {
-        return "JIT compile failed: "+utils::getPcre2ErrorMessage((int)err_off);
+        return JIT_ERROR_MESSAGE_PREFIX+utils::getPcre2ErrorMessage((int)err_off);
     }
     else{
         return utils::getPcre2ErrorMessage((int)err_num)+". Error offset: "+utils::toString((int)err_off);
@@ -91,7 +92,7 @@ jpcre2::String jpcre2::Regex::getErrorMessage(int err_num, PCRE2_SIZE err_off){
 
 void jpcre2::Regex::parseCompileOpts(){
     ///parse modifiers
-    for(size_t i=0;i<modifier.length();++i){
+    for(SIZE_T i=0;i<modifier.length();++i){
         switch (modifier[i]){
             case 'e': compile_opts |= PCRE2_MATCH_UNSET_BACKREF;break;
             case 'i': compile_opts |= PCRE2_CASELESS;break;
@@ -126,12 +127,12 @@ void jpcre2::Regex :: compileRegex(){
     * any errors that are detected.                                          *
     *************************************************************************/
 
-    pcre2_compile_context *ccontext = pcre2_compile_context_create(NULL);
+    pcre2_compile_context *ccontext = pcre2_compile_context_create(0);
     
     if(mylocale != LOCALE_NONE){
         String loc_old;
         loc_old=utils::toString(std::setlocale(LC_CTYPE, mylocale.c_str()));
-        const unsigned char *tables = pcre2_maketables(NULL);
+        const unsigned char *tables = pcre2_maketables(0);
         pcre2_set_character_tables(ccontext, tables);
         std::setlocale(LC_CTYPE,loc_old.c_str());
     }
@@ -145,7 +146,7 @@ void jpcre2::Regex :: compileRegex(){
         ccontext);                  /* use compile context */
         
         
-    if (code == NULL){
+    if (code == 0){
         /* Compilation failed */
         ///must not free regex memory, the only function has that right is the destroyer.
         throw(error_number);

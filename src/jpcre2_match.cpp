@@ -44,7 +44,7 @@ Dsclaimer:
 
 void jpcre2::RegexMatch::parseMatchOpts(){
     ///parse pcre and jpcre2 options
-    for(size_t i=0;i<m_modifier.length();++i){
+    for(SIZE_T i=0;i<m_modifier.length();++i){
         switch (m_modifier[i]){
             case 'A': match_opts        |= PCRE2_ANCHORED;break;
             case 'g': jpcre2_match_opts |= FIND_ALL;break;
@@ -55,22 +55,16 @@ void jpcre2::RegexMatch::parseMatchOpts(){
 }
 
 
-
-
 void jpcre2::RegexMatch::getNumberedSubstrings(int rc, pcre2_match_data *match_data){
     for (int i = 0; i < rc; i++){
         String value;
-        //~ PCRE2_SPTR substring_start = subject + ovector[2*i];
-        //~ size_t substring_length = ovector[2*i+1] - ovector[2*i];
-        //~ String tmps1=utils::toString((char *)substring_start);
-        //~ value=tmps1.substr(0,substring_length);
         ///If we use pcre2_substring_get_bynumber(),
         ///we will have to deal with returned error codes and memory
         PCRE2_UCHAR **bufferptr;
-        PCRE2_SIZE bufflen/*=REGEX_STRING_MAX*/;
-        pcre2_substring_length_bynumber(match_data,(uint32_t)i,&bufflen);
+        PCRE2_SIZE bufflen;
+        pcre2_substring_length_bynumber(match_data,(Uint)i,&bufflen);
         bufferptr=(PCRE2_UCHAR**)malloc(bufflen * sizeof(PCRE2_UCHAR));
-        int ret=pcre2_substring_get_bynumber(match_data, (uint32_t)i, bufferptr, &bufflen);
+        int ret=pcre2_substring_get_bynumber(match_data, (Uint)i, bufferptr, &bufflen);
         if(ret<0){
             switch(ret){
                 case PCRE2_ERROR_NOMEMORY: throw(ret);
@@ -83,7 +77,7 @@ void jpcre2::RegexMatch::getNumberedSubstrings(int rc, pcre2_match_data *match_d
         /// (may be a bug?)
         ///Instead use free() to free the memory
         ::free(bufferptr);                  ///must free memory
-        if(num_map0) (*num_map0)[i]=value;  //This null check is paranoid
+        if(num_map0) (*num_map0)[i]=value;  //This null check is paranoid, this function shouldn't be called if this map is null
     }
 }
 
@@ -92,24 +86,10 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount,int name_entry_size,PC
     for (int i = 0; i < namecount; i++){
         String key,value,value1;
         
-        //~ #if PCRE2_CODE_UNIT_WIDTH == 8
         int n = (tabptr[0] << 8) | tabptr[1];
         key=utils::toString((char*)(tabptr+2));
-        //~ #elif PCRE2_CODE_UNIT_WIDTH == 16
-        //~ int n = tabptr[0];
-        //~ key=utils::toString((char*)(tabptr+1));
-        //~ #elif PCRE2_CODE_UNIT_WIDTH == 32
-        //~ int n = tabptr[0];
-        //~ key=utils::toString((char*)(tabptr+1));
-        //~ #else
-        //~ #error PCRE2_CODE_UNIT_WIDTH must be 8 or 16 or 32
-        //~ #endif
-        
-        //~ String tmps2=utils::toString((char*)(subject + ovector[2*n]));
-        //~ //String key=tmps1.substr(0,name_entry_size - 3);
-        //~ value1=tmps2.substr(0,(ovector[2*n+1] - ovector[2*n]));
         PCRE2_UCHAR **bufferptr;
-        PCRE2_SIZE bufflen/*=REGEX_STRING_MAX*/;
+        PCRE2_SIZE bufflen;
         pcre2_substring_length_byname(match_data,(PCRE2_SPTR)key.c_str(),&bufflen);
         bufferptr=(PCRE2_UCHAR **)malloc((bufflen+1) * sizeof(PCRE2_UCHAR));
         int ret=pcre2_substring_get_byname(match_data, (PCRE2_SPTR)key.c_str(), bufferptr, &bufflen);
@@ -128,9 +108,9 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount,int name_entry_size,PC
         ///we will skip this iteration, if that happens.
         ///Don't use pcre2_substring_number_from_name() to get the number for the name (It's messy).
         ::free(bufferptr);
-        pcre2_substring_length_bynumber(match_data,(uint32_t)n,&bufflen);
+        pcre2_substring_length_bynumber(match_data,(Uint)n,&bufflen);
         bufferptr=(PCRE2_UCHAR **)malloc(bufflen * sizeof(PCRE2_UCHAR));
-        ret=pcre2_substring_get_bynumber(match_data, (uint32_t)n, bufferptr, &bufflen);
+        ret=pcre2_substring_get_bynumber(match_data, (Uint)n, bufferptr, &bufflen);
         if(ret<0){
             switch(ret){
                 case PCRE2_ERROR_NOMEMORY: throw(ret);
@@ -155,7 +135,7 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount,int name_entry_size,PC
 jpcre2::SIZE_T jpcre2::RegexMatch::match(){
 
     /// If code is null, there's no need to proceed any further
-    if(re->code == NULL) return 0;
+    if(re->code == 0) return 0;
     
     ///Parse options
     parseMatchOpts();
@@ -168,10 +148,10 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match(){
     int rc;
     int utf8;
     SIZE_T count = 0;
-    uint32_t option_bits;
-    uint32_t newline;
+    Uint option_bits;
+    Uint newline;    
     PCRE2_SIZE *ovector;
-    size_t subject_length;
+    SIZE_T subject_length;
     pcre2_match_data *match_data;
     subject_length = strlen((char *)subject);
     
@@ -185,7 +165,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match(){
     /* Using this function ensures that the block is exactly the right size for
     the number of capturing parentheses in the pattern. */
 
-    match_data = pcre2_match_data_create_from_pattern(re->code, NULL);
+    match_data = pcre2_match_data_create_from_pattern(re->code, 0);
 
     rc = pcre2_match(
         re->code,             /* the compiled pattern */
@@ -194,7 +174,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match(){
         0,                    /* start at offset 0 in the subject */
         match_opts,           /* default options */
         match_data,           /* block for storing the result */
-        NULL);                /* use default match context */
+        0);                   /* use default match context */
 
         /* Matching failed: handle error cases */
 
@@ -348,7 +328,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match(){
         if(nas_map0)nas_map0->clear();
         if(ntn_map0)ntn_map0->clear();
         
-        uint32_t options = match_opts;                       /* Normally no options */
+        Uint options = match_opts;                  /* Normally no options */
         PCRE2_SIZE start_offset = ovector[1];       /* Start at end of previous match */
         
         /* If the previous match was for an empty string, we are finished if we are
@@ -363,13 +343,13 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match(){
           /* Run the next matching operation */
         
         rc = pcre2_match(
-            re->code,                 /* the compiled pattern */
+            re->code,             /* the compiled pattern */
             subject,              /* the subject string */
             subject_length,       /* the length of the subject */
             start_offset,         /* starting offset in the subject */
             options,              /* options */
             match_data,           /* block for storing the result */
-            NULL);                /* use default match context */
+            0);                   /* use default match context */
         
         /* This time, a result of NOMATCH isn't an error. If the value in "options"
         is zero, it just means we have found all possible matches, so the loop ends.

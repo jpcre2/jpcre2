@@ -239,10 +239,12 @@ Class | Details
 ////Class Regex
 
 //Constructors
-Regex()
+Regex(const String& re, Uint pcre2_opts, Uint opt_bits)
+Regex(const String& re, Uint pcre2_opts)
+Regex(const String& re, const String& mod)
+Regex(const String& re)
 Regex(const Regex& r)
-Regex(const String& re, const String& mod="")
-Regex(const String& re, uint32_t pcre2_opts, uint32_t jpcre2_opts=0)
+Regex()
 
 //Overloaded assignment operator
 Regex&              operator=(const Regex& r)
@@ -262,31 +264,35 @@ String              getWarningMessage()
 int                 getErrorNumber()
 PCRE2_SIZE          getErrorOffset()
 
-Regex&              compile(const String& re, uint32_t pcre2_opts, uint32_t jpcre2_opts=0)
-Regex&              compile(const String& re,const String& mod)
-Regex&              compile(const String& re="")
+Regex&              compile(const String& re, Uint pcre2_opts, Uint jpcre2_opts)
+Regex&              compile(const String& re, Uint pcre2_opts)
+Regex&              compile(const String& re, const String& mod)
+Regex&              compile(const String& re)
+Regex&              compile()
 
 Regex&              setPattern(const String& re)
 Regex&              setModifiers(const String& x)
 Regex&              setLocale(const String& x)
-Regex&              setJpcre2Options(uint32_t x)
-Regex&              setPcre2Options(uint32_t x)
+Regex&              setJpcre2Options(Uint x)
+Regex&              setPcre2Options(Uint x)
 
-Regex&              addJpcre2Options(uint32_t x)
-Regex&              addPcre2Options(uint32_t x)
+Regex&              addJpcre2Options(Uint x)
+Regex&              addPcre2Options(Uint x)
 
-Regex&              removeJpcre2Options(uint32_t x)
-Regex&              removePcre2Options(uint32_t x)
+Regex&              removeJpcre2Options(Uint x)
+Regex&              removePcre2Options(Uint x)
 
 void                execute()  //executes the compile operation.
 void                exec()     //wrapper of execute()
 
-RegexMatch&         match(const String& s="")
 RegexMatch&         match(const String& s, const String& mod)
+RegexMatch&         match(const String& s)
+RegexMatch&         match()
 
-RegexReplace&       replace(const String& mains="")
+RegexReplace&       replace(const String& mains, const String& repl, const String& mod)
 RegexReplace&       replace(const String& mains,const String& repl)
-RegexReplace&       replace(const String& mains,const String& repl, const String& mod)
+RegexReplace&       replace(const String& mains)
+RegexReplace&       replace()
 
 
 ////Class RegexMatch
@@ -296,15 +302,15 @@ RegexMatch&         setNamedSubstringVector(VecNas* vec_nas)
 RegexMatch&         setNameToNumberMapVector(VecNtN* vec_ntn)
 RegexMatch&         setSubject(const String& s)
 RegexMatch&         setModifiers(const String& s)
-RegexMatch&         setJpcre2Options(uint32_t x)
-RegexMatch&         setPcre2Options(uint32_t x)
+RegexMatch&         setJpcre2Options(Uint x)
+RegexMatch&         setPcre2Options(Uint x)
 RegexMatch&         setFindAll(bool x=true)
 
-RegexMatch&         addJpcre2Options(uint32_t x)
-RegexMatch&         addPcre2Options(uint32_t x)
+RegexMatch&         addJpcre2Options(Uint x)
+RegexMatch&         addPcre2Options(Uint x)
 
-RegexMatch&         removeJpcre2Options(uint32_t x)
-RegexMatch&         removePcre2Options(uint32_t x) 
+RegexMatch&         removeJpcre2Options(Uint x)
+RegexMatch&         removePcre2Options(Uint x) 
 
 SIZE_T              execute()  //executes the match operation
 SIZE_T              exec()     //wrapper of execute()
@@ -316,12 +322,12 @@ RegexReplace&       setSubject(const String& s)
 RegexReplace&       setReplaceWith(const String& s)
 RegexReplace&       setModifiers(const String& s)
 RegexReplace&       setBufferSize(PCRE2_SIZE x)
-RegexReplace&       setJpcre2Options(uint32_t x)
-RegexReplace&       setPcre2Options(uint32_t x)
-RegexReplace&       addJpcre2Options(uint32_t x)
-RegexReplace&       addPcre2Options(uint32_t x)
-RegexReplace&       removeJpcre2Options(uint32_t x)
-RegexReplace&       removePcre2Options(uint32_t x)
+RegexReplace&       setJpcre2Options(Uint x)
+RegexReplace&       setPcre2Options(Uint x)
+RegexReplace&       addJpcre2Options(Uint x)
+RegexReplace&       addPcre2Options(Uint x)
+RegexReplace&       removeJpcre2Options(Uint x)
+RegexReplace&       removePcre2Options(Uint x)
 String              execute() //executes the replacement operation
 String              exec()    //wrapper of exec()
 

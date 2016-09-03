@@ -54,6 +54,7 @@
 namespace jpcre2{
     
     typedef size_t SIZE_T;
+    typedef uint32_t Uint;
     typedef std::string String;
     
     typedef std::map<String,String> MapNas;       //Map for Named substring
@@ -75,6 +76,7 @@ namespace jpcre2{
     
     extern const String LOCALE_NONE;    ///We won't do anything about locale if it is set to LOCALE_NONE
     extern const String LOCALE_DEFAULT; ///Default locale
+    extern const String JIT_ERROR_MESSAGE_PREFIX;
     
     ///Option bits. These are the options for JPCRE2.
     enum {  NONE                                = 0x0000000u,
@@ -108,8 +110,8 @@ namespace jpcre2{
             
             String m_subject;
             String m_modifier;
-            uint32_t match_opts;
-            uint32_t jpcre2_match_opts;
+            Uint match_opts;
+            Uint jpcre2_match_opts;
             
             ///vectors to contain the matches and maps of associated substrings
             VecNum* vec_num;
@@ -129,40 +131,31 @@ namespace jpcre2{
             ///returns the number of matches, stores the match results in the specified vectors
             SIZE_T match(void);
                                             
-            void init_vars()
-                                {
-                                    vec_num=NULL;
-                                    vec_nas=NULL;
-                                    vec_ntn=NULL;
-                                    num_map0=NULL;
-                                    nas_map0=NULL;
-                                    ntn_map0=NULL;
-                                    match_opts=jpcre2_match_opts=0;
-                                }
-            void init(const String& s="")
-                                {
-                                    init_vars();
-                                    m_subject=s;
-                                }
-            void init(const String& s, const String& mod)
-                                {
-                                    init_vars();
-                                    m_subject=s;
-                                    m_modifier=mod;
-                                }
+            void init_vars()                                            { vec_num=0;
+                                                                          vec_nas=0;
+                                                                          vec_ntn=0;
+                                                                          num_map0=0;
+                                                                          nas_map0=0;
+                                                                          ntn_map0=0;
+                                                                          match_opts=0;
+                                                                          jpcre2_match_opts=0; 
+                                                                        }
+                                
+            void init()                                                 { init_vars();  }
+            void init(const String& s, const String& mod)               { init_vars();
+                                                                          m_subject=s; 
+                                                                          m_modifier=mod;      
+                                                                        }
                             
-            RegexMatch()                                    { init();      }
-            RegexMatch(const RegexMatch&)                   { init();      }    /// No need to implement copy constructor
-            RegexMatch(const String& s)                     { init(s);     }
-            RegexMatch(const String& s, const String& mod)  { init(s,mod); }
+            RegexMatch()                                                { init();       }
+            RegexMatch(const RegexMatch&)                               { init();       }    /// No need to implement copy constructor
+            RegexMatch(const String& s, const String& mod)              { init(s, mod); }
             
-            ~RegexMatch()
-              {
-                ///Delete map pointers
-                if(num_map0) delete num_map0;
-                if(nas_map0) delete nas_map0;
-                if(ntn_map0) delete ntn_map0;
-              }
+            ~RegexMatch()                                               { ///Delete map pointers
+                                                                          delete num_map0;
+                                                                          delete nas_map0;
+                                                                          delete ntn_map0;
+                                                                        }
             
             
             ///define buddies for RegexMatch
@@ -172,25 +165,26 @@ namespace jpcre2{
         public:
            
             ///Chained functions for taking parameters
-            RegexMatch& setNumberedSubstringVector(VecNum* v)             { vec_num=v;                      return *this; }
-            RegexMatch& setNamedSubstringVector(VecNas* v)                { vec_nas=v;                      return *this; }
-            RegexMatch& setNameToNumberMapVector(VecNtN* v)               { vec_ntn=v;                      return *this; }
-            RegexMatch& setSubject(const String& s)                       { m_subject=s;                    return *this; }
-            RegexMatch& setModifiers(const String& s)                     { m_modifier=s;                   return *this; }
-            RegexMatch& setJpcre2Options(uint32_t x)                      { jpcre2_match_opts = x;          return *this; }
-            RegexMatch& setPcre2Options(uint32_t x)                       { match_opts = x;                 return *this; }
-            RegexMatch& setFindAll(bool x=true)                           { if(x) jpcre2_match_opts |= FIND_ALL;
-                                                                            else  jpcre2_match_opts &= ~FIND_ALL;
-                                                                            return *this;                                 }
+            RegexMatch& setNumberedSubstringVector(VecNum* v)           { vec_num=v;                      return *this; }
+            RegexMatch& setNamedSubstringVector(VecNas* v)              { vec_nas=v;                      return *this; }
+            RegexMatch& setNameToNumberMapVector(VecNtN* v)             { vec_ntn=v;                      return *this; }
+            RegexMatch& setSubject(const String& s)                     { m_subject=s;                    return *this; }
+            RegexMatch& setModifiers(const String& s)                   { m_modifier=s;                   return *this; }
+            RegexMatch& setJpcre2Options(Uint x)                        { jpcre2_match_opts = x;          return *this; }
+            RegexMatch& setPcre2Options(Uint x)                         { match_opts = x;                 return *this; }
+            RegexMatch& setFindAll(bool x=true)                         { if(x) jpcre2_match_opts |= FIND_ALL;
+                                                                          else  jpcre2_match_opts &= ~FIND_ALL;
+                                                                          return *this;                                 
+                                                                        }
             
-            RegexMatch& addJpcre2Options(uint32_t x)                      { jpcre2_match_opts |= x;         return *this; }
-            RegexMatch& addPcre2Options(uint32_t x)                       { match_opts |= x;                return *this; }
+            RegexMatch& addJpcre2Options(Uint x)                        { jpcre2_match_opts |= x;         return *this; }
+            RegexMatch& addPcre2Options(Uint x)                         { match_opts |= x;                return *this; }
             
-            RegexMatch& removeJpcre2Options(uint32_t x)                   { jpcre2_match_opts &= ~x;        return *this; }
-            RegexMatch& removePcre2Options(uint32_t x)                    { match_opts &= ~x;               return *this; }
+            RegexMatch& removeJpcre2Options(Uint x)                     { jpcre2_match_opts &= ~x;        return *this; }
+            RegexMatch& removePcre2Options(Uint x)                      { match_opts &= ~x;               return *this; }
             
-            SIZE_T exec()       { return execute(); }
-            SIZE_T execute()    { return match();   }
+            SIZE_T exec()                                               { return execute(); }
+            SIZE_T execute()                                            { return match();   }
     };
     
     
@@ -203,8 +197,8 @@ namespace jpcre2{
             String r_subject;
             String r_modifier;
             String r_replw;
-            uint32_t replace_opts;
-            uint32_t jpcre2_replace_opts;
+            Uint replace_opts;
+            Uint jpcre2_replace_opts;
             PCRE2_SIZE buffer_size;
             
             void parseReplacementOpts(void);
@@ -212,19 +206,22 @@ namespace jpcre2{
             ///returns a replaced string after performing regex replace
             String replace(void);
                                             
-            void init_vars(){ 
-                              replace_opts = jpcre2_replace_opts=0;
-                              buffer_size=SUBSTITUTE_RESULT_INIT_SIZE;
-                            }
-            void init(const String& s="")                                       { init_vars(); r_subject=s;                               }
-            void init(const String& s,const String& repl)                       { init_vars(); r_subject=s; r_replw=repl;                 }
-            void init(const String& s,const String& repl, const String& mod)    { init_vars(); r_subject=s; r_replw=repl; r_modifier=mod; }
+            void init_vars()                                            { replace_opts = jpcre2_replace_opts = 0;
+                                                                          buffer_size=SUBSTITUTE_RESULT_INIT_SIZE; 
+                                                                        }
                             
-            RegexReplace(const String& s,const String& repl, const String& mod) { init(s, repl, mod); }
-            RegexReplace(const String& s,const String& repl)                    { init(s, repl);      }
-            RegexReplace(const RegexReplace&)                                   { init();             }    /// No need to implement copy constructor
-            RegexReplace(const String& s)                                       { init(s);            }
-            RegexReplace()                                                      { init();             }
+            void init() { init_vars(); }
+            void init(const String& s,const String& repl, const String& mod) 
+                                                                        { init_vars(); 
+                                                                          r_subject=s; 
+                                                                          r_replw=repl; 
+                                                                          r_modifier=mod; 
+                                                                        }
+                            
+            RegexReplace()                                              { init();             }
+            RegexReplace(const RegexReplace& r)                         { init();             }    /// No need to implement copy constructor
+            RegexReplace(const String& s,const String& repl, const String& mod) 
+                                                                        { init(s, repl, mod); }
             
             ~RegexReplace(){}
             
@@ -235,21 +232,21 @@ namespace jpcre2{
         public:
            
             ///Chained functions for taking parameters
-            RegexReplace& setSubject(const String& s)                        { r_subject=s;                   return *this; }
-            RegexReplace& setReplaceWith(const String& s)                    { r_replw=s;                     return *this; }
-            RegexReplace& setModifiers(const String& s)                      { r_modifier=s;                  return *this; }
-            RegexReplace& setBufferSize(PCRE2_SIZE x)                        { buffer_size=x;                 return *this; }
-            RegexReplace& setJpcre2Options(uint32_t x)                       { jpcre2_replace_opts = x;       return *this; }
-            RegexReplace& setPcre2Options(uint32_t x)                        { replace_opts = x;              return *this; }
+            RegexReplace& setSubject(const String& s)                   { r_subject=s;                   return *this; }
+            RegexReplace& setReplaceWith(const String& s)               { r_replw=s;                     return *this; }
+            RegexReplace& setModifiers(const String& s)                 { r_modifier=s;                  return *this; }
+            RegexReplace& setBufferSize(PCRE2_SIZE x)                   { buffer_size=x;                 return *this; }
+            RegexReplace& setJpcre2Options(Uint x)                      { jpcre2_replace_opts = x;       return *this; }
+            RegexReplace& setPcre2Options(Uint x)                       { replace_opts = x;              return *this; }
             
-            RegexReplace& addJpcre2Options(uint32_t x)                       { jpcre2_replace_opts |= x;      return *this; }
-            RegexReplace& addPcre2Options(uint32_t x)                        { replace_opts |= x;             return *this; }
+            RegexReplace& addJpcre2Options(Uint x)                      { jpcre2_replace_opts |= x;      return *this; }
+            RegexReplace& addPcre2Options(Uint x)                       { replace_opts |= x;             return *this; }
             
-            RegexReplace& removeJpcre2Options(uint32_t x)                    { jpcre2_replace_opts &= ~x;     return *this; }
-            RegexReplace& removePcre2Options(uint32_t x)                     { replace_opts &= ~x;            return *this; }
+            RegexReplace& removeJpcre2Options(Uint x)                   { jpcre2_replace_opts &= ~x;     return *this; }
+            RegexReplace& removePcre2Options(Uint x)                    { replace_opts &= ~x;            return *this; }
             
-            String exec()       { return execute(); }
-            String execute()    { return replace(); }
+            String exec()                                               { return execute(); }
+            String execute()                                            { return replace(); }
     };
     
     
@@ -257,43 +254,44 @@ namespace jpcre2{
         
         private:
         
-            RegexMatch rm;
-            RegexReplace rr;
+            RegexMatch *rm;
+            RegexReplace *rr;
             
             String pat_str;
             String modifier;
             pcre2_code *code;
             int error_number;
             PCRE2_SIZE error_offset;
-            uint32_t compile_opts,jpcre2_compile_opts;
+            Uint compile_opts,jpcre2_compile_opts;
             String mylocale;
             String current_warning_msg;
             
-            void freeRegexMemory(void)  { if(code) pcre2_code_free(code); } ///frees memory used for the compiled regex.
+            void init_vars()                                            { mylocale = LOCALE_DEFAULT;
+                                                                          jpcre2_compile_opts = 0;
+                                                                          error_number = 0;
+                                                                          error_offset = 0;
+                                                                          compile_opts = 0;
+                                                                          code = 0;
+                                                                          rr = 0;
+                                                                          rm = 0;
+                                                                        }
+                                                                        
+            void init()                                                 { init_vars(); }
+            
+            void init(const String& re, const String& mod)              { init_vars();
+                                                                          pat_str=re;
+                                                                          modifier=mod;
+                                                                        }
+                                                                        
+            void init(const String& re, Uint pcre2_opts, Uint opt_bits) { init_vars();
+                                                                          pat_str=re;
+                                                                          compile_opts |= pcre2_opts;
+                                                                          jpcre2_compile_opts |= opt_bits;
+                                                                        }
+            
+            void freeRegexMemory(void)                                  { if(code) pcre2_code_free(code); }
             
             void parseCompileOpts(void);
-            
-            void init_vars(){ mylocale = LOCALE_DEFAULT;
-                              error_number = error_offset = 0;
-                              compile_opts = jpcre2_compile_opts = 0;
-                              code = NULL;
-                            }
-                              
-            void init(const String& re="") 
-                                            { init_vars();
-                                              pat_str=re;
-                                            }
-            void init(const String& re, const String& mod)
-                                            { init_vars();
-                                              pat_str=re;modifier=mod;
-                                            }
-            void init(const String& re, uint32_t pcre2_opts, uint32_t opt_bits=0) 
-                                            { init_vars();
-                                              pat_str=re;
-                                              compile_opts |= pcre2_opts;
-                                              jpcre2_compile_opts |= opt_bits;
-                                            }
-            
             ///Compiles the regex.
             void compileRegex(void);
                             
@@ -301,18 +299,15 @@ namespace jpcre2{
             friend class RegexMatch;
             friend class RegexReplace;
             
-            void shallowCopy(const Regex& r){
-                rm = r.rm;
-                rr = r.rr;
-                pat_str = r.pat_str;
-                mylocale = r.mylocale;
-                modifier = r.modifier;
-                error_number = r.error_number;
-                error_offset = r.error_offset;
-                compile_opts = r.compile_opts;
-                jpcre2_compile_opts = r.jpcre2_compile_opts;
-                current_warning_msg = r.current_warning_msg;
-            }
+            void shallowCopy(const Regex& r)                            { pat_str = r.pat_str;
+                                                                          mylocale = r.mylocale;
+                                                                          modifier = r.modifier;
+                                                                          error_number = r.error_number;
+                                                                          error_offset = r.error_offset;
+                                                                          compile_opts = r.compile_opts;
+                                                                          jpcre2_compile_opts = r.jpcre2_compile_opts;
+                                                                          current_warning_msg = r.current_warning_msg;
+                                                                        }
             void deepCopy(const Regex& r){
                 ///Now copy r.code if it is non-null
                 if(r.code){
@@ -329,80 +324,111 @@ namespace jpcre2{
                                 error_number = error_offset = ERROR::JIT_COMPILE_FAILED;
                                 throw((int)ERROR::JIT_COMPILE_FAILED);
                             }
-                            else current_warning_msg="JIT compile failed: "+utils::getPcre2ErrorMessage(jit_ret);
+                            else current_warning_msg=JIT_ERROR_MESSAGE_PREFIX+utils::getPcre2ErrorMessage(jit_ret);
                         }  
                     }
-                }
-                else code = NULL;
+                } else code = 0;
+                ///copy rm
+                ///No need to copy it, just set it to NULL and delete r.rm
+                delete rm; rm = 0; delete r.rm;
+                ///copy rr
+                ///No need to copy it, just set it to NULL and delete r.rr
+                delete rr; rr = 0; delete r.rr;
             }
             
         public:
-            Regex(const String& re, uint32_t pcre2_opts, uint32_t opt_bits=0)  { init(re, pcre2_opts, opt_bits);execute();   }
-            Regex(const String& re, const String& mod="")                      { init(re,mod);execute();                     }
-            Regex()                                                            { init();                                     }
+            ///Constructors
+            Regex(const String& re, Uint pcre2_opts, Uint opt_bits)     { init(re, pcre2_opts, opt_bits); execute(); }
+            Regex(const String& re, Uint pcre2_opts)                    { init(re, pcre2_opts, 0);        execute(); }
+            Regex(const String& re, const String& mod)                  { init(re, mod);execute();                   }
+            Regex(const String& re)                                     { init(re, 0, 0); execute();                 }
+            Regex()                                                     { init();                                    }
             
             ///Deep copy constructor
-            Regex(const Regex& r){
-                ///shallow copy must be performed before deep copy
-                shallowCopy(r);
-                deepCopy(r);
-            }
-            Regex& operator=(const Regex& r){
-                if(this == &r) return *this;
-                ///shallow copy must be performed before deep copy
-                shallowCopy(r);
-                deepCopy(r);
-                return *this;
-            }
+            Regex(const Regex& r)                                       { ///shallow copy must be performed **before** deep copy
+                                                                          shallowCopy(r);
+                                                                          deepCopy(r);
+                                                                        }
+            Regex& operator=(const Regex& r)                            { if(this == &r) return *this;
+                                                                          ///shallow copy must be performed before deep copy
+                                                                          shallowCopy(r);
+                                                                          deepCopy(r);
+                                                                          return *this;
+                                                                        }
             
-            ~Regex()    { freeRegexMemory(); }
+            ~Regex()                                                    { freeRegexMemory();
+                                                                          delete rm; 
+                                                                          delete rr; 
+                                                                        }
             
                 
-            String      getModifier()         { return modifier;            }
-            String      getPattern()          { return pat_str;             }
-            String      getLocale()           { return mylocale;            }      ///Gets LC_CTYPE
-            uint32_t    getPcre2Options()     { return compile_opts;        }      ///returns the compile opts used for compilation
-            uint32_t    getJpcre2Options()    { return jpcre2_compile_opts; }
+            String      getModifier()                                   { return modifier;            }
+            String      getPattern()                                    { return pat_str;             }
+            String      getLocale()                                     { return mylocale;            } 
+            Uint        getPcre2Options()                               { return compile_opts;        } 
+            Uint        getJpcre2Options()                              { return jpcre2_compile_opts; }
             
             
             ///Error handling
             String      getErrorMessage(int err_num, PCRE2_SIZE err_off);
             
-            String      getErrorMessage(int err_num)    { return getErrorMessage(err_num, error_offset);           }
-            String      getErrorMessage()               { return getErrorMessage(error_number, error_offset);      }
-            String      getWarningMessage()             { return current_warning_msg;                              }
-            int         getErrorNumber()                { return error_number;                                     }
-            PCRE2_SIZE  getErrorOffset()                { return error_offset;                                     }
+            String      getErrorMessage(int err_num)                    { return getErrorMessage(err_num, error_offset);           }
+            String      getErrorMessage()                               { return getErrorMessage(error_number, error_offset);      }
+            String      getWarningMessage()                             { return current_warning_msg;                              }
+            int         getErrorNumber()                                { return error_number;                                     }
+            PCRE2_SIZE  getErrorOffset()                                { return error_offset;                                     }
             
             
-            Regex&      compile(const String& re, uint32_t po, uint32_t jo=0){ init(re, po, jo);     return *this; }
-            Regex&      compile(const String& re,const String& mod)     { init(re, mod);             return *this; }
-            Regex&      compile(const String& re="")                    { init(re);                  return *this; }
+            Regex&      compile(const String& re, Uint po, Uint jo)     { init(re, po, jo);          return *this; }
+            Regex&      compile(const String& re, Uint po)              { init(re, po, 0);           return *this; }
+            Regex&      compile(const String& re, const String& mod)    { init(re, mod);             return *this; }
+            Regex&      compile(const String& re)                       { init(re, 0, 0);            return *this; }
+            Regex&      compile()                                       { init();                    return *this; }
             
             Regex&      setPattern(const String& re)                    { pat_str=re;                return *this; }
             Regex&      setModifiers(const String& x)                   { modifier=x;                return *this; }
             Regex&      setLocale(const String& x)                      { mylocale=x;                return *this; }
-            Regex&      setJpcre2Options(uint32_t x)                    { jpcre2_compile_opts = x;   return *this; }
-            Regex&      setPcre2Options(uint32_t x)                     { compile_opts = x;          return *this; }
+            Regex&      setJpcre2Options(Uint x)                        { jpcre2_compile_opts = x;   return *this; }
+            Regex&      setPcre2Options(Uint x)                         { compile_opts = x;          return *this; }
             
-            Regex&      addJpcre2Options(uint32_t x)                    { jpcre2_compile_opts |= x;  return *this; }
-            Regex&      addPcre2Options(uint32_t x)                     { compile_opts |= x;         return *this; }
+            Regex&      addJpcre2Options(Uint x)                        { jpcre2_compile_opts |= x;  return *this; }
+            Regex&      addPcre2Options(Uint x)                         { compile_opts |= x;         return *this; }
             
-            Regex&      removeJpcre2Options(uint32_t x)                 { jpcre2_compile_opts &= ~x; return *this; }
-            Regex&      removePcre2Options(uint32_t x)                  { compile_opts &= ~x;        return *this; }
+            Regex&      removeJpcre2Options(Uint x)                     { jpcre2_compile_opts &= ~x; return *this; }
+            Regex&      removePcre2Options(Uint x)                      { compile_opts &= ~x;        return *this; }
             
-            void        execute()   {compileRegex();}
-            void        exec()      {execute();     }
+            void        execute()                                       { compileRegex(); }
+            void        exec()                                          { execute();      }
             
             
             ///This is the match() function that will be called by users
-            RegexMatch& match(const String& s, const String& mod)   { rm=RegexMatch(s, mod);rm.re = this;return rm; }
-            RegexMatch& match(const String& s="")                   { rm=RegexMatch(s);rm.re = this;return rm;      }
-            
+            RegexMatch& match(const String& s, const String& mod)       { delete rm;
+                                                                          rm = new RegexMatch(s, mod); 
+                                                                          rm->re = this; 
+                                                                          return *rm; 
+                                                                        }
+            RegexMatch& match(const String& s)                          { return match(s, ""); }
+            RegexMatch& match()                                         { delete rm;
+                                                                          rm = new RegexMatch();
+                                                                          rm->re = this; 
+                                                                          return *rm; 
+                                                                        }
+                
             ///This is the replace function that will be called by users
-            RegexReplace& replace(const String& mains,const String& repl, const String& mod) { rr=RegexReplace(mains,repl, mod);rr.re=this;return rr; }
-            RegexReplace& replace(const String& mains,const String& repl)                    { rr=RegexReplace(mains,repl);rr.re=this;return rr;      }
-            RegexReplace& replace(const String& mains="")                                    { rr=RegexReplace(mains);rr.re=this;return rr;           }
+            RegexReplace& replace(const String& mains, const String& repl, const String& mod) 
+                                                                        { delete rr;
+                                                                          rr = new RegexReplace(mains,repl, mod);
+                                                                          rr->re = this;            
+                                                                          return *rr; 
+                                                                        }
+            RegexReplace& replace(const String& mains,const String& repl)
+                                                                        { return replace(mains, repl, ""); }
+            RegexReplace& replace(const String& mains)                  { return replace(mains, "", "");   }
+            RegexReplace& replace()                                     { delete rr;
+                                                                          rr = new RegexReplace();
+                                                                          rr->re = this;
+                                                                          return *rr; 
+                                                                        }
             
     };
 } ///jpcre2 namespace

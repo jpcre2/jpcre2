@@ -50,7 +50,7 @@ void jpcre2::RegexReplace::parseReplacementOpts(){
     ///in case substitute fails due to insufficient memory. It is required to try again with the correct amount of
     ///memory allocation.
     ///parse options
-    for(int i=0;i<(int)r_modifier.length();i++){
+    for(SIZE_T i=0;i<r_modifier.length();i++){
         switch (r_modifier[i]){
             case 'e': replace_opts  |= PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
             case 'E': replace_opts  |= PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY;break;
@@ -66,7 +66,7 @@ void jpcre2::RegexReplace::parseReplacementOpts(){
 jpcre2::String jpcre2::RegexReplace::replace(){
     
     /// If code is null, there's no need to proceed any further
-    if(re->code == NULL) return r_subject;
+    if(re->code == 0) return r_subject;
     
     ///Parse replace_opts from scratch
     parseReplacementOpts();
