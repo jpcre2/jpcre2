@@ -357,7 +357,7 @@ Option | Details
 ------ | ------
 `jpcre2::NONE` | This is the default option. Equivalent to 0 (zero).
 `jpcre2::VALIDATE_MODIFIER` | If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message with `getErrorMessage(error_code)` member function.
-`jpcre2::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `modifiers()` function.
+`jpcre2::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `setModifiers()` function.
 `jpcre2::ERROR_ALL` | Treat warnings as errors and throw exception.
 `jpcre2::JIT_COMPILE` | This is same as passing the **S** modifier during pattern compilation.
 
