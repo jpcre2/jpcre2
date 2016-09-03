@@ -95,6 +95,14 @@ namespace jpcre2{
             ERROR_ALL                           = 0x0000008u  //treat warnings as error and throw exception
          };
     
+    namespace utils{
+        String toString(int a);
+        String toString(char a);
+        String toString(const char* a);
+        String toString(PCRE2_UCHAR* a);
+        String getPcre2ErrorMessage(int err_num);
+            
+    }
     
     ///declare classes
     class Regex;
@@ -409,16 +417,6 @@ namespace jpcre2{
             RegexReplace& replace(const String& mains="")                                    { rr=RegexReplace(mains);rr.re=this;return rr;           }
             
     };
-    
-    namespace utils{
-        String toString(int a);
-        String toString(char a);
-        String toString(const char* a);
-        String toString(PCRE2_UCHAR* a);
-        String getPcre2ErrorMessage(int err_num);
-            
-    }
-
 } ///jpcre2 namespace
 
 
