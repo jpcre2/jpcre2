@@ -149,7 +149,7 @@ std::cout<<vec_num[0][1]; // group 1 in first match
 std::cout<<vec_num[1][0]; // group 0 in second match
 ```
 
-**To get named substrings and/or name to number mapping,** pass reference to the appropriate vectors with `namedSubstringVector()` and/or `nameToNumberMapVector()`:
+**To get named substrings and/or name to number mapping,** pass pointer to the appropriate vectors with `namedSubstringVector()` and/or `nameToNumberMapVector()`:
 
 ```cpp
 jpcre2::VecNum vec_num;   ///Vector to store numbured substring Map.
