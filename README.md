@@ -326,7 +326,7 @@ String              execute() //executes the replacement operation
 String              exec()    //wrapper of exec()
 
 
-////Namespace utils
+////Namespace jpcre2::utils
 
 String              toString(int a)
 String              toString(char a)
