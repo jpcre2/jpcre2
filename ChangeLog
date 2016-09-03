@@ -1,7 +1,7 @@
 Change Log for JPCRE2
 --------------------
 
-Version 10.22.05 - Fri Sep  2 21:00:46 UTC 2016
+Version 10.22.06 - Fri Sep  2 21:00:46 UTC 2016
 -----------------------------------------------
 
 1. API change: Vectors are to be passed by reference
