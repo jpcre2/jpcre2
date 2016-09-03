@@ -15,7 +15,7 @@ Version 10.24.02 - Fri Sep  2 21:00:46 UTC 2016
 4. >=C++11 is no longer a requirement
 
 
-Version 10.22.03 - Fri Sep  2 14:18:46 UTC 2016
+Version 10.23.01 - Fri Sep  2 14:18:46 UTC 2016
 -----------------------------------------------
 
 1. Change function names: modifiers to setModifiers etc..
