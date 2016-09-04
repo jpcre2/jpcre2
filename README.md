@@ -86,13 +86,12 @@ try{
       .setModifiers("Jin")     //sets the modifier
       .addJpcre2Options(0)     //Adds the jpcre2 option
       .addPcre2Options(0)      //Adds the pcre2 option
-      .execute();              //Finaly execute it.
+      .execute();              //Finally execute it.
     
     //Another way is to use constructor to initialize and compile at the same time:
     jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
     jpcre2::Regex re3("pattern3", PCRE2_ANCHORED);
     jpcre2::Regex re4("pattern4", PCRE2_ANCHORED, jpcre2::JIT_COMPILE);
-    // Using constructor to compile the regex is faster than invoking compile() and execute() explicitly
 }
 catch(int e){
     /*Handle error*/
