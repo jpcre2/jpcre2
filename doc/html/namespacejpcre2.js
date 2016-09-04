@@ -1,6 +1,6 @@
 var namespacejpcre2 =
 [
-    [ "Regex", "classjpcre2_1_1_regex.html", "classjpcre2_1_1_regex" ],
-    [ "RegexMatch", "classjpcre2_1_1_regex_match.html", "classjpcre2_1_1_regex_match" ],
-    [ "RegexReplace", "classjpcre2_1_1_regex_replace.html", "classjpcre2_1_1_regex_replace" ]
+    [ "Regex", "classjpcre2_1_1Regex.html", "classjpcre2_1_1Regex" ],
+    [ "RegexMatch", "classjpcre2_1_1RegexMatch.html", "classjpcre2_1_1RegexMatch" ],
+    [ "RegexReplace", "classjpcre2_1_1RegexReplace.html", "classjpcre2_1_1RegexReplace" ]
 ];

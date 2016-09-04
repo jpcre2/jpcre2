@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="test__shorts_8cpp">
+    <title>test_shorts.cpp File Reference</title>
+    <programlisting>#include &lt;iostream&gt;</programlisting>
+    <programlisting>#include &quot;jpcre2.hpp&quot;</programlisting>
+<para>Include dependency diagram for test_shorts.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="test__shorts_8cpp__incl.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Included by dependency diagram for test_shorts.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="test__shorts_8cpp__dep__incl.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="test__shorts_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4">main</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+    <para>Definition in file test_shorts.cpp</para>
+    </simplesect>
+    <literallayout><computeroutput>
+1 <emphasis class="preprocessor">#include&#32;&lt;iostream&gt;</emphasis>
+2 <emphasis class="preprocessor">#include&#32;&quot;<link linkend="jpcre2_8hpp">jpcre2.hpp</link>&quot;</emphasis>
+3 
+4 
+5 <emphasis class="keywordtype">int</emphasis>&#32;main(){
+6 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">size_t</emphasis>&#32;count;
+8 
+11 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(jpcre2::Regex(<emphasis class="stringliteral">&quot;(\\d)|(\\w)&quot;</emphasis>).match(<emphasis class="stringliteral">&quot;I&#32;am&#32;the&#32;subject&quot;</emphasis>))&#32;
+12 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nmatched&quot;</emphasis>;
+13 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">else</emphasis>
+14 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nno&#32;match&quot;</emphasis>;
+23 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\n&quot;</emphasis>&lt;&lt;
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2::Regex(<emphasis class="stringliteral">&quot;(\\d)|(\\w)&quot;</emphasis>,<emphasis class="stringliteral">&quot;m&quot;</emphasis>).match(<emphasis class="stringliteral">&quot;I&#32;am&#32;the&#32;subject&quot;</emphasis>,<emphasis class="stringliteral">&quot;g&quot;</emphasis>);
+26 &#32;&#32;&#32;&#32;
+32 &#32;&#32;&#32;&#32;
+54 &#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1ac1cf752c8fbb0be78020be3b80e77ce3">jpcre2::VecNum</link>&#32;vec_num;
+56 &#32;&#32;&#32;&#32;count&#32;=&#32;
+57 &#32;&#32;&#32;&#32;jpcre2::Regex(<emphasis class="stringliteral">&quot;(\\w+)\\s*(\\d+)&quot;</emphasis>,<emphasis class="stringliteral">&quot;m&quot;</emphasis>)
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.initMatch()
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setSubject(<emphasis class="stringliteral">&quot;I&#32;am&#32;23,&#32;I&#32;am&#32;digits&#32;10&quot;</emphasis>)
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setModifier(<emphasis class="stringliteral">&quot;g&quot;</emphasis>)
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setNumberedSubstringVector(&amp;vec_num)
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.match();
+69 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nNumber&#32;of&#32;matches:&#32;&quot;</emphasis>&lt;&lt;count<emphasis class="comment">/*&#32;or&#32;vec_num.size()*/</emphasis>;
+70 
+75 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nTotal&#32;match&#32;of&#32;first&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_num[0][0];&#32;&#32;&#32;&#32;&#32;&#32;
+76 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nCaptrued&#32;group&#32;1&#32;of&#32;frist&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_num[0][1];&#32;
+77 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nCaptrued&#32;group&#32;2&#32;of&#32;frist&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_num[0][2];&#32;
+78 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nCaptrued&#32;group&#32;3&#32;of&#32;frist&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_num[0][3];&#32;
+79 
+84 &#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;//&gt;=C++11</emphasis>
+85 <emphasis class="comment">&#32;&#32;&#32;&#32;try{</emphasis>
+87 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nCaptrued&#32;group&#32;4&#32;of&#32;frist&#32;match:&#32;&quot;&lt;&lt;vec_num[0].at(4);</emphasis>
+88 <emphasis class="comment">&#32;&#32;&#32;&#32;}&#32;catch&#32;(std::logic_error&#32;e){</emphasis>
+89 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nCaptrued&#32;group&#32;4&#32;doesn&apos;t&#32;exist&quot;;</emphasis>
+90 <emphasis class="comment">&#32;&#32;&#32;&#32;}*/</emphasis>
+91 &#32;&#32;&#32;&#32;
+93 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nTotal&#32;match&#32;of&#32;second&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_num[1][0];&#32;&#32;&#32;&#32;&#32;&#32;
+94 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nCaptrued&#32;group&#32;1&#32;of&#32;second&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_num[1][1];&#32;
+95 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nCaptrued&#32;group&#32;2&#32;of&#32;second&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_num[1][2];&#32;
+96 &#32;&#32;&#32;&#32;
+97 &#32;&#32;&#32;&#32;
+99 &#32;&#32;&#32;&#32;
+100 &#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1a2b121ae776ea5b2913839f418a7d856b">jpcre2::VecNas</link>&#32;vec_nas;
+101 &#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1a88a7aaf84cad627d34c8152e726168eb">jpcre2::VecNtN</link>&#32;vec_ntn;&#32;
+102 &#32;&#32;&#32;&#32;count&#32;=&#32;
+103 &#32;&#32;&#32;&#32;jpcre2::Regex(<emphasis class="stringliteral">&quot;(?&lt;word&gt;\\w+)\\s*(?&lt;digit&gt;\\d+)&quot;</emphasis>,<emphasis class="stringliteral">&quot;m&quot;</emphasis>)
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.initMatch()
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setSubject(<emphasis class="stringliteral">&quot;I&#32;am&#32;23,&#32;I&#32;am&#32;digits&#32;10&quot;</emphasis>)
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setModifier(<emphasis class="stringliteral">&quot;g&quot;</emphasis>)
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setNamedSubstringVector(&amp;vec_nas)
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setNameToNumberMapVector(&amp;vec_ntn)&#32;
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.match();
+111 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nNumber&#32;of&#32;matches:&#32;&quot;</emphasis>&lt;&lt;vec_nas.size()<emphasis class="comment">/*&#32;or&#32;count&#32;*/</emphasis>;
+116 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nCaptured&#32;group&#32;(word)&#32;of&#32;first&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_nas[0][<emphasis class="stringliteral">&quot;word&quot;</emphasis>];
+117 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nCaptured&#32;group&#32;(digit)&#32;of&#32;first&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_nas[0][<emphasis class="stringliteral">&quot;digit&quot;</emphasis>];
+118 &#32;&#32;&#32;&#32;
+120 &#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;//&gt;=C++11</emphasis>
+121 <emphasis class="comment">&#32;&#32;&#32;&#32;try{</emphasis>
+123 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nCaptured&#32;group&#32;(name)&#32;of&#32;first&#32;match:&#32;&quot;&lt;&lt;vec_nas[0].at(&quot;name&quot;);</emphasis>
+124 <emphasis class="comment">&#32;&#32;&#32;&#32;}&#32;catch(std::logic_error&#32;e){</emphasis>
+125 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nCaptured&#32;group&#32;(name)&#32;doesn&apos;t&#32;exist&quot;;</emphasis>
+126 <emphasis class="comment">&#32;&#32;&#32;&#32;}*/</emphasis>
+127 &#32;&#32;&#32;&#32;
+129 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nCaptured&#32;group&#32;(word)&#32;of&#32;second&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_nas[1][<emphasis class="stringliteral">&quot;word&quot;</emphasis>];
+130 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nCaptured&#32;group&#32;(digit)&#32;of&#32;second&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_nas[1][<emphasis class="stringliteral">&quot;digit&quot;</emphasis>];
+131 
+133 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nPosition&#32;of&#32;captured&#32;group&#32;(word)&#32;in&#32;first&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_ntn[0][<emphasis class="stringliteral">&quot;word&quot;</emphasis>];
+134 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\nPosition&#32;of&#32;captured&#32;group&#32;(digit)&#32;in&#32;first&#32;match:&#32;&quot;</emphasis>&lt;&lt;vec_ntn[0][<emphasis class="stringliteral">&quot;digit&quot;</emphasis>];
+135 &#32;&#32;&#32;&#32;
+147 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\n&quot;</emphasis>&lt;&lt;
+149 &#32;&#32;&#32;&#32;jpcre2::Regex(<emphasis class="stringliteral">&quot;\\d&quot;</emphasis>).replace(<emphasis class="stringliteral">&quot;I&#32;am&#32;the&#32;subject&#32;string&#32;44&quot;</emphasis>,&#32;<emphasis class="stringliteral">&quot;@&quot;</emphasis>);
+150 &#32;&#32;&#32;&#32;
+151 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\n&quot;</emphasis>&lt;&lt;
+153 &#32;&#32;&#32;&#32;jpcre2::Regex(<emphasis class="stringliteral">&quot;\\d&quot;</emphasis>).replace(<emphasis class="stringliteral">&quot;I&#32;am&#32;the&#32;subject&#32;string&#32;44&quot;</emphasis>,&#32;<emphasis class="stringliteral">&quot;@&quot;</emphasis>,&#32;<emphasis class="stringliteral">&quot;g&quot;</emphasis>);
+154 &#32;&#32;&#32;&#32;
+156 &#32;&#32;&#32;&#32;std::cout&lt;&lt;<emphasis class="stringliteral">&quot;\n&quot;</emphasis>&lt;&lt;
+157 &#32;&#32;&#32;&#32;jpcre2::Regex(<emphasis class="stringliteral">&quot;^([^\t]+)\t([^\t]+)$&quot;</emphasis>)
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.replace(<emphasis class="stringliteral">&quot;I&#32;am&#32;the&#32;subject\tTo&#32;be&#32;swapped&#32;according&#32;to&#32;tab&quot;</emphasis>,&#32;<emphasis class="stringliteral">&quot;$2&#32;$1&quot;</emphasis>);
+159 
+160 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;0;
+161 }
+    </computeroutput></literallayout>
+</section>

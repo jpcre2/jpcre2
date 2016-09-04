@@ -1,0 +1,477 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="pcre2__match_8cpp">
+    <title>pcre2_match.cpp File Reference</title>
+    <programlisting>#include &lt;stdio.h&gt;</programlisting>
+    <programlisting>#include &lt;string.h&gt;</programlisting>
+    <programlisting>#include &lt;pcre2.h&gt;</programlisting>
+<para>Include dependency diagram for pcre2_match.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="pcre2__match_8cpp__incl.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Included by dependency diagram for pcre2_match.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="pcre2__match_8cpp__dep__incl.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Macros</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="pcre2__match_8cpp_1acff91275abcc225454675d6dfc39a58d">PCRE2_CODE_UNIT_WIDTH</link> 8</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="pcre2__match_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627">main</link> (
+int argc, char ** argv)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+    <para>Definition in file pcre2_match.cpp</para>
+    </simplesect>
+    <literallayout><computeroutput>
+1 <emphasis class="comment">/*************************************************</emphasis>
+2 <emphasis class="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PCRE2&#32;DEMONSTRATION&#32;PROGRAM&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+3 <emphasis class="comment">*************************************************/</emphasis>
+4 
+5 <emphasis class="comment">/*&#32;This&#32;is&#32;a&#32;demonstration&#32;program&#32;to&#32;illustrate&#32;a&#32;straightforward&#32;way&#32;of</emphasis>
+6 <emphasis class="comment">calling&#32;the&#32;PCRE2&#32;regular&#32;expression&#32;library&#32;from&#32;a&#32;C&#32;program.&#32;See&#32;the</emphasis>
+7 <emphasis class="comment">pcre2sample&#32;documentation&#32;for&#32;a&#32;short&#32;discussion&#32;(&quot;man&#32;pcre2sample&quot;&#32;if&#32;you&#32;have</emphasis>
+8 <emphasis class="comment">the&#32;PCRE2&#32;man&#32;pages&#32;installed).&#32;PCRE2&#32;is&#32;a&#32;revised&#32;API&#32;for&#32;the&#32;library,&#32;and&#32;is</emphasis>
+9 <emphasis class="comment">incompatible&#32;with&#32;the&#32;original&#32;PCRE&#32;API.</emphasis>
+10 <emphasis class="comment"></emphasis>
+11 <emphasis class="comment">There&#32;are&#32;actually&#32;three&#32;libraries,&#32;each&#32;supporting&#32;a&#32;different&#32;code&#32;unit</emphasis>
+12 <emphasis class="comment">width.&#32;This&#32;demonstration&#32;program&#32;uses&#32;the&#32;8-bit&#32;library.</emphasis>
+13 <emphasis class="comment"></emphasis>
+14 <emphasis class="comment">In&#32;Unix-like&#32;environments,&#32;if&#32;PCRE2&#32;is&#32;installed&#32;in&#32;your&#32;standard&#32;system</emphasis>
+15 <emphasis class="comment">libraries,&#32;you&#32;should&#32;be&#32;able&#32;to&#32;compile&#32;this&#32;program&#32;using&#32;this&#32;command:</emphasis>
+16 <emphasis class="comment"></emphasis>
+17 <emphasis class="comment">gcc&#32;-Wall&#32;pcre2demo.c&#32;-lpcre2-8&#32;-o&#32;pcre2demo</emphasis>
+18 <emphasis class="comment"></emphasis>
+19 <emphasis class="comment">If&#32;PCRE2&#32;is&#32;not&#32;installed&#32;in&#32;a&#32;standard&#32;place,&#32;it&#32;is&#32;likely&#32;to&#32;be&#32;installed</emphasis>
+20 <emphasis class="comment">with&#32;support&#32;for&#32;the&#32;pkg-config&#32;mechanism.&#32;If&#32;you&#32;have&#32;pkg-config,&#32;you&#32;can</emphasis>
+21 <emphasis class="comment">compile&#32;this&#32;program&#32;using&#32;this&#32;command:</emphasis>
+22 <emphasis class="comment"></emphasis>
+23 <emphasis class="comment">gcc&#32;-Wall&#32;pcre2demo.c&#32;`pkg-config&#32;--cflags&#32;--libs&#32;libpcre2-8`&#32;-o&#32;pcre2demo</emphasis>
+24 <emphasis class="comment"></emphasis>
+25 <emphasis class="comment">If&#32;you&#32;do&#32;not&#32;have&#32;pkg-config,&#32;you&#32;may&#32;have&#32;to&#32;use&#32;this:</emphasis>
+26 <emphasis class="comment"></emphasis>
+27 <emphasis class="comment">gcc&#32;-Wall&#32;pcre2demo.c&#32;-I/usr/local/include&#32;-L/usr/local/lib&#32;\</emphasis>
+28 <emphasis class="comment">&#32;&#32;-R/usr/local/lib&#32;-lpcre2-8&#32;-o&#32;pcre2demo</emphasis>
+29 <emphasis class="comment"></emphasis>
+30 <emphasis class="comment">Replace&#32;&quot;/usr/local/include&quot;&#32;and&#32;&quot;/usr/local/lib&quot;&#32;with&#32;wherever&#32;the&#32;include&#32;and</emphasis>
+31 <emphasis class="comment">library&#32;files&#32;for&#32;PCRE2&#32;are&#32;installed&#32;on&#32;your&#32;system.&#32;Only&#32;some&#32;operating</emphasis>
+32 <emphasis class="comment">systems&#32;(Solaris&#32;is&#32;one)&#32;use&#32;the&#32;-R&#32;option.</emphasis>
+33 <emphasis class="comment"></emphasis>
+34 <emphasis class="comment">Building&#32;under&#32;Windows:</emphasis>
+35 <emphasis class="comment"></emphasis>
+36 <emphasis class="comment">If&#32;you&#32;want&#32;to&#32;statically&#32;link&#32;this&#32;program&#32;against&#32;a&#32;non-dll&#32;.a&#32;file,&#32;you&#32;must</emphasis>
+37 <emphasis class="comment">define&#32;PCRE2_STATIC&#32;before&#32;including&#32;pcre2.h,&#32;so&#32;in&#32;this&#32;environment,&#32;uncomment</emphasis>
+38 <emphasis class="comment">the&#32;following&#32;line.&#32;*/</emphasis>
+39 
+40 <emphasis class="comment">/*&#32;#define&#32;PCRE2_STATIC&#32;*/</emphasis>
+41 
+42 <emphasis class="comment">/*&#32;This&#32;macro&#32;must&#32;be&#32;defined&#32;before&#32;including&#32;pcre2.h.&#32;For&#32;a&#32;program&#32;that&#32;uses</emphasis>
+43 <emphasis class="comment">only&#32;one&#32;code&#32;unit&#32;width,&#32;it&#32;makes&#32;it&#32;possible&#32;to&#32;use&#32;generic&#32;function&#32;names</emphasis>
+44 <emphasis class="comment">such&#32;as&#32;pcre2_compile().&#32;*/</emphasis>
+45 
+46 <emphasis class="preprocessor">#define&#32;PCRE2_CODE_UNIT_WIDTH&#32;8</emphasis>
+47 
+48 <emphasis class="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+49 <emphasis class="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+50 <emphasis class="preprocessor">#include&#32;&lt;pcre2.h&gt;</emphasis>
+51 
+52 
+53 <emphasis class="comment">/**************************************************************************</emphasis>
+54 <emphasis class="comment">*&#32;Here&#32;is&#32;the&#32;program.&#32;The&#32;API&#32;includes&#32;the&#32;concept&#32;of&#32;&quot;contexts&quot;&#32;for&#32;&#32;&#32;&#32;&#32;*</emphasis>
+55 <emphasis class="comment">*&#32;setting&#32;up&#32;unusual&#32;interface&#32;requirements&#32;for&#32;compiling&#32;and&#32;matching,&#32;&#32;&#32;*</emphasis>
+56 <emphasis class="comment">*&#32;such&#32;as&#32;custom&#32;memory&#32;managers&#32;and&#32;non-standard&#32;newline&#32;definitions.&#32;&#32;&#32;&#32;*</emphasis>
+57 <emphasis class="comment">*&#32;This&#32;program&#32;does&#32;not&#32;do&#32;any&#32;of&#32;this,&#32;so&#32;it&#32;makes&#32;no&#32;use&#32;of&#32;contexts,&#32;&#32;&#32;*</emphasis>
+58 <emphasis class="comment">*&#32;always&#32;passing&#32;NULL&#32;where&#32;a&#32;context&#32;could&#32;be&#32;given.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+59 <emphasis class="comment">**************************************************************************/</emphasis>
+60 
+61 <emphasis class="keywordtype">int</emphasis>&#32;main(<emphasis class="keywordtype">int</emphasis>&#32;argc,&#32;<emphasis class="keywordtype">char</emphasis>&#32;**argv)
+62 {
+63 pcre2_code&#32;*re;
+64 PCRE2_SPTR&#32;pattern;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;PCRE2_SPTR&#32;is&#32;a&#32;pointer&#32;to&#32;unsigned&#32;code&#32;units&#32;of&#32;*/</emphasis>
+65 PCRE2_SPTR&#32;subject;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;appropriate&#32;width&#32;(8,&#32;16,&#32;or&#32;32&#32;bits).&#32;*/</emphasis>
+66 PCRE2_SPTR&#32;name_table;
+67 
+68 <emphasis class="keywordtype">int</emphasis>&#32;crlf_is_newline;
+69 <emphasis class="keywordtype">int</emphasis>&#32;errornumber;
+70 <emphasis class="keywordtype">int</emphasis>&#32;find_all;
+71 <emphasis class="keywordtype">int</emphasis>&#32;i;
+72 <emphasis class="keywordtype">int</emphasis>&#32;namecount;
+73 <emphasis class="keywordtype">int</emphasis>&#32;name_entry_size;
+74 <emphasis class="keywordtype">int</emphasis>&#32;rc;
+75 <emphasis class="keywordtype">int</emphasis>&#32;utf8;
+76 
+77 uint32_t&#32;option_bits;
+78 uint32_t&#32;newline;
+79 
+80 PCRE2_SIZE&#32;erroroffset;
+81 PCRE2_SIZE&#32;*ovector;
+82 
+83 <emphasis class="keywordtype">size_t</emphasis>&#32;subject_length;
+84 pcre2_match_data&#32;*match_data;
+85 
+86 
+87 
+88 <emphasis class="comment">/**************************************************************************</emphasis>
+89 <emphasis class="comment">*&#32;First,&#32;sort&#32;out&#32;the&#32;command&#32;line.&#32;There&#32;is&#32;only&#32;one&#32;possible&#32;option&#32;at&#32;&#32;*</emphasis>
+90 <emphasis class="comment">*&#32;the&#32;moment,&#32;&quot;-g&quot;&#32;to&#32;request&#32;repeated&#32;matching&#32;to&#32;find&#32;all&#32;occurrences,&#32;&#32;*</emphasis>
+91 <emphasis class="comment">*&#32;like&#32;Perl&apos;s&#32;/g&#32;option.&#32;We&#32;set&#32;the&#32;variable&#32;find_all&#32;to&#32;a&#32;non-zero&#32;value&#32;*</emphasis>
+92 <emphasis class="comment">*&#32;if&#32;the&#32;-g&#32;option&#32;is&#32;present.&#32;Apart&#32;from&#32;that,&#32;there&#32;must&#32;be&#32;exactly&#32;two&#32;*</emphasis>
+93 <emphasis class="comment">*&#32;arguments.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+94 <emphasis class="comment">**************************************************************************/</emphasis>
+95 
+96 find_all&#32;=&#32;0;
+97 <emphasis class="keywordflow">for</emphasis>&#32;(i&#32;=&#32;1;&#32;i&#32;&lt;&#32;argc;&#32;i++)
+98 &#32;&#32;{
+99 &#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(strcmp(argv[i],&#32;<emphasis class="stringliteral">&quot;-g&quot;</emphasis>)&#32;==&#32;0)&#32;find_all&#32;=&#32;1;
+100 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">else</emphasis>&#32;<emphasis class="keywordflow">break</emphasis>;
+101 &#32;&#32;}
+102 
+103 <emphasis class="comment">/*&#32;After&#32;the&#32;options,&#32;we&#32;require&#32;exactly&#32;two&#32;arguments,&#32;which&#32;are&#32;the&#32;pattern,</emphasis>
+104 <emphasis class="comment">and&#32;the&#32;subject&#32;string.&#32;*/</emphasis>
+105 
+106 <emphasis class="keywordflow">if</emphasis>&#32;(argc&#32;-&#32;i&#32;!=&#32;2)
+107 &#32;&#32;{
+108 &#32;&#32;printf(<emphasis class="stringliteral">&quot;Two&#32;arguments&#32;required:&#32;a&#32;regex&#32;and&#32;a&#32;subject&#32;string\n&quot;</emphasis>);
+109 &#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;1;
+110 &#32;&#32;}
+111 
+112 <emphasis class="comment">/*&#32;As&#32;pattern&#32;and&#32;subject&#32;are&#32;char&#32;arguments,&#32;they&#32;can&#32;be&#32;straightforwardly</emphasis>
+113 <emphasis class="comment">cast&#32;to&#32;PCRE2_SPTR&#32;as&#32;we&#32;are&#32;working&#32;in&#32;8-bit&#32;code&#32;units.&#32;*/</emphasis>
+114 
+115 pattern&#32;=&#32;(PCRE2_SPTR)argv[i];
+116 subject&#32;=&#32;(PCRE2_SPTR)argv[i+1];
+117 subject_length&#32;=&#32;strlen((<emphasis class="keywordtype">char</emphasis>&#32;*)subject);
+118 
+119 
+120 <emphasis class="comment">/*************************************************************************</emphasis>
+121 <emphasis class="comment">*&#32;Now&#32;we&#32;are&#32;going&#32;to&#32;compile&#32;the&#32;regular&#32;expression&#32;pattern,&#32;and&#32;handle&#32;*</emphasis>
+122 <emphasis class="comment">*&#32;any&#32;errors&#32;that&#32;are&#32;detected.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+123 <emphasis class="comment">*************************************************************************/</emphasis>
+124 
+125 re&#32;=&#32;pcre2_compile(
+126 &#32;&#32;pattern,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;pattern&#32;*/</emphasis>
+127 &#32;&#32;PCRE2_ZERO_TERMINATED,&#32;<emphasis class="comment">/*&#32;indicates&#32;pattern&#32;is&#32;zero-terminated&#32;*/</emphasis>
+128 &#32;&#32;0,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;default&#32;options&#32;*/</emphasis>
+129 &#32;&#32;&amp;errornumber,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;for&#32;error&#32;number&#32;*/</emphasis>
+130 &#32;&#32;&amp;erroroffset,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;for&#32;error&#32;offset&#32;*/</emphasis>
+131 &#32;&#32;NULL);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;use&#32;default&#32;compile&#32;context&#32;*/</emphasis>
+132 
+133 <emphasis class="comment">/*&#32;Compilation&#32;failed:&#32;print&#32;the&#32;error&#32;message&#32;and&#32;exit.&#32;*/</emphasis>
+134 
+135 <emphasis class="keywordflow">if</emphasis>&#32;(re&#32;==&#32;NULL)
+136 &#32;&#32;{
+137 &#32;&#32;PCRE2_UCHAR&#32;buffer[256];
+138 &#32;&#32;pcre2_get_error_message(errornumber,&#32;buffer,&#32;<emphasis class="keyword">sizeof</emphasis>(buffer));
+139 &#32;&#32;printf(<emphasis class="stringliteral">&quot;PCRE2&#32;compilation&#32;failed&#32;at&#32;offset&#32;%d:&#32;%s\n&quot;</emphasis>,&#32;(<emphasis class="keywordtype">int</emphasis>)erroroffset,
+140 &#32;&#32;&#32;&#32;buffer);
+141 &#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;1;
+142 &#32;&#32;}
+143 
+144 
+145 <emphasis class="comment">/*************************************************************************</emphasis>
+146 <emphasis class="comment">*&#32;If&#32;the&#32;compilation&#32;succeeded,&#32;we&#32;call&#32;PCRE&#32;again,&#32;in&#32;order&#32;to&#32;do&#32;a&#32;&#32;&#32;&#32;&#32;*</emphasis>
+147 <emphasis class="comment">*&#32;pattern&#32;match&#32;against&#32;the&#32;subject&#32;string.&#32;This&#32;does&#32;just&#32;ONE&#32;match.&#32;If&#32;*</emphasis>
+148 <emphasis class="comment">*&#32;further&#32;matching&#32;is&#32;needed,&#32;it&#32;will&#32;be&#32;done&#32;below.&#32;Before&#32;running&#32;the&#32;&#32;*</emphasis>
+149 <emphasis class="comment">*&#32;match&#32;we&#32;must&#32;set&#32;up&#32;a&#32;match_data&#32;block&#32;for&#32;holding&#32;the&#32;result.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+150 <emphasis class="comment">*************************************************************************/</emphasis>
+151 
+152 <emphasis class="comment">/*&#32;Using&#32;this&#32;function&#32;ensures&#32;that&#32;the&#32;block&#32;is&#32;exactly&#32;the&#32;right&#32;size&#32;for</emphasis>
+153 <emphasis class="comment">the&#32;number&#32;of&#32;capturing&#32;parentheses&#32;in&#32;the&#32;pattern.&#32;*/</emphasis>
+154 
+155 match_data&#32;=&#32;pcre2_match_data_create_from_pattern(re,&#32;NULL);
+156 
+157 rc&#32;=&#32;pcre2_match(
+158 &#32;&#32;re,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;compiled&#32;pattern&#32;*/</emphasis>
+159 &#32;&#32;subject,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;subject&#32;string&#32;*/</emphasis>
+160 &#32;&#32;subject_length,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;length&#32;of&#32;the&#32;subject&#32;*/</emphasis>
+161 &#32;&#32;0,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;start&#32;at&#32;offset&#32;0&#32;in&#32;the&#32;subject&#32;*/</emphasis>
+162 &#32;&#32;0,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;default&#32;options&#32;*/</emphasis>
+163 &#32;&#32;match_data,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;block&#32;for&#32;storing&#32;the&#32;result&#32;*/</emphasis>
+164 &#32;&#32;NULL);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;use&#32;default&#32;match&#32;context&#32;*/</emphasis>
+165 
+166 <emphasis class="comment">/*&#32;Matching&#32;failed:&#32;handle&#32;error&#32;cases&#32;*/</emphasis>
+167 
+168 <emphasis class="keywordflow">if</emphasis>&#32;(rc&#32;&lt;&#32;0)
+169 &#32;&#32;{
+170 &#32;&#32;<emphasis class="keywordflow">switch</emphasis>(rc)
+171 &#32;&#32;&#32;&#32;{
+172 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">case</emphasis>&#32;PCRE2_ERROR_NOMATCH:&#32;printf(<emphasis class="stringliteral">&quot;No&#32;match\n&quot;</emphasis>);&#32;<emphasis class="keywordflow">break</emphasis>;
+173 &#32;&#32;&#32;&#32;<emphasis class="comment">/*</emphasis>
+174 <emphasis class="comment">&#32;&#32;&#32;&#32;Handle&#32;other&#32;special&#32;cases&#32;if&#32;you&#32;like</emphasis>
+175 <emphasis class="comment">&#32;&#32;&#32;&#32;*/</emphasis>
+176 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">default</emphasis>:&#32;printf(<emphasis class="stringliteral">&quot;Matching&#32;error&#32;%d\n&quot;</emphasis>,&#32;rc);&#32;<emphasis class="keywordflow">break</emphasis>;
+177 &#32;&#32;&#32;&#32;}
+178 &#32;&#32;pcre2_match_data_free(match_data);&#32;&#32;&#32;<emphasis class="comment">/*&#32;Release&#32;memory&#32;used&#32;for&#32;the&#32;match&#32;*/</emphasis>
+179 &#32;&#32;pcre2_code_free(re);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;data&#32;and&#32;the&#32;compiled&#32;pattern.&#32;*/</emphasis>
+180 &#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;1;
+181 &#32;&#32;}
+182 
+183 <emphasis class="comment">/*&#32;Match&#32;succeded.&#32;Get&#32;a&#32;pointer&#32;to&#32;the&#32;output&#32;vector,&#32;where&#32;string&#32;offsets&#32;are</emphasis>
+184 <emphasis class="comment">stored.&#32;*/</emphasis>
+185 
+186 ovector&#32;=&#32;pcre2_get_ovector_pointer(match_data);
+187 printf(<emphasis class="stringliteral">&quot;\nMatch&#32;succeeded&#32;at&#32;offset&#32;%d\n&quot;</emphasis>,&#32;(<emphasis class="keywordtype">int</emphasis>)ovector[0]);
+188 
+189 
+190 <emphasis class="comment">/*************************************************************************</emphasis>
+191 <emphasis class="comment">*&#32;We&#32;have&#32;found&#32;the&#32;first&#32;match&#32;within&#32;the&#32;subject&#32;string.&#32;If&#32;the&#32;output&#32;*</emphasis>
+192 <emphasis class="comment">*&#32;vector&#32;wasn&apos;t&#32;big&#32;enough,&#32;say&#32;so.&#32;Then&#32;output&#32;any&#32;substrings&#32;that&#32;were&#32;*</emphasis>
+193 <emphasis class="comment">*&#32;captured.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+194 <emphasis class="comment">*************************************************************************/</emphasis>
+195 
+196 <emphasis class="comment">/*&#32;The&#32;output&#32;vector&#32;wasn&apos;t&#32;big&#32;enough.&#32;This&#32;should&#32;not&#32;happen,&#32;because&#32;we&#32;used</emphasis>
+197 <emphasis class="comment">pcre2_match_data_create_from_pattern()&#32;above.&#32;*/</emphasis>
+198 
+199 <emphasis class="keywordflow">if</emphasis>&#32;(rc&#32;==&#32;0)
+200 &#32;&#32;printf(<emphasis class="stringliteral">&quot;ovector&#32;was&#32;not&#32;big&#32;enough&#32;for&#32;all&#32;the&#32;captured&#32;substrings\n&quot;</emphasis>);
+201 
+202 <emphasis class="comment">/*&#32;Show&#32;substrings&#32;stored&#32;in&#32;the&#32;output&#32;vector&#32;by&#32;number.&#32;Obviously,&#32;in&#32;a&#32;real</emphasis>
+203 <emphasis class="comment">application&#32;you&#32;might&#32;want&#32;to&#32;do&#32;things&#32;other&#32;than&#32;print&#32;them.&#32;*/</emphasis>
+204 
+205 <emphasis class="keywordflow">for</emphasis>&#32;(i&#32;=&#32;0;&#32;i&#32;&lt;&#32;rc;&#32;i++)
+206 &#32;&#32;{
+207 &#32;&#32;PCRE2_SPTR&#32;substring_start&#32;=&#32;subject&#32;+&#32;ovector[2*i];
+208 &#32;&#32;<emphasis class="keywordtype">size_t</emphasis>&#32;substring_length&#32;=&#32;ovector[2*i+1]&#32;-&#32;ovector[2*i];
+209 &#32;&#32;printf(<emphasis class="stringliteral">&quot;%2d:&#32;%.*s\n&quot;</emphasis>,&#32;i,&#32;(<emphasis class="keywordtype">int</emphasis>)substring_length,&#32;(<emphasis class="keywordtype">char</emphasis>&#32;*)substring_start);
+210 &#32;&#32;}
+211 
+212 
+213 <emphasis class="comment">/**************************************************************************</emphasis>
+214 <emphasis class="comment">*&#32;That&#32;concludes&#32;the&#32;basic&#32;part&#32;of&#32;this&#32;demonstration&#32;program.&#32;We&#32;have&#32;&#32;&#32;&#32;*</emphasis>
+215 <emphasis class="comment">*&#32;compiled&#32;a&#32;pattern,&#32;and&#32;performed&#32;a&#32;single&#32;match.&#32;The&#32;code&#32;that&#32;follows&#32;*</emphasis>
+216 <emphasis class="comment">*&#32;shows&#32;first&#32;how&#32;to&#32;access&#32;named&#32;substrings,&#32;and&#32;then&#32;how&#32;to&#32;code&#32;for&#32;&#32;&#32;&#32;*</emphasis>
+217 <emphasis class="comment">*&#32;repeated&#32;matches&#32;on&#32;the&#32;same&#32;subject.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+218 <emphasis class="comment">**************************************************************************/</emphasis>
+219 
+220 <emphasis class="comment">/*&#32;See&#32;if&#32;there&#32;are&#32;any&#32;named&#32;substrings,&#32;and&#32;if&#32;so,&#32;show&#32;them&#32;by&#32;name.&#32;First</emphasis>
+221 <emphasis class="comment">we&#32;have&#32;to&#32;extract&#32;the&#32;count&#32;of&#32;named&#32;parentheses&#32;from&#32;the&#32;pattern.&#32;*/</emphasis>
+222 
+223 (void)pcre2_pattern_info(
+224 &#32;&#32;re,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;compiled&#32;pattern&#32;*/</emphasis>
+225 &#32;&#32;PCRE2_INFO_NAMECOUNT,&#32;<emphasis class="comment">/*&#32;get&#32;the&#32;number&#32;of&#32;named&#32;substrings&#32;*/</emphasis>
+226 &#32;&#32;&amp;namecount);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;where&#32;to&#32;put&#32;the&#32;answer&#32;*/</emphasis>
+227 
+228 <emphasis class="keywordflow">if</emphasis>&#32;(namecount&#32;&lt;=&#32;0)&#32;printf(<emphasis class="stringliteral">&quot;No&#32;named&#32;substrings\n&quot;</emphasis>);&#32;<emphasis class="keywordflow">else</emphasis>
+229 &#32;&#32;{
+230 &#32;&#32;PCRE2_SPTR&#32;tabptr;
+231 &#32;&#32;printf(<emphasis class="stringliteral">&quot;Named&#32;substrings\n&quot;</emphasis>);
+232 
+233 &#32;&#32;<emphasis class="comment">/*&#32;Before&#32;we&#32;can&#32;access&#32;the&#32;substrings,&#32;we&#32;must&#32;extract&#32;the&#32;table&#32;for</emphasis>
+234 <emphasis class="comment">&#32;&#32;translating&#32;names&#32;to&#32;numbers,&#32;and&#32;the&#32;size&#32;of&#32;each&#32;entry&#32;in&#32;the&#32;table.&#32;*/</emphasis>
+235 
+236 &#32;&#32;(void)pcre2_pattern_info(
+237 &#32;&#32;&#32;&#32;re,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;compiled&#32;pattern&#32;*/</emphasis>
+238 &#32;&#32;&#32;&#32;PCRE2_INFO_NAMETABLE,&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;address&#32;of&#32;the&#32;table&#32;*/</emphasis>
+239 &#32;&#32;&#32;&#32;&amp;name_table);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;where&#32;to&#32;put&#32;the&#32;answer&#32;*/</emphasis>
+240 
+241 &#32;&#32;(void)pcre2_pattern_info(
+242 &#32;&#32;&#32;&#32;re,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;compiled&#32;pattern&#32;*/</emphasis>
+243 &#32;&#32;&#32;&#32;PCRE2_INFO_NAMEENTRYSIZE,&#32;<emphasis class="comment">/*&#32;size&#32;of&#32;each&#32;entry&#32;in&#32;the&#32;table&#32;*/</emphasis>
+244 &#32;&#32;&#32;&#32;&amp;name_entry_size);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;where&#32;to&#32;put&#32;the&#32;answer&#32;*/</emphasis>
+245 
+246 &#32;&#32;<emphasis class="comment">/*&#32;Now&#32;we&#32;can&#32;scan&#32;the&#32;table&#32;and,&#32;for&#32;each&#32;entry,&#32;print&#32;the&#32;number,&#32;the&#32;name,</emphasis>
+247 <emphasis class="comment">&#32;&#32;and&#32;the&#32;substring&#32;itself.&#32;In&#32;the&#32;8-bit&#32;library&#32;the&#32;number&#32;is&#32;held&#32;in&#32;two</emphasis>
+248 <emphasis class="comment">&#32;&#32;bytes,&#32;most&#32;significant&#32;first.&#32;*/</emphasis>
+249 
+250 &#32;&#32;tabptr&#32;=&#32;name_table;
+251 &#32;&#32;<emphasis class="keywordflow">for</emphasis>&#32;(i&#32;=&#32;0;&#32;i&#32;&lt;&#32;namecount;&#32;i++)
+252 &#32;&#32;&#32;&#32;{
+253 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;n&#32;=&#32;(tabptr[0]&#32;&lt;&lt;&#32;8)&#32;|&#32;tabptr[1];
+254 &#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;(%d)&#32;%*s:&#32;%.*s\n&quot;</emphasis>,&#32;n,&#32;name_entry_size&#32;-&#32;3,&#32;tabptr&#32;+&#32;2,
+255 &#32;&#32;&#32;&#32;&#32;&#32;(<emphasis class="keywordtype">int</emphasis>)(ovector[2*n+1]&#32;-&#32;ovector[2*n]),&#32;subject&#32;+&#32;ovector[2*n]);
+256 &#32;&#32;&#32;&#32;tabptr&#32;+=&#32;name_entry_size;
+257 &#32;&#32;&#32;&#32;}
+258 &#32;&#32;}
+259 
+260 
+261 <emphasis class="comment">/*************************************************************************</emphasis>
+262 <emphasis class="comment">*&#32;If&#32;the&#32;&quot;-g&quot;&#32;option&#32;was&#32;given&#32;on&#32;the&#32;command&#32;line,&#32;we&#32;want&#32;to&#32;continue&#32;&#32;*</emphasis>
+263 <emphasis class="comment">*&#32;to&#32;search&#32;for&#32;additional&#32;matches&#32;in&#32;the&#32;subject&#32;string,&#32;in&#32;a&#32;similar&#32;&#32;&#32;*</emphasis>
+264 <emphasis class="comment">*&#32;way&#32;to&#32;the&#32;/g&#32;option&#32;in&#32;Perl.&#32;This&#32;turns&#32;out&#32;to&#32;be&#32;trickier&#32;than&#32;you&#32;&#32;&#32;*</emphasis>
+265 <emphasis class="comment">*&#32;might&#32;think&#32;because&#32;of&#32;the&#32;possibility&#32;of&#32;matching&#32;an&#32;empty&#32;string.&#32;&#32;&#32;&#32;*</emphasis>
+266 <emphasis class="comment">*&#32;What&#32;happens&#32;is&#32;as&#32;follows:&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+267 <emphasis class="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+268 <emphasis class="comment">*&#32;If&#32;the&#32;previous&#32;match&#32;was&#32;NOT&#32;for&#32;an&#32;empty&#32;string,&#32;we&#32;can&#32;just&#32;start&#32;&#32;&#32;*</emphasis>
+269 <emphasis class="comment">*&#32;the&#32;next&#32;match&#32;at&#32;the&#32;end&#32;of&#32;the&#32;previous&#32;one.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+270 <emphasis class="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+271 <emphasis class="comment">*&#32;If&#32;the&#32;previous&#32;match&#32;WAS&#32;for&#32;an&#32;empty&#32;string,&#32;we&#32;can&apos;t&#32;do&#32;that,&#32;as&#32;it&#32;*</emphasis>
+272 <emphasis class="comment">*&#32;would&#32;lead&#32;to&#32;an&#32;infinite&#32;loop.&#32;Instead,&#32;a&#32;call&#32;of&#32;pcre2_match()&#32;is&#32;&#32;&#32;&#32;*</emphasis>
+273 <emphasis class="comment">*&#32;made&#32;with&#32;the&#32;PCRE2_NOTEMPTY_ATSTART&#32;and&#32;PCRE2_ANCHORED&#32;flags&#32;set.&#32;The&#32;*</emphasis>
+274 <emphasis class="comment">*&#32;first&#32;of&#32;these&#32;tells&#32;PCRE2&#32;that&#32;an&#32;empty&#32;string&#32;at&#32;the&#32;start&#32;of&#32;the&#32;&#32;&#32;&#32;*</emphasis>
+275 <emphasis class="comment">*&#32;subject&#32;is&#32;not&#32;a&#32;valid&#32;match;&#32;other&#32;possibilities&#32;must&#32;be&#32;tried.&#32;The&#32;&#32;&#32;*</emphasis>
+276 <emphasis class="comment">*&#32;second&#32;flag&#32;restricts&#32;PCRE2&#32;to&#32;one&#32;match&#32;attempt&#32;at&#32;the&#32;initial&#32;string&#32;*</emphasis>
+277 <emphasis class="comment">*&#32;position.&#32;If&#32;this&#32;match&#32;succeeds,&#32;an&#32;alternative&#32;to&#32;the&#32;empty&#32;string&#32;&#32;&#32;*</emphasis>
+278 <emphasis class="comment">*&#32;match&#32;has&#32;been&#32;found,&#32;and&#32;we&#32;can&#32;print&#32;it&#32;and&#32;proceed&#32;round&#32;the&#32;loop,&#32;&#32;*</emphasis>
+279 <emphasis class="comment">*&#32;advancing&#32;by&#32;the&#32;length&#32;of&#32;whatever&#32;was&#32;found.&#32;If&#32;this&#32;match&#32;does&#32;not&#32;&#32;*</emphasis>
+280 <emphasis class="comment">*&#32;succeed,&#32;we&#32;still&#32;stay&#32;in&#32;the&#32;loop,&#32;advancing&#32;by&#32;just&#32;one&#32;character.&#32;&#32;&#32;*</emphasis>
+281 <emphasis class="comment">*&#32;In&#32;UTF-8&#32;mode,&#32;which&#32;can&#32;be&#32;set&#32;by&#32;(*UTF)&#32;in&#32;the&#32;pattern,&#32;this&#32;may&#32;be&#32;&#32;*</emphasis>
+282 <emphasis class="comment">*&#32;more&#32;than&#32;one&#32;byte.&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+283 <emphasis class="comment">*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+284 <emphasis class="comment">*&#32;However,&#32;there&#32;is&#32;a&#32;complication&#32;concerned&#32;with&#32;newlines.&#32;When&#32;the&#32;&#32;&#32;&#32;&#32;*</emphasis>
+285 <emphasis class="comment">*&#32;newline&#32;convention&#32;is&#32;such&#32;that&#32;CRLF&#32;is&#32;a&#32;valid&#32;newline,&#32;we&#32;must&#32;&#32;&#32;&#32;&#32;&#32;&#32;*</emphasis>
+286 <emphasis class="comment">*&#32;advance&#32;by&#32;two&#32;characters&#32;rather&#32;than&#32;one.&#32;The&#32;newline&#32;convention&#32;can&#32;&#32;*</emphasis>
+287 <emphasis class="comment">*&#32;be&#32;set&#32;in&#32;the&#32;regex&#32;by&#32;(*CR),&#32;etc.;&#32;if&#32;not,&#32;we&#32;must&#32;find&#32;the&#32;default.&#32;&#32;*</emphasis>
+288 <emphasis class="comment">*************************************************************************/</emphasis>
+289 
+290 <emphasis class="keywordflow">if</emphasis>&#32;(!find_all)&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;Check&#32;for&#32;-g&#32;*/</emphasis>
+291 &#32;&#32;{
+292 &#32;&#32;pcre2_match_data_free(match_data);&#32;&#32;<emphasis class="comment">/*&#32;Release&#32;the&#32;memory&#32;that&#32;was&#32;used&#32;*/</emphasis>
+293 &#32;&#32;pcre2_code_free(re);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;for&#32;the&#32;match&#32;data&#32;and&#32;the&#32;pattern.&#32;*/</emphasis>
+294 &#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;0;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;Exit&#32;the&#32;program.&#32;*/</emphasis>
+295 &#32;&#32;}
+296 
+297 <emphasis class="comment">/*&#32;Before&#32;running&#32;the&#32;loop,&#32;check&#32;for&#32;UTF-8&#32;and&#32;whether&#32;CRLF&#32;is&#32;a&#32;valid&#32;newline</emphasis>
+298 <emphasis class="comment">sequence.&#32;First,&#32;find&#32;the&#32;options&#32;with&#32;which&#32;the&#32;regex&#32;was&#32;compiled&#32;and&#32;extract</emphasis>
+299 <emphasis class="comment">the&#32;UTF&#32;state.&#32;*/</emphasis>
+300 
+301 (void)pcre2_pattern_info(re,&#32;PCRE2_INFO_ALLOPTIONS,&#32;&amp;option_bits);
+302 utf8&#32;=&#32;(option_bits&#32;&amp;&#32;PCRE2_UTF)&#32;!=&#32;0;
+303 
+304 <emphasis class="comment">/*&#32;Now&#32;find&#32;the&#32;newline&#32;convention&#32;and&#32;see&#32;whether&#32;CRLF&#32;is&#32;a&#32;valid&#32;newline</emphasis>
+305 <emphasis class="comment">sequence.&#32;*/</emphasis>
+306 
+307 (void)pcre2_pattern_info(re,&#32;PCRE2_INFO_NEWLINE,&#32;&amp;newline);
+308 crlf_is_newline&#32;=&#32;newline&#32;==&#32;PCRE2_NEWLINE_ANY&#32;||
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;newline&#32;==&#32;PCRE2_NEWLINE_CRLF&#32;||
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;newline&#32;==&#32;PCRE2_NEWLINE_ANYCRLF;
+311 
+312 <emphasis class="comment">/*&#32;Loop&#32;for&#32;second&#32;and&#32;subsequent&#32;matches&#32;*/</emphasis>
+313 
+314 <emphasis class="keywordflow">for</emphasis>&#32;(;;)
+315 &#32;&#32;{
+316 &#32;&#32;uint32_t&#32;options&#32;=&#32;0;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;Normally&#32;no&#32;options&#32;*/</emphasis>
+317 &#32;&#32;PCRE2_SIZE&#32;start_offset&#32;=&#32;ovector[1];&#32;&#32;<emphasis class="comment">/*&#32;Start&#32;at&#32;end&#32;of&#32;previous&#32;match&#32;*/</emphasis>
+318 
+319 &#32;&#32;<emphasis class="comment">/*&#32;If&#32;the&#32;previous&#32;match&#32;was&#32;for&#32;an&#32;empty&#32;string,&#32;we&#32;are&#32;finished&#32;if&#32;we&#32;are</emphasis>
+320 <emphasis class="comment">&#32;&#32;at&#32;the&#32;end&#32;of&#32;the&#32;subject.&#32;Otherwise,&#32;arrange&#32;to&#32;run&#32;another&#32;match&#32;at&#32;the</emphasis>
+321 <emphasis class="comment">&#32;&#32;same&#32;point&#32;to&#32;see&#32;if&#32;a&#32;non-empty&#32;match&#32;can&#32;be&#32;found.&#32;*/</emphasis>
+322 
+323 &#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(ovector[0]&#32;==&#32;ovector[1])
+324 &#32;&#32;&#32;&#32;{
+325 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(ovector[0]&#32;==&#32;subject_length)&#32;<emphasis class="keywordflow">break</emphasis>;
+326 &#32;&#32;&#32;&#32;options&#32;=&#32;PCRE2_NOTEMPTY_ATSTART&#32;|&#32;PCRE2_ANCHORED;
+327 &#32;&#32;&#32;&#32;}
+328 
+329 &#32;&#32;<emphasis class="comment">/*&#32;Run&#32;the&#32;next&#32;matching&#32;operation&#32;*/</emphasis>
+330 
+331 &#32;&#32;rc&#32;=&#32;pcre2_match(
+332 &#32;&#32;&#32;&#32;re,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;compiled&#32;pattern&#32;*/</emphasis>
+333 &#32;&#32;&#32;&#32;subject,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;subject&#32;string&#32;*/</emphasis>
+334 &#32;&#32;&#32;&#32;subject_length,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;the&#32;length&#32;of&#32;the&#32;subject&#32;*/</emphasis>
+335 &#32;&#32;&#32;&#32;start_offset,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;starting&#32;offset&#32;in&#32;the&#32;subject&#32;*/</emphasis>
+336 &#32;&#32;&#32;&#32;options,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;options&#32;*/</emphasis>
+337 &#32;&#32;&#32;&#32;match_data,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;block&#32;for&#32;storing&#32;the&#32;result&#32;*/</emphasis>
+338 &#32;&#32;&#32;&#32;NULL);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;use&#32;default&#32;match&#32;context&#32;*/</emphasis>
+339 
+340 &#32;&#32;<emphasis class="comment">/*&#32;This&#32;time,&#32;a&#32;result&#32;of&#32;NOMATCH&#32;isn&apos;t&#32;an&#32;error.&#32;If&#32;the&#32;value&#32;in&#32;&quot;options&quot;</emphasis>
+341 <emphasis class="comment">&#32;&#32;is&#32;zero,&#32;it&#32;just&#32;means&#32;we&#32;have&#32;found&#32;all&#32;possible&#32;matches,&#32;so&#32;the&#32;loop&#32;ends.</emphasis>
+342 <emphasis class="comment">&#32;&#32;Otherwise,&#32;it&#32;means&#32;we&#32;have&#32;failed&#32;to&#32;find&#32;a&#32;non-empty-string&#32;match&#32;at&#32;a</emphasis>
+343 <emphasis class="comment">&#32;&#32;point&#32;where&#32;there&#32;was&#32;a&#32;previous&#32;empty-string&#32;match.&#32;In&#32;this&#32;case,&#32;we&#32;do&#32;what</emphasis>
+344 <emphasis class="comment">&#32;&#32;Perl&#32;does:&#32;advance&#32;the&#32;matching&#32;position&#32;by&#32;one&#32;character,&#32;and&#32;continue.&#32;We</emphasis>
+345 <emphasis class="comment">&#32;&#32;do&#32;this&#32;by&#32;setting&#32;the&#32;&quot;end&#32;of&#32;previous&#32;match&quot;&#32;offset,&#32;because&#32;that&#32;is&#32;picked</emphasis>
+346 <emphasis class="comment">&#32;&#32;up&#32;at&#32;the&#32;top&#32;of&#32;the&#32;loop&#32;as&#32;the&#32;point&#32;at&#32;which&#32;to&#32;start&#32;again.</emphasis>
+347 <emphasis class="comment"></emphasis>
+348 <emphasis class="comment">&#32;&#32;There&#32;are&#32;two&#32;complications:&#32;(a)&#32;When&#32;CRLF&#32;is&#32;a&#32;valid&#32;newline&#32;sequence,&#32;and</emphasis>
+349 <emphasis class="comment">&#32;&#32;the&#32;current&#32;position&#32;is&#32;just&#32;before&#32;it,&#32;advance&#32;by&#32;an&#32;extra&#32;byte.&#32;(b)</emphasis>
+350 <emphasis class="comment">&#32;&#32;Otherwise&#32;we&#32;must&#32;ensure&#32;that&#32;we&#32;skip&#32;an&#32;entire&#32;UTF&#32;character&#32;if&#32;we&#32;are&#32;in</emphasis>
+351 <emphasis class="comment">&#32;&#32;UTF&#32;mode.&#32;*/</emphasis>
+352 
+353 &#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(rc&#32;==&#32;PCRE2_ERROR_NOMATCH)
+354 &#32;&#32;&#32;&#32;{
+355 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(options&#32;==&#32;0)&#32;<emphasis class="keywordflow">break</emphasis>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;All&#32;matches&#32;found&#32;*/</emphasis>
+356 &#32;&#32;&#32;&#32;ovector[1]&#32;=&#32;start_offset&#32;+&#32;1;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;Advance&#32;one&#32;code&#32;unit&#32;*/</emphasis>
+357 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(crlf_is_newline&#32;&amp;&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;If&#32;CRLF&#32;is&#32;newline&#32;&amp;&#32;*/</emphasis>
+358 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;start_offset&#32;&lt;&#32;subject_length&#32;-&#32;1&#32;&amp;&amp;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;we&#32;are&#32;at&#32;CRLF,&#32;*/</emphasis>
+359 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;subject[start_offset]&#32;==&#32;<emphasis class="charliteral">&apos;\r&apos;</emphasis>&#32;&amp;&amp;
+360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;subject[start_offset&#32;+&#32;1]&#32;==&#32;<emphasis class="charliteral">&apos;\n&apos;</emphasis>)
+361 &#32;&#32;&#32;&#32;&#32;&#32;ovector[1]&#32;+=&#32;1;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;Advance&#32;by&#32;one&#32;more.&#32;*/</emphasis>
+362 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">else</emphasis>&#32;<emphasis class="keywordflow">if</emphasis>&#32;(utf8)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;Otherwise,&#32;ensure&#32;we&#32;*/</emphasis>
+363 &#32;&#32;&#32;&#32;&#32;&#32;{&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;advance&#32;a&#32;whole&#32;UTF-8&#32;*/</emphasis>
+364 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">while</emphasis>&#32;(ovector[1]&#32;&lt;&#32;subject_length)&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;character.&#32;*/</emphasis>
+365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;((subject[ovector[1]]&#32;&amp;&#32;0xc0)&#32;!=&#32;0x80)&#32;<emphasis class="keywordflow">break</emphasis>;
+367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ovector[1]&#32;+=&#32;1;
+368 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+369 &#32;&#32;&#32;&#32;&#32;&#32;}
+370 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">continue</emphasis>;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;Go&#32;round&#32;the&#32;loop&#32;again&#32;*/</emphasis>
+371 &#32;&#32;&#32;&#32;}
+372 
+373 &#32;&#32;<emphasis class="comment">/*&#32;Other&#32;matching&#32;errors&#32;are&#32;not&#32;recoverable.&#32;*/</emphasis>
+374 
+375 &#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(rc&#32;&lt;&#32;0)
+376 &#32;&#32;&#32;&#32;{
+377 &#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;Matching&#32;error&#32;%d\n&quot;</emphasis>,&#32;rc);
+378 &#32;&#32;&#32;&#32;pcre2_match_data_free(match_data);
+379 &#32;&#32;&#32;&#32;pcre2_code_free(re);
+380 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;1;
+381 &#32;&#32;&#32;&#32;}
+382 
+383 &#32;&#32;<emphasis class="comment">/*&#32;Match&#32;succeded&#32;*/</emphasis>
+384 
+385 &#32;&#32;printf(<emphasis class="stringliteral">&quot;\nMatch&#32;succeeded&#32;again&#32;at&#32;offset&#32;%d\n&quot;</emphasis>,&#32;(<emphasis class="keywordtype">int</emphasis>)ovector[0]);
+386 
+387 &#32;&#32;<emphasis class="comment">/*&#32;The&#32;match&#32;succeeded,&#32;but&#32;the&#32;output&#32;vector&#32;wasn&apos;t&#32;big&#32;enough.&#32;This</emphasis>
+388 <emphasis class="comment">&#32;&#32;should&#32;not&#32;happen.&#32;*/</emphasis>
+389 
+390 &#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(rc&#32;==&#32;0)
+391 &#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;ovector&#32;was&#32;not&#32;big&#32;enough&#32;for&#32;all&#32;the&#32;captured&#32;substrings\n&quot;</emphasis>);
+392 
+393 &#32;&#32;<emphasis class="comment">/*&#32;As&#32;before,&#32;show&#32;substrings&#32;stored&#32;in&#32;the&#32;output&#32;vector&#32;by&#32;number,&#32;and&#32;then</emphasis>
+394 <emphasis class="comment">&#32;&#32;also&#32;any&#32;named&#32;substrings.&#32;*/</emphasis>
+395 
+396 &#32;&#32;<emphasis class="keywordflow">for</emphasis>&#32;(i&#32;=&#32;0;&#32;i&#32;&lt;&#32;rc;&#32;i++)
+397 &#32;&#32;&#32;&#32;{
+398 &#32;&#32;&#32;&#32;PCRE2_SPTR&#32;substring_start&#32;=&#32;subject&#32;+&#32;ovector[2*i];
+399 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">size_t</emphasis>&#32;substring_length&#32;=&#32;ovector[2*i+1]&#32;-&#32;ovector[2*i];
+400 &#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;%2d:&#32;%.*s\n&quot;</emphasis>,&#32;i,&#32;(<emphasis class="keywordtype">int</emphasis>)substring_length,&#32;(<emphasis class="keywordtype">char</emphasis>&#32;*)substring_start);
+401 &#32;&#32;&#32;&#32;}
+402 
+403 &#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(namecount&#32;&lt;=&#32;0)&#32;printf(<emphasis class="stringliteral">&quot;No&#32;named&#32;substrings\n&quot;</emphasis>);&#32;<emphasis class="keywordflow">else</emphasis>
+404 &#32;&#32;&#32;&#32;{
+405 &#32;&#32;&#32;&#32;PCRE2_SPTR&#32;tabptr&#32;=&#32;name_table;
+406 &#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;Named&#32;substrings\n&quot;</emphasis>);
+407 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>&#32;(i&#32;=&#32;0;&#32;i&#32;&lt;&#32;namecount;&#32;i++)
+408 &#32;&#32;&#32;&#32;&#32;&#32;{
+409 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;n&#32;=&#32;(tabptr[0]&#32;&lt;&lt;&#32;8)&#32;|&#32;tabptr[1];
+410 &#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;(%d)&#32;%*s:&#32;%.*s\n&quot;</emphasis>,&#32;n,&#32;name_entry_size&#32;-&#32;3,&#32;tabptr&#32;+&#32;2,
+411 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(<emphasis class="keywordtype">int</emphasis>)(ovector[2*n+1]&#32;-&#32;ovector[2*n]),&#32;subject&#32;+&#32;ovector[2*n]);
+412 &#32;&#32;&#32;&#32;&#32;&#32;tabptr&#32;+=&#32;name_entry_size;
+413 &#32;&#32;&#32;&#32;&#32;&#32;}
+414 &#32;&#32;&#32;&#32;}
+415 &#32;&#32;}&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">/*&#32;End&#32;of&#32;loop&#32;to&#32;find&#32;second&#32;and&#32;subsequent&#32;matches&#32;*/</emphasis>
+416 
+417 printf(<emphasis class="stringliteral">&quot;\n&quot;</emphasis>);
+418 pcre2_match_data_free(match_data);
+419 pcre2_code_free(re);
+420 <emphasis class="keywordflow">return</emphasis>&#32;0;
+421 }
+    </computeroutput></literallayout>
+</section>

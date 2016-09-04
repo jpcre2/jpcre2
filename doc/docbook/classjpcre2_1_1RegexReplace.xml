@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classjpcre2_1_1RegexReplace">
+<title>jpcre2::RegexReplace class Reference</title>
+<para>Inheritance diagram for jpcre2::RegexReplace</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classjpcre2_1_1RegexReplace__inherit__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for jpcre2::RegexReplace</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classjpcre2_1_1RegexReplace__coll__graph.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Private Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Regex * re</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>String r_subject</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>String r_modifier</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>String r_replw</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Uint replace_opts</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Uint jpcre2_replace_opts</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>PCRE2_SIZE buffer_size</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="classjpcre2_1_1RegexReplace_1aa31df9e8422dd9a767f2cc5fe4aaaf0e">parseReplacementOpts</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5">init_vars</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classjpcre2_1_1RegexReplace_1ac50687b874800c827a6fa623b9b35753">RegexReplace</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classjpcre2_1_1RegexReplace_1a3ce36f1630071b26952e73e1a7e7f7fa">RegexReplace</link> (
+const RegexReplace &amp; r)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classjpcre2_1_1RegexReplace_1ab27102839e7ff0914bcd204d750097ac">~RegexReplace</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb">setSubject</link> (
+const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &amp; s)<para><emphasis>Chained functions for taking parameters.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73">setReplaceWith</link> (
+const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &amp; s)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910">setModifier</link> (
+const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &amp; s)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1a452dd2632031a13b39c13b792f18a491">setBufferSize</link> (
+PCRE2_SIZE x)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1a745ab0b979035214a83ed0a04686ef6a">setJpcre2Option</link> (
+<link linkend="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099">Uint</link> x)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1aec36272d351fdc3a8cb02a4a3efea5a2">setPcre2Option</link> (
+<link linkend="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099">Uint</link> x)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1a3f86b1e11d08d0153a08244771e59061">addJpcre2Option</link> (
+<link linkend="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099">Uint</link> x)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1a3cfd03568b23bebcbb530a2c120b5d33">addPcre2Option</link> (
+<link linkend="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099">Uint</link> x)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1a6fbfd673dbb865e6248bc527ba45f2f7">removeJpcre2Option</link> (
+<link linkend="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099">Uint</link> x)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>RegexReplace &amp; <link linkend="classjpcre2_1_1RegexReplace_1adafa76534134e0c9b5342499478fd396">removePcre2Option</link> (
+<link linkend="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099">Uint</link> x)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> <link linkend="classjpcre2_1_1RegexReplace_1a36904dd7340bf23ed138b0379d9eff5f">replace</link> (
+const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &amp; s, const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &amp; r, const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &amp; m)<para><emphasis>returns a replaced string after performing regex replace</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> <link linkend="classjpcre2_1_1RegexReplace_1a66a7eb99c0068505e7ce0fad8c6179d0">replace</link> (
+const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &amp; s, const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &amp; r)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> <link linkend="classjpcre2_1_1RegexReplace_1a4b6df93ba03638b58f658a69ebb6326d">replace</link> (
+const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &amp; s)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> <link linkend="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0">replace</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Member Data Documentation</title>
+        </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1aa31df9e8422dd9a767f2cc5fe4aaaf0e">
+                <title>void jpcre2::RegexReplace::parseReplacementOpts (void)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5">
+                <title>void jpcre2::RegexReplace::init_vars ()</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1ac50687b874800c827a6fa623b9b35753">
+                <title>jpcre2::RegexReplace::RegexReplace ()</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a3ce36f1630071b26952e73e1a7e7f7fa">
+                <title>jpcre2::RegexReplace::RegexReplace (const RegexReplace &amp;r)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1ab27102839e7ff0914bcd204d750097ac">
+                <title>jpcre2::RegexReplace::~RegexReplace ()</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::setSubject (const String &amp;s)</title> <emphasis>Chained functions for taking parameters.</emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::setReplaceWith (const String &amp;s)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::setModifier (const String &amp;s)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a452dd2632031a13b39c13b792f18a491">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::setBufferSize (PCRE2_SIZE x)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a745ab0b979035214a83ed0a04686ef6a">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::setJpcre2Option (Uint x)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1aec36272d351fdc3a8cb02a4a3efea5a2">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::setPcre2Option (Uint x)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a3f86b1e11d08d0153a08244771e59061">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::addJpcre2Option (Uint x)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a3cfd03568b23bebcbb530a2c120b5d33">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::addPcre2Option (Uint x)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a6fbfd673dbb865e6248bc527ba45f2f7">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::removeJpcre2Option (Uint x)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1adafa76534134e0c9b5342499478fd396">
+                <title>RegexReplace&amp; jpcre2::RegexReplace::removePcre2Option (Uint x)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a36904dd7340bf23ed138b0379d9eff5f">
+                <title>String jpcre2::RegexReplace::replace (const String &amp;s, const String &amp;r, const String &amp;m)</title> <emphasis>returns a replaced string after performing regex replace</emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a66a7eb99c0068505e7ce0fad8c6179d0">
+                <title>String jpcre2::RegexReplace::replace (const String &amp;s, const String &amp;r)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1a4b6df93ba03638b58f658a69ebb6326d">
+                <title>String jpcre2::RegexReplace::replace (const String &amp;s)</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0">
+                <title>jpcre2::String jpcre2::RegexReplace::replace (void)</title> <emphasis></emphasis>
+                
+            </section>
+</section>

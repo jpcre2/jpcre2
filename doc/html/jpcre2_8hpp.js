@@ -1,12 +1,12 @@
 var jpcre2_8hpp =
 [
-    [ "RegexMatch", "classjpcre2_1_1_regex_match.html", "classjpcre2_1_1_regex_match" ],
-    [ "RegexReplace", "classjpcre2_1_1_regex_replace.html", "classjpcre2_1_1_regex_replace" ],
-    [ "Regex", "classjpcre2_1_1_regex.html", "classjpcre2_1_1_regex" ],
+    [ "RegexMatch", "classjpcre2_1_1RegexMatch.html", "classjpcre2_1_1RegexMatch" ],
+    [ "RegexReplace", "classjpcre2_1_1RegexReplace.html", "classjpcre2_1_1RegexReplace" ],
+    [ "Regex", "classjpcre2_1_1Regex.html", "classjpcre2_1_1Regex" ],
     [ "PCRE2_CODE_UNIT_WIDTH", "jpcre2_8hpp.html#acff91275abcc225454675d6dfc39a58d", null ],
-    [ "MapNas", "jpcre2_8hpp.html#a3db7491ef5d947def62cd74e2fd1bab9", null ],
-    [ "MapNtN", "jpcre2_8hpp.html#a0d73a76dd5bb3c77574b97fac7db1387", null ],
-    [ "MapNum", "jpcre2_8hpp.html#a1fa980ed683ae1841617b7fd85451018", null ],
+    [ "MapNas", "jpcre2_8hpp.html#a20bd901c9ca3c949806aa6b9e324f6cf", null ],
+    [ "MapNtN", "jpcre2_8hpp.html#a753ebedfb8caf4a16ffbf47d8d705656", null ],
+    [ "MapNum", "jpcre2_8hpp.html#a947e37f0e4a1678157e7f1f855638e82", null ],
     [ "SIZE_T", "jpcre2_8hpp.html#a2aac465ddcb123560c7c8215dd69246c", null ],
     [ "String", "jpcre2_8hpp.html#a91f03070152fb228bc116c5a737f1d16", null ],
     [ "Uint", "jpcre2_8hpp.html#a078242d38221a13fb3543b9edd78c099", null ],

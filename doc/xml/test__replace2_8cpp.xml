@@ -5,30 +5,50 @@
     <includes local="no">iostream</includes>
     <includes refid="jpcre2_8hpp" local="yes">jpcre2.hpp</includes>
     <incdepgraph>
-      <node id="52">
+      <node id="69">
         <label>pcre2.h</label>
       </node>
-      <node id="53">
+      <node id="70">
         <label>stdint.h</label>
       </node>
-      <node id="51">
+      <node id="72">
+        <label>string</label>
+      </node>
+      <node id="68">
         <label>jpcre2.hpp</label>
         <link refid="jpcre2_8hpp"/>
-        <childnode refid="52" relation="include">
+        <childnode refid="69" relation="include">
         </childnode>
-        <childnode refid="53" relation="include">
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
         </childnode>
       </node>
-      <node id="49">
+      <node id="74">
+        <label>map</label>
+      </node>
+      <node id="66">
         <label>test_replace2.cpp</label>
         <link refid="test_replace2.cpp"/>
-        <childnode refid="50" relation="include">
+        <childnode refid="67" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
       </node>
-      <node id="50">
+      <node id="73">
+        <label>vector</label>
+      </node>
+      <node id="67">
         <label>iostream</label>
+      </node>
+      <node id="71">
+        <label>cstddef</label>
       </node>
     </incdepgraph>
       <sectiondef kind="define">
@@ -42,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="test_replace2.cpp" line="4" column="9" bodyfile="test_replace2.cpp" bodystart="4" bodyend="-1"/>
+        <location file="src/test_replace2.cpp" line="4" column="9" bodyfile="src/test_replace2.cpp" bodystart="4" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -56,8 +76,8 @@
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
-<para>An empty object is not supposed to throw any exception in normal cases.</para><para>Compile the pattern</para><para>subject string</para><para>replacement string</para><para>2 is the length of the returned string. Though, it will be expanded as needed, pass a large enough value to contain the string, otherwise internal substitute function will be called twice which will eat up some additional resource. </para>        </inbodydescription>
-        <location file="test_replace2.cpp" line="7" column="1" bodyfile="test_replace2.cpp" bodystart="7" bodyend="57"/>
+        </inbodydescription>
+        <location file="src/test_replace2.cpp" line="7" column="1" bodyfile="src/test_replace2.cpp" bodystart="7" bodyend="57"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -71,19 +91,19 @@
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>getLine(a)<sp/>std::getline(std::cin,a,&apos;\n&apos;);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="test__replace2_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kindref="member">main</ref>(){</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main(){</highlight></codeline>
 <codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>pat,mod,subject,repl,repl_mod;</highlight></codeline>
 <codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nEnter<sp/>pattern:<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__replace2_8cpp_1a0efdcb15269092623bd8d80b8d129239" kindref="member">getLine</ref>(pat);</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>getLine(pat);</highlight></codeline>
 <codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nEnter<sp/>compile<sp/>modifiers<sp/>(eijmnsuxADJSU):<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__replace2_8cpp_1a0efdcb15269092623bd8d80b8d129239" kindref="member">getLine</ref>(mod);</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::Regex<sp/>re;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>getLine(mod);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">jpcre2::Regex</ref><sp/>re;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">{re.compile(pat,mod);}<sp/><sp/></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){std::cout&lt;&lt;re.getErrorMessage(e);}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">{re.<ref refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" kindref="member">compile</ref>(pat,mod);}<sp/><sp/></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){std::cout&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" kindref="member">getErrorMessage</ref>(e);}</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/***************************************************************************************************************</highlight></codeline>
@@ -93,31 +113,31 @@
 <codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nEnter<sp/>subject<sp/>string<sp/>(enter<sp/>quit<sp/>to<sp/>quit):<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;std::endl;</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__replace2_8cpp_1a0efdcb15269092623bd8d80b8d129239" kindref="member">getLine</ref>(subject);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>getLine(subject);</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(subject==</highlight><highlight class="stringliteral">&quot;quit&quot;</highlight><highlight class="normal">)</highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nEnter<sp/>replacement<sp/>string:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;std::endl;</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__replace2_8cpp_1a0efdcb15269092623bd8d80b8d129239" kindref="member">getLine</ref>(repl);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>getLine(repl);</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>loop2:</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nEnter<sp/>action<sp/>(replacement)<sp/>modifiers<sp/>(eEgx):<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__replace2_8cpp_1a0efdcb15269092623bd8d80b8d129239" kindref="member">getLine</ref>(repl_mod);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>getLine(repl_mod);</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//perform<sp/>replace</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">{std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nreplaced<sp/>string:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;re.initReplace()</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setSubject(subject)</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setReplaceWith(repl)</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setModifier(repl_mod)</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.replace();}</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){std::cout&lt;&lt;re.getErrorMessage(e);</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(e==jpcre2::ERROR::INVALID_MODIFIER)<sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>loop2;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" kindref="member">setSubject</ref>(subject)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" kindref="member">setReplaceWith</ref>(repl)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" kindref="member">setModifier</ref>(repl_mod)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1a3f86b1e11d08d0153a08244771e59061" kindref="member">addJpcre2Option</ref>(<ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">jpcre2::VALIDATE_MODIFIER</ref>)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">replace</ref>();}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){std::cout&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" kindref="member">getErrorMessage</ref>(e);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(e==<ref refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" kindref="member">jpcre2::ERROR::INVALID_MODIFIER</ref>)<sp/></highlight><highlight class="keywordflow">goto</highlight><highlight class="normal"><sp/>loop2;</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\n\n--------------------------------------------------\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__replace2_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kindref="member">main</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>main();</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
 <codeline lineno="57"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="test_replace2.cpp"/>
+    <location file="src/test_replace2.cpp"/>
   </compounddef>
 </doxygen>

@@ -1,0 +1,666 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="jpcre2_8hpp">
+    <title>jpcre2.hpp File Reference</title>
+    <programlisting>#include &lt;pcre2.h&gt;</programlisting>
+    <programlisting>#include &lt;stdint.h&gt;</programlisting>
+    <programlisting>#include &lt;cstddef&gt;</programlisting>
+    <programlisting>#include &lt;string&gt;</programlisting>
+    <programlisting>#include &lt;vector&gt;</programlisting>
+    <programlisting>#include &lt;map&gt;</programlisting>
+<para>Include dependency diagram for jpcre2.hpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="jpcre2_8hpp__incl.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Included by dependency diagram for jpcre2.hpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="jpcre2_8hpp__dep__incl.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="classjpcre2_1_1RegexMatch">jpcre2::RegexMatch</link></para>
+<para><emphasis>class to perform regex matching</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="classjpcre2_1_1RegexReplace">jpcre2::RegexReplace</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="classjpcre2_1_1Regex">jpcre2::Regex</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <simplesect>
+            <title> Namespaces </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="namespacejpcre2">jpcre2</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="namespacejpcre2_1_1ERROR">jpcre2::ERROR</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="namespacejpcre2_1_1utils">jpcre2::utils</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <section>
+            <title>Macros</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="jpcre2_8hpp_1acff91275abcc225454675d6dfc39a58d">PCRE2_CODE_UNIT_WIDTH</link> 8<para><emphasis>Code unit width 8 is used by default.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Main header file for JPCRE library to be #included by programs that call JPCRE2 functions. </para>
+
+<para>It includes the pcre2.h header, therefore you shouldn&apos;t include pcre2.h separately in your program. Make sure to link pcre2 library when compiling. If you are using JPCRE2 as a library, then link this library too. <formalpara><title>Author: </title>
+
+<para>Md. Jahidul Hamid. </para>
+</formalpara>
+</para>
+    <para>Definition in file jpcre2.hpp</para>
+    </simplesect>
+    <literallayout><computeroutput>
+1 <emphasis class="comment">/*******************************************************************************</emphasis>
+2 <emphasis class="comment">&#32;*&#32;*******************&#32;C++&#32;wrapper&#32;of&#32;PCRE2&#32;Library&#32;****************************</emphasis>
+3 <emphasis class="comment">&#32;*&#32;*****************************************************************************</emphasis>
+4 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Copyright&#32;(c)&#32;2015-2016&#32;Md.&#32;Jahidul&#32;Hamid</emphasis>
+5 <emphasis class="comment">&#32;*&#32;</emphasis>
+6 <emphasis class="comment">&#32;*&#32;-----------------------------------------------------------------------------</emphasis>
+7 <emphasis class="comment">&#32;*&#32;Redistribution&#32;and&#32;use&#32;in&#32;source&#32;and&#32;binary&#32;forms,&#32;with&#32;or&#32;without</emphasis>
+8 <emphasis class="comment">&#32;*&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following&#32;conditions&#32;are&#32;met:</emphasis>
+9 <emphasis class="comment">&#32;*&#32;</emphasis>
+10 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above&#32;copyright&#32;notice,</emphasis>
+11 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the&#32;following&#32;disclaimer.</emphasis>
+12 <emphasis class="comment">&#32;*&#32;</emphasis>
+13 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above&#32;copyright</emphasis>
+14 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the&#32;following&#32;disclaimer&#32;in&#32;the</emphasis>
+15 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;documentation&#32;and/or&#32;other&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+16 <emphasis class="comment">&#32;*&#32;</emphasis>
+17 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;*&#32;The&#32;names&#32;of&#32;its&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;</emphasis>
+18 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;products&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior&#32;written</emphasis>
+19 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;permission.</emphasis>
+20 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;&#32;&#32;</emphasis>
+21 <emphasis class="comment">&#32;*&#32;Dsclaimer:</emphasis>
+22 <emphasis class="comment">&#32;*&#32;</emphasis>
+23 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS&#32;&quot;AS&#32;IS&quot;</emphasis>
+24 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT&#32;LIMITED&#32;TO,&#32;THE</emphasis>
+25 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR&#32;A&#32;PARTICULAR&#32;PURPOSE</emphasis>
+26 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT&#32;OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE</emphasis>
+27 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,&#32;SPECIAL,&#32;EXEMPLARY,&#32;OR</emphasis>
+28 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT&#32;LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF</emphasis>
+29 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,&#32;DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS</emphasis>
+30 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY&#32;THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN</emphasis>
+31 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT&#32;(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)</emphasis>
+32 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE&#32;OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE</emphasis>
+33 <emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+34 <emphasis class="comment">&#32;*&#32;*/</emphasis>
+35 
+44 <emphasis class="preprocessor">#ifndef&#32;JPCRE2_HPP</emphasis>
+45 <emphasis class="preprocessor">#define&#32;JPCRE2_HPP</emphasis>
+46 
+47 <emphasis class="preprocessor">#ifndef&#32;PCRE2_CODE_UNIT_WIDTH</emphasis>
+48 <emphasis class="preprocessor">#define&#32;PCRE2_CODE_UNIT_WIDTH&#32;8</emphasis>
+50 <emphasis class="preprocessor">#endif</emphasis>
+51 
+52 <emphasis class="preprocessor">#include&#32;&lt;pcre2.h&gt;</emphasis>&#32;
+53 <emphasis class="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//&#32;uint32_t</emphasis>
+54 <emphasis class="preprocessor">#include&#32;&lt;cstddef&gt;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//&#32;std::size_t</emphasis>
+55 <emphasis class="preprocessor">#include&#32;&lt;string&gt;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//&#32;std::string</emphasis>
+56 <emphasis class="preprocessor">#include&#32;&lt;vector&gt;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//&#32;std::vector</emphasis>
+57 <emphasis class="preprocessor">#include&#32;&lt;map&gt;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//&#32;std::map</emphasis>
+58 
+<link linkend="namespacejpcre2">60 </link><emphasis class="keyword">namespace&#32;</emphasis><link linkend="namespacejpcre2">jpcre2</link>&#32;{
+61 
+<link linkend="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c">62 </link><emphasis class="keyword">typedef</emphasis>&#32;std::size_t&#32;<link linkend="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c">SIZE_T</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<link linkend="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099">63 </link><emphasis class="keyword">typedef</emphasis>&#32;uint32_t&#32;<link linkend="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099">Uint</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">64 </link><emphasis class="keyword">typedef</emphasis>&#32;std::string&#32;<link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+65 
+<link linkend="namespacejpcre2_1a20bd901c9ca3c949806aa6b9e324f6cf">66 </link><emphasis class="keyword">typedef</emphasis>&#32;std::map&lt;String,&#32;String&gt;&#32;<link linkend="namespacejpcre2_1a20bd901c9ca3c949806aa6b9e324f6cf">MapNas</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<link linkend="namespacejpcre2_1a947e37f0e4a1678157e7f1f855638e82">67 </link><emphasis class="keyword">typedef</emphasis>&#32;std::map&lt;SIZE_T,&#32;String&gt;&#32;<link linkend="namespacejpcre2_1a947e37f0e4a1678157e7f1f855638e82">MapNum</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<link linkend="namespacejpcre2_1a753ebedfb8caf4a16ffbf47d8d705656">68 </link><emphasis class="keyword">typedef</emphasis>&#32;std::map&lt;String,&#32;SIZE_T&gt;&#32;<link linkend="namespacejpcre2_1a753ebedfb8caf4a16ffbf47d8d705656">MapNtN</link>;&#32;
+<link linkend="namespacejpcre2_1a2b121ae776ea5b2913839f418a7d856b">69 </link><emphasis class="keyword">typedef</emphasis>&#32;std::vector&lt;MapNas&gt;&#32;<link linkend="namespacejpcre2_1a2b121ae776ea5b2913839f418a7d856b">VecNas</link>;&#32;
+<link linkend="namespacejpcre2_1a88a7aaf84cad627d34c8152e726168eb">70 </link><emphasis class="keyword">typedef</emphasis>&#32;std::vector&lt;MapNtN&gt;&#32;<link linkend="namespacejpcre2_1a88a7aaf84cad627d34c8152e726168eb">VecNtN</link>;&#32;
+<link linkend="namespacejpcre2_1ac1cf752c8fbb0be78020be3b80e77ce3">71 </link><emphasis class="keyword">typedef</emphasis>&#32;std::vector&lt;MapNum&gt;&#32;<link linkend="namespacejpcre2_1ac1cf752c8fbb0be78020be3b80e77ce3">VecNum</link>;&#32;
+72 
+<link linkend="namespacejpcre2_1_1ERROR">74 </link><emphasis class="keyword">namespace&#32;</emphasis>ERROR&#32;{
+79 <emphasis class="keyword">enum</emphasis>&#32;{
+<link linkend="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff">80 </link>&#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff">INVALID_MODIFIER</link>&#32;=&#32;2,&#32;&#32;&#32;
+<link linkend="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e">81 </link>&#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e">JIT_COMPILE_FAILED</link>&#32;=&#32;3&#32;&#32;&#32;&#32;
+82 };
+83 }
+84 
+85 <emphasis class="keyword">extern</emphasis>&#32;<emphasis class="keyword">const</emphasis>&#32;SIZE_T&#32;<link linkend="namespacejpcre2_1a80cb201f2e733137b22a8ed98465096a">SUBSTITUTE_RESULT_INIT_SIZE</link>;&#32;
+86 
+87 <emphasis class="keyword">extern</emphasis>&#32;<emphasis class="keyword">const</emphasis>&#32;String&#32;<link linkend="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5">LOCALE_NONE</link>;&#32;
+88 <emphasis class="keyword">extern</emphasis>&#32;<emphasis class="keyword">const</emphasis>&#32;String&#32;<link linkend="namespacejpcre2_1adfdd3d1fff99e685734ae4e59771e84d">LOCALE_DEFAULT</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+89 <emphasis class="keyword">extern</emphasis>&#32;<emphasis class="keyword">const</emphasis>&#32;String&#32;<link linkend="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e">JIT_ERROR_MESSAGE_PREFIX</link>;&#32;
+90 
+94 <emphasis class="keyword">enum</emphasis>&#32;{
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9">95 </link>&#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9">NONE</link>&#32;=&#32;0x0000000u,&#32;
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387">96 </link>&#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387">VALIDATE_MODIFIER</link>&#32;=&#32;0x0000001u,&#32;
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c">97 </link>&#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c">FIND_ALL</link>&#32;=&#32;0x0000002u,&#32;
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e">98 </link>&#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e">JIT_COMPILE</link>&#32;=&#32;0x0000004u,&#32;
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552">99 </link>&#32;&#32;&#32;&#32;<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552">ERROR_ALL</link>&#32;=&#32;0x0000008u&#32;&#32;
+100 };
+102 
+103 <emphasis class="keyword">namespace&#32;</emphasis>utils&#32;{
+104 <emphasis class="keyword">extern</emphasis>&#32;String&#32;toString(<emphasis class="keywordtype">int</emphasis>&#32;a);&#32;&#32;
+105 <emphasis class="keyword">extern</emphasis>&#32;String&#32;toString(<emphasis class="keywordtype">char</emphasis>&#32;a);
+106 <emphasis class="keyword">extern</emphasis>&#32;String&#32;toString(<emphasis class="keyword">const</emphasis>&#32;<emphasis class="keywordtype">char</emphasis>*&#32;a);
+107 <emphasis class="keyword">extern</emphasis>&#32;String&#32;toString(PCRE2_UCHAR*&#32;a);
+108 <emphasis class="keyword">extern</emphasis>&#32;String&#32;getPcre2ErrorMessage(<emphasis class="keywordtype">int</emphasis>&#32;err_num);
+109 }
+110 
+111 <emphasis class="keyword">class&#32;</emphasis>Regex;
+112 
+<link linkend="classjpcre2_1_1RegexMatch">116 </link><emphasis class="keyword">class&#32;</emphasis><link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&#32;{
+117 
+118 <emphasis class="keyword">private</emphasis>:
+119 
+120 &#32;&#32;&#32;&#32;Regex*&#32;re;&#32;&#32;&#32;&#32;<emphasis class="comment">//We&#32;will&#32;use&#32;this&#32;to&#32;access&#32;private&#32;members&#32;in&#32;Regex</emphasis>
+121 
+122 &#32;&#32;&#32;&#32;String&#32;m_subject;
+123 &#32;&#32;&#32;&#32;String&#32;m_modifier;
+124 &#32;&#32;&#32;&#32;Uint&#32;match_opts;
+125 &#32;&#32;&#32;&#32;Uint&#32;jpcre2_match_opts;
+126 
+127 &#32;&#32;&#32;&#32;<emphasis class="comment">//vectors&#32;to&#32;contain&#32;the&#32;matches&#32;and&#32;maps&#32;of&#32;associated&#32;substrings</emphasis>
+128 &#32;&#32;&#32;&#32;VecNum*&#32;vec_num;
+129 &#32;&#32;&#32;&#32;VecNas*&#32;vec_nas;
+130 &#32;&#32;&#32;&#32;VecNtN*&#32;vec_ntn;
+131 
+132 &#32;&#32;&#32;&#32;<emphasis class="comment">//Maps&#32;to&#32;contain&#32;the&#32;captured&#32;groups,&#32;make&#32;sure&#32;to&#32;delete&#32;these&#32;in&#32;destructor</emphasis>
+133 &#32;&#32;&#32;&#32;MapNum*&#32;num_map0;
+134 &#32;&#32;&#32;&#32;MapNas*&#32;nas_map0;
+135 &#32;&#32;&#32;&#32;MapNtN*&#32;ntn_map0;
+136 
+137 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;parseMatchOpts(<emphasis class="keywordtype">void</emphasis>);
+138 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;getNumberedSubstrings(<emphasis class="keywordtype">int</emphasis>&#32;rc,&#32;pcre2_match_data&#32;*match_data);
+139 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;getNamedSubstrings(<emphasis class="keywordtype">int</emphasis>&#32;namecount,&#32;<emphasis class="keywordtype">int</emphasis>&#32;name_entry_size,
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PCRE2_SPTR&#32;tabptr,&#32;pcre2_match_data&#32;*match_data);
+141 
+142 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;init_vars()&#32;{
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec_num&#32;=&#32;0;
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec_nas&#32;=&#32;0;
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec_ntn&#32;=&#32;0;
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;num_map0&#32;=&#32;0;
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nas_map0&#32;=&#32;0;
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ntn_map0&#32;=&#32;0;
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;match_opts&#32;=&#32;0;
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_match_opts&#32;=&#32;0;
+151 &#32;&#32;&#32;&#32;}
+152 
+153 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>()&#32;{
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init_vars();
+155 &#32;&#32;&#32;&#32;}
+156 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>(<emphasis class="keyword">const</emphasis>&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;)&#32;{
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init_vars();
+158 &#32;&#32;&#32;&#32;}&#32;&#32;&#32;&#32;
+159 
+160 &#32;&#32;&#32;&#32;~<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>()&#32;{&#32;
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;num_map0;
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;nas_map0;
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;ntn_map0;
+164 &#32;&#32;&#32;&#32;}
+165 
+<link linkend="classjpcre2_1_1RegexMatch_1a1f6f7620b7d2218c6c2a6a47f432ea6a">167 </link>&#32;&#32;&#32;&#32;<emphasis class="keyword">friend</emphasis>&#32;<emphasis class="keyword">class&#32;</emphasis>Regex;
+168 
+169 <emphasis class="keyword">public</emphasis>:
+170 
+<link linkend="classjpcre2_1_1RegexMatch_1a2c7efe1ec2e13827f670db4ecedcd0a0">172 </link>&#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;<link linkend="classjpcre2_1_1RegexMatch_1a2c7efe1ec2e13827f670db4ecedcd0a0">setNumberedSubstringVector</link>(VecNum*&#32;v)&#32;{
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec_num&#32;=&#32;v;
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+175 &#32;&#32;&#32;&#32;}
+176 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;setNamedSubstringVector(VecNas*&#32;v)&#32;{
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec_nas&#32;=&#32;v;
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+179 &#32;&#32;&#32;&#32;}
+180 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;setNameToNumberMapVector(VecNtN*&#32;v)&#32;{
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec_ntn&#32;=&#32;v;
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+183 &#32;&#32;&#32;&#32;}
+184 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;setSubject(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s)&#32;{
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_subject&#32;=&#32;s;
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+187 &#32;&#32;&#32;&#32;}
+188 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;setModifier(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s)&#32;{
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;match_opts&#32;=&#32;jpcre2_match_opts&#32;=&#32;0;
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_modifier&#32;=&#32;s;
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+192 &#32;&#32;&#32;&#32;}
+193 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;setJpcre2Option(Uint&#32;x)&#32;{
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_match_opts&#32;=&#32;x;
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+196 &#32;&#32;&#32;&#32;}
+197 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;setPcre2Option(Uint&#32;x)&#32;{
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;match_opts&#32;=&#32;x;
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+200 &#32;&#32;&#32;&#32;}
+201 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;setFindAll(<emphasis class="keywordtype">bool</emphasis>&#32;x&#32;=&#32;<emphasis class="keyword">true</emphasis>)&#32;{
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(x)
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_match_opts&#32;|=&#32;<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c">FIND_ALL</link>;
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">else</emphasis>
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_match_opts&#32;&amp;=&#32;~<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c">FIND_ALL</link>;
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+207 &#32;&#32;&#32;&#32;}
+208 
+209 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;addJpcre2Option(Uint&#32;x)&#32;{
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_match_opts&#32;|=&#32;x;
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+212 &#32;&#32;&#32;&#32;}
+213 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;addPcre2Option(Uint&#32;x)&#32;{
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;match_opts&#32;|=&#32;x;
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+216 &#32;&#32;&#32;&#32;}
+217 
+218 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;removeJpcre2Option(Uint&#32;x)&#32;{
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_match_opts&#32;&amp;=&#32;~x;
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+221 &#32;&#32;&#32;&#32;}
+222 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;removePcre2Option(Uint&#32;x)&#32;{
+223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;match_opts&#32;&amp;=&#32;~x;
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+225 &#32;&#32;&#32;&#32;}
+226 
+<link linkend="classjpcre2_1_1RegexMatch_1a5330454d20526d7d935de202c856a679">228 </link>&#32;&#32;&#32;&#32;SIZE_T&#32;<link linkend="classjpcre2_1_1RegexMatch_1a5330454d20526d7d935de202c856a679">match</link>(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;mod)&#32;{
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_subject&#32;=&#32;s;
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_modifier&#32;=&#32;mod;
+231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;match();
+232 &#32;&#32;&#32;&#32;}
+233 &#32;&#32;&#32;&#32;SIZE_T&#32;match(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s)&#32;{
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_subject&#32;=&#32;s;
+235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;match();
+236 &#32;&#32;&#32;&#32;}
+237 &#32;&#32;&#32;&#32;SIZE_T&#32;match(<emphasis class="keywordtype">void</emphasis>);
+238 };
+239 
+240 <emphasis class="keyword">class&#32;</emphasis>RegexReplace&#32;{
+241 
+242 <emphasis class="keyword">private</emphasis>:
+243 
+244 &#32;&#32;&#32;&#32;Regex*&#32;re;&#32;&#32;&#32;&#32;<emphasis class="comment">//We&#32;will&#32;use&#32;this&#32;to&#32;access&#32;private&#32;members&#32;in&#32;Regex</emphasis>
+245 
+246 &#32;&#32;&#32;&#32;String&#32;r_subject;
+247 &#32;&#32;&#32;&#32;String&#32;r_modifier;
+248 &#32;&#32;&#32;&#32;String&#32;r_replw;
+249 &#32;&#32;&#32;&#32;Uint&#32;replace_opts;
+250 &#32;&#32;&#32;&#32;Uint&#32;jpcre2_replace_opts;
+251 &#32;&#32;&#32;&#32;PCRE2_SIZE&#32;buffer_size;
+252 
+253 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;parseReplacementOpts(<emphasis class="keywordtype">void</emphasis>);
+254 
+255 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;init_vars()&#32;{
+256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;replace_opts&#32;=&#32;jpcre2_replace_opts&#32;=&#32;0;
+257 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;buffer_size&#32;=&#32;<link linkend="namespacejpcre2_1a80cb201f2e733137b22a8ed98465096a">SUBSTITUTE_RESULT_INIT_SIZE</link>;
+258 &#32;&#32;&#32;&#32;}
+259 
+260 &#32;&#32;&#32;&#32;RegexReplace()&#32;{
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init_vars();
+262 &#32;&#32;&#32;&#32;}
+263 &#32;&#32;&#32;&#32;RegexReplace(<emphasis class="keyword">const</emphasis>&#32;RegexReplace&amp;&#32;r)&#32;{
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init_vars();
+265 &#32;&#32;&#32;&#32;}
+266 
+267 &#32;&#32;&#32;&#32;~RegexReplace()&#32;{
+268 &#32;&#32;&#32;&#32;}
+269 
+271 &#32;&#32;&#32;&#32;<emphasis class="keyword">friend</emphasis>&#32;<emphasis class="keyword">class&#32;</emphasis>Regex;
+272 
+273 <emphasis class="keyword">public</emphasis>:
+274 
+276 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;setSubject(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s)&#32;{
+277 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r_subject&#32;=&#32;s;
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+279 &#32;&#32;&#32;&#32;}
+280 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;setReplaceWith(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s)&#32;{
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r_replw&#32;=&#32;s;
+282 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+283 &#32;&#32;&#32;&#32;}
+284 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;setModifier(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s)&#32;{
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;replace_opts&#32;=&#32;jpcre2_replace_opts&#32;=&#32;0;
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r_modifier&#32;=&#32;s;
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+288 &#32;&#32;&#32;&#32;}
+289 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;setBufferSize(PCRE2_SIZE&#32;x)&#32;{
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;buffer_size&#32;=&#32;x;
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+292 &#32;&#32;&#32;&#32;}
+293 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;setJpcre2Option(Uint&#32;x)&#32;{
+294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_replace_opts&#32;=&#32;x;
+295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+296 &#32;&#32;&#32;&#32;}
+297 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;setPcre2Option(Uint&#32;x)&#32;{
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;replace_opts&#32;=&#32;x;
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+300 &#32;&#32;&#32;&#32;}
+301 
+302 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;addJpcre2Option(Uint&#32;x)&#32;{
+303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_replace_opts&#32;|=&#32;x;
+304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+305 &#32;&#32;&#32;&#32;}
+306 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;addPcre2Option(Uint&#32;x)&#32;{
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;replace_opts&#32;|=&#32;x;
+308 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+309 &#32;&#32;&#32;&#32;}
+310 
+311 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;removeJpcre2Option(Uint&#32;x)&#32;{
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_replace_opts&#32;&amp;=&#32;~x;
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+314 &#32;&#32;&#32;&#32;}
+315 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;removePcre2Option(Uint&#32;x)&#32;{
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;replace_opts&#32;&amp;=&#32;~x;
+317 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+318 &#32;&#32;&#32;&#32;}
+319 
+321 &#32;&#32;&#32;&#32;String&#32;replace(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;r,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;m)&#32;{
+322 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r_subject&#32;=&#32;s;
+323 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r_replw&#32;=&#32;r;
+324 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r_modifier&#32;=&#32;m;
+325 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;replace();
+326 &#32;&#32;&#32;&#32;}
+327 &#32;&#32;&#32;&#32;String&#32;replace(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;r)&#32;{
+328 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r_subject&#32;=&#32;s;
+329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r_replw&#32;=&#32;r;
+330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;replace();
+331 &#32;&#32;&#32;&#32;}
+332 &#32;&#32;&#32;&#32;String&#32;replace(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s)&#32;{
+333 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r_subject&#32;=&#32;s;
+334 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;replace();
+335 &#32;&#32;&#32;&#32;}
+336 &#32;&#32;&#32;&#32;String&#32;replace(<emphasis class="keywordtype">void</emphasis>);
+337 };
+338 
+339 <emphasis class="keyword">class&#32;</emphasis>Regex&#32;{
+340 
+341 <emphasis class="keyword">private</emphasis>:
+342 
+343 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&#32;*rm;
+344 &#32;&#32;&#32;&#32;RegexReplace&#32;*rr;
+345 
+346 &#32;&#32;&#32;&#32;String&#32;pat_str;
+347 &#32;&#32;&#32;&#32;String&#32;modifier;
+348 &#32;&#32;&#32;&#32;pcre2_code&#32;*code;
+349 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;error_number;
+350 &#32;&#32;&#32;&#32;PCRE2_SIZE&#32;error_offset;
+351 &#32;&#32;&#32;&#32;Uint&#32;compile_opts,&#32;jpcre2_compile_opts;
+352 &#32;&#32;&#32;&#32;String&#32;mylocale;
+353 &#32;&#32;&#32;&#32;String&#32;current_warning_msg;
+354 
+355 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;init_vars()&#32;{
+356 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mylocale&#32;=&#32;<link linkend="namespacejpcre2_1adfdd3d1fff99e685734ae4e59771e84d">LOCALE_DEFAULT</link>;
+357 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_compile_opts&#32;=&#32;0;
+358 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;error_number&#32;=&#32;0;
+359 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;error_offset&#32;=&#32;0;
+360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile_opts&#32;=&#32;0;
+361 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;code&#32;=&#32;0;
+362 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rr&#32;=&#32;0;
+363 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rm&#32;=&#32;0;
+364 &#32;&#32;&#32;&#32;}
+365 
+366 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;init()&#32;{
+367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init_vars();
+368 &#32;&#32;&#32;&#32;}
+369 
+370 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;init(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;mod)&#32;{
+371 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init_vars();
+372 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pat_str&#32;=&#32;re;
+373 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modifier&#32;=&#32;mod;
+374 &#32;&#32;&#32;&#32;}
+375 
+376 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;init(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re,&#32;Uint&#32;pcre2_opts,&#32;Uint&#32;opt_bits)&#32;{
+377 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init_vars();
+378 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pat_str&#32;=&#32;re;
+379 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile_opts&#32;=&#32;pcre2_opts;
+380 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_compile_opts&#32;=&#32;opt_bits;
+381 &#32;&#32;&#32;&#32;}
+382 
+383 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;freeRegexMemory(<emphasis class="keywordtype">void</emphasis>)&#32;{
+384 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(code)
+385 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pcre2_code_free(code);
+386 &#32;&#32;&#32;&#32;}
+387 
+388 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;parseCompileOpts(<emphasis class="keywordtype">void</emphasis>);
+389 
+391 &#32;&#32;&#32;&#32;<emphasis class="keyword">friend</emphasis>&#32;<emphasis class="keyword">class&#32;</emphasis><link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>;
+392 &#32;&#32;&#32;&#32;<emphasis class="keyword">friend</emphasis>&#32;<emphasis class="keyword">class&#32;</emphasis>RegexReplace;
+393 
+394 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;shallowCopy(<emphasis class="keyword">const</emphasis>&#32;Regex&amp;&#32;r)&#32;{
+395 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pat_str&#32;=&#32;r.pat_str;
+396 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mylocale&#32;=&#32;r.mylocale;
+397 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modifier&#32;=&#32;r.modifier;
+398 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;error_number&#32;=&#32;r.error_number;
+399 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;error_offset&#32;=&#32;r.error_offset;
+400 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile_opts&#32;=&#32;r.compile_opts;
+401 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_compile_opts&#32;=&#32;r.jpcre2_compile_opts;
+402 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;current_warning_msg&#32;=&#32;r.current_warning_msg;
+403 &#32;&#32;&#32;&#32;}
+404 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;deepCopy(<emphasis class="keyword">const</emphasis>&#32;Regex&amp;&#32;r);
+405 
+406 <emphasis class="keyword">public</emphasis>:
+407 
+409 
+410 &#32;&#32;&#32;&#32;Regex(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re,&#32;Uint&#32;pcre2_opts,&#32;Uint&#32;opt_bits)&#32;{
+411 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile(re,&#32;pcre2_opts,&#32;opt_bits);
+412 &#32;&#32;&#32;&#32;}
+413 &#32;&#32;&#32;&#32;Regex(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re,&#32;Uint&#32;pcre2_opts)&#32;{
+414 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile(re,&#32;pcre2_opts,&#32;0);
+415 &#32;&#32;&#32;&#32;}
+416 &#32;&#32;&#32;&#32;Regex(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;mod)&#32;{
+417 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile(re,&#32;mod);
+418 &#32;&#32;&#32;&#32;}
+419 &#32;&#32;&#32;&#32;Regex(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re)&#32;{
+420 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile(re,&#32;0,&#32;0);
+421 &#32;&#32;&#32;&#32;}
+422 &#32;&#32;&#32;&#32;Regex()&#32;{
+423 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init();
+424 &#32;&#32;&#32;&#32;}
+425 
+427 &#32;&#32;&#32;&#32;Regex(<emphasis class="keyword">const</emphasis>&#32;Regex&amp;&#32;r)&#32;{&#32;
+428 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shallowCopy(r);
+429 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;deepCopy(r);
+430 &#32;&#32;&#32;&#32;}
+431 &#32;&#32;&#32;&#32;Regex&amp;&#32;operator=(<emphasis class="keyword">const</emphasis>&#32;Regex&amp;&#32;r)&#32;{
+432 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(<emphasis class="keyword">this</emphasis>&#32;==&#32;&amp;r)
+433 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+435 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shallowCopy(r);
+436 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;deepCopy(r);
+437 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+438 &#32;&#32;&#32;&#32;}
+439 
+440 &#32;&#32;&#32;&#32;~Regex()&#32;{
+441 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;freeRegexMemory();
+442 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;rm;
+443 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;rr;
+444 &#32;&#32;&#32;&#32;}
+445 &#32;&#32;&#32;&#32;Regex&amp;&#32;reset()&#32;{
+446 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;freeRegexMemory();
+447 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init();
+448 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+449 &#32;&#32;&#32;&#32;}
+450 
+451 &#32;&#32;&#32;&#32;String&#32;getModifier()&#32;{
+452 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;modifier;
+453 &#32;&#32;&#32;&#32;}
+454 &#32;&#32;&#32;&#32;String&#32;getPattern()&#32;{
+455 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;pat_str;
+456 &#32;&#32;&#32;&#32;}
+457 &#32;&#32;&#32;&#32;String&#32;getLocale()&#32;{
+458 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;mylocale;
+459 &#32;&#32;&#32;&#32;}
+460 &#32;&#32;&#32;&#32;Uint&#32;getPcre2Option()&#32;{
+461 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;compile_opts;
+462 &#32;&#32;&#32;&#32;}
+463 &#32;&#32;&#32;&#32;Uint&#32;getJpcre2Option()&#32;{
+464 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;jpcre2_compile_opts;
+465 &#32;&#32;&#32;&#32;}
+466 
+468 &#32;&#32;&#32;&#32;String&#32;getErrorMessage(<emphasis class="keywordtype">int</emphasis>&#32;err_num,&#32;PCRE2_SIZE&#32;err_off);
+469 
+470 &#32;&#32;&#32;&#32;String&#32;getErrorMessage(<emphasis class="keywordtype">int</emphasis>&#32;err_num)&#32;{
+471 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;getErrorMessage(err_num,&#32;error_offset);
+472 &#32;&#32;&#32;&#32;}
+473 &#32;&#32;&#32;&#32;String&#32;getErrorMessage()&#32;{
+474 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;getErrorMessage(error_number,&#32;error_offset);
+475 &#32;&#32;&#32;&#32;}
+476 &#32;&#32;&#32;&#32;String&#32;getWarningMessage()&#32;{
+477 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;current_warning_msg;
+478 &#32;&#32;&#32;&#32;}
+479 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;getErrorNumber()&#32;{
+480 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;error_number;
+481 &#32;&#32;&#32;&#32;}
+482 &#32;&#32;&#32;&#32;PCRE2_SIZE&#32;getErrorOffset()&#32;{
+483 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;error_offset;
+484 &#32;&#32;&#32;&#32;}
+485 
+486 &#32;&#32;&#32;&#32;Regex&amp;&#32;setPattern(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re)&#32;{
+487 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pat_str&#32;=&#32;re;
+488 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+489 &#32;&#32;&#32;&#32;}
+490 &#32;&#32;&#32;&#32;Regex&amp;&#32;setModifier(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;x)&#32;{
+491 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile_opts&#32;=&#32;jpcre2_compile_opts&#32;=&#32;0;
+492 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modifier&#32;=&#32;x;
+493 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+494 &#32;&#32;&#32;&#32;}
+495 &#32;&#32;&#32;&#32;Regex&amp;&#32;setLocale(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;x)&#32;{
+496 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mylocale&#32;=&#32;x;
+497 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+498 &#32;&#32;&#32;&#32;}
+499 &#32;&#32;&#32;&#32;Regex&amp;&#32;setJpcre2Option(Uint&#32;x)&#32;{
+500 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_compile_opts&#32;=&#32;x;
+501 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+502 &#32;&#32;&#32;&#32;}
+503 &#32;&#32;&#32;&#32;Regex&amp;&#32;setPcre2Option(Uint&#32;x)&#32;{
+504 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile_opts&#32;=&#32;x;
+505 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+506 &#32;&#32;&#32;&#32;}
+507 
+508 &#32;&#32;&#32;&#32;Regex&amp;&#32;addJpcre2Option(Uint&#32;x)&#32;{
+509 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_compile_opts&#32;|=&#32;x;
+510 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+511 &#32;&#32;&#32;&#32;}
+512 &#32;&#32;&#32;&#32;Regex&amp;&#32;addPcre2Option(Uint&#32;x)&#32;{
+513 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile_opts&#32;|=&#32;x;
+514 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+515 &#32;&#32;&#32;&#32;}
+516 
+517 &#32;&#32;&#32;&#32;Regex&amp;&#32;removeJpcre2Option(Uint&#32;x)&#32;{
+518 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;jpcre2_compile_opts&#32;&amp;=&#32;~x;
+519 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+520 &#32;&#32;&#32;&#32;}
+521 &#32;&#32;&#32;&#32;Regex&amp;&#32;removePcre2Option(Uint&#32;x)&#32;{
+522 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile_opts&#32;&amp;=&#32;~x;
+523 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*<emphasis class="keyword">this</emphasis>;
+524 &#32;&#32;&#32;&#32;}
+525 
+527 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;compile(<emphasis class="keywordtype">void</emphasis>);
+528 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;compile(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re,&#32;Uint&#32;po,&#32;Uint&#32;jo)&#32;{
+529 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init(re,&#32;po,&#32;jo);
+530 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile();
+531 &#32;&#32;&#32;&#32;}
+532 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;compile(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re,&#32;Uint&#32;po)&#32;{
+533 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init(re,&#32;po,&#32;0);
+534 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile();
+535 &#32;&#32;&#32;&#32;}
+536 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;compile(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;mod)&#32;{
+537 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init(re,&#32;mod);
+538 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile();
+539 &#32;&#32;&#32;&#32;}
+540 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">void</emphasis>&#32;compile(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;re)&#32;{
+541 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init(re,&#32;0,&#32;0);
+542 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile();
+543 &#32;&#32;&#32;&#32;}
+544 
+546 &#32;&#32;&#32;&#32;SIZE_T&#32;match(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;mod)&#32;{
+547 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;rm;
+548 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rm&#32;=&#32;<emphasis class="keyword">new</emphasis>&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>();
+549 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rm-&gt;re&#32;=&#32;<emphasis class="keyword">this</emphasis>;
+550 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;rm-&gt;<link linkend="classjpcre2_1_1RegexMatch_1a5330454d20526d7d935de202c856a679">match</link>(s,&#32;mod);
+551 &#32;&#32;&#32;&#32;}
+552 &#32;&#32;&#32;&#32;SIZE_T&#32;match(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;s)&#32;{
+553 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;rm;
+554 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rm&#32;=&#32;<emphasis class="keyword">new</emphasis>&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>();
+555 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rm-&gt;re&#32;=&#32;<emphasis class="keyword">this</emphasis>;
+556 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;rm-&gt;<link linkend="classjpcre2_1_1RegexMatch_1a5330454d20526d7d935de202c856a679">match</link>(s);
+557 &#32;&#32;&#32;&#32;}
+558 
+559 &#32;&#32;&#32;&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>&amp;&#32;initMatch()&#32;{
+560 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;rm;
+561 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rm&#32;=&#32;<emphasis class="keyword">new</emphasis>&#32;<link linkend="classjpcre2_1_1RegexMatch">RegexMatch</link>();
+562 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rm-&gt;re&#32;=&#32;<emphasis class="keyword">this</emphasis>;
+563 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*rm;
+564 &#32;&#32;&#32;&#32;}
+565 
+567 &#32;&#32;&#32;&#32;String&#32;replace(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;mains,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;repl,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;mod)&#32;{
+568 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;rr;
+569 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rr&#32;=&#32;<emphasis class="keyword">new</emphasis>&#32;RegexReplace();
+570 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rr-&gt;re&#32;=&#32;<emphasis class="keyword">this</emphasis>;
+571 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;rr-&gt;replace(mains,&#32;repl,&#32;mod);
+572 &#32;&#32;&#32;&#32;}
+573 &#32;&#32;&#32;&#32;String&#32;replace(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;mains,&#32;<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;repl)&#32;{
+574 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;rr;
+575 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rr&#32;=&#32;<emphasis class="keyword">new</emphasis>&#32;RegexReplace();
+576 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rr-&gt;re&#32;=&#32;<emphasis class="keyword">this</emphasis>;
+577 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;rr-&gt;replace(mains,&#32;repl);
+578 &#32;&#32;&#32;&#32;}
+579 &#32;&#32;&#32;&#32;String&#32;replace(<emphasis class="keyword">const</emphasis>&#32;String&amp;&#32;mains)&#32;{
+580 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;rr;
+581 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rr&#32;=&#32;<emphasis class="keyword">new</emphasis>&#32;RegexReplace();
+582 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rr-&gt;re&#32;=&#32;<emphasis class="keyword">this</emphasis>;
+583 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;rr-&gt;replace(mains);
+584 &#32;&#32;&#32;&#32;}
+585 &#32;&#32;&#32;&#32;RegexReplace&amp;&#32;initReplace()&#32;{
+586 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">delete</emphasis>&#32;rr;
+587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rr&#32;=&#32;<emphasis class="keyword">new</emphasis>&#32;RegexReplace();
+588 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rr-&gt;re&#32;=&#32;<emphasis class="keyword">this</emphasis>;
+589 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;*rr;
+590 &#32;&#32;&#32;&#32;}
+591 
+592 };
+593 
+594 }&#32;
+595 
+596 <emphasis class="preprocessor">#endif</emphasis>
+    </computeroutput></literallayout>
+</section>

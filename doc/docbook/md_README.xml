@@ -1,0 +1,747 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>README</title>
+
+<para><link xlink:href="https://travis-ci.org/jpcre2/jpcre2/"></link></para>
+
+<para> PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.</para>
+
+<para>This provides some C++ wrapper functions to provide some useful utilities like regex match and regex replace.</para>
+
+<para> #Requirements:</para>
+
+<para><orderedlist>
+<listitem>
+<para>PCRE2 library (<computeroutput>version &gt;=10.21</computeroutput>).</para>
+</listitem></orderedlist>
+</para>
+
+<para>If the required PCRE2 version is not available in the official channel, download <link xlink:href="https://github.com/jpcre2/pcre2">my fork of the library</link> which will always be kept compatible with JPCRE2.</para>
+
+<para> #Install/Include:</para>
+
+<para>It can be installed as a separate library or can be used directly in a project by including the appropriate sources:</para>
+
+<para><orderedlist>
+<listitem>
+<para><emphasis role="bold">jpcre2.h</emphasis></para>
+</listitem><listitem>
+<para><emphasis role="bold">jpcre2.cpp</emphasis></para>
+</listitem><listitem>
+<para><emphasis role="bold">jpcre2_match.cpp</emphasis></para>
+</listitem><listitem>
+<para><emphasis role="bold">jpcre2_replace.cpp</emphasis></para>
+</listitem></orderedlist>
+</para>
+
+<para>An example compile/build command with GCC would be:</para>
+
+<para><literallayout><computeroutput>g++&#32;mycpp.cpp&#32;jpcre2_match.cpp&#32;jpcre2_replace.cpp&#32;jpcre2.cpp&#32;jpcre2.h&#32;-lpcre2-8
+</computeroutput></literallayout></para>
+
+<para>If your PCRE2 library is not in the standard library path, then add the path:</para>
+
+<para><literallayout><computeroutput>g++&#32;-std=c++11&#32;mycpp.cpp&#32;...&#32;-L/path/to/your/pcre2/library&#32;-lpcre2-8
+</computeroutput></literallayout></para>
+
+<para><emphasis role="bold">Note that</emphasis> it requires the PCRE2 library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.</para>
+
+<para><emphasis role="bold">Installing JPCRE2 as a library:</emphasis></para>
+
+<para>To install it in a Unix based system, run: <literallayout><computeroutput>./configure
+make
+sudo&#32;make&#32;install
+</computeroutput></literallayout> Now <computeroutput>#include &lt;jpcre2.h&gt;</computeroutput> in your code and build/compile by linking with both JPCRE2 and PCRE2 library.</para>
+
+<para>An example command for GCC would be:</para>
+
+<para><literallayout><computeroutput>g++&#32;&#32;mycpp.cpp&#32;-ljpcre2-8&#32;-lpcre2-8&#32;#sequence&#32;is&#32;important
+</computeroutput></literallayout></para>
+
+<para>If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 sources with your favourite IDE or use it as it is.</para>
+
+<para><emphasis role="bold">Notes:</emphasis></para>
+
+<para><orderedlist>
+<listitem>
+<para><computeroutput>PCRE2_CODE_UNIT_WIDTH</computeroutput> other than 8 is not supported in this version.</para>
+</listitem><listitem>
+<para>To use the <computeroutput>PCRE2 POSIX</computeroutput> compatible library, add the <computeroutput>-lpcre2-posix</computeroutput> along with the others.</para>
+</listitem></orderedlist>
+</para>
+
+<para>#How to code with JPCRE2:</para>
+
+<para> <formalpara><title>Compile a pattern</title></formalpara>
+</para>
+
+<para><emphasis role="bold">First create a <computeroutput>jpcre2::Regex</computeroutput>object</emphasis></para>
+
+<para>(You can use temporary object too, see <link xlink:href="#short-examples">short examples</link>).</para>
+
+<para>This object will hold the pattern, modifiers, compiled pattern, error and warning codes.</para>
+
+<para><literallayout><computeroutput>jpcre2::Regex&#32;re;&#32;&#32;&#32;//Create&#32;object
+</computeroutput></literallayout> Each object for each regex pattern.</para>
+
+<para><emphasis role="bold">Compile the pattern</emphasis> and catch any error exception:</para>
+
+<para><literallayout><computeroutput>try{
+&#32;&#32;&#32;&#32;re.compile()&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Invoke&#32;the&#32;compile()&#32;function
+&#32;&#32;&#32;&#32;&#32;&#32;.setPattern(pat)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//set&#32;various&#32;parameters
+&#32;&#32;&#32;&#32;&#32;&#32;.setModifiers(&quot;Jin&quot;)&#32;&#32;&#32;&#32;&#32;//sets&#32;the&#32;modifier
+&#32;&#32;&#32;&#32;&#32;&#32;.addJpcre2Options(0)&#32;&#32;&#32;&#32;&#32;//Adds&#32;the&#32;jpcre2&#32;option
+&#32;&#32;&#32;&#32;&#32;&#32;.addPcre2Options(0)&#32;&#32;&#32;&#32;&#32;&#32;//Adds&#32;the&#32;pcre2&#32;option
+&#32;&#32;&#32;&#32;&#32;&#32;.execute();&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Finally&#32;execute&#32;it.
+
+&#32;&#32;&#32;&#32;//Another&#32;way&#32;is&#32;to&#32;use&#32;constructor&#32;to&#32;initialize&#32;and&#32;compile&#32;at&#32;the&#32;same&#32;time:
+&#32;&#32;&#32;&#32;jpcre2::Regex&#32;re2(&quot;pattern2&quot;,&quot;mSi&quot;);&#32;&#32;//S&#32;is&#32;an&#32;optimization&#32;mod.
+&#32;&#32;&#32;&#32;jpcre2::Regex&#32;re3(&quot;pattern3&quot;,&#32;PCRE2_ANCHORED);
+&#32;&#32;&#32;&#32;jpcre2::Regex&#32;re4(&quot;pattern4&quot;,&#32;PCRE2_ANCHORED,&#32;jpcre2::JIT_COMPILE);
+}
+catch(int&#32;e){
+&#32;&#32;&#32;&#32;/*Handle&#32;error*/
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+}
+</computeroutput></literallayout></para>
+
+<para>Now you can perform match or replace against the pattern. Use the <computeroutput>match()</computeroutput> member function to preform regex match and the <computeroutput>replace()</computeroutput> member function to perform regex replace.</para>
+
+<para> <formalpara><title>Match</title></formalpara>
+</para>
+
+<para>The <computeroutput>match()</computeroutput> member function can take two optional arguments (subject &amp; modifier) and returns an object of the class <emphasis>RegexMatch</emphasis> which then in turn can be used to pass various parameters using available member functions (method chaining) of <emphasis>RegexMatch</emphasis> class. The end function in the method chain must be the <computeroutput>execute()</computeroutput> function which returns the result (number of matches found).</para>
+
+<para><emphasis role="bold">Perform match</emphasis> and catch any error exception:</para>
+
+<para><literallayout><computeroutput>jpcre2::VecNum&#32;vec_num;
+try{
+&#32;&#32;&#32;&#32;size_t&#32;count=re.match(subject)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Invoke&#32;the&#32;match()&#32;function
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setModifiers(ac_mod)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Set&#32;various&#32;options
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setNumberedSubstringVector(&amp;vec_num)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.addJpcre2Options(jpcre2::VALIDATE_MODIFIER)&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.execute();&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Finally&#32;execute&#32;it.
+&#32;&#32;&#32;&#32;//vec_num&#32;will&#32;be&#32;populated&#32;with&#32;maps&#32;of&#32;numbered&#32;substrings.
+&#32;&#32;&#32;&#32;//count&#32;is&#32;the&#32;total&#32;number&#32;of&#32;matches&#32;found
+}
+catch(int&#32;e){
+&#32;&#32;&#32;&#32;/*Handle&#32;error*/
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+}
+</computeroutput></literallayout> <emphasis role="bold">Iterate through the substrings:</emphasis></para>
+
+<para><literallayout><computeroutput>for(size_t&#32;i=0;i&lt;vec_num.size();++i){
+&#32;&#32;&#32;&#32;//i=0&#32;is&#32;the&#32;first&#32;match&#32;found,&#32;i=1&#32;is&#32;the&#32;second&#32;and&#32;so&#32;forth
+&#32;&#32;&#32;&#32;/*//=&gt;C++11
+&#32;&#32;&#32;&#32;for(auto&#32;const&amp;&#32;ent&#32;:&#32;vec_num[i]){
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//ent.first&#32;is&#32;the&#32;number/position&#32;of&#32;substring&#32;found
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//ent.second&#32;is&#32;the&#32;substring&#32;itself
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//when&#32;ent.first&#32;is&#32;0,&#32;ent.second&#32;is&#32;the&#32;total&#32;match.
+&#32;&#32;&#32;&#32;}*/
+&#32;&#32;&#32;&#32;for(jpcre2::MapNum::iterator&#32;ent=vec_num0[i].begin();ent!=vec_num0[i].end();++ent){
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\n\t&quot;&lt;&lt;ent-&gt;first&lt;&lt;&quot;:&#32;&quot;&lt;&lt;ent-&gt;second&lt;&lt;&quot;\n&quot;;
+&#32;&#32;&#32;&#32;}
+}
+</computeroutput></literallayout> <emphasis role="bold">Access a substring</emphasis> for a known position:</para>
+
+<para><literallayout><computeroutput>std::cout&lt;&lt;vec_num[0][0];&#32;//&#32;group&#32;0&#32;in&#32;first&#32;match
+std::cout&lt;&lt;vec_num[0][1];&#32;//&#32;group&#32;1&#32;in&#32;first&#32;match
+std::cout&lt;&lt;vec_num[1][0];&#32;//&#32;group&#32;0&#32;in&#32;second&#32;match
+</computeroutput></literallayout></para>
+
+<para><emphasis role="bold">To get named substrings and/or name to number mapping,</emphasis> pass pointer to the appropriate vectors with <computeroutput>namedSubstringVector()</computeroutput> and/or <computeroutput>nameToNumberMapVector()</computeroutput>:</para>
+
+<para><literallayout><computeroutput>jpcre2::VecNum&#32;vec_num;&#32;&#32;&#32;///Vector&#32;to&#32;store&#32;numbured&#32;substring&#32;Map.
+jpcre2::VecNas&#32;vec_nas;&#32;&#32;&#32;///Vector&#32;to&#32;store&#32;named&#32;substring&#32;Map.
+jpcre2::VecNtN&#32;vec_ntn;&#32;&#32;&#32;///Vector&#32;to&#32;store&#32;Named&#32;substring&#32;to&#32;Number&#32;Map.
+std::string&#32;ac_mod=&quot;g&quot;;&#32;&#32;&#32;//&#32;g&#32;is&#32;for&#32;global&#32;match.&#32;Equivalent&#32;to&#32;using&#32;setFindAll()&#32;or&#32;FIND_ALL&#32;in&#32;addJpcre2Options()
+try{
+&#32;&#32;&#32;&#32;re.match(subject)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Invoke&#32;the&#32;match()&#32;function
+&#32;&#32;&#32;&#32;&#32;&#32;.setModifiers(ac_mod)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Set&#32;various&#32;options
+&#32;&#32;&#32;&#32;&#32;&#32;.setNumberedSubstringVector(&amp;vec_num)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;.setNamedSubstringVector(&amp;vec_nas)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;.setNameToNumberMapVector(&amp;vec_ntn)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;.addJpcre2Options(jpcre2::VALIDATE_MODIFIER)&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;.addPcre2Options(PCRE2_ANCHORED)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;.execute();&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Finally&#32;execute&#32;it.
+}
+catch(int&#32;e){
+&#32;&#32;&#32;&#32;/*Handle&#32;error*/
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+}
+</computeroutput></literallayout> <emphasis role="bold">Iterating</emphasis> through the vectors and associated maps are the same as the above example for numbered substrings. The size of all three vectors are the same and can be accessed in the same way.</para>
+
+<para><emphasis role="bold">Accesing a substring by name:</emphasis></para>
+
+<para><literallayout><computeroutput>std::cout&lt;&lt;vec_nas[0][&quot;name&quot;];&#32;//&#32;captured&#32;group&#32;by&#32;name&#32;in&#32;first&#32;match
+std::cout&lt;&lt;vec_nas[1][&quot;name&quot;];&#32;//&#32;captured&#32;group&#32;by&#32;name&#32;in&#32;second&#32;match
+</computeroutput></literallayout></para>
+
+<para><emphasis role="bold">Getting the position of a captured group name:</emphasis></para>
+
+<para><literallayout><computeroutput>std::cout&lt;&lt;vec_ntn[0][&quot;name&quot;];&#32;//&#32;position&#32;of&#32;captured&#32;group&#32;&apos;name&apos;&#32;in&#32;first&#32;match
+</computeroutput></literallayout></para>
+
+<para><formalpara><title>Replace/Substitute</title></formalpara>
+</para>
+
+<para>The <computeroutput>replace()</computeroutput> member function can take upto three optional arguments (subject, replacement string and modifier) and returns an object of the class <emphasis>RegexReplace</emphasis> which then in turn can be used to pass various parameters using available member functions (method chaining) of <emphasis>RegexReplace</emphasis> class. The end function in the method chain must be the <computeroutput>execute()</computeroutput> function which returns the result (replaced string).</para>
+
+<para><emphasis role="bold">Perform replace</emphasis> and catch any error exception:</para>
+
+<para><literallayout><computeroutput>try{
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;
+&#32;&#32;&#32;&#32;re.replace()&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Invoke&#32;the&#32;replace()&#32;function
+&#32;&#32;&#32;&#32;&#32;&#32;.setSubject(s)&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Set&#32;various&#32;parameters
+&#32;&#32;&#32;&#32;&#32;&#32;.setReplaceWith(s2)&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;.setModifiers(&quot;gE&quot;)&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;.addJpcre2Options(0)&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;.addPcre2Options(0)&#32;&#32;//...
+&#32;&#32;&#32;&#32;&#32;&#32;.execute();&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//Finally&#32;execute&#32;it.
+&#32;&#32;&#32;&#32;//gE&#32;is&#32;the&#32;modifier&#32;passed&#32;(global&#32;and&#32;unknown-unset-empty).
+&#32;&#32;&#32;&#32;//Access&#32;substrings/captured&#32;groups&#32;with&#32;${1234},$1234&#32;(for&#32;numbered&#32;substrings)
+&#32;&#32;&#32;&#32;//&#32;or&#32;${name}&#32;(for&#32;named&#32;substrings)&#32;in&#32;the&#32;replacement&#32;part&#32;i.e&#32;in&#32;setReplaceWith()
+}
+catch(int&#32;e){
+&#32;&#32;&#32;&#32;/*Handle&#32;error*/
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;
+}
+</computeroutput></literallayout> If you pass the size of the resultant string with <computeroutput>setBufferSize()</computeroutput> function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function (<computeroutput>pcre2_substitute()</computeroutput>) will be called <emphasis>twice</emphasis> to adjust the size of the buffer to hold the whole resultant string in order to avoid <computeroutput>PCRE2_ERROR_NOMEMORY</computeroutput> error.</para>
+
+<para>#Insight:</para>
+
+<para>Let&apos;s take a quick look what&apos;s inside and how things are working here:</para>
+
+<para><formalpara><title>Namespaces:</title></formalpara>
+</para>
+
+<para><table frame="all">
+    <title></title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+    <tbody>
+<row>
+<entry>
+<para>Namespace </para>
+</entry><entry>
+<para>Details  </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput><link linkend="namespacejpcre2">jpcre2</link></computeroutput> </para>
+</entry><entry>
+<para>This is the namespace that should be used to access JPCRE2 classes and functions. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>jpcre2::utils</computeroutput> </para>
+</entry><entry>
+<para>Some utility functions used by JPCRE2. </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</table>
+<formalpara><title>Classes:</title></formalpara>
+</para>
+
+<para><table frame="all">
+    <title></title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+    <tbody>
+<row>
+<entry>
+<para>Class </para>
+</entry><entry>
+<para>Details  </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>Regex</computeroutput> </para>
+</entry><entry>
+<para>Main class that holds the key utilities of JPCRE2. Every regex needs an object of this class. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>RegexMatch</computeroutput> </para>
+</entry><entry>
+<para>Contains functions to perform regex matching according to the compiled pattern. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>RegexReplace</computeroutput> </para>
+</entry><entry>
+<para>Contains functions to perform replacement according to the compiled pattern. </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</table>
+ <formalpara><title>Functions at a glance:</title></formalpara>
+</para>
+
+<para><literallayout><computeroutput>////Class&#32;Regex
+
+//Constructors
+Regex(const&#32;String&amp;&#32;re,&#32;Uint&#32;pcre2_opts,&#32;Uint&#32;opt_bits)
+Regex(const&#32;String&amp;&#32;re,&#32;Uint&#32;pcre2_opts)
+Regex(const&#32;String&amp;&#32;re,&#32;const&#32;String&amp;&#32;mod)
+Regex(const&#32;String&amp;&#32;re)
+Regex(const&#32;Regex&amp;&#32;r)
+Regex()
+
+//Overloaded&#32;assignment&#32;operator
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;operator=(const&#32;Regex&amp;&#32;r)
+
+//Getters
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getModifier()
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getPattern()
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getLocale()&#32;&#32;&#32;&#32;&#32;&#32;&#32;///Gets&#32;LC_CTYPE
+uint32_t&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getPcre2Options()
+uint32_t&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getJpcre2Options()
+
+///Error&#32;handling
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getErrorMessage(int&#32;err_num,&#32;PCRE2_SIZE&#32;err_offset)
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getErrorMessage(int&#32;err_num)
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getErrorMessage()
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getWarningMessage()
+int&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getErrorNumber()
+PCRE2_SIZE&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getErrorOffset()
+
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile(const&#32;String&amp;&#32;re,&#32;Uint&#32;pcre2_opts,&#32;Uint&#32;jpcre2_opts)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile(const&#32;String&amp;&#32;re,&#32;Uint&#32;pcre2_opts)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile(const&#32;String&amp;&#32;re,&#32;const&#32;String&amp;&#32;mod)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile(const&#32;String&amp;&#32;re)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;compile()
+
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setPattern(const&#32;String&amp;&#32;re)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setModifiers(const&#32;String&amp;&#32;x)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setLocale(const&#32;String&amp;&#32;x)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setJpcre2Options(Uint&#32;x)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setPcre2Options(Uint&#32;x)
+
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;addJpcre2Options(Uint&#32;x)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;addPcre2Options(Uint&#32;x)
+
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;removeJpcre2Options(Uint&#32;x)
+Regex&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;removePcre2Options(Uint&#32;x)
+
+void&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;execute()&#32;&#32;//executes&#32;the&#32;compile&#32;operation.
+void&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exec()&#32;&#32;&#32;&#32;&#32;//wrapper&#32;of&#32;execute()
+
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;match(const&#32;String&amp;&#32;s,&#32;const&#32;String&amp;&#32;mod)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;match(const&#32;String&amp;&#32;s)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;match()
+
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;replace(const&#32;String&amp;&#32;mains,&#32;const&#32;String&amp;&#32;repl,&#32;const&#32;String&amp;&#32;mod)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;replace(const&#32;String&amp;&#32;mains,const&#32;String&amp;&#32;repl)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;replace(const&#32;String&amp;&#32;mains)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;replace()
+
+
+////Class&#32;RegexMatch
+
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setNumberedSubstringVector(VecNum*&#32;vec_num)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setNamedSubstringVector(VecNas*&#32;vec_nas)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setNameToNumberMapVector(VecNtN*&#32;vec_ntn)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setSubject(const&#32;String&amp;&#32;s)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setModifiers(const&#32;String&amp;&#32;s)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setJpcre2Options(Uint&#32;x)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setPcre2Options(Uint&#32;x)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setFindAll(bool&#32;x=true)
+
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;addJpcre2Options(Uint&#32;x)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;addPcre2Options(Uint&#32;x)
+
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;removeJpcre2Options(Uint&#32;x)
+RegexMatch&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;removePcre2Options(Uint&#32;x)&#32;
+
+SIZE_T&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;execute()&#32;&#32;//executes&#32;the&#32;match&#32;operation
+SIZE_T&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exec()&#32;&#32;&#32;&#32;&#32;//wrapper&#32;of&#32;execute()
+
+
+////Class&#32;RegexReplace
+
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setSubject(const&#32;String&amp;&#32;s)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setReplaceWith(const&#32;String&amp;&#32;s)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setModifiers(const&#32;String&amp;&#32;s)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setBufferSize(PCRE2_SIZE&#32;x)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setJpcre2Options(Uint&#32;x)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setPcre2Options(Uint&#32;x)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;addJpcre2Options(Uint&#32;x)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;addPcre2Options(Uint&#32;x)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;removeJpcre2Options(Uint&#32;x)
+RegexReplace&amp;&#32;&#32;&#32;&#32;&#32;&#32;&#32;removePcre2Options(Uint&#32;x)
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;execute()&#32;//executes&#32;the&#32;replacement&#32;operation
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exec()&#32;&#32;&#32;&#32;//wrapper&#32;of&#32;exec()
+
+
+////Namespace&#32;jpcre2::utils
+
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;toString(int&#32;a)
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;toString(char&#32;a)
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;toString(const&#32;char*&#32;a)
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;toString(PCRE2_UCHAR*&#32;a)
+String&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;getPcre2ErrorMessage(int&#32;err_num)
+</computeroutput></literallayout></para>
+
+<para> <formalpara><title>Modifiers:</title></formalpara>
+</para>
+
+<para><emphasis role="bold">JPCRE2</emphasis> uses modifiers to control various options, type, behavior of the regex and its&apos; interactions with different functions that uses it. Two types of modifiers are available: <emphasis>compile modifiers</emphasis> and <emphasis>action modifiers</emphasis>:</para>
+
+<para> <formalpara><title>Compile modifiers:</title></formalpara>
+</para>
+
+<para>Modifiers define the behavior of a regex pattern. They have more or less the same meaning as the <link xlink:href="https://php.net/manual/en/reference.pcre.pattern.modifiers.php">PHP regex modifiers</link> except for <computeroutput>e, j and n</computeroutput> (marked with <superscript>*</superscript>).</para>
+
+<para><table frame="all">
+    <title></title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+    <tbody>
+<row>
+<entry>
+<para>Modifier </para>
+</entry><entry>
+<para>Details  </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>e</computeroutput><superscript>*</superscript> </para>
+</entry><entry>
+<para>Unset back-references in the pattern will match to empty strings. Equivalent to <computeroutput>PCRE2_MATCH_UNSET_BACKREF</computeroutput>. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>i</computeroutput> </para>
+</entry><entry>
+<para>Case-insensitive. Equivalent to <computeroutput>PCRE2_CASELESS</computeroutput> option. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>j</computeroutput><superscript>*</superscript> </para>
+</entry><entry>
+<para><computeroutput>\u \U \x</computeroutput> and unset back-referencees will act as JavaScript standard. <itemizedlist>
+<listitem>
+
+<para><computeroutput></computeroutput> matches an upper case &quot;U&quot; character (by default it causes a compile time error if this option is not set).</para>
+</listitem>
+<listitem>
+
+<para><computeroutput></computeroutput> matches a lower case &quot;u&quot; character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).</para>
+</listitem>
+<listitem>
+
+<para><computeroutput></computeroutput> matches a lower case &quot;x&quot; character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after <computeroutput></computeroutput>, but it may have zero, one, or two digits (so, for example, <computeroutput></computeroutput> matches a binary zero character followed by z) ).</para>
+</listitem>
+<listitem>
+
+<para>Unset back-references in the pattern will match to empty strings.</para>
+</listitem>
+</itemizedlist>
+</para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>m</computeroutput> </para>
+</entry><entry>
+<para>Multi-line regex. Equivalent to <computeroutput>PCRE2_MULTILINE</computeroutput> option. </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</table>
+<computeroutput>n</computeroutput><superscript>*</superscript> | Enable Unicode support for <computeroutput>\w \d</computeroutput> etc... in pattern. Equivalent to <computeroutput>PCRE2_UTF | PCRE2_UCP</computeroutput>. <computeroutput>s</computeroutput> | If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to <computeroutput>PCRE2_DOTALL</computeroutput> option. <computeroutput>u</computeroutput> | Enable UTF support.Treat pattern and subjects as UTF strings. It is equivalent to <computeroutput>PCRE2_UTF</computeroutput> option. <computeroutput>x</computeroutput> | Whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, enables commentary in pattern. Equivalent to <computeroutput>PCRE2_EXTENDED</computeroutput> option. <computeroutput>A</computeroutput> | Match only at the first position. It is equivalent to <computeroutput>PCRE2_ANCHORED</computeroutput> option. <computeroutput>D</computeroutput> | A dollar meta-character in the pattern matches only at the end of the subject string. Without this modifier, a dollar also matches immediately before the final character if it is a newline (but not before any other newlines). This modifier is ignored if <emphasis>m</emphasis> modifier is set. Equivalent to <computeroutput>PCRE2_DOLLAR_ENDONLY</computeroutput> option. <computeroutput>J</computeroutput> | Allow duplicate names for subpatterns. Equivalent to <computeroutput>PCRE2_DUPNAMES</computeroutput> option. <computeroutput>S</computeroutput> | When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching/replacing. It may also be beneficial for a very long subject string or pattern. Equivalent to an extra compilation with JIT_COMPILER with the option <computeroutput>PCRE2_JIT_COMPLETE</computeroutput>. <computeroutput>U</computeroutput> | This modifier inverts the &quot;greediness&quot; of the quantifiers so that they are not greedy by default, but become greedy if followed by <computeroutput>?</computeroutput>. Equivalent to <computeroutput>PCRE2_UNGREEDY</computeroutput> option.</para>
+
+<para><formalpara><title>Action modifiers:</title></formalpara>
+</para>
+
+<para>These modifiers are not compiled in the regex itself, rather it is used per call of each match or replace function.</para>
+
+<para><table frame="all">
+    <title></title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+    <tbody>
+<row>
+<entry>
+<para>Modifier </para>
+</entry><entry>
+<para>Details  </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>A</computeroutput> </para>
+</entry><entry>
+<para>Match at start. Equivalent to <computeroutput>PCRE2_ANCHORED</computeroutput>. Can be used in match operation. Setting this option only at match time (i.e regex was not compiled with this option) will disable optimization during match time. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>e</computeroutput> </para>
+</entry><entry>
+<para>Replaces unset group with empty string. Equivalent to <computeroutput>PCRE2_SUBSTITUTE_UNSET_EMPTY</computeroutput>. Can be used in replace operation. </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</table>
+<computeroutput>E</computeroutput> | Extension of <computeroutput>e</computeroutput> modifier. Sets even unknown groups to empty string. Equivalent to <computeroutput>PCRE2_SUBSTITUTE_UNSET_EMPTY | PCRE2_SUBSTITUTE_UNKNOWN_UNSET</computeroutput>. <computeroutput>g</computeroutput> | Global. Will perform global matching or replacement if passed. <computeroutput>x</computeroutput> | Extended replacement operation. It enables some Bash like features: <computeroutput>${&lt;n&gt;:-&lt;string&gt;}</computeroutput> and <computeroutput>${&lt;n&gt;:+&lt;string1&gt;:&lt;string2&gt;}</computeroutput>.
+<literallayout>
+</literallayout>
+<computeroutput>&lt;n&gt;</computeroutput> may be a group number or a name. The first form specifies a default value. If group <computeroutput>&lt;n&gt;</computeroutput> is set, its value is inserted; if not, <computeroutput>&lt;string&gt;</computeroutput> is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group <computeroutput>&lt;n&gt;</computeroutput> is set or unset, respectively. The first form is just a convenient shorthand for <computeroutput>${&lt;n&gt;:+${&lt;n&gt;}:&lt;string&gt;}</computeroutput>.</para>
+
+<para></para>
+
+<para><formalpara><title>JPCRE2 options:</title></formalpara>
+</para>
+
+<para>These options are meaningful only for the <emphasis role="bold">JPCRE2</emphasis> library itself not the original <emphasis role="bold">PCRE2</emphasis> library. We use the <computeroutput>addJpcre2Options()</computeroutput> function to pass these options.</para>
+
+<para><table frame="all">
+    <title></title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+    <tbody>
+<row>
+<entry>
+<para>Option </para>
+</entry><entry>
+<para>Details  </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput><link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9">jpcre2::NONE</link></computeroutput> </para>
+</entry><entry>
+<para>This is the default option. Equivalent to 0 (zero). </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput><link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387">jpcre2::VALIDATE_MODIFIER</link></computeroutput> </para>
+</entry><entry>
+<para>If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a <computeroutput><link linkend="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff">jpcre2::ERROR::INVALID_MODIFIER</link></computeroutput> error exception will be thrown. You can get the error message with <computeroutput>getErrorMessage(error_code)</computeroutput> member function. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput><link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c">jpcre2::FIND_ALL</link></computeroutput> </para>
+</entry><entry>
+<para>This option will do a global matching if passed during matching. The same can be achieved by passing the &apos;g&apos; modifier with <computeroutput>setModifiers()</computeroutput> function. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput><link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552">jpcre2::ERROR_ALL</link></computeroutput> </para>
+</entry><entry>
+<para>Treat warnings as errors and throw exception. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput><link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e">jpcre2::JIT_COMPILE</link></computeroutput> </para>
+</entry><entry>
+<para>This is same as passing the <emphasis role="bold">S</emphasis> modifier during pattern compilation. </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</table>
+<formalpara><title>PCRE2 options:</title></formalpara>
+</para>
+
+<para>While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the <computeroutput>addPcre2Options()</computeroutput> function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the &apos;g&apos; modifier to the replacement operation we can also pass its PCRE2 equivalent <emphasis>PCRE2_SUBSTITUTE_GLOBAL</emphasis> to have the same effect.</para>
+
+<para> #Short examples</para>
+
+<para><literallayout><computeroutput>size_t&#32;count;
+///Check&#32;if&#32;string&#32;matches&#32;the&#32;pattern
+/**
+&#32;*&#32;The&#32;following&#32;uses&#32;a&#32;temporary&#32;Regex&#32;object.
+&#32;*&#32;*/
+if(jpcre2::Regex(&quot;(\\d)|(\\w)&quot;).match(&quot;I&#32;am&#32;the&#32;subject&quot;).execute())&#32;
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nmatched&quot;;
+else
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nno&#32;match&quot;;
+/**
+&#32;*&#32;The&#32;above&#32;is&#32;a&#32;good&#32;example&#32;of&#32;using&#32;temporary&#32;objects&#32;to&#32;perform&#32;match&#32;(or&#32;replace)
+&#32;*&#32;
+&#32;*&#32;Using&#32;the&#32;modifier&#32;S&#32;(i.e&#32;jpcre2::JIT_COMPILE)&#32;with&#32;temporary&#32;object&#32;may&#32;or&#32;may&#32;not&#32;give&#32;you
+&#32;*&#32;any&#32;performance&#32;boost&#32;(depends&#32;on&#32;the&#32;complexity&#32;of&#32;the&#32;pattern).&#32;The&#32;more&#32;complex&#32;
+&#32;*&#32;the&#32;pattern&#32;gets&#32;the&#32;more&#32;sense&#32;the&#32;S&#32;modifier&#32;makes.
+&#32;*&#32;*/
+
+///If&#32;you&#32;want&#32;to&#32;match&#32;all&#32;and&#32;get&#32;the&#32;match&#32;count,&#32;use&#32;the&#32;action&#32;modifier&#32;&apos;g&apos;:
+std::cout&lt;&lt;&quot;\n&quot;&lt;&lt;
+&#32;&#32;&#32;&#32;jpcre2::Regex(&quot;(\\d)|(\\w)&quot;,&quot;m&quot;).match(&quot;I&#32;am&#32;the&#32;subject&quot;).setModifiers(&quot;g&quot;).execute();
+
+/**
+&#32;*&#32;Modifiers&#32;passed&#32;to&#32;the&#32;Regex&#32;constructor&#32;or&#32;with&#32;compile()&#32;function&#32;are&#32;compile&#32;modifiers
+&#32;*&#32;Modifiers&#32;passed&#32;with&#32;the&#32;match()&#32;or&#32;replace()&#32;functions&#32;are&#32;action&#32;modifiers
+&#32;*&#32;*/
+
+///&#32;Substrings/Captured&#32;groups:
+
+/**
+&#32;*&#32;***&#32;Getting&#32;captured&#32;groups/substring&#32;***
+&#32;*&#32;
+&#32;*&#32;captured&#32;groups&#32;or&#32;substrings&#32;are&#32;stored&#32;in&#32;maps&#32;for&#32;each&#32;match,
+&#32;*&#32;and&#32;each&#32;match&#32;is&#32;stored&#32;in&#32;a&#32;vector.&#32;
+&#32;*&#32;Thus&#32;captured&#32;groups&#32;are&#32;in&#32;a&#32;vector&#32;of&#32;maps.
+&#32;*&#32;
+&#32;*&#32;PCRE2&#32;provides&#32;two&#32;types&#32;of&#32;substrings:
+&#32;*&#32;&#32;1.&#32;numbered&#32;(index)&#32;substring
+&#32;*&#32;&#32;2.&#32;named&#32;substring
+&#32;*&#32;
+&#32;*&#32;For&#32;the&#32;above&#32;two,&#32;we&#32;have&#32;two&#32;vectors&#32;respectively:
+&#32;*&#32;&#32;1.&#32;jpcre2::VecNum&#32;(Corresponding&#32;map:&#32;jpcre2::MapNum)
+&#32;*&#32;&#32;2.&#32;jpcre2::VecNas&#32;(Corresponding&#32;map:&#32;jpcre2::MapNas)
+&#32;*&#32;
+&#32;*&#32;Another&#32;additional&#32;vector&#32;is&#32;available&#32;to&#32;get&#32;the&#32;substring&#32;position/number
+&#32;*&#32;for&#32;a&#32;particular&#32;captured&#32;group&#32;by&#32;name.&#32;It&apos;s&#32;a&#32;vector&#32;of&#32;name&#32;to&#32;number&#32;maps
+&#32;*&#32;&#32;*&#32;jpcre2::VecNtN&#32;(Corresponding&#32;map:&#32;jpcre2:MapNtN)
+&#32;*&#32;*/
+
+///&#32;*****&#32;Get&#32;numbered&#32;substring&#32;*****&#32;///
+jpcre2::VecNum&#32;vec_num;
+count&#32;=&#32;
+jpcre2::Regex(&quot;(\\w+)\\s*(\\d+)&quot;,&quot;m&quot;).match(&quot;I&#32;am&#32;23,&#32;I&#32;am&#32;digits&#32;10&quot;)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setModifiers(&quot;g&quot;)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setNumberedSubstringVector(&amp;vec_num)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.exec();
+/**
+*&#32;count&#32;(the&#32;return&#32;value)&#32;is&#32;guaranteed&#32;to&#32;give&#32;you&#32;the&#32;correct&#32;number&#32;of&#32;matches,
+*&#32;while&#32;vec_num.size()&#32;may&#32;give&#32;you&#32;wrong&#32;result&#32;if&#32;any&#32;match&#32;result
+*&#32;was&#32;failed&#32;to&#32;be&#32;inserted&#32;in&#32;the&#32;vector.&#32;This&#32;should&#32;not&#32;happen
+*&#32;i.e&#32;count&#32;and&#32;vec_num.size()&#32;should&#32;always&#32;be&#32;equal.
+*&#32;*/
+std::cout&lt;&lt;&quot;\nNumber&#32;of&#32;matches:&#32;&quot;&lt;&lt;count/*&#32;or&#32;vec_num.size()*/;
+
+///Now&#32;vec_num&#32;is&#32;populated&#32;with&#32;numbered&#32;substrings&#32;for&#32;each&#32;match
+///The&#32;size&#32;of&#32;vec_num&#32;is&#32;the&#32;total&#32;match&#32;count
+///vec_num[0]&#32;is&#32;the&#32;first&#32;match
+///The&#32;type&#32;of&#32;vec_num[0]&#32;is&#32;jpcre2::MapNum
+std::cout&lt;&lt;&quot;\nTotal&#32;match&#32;of&#32;first&#32;match:&#32;&quot;&lt;&lt;vec_num[0][0];&#32;&#32;&#32;&#32;&#32;&#32;///Total&#32;match&#32;(group&#32;0)&#32;from&#32;first&#32;match
+std::cout&lt;&lt;&quot;\nCaptrued&#32;group&#32;1&#32;of&#32;frist&#32;match:&#32;&quot;&lt;&lt;vec_num[0][1];&#32;///captured&#32;group&#32;1&#32;from&#32;first&#32;match&#32;
+std::cout&lt;&lt;&quot;\nCaptrued&#32;group&#32;2&#32;of&#32;frist&#32;match:&#32;&quot;&lt;&lt;vec_num[0][2];&#32;///captured&#32;group&#32;2&#32;from&#32;first&#32;match
+std::cout&lt;&lt;&quot;\nCaptrued&#32;group&#32;3&#32;of&#32;frist&#32;match:&#32;&quot;&lt;&lt;vec_num[0][3];&#32;///captured&#32;group&#32;3&#32;doesn&apos;t&#32;exist,&#32;it&#32;will&#32;give&#32;you&#32;empty&#32;string
+///Using&#32;the&#32;[]&#32;operator&#32;with&#32;jpcre2::MapNum&#32;will&#32;create&#32;new&#32;element&#32;if&#32;it&#32;doesn&apos;t&#32;exist
+///&#32;i.e&#32;vec_num[0][3]&#32;were&#32;created&#32;in&#32;the&#32;above&#32;example.
+///This&#32;should&#32;be&#32;ok,&#32;if&#32;existence&#32;of&#32;a&#32;particular&#32;substring&#32;is&#32;not&#32;important
+
+///If&#32;the&#32;existence&#32;of&#32;a&#32;substring&#32;is&#32;important,&#32;use&#32;the&#32;std::map::find()&#32;or&#32;std::map::at()&#32;(&gt;=C++11)&#32;function&#32;to&#32;access&#32;map&#32;elements
+/*&#32;//&gt;=C++11
+try{
+&#32;&#32;&#32;&#32;///This&#32;will&#32;throw&#32;exception,&#32;because&#32;substring&#32;4&#32;doesn&apos;t&#32;exist
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nCaptrued&#32;group&#32;4&#32;of&#32;frist&#32;match:&#32;&quot;&lt;&lt;vec_num[0].at(4);
+}&#32;catch&#32;(std::logic_error&#32;e){
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nCaptrued&#32;group&#32;4&#32;doesn&apos;t&#32;exist&quot;;
+}*/
+
+///There&#32;were&#32;two&#32;matches&#32;found&#32;(vec_num.size()&#32;==&#32;2)&#32;in&#32;the&#32;above&#32;example
+std::cout&lt;&lt;&quot;\nTotal&#32;match&#32;of&#32;second&#32;match:&#32;&quot;&lt;&lt;vec_num[1][0];&#32;&#32;&#32;&#32;&#32;&#32;///Total&#32;match&#32;(group&#32;0)&#32;from&#32;second&#32;match
+std::cout&lt;&lt;&quot;\nCaptrued&#32;group&#32;1&#32;of&#32;second&#32;match:&#32;&quot;&lt;&lt;vec_num[1][1];&#32;///captured&#32;group&#32;1&#32;from&#32;second&#32;match&#32;
+std::cout&lt;&lt;&quot;\nCaptrued&#32;group&#32;2&#32;of&#32;second&#32;match:&#32;&quot;&lt;&lt;vec_num[1][2];&#32;///captured&#32;group&#32;2&#32;from&#32;second&#32;match
+
+
+///&#32;*****&#32;Get&#32;named&#32;substring&#32;*****&#32;///
+
+jpcre2::VecNas&#32;vec_nas;
+jpcre2::VecNtN&#32;vec_ntn;&#32;///&#32;We&#32;will&#32;get&#32;name&#32;to&#32;number&#32;map&#32;vector&#32;too
+count&#32;=&#32;
+jpcre2::Regex(&quot;(?&lt;word&gt;\\w+)\\s*(?&lt;digit&gt;\\d+)&quot;,&quot;m&quot;).match(&quot;I&#32;am&#32;23,&#32;I&#32;am&#32;digits&#32;10&quot;)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setModifiers(&quot;g&quot;)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;///.setNumberedSubstringVector(vec_num)&#32;///&#32;We&#32;don&apos;t&#32;need&#32;it&#32;in&#32;this&#32;example
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setNamedSubstringVector(&amp;vec_nas)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setNameToNumberMapVector(&amp;vec_ntn)&#32;///&#32;Additional&#32;(name&#32;to&#32;number&#32;maps)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.execute();
+std::cout&lt;&lt;&quot;\nNumber&#32;of&#32;matches:&#32;&quot;&lt;&lt;vec_nas.size()/*&#32;or&#32;count&#32;*/;
+///Now&#32;vec_nas&#32;is&#32;populated&#32;with&#32;named&#32;substrings&#32;for&#32;each&#32;match
+///The&#32;size&#32;of&#32;vec_nas&#32;is&#32;the&#32;total&#32;match&#32;count
+///vec_nas[0]&#32;is&#32;the&#32;first&#32;match
+///The&#32;type&#32;of&#32;vec_nas[0]&#32;is&#32;jpcre2::MapNas
+std::cout&lt;&lt;&quot;\nCaptured&#32;group&#32;(word)&#32;of&#32;first&#32;match:&#32;&quot;&lt;&lt;vec_nas[0][&quot;word&quot;];
+std::cout&lt;&lt;&quot;\nCaptured&#32;group&#32;(digit)&#32;of&#32;first&#32;match:&#32;&quot;&lt;&lt;vec_nas[0][&quot;digit&quot;];
+
+///If&#32;the&#32;existence&#32;of&#32;a&#32;substring&#32;is&#32;important,&#32;use&#32;the&#32;std::map::find()&#32;or&#32;std::map::at()&#32;(&gt;=C++11)&#32;function&#32;to&#32;access&#32;map&#32;elements
+/*&#32;//&gt;=C++11
+try{
+&#32;&#32;&#32;&#32;///This&#32;will&#32;throw&#32;exception&#32;becasue&#32;the&#32;substring&#32;name&#32;&apos;name&apos;&#32;doesn&apos;t&#32;exist
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nCaptured&#32;group&#32;(name)&#32;of&#32;first&#32;match:&#32;&quot;&lt;&lt;vec_nas[0].at(&quot;name&quot;);
+}&#32;catch(std::logic_error&#32;e){
+&#32;&#32;&#32;&#32;std::cout&lt;&lt;&quot;\nCaptured&#32;group&#32;(name)&#32;doesn&apos;t&#32;exist&quot;;
+}*/
+
+///There&#32;were&#32;two&#32;matches&#32;found&#32;(vec_nas.size()&#32;==&#32;2)&#32;in&#32;the&#32;above&#32;example
+std::cout&lt;&lt;&quot;\nCaptured&#32;group&#32;(word)&#32;of&#32;second&#32;match:&#32;&quot;&lt;&lt;vec_nas[1][&quot;word&quot;];
+std::cout&lt;&lt;&quot;\nCaptured&#32;group&#32;(digit)&#32;of&#32;second&#32;match:&#32;&quot;&lt;&lt;vec_nas[1][&quot;digit&quot;];
+
+///Get&#32;the&#32;position&#32;(number)&#32;of&#32;a&#32;captured&#32;group&#32;name&#32;(that&#32;was&#32;found&#32;in&#32;match)
+std::cout&lt;&lt;&quot;\nPosition&#32;of&#32;captured&#32;group&#32;(word)&#32;in&#32;first&#32;match:&#32;&quot;&lt;&lt;vec_ntn[0][&quot;word&quot;];
+std::cout&lt;&lt;&quot;\nPosition&#32;of&#32;captured&#32;group&#32;(digit)&#32;in&#32;first&#32;match:&#32;&quot;&lt;&lt;vec_ntn[0][&quot;digit&quot;];
+
+/**
+&#32;*&#32;Replacement&#32;Examples
+&#32;*&#32;Replace&#32;pattern&#32;in&#32;a&#32;string&#32;with&#32;a&#32;replacement&#32;string
+&#32;*&#32;
+&#32;*&#32;The&#32;replace()&#32;function&#32;can&#32;take&#32;a&#32;subject&#32;and&#32;replacement&#32;string&#32;as&#32;argument.
+&#32;*&#32;You&#32;can&#32;also&#32;pass&#32;the&#32;subject&#32;with&#32;setSubject()&#32;function&#32;in&#32;method&#32;chain,
+&#32;*&#32;replacement&#32;string&#32;with&#32;setReplaceWith()&#32;function&#32;in&#32;method&#32;chain,&#32;etc&#32;...
+&#32;*&#32;
+&#32;*&#32;A&#32;call&#32;to&#32;replace()&#32;must&#32;end&#32;with&#32;the&#32;call&#32;to&#32;execute()
+&#32;*&#32;*/
+
+std::cout&lt;&lt;&quot;\n&quot;&lt;&lt;
+///replace&#32;first&#32;occurrence&#32;of&#32;a&#32;digit&#32;with&#32;@
+jpcre2::Regex(&quot;\\d&quot;).replace(&quot;I&#32;am&#32;the&#32;subject&#32;string&#32;44&quot;,&quot;@&quot;).execute();
+
+std::cout&lt;&lt;&quot;\n&quot;&lt;&lt;
+///replace&#32;all&#32;occrrences&#32;of&#32;a&#32;digit&#32;with&#32;@
+jpcre2::Regex(&quot;\\d&quot;).replace(&quot;I&#32;am&#32;the&#32;subject&#32;string&#32;44&quot;,&quot;@&quot;).setModifiers(&quot;g&quot;).execute();
+
+///swap&#32;two&#32;parts&#32;of&#32;a&#32;string
+std::cout&lt;&lt;&quot;\n&quot;&lt;&lt;
+jpcre2::Regex(&quot;^([^\t]+)\t([^\t]+)$&quot;).replace()
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setSubject(&quot;I&#32;am&#32;the&#32;subject\tTo&#32;be&#32;swapped&#32;according&#32;to&#32;tab&quot;)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.setReplaceWith(&quot;$2&#32;$1&quot;)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.execute();
+</computeroutput></literallayout></para>
+
+<para>#Testing:</para>
+
+<para><table frame="all">
+    <title></title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+    <tbody>
+<row>
+<entry>
+<para>CPP file </para>
+</entry><entry>
+<para>Details  </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>test_match.cpp</computeroutput> </para>
+</entry><entry>
+<para>Contains an example code for match function. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>test_replace.cpp</computeroutput> </para>
+</entry><entry>
+<para>Contains an example code for replace function. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>test_match2.cpp</computeroutput> </para>
+</entry><entry>
+<para>Another matching example. Takes pattern, modifier &amp; subject as inputs. </para>
+</entry></row>
+<row>
+<entry>
+<para><computeroutput>test_replace2.cpp</computeroutput> </para>
+</entry><entry>
+<para>Another replacement example. Takes input for pattern, modifier, subject and replacement string. </para>
+</entry></row>
+    </tbody>
+    </tgroup>
+</table>
+#Screenshots of some test outputs:</para>
+
+<para><formalpara><title>test_match: </title></formalpara>
+</para>
+
+<para><literallayout><computeroutput>subject&#32;=&#32;&quot;(I&#32;am&#32;a&#32;string&#32;with&#32;words&#32;and&#32;digits&#32;45&#32;and&#32;specials&#32;chars:&#32;?.#@&#32;443&#32;অ&#32;আ&#32;ক&#32;খ&#32;গ&#32;ঘ&#32;&#32;56)&quot;
+pattern&#32;=&#32;&quot;(?:(?&lt;word&gt;[?.#@:]+)|(?&lt;word&gt;\\w+))\\s*(?&lt;digit&gt;\\d+)&quot;
+</computeroutput></literallayout></para>
+
+<para>   </para>
+
+</chapter>

@@ -1,20 +1,111 @@
 \hypertarget{jpcre2_8hpp}{}\section{jpcre2.\+hpp File Reference}
 \label{jpcre2_8hpp}\index{jpcre2.\+hpp@{jpcre2.\+hpp}}
+
+
+Main header file for J\+P\+C\+RE library to be included by programs that call J\+P\+C\+R\+E2 functions.  
+
+
 {\ttfamily \#include $<$pcre2.\+h$>$}\\*
 {\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$cstddef$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$map$>$}\\*
+Include dependency graph for jpcre2.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{jpcre2_8hpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}
+\begin{DoxyCompactList}\small\item\em Performs regex matching. \end{DoxyCompactList}\item 
+class \hyperlink{classjpcre2_1_1RegexReplace}{jpcre2\+::\+Regex\+Replace}
+\begin{DoxyCompactList}\small\item\em Performs regex replace on a string. \end{DoxyCompactList}\item 
+class \hyperlink{classjpcre2_1_1Regex}{jpcre2\+::\+Regex}
+\begin{DoxyCompactList}\small\item\em This is the main class that is to be used to perform all J\+P\+C\+R\+E2 related actions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacejpcre2}{jpcre2}
+\begin{DoxyCompactList}\small\item\em Main namespace of J\+P\+C\+R\+E2. \end{DoxyCompactList}\item 
+ \hyperlink{namespacejpcre2_1_1ERROR}{jpcre2\+::\+E\+R\+R\+OR}
+\begin{DoxyCompactList}\small\item\em Namespace for error codes. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \hyperlink{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH}~8
-\begin{DoxyCompactList}\small\item\em pcre2 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\#define \hyperlink{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH}~8\hypertarget{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{}\label{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}
+
+\begin{DoxyCompactList}\small\item\em Code unit width 8 is used by default. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::size\+\_\+t \hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{jpcre2\+::\+S\+I\+Z\+E\+\_\+T}\hypertarget{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{}\label{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}
+
+\begin{DoxyCompactList}\small\item\em Used for match count and vector size. \end{DoxyCompactList}\item 
+typedef uint32\+\_\+t \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{jpcre2\+::\+Uint}\hypertarget{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{}\label{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}
+
+\begin{DoxyCompactList}\small\item\em Used for options (bitwise operation) \end{DoxyCompactList}\item 
+typedef std\+::string \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{jpcre2\+::\+String}\hypertarget{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{}\label{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}
+
+\begin{DoxyCompactList}\small\item\em Used as std\+::string. \end{DoxyCompactList}\item 
+typedef std\+::map$<$ String, String $>$ \hyperlink{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf}{jpcre2\+::\+Map\+Nas}\hypertarget{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf}{}\label{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf}
+
+\begin{DoxyCompactList}\small\item\em Map for Named substrings. \end{DoxyCompactList}\item 
+typedef std\+::map$<$ S\+I\+Z\+E\+\_\+T, String $>$ \hyperlink{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82}{jpcre2\+::\+Map\+Num}\hypertarget{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82}{}\label{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82}
+
+\begin{DoxyCompactList}\small\item\em Map for Numbered substrings. \end{DoxyCompactList}\item 
+typedef std\+::map$<$ String, S\+I\+Z\+E\+\_\+T $>$ \hyperlink{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656}{jpcre2\+::\+Map\+NtN}\hypertarget{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656}{}\label{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656}
+
+\begin{DoxyCompactList}\small\item\em Substring name to Substring number map. \end{DoxyCompactList}\item 
+typedef std\+::vector$<$ Map\+Nas $>$ \hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{jpcre2\+::\+Vec\+Nas}\hypertarget{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{}\label{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}
+
+\begin{DoxyCompactList}\small\item\em Vector of matches with named substrings. \end{DoxyCompactList}\item 
+typedef std\+::vector$<$ Map\+NtN $>$ \hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2\+::\+Vec\+NtN}\hypertarget{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{}\label{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}
+
+\begin{DoxyCompactList}\small\item\em Vector of substring name to Substring number map. \end{DoxyCompactList}\item 
+typedef std\+::vector$<$ Map\+Num $>$ \hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{jpcre2\+::\+Vec\+Num}\hypertarget{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{}\label{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}
+
+\begin{DoxyCompactList}\small\item\em Vector of matches with numbered substrings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \hyperlink{jpcre2_8hpp_a433f24d37008ed65f829be30aa0f2c73}{jpcre2\+::utils\+::to\+String} (int a)\hypertarget{jpcre2_8hpp_a433f24d37008ed65f829be30aa0f2c73}{}\label{jpcre2_8hpp_a433f24d37008ed65f829be30aa0f2c73}
+
+\begin{DoxyCompactList}\small\item\em Converts an integer to String. \end{DoxyCompactList}\item 
+String \hyperlink{jpcre2_8hpp_a8951a9c2c01a87cee04b55d0a032c73e}{jpcre2\+::utils\+::to\+String} (char a)\hypertarget{jpcre2_8hpp_a8951a9c2c01a87cee04b55d0a032c73e}{}\label{jpcre2_8hpp_a8951a9c2c01a87cee04b55d0a032c73e}
+
+\begin{DoxyCompactList}\small\item\em Converts a char to String. \end{DoxyCompactList}\item 
+String \hyperlink{jpcre2_8hpp_a67c67163e03c18ca3418f5f59f90b435}{jpcre2\+::utils\+::to\+String} (const char $\ast$a)\hypertarget{jpcre2_8hpp_a67c67163e03c18ca3418f5f59f90b435}{}\label{jpcre2_8hpp_a67c67163e03c18ca3418f5f59f90b435}
+
+\begin{DoxyCompactList}\small\item\em Converts const char$\ast$ to String. \end{DoxyCompactList}\item 
+String \hyperlink{jpcre2_8hpp_a84c5c4e28feda8b093d700a911d59c72}{jpcre2\+::utils\+::to\+String} (P\+C\+R\+E2\+\_\+\+U\+C\+H\+AR $\ast$a)\hypertarget{jpcre2_8hpp_a84c5c4e28feda8b093d700a911d59c72}{}\label{jpcre2_8hpp_a84c5c4e28feda8b093d700a911d59c72}
+
+\begin{DoxyCompactList}\small\item\em Converts a P\+C\+R\+E2\+\_\+\+U\+C\+H\+A\+R$\ast$ to String. \end{DoxyCompactList}\item 
+String \hyperlink{jpcre2_8hpp_a186305c70ad9dc4137aae2bcbf644805}{jpcre2\+::utils\+::get\+Pcre2\+Error\+Message} (int err\+\_\+num)\hypertarget{jpcre2_8hpp_a186305c70ad9dc4137aae2bcbf644805}{}\label{jpcre2_8hpp_a186305c70ad9dc4137aae2bcbf644805}
+
+\begin{DoxyCompactList}\small\item\em Get P\+C\+R\+E2 error message for an error number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const S\+I\+Z\+E\+\_\+T \hyperlink{namespacejpcre2_a80cb201f2e733137b22a8ed98465096a}{jpcre2\+::\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+R\+E\+S\+U\+L\+T\+\_\+\+I\+N\+I\+T\+\_\+\+S\+I\+ZE} = std\+::numeric\+\_\+limits$<$int$>$\+::max()
+\begin{DoxyCompactList}\small\item\em Used by default to provide big enough buffer for replaced string. \end{DoxyCompactList}\item 
+const String \hyperlink{namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE} = \char`\"{}J\+P\+C\+R\+E2\+\_\+\+N\+O\+NE\char`\"{}
+\begin{DoxyCompactList}\small\item\em Don\textquotesingle{}t do anything about locale if it is set to L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE. \end{DoxyCompactList}\item 
+const String \hyperlink{namespacejpcre2_adfdd3d1fff99e685734ae4e59771e84d}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+LT} = L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE
+\begin{DoxyCompactList}\small\item\em Default locale. \end{DoxyCompactList}\item 
+const String \hyperlink{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{jpcre2\+::\+J\+I\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+P\+R\+E\+F\+IX} = \char`\"{}J\+IT compilation failed! \char`\"{}\hypertarget{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{}\label{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}
+
+\begin{DoxyCompactList}\small\item\em Prefix to be added to J\+IT error message. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\subsection{Macro Definition Documentation}
-\index{jpcre2.\+hpp@{jpcre2.\+hpp}!P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH@{P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH}}
-\index{P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH@{P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH}!jpcre2.\+hpp@{jpcre2.\+hpp}}
-\subsubsection[{\texorpdfstring{P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH}{PCRE2_CODE_UNIT_WIDTH}}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH~8}\hypertarget{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{}\label{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}
+\subsection{Detailed Description}
+Main header file for J\+P\+C\+RE library to be included by programs that call J\+P\+C\+R\+E2 functions. 
 
-
-pcre2 
-
-uint32\+\_\+t 
+It includes the pcre2.\+h header, therefore you shouldn\textquotesingle{}t include pcre2.\+h separately in your program. Make sure to link pcre2 library when compiling. If you are using J\+P\+C\+R\+E2 as a library, then link this library too. \begin{DoxyAuthor}{Author}
+Md. Jahidul Hamid. 
+\end{DoxyAuthor}

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['substitute_5fresult_5finit_5fsize',['SUBSTITUTE_RESULT_INIT_SIZE',['../namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a',1,'jpcre2']]]
+  ['jit_5ferror_5fmessage_5fprefix',['JIT_ERROR_MESSAGE_PREFIX',['../namespacejpcre2.html#abf6c3bff9268a572c299958d334ff26e',1,'jpcre2']]],
+  ['jpcre2_5fcompile_5fopts',['jpcre2_compile_opts',['../classjpcre2_1_1Regex.html#abdd26c3bc1c3132f0aa73dde1690a7ef',1,'jpcre2::Regex']]]
 ];

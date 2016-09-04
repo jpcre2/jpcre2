@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['locale_5fdefault',['LOCALE_DEFAULT',['../namespacejpcre2.html#adfdd3d1fff99e685734ae4e59771e84d',1,'jpcre2']]],
-  ['locale_5fnone',['LOCALE_NONE',['../namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5',1,'jpcre2']]]
+  ['error_5fnumber',['error_number',['../classjpcre2_1_1Regex.html#a91b7b795c9efe76ef4e015325ff33f1c',1,'jpcre2::Regex']]],
+  ['error_5foffset',['error_offset',['../classjpcre2_1_1Regex.html#a0b9613704582b9c6b0175a21a2a421e0',1,'jpcre2::Regex']]]
 ];

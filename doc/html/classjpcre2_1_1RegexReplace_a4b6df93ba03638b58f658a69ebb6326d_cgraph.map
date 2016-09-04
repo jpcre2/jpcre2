@@ -1,0 +1,4 @@
+<map id="jpcre2::RegexReplace::replace" name="jpcre2::RegexReplace::replace">
+<area shape="rect" id="node2" href="$classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33" title="Returns the number of matches, stores the match results in the specified vectors (vec_num, vec_nas, vec_ntn) " alt="" coords="210,5,349,47"/>
+<area shape="rect" id="node3" href="$classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0" title="Returns a replaced string after performing regex replace. " alt="" coords="204,71,355,112"/>
+</map>

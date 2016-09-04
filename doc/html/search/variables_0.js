@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['jit_5ferror_5fmessage_5fprefix',['JIT_ERROR_MESSAGE_PREFIX',['../namespacejpcre2.html#abf6c3bff9268a572c299958d334ff26e',1,'jpcre2']]]
+  ['code',['code',['../classjpcre2_1_1Regex.html#a2742264206d8976c413b474b7bac4b2e',1,'jpcre2::Regex']]],
+  ['compile_5fopts',['compile_opts',['../classjpcre2_1_1Regex.html#a5954131e9085de63229ed5c11417df69',1,'jpcre2::Regex']]],
+  ['current_5fwarning_5fmsg',['current_warning_msg',['../classjpcre2_1_1Regex.html#a1cfacd49c8bceaae1e2a66efd4082ea8',1,'jpcre2::Regex']]]
 ];

@@ -1,0 +1,365 @@
+.TH "jpcre2::Regex" 3 "Mon Sep 5 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+jpcre2::Regex \- This is the main class that is to be used to perform all JPCRE2 related actions\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <jpcre2\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRegex\fP ()"
+.br
+.RI "\fIDefault Constructor\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP (const \fBString\fP &re)"
+.br
+.RI "\fICompiles pattern with initialization\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP (const \fBString\fP &re, const \fBString\fP &mod)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compiles pattern\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP (const \fBString\fP &re, \fBUint\fP pcre2_opts)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compiles pattern\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP (const \fBString\fP &re, \fBUint\fP pcre2_opts, \fBUint\fP opt_bits)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compiles pattern\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP (const \fBRegex\fP &r)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Copy constructor. \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBoperator=\fP (const \fBRegex\fP &r)"
+.br
+.RI "\fIOverloaded assignment operator\&. \fP"
+.ti -1c
+.RI "\fB~Regex\fP ()"
+.br
+.RI "\fIDestructor (deletes memory used) \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBreset\fP ()"
+.br
+.RI "\fIReset all class variables to its default (initial) state\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBgetModifier\fP ()"
+.br
+.RI "\fIGet modifier string\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBgetPattern\fP ()"
+.br
+.RI "\fIGet pattern string\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBgetLocale\fP ()"
+.br
+.RI "\fIGet locale as a string\&. \fP"
+.ti -1c
+.RI "\fBUint\fP \fBgetPcre2Option\fP ()"
+.br
+.RI "\fIGet PCRE2 option\&. \fP"
+.ti -1c
+.RI "\fBUint\fP \fBgetJpcre2Option\fP ()"
+.br
+.RI "\fIGet JPCRE2 option\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBgetErrorMessage\fP (int err_num, PCRE2_SIZE err_off)"
+.br
+.RI "\fIError handling Return error message by error_number and error_offset\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBgetErrorMessage\fP (int err_num)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Uses class variable error_offest as error offset\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBgetErrorMessage\fP ()"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Uses class variable error_number as error number and error_offest as error offset\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBgetWarningMessage\fP ()"
+.br
+.RI "\fIGet current warning message\&. \fP"
+.ti -1c
+.RI "int \fBgetErrorNumber\fP ()"
+.br
+.RI "\fIreturn \fBerror_number\fP \fP"
+.ti -1c
+.RI "PCRE2_SIZE \fBgetErrorOffset\fP ()"
+.br
+.RI "\fIreturn \fBerror_offset\fP \fP"
+.ti -1c
+.RI "void \fBcompile\fP (void)"
+.br
+.RI "\fICompiles the regex\&. \fP"
+.ti -1c
+.RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s, const \fBString\fP &mod)"
+.br
+.RI "\fIThis is the \fBmatch()\fP function that will be called by users\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains, const \fBString\fP &repl, const \fBString\fP &mod)"
+.br
+.RI "\fIThis is the replace function that will be called by users\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBRegexMatch\fP * \fBrm\fP"
+.br
+.RI "\fIPointer to \fBRegexMatch\fP object\&. \fP"
+.ti -1c
+.RI "\fBRegexReplace\fP * \fBrr\fP"
+.br
+.RI "\fIPointer to \fBRegexReplace\fP object\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBpat_str\fP"
+.br
+.RI "\fIPattern string\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBmodifier\fP"
+.br
+.RI "\fIModifier string\&. \fP"
+.ti -1c
+.RI "pcre2_code * \fBcode\fP"
+.br
+.RI "\fICompiled pattern (code) \fP"
+.ti -1c
+.RI "int \fBerror_number\fP"
+.br
+.RI "\fIError number\&. \fP"
+.ti -1c
+.RI "PCRE2_SIZE \fBerror_offset\fP"
+.br
+.RI "\fIError offset\&. \fP"
+.ti -1c
+.RI "\fBUint\fP \fBcompile_opts\fP"
+.br
+.RI "\fICompile options\&. \fP"
+.ti -1c
+.RI "\fBUint\fP \fBjpcre2_compile_opts\fP"
+.br
+.RI "\fICompile options specific to JPCRE2\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBmylocale\fP"
+.br
+.RI "\fILocale string\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBcurrent_warning_msg\fP"
+.br
+.RI "\fIcurrent warning message \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+This is the main class that is to be used to perform all JPCRE2 related actions\&. 
+
+This class implements public default constructor, deep copy constructor and overloaded assignment operator\&.
+.PP
+An object of this class must be created (can be temporary) to access its public functions and perform match or replace against a compiled pattern\&.
+.PP
+A pattern must be compiled either by explicitly calling the compile function or using one of the parameterized constructors\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "jpcre2::Regex::Regex ()\fC [inline]\fP"
+
+.PP
+Default Constructor\&. Initializes all class variables to defaults\&. Does not perform any compilation\&. 
+.SS "jpcre2::Regex::Regex (const \fBString\fP & re)\fC [inline]\fP"
+
+.PP
+Compiles pattern with initialization\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIre\fP Pattern string 
+.RE
+.PP
+
+.SS "jpcre2::Regex::Regex (const \fBString\fP & re, const \fBString\fP & mod)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compiles pattern\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIre\fP Pattern string 
+.br
+\fImod\fP Modifier string 
+.RE
+.PP
+
+.SS "jpcre2::Regex::Regex (const \fBString\fP & re, \fBUint\fP pcre2_opts)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compiles pattern\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIre\fP Pattern string 
+.br
+\fIpcre2_opts\fP PCRE2 option value 
+.RE
+.PP
+
+.SS "jpcre2::Regex::Regex (const \fBString\fP & re, \fBUint\fP pcre2_opts, \fBUint\fP opt_bits)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compiles pattern\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIre\fP Pattern string 
+.br
+\fIpcre2_opts\fP PCRE2 option value 
+.br
+\fIopt_bits\fP JPCRE2 option value 
+.RE
+.PP
+
+.SS "jpcre2::Regex::Regex (const \fBRegex\fP & r)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Copy constructor. Compiles pattern and Performs a deep copy\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBjpcre2::String\fP jpcre2::Regex::getErrorMessage (int err_num, PCRE2_SIZE err_off)"
+
+.PP
+Error handling Return error message by error_number and error_offset\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerr_num\fP Error number 
+.br
+\fIerr_off\fP Error offset 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Error message as a string 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::Regex::getErrorMessage (int err_num)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Uses class variable error_offest as error offset\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerr_num\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Error message as a string 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::Regex::getErrorMessage ()\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Uses class variable error_number as error number and error_offest as error offset\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Error message as a string (empty if there is no error) 
+.RE
+.PP
+
+.SS "\fBUint\fP jpcre2::Regex::getJpcre2Option ()\fC [inline]\fP"
+
+.PP
+Get JPCRE2 option\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBjpcre2_compile_opts\fP 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::Regex::getLocale ()\fC [inline]\fP"
+
+.PP
+Get locale as a string\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBmylocale\fP 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::Regex::getModifier ()\fC [inline]\fP"
+
+.PP
+Get modifier string\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBmodifier\fP 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::Regex::getPattern ()\fC [inline]\fP"
+
+.PP
+Get pattern string\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBpat_str\fP 
+.RE
+.PP
+
+.SS "\fBUint\fP jpcre2::Regex::getPcre2Option ()\fC [inline]\fP"
+
+.PP
+Get PCRE2 option\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBcompile_opts\fP 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::Regex::getWarningMessage ()\fC [inline]\fP"
+
+.PP
+Get current warning message\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBcurrent_warning_msg\fP 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::operator= (const \fBRegex\fP & r)\fC [inline]\fP"
+
+.PP
+Overloaded assignment operator\&. Performs a deep copy 
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::reset ()\fC [inline]\fP"
+
+.PP
+Reset all class variables to its default (initial) state\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for JPCRE2 from the source code\&.

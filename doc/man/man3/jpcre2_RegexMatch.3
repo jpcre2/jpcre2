@@ -1,0 +1,351 @@
+.TH "jpcre2::RegexMatch" 3 "Mon Sep 5 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+jpcre2::RegexMatch \- Performs regex matching\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <jpcre2\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBsetNumberedSubstringVector\fP (\fBVecNum\fP *v)"
+.br
+.RI "\fISet a pointer to the numbered substrings vector\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBsetNamedSubstringVector\fP (\fBVecNas\fP *v)"
+.br
+.RI "\fISet a pointer to the named substrings vector\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBsetNameToNumberMapVector\fP (\fBVecNtN\fP *v)"
+.br
+.RI "\fISet a pointer to the name to number map vector\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBsetSubject\fP (const \fBString\fP &s)"
+.br
+.RI "\fISet the subject string\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBsetModifier\fP (const \fBString\fP &s)"
+.br
+.RI "\fISet the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBsetJpcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fISet JPCRE2 option (overwrites existing option) \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBsetPcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fISet PCRE2 option (overwrites existing option) \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBsetFindAll\fP (bool x=true)"
+.br
+.RI "\fISet whether to perform global match\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBaddJpcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fIAdd option to existing JPCRE2 options\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBaddPcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fIAdd option to existing PCRE2 options\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBremoveJpcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fIRemove option from existing JPCRE2 option\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBremovePcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fIRemove option from existing PCRE2 option\&. \fP"
+.ti -1c
+.RI "\fBSIZE_T\fP \fBmatch\fP (void)"
+.br
+.RI "\fIReturns the number of matches, stores the match results in the specified vectors (\fBvec_num\fP, \fBvec_nas\fP, \fBvec_ntn\fP) \fP"
+.ti -1c
+.RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.ti -1c
+.RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s, const \fBString\fP &mod)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBVecNum\fP * \fBvec_num\fP"
+.br
+.RI "\fIvector to contain the numbered substring maps \fP"
+.ti -1c
+.RI "\fBVecNas\fP * \fBvec_nas\fP"
+.br
+.RI "\fIvector to contain the named substring maps \fP"
+.ti -1c
+.RI "\fBVecNtN\fP * \fBvec_ntn\fP"
+.br
+.RI "\fIvector to contain the name to number maps \fP"
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBRegex\fP"
+.br
+.RI "\fIDefine class \fBRegex\fP as friend and thus allow \fBRegex\fP to create object of this class\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Performs regex matching\&. 
+
+Provides overloaded and chained methods to set various options\&.
+.PP
+All constructors of this class are private\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::addJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Add option to existing JPCRE2 options\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::addPcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Add option to existing PCRE2 options\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBjpcre2::SIZE_T\fP jpcre2::RegexMatch::match (void)"
+
+.PP
+Returns the number of matches, stores the match results in the specified vectors (\fBvec_num\fP, \fBvec_nas\fP, \fBvec_ntn\fP) 
+.PP
+\fBReturns:\fP
+.RS 4
+Number of matches found 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBSIZE_T\fP \fBmatch(const String& s)\fP 
+.PP
+\fBSIZE_T\fP \fBmatch(const String& s, const String& mod)\fP 
+.RE
+.PP
+
+.SS "\fBSIZE_T\fP jpcre2::RegexMatch::match (const \fBString\fP & s)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP Subject string 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBSIZE_T\fP \fBmatch(const String& s, const String& mod)\fP 
+.RE
+.PP
+
+.SS "\fBSIZE_T\fP jpcre2::RegexMatch::match (const \fBString\fP & s, const \fBString\fP & mod)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP Subject string 
+.br
+\fImod\fP Modifier 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBSIZE_T\fP \fBmatch(const String& s)\fP 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::removeJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Remove option from existing JPCRE2 option\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::removePcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Remove option from existing PCRE2 option\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setFindAll (bool x = \fCtrue\fP)\fC [inline]\fP"
+
+.PP
+Set whether to perform global match\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP True or False 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Set JPCRE2 option (overwrites existing option) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setModifier (const \fBString\fP & s)\fC [inline]\fP"
+
+.PP
+Set the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then sets the modifier\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP Modifier string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setNamedSubstringVector (\fBVecNas\fP * v)\fC [inline]\fP"
+
+.PP
+Set a pointer to the named substrings vector\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIv\fP \fBvec_nas\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setNameToNumberMapVector (\fBVecNtN\fP * v)\fC [inline]\fP"
+
+.PP
+Set a pointer to the name to number map vector\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIv\fP \fBvec_ntn\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setNumberedSubstringVector (\fBVecNum\fP * v)\fC [inline]\fP"
+
+.PP
+Set a pointer to the numbered substrings vector\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIv\fP \fBvec_num\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setPcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Set PCRE2 option (overwrites existing option) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value #return *this 
+.RE
+.PP
+
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setSubject (const \fBString\fP & s)\fC [inline]\fP"
+
+.PP
+Set the subject string\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP Subject string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for JPCRE2 from the source code\&.

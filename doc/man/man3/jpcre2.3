@@ -1,0 +1,140 @@
+.TH "jpcre2" 3 "Mon Sep 5 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+jpcre2 \- Main namespace of JPCRE2\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBERROR\fP"
+.br
+.RI "\fINamespace for error codes\&. \fP"
+.in -1c
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBRegex\fP"
+.br
+.RI "\fIThis is the main class that is to be used to perform all JPCRE2 related actions\&. \fP"
+.ti -1c
+.RI "class \fBRegexMatch\fP"
+.br
+.RI "\fIPerforms regex matching\&. \fP"
+.ti -1c
+.RI "class \fBRegexReplace\fP"
+.br
+.RI "\fIPerforms regex replace on a string\&. \fP"
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef std::size_t \fBSIZE_T\fP"
+.br
+.RI "\fIUsed for match count and vector size\&. \fP"
+.ti -1c
+.RI "typedef uint32_t \fBUint\fP"
+.br
+.RI "\fIUsed for options (bitwise operation) \fP"
+.ti -1c
+.RI "typedef std::string \fBString\fP"
+.br
+.RI "\fIUsed as std::string\&. \fP"
+.ti -1c
+.RI "typedef std::map< \fBString\fP, \fBString\fP > \fBMapNas\fP"
+.br
+.RI "\fIMap for Named substrings\&. \fP"
+.ti -1c
+.RI "typedef std::map< \fBSIZE_T\fP, \fBString\fP > \fBMapNum\fP"
+.br
+.RI "\fIMap for Numbered substrings\&. \fP"
+.ti -1c
+.RI "typedef std::map< \fBString\fP, \fBSIZE_T\fP > \fBMapNtN\fP"
+.br
+.RI "\fISubstring name to Substring number map\&. \fP"
+.ti -1c
+.RI "typedef std::vector< \fBMapNas\fP > \fBVecNas\fP"
+.br
+.RI "\fIVector of matches with named substrings\&. \fP"
+.ti -1c
+.RI "typedef std::vector< \fBMapNtN\fP > \fBVecNtN\fP"
+.br
+.RI "\fIVector of substring name to Substring number map\&. \fP"
+.ti -1c
+.RI "typedef std::vector< \fBMapNum\fP > \fBVecNum\fP"
+.br
+.RI "\fIVector of matches with numbered substrings\&. \fP"
+.in -1c
+.SS "Enumerations"
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const \fBSIZE_T\fP \fBSUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
+.br
+.RI "\fIUsed by default to provide big enough buffer for replaced string\&. \fP"
+.ti -1c
+.RI "const \fBString\fP \fBLOCALE_NONE\fP = 'JPCRE2_NONE'"
+.br
+.RI "\fIDon't do anything about locale if it is set to LOCALE_NONE\&. \fP"
+.ti -1c
+.RI "const \fBString\fP \fBLOCALE_DEFAULT\fP = \fBLOCALE_NONE\fP"
+.br
+.RI "\fIDefault locale\&. \fP"
+.ti -1c
+.RI "const \fBString\fP \fBJIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
+.br
+.RI "\fIPrefix to be added to JIT error message\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Main namespace of JPCRE2\&. 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "anonymous enum"
+
+.PP
+Option bits\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fINONE \fP\fP
+Option 0 (zero) 
+.TP
+\fB\fIVALIDATE_MODIFIER \fP\fP
+throw INVALID_MODIFIER if any modifier is wrong 
+.TP
+\fB\fIFIND_ALL \fP\fP
+Find all during match (global match) 
+.TP
+\fB\fIJIT_COMPILE \fP\fP
+Prform JIT compilation during pattern compilation\&. 
+.TP
+\fB\fIERROR_ALL \fP\fP
+Treat warnings as error and throw exception\&. 
+.SH "Variable Documentation"
+.PP 
+.SS "const \fBjpcre2::String\fP jpcre2::LOCALE_DEFAULT = \fBLOCALE_NONE\fP"
+
+.PP
+Default locale\&. Default local to be used\&. 
+.SS "const \fBjpcre2::String\fP jpcre2::LOCALE_NONE = 'JPCRE2_NONE'"
+
+.PP
+Don't do anything about locale if it is set to LOCALE_NONE\&. Nothing to be doen on locale\&. 
+.SS "const \fBjpcre2::SIZE_T\fP jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max()"
+
+.PP
+Used by default to provide big enough buffer for replaced string\&. < snprintf std::numeric_limits
+.PP
+< assert strlen max(int) as the initial size of replaced string 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for JPCRE2 from the source code\&.

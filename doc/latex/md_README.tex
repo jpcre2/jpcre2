@@ -1,0 +1,565 @@
+\href{https://travis-ci.org/jpcre2/jpcre2/}{\tt }
+
+ P\+C\+R\+E2 is the name used for a revised A\+PI for the P\+C\+RE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original P\+C\+RE before they appeared in Perl are also available using the Python syntax.
+
+This provides some C++ wrapper functions to provide some useful utilities like regex match and regex replace.
+
+ \#\+Requirements\+:
+
+
+\begin{DoxyEnumerate}
+\item P\+C\+R\+E2 library ({\ttfamily version $>$=10.\+21}).
+\end{DoxyEnumerate}
+
+If the required P\+C\+R\+E2 version is not available in the official channel, download \href{https://github.com/jpcre2/pcre2}{\tt my fork of the library} which will always be kept compatible with J\+P\+C\+R\+E2.
+
+ \#\+Install/\+Include\+:
+
+It can be installed as a separate library or can be used directly in a project by including the appropriate sources\+:
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries jpcre2.\+h}
+\item {\bfseries jpcre2.\+cpp}
+\item {\bfseries jpcre2\+\_\+match.\+cpp}
+\item {\bfseries jpcre2\+\_\+replace.\+cpp}
+\end{DoxyEnumerate}
+
+An example compile/build command with G\+CC would be\+:
+
+
+\begin{DoxyCode}
+1 g++ mycpp.cpp jpcre2\_match.cpp jpcre2\_replace.cpp jpcre2.cpp jpcre2.h -lpcre2-8
+\end{DoxyCode}
+
+
+If your P\+C\+R\+E2 library is not in the standard library path, then add the path\+:
+
+
+\begin{DoxyCode}
+1 g++ -std=c++11 mycpp.cpp ... -L/path/to/your/pcre2/library -lpcre2-8
+\end{DoxyCode}
+
+
+{\bfseries Note that} it requires the P\+C\+R\+E2 library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
+
+{\bfseries Installing J\+P\+C\+R\+E2 as a library\+:}
+
+To install it in a Unix based system, run\+: 
+\begin{DoxyCode}
+1 ./configure
+2 make
+3 sudo make install
+\end{DoxyCode}
+ Now {\ttfamily \#include $<$jpcre2.\+h$>$} in your code and build/compile by linking with both J\+P\+C\+R\+E2 and P\+C\+R\+E2 library.
+
+An example command for G\+CC would be\+:
+
+
+\begin{DoxyCode}
+1 g++  mycpp.cpp -ljpcre2-8 -lpcre2-8 #sequence is important
+\end{DoxyCode}
+
+
+If you are in a non-\/\+Unix system (e.\+g Windows), build a library from the J\+P\+C\+R\+E2 sources with your favourite I\+DE or use it as it is.
+
+{\bfseries Notes\+:}
+
+
+\begin{DoxyEnumerate}
+\item {\ttfamily P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH} other than 8 is not supported in this version.
+\item To use the {\ttfamily P\+C\+R\+E2 P\+O\+S\+IX} compatible library, add the {\ttfamily -\/lpcre2-\/posix} along with the others.
+\end{DoxyEnumerate}
+
+\#\+How to code with J\+P\+C\+R\+E2\+:
+
+ \subsection*{Compile a pattern}
+
+{\bfseries First create a {\ttfamily \hyperlink{classjpcre2_1_1Regex}{jpcre2\+::\+Regex}}object}
+
+(You can use temporary object too, see \href{#short-examples}{\tt short examples}).
+
+This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
+
+
+\begin{DoxyCode}
+\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re;   \textcolor{comment}{//Create object}
+\end{DoxyCode}
+ Each object for each regex pattern.
+
+{\bfseries Compile the pattern} and catch any error exception\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{try}\{
+    re.\hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69}{compile}()               \textcolor{comment}{//Invoke the compile() function}
+      .setPattern(pat)         \textcolor{comment}{//set various parameters}
+      .setModifiers(\textcolor{stringliteral}{"Jin"})     \textcolor{comment}{//sets the modifier}
+      .addJpcre2Options(0)     \textcolor{comment}{//Adds the jpcre2 option}
+      .addPcre2Options(0)      \textcolor{comment}{//Adds the pcre2 option}
+      .execute();              \textcolor{comment}{//Finally execute it.}
+
+    \textcolor{comment}{//Another way is to use constructor to initialize and compile at the same time:}
+    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re2(\textcolor{stringliteral}{"pattern2"},\textcolor{stringliteral}{"mSi"});  \textcolor{comment}{//S is an optimization mod.}
+    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re3(\textcolor{stringliteral}{"pattern3"}, PCRE2\_ANCHORED);
+    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re4(\textcolor{stringliteral}{"pattern4"}, PCRE2\_ANCHORED, 
+      \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2::JIT\_COMPILE});
+\}
+\textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
+    \textcolor{comment}{/*Handle error*/}
+    std::cout<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
+\}
+\end{DoxyCode}
+
+
+Now you can perform match or replace against the pattern. Use the {\ttfamily match()} member function to preform regex match and the {\ttfamily replace()} member function to perform regex replace.
+
+ \subsection*{Match}
+
+The {\ttfamily match()} member function can take two optional arguments (subject \& modifier) and returns an object of the class {\itshape Regex\+Match} which then in turn can be used to pass various parameters using available member functions (method chaining) of {\itshape Regex\+Match} class. The end function in the method chain must be the {\ttfamily execute()} function which returns the result (number of matches found).
+
+{\bfseries Perform match} and catch any error exception\+:
+
+
+\begin{DoxyCode}
+\hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{jpcre2::VecNum} vec\_num;
+\textcolor{keywordflow}{try}\{
+    \textcolor{keywordtype}{size\_t} count=re.\hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}{match}(subject)                               \textcolor{comment}{//Invoke the match() function}
+                   .setModifiers(ac\_mod)                         \textcolor{comment}{//Set various options}
+                   .setNumberedSubstringVector(&vec\_num)         \textcolor{comment}{//...}
+                   .addJpcre2Options(\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2::VALIDATE\_MODIFIER})  \textcolor{comment}{//...}
+                   .execute();                                   \textcolor{comment}{//Finally execute it.}
+    \textcolor{comment}{//vec\_num will be populated with maps of numbered substrings.}
+    \textcolor{comment}{//count is the total number of matches found}
+\}
+\textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
+    \textcolor{comment}{/*Handle error*/}
+    std::cout<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
+\}
+\end{DoxyCode}
+ {\bfseries Iterate through the substrings\+:}
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i=0;i<vec\_num.size();++i)\{
+    \textcolor{comment}{//i=0 is the first match found, i=1 is the second and so forth}
+    \textcolor{comment}{/*//=>C++11}
+\textcolor{comment}{    for(auto const& ent : vec\_num[i])\{}
+\textcolor{comment}{        //ent.first is the number/position of substring found}
+\textcolor{comment}{        //ent.second is the substring itself}
+\textcolor{comment}{        //when ent.first is 0, ent.second is the total match.}
+\textcolor{comment}{    \}*/}
+    \textcolor{keywordflow}{for}(jpcre2::MapNum::iterator ent=vec\_num0[i].begin();ent!=vec\_num0[i].end();++ent)\{
+        std::cout<<\textcolor{stringliteral}{"\(\backslash\)n\(\backslash\)t"}<<ent->first<<\textcolor{stringliteral}{": "}<<ent->second<<\textcolor{stringliteral}{"\(\backslash\)n"};
+    \}
+\}
+\end{DoxyCode}
+ {\bfseries Access a substring} for a known position\+:
+
+
+\begin{DoxyCode}
+std::cout<<vec\_num[0][0]; \textcolor{comment}{// group 0 in first match}
+std::cout<<vec\_num[0][1]; \textcolor{comment}{// group 1 in first match}
+std::cout<<vec\_num[1][0]; \textcolor{comment}{// group 0 in second match}
+\end{DoxyCode}
+
+
+{\bfseries To get named substrings and/or name to number mapping,} pass pointer to the appropriate vectors with {\ttfamily named\+Substring\+Vector()} and/or {\ttfamily name\+To\+Number\+Map\+Vector()}\+:
+
+
+\begin{DoxyCode}
+\hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{jpcre2::VecNum} vec\_num;   
+\hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{jpcre2::VecNas} vec\_nas;   
+\hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2::VecNtN} vec\_ntn;   
+std::string ac\_mod=\textcolor{stringliteral}{"g"};   \textcolor{comment}{// g is for global match. Equivalent to using setFindAll() or FIND\_ALL in
+       addJpcre2Options()}
+\textcolor{keywordflow}{try}\{
+    re.\hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}{match}(subject)                               \textcolor{comment}{//Invoke the match() function}
+      .setModifiers(ac\_mod)                         \textcolor{comment}{//Set various options}
+      .setNumberedSubstringVector(&vec\_num)         \textcolor{comment}{//...}
+      .setNamedSubstringVector(&vec\_nas)            \textcolor{comment}{//...}
+      .setNameToNumberMapVector(&vec\_ntn)           \textcolor{comment}{//...}
+      .addJpcre2Options(\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2::VALIDATE\_MODIFIER})  \textcolor{comment}{//...}
+      .addPcre2Options(PCRE2\_ANCHORED)              \textcolor{comment}{//...}
+      .execute();                                   \textcolor{comment}{//Finally execute it.}
+\}
+\textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
+    \textcolor{comment}{/*Handle error*/}
+    std::cout<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
+\}
+\end{DoxyCode}
+ {\bfseries Iterating} through the vectors and associated maps are the same as the above example for numbered substrings. The size of all three vectors are the same and can be accessed in the same way.
+
+{\bfseries Accesing a substring by name\+:}
+
+
+\begin{DoxyCode}
+std::cout<<vec\_nas[0][\textcolor{stringliteral}{"name"}]; \textcolor{comment}{// captured group by name in first match}
+std::cout<<vec\_nas[1][\textcolor{stringliteral}{"name"}]; \textcolor{comment}{// captured group by name in second match}
+\end{DoxyCode}
+
+
+{\bfseries Getting the position of a captured group name\+:}
+
+
+\begin{DoxyCode}
+std::cout<<vec\_ntn[0][\textcolor{stringliteral}{"name"}]; \textcolor{comment}{// position of captured group 'name' in first match}
+\end{DoxyCode}
+
+
+\subsection*{Replace/\+Substitute}
+
+The {\ttfamily replace()} member function can take upto three optional arguments (subject, replacement string and modifier) and returns an object of the class {\itshape Regex\+Replace} which then in turn can be used to pass various parameters using available member functions (method chaining) of {\itshape Regex\+Replace} class. The end function in the method chain must be the {\ttfamily execute()} function which returns the result (replaced string).
+
+{\bfseries Perform replace} and catch any error exception\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{try}\{
+    std::cout<<
+    re.\hyperlink{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}{replace}()           \textcolor{comment}{//Invoke the replace() function}
+      .setSubject(s)       \textcolor{comment}{//Set various parameters}
+      .setReplaceWith(s2)  \textcolor{comment}{//...}
+      .setModifiers(\textcolor{stringliteral}{"gE"})  \textcolor{comment}{//...}
+      .addJpcre2Options(0) \textcolor{comment}{//...}
+      .addPcre2Options(0)  \textcolor{comment}{//...}
+      .execute();          \textcolor{comment}{//Finally execute it.}
+    \textcolor{comment}{//gE is the modifier passed (global and unknown-unset-empty).}
+    \textcolor{comment}{//Access substrings/captured groups with $\{1234\},$1234 (for numbered substrings)}
+    \textcolor{comment}{// or $\{name\} (for named substrings) in the replacement part i.e in setReplaceWith()}
+\}
+\textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
+    \textcolor{comment}{/*Handle error*/}
+    std::cout<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
+\}
+\end{DoxyCode}
+ If you pass the size of the resultant string with {\ttfamily set\+Buffer\+Size()} function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function ({\ttfamily pcre2\+\_\+substitute()}) will be called {\itshape twice} to adjust the size of the buffer to hold the whole resultant string in order to avoid {\ttfamily P\+C\+R\+E2\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M\+O\+RY} error.
+
+\#\+Insight\+:
+
+Let\textquotesingle{}s take a quick look what\textquotesingle{}s inside and how things are working here\+:
+
+\subsection*{Namespaces\+:}
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*2{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Namespace }&{\bf Details  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Namespace }&{\bf Details  }\\\cline{1-2}
+\endhead
+{\ttfamily \hyperlink{namespacejpcre2}{jpcre2}} &This is the namespace that should be used to access J\+P\+C\+R\+E2 classes and functions. \\\cline{1-2}
+{\ttfamily jpcre2\+::utils} &Some utility functions used by J\+P\+C\+R\+E2. \\\cline{1-2}
+\end{longtabu}
+\subsection*{Classes\+:}
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*2{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Class }&{\bf Details  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Class }&{\bf Details  }\\\cline{1-2}
+\endhead
+{\ttfamily Regex} &Main class that holds the key utilities of J\+P\+C\+R\+E2. Every regex needs an object of this class. \\\cline{1-2}
+{\ttfamily Regex\+Match} &Contains functions to perform regex matching according to the compiled pattern. \\\cline{1-2}
+{\ttfamily Regex\+Replace} &Contains functions to perform replacement according to the compiled pattern. \\\cline{1-2}
+\end{longtabu}
+ \subsubsection*{Functions at a glance\+:}
+
+
+\begin{DoxyCode}
+
+\textcolor{comment}{//Constructors}
+Regex(\textcolor{keyword}{const} \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& re, \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} pcre2\_opts, \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} opt\_bits)
+Regex(\textcolor{keyword}{const} \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& re, \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} pcre2\_opts)
+Regex(\textcolor{keyword}{const} \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& re, \textcolor{keyword}{const} \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& mod)
+Regex(\textcolor{keyword}{const} \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& re)
+Regex(\textcolor{keyword}{const} Regex& r)
+Regex()
+
+\textcolor{comment}{//Overloaded assignment operator}
+Regex&              operator=(const Regex& r)
+
+\textcolor{comment}{//Getters}
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              getModifier()
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              getPattern()
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              getLocale()       
+uint32\_t            getPcre2Options()
+uint32\_t            getJpcre2Options()
+
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              getErrorMessage(\textcolor{keywordtype}{int} err\_num, PCRE2\_SIZE err\_offset)
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              getErrorMessage(\textcolor{keywordtype}{int} err\_num)
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              getErrorMessage()
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              getWarningMessage()
+\textcolor{keywordtype}{int}                 getErrorNumber()
+PCRE2\_SIZE          getErrorOffset()
+
+Regex&              compile(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& re, \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} pcre2\_opts, \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} jpcre2\_opts)
+Regex&              compile(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& re, \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} pcre2\_opts)
+Regex&              compile(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& re, const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& mod)
+Regex&              compile(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& re)
+Regex&              compile()
+
+Regex&              setPattern(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& re)
+Regex&              setModifiers(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& x)
+Regex&              setLocale(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& x)
+Regex&              setJpcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+Regex&              setPcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+
+Regex&              addJpcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+Regex&              addPcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+
+Regex&              removeJpcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+Regex&              removePcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+
+\textcolor{keywordtype}{void}                execute()  \textcolor{comment}{//executes the compile operation.}
+\textcolor{keywordtype}{void}                exec()     \textcolor{comment}{//wrapper of execute()}
+
+RegexMatch&         match(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& s, const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& mod)
+RegexMatch&         match(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& s)
+RegexMatch&         match()
+
+RegexReplace&       replace(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& mains, const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& repl, const 
+      \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& mod)
+RegexReplace&       replace(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& mains,const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& repl)
+RegexReplace&       replace(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& mains)
+RegexReplace&       replace()
+
+
+
+RegexMatch&         setNumberedSubstringVector(\hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{VecNum}* vec\_num)
+RegexMatch&         setNamedSubstringVector(\hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{VecNas}* vec\_nas)
+RegexMatch&         setNameToNumberMapVector(\hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{VecNtN}* vec\_ntn)
+RegexMatch&         setSubject(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& s)
+RegexMatch&         setModifiers(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& s)
+RegexMatch&         setJpcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+RegexMatch&         setPcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+RegexMatch&         setFindAll(\textcolor{keywordtype}{bool} x=true)
+
+RegexMatch&         addJpcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+RegexMatch&         addPcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+
+RegexMatch&         removeJpcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+RegexMatch&         removePcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x) 
+
+\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{SIZE\_T}              execute()  \textcolor{comment}{//executes the match operation}
+\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{SIZE\_T}              exec()     \textcolor{comment}{//wrapper of execute()}
+
+
+
+RegexReplace&       setSubject(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& s)
+RegexReplace&       setReplaceWith(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& s)
+RegexReplace&       setModifiers(const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}& s)
+RegexReplace&       setBufferSize(PCRE2\_SIZE x)
+RegexReplace&       setJpcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+RegexReplace&       setPcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+RegexReplace&       addJpcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+RegexReplace&       addPcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+RegexReplace&       removeJpcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+RegexReplace&       removePcre2Options(\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              execute() \textcolor{comment}{//executes the replacement operation}
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              exec()    \textcolor{comment}{//wrapper of exec()}
+
+
+
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              toString(\textcolor{keywordtype}{int} a)
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              toString(\textcolor{keywordtype}{char} a)
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              toString(const \textcolor{keywordtype}{char}* a)
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              toString(PCRE2\_UCHAR* a)
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String}              getPcre2ErrorMessage(\textcolor{keywordtype}{int} err\_num)
+\end{DoxyCode}
+
+
+ \subsubsection*{Modifiers\+:}
+
+{\bfseries J\+P\+C\+R\+E2} uses modifiers to control various options, type, behavior of the regex and its\textquotesingle{} interactions with different functions that uses it. Two types of modifiers are available\+: {\itshape compile modifiers} and {\itshape action modifiers}\+:
+
+ \paragraph*{Compile modifiers\+:}
+
+Modifiers define the behavior of a regex pattern. They have more or less the same meaning as the \href{https://php.net/manual/en/reference.pcre.pattern.modifiers.php}{\tt P\+HP regex modifiers} except for {\ttfamily e, j and n} (marked with \textsuperscript{$\ast$}).
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*2{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Modifier }&{\bf Details  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Modifier }&{\bf Details  }\\\cline{1-2}
+\endhead
+{\ttfamily e}\textsuperscript{$\ast$} &Unset back-\/references in the pattern will match to empty strings. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+M\+A\+T\+C\+H\+\_\+\+U\+N\+S\+E\+T\+\_\+\+B\+A\+C\+K\+R\+EF}. \\\cline{1-2}
+{\ttfamily i} &Case-\/insensitive. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+C\+A\+S\+E\+L\+E\+SS} option. \\\cline{1-2}
+{\ttfamily j}\textsuperscript{$\ast$} &{\ttfamily \textbackslash{}u \textbackslash{}U \textbackslash{}x} and unset back-\/referencees will act as Java\+Script standard. 
+\begin{DoxyItemize}
+\item {\ttfamily } matches an upper case \char`\"{}\+U\char`\"{} character (by default it causes a compile time error if this option is not set).
+\item {\ttfamily } matches a lower case \char`\"{}u\char`\"{} character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).
+\item {\ttfamily } matches a lower case \char`\"{}x\char`\"{} character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after {\ttfamily }, but it may have zero, one, or two digits (so, for example, {\ttfamily } matches a binary zero character followed by z) ).
+\item Unset back-\/references in the pattern will match to empty strings.
+\end{DoxyItemize}\\\cline{1-2}
+{\ttfamily m} &Multi-\/line regex. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+M\+U\+L\+T\+I\+L\+I\+NE} option. \\\cline{1-2}
+\end{longtabu}
+{\ttfamily n}\textsuperscript{$\ast$} $\vert$ Enable Unicode support for {\ttfamily \textbackslash{}w \textbackslash{}d} etc... in pattern. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+U\+TF $\vert$ P\+C\+R\+E2\+\_\+\+U\+CP}. {\ttfamily s} $\vert$ If this modifier is set, a dot meta-\/character in the pattern matches all characters, including newlines. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+D\+O\+T\+A\+LL} option. {\ttfamily u} $\vert$ Enable U\+TF support.\+Treat pattern and subjects as U\+TF strings. It is equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+U\+TF} option. {\ttfamily x} $\vert$ Whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, enables commentary in pattern. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+E\+X\+T\+E\+N\+D\+ED} option. {\ttfamily A} $\vert$ Match only at the first position. It is equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+A\+N\+C\+H\+O\+R\+ED} option. {\ttfamily D} $\vert$ A dollar meta-\/character in the pattern matches only at the end of the subject string. Without this modifier, a dollar also matches immediately before the final character if it is a newline (but not before any other newlines). This modifier is ignored if {\itshape m} modifier is set. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+D\+O\+L\+L\+A\+R\+\_\+\+E\+N\+D\+O\+N\+LY} option. {\ttfamily J} $\vert$ Allow duplicate names for subpatterns. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+D\+U\+P\+N\+A\+M\+ES} option. {\ttfamily S} $\vert$ When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching/replacing. It may also be beneficial for a very long subject string or pattern. Equivalent to an extra compilation with J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+L\+ER with the option {\ttfamily P\+C\+R\+E2\+\_\+\+J\+I\+T\+\_\+\+C\+O\+M\+P\+L\+E\+TE}. {\ttfamily U} $\vert$ This modifier inverts the \char`\"{}greediness\char`\"{} of the quantifiers so that they are not greedy by default, but become greedy if followed by {\ttfamily ?}. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+U\+N\+G\+R\+E\+E\+DY} option.
+
+\paragraph*{Action modifiers\+:}
+
+These modifiers are not compiled in the regex itself, rather it is used per call of each match or replace function.
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*2{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Modifier }&{\bf Details  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Modifier }&{\bf Details  }\\\cline{1-2}
+\endhead
+{\ttfamily A} &Match at start. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+A\+N\+C\+H\+O\+R\+ED}. Can be used in match operation. Setting this option only at match time (i.\+e regex was not compiled with this option) will disable optimization during match time. \\\cline{1-2}
+{\ttfamily e} &Replaces unset group with empty string. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+U\+N\+S\+E\+T\+\_\+\+E\+M\+P\+TY}. Can be used in replace operation. \\\cline{1-2}
+\end{longtabu}
+{\ttfamily E} $\vert$ Extension of {\ttfamily e} modifier. Sets even unknown groups to empty string. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+U\+N\+S\+E\+T\+\_\+\+E\+M\+P\+TY $\vert$ P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+\+U\+N\+S\+ET}. {\ttfamily g} $\vert$ Global. Will perform global matching or replacement if passed. {\ttfamily x} $\vert$ Extended replacement operation. It enables some Bash like features\+: {\ttfamily \$\{$<$n$>$\+:-\/$<$string$>$\}} and {\ttfamily \$\{$<$n$>$\+:+$<$string1$>$\+:$<$string2$>$\}}.~\newline
+{\ttfamily $<$n$>$} may be a group number or a name. The first form specifies a default value. If group {\ttfamily $<$n$>$} is set, its value is inserted; if not, {\ttfamily $<$string$>$} is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group {\ttfamily $<$n$>$} is set or unset, respectively. The first form is just a convenient shorthand for {\ttfamily \$\{$<$n$>$\+:+\$\{$<$n$>$\}\+:$<$string$>$\}}.
+
+
+
+\subsubsection*{J\+P\+C\+R\+E2 options\+:}
+
+These options are meaningful only for the {\bfseries J\+P\+C\+R\+E2} library itself not the original {\bfseries P\+C\+R\+E2} library. We use the {\ttfamily add\+Jpcre2\+Options()} function to pass these options.
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*2{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Option }&{\bf Details  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf Option }&{\bf Details  }\\\cline{1-2}
+\endhead
+{\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9}{jpcre2\+::\+N\+O\+NE}} &This is the default option. Equivalent to 0 (zero). \\\cline{1-2}
+{\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} &If this option is passed, modifiers will be subject to validation check. If any of them is invalid then a {\ttfamily \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} error exception will be thrown. You can get the error message with {\ttfamily get\+Error\+Message(error\+\_\+code)} member function. \\\cline{1-2}
+{\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c}{jpcre2\+::\+F\+I\+N\+D\+\_\+\+A\+LL}} &This option will do a global matching if passed during matching. The same can be achieved by passing the \textquotesingle{}g\textquotesingle{} modifier with {\ttfamily set\+Modifiers()} function. \\\cline{1-2}
+{\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL}} &Treat warnings as errors and throw exception. \\\cline{1-2}
+{\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE}} &This is same as passing the {\bfseries S} modifier during pattern compilation. \\\cline{1-2}
+\end{longtabu}
+\subsubsection*{P\+C\+R\+E2 options\+:}
+
+While having its own way of doing things, J\+P\+C\+R\+E2 also supports the traditional P\+C\+R\+E2 options to be passed. We use the {\ttfamily add\+Pcre2\+Options()} function to pass the P\+C\+R\+E2 options. These options are the same as the P\+C\+R\+E2 library and have the same meaning. For example instead of passing the \textquotesingle{}g\textquotesingle{} modifier to the replacement operation we can also pass its P\+C\+R\+E2 equivalent {\itshape P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+G\+L\+O\+B\+AL} to have the same effect.
+
+ \#\+Short examples
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{size\_t} count;
+
+\textcolor{keywordflow}{if}(\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"(\(\backslash\)\(\backslash\)d)|(\(\backslash\)\(\backslash\)w)"}).match(\textcolor{stringliteral}{"I am the subject"}).execute()) 
+    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nmatched"};
+\textcolor{keywordflow}{else}
+    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nno match"};
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)n"}<<
+    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"(\(\backslash\)\(\backslash\)d)|(\(\backslash\)\(\backslash\)w)"},\textcolor{stringliteral}{"m"}).\hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}{match}(\textcolor{stringliteral}{"I am the subject"}).setModifiers(\textcolor{stringliteral}{"g"}).execute(
+      );
+
+
+\hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{jpcre2::VecNum} vec\_num;
+count = 
+\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"(\(\backslash\)\(\backslash\)w+)\(\backslash\)\(\backslash\)s*(\(\backslash\)\(\backslash\)d+)"},\textcolor{stringliteral}{"m"}).\hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}{match}(\textcolor{stringliteral}{"I am 23, I am digits 10"})
+                                     .setModifiers(\textcolor{stringliteral}{"g"})
+                                     .setNumberedSubstringVector(&vec\_num)
+                                     .exec();
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nNumber of matches: "}<<count\textcolor{comment}{/* or vec\_num.size()*/};
+
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nTotal match of first match: "}<<vec\_num[0][0];      
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 1 of frist match: "}<<vec\_num[0][1]; 
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 2 of frist match: "}<<vec\_num[0][2]; 
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 3 of frist match: "}<<vec\_num[0][3]; 
+
+\textcolor{comment}{/* //>=C++11}
+\textcolor{comment}{try\{}
+\textcolor{comment}{    std::cout<<"\(\backslash\)nCaptrued group 4 of frist match: "<<vec\_num[0].at(4);}
+\textcolor{comment}{\} catch (std::logic\_error e)\{}
+\textcolor{comment}{    std::cout<<"\(\backslash\)nCaptrued group 4 doesn't exist";}
+\textcolor{comment}{\}*/}
+
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nTotal match of second match: "}<<vec\_num[1][0];      
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 1 of second match: "}<<vec\_num[1][1]; 
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 2 of second match: "}<<vec\_num[1][2]; 
+
+
+
+\hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{jpcre2::VecNas} vec\_nas;
+\hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2::VecNtN} vec\_ntn; 
+count = 
+\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"(?<word>\(\backslash\)\(\backslash\)w+)\(\backslash\)\(\backslash\)s*(?<digit>\(\backslash\)\(\backslash\)d+)"},\textcolor{stringliteral}{"m"}).\hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}{match}(\textcolor{stringliteral}{"I am 23, I am digits 10"})
+                                                    .setModifiers(\textcolor{stringliteral}{"g"})
+                                                    .setNamedSubstringVector(&vec\_nas)
+                                                    .setNameToNumberMapVector(&vec\_ntn) 
+                                                    .execute();
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nNumber of matches: "}<<vec\_nas.size()\textcolor{comment}{/* or count */};
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptured group (word) of first match: "}<<vec\_nas[0][\textcolor{stringliteral}{"word"}];
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptured group (digit) of first match: "}<<vec\_nas[0][\textcolor{stringliteral}{"digit"}];
+
+\textcolor{comment}{/* //>=C++11}
+\textcolor{comment}{try\{}
+\textcolor{comment}{    std::cout<<"\(\backslash\)nCaptured group (name) of first match: "<<vec\_nas[0].at("name");}
+\textcolor{comment}{\} catch(std::logic\_error e)\{}
+\textcolor{comment}{    std::cout<<"\(\backslash\)nCaptured group (name) doesn't exist";}
+\textcolor{comment}{\}*/}
+
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptured group (word) of second match: "}<<vec\_nas[1][\textcolor{stringliteral}{"word"}];
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptured group (digit) of second match: "}<<vec\_nas[1][\textcolor{stringliteral}{"digit"}];
+
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nPosition of captured group (word) in first match: "}<<vec\_ntn[0][\textcolor{stringliteral}{"word"}];
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)nPosition of captured group (digit) in first match: "}<<vec\_ntn[0][\textcolor{stringliteral}{"digit"}];
+
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)n"}<<
+\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"\(\backslash\)\(\backslash\)d"}).\hyperlink{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}{replace}(\textcolor{stringliteral}{"I am the subject string 44"},\textcolor{stringliteral}{"@"}).execute();
+
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)n"}<<
+\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"\(\backslash\)\(\backslash\)d"}).\hyperlink{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}{replace}(\textcolor{stringliteral}{"I am the subject string 44"},\textcolor{stringliteral}{"@"}).setModifiers(\textcolor{stringliteral}{"g"}).
+      execute();
+
+std::cout<<\textcolor{stringliteral}{"\(\backslash\)n"}<<
+\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"^([^\(\backslash\)t]+)\(\backslash\)t([^\(\backslash\)t]+)$"}).\hyperlink{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}{replace}()
+                                     .setSubject(\textcolor{stringliteral}{"I am the subject\(\backslash\)tTo be swapped according to tab"})
+                                     .setReplaceWith(\textcolor{stringliteral}{"$2 $1"})
+                                     .execute();
+\end{DoxyCode}
+
+
+\#\+Testing\+:
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*2{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}{\bf C\+PP file }&{\bf Details  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}{\bf C\+PP file }&{\bf Details  }\\\cline{1-2}
+\endhead
+{\ttfamily test\+\_\+match.\+cpp} &Contains an example code for match function. \\\cline{1-2}
+{\ttfamily test\+\_\+replace.\+cpp} &Contains an example code for replace function. \\\cline{1-2}
+{\ttfamily test\+\_\+match2.\+cpp} &Another matching example. Takes pattern, modifier \& subject as inputs. \\\cline{1-2}
+{\ttfamily test\+\_\+replace2.\+cpp} &Another replacement example. Takes input for pattern, modifier, subject and replacement string. \\\cline{1-2}
+\end{longtabu}
+\#\+Screenshots of some test outputs\+:
+
+\subsection*{test\+\_\+match\+: }
+
+
+\begin{DoxyCode}
+1 subject = "(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56)"
+2 pattern = "(?:(?<word>[?.#@:]+)|(?<word>\(\backslash\)\(\backslash\)w+))\(\backslash\)\(\backslash\)s*(?<digit>\(\backslash\)\(\backslash\)d+)"
+\end{DoxyCode}
+
+
+   

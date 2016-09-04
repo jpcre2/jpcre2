@@ -1,8 +1,9 @@
-.TH "jpcre2.hpp" 3 "Sun Sep 4 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2.hpp" 3 "Mon Sep 5 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-jpcre2.hpp \- 
+jpcre2.hpp \- Main header file for JPCRE library to be included by programs that call JPCRE2 functions\&.  
+
 .SH SYNOPSIS
 .br
 .PP
@@ -10,21 +11,148 @@ jpcre2.hpp \-
 .br
 \fC#include <stdint\&.h>\fP
 .br
+\fC#include <cstddef>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <map>\fP
+.br
 
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBjpcre2::RegexMatch\fP"
+.br
+.RI "\fIPerforms regex matching\&. \fP"
+.ti -1c
+.RI "class \fBjpcre2::RegexReplace\fP"
+.br
+.RI "\fIPerforms regex replace on a string\&. \fP"
+.ti -1c
+.RI "class \fBjpcre2::Regex\fP"
+.br
+.RI "\fIThis is the main class that is to be used to perform all JPCRE2 related actions\&. \fP"
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBjpcre2\fP"
+.br
+.RI "\fIMain namespace of JPCRE2\&. \fP"
+.ti -1c
+.RI " \fBjpcre2::ERROR\fP"
+.br
+.RI "\fINamespace for error codes\&. \fP"
+.in -1c
 .SS "Macros"
 
 .in +1c
 .ti -1c
 .RI "#define \fBPCRE2_CODE_UNIT_WIDTH\fP   8"
 .br
-.RI "\fIpcre2 \fP"
+.RI "\fICode unit width 8 is used by default\&. \fP"
 .in -1c
-.SH "Macro Definition Documentation"
-.PP 
-.SS "#define PCRE2_CODE_UNIT_WIDTH   8"
+.SS "Typedefs"
 
+.in +1c
+.ti -1c
+.RI "typedef std::size_t \fBjpcre2::SIZE_T\fP"
+.br
+.RI "\fIUsed for match count and vector size\&. \fP"
+.ti -1c
+.RI "typedef uint32_t \fBjpcre2::Uint\fP"
+.br
+.RI "\fIUsed for options (bitwise operation) \fP"
+.ti -1c
+.RI "typedef std::string \fBjpcre2::String\fP"
+.br
+.RI "\fIUsed as std::string\&. \fP"
+.ti -1c
+.RI "typedef std::map< String, String > \fBjpcre2::MapNas\fP"
+.br
+.RI "\fIMap for Named substrings\&. \fP"
+.ti -1c
+.RI "typedef std::map< SIZE_T, String > \fBjpcre2::MapNum\fP"
+.br
+.RI "\fIMap for Numbered substrings\&. \fP"
+.ti -1c
+.RI "typedef std::map< String, SIZE_T > \fBjpcre2::MapNtN\fP"
+.br
+.RI "\fISubstring name to Substring number map\&. \fP"
+.ti -1c
+.RI "typedef std::vector< MapNas > \fBjpcre2::VecNas\fP"
+.br
+.RI "\fIVector of matches with named substrings\&. \fP"
+.ti -1c
+.RI "typedef std::vector< MapNtN > \fBjpcre2::VecNtN\fP"
+.br
+.RI "\fIVector of substring name to Substring number map\&. \fP"
+.ti -1c
+.RI "typedef std::vector< MapNum > \fBjpcre2::VecNum\fP"
+.br
+.RI "\fIVector of matches with numbered substrings\&. \fP"
+.in -1c
+.SS "Enumerations"
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "String \fBjpcre2::utils::toString\fP (int a)"
+.br
+.RI "\fIConverts an integer to String\&. \fP"
+.ti -1c
+.RI "String \fBjpcre2::utils::toString\fP (char a)"
+.br
+.RI "\fIConverts a char to String\&. \fP"
+.ti -1c
+.RI "String \fBjpcre2::utils::toString\fP (const char *a)"
+.br
+.RI "\fIConverts const char* to String\&. \fP"
+.ti -1c
+.RI "String \fBjpcre2::utils::toString\fP (PCRE2_UCHAR *a)"
+.br
+.RI "\fIConverts a PCRE2_UCHAR* to String\&. \fP"
+.ti -1c
+.RI "String \fBjpcre2::utils::getPcre2ErrorMessage\fP (int err_num)"
+.br
+.RI "\fIGet PCRE2 error message for an error number\&. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
+.br
+.RI "\fIUsed by default to provide big enough buffer for replaced string\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::LOCALE_NONE\fP = 'JPCRE2_NONE'"
+.br
+.RI "\fIDon't do anything about locale if it is set to LOCALE_NONE\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::LOCALE_DEFAULT\fP = LOCALE_NONE"
+.br
+.RI "\fIDefault locale\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::JIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
+.br
+.RI "\fIPrefix to be added to JIT error message\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Main header file for JPCRE library to be included by programs that call JPCRE2 functions\&. 
+
+It includes the pcre2\&.h header, therefore you shouldn't include pcre2\&.h separately in your program\&. Make sure to link pcre2 library when compiling\&. If you are using JPCRE2 as a library, then link this library too\&. 
 .PP
-pcre2 uint32_t 
+\fBAuthor:\fP
+.RS 4
+Md\&. Jahidul Hamid\&. 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for JPCRE2 from the source code\&.

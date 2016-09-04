@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="namespacejpcre2">
+<title>jpcre2</title>
+        <section>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="classjpcre2_1_1Regex">jpcre2::Regex</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="classjpcre2_1_1RegexMatch">jpcre2::RegexMatch</link></para>
+<para><emphasis>class to perform regex matching</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="classjpcre2_1_1RegexReplace">jpcre2::RegexReplace</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <simplesect>
+            <title> Namespaces </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="namespacejpcre2_1_1ERROR">jpcre2::ERROR</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="namespacejpcre2_1_1utils">jpcre2::utils</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <section>
+            <title>Enumerations</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00">@0</link> {
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9">NONE</link>= 0x0000000u,
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387">VALIDATE_MODIFIER</link>= 0x0000001u,
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c">FIND_ALL</link>= 0x0000002u,
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e">JIT_COMPILE</link>= 0x0000004u,
+<link linkend="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552">ERROR_ALL</link>= 0x0000008u
+}</literallayout>
+<para><emphasis>Option bits.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Typedefs</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef std::size_t  <link linkend="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c">SIZE_T</link><para><emphasis>Used for match count and vector size.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef uint32_t  <link linkend="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099">Uint</link><para><emphasis>Used for options (bitwise operation)</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef std::string  <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link><para><emphasis>Used as std::string.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef std::map&lt; <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link>, <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &gt;  <link linkend="namespacejpcre2_1a20bd901c9ca3c949806aa6b9e324f6cf">MapNas</link><para><emphasis>Map for Named substrings.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef std::map&lt; <link linkend="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c">SIZE_T</link>, <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> &gt;  <link linkend="namespacejpcre2_1a947e37f0e4a1678157e7f1f855638e82">MapNum</link><para><emphasis>Map for Numbered substrings.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef std::map&lt; <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link>, <link linkend="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c">SIZE_T</link> &gt;  <link linkend="namespacejpcre2_1a753ebedfb8caf4a16ffbf47d8d705656">MapNtN</link><para><emphasis>Substring name to Substring number map.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef std::vector&lt; <link linkend="namespacejpcre2_1a20bd901c9ca3c949806aa6b9e324f6cf">MapNas</link> &gt;  <link linkend="namespacejpcre2_1a2b121ae776ea5b2913839f418a7d856b">VecNas</link><para><emphasis>Vector of matches with named substrings.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef std::vector&lt; <link linkend="namespacejpcre2_1a753ebedfb8caf4a16ffbf47d8d705656">MapNtN</link> &gt;  <link linkend="namespacejpcre2_1a88a7aaf84cad627d34c8152e726168eb">VecNtN</link><para><emphasis>Vector of substring name to Substring number map.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef std::vector&lt; <link linkend="namespacejpcre2_1a947e37f0e4a1678157e7f1f855638e82">MapNum</link> &gt;  <link linkend="namespacejpcre2_1ac1cf752c8fbb0be78020be3b80e77ce3">VecNum</link><para><emphasis>Vector of matches with numbered substrings.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Variables</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const <link linkend="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c">SIZE_T</link> <link linkend="namespacejpcre2_1a80cb201f2e733137b22a8ed98465096a">SUBSTITUTE_RESULT_INIT_SIZE</link><para><emphasis>Used by default to provide big enough buffer for replaced string.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> <link linkend="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5">LOCALE_NONE</link><para><emphasis>Don&apos;t do anything about locale if it is set to LOCALE_NONE.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> <link linkend="namespacejpcre2_1adfdd3d1fff99e685734ae4e59771e84d">LOCALE_DEFAULT</link><para><emphasis>Default locale.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const <link linkend="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16">String</link> <link linkend="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e">JIT_ERROR_MESSAGE_PREFIX</link><para><emphasis>Prefix to be added to JIT error message.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>Main namespace of JPCRE2. </para>
+    </simplesect>
+</section>

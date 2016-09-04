@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_3d',['operator=',['../classjpcre2_1_1_regex.html#ab43a14b4b6e75b7fa3221bc18a1d4121',1,'jpcre2::Regex']]]
+  ['none',['NONE',['../namespacejpcre2.html#a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9',1,'jpcre2']]]
 ];

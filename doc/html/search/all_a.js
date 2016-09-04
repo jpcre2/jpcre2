@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pcre2_5fcode_5funit_5fwidth',['PCRE2_CODE_UNIT_WIDTH',['../jpcre2_8hpp.html#acff91275abcc225454675d6dfc39a58d',1,'jpcre2.hpp']]]
+  ['operator_3d',['operator=',['../classjpcre2_1_1Regex.html#ab43a14b4b6e75b7fa3221bc18a1d4121',1,'jpcre2::Regex']]]
 ];

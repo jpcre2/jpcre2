@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespacejpcre2_1_1ERROR" kind="namespace" language="C++">
+    <compoundname>jpcre2::ERROR</compoundname>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2" prot="public" static="no">
+        <name>@1</name>
+        <enumvalue id="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" prot="public">
+          <name>INVALID_MODIFIER</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Invalid modifier error. </para>          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e" prot="public">
+          <name>JIT_COMPILE_FAILED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>JIT compile failed error. </para>          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para><ref refid="namespacejpcre2_1_1ERROR" kindref="compound">ERROR</ref> codes that are thrown in case error occurs. </para>        </briefdescription>
+        <detaileddescription>
+<para>JPCRE2 error codes are positive integers while PCRE2 error codes are negative integers. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="80" column="1" bodyfile="src/jpcre2.hpp" bodystart="80" bodyend="83"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Namespace for error codes. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/jpcre2.hpp" line="75" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,397 @@
+\hypertarget{classjpcre2_1_1Regex}{}\section{jpcre2\+:\+:Regex Class Reference}
+\label{classjpcre2_1_1Regex}\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+
+
+This is the main class that is to be used to perform all J\+P\+C\+R\+E2 related actions.  
+
+
+
+
+{\ttfamily \#include $<$jpcre2.\+hpp$>$}
+
+
+
+Collaboration diagram for jpcre2\+:\+:Regex\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{classjpcre2_1_1Regex__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classjpcre2_1_1Regex_a302f65cd5747c5d34570ca76516ab715}{Regex} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1Regex_a4d959fdc32791bee6d819abfc44af51a}{Regex} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&re)
+\begin{DoxyCompactList}\small\item\em Compiles pattern with initialization. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1Regex_a58be9b4e1eaec2a43586af45c6ae5549}{Regex} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&re, const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&mod)
+\begin{DoxyCompactList}\small\item\em This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Compiles pattern. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1Regex_a8f8a1eabf09292b782a6f33287e3fee4}{Regex} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&re, \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} pcre2\+\_\+opts)
+\begin{DoxyCompactList}\small\item\em This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Compiles pattern. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1Regex_abe210e2ca6cfcef11760875930cf069d}{Regex} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&re, \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} pcre2\+\_\+opts, \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} opt\+\_\+bits)
+\begin{DoxyCompactList}\small\item\em This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Compiles pattern. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1Regex_ae03bb99a5bc8f945e693ddc34706f0c0}{Regex} (const \hyperlink{classjpcre2_1_1Regex}{Regex} \&r)
+\begin{DoxyCompactList}\small\item\em This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1Regex}{Regex} \& \hyperlink{classjpcre2_1_1Regex_ab43a14b4b6e75b7fa3221bc18a1d4121}{operator=} (const \hyperlink{classjpcre2_1_1Regex}{Regex} \&r)
+\begin{DoxyCompactList}\small\item\em Overloaded assignment operator. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1Regex_a12b2bf254b59d7967681b77795c49260}{$\sim$\+Regex} ()\hypertarget{classjpcre2_1_1Regex_a12b2bf254b59d7967681b77795c49260}{}\label{classjpcre2_1_1Regex_a12b2bf254b59d7967681b77795c49260}
+
+\begin{DoxyCompactList}\small\item\em Destructor (deletes memory used) \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1Regex}{Regex} \& \hyperlink{classjpcre2_1_1Regex_a91f6afe257e9633cbb79a98649ab8d02}{reset} ()
+\begin{DoxyCompactList}\small\item\em Reset all class variables to its default (initial) state. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_acc597ee58b9d5ab35d6e1f98b6118175}{get\+Modifier} ()
+\begin{DoxyCompactList}\small\item\em Get modifier string. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_a006dd17f71a2d717aa9575d72fac6d7b}{get\+Pattern} ()
+\begin{DoxyCompactList}\small\item\em Get pattern string. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_ae9afaf627ed922a9e4cee8074d30edfa}{get\+Locale} ()
+\begin{DoxyCompactList}\small\item\em Get locale as a string. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} \hyperlink{classjpcre2_1_1Regex_a857307fc59ba7f010b097e61c1744923}{get\+Pcre2\+Option} ()
+\begin{DoxyCompactList}\small\item\em Get P\+C\+R\+E2 option. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} \hyperlink{classjpcre2_1_1Regex_a5d2d04eb7c393338a4c8cce941e957ef}{get\+Jpcre2\+Option} ()
+\begin{DoxyCompactList}\small\item\em Get J\+P\+C\+R\+E2 option. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{get\+Error\+Message} (int err\+\_\+num, P\+C\+R\+E2\+\_\+\+S\+I\+ZE err\+\_\+off)
+\begin{DoxyCompactList}\small\item\em Error handling Return error message by error\+\_\+number and error\+\_\+offset. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_a76fddd42bf11dd66c25905fb92437d6b}{get\+Error\+Message} (int err\+\_\+num)
+\begin{DoxyCompactList}\small\item\em This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Uses class variable error\+\_\+offest as error offset. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_a8606fff8b192c94f58ca9e82aa048c61}{get\+Error\+Message} ()
+\begin{DoxyCompactList}\small\item\em This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Uses class variable error\+\_\+number as error number and error\+\_\+offest as error offset. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_a1a639ae4090b88609c03e9268faf02d8}{get\+Warning\+Message} ()
+\begin{DoxyCompactList}\small\item\em Get current warning message. \end{DoxyCompactList}\item 
+int \hyperlink{classjpcre2_1_1Regex_a7294273e7d11907a749f2db40da9ed15}{get\+Error\+Number} ()\hypertarget{classjpcre2_1_1Regex_a7294273e7d11907a749f2db40da9ed15}{}\label{classjpcre2_1_1Regex_a7294273e7d11907a749f2db40da9ed15}
+
+\begin{DoxyCompactList}\small\item\em return \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number} \end{DoxyCompactList}\item 
+P\+C\+R\+E2\+\_\+\+S\+I\+ZE \hyperlink{classjpcre2_1_1Regex_a1c7822056cd7ac9a6be5e18513bd8093}{get\+Error\+Offset} ()\hypertarget{classjpcre2_1_1Regex_a1c7822056cd7ac9a6be5e18513bd8093}{}\label{classjpcre2_1_1Regex_a1c7822056cd7ac9a6be5e18513bd8093}
+
+\begin{DoxyCompactList}\small\item\em return \hyperlink{classjpcre2_1_1Regex_a0b9613704582b9c6b0175a21a2a421e0}{error\+\_\+offset} \end{DoxyCompactList}\item 
+void \hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69}{compile} (void)\hypertarget{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69}{}\label{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69}
+
+\begin{DoxyCompactList}\small\item\em Compiles the regex. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{S\+I\+Z\+E\+\_\+T} \hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}{match} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&s, const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&mod)\hypertarget{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}{}\label{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}
+
+\begin{DoxyCompactList}\small\item\em This is the \hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}{match()} function that will be called by users. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}{replace} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&mains, const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&repl, const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&mod)\hypertarget{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}{}\label{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}
+
+\begin{DoxyCompactList}\small\item\em This is the replace function that will be called by users. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} $\ast$ \hyperlink{classjpcre2_1_1Regex_a447925705d222dbbd8c7d60b98cc65f0}{rm}\hypertarget{classjpcre2_1_1Regex_a447925705d222dbbd8c7d60b98cc65f0}{}\label{classjpcre2_1_1Regex_a447925705d222dbbd8c7d60b98cc65f0}
+
+\begin{DoxyCompactList}\small\item\em Pointer to \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} object. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} $\ast$ \hyperlink{classjpcre2_1_1Regex_a5a7ac6c6288988079b8933b4b6637fab}{rr}\hypertarget{classjpcre2_1_1Regex_a5a7ac6c6288988079b8933b4b6637fab}{}\label{classjpcre2_1_1Regex_a5a7ac6c6288988079b8933b4b6637fab}
+
+\begin{DoxyCompactList}\small\item\em Pointer to \hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} object. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_a0bceb85b6dbba355b56b5cc312214435}{pat\+\_\+str}\hypertarget{classjpcre2_1_1Regex_a0bceb85b6dbba355b56b5cc312214435}{}\label{classjpcre2_1_1Regex_a0bceb85b6dbba355b56b5cc312214435}
+
+\begin{DoxyCompactList}\small\item\em Pattern string. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_ab4447726c0cedd7868a600ea7db876a8}{modifier}\hypertarget{classjpcre2_1_1Regex_ab4447726c0cedd7868a600ea7db876a8}{}\label{classjpcre2_1_1Regex_ab4447726c0cedd7868a600ea7db876a8}
+
+\begin{DoxyCompactList}\small\item\em Modifier string. \end{DoxyCompactList}\item 
+pcre2\+\_\+code $\ast$ \hyperlink{classjpcre2_1_1Regex_a2742264206d8976c413b474b7bac4b2e}{code}\hypertarget{classjpcre2_1_1Regex_a2742264206d8976c413b474b7bac4b2e}{}\label{classjpcre2_1_1Regex_a2742264206d8976c413b474b7bac4b2e}
+
+\begin{DoxyCompactList}\small\item\em Compiled pattern (code) \end{DoxyCompactList}\item 
+int \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}\hypertarget{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{}\label{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}
+
+\begin{DoxyCompactList}\small\item\em Error number. \end{DoxyCompactList}\item 
+P\+C\+R\+E2\+\_\+\+S\+I\+ZE \hyperlink{classjpcre2_1_1Regex_a0b9613704582b9c6b0175a21a2a421e0}{error\+\_\+offset}\hypertarget{classjpcre2_1_1Regex_a0b9613704582b9c6b0175a21a2a421e0}{}\label{classjpcre2_1_1Regex_a0b9613704582b9c6b0175a21a2a421e0}
+
+\begin{DoxyCompactList}\small\item\em Error offset. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} \hyperlink{classjpcre2_1_1Regex_a5954131e9085de63229ed5c11417df69}{compile\+\_\+opts}\hypertarget{classjpcre2_1_1Regex_a5954131e9085de63229ed5c11417df69}{}\label{classjpcre2_1_1Regex_a5954131e9085de63229ed5c11417df69}
+
+\begin{DoxyCompactList}\small\item\em Compile options. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} \hyperlink{classjpcre2_1_1Regex_abdd26c3bc1c3132f0aa73dde1690a7ef}{jpcre2\+\_\+compile\+\_\+opts}\hypertarget{classjpcre2_1_1Regex_abdd26c3bc1c3132f0aa73dde1690a7ef}{}\label{classjpcre2_1_1Regex_abdd26c3bc1c3132f0aa73dde1690a7ef}
+
+\begin{DoxyCompactList}\small\item\em Compile options specific to J\+P\+C\+R\+E2. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_a92a3ad992cade62d103248302f7e2f2d}{mylocale}\hypertarget{classjpcre2_1_1Regex_a92a3ad992cade62d103248302f7e2f2d}{}\label{classjpcre2_1_1Regex_a92a3ad992cade62d103248302f7e2f2d}
+
+\begin{DoxyCompactList}\small\item\em Locale string. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_a1cfacd49c8bceaae1e2a66efd4082ea8}{current\+\_\+warning\+\_\+msg}\hypertarget{classjpcre2_1_1Regex_a1cfacd49c8bceaae1e2a66efd4082ea8}{}\label{classjpcre2_1_1Regex_a1cfacd49c8bceaae1e2a66efd4082ea8}
+
+\begin{DoxyCompactList}\small\item\em current warning message \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the main class that is to be used to perform all J\+P\+C\+R\+E2 related actions. 
+
+This class implements public default constructor, deep copy constructor and overloaded assignment operator.
+
+An object of this class must be created (can be temporary) to access its public functions and perform match or replace against a compiled pattern.
+
+A pattern must be compiled either by explicitly calling the compile function or using one of the parameterized constructors. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!Regex@{Regex}}
+\index{Regex@{Regex}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{Regex()}{Regex()}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+::\+Regex (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a302f65cd5747c5d34570ca76516ab715}{}\label{classjpcre2_1_1Regex_a302f65cd5747c5d34570ca76516ab715}
+
+
+Default Constructor. 
+
+Initializes all class variables to defaults. Does not perform any compilation. \index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!Regex@{Regex}}
+\index{Regex@{Regex}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{Regex(const String \&re)}{Regex(const String &re)}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+::\+Regex (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{re}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a4d959fdc32791bee6d819abfc44af51a}{}\label{classjpcre2_1_1Regex_a4d959fdc32791bee6d819abfc44af51a}
+
+
+Compiles pattern with initialization. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em re} & Pattern string \\
+\hline
+\end{DoxyParams}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!Regex@{Regex}}
+\index{Regex@{Regex}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{Regex(const String \&re, const String \&mod)}{Regex(const String &re, const String &mod)}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+::\+Regex (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{re, }
+\item[{const {\bf String} \&}]{mod}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a58be9b4e1eaec2a43586af45c6ae5549}{}\label{classjpcre2_1_1Regex_a58be9b4e1eaec2a43586af45c6ae5549}
+
+
+This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Compiles pattern. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em re} & Pattern string \\
+\hline
+{\em mod} & Modifier string \\
+\hline
+\end{DoxyParams}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!Regex@{Regex}}
+\index{Regex@{Regex}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{Regex(const String \&re, Uint pcre2\+\_\+opts)}{Regex(const String &re, Uint pcre2_opts)}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+::\+Regex (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{re, }
+\item[{{\bf Uint}}]{pcre2\+\_\+opts}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a8f8a1eabf09292b782a6f33287e3fee4}{}\label{classjpcre2_1_1Regex_a8f8a1eabf09292b782a6f33287e3fee4}
+
+
+This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Compiles pattern. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em re} & Pattern string \\
+\hline
+{\em pcre2\+\_\+opts} & P\+C\+R\+E2 option value \\
+\hline
+\end{DoxyParams}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!Regex@{Regex}}
+\index{Regex@{Regex}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{Regex(const String \&re, Uint pcre2\+\_\+opts, Uint opt\+\_\+bits)}{Regex(const String &re, Uint pcre2_opts, Uint opt_bits)}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+::\+Regex (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{re, }
+\item[{{\bf Uint}}]{pcre2\+\_\+opts, }
+\item[{{\bf Uint}}]{opt\+\_\+bits}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_abe210e2ca6cfcef11760875930cf069d}{}\label{classjpcre2_1_1Regex_abe210e2ca6cfcef11760875930cf069d}
+
+
+This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Compiles pattern. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em re} & Pattern string \\
+\hline
+{\em pcre2\+\_\+opts} & P\+C\+R\+E2 option value \\
+\hline
+{\em opt\+\_\+bits} & J\+P\+C\+R\+E2 option value \\
+\hline
+\end{DoxyParams}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!Regex@{Regex}}
+\index{Regex@{Regex}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{Regex(const Regex \&r)}{Regex(const Regex &r)}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+::\+Regex (
+\begin{DoxyParamCaption}
+\item[{const {\bf Regex} \&}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_ae03bb99a5bc8f945e693ddc34706f0c0}{}\label{classjpcre2_1_1Regex_ae03bb99a5bc8f945e693ddc34706f0c0}
+
+
+This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Copy constructor. 
+
+Compiles pattern and Performs a deep copy. 
+
+\subsection{Member Function Documentation}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Error\+Message@{get\+Error\+Message}}
+\index{get\+Error\+Message@{get\+Error\+Message}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{get\+Error\+Message(int err\+\_\+num, P\+C\+R\+E2\+\_\+\+S\+I\+Z\+E err\+\_\+off)}{getErrorMessage(int err_num, PCRE2_SIZE err_off)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf jpcre2\+::\+String} jpcre2\+::\+Regex\+::get\+Error\+Message (
+\begin{DoxyParamCaption}
+\item[{int}]{err\+\_\+num, }
+\item[{P\+C\+R\+E2\+\_\+\+S\+I\+ZE}]{err\+\_\+off}
+\end{DoxyParamCaption}
+)}\hypertarget{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{}\label{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}
+
+
+Error handling Return error message by error\+\_\+number and error\+\_\+offset. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err\+\_\+num} & Error number \\
+\hline
+{\em err\+\_\+off} & Error offset \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error message as a string 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Error\+Message@{get\+Error\+Message}}
+\index{get\+Error\+Message@{get\+Error\+Message}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{get\+Error\+Message(int err\+\_\+num)}{getErrorMessage(int err_num)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf String} jpcre2\+::\+Regex\+::get\+Error\+Message (
+\begin{DoxyParamCaption}
+\item[{int}]{err\+\_\+num}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a76fddd42bf11dd66c25905fb92437d6b}{}\label{classjpcre2_1_1Regex_a76fddd42bf11dd66c25905fb92437d6b}
+
+
+This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Uses class variable error\+\_\+offest as error offset. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err\+\_\+num} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error message as a string 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Error\+Message@{get\+Error\+Message}}
+\index{get\+Error\+Message@{get\+Error\+Message}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{get\+Error\+Message()}{getErrorMessage()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf String} jpcre2\+::\+Regex\+::get\+Error\+Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a8606fff8b192c94f58ca9e82aa048c61}{}\label{classjpcre2_1_1Regex_a8606fff8b192c94f58ca9e82aa048c61}
+
+
+This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Uses class variable error\+\_\+number as error number and error\+\_\+offest as error offset. 
+
+\begin{DoxyReturn}{Returns}
+Error message as a string (empty if there is no error) 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Jpcre2\+Option@{get\+Jpcre2\+Option}}
+\index{get\+Jpcre2\+Option@{get\+Jpcre2\+Option}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{get\+Jpcre2\+Option()}{getJpcre2Option()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Uint} jpcre2\+::\+Regex\+::get\+Jpcre2\+Option (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a5d2d04eb7c393338a4c8cce941e957ef}{}\label{classjpcre2_1_1Regex_a5d2d04eb7c393338a4c8cce941e957ef}
+
+
+Get J\+P\+C\+R\+E2 option. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1Regex_abdd26c3bc1c3132f0aa73dde1690a7ef}{jpcre2\+\_\+compile\+\_\+opts} 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Locale@{get\+Locale}}
+\index{get\+Locale@{get\+Locale}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{get\+Locale()}{getLocale()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf String} jpcre2\+::\+Regex\+::get\+Locale (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_ae9afaf627ed922a9e4cee8074d30edfa}{}\label{classjpcre2_1_1Regex_ae9afaf627ed922a9e4cee8074d30edfa}
+
+
+Get locale as a string. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1Regex_a92a3ad992cade62d103248302f7e2f2d}{mylocale} 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Modifier@{get\+Modifier}}
+\index{get\+Modifier@{get\+Modifier}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{get\+Modifier()}{getModifier()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf String} jpcre2\+::\+Regex\+::get\+Modifier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_acc597ee58b9d5ab35d6e1f98b6118175}{}\label{classjpcre2_1_1Regex_acc597ee58b9d5ab35d6e1f98b6118175}
+
+
+Get modifier string. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1Regex_ab4447726c0cedd7868a600ea7db876a8}{modifier} 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Pattern@{get\+Pattern}}
+\index{get\+Pattern@{get\+Pattern}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{get\+Pattern()}{getPattern()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf String} jpcre2\+::\+Regex\+::get\+Pattern (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a006dd17f71a2d717aa9575d72fac6d7b}{}\label{classjpcre2_1_1Regex_a006dd17f71a2d717aa9575d72fac6d7b}
+
+
+Get pattern string. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1Regex_a0bceb85b6dbba355b56b5cc312214435}{pat\+\_\+str} 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Pcre2\+Option@{get\+Pcre2\+Option}}
+\index{get\+Pcre2\+Option@{get\+Pcre2\+Option}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{get\+Pcre2\+Option()}{getPcre2Option()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Uint} jpcre2\+::\+Regex\+::get\+Pcre2\+Option (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a857307fc59ba7f010b097e61c1744923}{}\label{classjpcre2_1_1Regex_a857307fc59ba7f010b097e61c1744923}
+
+
+Get P\+C\+R\+E2 option. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1Regex_a5954131e9085de63229ed5c11417df69}{compile\+\_\+opts} 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Warning\+Message@{get\+Warning\+Message}}
+\index{get\+Warning\+Message@{get\+Warning\+Message}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{get\+Warning\+Message()}{getWarningMessage()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf String} jpcre2\+::\+Regex\+::get\+Warning\+Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a1a639ae4090b88609c03e9268faf02d8}{}\label{classjpcre2_1_1Regex_a1a639ae4090b88609c03e9268faf02d8}
+
+
+Get current warning message. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1Regex_a1cfacd49c8bceaae1e2a66efd4082ea8}{current\+\_\+warning\+\_\+msg} 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!operator=@{operator=}}
+\index{operator=@{operator=}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{operator=(const Regex \&r)}{operator=(const Regex &r)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex}\& jpcre2\+::\+Regex\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Regex} \&}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_ab43a14b4b6e75b7fa3221bc18a1d4121}{}\label{classjpcre2_1_1Regex_ab43a14b4b6e75b7fa3221bc18a1d4121}
+
+
+Overloaded assignment operator. 
+
+Performs a deep copy \begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!reset@{reset}}
+\index{reset@{reset}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\subsubsection[{\texorpdfstring{reset()}{reset()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex}\& jpcre2\+::\+Regex\+::reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_a91f6afe257e9633cbb79a98649ab8d02}{}\label{classjpcre2_1_1Regex_a91f6afe257e9633cbb79a98649ab8d02}
+
+
+Reset all class variables to its default (initial) state. 
+
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{jpcre2_8hpp}{jpcre2.\+hpp}\item 
+jpcre2.\+cpp\end{DoxyCompactItemize}
