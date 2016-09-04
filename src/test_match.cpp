@@ -1,5 +1,5 @@
 #include <iostream>
-#include "jpcre2.cpp"
+#include "jpcre2.hpp"
 
 
 int main(){
