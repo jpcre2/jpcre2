@@ -204,7 +204,7 @@ try{
       .execute();          //Finally execute it.
     //gE is the modifier passed (global and unknown-unset-empty).
     //Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
-    // or ${name} (for named substrings) in the replacement part i.e in replaceWith()
+    // or ${name} (for named substrings) in the replacement part i.e in setReplaceWith()
 }
 catch(int e){
     /*Handle error*/
