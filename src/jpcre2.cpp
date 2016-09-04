@@ -89,6 +89,33 @@ jpcre2::String jpcre2::Regex::getErrorMessage(int err_num, PCRE2_SIZE err_off){
     }
 }
 
+void jpcre2::Regex::deepCopy(const Regex& r){
+    ///Now copy r.code if it is non-null
+    if(r.code){
+        freeRegexMemory();  ///first release memory if it is non-NULL
+        ///copy only if code is non-null
+        code = pcre2_code_copy(r.code);
+        ///pcre2_code_copy doesn't copy JIT memory
+        ///JIT compilation is needed
+        if((jpcre2_compile_opts & JIT_COMPILE) != 0){
+        ///perform jit compilation:
+            int jit_ret=pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
+            if(jit_ret!=0){
+                if((jpcre2_compile_opts & ERROR_ALL) != 0) {
+                    error_number = error_offset = ERROR::JIT_COMPILE_FAILED;
+                    throw((int)ERROR::JIT_COMPILE_FAILED);
+                }
+                else current_warning_msg=JIT_ERROR_MESSAGE_PREFIX+utils::getPcre2ErrorMessage(jit_ret);
+            }  
+        }
+    } else code = 0;
+    ///copy rm
+    ///No need to copy it, just set it to NULL and delete r.rm
+    delete rm; rm = 0; delete r.rm;
+    ///copy rr
+    ///No need to copy it, just set it to NULL and delete r.rr
+    delete rr; rr = 0; delete r.rr;
+}
 
 void jpcre2::Regex::parseCompileOpts(){
     ///parse modifiers
