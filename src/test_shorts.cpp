@@ -1,5 +1,5 @@
 #include <iostream>
-#include "jpcre2.h"
+#include "jpcre2.cpp"
 
 
 int main(){
@@ -8,7 +8,7 @@ int main(){
     /**
      * The following uses a temporary Regex object.
      * */
-    if(jpcre2::Regex("(\\d)|(\\w)").match("I am the subject").execute()) 
+    if(jpcre2::Regex("(\\d)|(\\w)").match("I am the subject")) 
         std::cout<<"\nmatched";
     else
         std::cout<<"\nno match";
@@ -17,12 +17,12 @@ int main(){
      * 
      * Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may or may not give you
      * any performance boost (depends on the complexity of the pattern). The more complex 
-     * the pattern gets the more sense the S modifier makes.
+     * the pattern gets, the more sense the S modifier makes.
      * */
      
     ///If you want to match all and get the match count, use the action modifier 'g':
     std::cout<<"\n"<<
-        jpcre2::Regex("(\\d)|(\\w)","m").match("I am the subject").setModifiers("g").execute();
+        jpcre2::Regex("(\\d)|(\\w)","m").match("I am the subject","g");
     
     /**
      * Modifiers passed to the Regex constructor or with compile() function are compile modifiers
@@ -54,10 +54,12 @@ int main(){
     /// ***** Get numbered substring ***** ///
     jpcre2::VecNum vec_num;
     count = 
-    jpcre2::Regex("(\\w+)\\s*(\\d+)","m").match("I am 23, I am digits 10")
-                                         .setModifiers("g")
-                                         .setNumberedSubstringVector(&vec_num)
-                                         .exec();
+    jpcre2::Regex("(\\w+)\\s*(\\d+)","m")
+            .initMatch()
+            .setSubject("I am 23, I am digits 10")
+            .setModifier("g")
+            .setNumberedSubstringVector(&vec_num)
+            .match();
     /**
     * count (the return value) is guaranteed to give you the correct number of matches,
     * while vec_num.size() may give you wrong result if any match result
@@ -98,12 +100,14 @@ int main(){
     jpcre2::VecNas vec_nas;
     jpcre2::VecNtN vec_ntn; /// We will get name to number map vector too
     count = 
-    jpcre2::Regex("(?<word>\\w+)\\s*(?<digit>\\d+)","m").match("I am 23, I am digits 10")
-                                                        .setModifiers("g")
-                                                        ///.setNumberedSubstringVector(vec_num) /// We don't need it in this example
-                                                        .setNamedSubstringVector(&vec_nas)
-                                                        .setNameToNumberMapVector(&vec_ntn) /// Additional (name to number maps)
-                                                        .execute();
+    jpcre2::Regex("(?<word>\\w+)\\s*(?<digit>\\d+)","m")
+            .initMatch()
+            .setSubject("I am 23, I am digits 10")
+            .setModifier("g")
+            ///.setNumberedSubstringVector(vec_num) /// We don't need it in this example
+            .setNamedSubstringVector(&vec_nas)
+            .setNameToNumberMapVector(&vec_ntn) /// Additional (name to number maps)
+            .match();
     std::cout<<"\nNumber of matches: "<<vec_nas.size()/* or count */;
     ///Now vec_nas is populated with named substrings for each match
     ///The size of vec_nas is the total match count
@@ -133,27 +137,25 @@ int main(){
      * Replacement Examples
      * Replace pattern in a string with a replacement string
      * 
-     * The replace() function can take a subject and replacement string as argument.
+     * The initReplace() function can take a subject and replacement string as argument.
      * You can also pass the subject with setSubject() function in method chain,
      * replacement string with setReplaceWith() function in method chain, etc ...
      * 
-     * A call to replace() must end with the call to execute()
+     * A call to replace() will return the resultant string
      * */
     
     std::cout<<"\n"<<
     ///replace first occurrence of a digit with @
-    jpcre2::Regex("\\d").replace("I am the subject string 44","@").execute();
+    jpcre2::Regex("\\d").replace("I am the subject string 44", "@");
     
     std::cout<<"\n"<<
     ///replace all occrrences of a digit with @
-    jpcre2::Regex("\\d").replace("I am the subject string 44","@").setModifiers("g").execute();
+    jpcre2::Regex("\\d").replace("I am the subject string 44", "@", "g");
     
     ///swap two parts of a string
     std::cout<<"\n"<<
-    jpcre2::Regex("^([^\t]+)\t([^\t]+)$").replace()
-                                         .setSubject("I am the subject\tTo be swapped according to tab")
-                                         .setReplaceWith("$2 $1")
-                                         .execute();
+    jpcre2::Regex("^([^\t]+)\t([^\t]+)$")
+            .replace("I am the subject\tTo be swapped according to tab", "$2 $1");
 
     return 0;
 }

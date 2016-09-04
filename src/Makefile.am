@@ -4,7 +4,7 @@ EXTRA_DIST += \
   jpcre2_match.cpp \
   jpcre2_replace.cpp \
   jpcre2.cpp \
-  jpcre2.h \
+  jpcre2.hpp \
   test_match.cpp \
   test_replace.cpp \
   test_match2.cpp \
@@ -12,53 +12,51 @@ EXTRA_DIST += \
   test_shorts.cpp
 
 include_HEADERS = \
-  jpcre2.h
+  jpcre2.hpp
   
-noinst_PROGRAMS = match replace match0 replace0 shorts
+noinst_PROGRAMS = test_match2 test_replace2 test_match test_replace test_shorts
 
 JPCRE2_SOURCES = \
-  jpcre2_match.cpp \
-  jpcre2_replace.cpp \
   jpcre2.cpp \
-  jpcre2.h
+  jpcre2.hpp
 
 #Building match
-match_SOURCES = \
+test_match2_SOURCES = \
   test_match2.cpp \
   $(JPCRE2_SOURCES)
-match_CXXFLAGS = \
+test_match2_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
 #Building match0
-match0_SOURCES = \
+test_match_SOURCES = \
   test_match.cpp \
   $(JPCRE2_SOURCES)
-match0_CXXFLAGS = \
+test_match_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
 #Building replace
-replace_SOURCES = \
+test_replace2_SOURCES = \
   test_replace2.cpp \
   $(JPCRE2_SOURCES)
-replace_CXXFLAGS = \
+test_replace2_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
 #Building replace0
-replace0_SOURCES = \
+test_replace_SOURCES = \
   test_replace.cpp \
   $(JPCRE2_SOURCES)
-replace0_CXXFLAGS = \
+test_replace_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
 #Building shorts
-shorts_SOURCES = \
+test_shorts_SOURCES = \
   test_shorts.cpp \
   $(JPCRE2_SOURCES)
-shorts_CXXFLAGS = \
+test_shorts_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
   

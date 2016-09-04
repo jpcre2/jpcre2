@@ -1,5 +1,5 @@
 #include <iostream>
-#include "jpcre2.h"
+#include "jpcre2.cpp"
 
 
 int main(){
@@ -11,14 +11,13 @@ int main(){
     jpcre2::Regex re;     ///An empty object is not supposed to throw any exception in normal cases.
     
     ///Compile the pattern
-    try{re.compile()                                                            //Invoke the compile() function
-          .setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set various parameters
-          .setModifiers("nJ")                                                   //...
-          .addJpcre2Options(jpcre2::VALIDATE_MODIFIER                           //modifier goes through validation check
+    try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set various parameters
+          .setModifier("nJ")                                                   //...
+          .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                           //modifier goes through validation check
                             | jpcre2::JIT_COMPILE                               //perform JIT compile
                             | jpcre2::ERROR_ALL)                                //treat warnings as errors
-          .addPcre2Options(0)                                                   //...
-          .execute();}                                                          //Finaly execute it.               
+          .addPcre2Option(0)                                                   //...
+          .compile();}                                                          //Finaly compile it.               
     catch(int e){std::cerr<<re.getErrorMessage(e);}
     
     /***************************************************************************************************************
@@ -31,16 +30,19 @@ int main(){
     
     size_t count=0;
     
-    try{count = re.match()                                      //Invoke the match() function
-                  .setModifiers("g")                            //set various parameters
+    try{count = re.initMatch()                                  //Invoke the initMatch() function
+                  .setModifier("g")                            //set various parameters
                   .setSubject(subject)                          //...
-                  .setNumberedSubstringVector(&vec_num0)         //...
-                  .setNamedSubstringVector(&vec_nas0)            //...
-                  .setNameToNumberMapVector(&vec_nn0)            //...
-                  .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
-                  .addPcre2Options(0)                           //...
-                  .execute();}                                  //Finaly execute it.
+                  .setNumberedSubstringVector(&vec_num0)        //...
+                  .setNamedSubstringVector(&vec_nas0)           //...
+                  .setNameToNumberMapVector(&vec_nn0)           //...
+                  .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)  //...
+                  .addPcre2Option(0)                           //...
+                  .match();}                                    //Finaly perform the match
     catch(int e){std::cerr<<re.getErrorMessage(e);}
+    
+    
+    re.reset();
     
     
     std::cout<<"\nTotal number of mathces: "<<count<<std::endl;

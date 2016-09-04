@@ -1,5 +1,5 @@
 #include <iostream>
-#include "jpcre2.h"
+#include "jpcre2.hpp"
 
 #define getLine(a) std::getline(std::cin,a,'\n');
 
@@ -16,7 +16,7 @@ int main(){
     
     
     ///Compile the pattern
-    try{re.compile(pat,mod).execute();}  
+    try{re.compile(pat,mod);}  
     catch(int e){std::cout<<re.getErrorMessage(e);}
     
            
@@ -40,10 +40,12 @@ int main(){
     
     //perform replace
     
-    try{std::cout<<"\nreplaced string: "<<re.replace(subject,repl)
-                                            .setModifiers(repl_mod)
-                                            .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)
-                                            .execute();}
+    try{std::cout<<"\nreplaced string: "<<re.initReplace()
+                                            .setSubject(subject)
+                                            .setReplaceWith(repl)
+                                            .setModifier(repl_mod)
+                                            .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)
+                                            .replace();}
     ///2 is the length of the returned string. Though, it will be expanded as needed, pass a large enough value to contain the string,
     ///otherwise internal substitute function will be called twice which will eat up some additional resource.
     catch(int e){std::cout<<re.getErrorMessage(e);

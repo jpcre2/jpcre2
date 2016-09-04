@@ -1,5 +1,5 @@
 #include <iostream>
-#include "jpcre2.h"
+#include "jpcre2.hpp"
 
 #define getLine(a) std::getline(std::cin,a,'\n');
 
@@ -14,7 +14,7 @@ int main(){
     std::string pat,mod,subject;
     
     ///create an object
-    jpcre2::Regex re;     ///An empty object is not supposed to throw any exception in normal cases.
+    jpcre2::Regex re;     /// This should not throw any exception
 
     std::cout<<"Enter pattern: ";
     getLine(pat);
@@ -23,7 +23,7 @@ int main(){
     getLine(mod);
     
     ///Compile pattern
-    try{re.compile(pat,mod).execute();}
+    try{re.compile(pat,mod);}
     catch(int e){std::cout<<re.getErrorMessage(e)<<std::endl;goto cp;}
            
     /***************************************************************************************************************
@@ -41,14 +41,14 @@ int main(){
     getLine(ac_mod);
     if(subject=="quit")return 0;
     size_t matched=0;
-    try{matched=re.match(subject)                               //Invoke the match() function
-                  .setModifiers(ac_mod)                         //Set various options
+    try{matched=re.initMatch()                               //Invoke the match() function
+                  .setModifier(ac_mod)                         //Set various options
                   .setNumberedSubstringVector(&vec_num0)         //...
                   .setNamedSubstringVector(&vec_nas0)            //...
                   .setNameToNumberMapVector(&vec_nn0)            //...
-                  .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
-                  .addPcre2Options(0)                           //...
-                  .execute();                                   //Finally execute it.
+                  .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)  //...
+                  .addPcre2Option(0)                           //...
+                  .match();                                   //Finally execute it.
     }                               
     catch(int e){std::cout<<re.getErrorMessage(e);
         if(e==jpcre2::ERROR::INVALID_MODIFIER) goto loop2;

@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="test__shorts_8cpp" kind="file" language="C++">
+    <compoundname>test_shorts.cpp</compoundname>
+    <includes local="no">iostream</includes>
+    <includes refid="jpcre2_8cpp" local="yes">jpcre2.cpp</includes>
+    <incdepgraph>
+      <node id="57">
+        <label>jpcre2.cpp</label>
+        <link refid="jpcre2_8cpp"/>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>pcre2.h</label>
+      </node>
+      <node id="62">
+        <label>limits</label>
+      </node>
+      <node id="60">
+        <label>stdint.h</label>
+      </node>
+      <node id="63">
+        <label>cassert</label>
+      </node>
+      <node id="55">
+        <label>test_shorts.cpp</label>
+        <link refid="test_shorts.cpp"/>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>jpcre2.hpp</label>
+        <link refid="jpcre2_8hpp"/>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>cstdio</label>
+      </node>
+      <node id="56">
+        <label>iostream</label>
+      </node>
+      <node id="64">
+        <label>cstring</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="test__shorts_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Check if string matches the pattern</para><para>The following uses a temporary Regex object.</para><para>The above is a good example of using temporary objects to perform match (or replace)</para><para>Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may or may not give you any performance boost (depends on the complexity of the pattern). The more complex the pattern gets, the more sense the S modifier makes.</para><para>If you want to match all and get the match count, use the action modifier &apos;g&apos;:</para><para>Modifiers passed to the Regex constructor or with compile() function are compile modifiers Modifiers passed with the match() or replace() functions are action modifiers</para><para>Substrings/Captured groups:</para><para>*** Getting captured groups/substring ***</para><para>captured groups or substrings are stored in maps for each match, and each match is stored in a vector. Thus captured groups are in a vector of maps.</para><para>PCRE2 provides two types of substrings:<orderedlist>
+<listitem><para>numbered (index) substring</para></listitem><listitem><para>named substring</para></listitem></orderedlist>
+</para><para>For the above two, we have two vectors respectively:<orderedlist>
+<listitem><para>jpcre2::VecNum (Corresponding map: jpcre2::MapNum)</para></listitem><listitem><para>jpcre2::VecNas (Corresponding map: jpcre2::MapNas)</para></listitem></orderedlist>
+</para><para>Another additional vector is available to get the substring position/number for a particular captured group by name. It&apos;s a vector of name to number maps<itemizedlist>
+<listitem><para>jpcre2::VecNtN (Corresponding map: jpcre2:MapNtN)</para></listitem></itemizedlist>
+</para><para>***** Get numbered substring ***** ///</para><para>count (the return value) is guaranteed to give you the correct number of matches, while vec_num.size() may give you wrong result if any match result was failed to be inserted in the vector. This should not happen i.e count and vec_num.size() should always be equal.</para><para>Now vec_num is populated with numbered substrings for each match The size of vec_num is the total match count vec_num[0] is the first match The type of vec_num[0] is jpcre2::MapNum</para><para>Total match (group 0) from first match</para><para>captured group 1 from first match</para><para>captured group 2 from first match</para><para>captured group 3 doesn&apos;t exist, it will give you empty string</para><para>Using the [] operator with jpcre2::MapNum will create new element if it doesn&apos;t exist i.e vec_num[0][3] were created in the above example. This should be ok, if existence of a particular substring is not important</para><para>If the existence of a substring is important, use the std::map::find() or std::map::at() (&gt;=C++11) function to access map elements</para><para>There were two matches found (vec_num.size() == 2) in the above example</para><para>Total match (group 0) from second match</para><para>captured group 1 from second match</para><para>captured group 2 from second match</para><para>***** Get named substring ***** ///</para><para>We will get name to number map vector too</para><para>.setNumberedSubstringVector(vec_num) /// We don&apos;t need it in this example</para><para>Additional (name to number maps)</para><para>Now vec_nas is populated with named substrings for each match The size of vec_nas is the total match count vec_nas[0] is the first match The type of vec_nas[0] is jpcre2::MapNas</para><para>If the existence of a substring is important, use the std::map::find() or std::map::at() (&gt;=C++11) function to access map elements</para><para>There were two matches found (vec_nas.size() == 2) in the above example</para><para>Get the position (number) of a captured group name (that was found in match)</para><para>Replacement Examples Replace pattern in a string with a replacement string</para><para>The initReplace() function can take a subject and replacement string as argument. You can also pass the subject with setSubject() function in method chain, replacement string with setReplaceWith() function in method chain, etc ...</para><para>A call to replace() will return the resultant string</para><para>replace first occurrence of a digit with @</para><para>replace all occrrences of a digit with @</para><para>swap two parts of a string </para>        </inbodydescription>
+        <location file="test_shorts.cpp" line="5" column="1" bodyfile="test_shorts.cpp" bodystart="5" bodyend="161"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="jpcre2_8cpp" kindref="compound">jpcre2.cpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="test__shorts_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kindref="member">main</ref>(){</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
+<codeline lineno="8"></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(jpcre2::Regex(</highlight><highlight class="stringliteral">&quot;(\\d)|(\\w)&quot;</highlight><highlight class="normal">).match(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>the<sp/>subject&quot;</highlight><highlight class="normal">))<sp/></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nmatched&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nno<sp/>match&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">&lt;&lt;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jpcre2::Regex(</highlight><highlight class="stringliteral">&quot;(\\d)|(\\w)&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">).match(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>the<sp/>subject&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;g&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::VecNum<sp/>vec_num;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>count<sp/>=<sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::Regex(</highlight><highlight class="stringliteral">&quot;(\\w+)\\s*(\\d+)&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.initMatch()</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setSubject(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>23,<sp/>I<sp/>am<sp/>digits<sp/>10&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setModifier(</highlight><highlight class="stringliteral">&quot;g&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setNumberedSubstringVector(&amp;vec_num)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.match();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nNumber<sp/>of<sp/>matches:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;count</highlight><highlight class="comment">/*<sp/>or<sp/>vec_num.size()*/</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nTotal<sp/>match<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][0];<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>1<sp/>of<sp/>frist<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][1];<sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>2<sp/>of<sp/>frist<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][2];<sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>3<sp/>of<sp/>frist<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][3];<sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>//&gt;=C++11</highlight></codeline>
+<codeline lineno="85"><highlight class="comment"><sp/><sp/><sp/><sp/>try{</highlight></codeline>
+<codeline lineno="87"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>of<sp/>frist<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0].at(4);</highlight></codeline>
+<codeline lineno="88"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>catch<sp/>(std::logic_error<sp/>e){</highlight></codeline>
+<codeline lineno="89"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>doesn&apos;t<sp/>exist&quot;;</highlight></codeline>
+<codeline lineno="90"><highlight class="comment"><sp/><sp/><sp/><sp/>}*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nTotal<sp/>match<sp/>of<sp/>second<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[1][0];<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>1<sp/>of<sp/>second<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[1][1];<sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>2<sp/>of<sp/>second<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[1][2];<sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::VecNas<sp/>vec_nas;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::VecNtN<sp/>vec_ntn;<sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>count<sp/>=<sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::Regex(</highlight><highlight class="stringliteral">&quot;(?&lt;word&gt;\\w+)\\s*(?&lt;digit&gt;\\d+)&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;m&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.initMatch()</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setSubject(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>23,<sp/>I<sp/>am<sp/>digits<sp/>10&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setModifier(</highlight><highlight class="stringliteral">&quot;g&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setNamedSubstringVector(&amp;vec_nas)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setNameToNumberMapVector(&amp;vec_ntn)<sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.match();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nNumber<sp/>of<sp/>matches:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_nas.size()</highlight><highlight class="comment">/*<sp/>or<sp/>count<sp/>*/</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptured<sp/>group<sp/>(word)<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_nas[0][</highlight><highlight class="stringliteral">&quot;word&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptured<sp/>group<sp/>(digit)<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_nas[0][</highlight><highlight class="stringliteral">&quot;digit&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>//&gt;=C++11</highlight></codeline>
+<codeline lineno="121"><highlight class="comment"><sp/><sp/><sp/><sp/>try{</highlight></codeline>
+<codeline lineno="123"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptured<sp/>group<sp/>(name)<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_nas[0].at(&quot;name&quot;);</highlight></codeline>
+<codeline lineno="124"><highlight class="comment"><sp/><sp/><sp/><sp/>}<sp/>catch(std::logic_error<sp/>e){</highlight></codeline>
+<codeline lineno="125"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptured<sp/>group<sp/>(name)<sp/>doesn&apos;t<sp/>exist&quot;;</highlight></codeline>
+<codeline lineno="126"><highlight class="comment"><sp/><sp/><sp/><sp/>}*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptured<sp/>group<sp/>(word)<sp/>of<sp/>second<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_nas[1][</highlight><highlight class="stringliteral">&quot;word&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptured<sp/>group<sp/>(digit)<sp/>of<sp/>second<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_nas[1][</highlight><highlight class="stringliteral">&quot;digit&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nPosition<sp/>of<sp/>captured<sp/>group<sp/>(word)<sp/>in<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_ntn[0][</highlight><highlight class="stringliteral">&quot;word&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nPosition<sp/>of<sp/>captured<sp/>group<sp/>(digit)<sp/>in<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_ntn[0][</highlight><highlight class="stringliteral">&quot;digit&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">&lt;&lt;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::Regex(</highlight><highlight class="stringliteral">&quot;\\d&quot;</highlight><highlight class="normal">).replace(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>the<sp/>subject<sp/>string<sp/>44&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;@&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">&lt;&lt;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::Regex(</highlight><highlight class="stringliteral">&quot;\\d&quot;</highlight><highlight class="normal">).replace(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>the<sp/>subject<sp/>string<sp/>44&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;@&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;g&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">&lt;&lt;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::Regex(</highlight><highlight class="stringliteral">&quot;^([^\t]+)\t([^\t]+)$&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.replace(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>the<sp/>subject\tTo<sp/>be<sp/>swapped<sp/>according<sp/>to<sp/>tab&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;$2<sp/>$1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="test_shorts.cpp"/>
+  </compounddef>
+</doxygen>
