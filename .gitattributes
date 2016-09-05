@@ -14,6 +14,7 @@ configure diff=nodiff
 /m4/* linguist-vendored
 *.md linguist-documentation
 /doc/* linguist-documentation
+*.html linguist-documentation
 *.css linguist-vendored
 *.js linguist-vendored
 *.xml linguist-vendored
