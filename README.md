@@ -11,7 +11,7 @@ PCRE2 is the name used for a revised API for the PCRE library, which is a set of
 This provides some C++ wrapper functions to provide some useful utilities like regex match and regex replace.
 
 
-# Dependency # {#dependency}
+# Dependency {#dependency}
 
 1. PCRE2 library (`version >=10.21`).
 
@@ -19,7 +19,7 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a> which will always be kept compatible with JPCRE2.
 
 
-# Install/Include # {#install-include}
+# Install or Include {#install-or-include}
 
 It can be installed as a separate library or can be used directly in a project by including the appropriate sources:
 
@@ -64,14 +64,14 @@ If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 s
 2. To use the `PCRE2 POSIX` compatible library, add the `-lpcre2-posix` along with the others.
 
 
-# How to code with JPCRE2 # {#how-to-code}
+# How to code with JPCRE2 {#how-to-code-with-jpcre2}
 
 Performing a match or replacement against regex pattern involves two steps: 
 
 1. Compiling the pattern
 2. Performing the match or replacement operation
 
-## Compile a pattern ## {#compile-pattern}
+## Compile a pattern {#compile-a-pattern}
 
 **First create a `jpcre2::Regex` object**
 
@@ -109,7 +109,7 @@ catch(int e){
 Now you can perform match or replace against the pattern. Use the `match()` member function to preform regex match and the `replace()` member function to perform regex replace.
 
 
-## Match  ## {#match}
+## Match {#match}
 
 The `jpcre2::Regex::match(const String& s)` member function can take two arguments (subject & modifier) and returns the number of matches found against the compiled pattern.
 
@@ -215,6 +215,7 @@ for(size_t i=0;i<vec_num.size();++i){
 
 If you are using `>=C++11`, you can make the loop a lot simpler:
 
+<!-- if version [gte C++11] -->
 ```cpp
 for(size_t i=0;i<vec_num.size();++i){
 	for(auto const& ent : vec_num[i]){
@@ -222,6 +223,7 @@ for(size_t i=0;i<vec_num.size();++i){
 	}
 }
 ```
+<!-- end version if -->
 
 *The process of iterating through the vectors and associated maps are the same for all three. The size of those vectors are the same and can be accessed in the same way.*
 
@@ -325,7 +327,7 @@ Option | Details
 
 While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `addPcre2Option()` functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
 
-# Short examples # {#short-examples}
+# Short examples {#short-examples}
 
 ```cpp
 size_t count;

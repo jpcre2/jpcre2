@@ -113,8 +113,8 @@ Dependency</h1>
 <li>PCRE2 library (<code>version &gt;=10.21</code>).</li>
 </ol>
 <p>If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a> which will always be kept compatible with JPCRE2.</p>
-<h1><a class="anchor" id="install-include"></a>
-Install/Include</h1>
+<h1><a class="anchor" id="install-or-include"></a>
+Install or Include</h1>
 <p>It can be installed as a separate library or can be used directly in a project by including the appropriate sources:</p>
 <ol type="1">
 <li><b><a class="el" href="jpcre2_8hpp.html" title="Main header file for JPCRE library to be included by programs that call JPCRE2 functions. ">jpcre2.hpp</a></b></li>
@@ -132,14 +132,14 @@ Install/Include</h1>
 <li><code>PCRE2_CODE_UNIT_WIDTH</code> other than 8 is not supported in this version.</li>
 <li>To use the <code>PCRE2 POSIX</code> compatible library, add the <code>-lpcre2-posix</code> along with the others.</li>
 </ol>
-<h1><a class="anchor" id="how-to-code"></a>
+<h1><a class="anchor" id="how-to-code-with-jpcre2"></a>
 How to code with JPCRE2</h1>
 <p>Performing a match or replacement against regex pattern involves two steps:</p>
 <ol type="1">
 <li>Compiling the pattern</li>
 <li>Performing the match or replacement operation</li>
 </ol>
-<h2><a class="anchor" id="compile-pattern"></a>
+<h2><a class="anchor" id="compile-a-pattern"></a>
 Compile a pattern</h2>
 <p><b>First create a <code><a class="el" href="classjpcre2_1_1Regex.html" title="This is the main class that is to be used to perform all JPCRE2 related actions. ">jpcre2::Regex</a></code> object</b></p>
 <p>(You can use temporary object too, see <a href="#short-examples">short examples</a>).</p>
