@@ -1,5 +1,6 @@
 JPCRE2                         {#mainpage}
 ======
+
 [![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/)
 
 <div id="description"></div>
@@ -8,15 +9,16 @@ PCRE2 is the name used for a revised API for the PCRE library, which is a set of
 This provides some C++ wrapper functions to provide some useful utilities like regex match and regex replace.
 
 <div id="requires"></div>
-# Requirements:
+
+# Requirements # {#requirements}
 
 1. PCRE2 library (`version >=10.21`).
 
 
 If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a> which will always be kept compatible with JPCRE2.
 
-<div id="how-to"></div>
-# Install/Include:
+
+# Install/Include # {#install-include}
 
 It can be installed as a separate library or can be used directly in a project by including the appropriate sources:
 
@@ -37,7 +39,7 @@ g++ mycpp.cpp ... -L/path/to/your/pcre2/library -lpcre2-8
 
 **Note that** it requires the PCRE2 library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
 
-**Installing JPCRE2 as a library:**
+**Installing JPCRE2 as a library:** <a name="installing-as-a-library"></a>
 
 To install it in a Unix based system, run:
 ```sh
@@ -61,10 +63,10 @@ If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 s
 2. To use the `PCRE2 POSIX` compatible library, add the `-lpcre2-posix` along with the others.
 
 
-# How to code with JPCRE2:
+# How to code with JPCRE2 # {#how-to-code}
 
-<div id="compile"></div>
-##Compile a pattern
+
+## Compile a pattern ## {#compile-pattern}
 
 **First create a `jpcre2::Regex` object**
 
@@ -408,8 +410,8 @@ Option | Details
 While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `addPcre2Options()` function to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent *PCRE2_SUBSTITUTE_GLOBAL* to have the same effect.
 
 
-<div id="short-examples"></div>
-#Short examples
+
+# Short examples # {#short-examples}
 
 ```cpp
 

@@ -106,12 +106,14 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="textblock"><p><a href="https://travis-ci.org/jpcre2/jpcre2/"></a></p>
 <div id="description"></div><p> PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.</p>
 <p>This provides some C++ wrapper functions to provide some useful utilities like regex match and regex replace.</p>
-<div id="requires"></div> <h1>Requirements:</h1>
+<div id="requires"></div><h1><a class="anchor" id="requirements"></a>
+Requirements</h1>
 <ol type="1">
 <li>PCRE2 library (<code>version &gt;=10.21</code>).</li>
 </ol>
 <p>If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a> which will always be kept compatible with JPCRE2.</p>
-<div id="how-to"></div> <h1>Install/Include:</h1>
+<h1><a class="anchor" id="install-include"></a>
+Install/Include</h1>
 <p>It can be installed as a separate library or can be used directly in a project by including the appropriate sources:</p>
 <ol type="1">
 <li><b><a class="el" href="jpcre2_8hpp.html" title="Main header file for JPCRE library to be included by programs that call JPCRE2 functions. ">jpcre2.hpp</a></b></li>
@@ -120,7 +122,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>An example compile/build command with GCC would be:</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;g++ mycpp.cpp jpcre2.cpp jpcre2.hpp -lpcre2-8</div></div><!-- fragment --><p>If your PCRE2 library is not in the standard library path, then add the path:</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;g++ mycpp.cpp ... -L/path/to/your/pcre2/library -lpcre2-8</div></div><!-- fragment --><p><b>Note that</b> it requires the PCRE2 library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.</p>
-<p><b>Installing JPCRE2 as a library:</b></p>
+<p><b>Installing JPCRE2 as a library:</b> <a class="anchor" id="installing-as-a-library"></a></p>
 <p>To install it in a Unix based system, run: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;./configure</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;make</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;sudo make install</div></div><!-- fragment --><p> Now <code>#include &lt;<a class="el" href="jpcre2_8hpp.html" title="Main header file for JPCRE library to be included by programs that call JPCRE2 functions. ">jpcre2.hpp</a>&gt;</code> in your code and build/compile by linking with both JPCRE2 and PCRE2 library.</p>
 <p>An example command for GCC would be:</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;g++  mycpp.cpp -ljpcre2-8 -lpcre2-8 #sequence is important</div></div><!-- fragment --><p>If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 sources with your favorite IDE or use it as it is.</p>
