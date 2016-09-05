@@ -1,8 +1,11 @@
 var NAVTREE =
 [
   [ "JPCRE2", "index.html", [
-    [ "Requirements", "index.html#requirements", null ],
     [ "Install/Include", "index.html#install-include", null ],
+    [ "How to code with JPCRE2", "index.html#how-to-code", [
+      [ "Compile a pattern", "index.html#compile-pattern", null ]
+    ] ],
+    [ "Short examples", "index.html#short-examples", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [

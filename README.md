@@ -4,13 +4,14 @@ JPCRE2                         {#mainpage}
 [![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/)
 
 <div id="description"></div>
+
 PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.
 
 This provides some C++ wrapper functions to provide some useful utilities like regex match and regex replace.
 
 <div id="requires"></div>
 
-# Requirements # {#requirements}
+# Requirements
 
 1. PCRE2 library (`version >=10.21`).
 
@@ -18,7 +19,7 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a> which will always be kept compatible with JPCRE2.
 
 
-# Install/Include # {#install-include}
+# Install/Include  {#install-include}
 
 It can be installed as a separate library or can be used directly in a project by including the appropriate sources:
 
