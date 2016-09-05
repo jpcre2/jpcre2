@@ -49,7 +49,7 @@ AC_CHECK_LIB([pcre2-8], [pcre2_code_free_8], [], [
   AC_MSG_ERROR([unable to find pcre2-8 library])
 ])
 
-AC_OUTPUT(Makefile src/Makefile)
+AC_OUTPUT(Makefile src/Makefile doc/Makefile)
 
 cat <<EOF
 
