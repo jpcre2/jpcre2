@@ -1,6 +1,7 @@
 /** @file test_shorts.cpp
  *  Contains some short examples of performing regex match and regex replace with JPCRE2
  *  @include test_shorts.cpp
+ * @author [Md Jahidul Hamid](https://github.com/neurobin)
  *  */
 
 #include <iostream>

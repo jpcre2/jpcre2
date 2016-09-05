@@ -16,7 +16,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="465" column="1" bodyfile="src/jpcre2.hpp" bodystart="465" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="100" endline="132">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="105" endline="137">deepCopy</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1a5a7ac6c6288988079b8933b4b6637fab" prot="private" static="no" mutable="no">
         <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> *</type>
@@ -30,7 +30,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="466" column="1" bodyfile="src/jpcre2.hpp" bodystart="466" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="100" endline="132">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="105" endline="137">deepCopy</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" prot="private" static="no" mutable="no">
         <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -44,7 +44,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="468" column="1" bodyfile="src/jpcre2.hpp" bodystart="468" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">compile</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="535" endline="544">shallowCopy</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1ab4447726c0cedd7868a600ea7db876a8" prot="private" static="no" mutable="no">
@@ -59,7 +59,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="469" column="1" bodyfile="src/jpcre2.hpp" bodystart="469" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="134" endline="186">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="139" endline="191">parseCompileOpts</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="535" endline="544">shallowCopy</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1a2742264206d8976c413b474b7bac4b2e" prot="private" static="no" mutable="no">
@@ -74,8 +74,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="470" column="1" bodyfile="src/jpcre2.hpp" bodystart="470" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="100" endline="132">deepCopy</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="105" endline="137">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">compile</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" prot="private" static="no" mutable="no">
         <type>int</type>
@@ -89,9 +89,9 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="471" column="1" bodyfile="src/jpcre2.hpp" bodystart="471" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="100" endline="132">deepCopy</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="134" endline="186">parseCompileOpts</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="105" endline="137">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="139" endline="191">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">compile</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="535" endline="544">shallowCopy</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" prot="private" static="no" mutable="no">
@@ -106,9 +106,9 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="472" column="1" bodyfile="src/jpcre2.hpp" bodystart="472" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="100" endline="132">deepCopy</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="134" endline="186">parseCompileOpts</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="105" endline="137">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="139" endline="191">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">compile</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="535" endline="544">shallowCopy</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" prot="private" static="no" mutable="no">
@@ -123,8 +123,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="473" column="1" bodyfile="src/jpcre2.hpp" bodystart="473" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="134" endline="186">parseCompileOpts</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="139" endline="191">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">compile</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="535" endline="544">shallowCopy</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" prot="private" static="no" mutable="no">
@@ -139,9 +139,9 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="474" column="1" bodyfile="src/jpcre2.hpp" bodystart="474" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="100" endline="132">deepCopy</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="134" endline="186">parseCompileOpts</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="105" endline="137">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="139" endline="191">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">compile</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="535" endline="544">shallowCopy</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" prot="private" static="no" mutable="no">
@@ -156,7 +156,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="475" column="1" bodyfile="src/jpcre2.hpp" bodystart="475" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">compile</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="535" endline="544">shallowCopy</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" prot="private" static="no" mutable="no">
@@ -171,8 +171,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="476" column="1" bodyfile="src/jpcre2.hpp" bodystart="476" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="100" endline="132">deepCopy</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="105" endline="137">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">compile</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="535" endline="544">shallowCopy</referencedby>
       </memberdef>
       </sectiondef>
@@ -217,7 +217,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="479" column="1" bodyfile="src/jpcre2.hpp" bodystart="479" bodyend="488"/>
-        <references refid="namespacejpcre2_1adfdd3d1fff99e685734ae4e59771e84d" compoundref="jpcre2_8cpp" startline="46">jpcre2::LOCALE_DEFAULT</references>
+        <references refid="namespacejpcre2_1adfdd3d1fff99e685734ae4e59771e84d" compoundref="jpcre2_8cpp" startline="51">jpcre2::LOCALE_DEFAULT</references>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_1a6df564d3dec70bbeec65de125c7d4de2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -330,7 +330,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="520" column="1" bodyfile="src/jpcre2.hpp" bodystart="520" bodyend="523"/>
-        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="100" endline="132">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="105" endline="137">deepCopy</referencedby>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -346,7 +346,7 @@
 <para>After a call to this function <ref refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" kindref="member">compile_opts</ref> and <ref refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" kindref="member">jpcre2_compile_opts</ref> will be properly set. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="527" column="1" bodyfile="src/jpcre2.cpp" bodystart="134" bodyend="186"/>
+        <location file="src/jpcre2.hpp" line="527" column="1" bodyfile="src/jpcre2.cpp" bodystart="139" bodyend="191"/>
         <references refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" compoundref="jpcre2_8hpp" startline="473">compile_opts</references>
         <references refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" compoundref="jpcre2_8hpp" startline="471">error_number</references>
         <references refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" compoundref="jpcre2_8hpp" startline="472">error_offset</references>
@@ -355,7 +355,7 @@
         <references refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" compoundref="jpcre2_8hpp" startline="474">jpcre2_compile_opts</references>
         <references refid="classjpcre2_1_1Regex_1ab4447726c0cedd7868a600ea7db876a8" compoundref="jpcre2_8hpp" startline="469">modifier</references>
         <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" compoundref="jpcre2_8hpp" startline="105">jpcre2::VALIDATE_MODIFIER</references>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">compile</referencedby>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -397,7 +397,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="547" column="1" bodyfile="src/jpcre2.cpp" bodystart="100" bodyend="132"/>
+        <location file="src/jpcre2.hpp" line="547" column="1" bodyfile="src/jpcre2.cpp" bodystart="105" bodyend="137"/>
         <references refid="classjpcre2_1_1Regex_1a2742264206d8976c413b474b7bac4b2e" compoundref="jpcre2_8hpp" startline="470">code</references>
         <references refid="classjpcre2_1_1Regex_1a40128e1facd915e06089eeb17e2287c2" compoundref="jpcre2_8hpp" startline="520" endline="523">freeRegexMemory</references>
         <references refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" compoundref="jpcre2_8hpp" startline="474">jpcre2_compile_opts</references>
@@ -407,8 +407,8 @@
         <references refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" compoundref="jpcre2_8hpp" startline="472">error_offset</references>
         <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e" compoundref="jpcre2_8hpp" startline="92">jpcre2::ERROR::JIT_COMPILE_FAILED</references>
         <references refid="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" compoundref="jpcre2_8hpp" startline="476">current_warning_msg</references>
-        <references refid="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" compoundref="jpcre2_8cpp" startline="47">jpcre2::JIT_ERROR_MESSAGE_PREFIX</references>
-        <references refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="79" endline="83">jpcre2::utils::getPcre2ErrorMessage</references>
+        <references refid="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" compoundref="jpcre2_8cpp" startline="52">jpcre2::JIT_ERROR_MESSAGE_PREFIX</references>
+        <references refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="84" endline="88">jpcre2::utils::getPcre2ErrorMessage</references>
         <references refid="classjpcre2_1_1Regex_1a447925705d222dbbd8c7d60b98cc65f0" compoundref="jpcre2_8hpp" startline="465">rm</references>
         <references refid="classjpcre2_1_1Regex_1a5a7ac6c6288988079b8933b4b6637fab" compoundref="jpcre2_8hpp" startline="466">rr</references>
       </memberdef>
@@ -756,12 +756,12 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="690" column="1" bodyfile="src/jpcre2.cpp" bodystart="88" bodyend="98"/>
-        <references refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="79" endline="83">jpcre2::utils::getPcre2ErrorMessage</references>
+        <location file="src/jpcre2.hpp" line="690" column="1" bodyfile="src/jpcre2.cpp" bodystart="93" bodyend="103"/>
+        <references refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="84" endline="88">jpcre2::utils::getPcre2ErrorMessage</references>
         <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" compoundref="jpcre2_8hpp" startline="91">jpcre2::ERROR::INVALID_MODIFIER</references>
         <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e" compoundref="jpcre2_8hpp" startline="92">jpcre2::ERROR::JIT_COMPILE_FAILED</references>
-        <references refid="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" compoundref="jpcre2_8cpp" startline="47">jpcre2::JIT_ERROR_MESSAGE_PREFIX</references>
-        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="63" endline="71">jpcre2::utils::toString</references>
+        <references refid="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" compoundref="jpcre2_8cpp" startline="52">jpcre2::JIT_ERROR_MESSAGE_PREFIX</references>
+        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="68" endline="76">jpcre2::utils::toString</references>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_1a76fddd42bf11dd66c25905fb92437d6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -1096,22 +1096,22 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="815" column="1" bodyfile="src/jpcre2.cpp" bodystart="188" bodyend="234"/>
+        <location file="src/jpcre2.hpp" line="815" column="1" bodyfile="src/jpcre2.cpp" bodystart="193" bodyend="239"/>
         <references refid="classjpcre2_1_1Regex_1a2742264206d8976c413b474b7bac4b2e" compoundref="jpcre2_8hpp" startline="470">code</references>
         <references refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" compoundref="jpcre2_8hpp" startline="473">compile_opts</references>
         <references refid="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" compoundref="jpcre2_8hpp" startline="476">current_warning_msg</references>
         <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" compoundref="jpcre2_8hpp" startline="108">jpcre2::ERROR_ALL</references>
         <references refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" compoundref="jpcre2_8hpp" startline="471">error_number</references>
         <references refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" compoundref="jpcre2_8hpp" startline="472">error_offset</references>
-        <references refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="79" endline="83">jpcre2::utils::getPcre2ErrorMessage</references>
+        <references refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="84" endline="88">jpcre2::utils::getPcre2ErrorMessage</references>
         <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" compoundref="jpcre2_8hpp" startline="107">jpcre2::JIT_COMPILE</references>
         <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e" compoundref="jpcre2_8hpp" startline="92">jpcre2::ERROR::JIT_COMPILE_FAILED</references>
         <references refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" compoundref="jpcre2_8hpp" startline="474">jpcre2_compile_opts</references>
-        <references refid="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5" compoundref="jpcre2_8cpp" startline="45">jpcre2::LOCALE_NONE</references>
+        <references refid="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5" compoundref="jpcre2_8cpp" startline="50">jpcre2::LOCALE_NONE</references>
         <references refid="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" compoundref="jpcre2_8hpp" startline="475">mylocale</references>
-        <references refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="134" endline="186">parseCompileOpts</references>
+        <references refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="139" endline="191">parseCompileOpts</references>
         <references refid="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" compoundref="jpcre2_8hpp" startline="468">pat_str</references>
-        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="63" endline="71">jpcre2::utils::toString</references>
+        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="68" endline="76">jpcre2::utils::toString</references>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_1a4640915bc907aa3b80da543f1eb7e74f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -1294,7 +1294,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="873" column="1" bodyfile="src/jpcre2.hpp" bodystart="873" bodyend="879"/>
-        <references refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" compoundref="jpcre2_8cpp" startline="445" endline="754">jpcre2::RegexMatch::match</references>
+        <references refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" compoundref="jpcre2_8cpp" startline="450" endline="759">jpcre2::RegexMatch::match</references>
         <references refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" compoundref="jpcre2_8hpp" startline="132">jpcre2::RegexMatch::re</references>
         <references refid="classjpcre2_1_1RegexMatch_1a9df7e92f96b61553f62720cb8f5f23e5" compoundref="jpcre2_8hpp" startline="230" endline="234">jpcre2::RegexMatch::setModifier</references>
         <references refid="classjpcre2_1_1RegexMatch_1a635c652195deaa8ebb9e107c4f972aab" compoundref="jpcre2_8hpp" startline="221" endline="224">jpcre2::RegexMatch::setSubject</references>
@@ -1325,7 +1325,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="886" column="1" bodyfile="src/jpcre2.hpp" bodystart="886" bodyend="892"/>
-        <references refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" compoundref="jpcre2_8cpp" startline="445" endline="754">jpcre2::RegexMatch::match</references>
+        <references refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" compoundref="jpcre2_8cpp" startline="450" endline="759">jpcre2::RegexMatch::match</references>
         <references refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" compoundref="jpcre2_8hpp" startline="132">jpcre2::RegexMatch::re</references>
         <references refid="classjpcre2_1_1RegexMatch_1a635c652195deaa8ebb9e107c4f972aab" compoundref="jpcre2_8hpp" startline="221" endline="224">jpcre2::RegexMatch::setSubject</references>
       </memberdef>
@@ -1399,11 +1399,11 @@
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="921" column="1" bodyfile="src/jpcre2.hpp" bodystart="921" bodyend="927"/>
         <references refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" compoundref="jpcre2_8hpp" startline="314">jpcre2::RegexReplace::re</references>
-        <references refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="270" endline="328">jpcre2::RegexReplace::replace</references>
+        <references refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="275" endline="333">jpcre2::RegexReplace::replace</references>
         <references refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" compoundref="jpcre2_8hpp" startline="377" endline="381">jpcre2::RegexReplace::setModifier</references>
         <references refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" compoundref="jpcre2_8hpp" startline="368" endline="371">jpcre2::RegexReplace::setReplaceWith</references>
         <references refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" compoundref="jpcre2_8hpp" startline="359" endline="362">jpcre2::RegexReplace::setSubject</references>
-        <referencedby refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="270" endline="328">jpcre2::RegexReplace::replace</referencedby>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="275" endline="333">jpcre2::RegexReplace::replace</referencedby>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_1addd7c21abd0f4cf6c532a7602cfb5835" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -1443,7 +1443,7 @@
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="935" column="1" bodyfile="src/jpcre2.hpp" bodystart="935" bodyend="941"/>
         <references refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" compoundref="jpcre2_8hpp" startline="314">jpcre2::RegexReplace::re</references>
-        <references refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="270" endline="328">jpcre2::RegexReplace::replace</references>
+        <references refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="275" endline="333">jpcre2::RegexReplace::replace</references>
         <references refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" compoundref="jpcre2_8hpp" startline="368" endline="371">jpcre2::RegexReplace::setReplaceWith</references>
         <references refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" compoundref="jpcre2_8hpp" startline="359" endline="362">jpcre2::RegexReplace::setSubject</references>
       </memberdef>
@@ -1469,7 +1469,7 @@
       </memberdef>
       </sectiondef>
     <briefdescription>
-<para>This class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables. </para>    </briefdescription>
+<para>Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern. </para>    </briefdescription>
     <detaileddescription>
 <para>Each regex pattern needs an object of this class.</para><para>A pattern must be compiled either by explicitly calling the compile function or using one of the parameterized constructors. </para>    </detaileddescription>
     <collaborationgraph>

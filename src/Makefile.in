@@ -394,9 +394,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = jpcre2_match.cpp jpcre2_replace.cpp jpcre2.cpp jpcre2.hpp \
-	test_match.cpp test_replace.cpp test_match2.cpp \
-	test_replace2.cpp test_shorts.cpp
+EXTRA_DIST = jpcre2.cpp jpcre2.hpp test_match.cpp test_replace.cpp \
+	test_match2.cpp test_replace2.cpp test_shorts.cpp
 include_HEADERS = \
   jpcre2.hpp
 

@@ -1,8 +1,6 @@
 EXTRA_DIST =
 
 EXTRA_DIST += \
-  jpcre2_match.cpp \
-  jpcre2_replace.cpp \
   jpcre2.cpp \
   jpcre2.hpp \
   test_match.cpp \

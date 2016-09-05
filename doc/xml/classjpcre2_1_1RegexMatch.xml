@@ -180,7 +180,7 @@
 <para>After a call to this function <ref refid="classjpcre2_1_1RegexMatch_1a697d5731007350b0f20d2018fcfafa90" kindref="member">match_opts</ref> and <ref refid="classjpcre2_1_1RegexMatch_1a70d62df887eeed237724f64fbc378700" kindref="member">jpcre2_match_opts</ref> will be properly set. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="149" column="1" bodyfile="src/jpcre2.cpp" bodystart="333" bodyend="351"/>
+        <location file="src/jpcre2.hpp" line="149" column="1" bodyfile="src/jpcre2.cpp" bodystart="338" bodyend="356"/>
         <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c" compoundref="jpcre2_8hpp" startline="106">jpcre2::FIND_ALL</references>
         <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" compoundref="jpcre2_8hpp" startline="91">jpcre2::ERROR::INVALID_MODIFIER</references>
         <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" compoundref="jpcre2_8hpp" startline="105">jpcre2::VALIDATE_MODIFIER</references>
@@ -204,8 +204,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="151" column="1" bodyfile="src/jpcre2.cpp" bodystart="353" bodyend="379"/>
-        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="63" endline="71">jpcre2::utils::toString</references>
+        <location file="src/jpcre2.hpp" line="151" column="1" bodyfile="src/jpcre2.cpp" bodystart="358" bodyend="384"/>
+        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="68" endline="76">jpcre2::utils::toString</references>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1RegexMatch_1af159e8d080ecd74f63ec67b1d5a27772" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -234,8 +234,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="153" column="1" bodyfile="src/jpcre2.cpp" bodystart="381" bodyend="443"/>
-        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="63" endline="71">jpcre2::utils::toString</references>
+        <location file="src/jpcre2.hpp" line="153" column="1" bodyfile="src/jpcre2.cpp" bodystart="386" bodyend="448"/>
+        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="68" endline="76">jpcre2::utils::toString</references>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1RegexMatch_1a3da6a2319cd577d7f2f10c66dcf59a99" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -627,7 +627,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="301" column="1" bodyfile="src/jpcre2.cpp" bodystart="445" bodyend="754"/>
+        <location file="src/jpcre2.hpp" line="301" column="1" bodyfile="src/jpcre2.cpp" bodystart="450" bodyend="759"/>
         <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c" compoundref="jpcre2_8hpp" startline="106">jpcre2::FIND_ALL</references>
         <referencedby refid="classjpcre2_1_1Regex_1ab93775a93a0a537d09b9e9ab4a5a3894" compoundref="jpcre2_8hpp" startline="873" endline="879">jpcre2::Regex::match</referencedby>
       </memberdef>

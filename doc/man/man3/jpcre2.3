@@ -25,7 +25,7 @@ jpcre2 \- Top level namespace of JPCRE2\&.
 .ti -1c
 .RI "class \fBRegex\fP"
 .br
-.RI "\fIThis class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables\&. \fP"
+.RI "\fIImplements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern\&. \fP"
 .ti -1c
 .RI "class \fBRegexMatch\fP"
 .br
@@ -152,7 +152,14 @@ Referenced by jpcre2::Regex::compile()\&.
 .SS "const \fBjpcre2::SIZE_T\fP jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max()"
 
 .PP
-Used by default to provide big enough initial buffer for replaced string\&. Use max of int as the initial size of replaced string\&. 
+Used by default to provide big enough initial buffer for replaced string\&. Use max of int as the initial size of replaced string\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+\fCMd Jahidul Hamid\fP 
+.RE
+.PP
+
 .PP
 Referenced by jpcre2::RegexReplace::init_vars()\&.
 .SH "Author"

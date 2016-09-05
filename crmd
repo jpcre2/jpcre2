@@ -1,0 +1,7 @@
+#!/bin/sh
+file="$1"
+if [ -z "$file" ]; then
+	file=doxy/doxydoc.md
+fi
+mv -f README.md README.md.bak
+sed -e 's/[[:blank:]]*{#[^}]*}[[:blank:]]*$//' "$file" > README.md

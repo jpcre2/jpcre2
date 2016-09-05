@@ -214,10 +214,11 @@
         <briefdescription>
 <para>Used by default to provide big enough initial buffer for replaced string. </para>        </briefdescription>
         <detaileddescription>
-<para>Use max of int as the initial size of replaced string. </para>        </detaileddescription>
+<para>Use max of int as the initial size of replaced string.</para><para><simplesect kind="author"><para><ulink url="https://github.com/neurobin">Md Jahidul Hamid</ulink> </para></simplesect>
+</para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="96" column="1" bodyfile="src/jpcre2.cpp" bodystart="44" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="96" column="1" bodyfile="src/jpcre2.cpp" bodystart="49" bodyend="-1"/>
         <referencedby refid="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5" compoundref="jpcre2_8hpp" startline="328" endline="331">jpcre2::RegexReplace::init_vars</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5" prot="public" static="no" mutable="no">
@@ -232,8 +233,8 @@
 <para>Nothing to be done on locale. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="97" column="1" bodyfile="src/jpcre2.cpp" bodystart="45" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="188" endline="234">jpcre2::Regex::compile</referencedby>
+        <location file="src/jpcre2.hpp" line="97" column="1" bodyfile="src/jpcre2.cpp" bodystart="50" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="193" endline="239">jpcre2::Regex::compile</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1adfdd3d1fff99e685734ae4e59771e84d" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -247,7 +248,7 @@
 <para>Default local to be used. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="98" column="1" bodyfile="src/jpcre2.cpp" bodystart="46" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="98" column="1" bodyfile="src/jpcre2.cpp" bodystart="51" bodyend="-1"/>
         <referencedby refid="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" compoundref="jpcre2_8hpp" startline="479" endline="488">jpcre2::Regex::init_vars</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" prot="public" static="no" mutable="no">
@@ -262,9 +263,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="99" column="1" bodyfile="src/jpcre2.cpp" bodystart="47" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" compoundref="jpcre2_8cpp" startline="88" endline="98">jpcre2::Regex::getErrorMessage</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="100" endline="132">jpcre2::Regex::deepCopy</referencedby>
+        <location file="src/jpcre2.hpp" line="99" column="1" bodyfile="src/jpcre2.cpp" bodystart="52" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" compoundref="jpcre2_8cpp" startline="93" endline="103">jpcre2::Regex::getErrorMessage</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="105" endline="137">jpcre2::Regex::deepCopy</referencedby>
       </memberdef>
       </sectiondef>
     <briefdescription>

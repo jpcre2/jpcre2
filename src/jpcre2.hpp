@@ -40,7 +40,7 @@
  *
  * If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you
  * still need to link with  pcre2 library
- * @author Md. Jahidul Hamid.
+ * @author [Md Jahidul Hamid](https://github.com/neurobin)
  */
 
 #ifndef JPCRE2_HPP
@@ -450,8 +450,8 @@ public:
 };
 
 /** @class Regex
- * This class implements public overloaded and copy constructors to provide different means of creating objects and initializing class
- * variables.
+ * Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match
+ * and replace against a compiled pattern.
  *
  * Each regex pattern needs an object of this class.
  *

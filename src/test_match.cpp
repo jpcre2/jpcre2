@@ -3,6 +3,7 @@
  * match count and match results.
  * Shows how to iterate over the match results to get the captured groups/substrings.
  * @include test_match.cpp
+ * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
 
 #include <iostream>

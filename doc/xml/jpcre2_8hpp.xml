@@ -15,22 +15,18 @@
     <includedby refid="test__replace2_8cpp" local="yes">test_replace2.cpp</includedby>
     <includedby refid="test__shorts_8cpp" local="yes">test_shorts.cpp</includedby>
     <incdepgraph>
-      <node id="77">
+      <node id="79">
         <label>pcre2.h</label>
       </node>
-      <node id="78">
+      <node id="80">
         <label>stdint.h</label>
       </node>
-      <node id="80">
+      <node id="82">
         <label>string</label>
       </node>
-      <node id="76">
+      <node id="78">
         <label>jpcre2.hpp</label>
         <link refid="jpcre2.hpp"/>
-        <childnode refid="77" relation="include">
-        </childnode>
-        <childnode refid="78" relation="include">
-        </childnode>
         <childnode refid="79" relation="include">
         </childnode>
         <childnode refid="80" relation="include">
@@ -39,49 +35,53 @@
         </childnode>
         <childnode refid="82" relation="include">
         </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
       </node>
-      <node id="82">
+      <node id="84">
         <label>map</label>
       </node>
-      <node id="81">
+      <node id="83">
         <label>vector</label>
       </node>
-      <node id="79">
+      <node id="81">
         <label>cstddef</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="88">
+      <node id="90">
         <label>test_shorts.cpp</label>
         <link refid="test__shorts_8cpp"/>
       </node>
-      <node id="83">
+      <node id="85">
         <label>jpcre2.hpp</label>
         <link refid="jpcre2.hpp"/>
-        <childnode refid="84" relation="include">
-        </childnode>
-        <childnode refid="85" relation="include">
-        </childnode>
         <childnode refid="86" relation="include">
         </childnode>
         <childnode refid="87" relation="include">
         </childnode>
         <childnode refid="88" relation="include">
         </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
       </node>
-      <node id="87">
+      <node id="89">
         <label>test_replace2.cpp</label>
         <link refid="test__replace2_8cpp"/>
       </node>
-      <node id="86">
+      <node id="88">
         <label>test_replace.cpp</label>
         <link refid="test__replace_8cpp"/>
       </node>
-      <node id="84">
+      <node id="86">
         <label>test_match.cpp</label>
         <link refid="test__match_8cpp"/>
       </node>
-      <node id="85">
+      <node id="87">
         <label>test_match2.cpp</label>
         <link refid="test__match2_8cpp"/>
       </node>
@@ -108,7 +108,7 @@
     <briefdescription>
 <para>Main header file for JPCRE2 library to be included by programs that uses its functionalities. </para>    </briefdescription>
     <detaileddescription>
-<para>It includes the pcre2.h header, therefore you shouldn&apos;t include pcre2.h separately in your program. Make sure to link both <ref refid="namespacejpcre2" kindref="compound">jpcre2</ref> and pcre2 library when compiling.</para><para>If you are using JPCRE2 with all of its source files, you won&apos;t need to link it with JPCRE2 library, but do remember that you still need to link with pcre2 library <simplesect kind="author"><para>Md. Jahidul Hamid. </para></simplesect>
+<para>It includes the pcre2.h header, therefore you shouldn&apos;t include pcre2.h separately in your program. Make sure to link both <ref refid="namespacejpcre2" kindref="compound">jpcre2</ref> and pcre2 library when compiling.</para><para>If you are using JPCRE2 with all of its source files, you won&apos;t need to link it with JPCRE2 library, but do remember that you still need to link with pcre2 library <simplesect kind="author"><para><ulink url="https://github.com/neurobin">Md Jahidul Hamid</ulink> </para></simplesect>
 </para>    </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">/*<sp/>*****************************************************************************</highlight></codeline>
@@ -153,7 +153,7 @@
 <codeline lineno="40"><highlight class="comment"><sp/>*</highlight></codeline>
 <codeline lineno="41"><highlight class="comment"><sp/>*<sp/>If<sp/>you<sp/>are<sp/>using<sp/>JPCRE2<sp/>with<sp/>all<sp/>of<sp/>its<sp/>source<sp/>files,<sp/>you<sp/>won&apos;t<sp/>need<sp/>to<sp/>link<sp/>it<sp/>with<sp/>JPCRE2<sp/>library,<sp/>but<sp/>do<sp/>remember<sp/>that<sp/>you</highlight></codeline>
 <codeline lineno="42"><highlight class="comment"><sp/>*<sp/>still<sp/>need<sp/>to<sp/>link<sp/>with<sp/><sp/>pcre2<sp/>library</highlight></codeline>
-<codeline lineno="43"><highlight class="comment"><sp/>*<sp/>@author<sp/>Md.<sp/>Jahidul<sp/>Hamid.</highlight></codeline>
+<codeline lineno="43"><highlight class="comment"><sp/>*<sp/>@author<sp/>[Md<sp/>Jahidul<sp/>Hamid](https://github.com/neurobin)</highlight></codeline>
 <codeline lineno="44"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>JPCRE2_HPP</highlight><highlight class="normal"></highlight></codeline>
@@ -563,8 +563,8 @@
 <codeline lineno="450"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="451"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
 <codeline lineno="452"><highlight class="comment">/**<sp/>@class<sp/>Regex</highlight></codeline>
-<codeline lineno="453"><highlight class="comment"><sp/>*<sp/>This<sp/>class<sp/>implements<sp/>public<sp/>overloaded<sp/>and<sp/>copy<sp/>constructors<sp/>to<sp/>provide<sp/>different<sp/>means<sp/>of<sp/>creating<sp/>objects<sp/>and<sp/>initializing<sp/>class</highlight></codeline>
-<codeline lineno="454"><highlight class="comment"><sp/>*<sp/>variables.</highlight></codeline>
+<codeline lineno="453"><highlight class="comment"><sp/>*<sp/>Implements<sp/>public<sp/>overloaded<sp/>and<sp/>copy<sp/>constructors,<sp/>provides<sp/>functions<sp/>to<sp/>set/unset<sp/>various<sp/>options<sp/>and<sp/>perform<sp/>regex<sp/>match</highlight></codeline>
+<codeline lineno="454"><highlight class="comment"><sp/>*<sp/>and<sp/>replace<sp/>against<sp/>a<sp/>compiled<sp/>pattern.</highlight></codeline>
 <codeline lineno="455"><highlight class="comment"><sp/>*</highlight></codeline>
 <codeline lineno="456"><highlight class="comment"><sp/>*<sp/>Each<sp/>regex<sp/>pattern<sp/>needs<sp/>an<sp/>object<sp/>of<sp/>this<sp/>class.</highlight></codeline>
 <codeline lineno="457"><highlight class="comment"><sp/>*</highlight></codeline>

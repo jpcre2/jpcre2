@@ -1,10 +1,14 @@
+<!-- HTML header for doxygen 1.8.11-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
+<meta name="author" content="Md. Jahidul Hamid" >
+<meta name="copyright" content="Copyright (c) 2015 - 2016, Md Jahidul Hamid, All rights reserved">
 <title>JPCRE2: jpcre2::Regex Class Reference</title>
+<link rel="shortcut icon" href="thumb0.png" ></link>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,13 +27,15 @@
   $(document).ready(function() { init_search(); });
 </script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr style="height: 56px;">
+ <tr style="height: 50px;">
+  <td id="projectlogo"><img alt="Logo" src="thumb0.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">JPCRE2
    &#160;<span id="projectnumber">10.25.01</span>
@@ -117,7 +123,7 @@ $(document).ready(function(){initNavTree('classjpcre2_1_1Regex.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>This class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables.  
+<p>Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern.  
  <a href="classjpcre2_1_1Regex.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="jpcre2_8hpp_source.html">jpcre2.hpp</a>&gt;</code></p>
@@ -349,7 +355,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="separator:a2547cb5380cbe0374ac0d44d34018dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables. </p>
+<div class="textblock"><p>Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern. </p>
 <p>Each regex pattern needs an object of this class.</p>
 <p>A pattern must be compiled either by explicitly calling the compile function or using one of the parameterized constructors. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -572,7 +578,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Copy constructor. </p>
 <p>Compiles pattern and Performs a deep copy. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>const <a class="el" href="classjpcre2_1_1Regex.html" title="This class implements public overloaded and copy constructors to provide different means of creating ...">Regex</a>&amp; </td></tr>
+    <tr><td class="paramname">r</td><td>const <a class="el" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a...">Regex</a>&amp; </td></tr>
   </table>
   </dd>
 </dl>
@@ -662,7 +668,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 
 <p>Compile the regex pattern from class variable <a class="el" href="classjpcre2_1_1Regex.html#a0bceb85b6dbba355b56b5cc312214435" title="Pattern string. ">pat_str</a>. </p>
 <p>Use options from class variables.</p>
-<p>Prefer using one of its variants when compiling pattern for an already declared <a class="el" href="classjpcre2_1_1Regex.html" title="This class implements public overloaded and copy constructors to provide different means of creating ...">Regex</a> object. An use of </p><div class="fragment"><div class="line">re = <a class="code" href="classjpcre2_1_1Regex.html#a302f65cd5747c5d34570ca76516ab715">Regex</a>(<span class="stringliteral">&quot;pattern&quot;</span>);</div></div><!-- fragment --><p> (or such) is discouraged. see <code><a class="el" href="classjpcre2_1_1Regex.html#ab43a14b4b6e75b7fa3221bc18a1d4121" title="Overloaded assignment operator. ">Regex::operator=(const Regex&amp; r)</a></code> for details. </p><dl class="section see"><dt>See also</dt><dd>void <a class="el" href="classjpcre2_1_1Regex.html#a4640915bc907aa3b80da543f1eb7e74f" title="This is an overloaded member function, provided for convenience. It differs from the above function o...">compile(const String&amp; re, Uint po, Uint jo)</a> </dd>
+<p>Prefer using one of its variants when compiling pattern for an already declared <a class="el" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a...">Regex</a> object. An use of </p><div class="fragment"><div class="line">re = <a class="code" href="classjpcre2_1_1Regex.html#a302f65cd5747c5d34570ca76516ab715">Regex</a>(<span class="stringliteral">&quot;pattern&quot;</span>);</div></div><!-- fragment --><p> (or such) is discouraged. see <code><a class="el" href="classjpcre2_1_1Regex.html#ab43a14b4b6e75b7fa3221bc18a1d4121" title="Overloaded assignment operator. ">Regex::operator=(const Regex&amp; r)</a></code> for details. </p><dl class="section see"><dt>See also</dt><dd>void <a class="el" href="classjpcre2_1_1Regex.html#a4640915bc907aa3b80da543f1eb7e74f" title="This is an overloaded member function, provided for convenience. It differs from the above function o...">compile(const String&amp; re, Uint po, Uint jo)</a> </dd>
 <dd>
 void <a class="el" href="classjpcre2_1_1Regex.html#a01394dcb222c4d442cabbffb4bcf570a" title="This is an overloaded member function, provided for convenience. It differs from the above function o...">compile(const String&amp; re, Uint po)</a> </dd>
 <dd>
@@ -1183,7 +1189,7 @@ void <a class="el" href="classjpcre2_1_1Regex.html#a81687ca434654cae776c2854c361
 <p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">re</td><td><a class="el" href="classjpcre2_1_1Regex.html" title="This class implements public overloaded and copy constructors to provide different means of creating ...">Regex</a> pattern </td></tr>
+    <tr><td class="paramname">re</td><td><a class="el" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a...">Regex</a> pattern </td></tr>
     <tr><td class="paramname">mod</td><td>Modifier string </td></tr>
   </table>
   </dd>
@@ -1232,7 +1238,7 @@ void <a class="el" href="classjpcre2_1_1Regex.html#a81687ca434654cae776c2854c361
 <p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">re</td><td><a class="el" href="classjpcre2_1_1Regex.html" title="This class implements public overloaded and copy constructors to provide different means of creating ...">Regex</a> pattern </td></tr>
+    <tr><td class="paramname">re</td><td><a class="el" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a...">Regex</a> pattern </td></tr>
     <tr><td class="paramname">po</td><td>PCRE2 options </td></tr>
     <tr><td class="paramname">jo</td><td>JPCRE2 options </td></tr>
   </table>
@@ -1454,7 +1460,7 @@ void <a class="el" href="classjpcre2_1_1Regex.html#a81687ca434654cae776c2854c361
 <p>Allows assigning objects like this: </p><div class="fragment"><div class="line"><a class="code" href="classjpcre2_1_1Regex.html#a302f65cd5747c5d34570ca76516ab715">Regex</a> re;</div><div class="line">re = <a class="code" href="classjpcre2_1_1Regex.html#a302f65cd5747c5d34570ca76516ab715">Regex</a>(<span class="stringliteral">&quot;new pattern&quot;</span>);</div></div><!-- fragment --><p> However, use of this method is discouraged (Use <a class="el" href="classjpcre2_1_1Regex.html#aad1d5ef1e87f762f68a587eec4022e69" title="Compile the regex pattern from class variable pat_str. ">Regex::compile()</a> instead), because a call to this function requires an additional call to PCRE2 internal function pcre2_code_copy(). If the pattern was JIT compiled, it requires another additional JIT compilation because JIT memory was not copied by pcre2_code_copy().</p>
 <p><b>Memory management:</b> Old JIT memory will be released along with the old compiled code. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>const <a class="el" href="classjpcre2_1_1Regex.html" title="This class implements public overloaded and copy constructors to provide different means of creating ...">Regex</a>&amp; </td></tr>
+    <tr><td class="paramname">r</td><td>const <a class="el" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a...">Regex</a>&amp; </td></tr>
   </table>
   </dd>
 </dl>
@@ -1916,13 +1922,13 @@ void <a class="el" href="classjpcre2_1_1Regex.html#a81687ca434654cae776c2854c361
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacejpcre2.html">jpcre2</a></li><li class="navelem"><a class="el" href="classjpcre2_1_1Regex.html">Regex</a></li>
-    <li class="footer">Generated on Tue Sep 6 2016 02:04:46 for JPCRE2 by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+    <li class="footer">Copyright (c) 2015 -2016, <a href="https://github.com/neurobin">Md Jahidul Hamid</a>.
+    Doc created by <a href="http://www.doxygen.org/index.html">Doxygen</a> 1.8.11 </li>
   </ul>
 </div>
 </body>

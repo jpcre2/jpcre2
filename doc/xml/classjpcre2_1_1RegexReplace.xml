@@ -128,7 +128,7 @@
 <para>After a call to this function <ref refid="classjpcre2_1_1RegexReplace_1afc79699cfcad8b7cbb26864b6b67cdc7" kindref="member">replace_opts</ref> and <ref refid="classjpcre2_1_1RegexReplace_1acf13bcb16918df4b7bcaa7e49a1c7d59" kindref="member">jpcre2_replace_opts</ref> will be properly set. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="325" column="1" bodyfile="src/jpcre2.cpp" bodystart="239" bodyend="268"/>
+        <location file="src/jpcre2.hpp" line="325" column="1" bodyfile="src/jpcre2.cpp" bodystart="244" bodyend="273"/>
         <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" compoundref="jpcre2_8hpp" startline="91">jpcre2::ERROR::INVALID_MODIFIER</references>
         <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" compoundref="jpcre2_8hpp" startline="105">jpcre2::VALIDATE_MODIFIER</references>
       </memberdef>
@@ -144,7 +144,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="328" column="1" bodyfile="src/jpcre2.hpp" bodystart="328" bodyend="331"/>
-        <references refid="namespacejpcre2_1a80cb201f2e733137b22a8ed98465096a" compoundref="jpcre2_8cpp" startline="44">jpcre2::SUBSTITUTE_RESULT_INIT_SIZE</references>
+        <references refid="namespacejpcre2_1a80cb201f2e733137b22a8ed98465096a" compoundref="jpcre2_8cpp" startline="49">jpcre2::SUBSTITUTE_RESULT_INIT_SIZE</references>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1ac50687b874800c827a6fa623b9b35753" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -468,9 +468,9 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="449" column="1" bodyfile="src/jpcre2.cpp" bodystart="270" bodyend="328"/>
+        <location file="src/jpcre2.hpp" line="449" column="1" bodyfile="src/jpcre2.cpp" bodystart="275" bodyend="333"/>
         <references refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" compoundref="jpcre2_8hpp" startline="921" endline="927">jpcre2::Regex::replace</references>
-        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="63" endline="71">jpcre2::utils::toString</references>
+        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="68" endline="76">jpcre2::utils::toString</references>
         <referencedby refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" compoundref="jpcre2_8hpp" startline="921" endline="927">jpcre2::Regex::replace</referencedby>
       </memberdef>
       </sectiondef>

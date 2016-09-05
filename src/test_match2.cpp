@@ -2,6 +2,7 @@
  * Contains an example to take subject string, pattern and modifier
  * from user input and perform regex match using JPCRE2.
  * @include test_match2.cpp
+ * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
 
 #include <iostream>

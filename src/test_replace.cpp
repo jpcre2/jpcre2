@@ -1,6 +1,7 @@
 /**@file test_replace.cpp
  * An example of doing regex replace with JPCRE2
  * @include test_replace.cpp
+ * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
 
 #include <iostream>

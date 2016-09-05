@@ -1,4 +1,4 @@
-JPCRE2       
+JPCRE2                         {#mainpage}
 ======
 
 C++ wrapper of PCRE2 library

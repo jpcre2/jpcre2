@@ -160,6 +160,8 @@
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
   </compound>
+  <compound refid="doxydoc_8md" kind="file"><name>doxydoc.md</name>
+  </compound>
   <compound refid="jpcre2_8cpp" kind="file"><name>jpcre2.cpp</name>
   </compound>
   <compound refid="jpcre2_8hpp" kind="file"><name>jpcre2.hpp</name>
@@ -168,8 +170,6 @@
   <compound refid="pcre2__match_8cpp" kind="file"><name>pcre2_match.cpp</name>
     <member refid="pcre2__match_8cpp_1acff91275abcc225454675d6dfc39a58d" kind="define"><name>PCRE2_CODE_UNIT_WIDTH</name></member>
     <member refid="pcre2__match_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kind="function"><name>main</name></member>
-  </compound>
-  <compound refid="README_8md" kind="file"><name>README.md</name>
   </compound>
   <compound refid="test__match_8cpp" kind="file"><name>test_match.cpp</name>
     <member refid="test__match_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>

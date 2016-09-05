@@ -2,6 +2,7 @@
  * Contains an example to take subject string, replacement string, modifier and pattern
  * from user input and perform regex replace with JPCRE2
  * @include test_replace2.cpp
+ * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
 
 

@@ -33,6 +33,11 @@
  *     POSSIBILITY OF SUCH DAMAGE.
  * */
 
+/**
+ *
+ * @author [Md Jahidul Hamid](https://github.com/neurobin)
+ * */
+
 #include "jpcre2.hpp"
 
 #include <cstdio>   // snprintf

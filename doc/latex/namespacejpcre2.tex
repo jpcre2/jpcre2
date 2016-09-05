@@ -16,7 +16,7 @@ Top level namespace of J\+P\+C\+R\+E2.
 \begin{DoxyCompactItemize}
 \item 
 class \hyperlink{classjpcre2_1_1Regex}{Regex}
-\begin{DoxyCompactList}\small\item\em This class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match}
 \begin{DoxyCompactList}\small\item\em Performs regex matching. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace}
@@ -132,7 +132,12 @@ Referenced by jpcre2\+::\+Regex\+::compile().
 
 Used by default to provide big enough initial buffer for replaced string. 
 
-Use max of int as the initial size of replaced string. 
+Use max of int as the initial size of replaced string.
+
+\begin{DoxyAuthor}{Author}
+\href{https://github.com/neurobin}{\tt Md Jahidul Hamid} 
+\end{DoxyAuthor}
+
 
 Referenced by jpcre2\+::\+Regex\+Replace\+::init\+\_\+vars().
 
