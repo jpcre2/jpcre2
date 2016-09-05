@@ -71,7 +71,7 @@ jpcre2::Regex \- This is the main class that is to be used to perform all JPCRE2
 .ti -1c
 .RI "\fBString\fP \fBgetErrorMessage\fP (int err_num, PCRE2_SIZE err_off)"
 .br
-.RI "\fIError handling Return error message by error_number and error_offset\&. \fP"
+.RI "\fIReturn error message by error number and error offset\&. \fP"
 .ti -1c
 .RI "\fBString\fP \fBgetErrorMessage\fP (int err_num)"
 .br
@@ -93,17 +93,89 @@ jpcre2::Regex \- This is the main class that is to be used to perform all JPCRE2
 .br
 .RI "\fIreturn \fBerror_offset\fP \fP"
 .ti -1c
+.RI "\fBRegex\fP & \fBsetPattern\fP (const \fBString\fP &re)"
+.br
+.RI "\fISet the Pattern string\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBsetModifier\fP (const \fBString\fP &x)"
+.br
+.RI "\fISet the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBsetLocale\fP (const \fBString\fP &x)"
+.br
+.RI "\fISet the locale\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBsetJpcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fISet JPCRE2 option (overwrites existing option) \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBsetPcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fISet PCRE2 option (overwrites existing option) \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBaddJpcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fIAdd option to existing JPCRE2 options\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBaddPcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fIAdd option to existing PCRE2 options\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBremoveJpcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fIRemove option from existing JPCRE2 option\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBremovePcre2Option\fP (\fBUint\fP x)"
+.br
+.RI "\fIRemove option from existing PCRE2 option\&. \fP"
+.ti -1c
 .RI "void \fBcompile\fP (void)"
 .br
-.RI "\fICompiles the regex\&. \fP"
+.RI "\fICompiles the regex using values from class variables\&. \fP"
+.ti -1c
+.RI "void \fBcompile\fP (const \fBString\fP &re, \fBUint\fP po, \fBUint\fP jo)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. \fP"
+.ti -1c
+.RI "void \fBcompile\fP (const \fBString\fP &re, \fBUint\fP po)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. \fP"
+.ti -1c
+.RI "void \fBcompile\fP (const \fBString\fP &re, const \fBString\fP &mod)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. \fP"
+.ti -1c
+.RI "void \fBcompile\fP (const \fBString\fP &re)"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. \fP"
 .ti -1c
 .RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s, const \fBString\fP &mod)"
 .br
-.RI "\fIThis is the \fBmatch()\fP function that will be called by users\&. \fP"
+.RI "\fIPerform regex match\&. \fP"
+.ti -1c
+.RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s)"
+.br
+.RI "\fIPerform regex match\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBinitMatch\fP ()"
+.br
+.RI "\fIPrepare to call \fBRegexMatch::match()\fP\&. \fP"
 .ti -1c
 .RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains, const \fBString\fP &repl, const \fBString\fP &mod)"
 .br
-.RI "\fIThis is the replace function that will be called by users\&. \fP"
+.RI "\fIPerform regex replace\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains, const \fBString\fP &repl)"
+.br
+.RI "\fIPerform regex replace\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains)"
+.br
+.RI "\fIPerform regex replace\&. \fP"
+.ti -1c
+.RI "\fBRegexReplace\fP & \fBinitReplace\fP ()"
+.br
+.RI "\fIPrepare to call \fBRegexReplace::replace()\fP\&. \fP"
 .in -1c
 .SS "Private Attributes"
 
@@ -226,10 +298,94 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Copy constructor. Compiles pattern and Performs a deep copy\&. 
 .SH "Member Function Documentation"
 .PP 
+.SS "\fBRegex\fP& jpcre2::Regex::addJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Add option to existing JPCRE2 options\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::addPcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Add option to existing PCRE2 options\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "void jpcre2::Regex::compile (const \fBString\fP & re, \fBUint\fP po, \fBUint\fP jo)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIre\fP Pattern string 
+.br
+\fIpo\fP PCRE2 option 
+.br
+\fIjo\fP JPCRE2 option 
+.RE
+.PP
+
+.SS "void jpcre2::Regex::compile (const \fBString\fP & re, \fBUint\fP po)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIre\fP Pattern string 
+.br
+\fIpo\fP PCRE2 option 
+.RE
+.PP
+
+.SS "void jpcre2::Regex::compile (const \fBString\fP & re, const \fBString\fP & mod)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIre\fP Pattern string 
+.br
+\fImod\fP Modifier string 
+.RE
+.PP
+
+.SS "void jpcre2::Regex::compile (const \fBString\fP & re)\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIre\fP Pattern string 
+.RE
+.PP
+
 .SS "\fBjpcre2::String\fP jpcre2::Regex::getErrorMessage (int err_num, PCRE2_SIZE err_off)"
 
 .PP
-Error handling Return error message by error_number and error_offset\&. 
+Return error message by error number and error offset\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -244,6 +400,8 @@ Error message as a string
 .RE
 .PP
 
+.PP
+References code, compile_opts, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, jpcre2::utils::getPcre2ErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2::JIT_ERROR_MESSAGE_PREFIX, jpcre2_compile_opts, modifier, rm, rr, jpcre2::utils::toString(), and jpcre2::VALIDATE_MODIFIER\&.
 .SS "\fBString\fP jpcre2::Regex::getErrorMessage (int err_num)\fC [inline]\fP"
 
 .PP
@@ -337,6 +495,72 @@ Get current warning message\&.
 .RE
 .PP
 
+.SS "\fBRegexMatch\fP& jpcre2::Regex::initMatch ()\fC [inline]\fP"
+
+.PP
+Prepare to call \fBRegexMatch::match()\fP\&. Other options can be set with the setter functions of \fBRegexMatch\fP class in-between the \fBRegex::initMatch()\fP and \fBRegexMatch::match()\fP call\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::match()\fP 
+.PP
+\fBRegexMatch::setSubject(const String& s)\fP 
+.PP
+\fBRegexMatch::setModifier(const String& mod)\fP 
+.PP
+\fBRegexMatch::setNumberedSubstringVector(VecNum* vec_num)\fP 
+.PP
+\fBRegexMatch::setNamedSubstringVector(VecNas* vec_nas)\fP 
+.PP
+\fBRegexMatch::setNameToNumberMapVector(VecNtN* vec_ntn)\fP 
+.RE
+.PP
+
+.SS "\fBRegexReplace\fP& jpcre2::Regex::initReplace ()\fC [inline]\fP"
+
+.PP
+Prepare to call \fBRegexReplace::replace()\fP\&. Other options can be set with the setter functions of \fBRegexReplace\fP class in-between the \fBRegex::initReplace()\fP and \fBRegexReplace::replace()\fP call\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexReplace::replace()\fP 
+.PP
+\fBRegexReplace::setSubject(const String& s)\fP 
+.PP
+\fBRegexReplace::setModifier(const String& mod)\fP 
+.PP
+\fBRegexReplace::setReplaceWith(const String& s)\fP 
+.PP
+\fBRegexReplace::setBufferSize(PCRE2_SIZE x)\fP 
+.RE
+.PP
+
+.SS "\fBSIZE_T\fP jpcre2::Regex::match (const \fBString\fP & s, const \fBString\fP & mod)\fC [inline]\fP"
+
+.PP
+Perform regex match\&. This function takes the parameters, then passes the parameters to the appropriate function \fBRegexMatch::match(const String& s, const String& mod)\fP which returns the result 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::match(const String& s, const String& mod)\fP 
+.RE
+.PP
+
+.PP
+References jpcre2::RegexMatch::match()\&.
+.SS "\fBSIZE_T\fP jpcre2::Regex::match (const \fBString\fP & s)\fC [inline]\fP"
+
+.PP
+Perform regex match\&. This function takes the parameters, then passes the parameters to the appropriate function \fBRegexMatch::match(const String& s)\fP which returns the result 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::match(const String& s)\fP 
+.RE
+.PP
+
+.PP
+References jpcre2::RegexMatch::match()\&.
 .SS "\fBRegex\fP& jpcre2::Regex::operator= (const \fBRegex\fP & r)\fC [inline]\fP"
 
 .PP
@@ -348,6 +572,79 @@ Overloaded assignment operator\&. Performs a deep copy
 .RE
 .PP
 
+.SS "\fBRegex\fP& jpcre2::Regex::removeJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Remove option from existing JPCRE2 option\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::removePcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Remove option from existing PCRE2 option\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::Regex::replace (const \fBString\fP & mains, const \fBString\fP & repl, const \fBString\fP & mod)\fC [inline]\fP"
+
+.PP
+Perform regex replace\&. This function takes the parameters, then passes the parameters to the appropriate function \fBRegexReplace::replace(const String& s, const String& r, const String& m)\fP which returns the result 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexReplace::replace(const String& s, const String& r, const String& m)\fP 
+.RE
+.PP
+
+.PP
+References jpcre2::RegexReplace::replace()\&.
+.PP
+Referenced by jpcre2::RegexReplace::replace()\&.
+.SS "\fBString\fP jpcre2::Regex::replace (const \fBString\fP & mains, const \fBString\fP & repl)\fC [inline]\fP"
+
+.PP
+Perform regex replace\&. This function takes the parameters, then passes the parameters to the appropriate function \fBRegexReplace::replace(const String& s, const String& r)\fP which returns the result 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexReplace::replace(const String& s, const String& r)\fP 
+.RE
+.PP
+
+.PP
+References jpcre2::RegexReplace::replace()\&.
+.SS "\fBString\fP jpcre2::Regex::replace (const \fBString\fP & mains)\fC [inline]\fP"
+
+.PP
+Perform regex replace\&. This function takes the parameters, then passes the parameters to the appropriate function \fBRegexReplace::replace(const String& s)\fP which returns the result 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexReplace::replace(const String& s)\fP 
+.RE
+.PP
+
+.PP
+References jpcre2::RegexReplace::replace()\&.
 .SS "\fBRegex\fP& jpcre2::Regex::reset ()\fC [inline]\fP"
 
 .PP
@@ -356,6 +653,81 @@ Reset all class variables to its default (initial) state\&.
 \fBReturns:\fP
 .RS 4
 *this 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::setJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Set JPCRE2 option (overwrites existing option) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::setLocale (const \fBString\fP & x)\fC [inline]\fP"
+
+.PP
+Set the locale\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Locale string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::setModifier (const \fBString\fP & x)\fC [inline]\fP"
+
+.PP
+Set the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then sets the modifier\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Modifier string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::setPattern (const \fBString\fP & re)\fC [inline]\fP"
+
+.PP
+Set the Pattern string\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIre\fP Pattern string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::setPcre2Option (\fBUint\fP x)\fC [inline]\fP"
+
+.PP
+Set PCRE2 option (overwrites existing option) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Option value #return *this 
 .RE
 .PP
 

@@ -1,3 +1,5 @@
+JPCRE2                         {#mainpage}
+======
 [![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/)
 
 <div id="description"></div>
@@ -6,7 +8,7 @@ PCRE2 is the name used for a revised API for the PCRE library, which is a set of
 This provides some C++ wrapper functions to provide some useful utilities like regex match and regex replace.
 
 <div id="requires"></div>
-#Requirements:
+# Requirements:
 
 1. PCRE2 library (`version >=10.21`).
 
@@ -14,25 +16,23 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a> which will always be kept compatible with JPCRE2.
 
 <div id="how-to"></div>
-#Install/Include:
+# Install/Include:
 
 It can be installed as a separate library or can be used directly in a project by including the appropriate sources:
 
-1. **jpcre2.h**
+1. **jpcre2.hpp**
 2. **jpcre2.cpp**
-3. **jpcre2_match.cpp**
-4. **jpcre2_replace.cpp**
 
 An example compile/build command with GCC would be:
 
 ```sh
-g++ mycpp.cpp jpcre2_match.cpp jpcre2_replace.cpp jpcre2.cpp jpcre2.h -lpcre2-8
+g++ mycpp.cpp jpcre2.cpp jpcre2.hpp -lpcre2-8
 ```
 
 If your PCRE2 library is not in the standard library path, then add the path:
 
 ```sh
-g++ -std=c++11 mycpp.cpp ... -L/path/to/your/pcre2/library -lpcre2-8
+g++ mycpp.cpp ... -L/path/to/your/pcre2/library -lpcre2-8
 ```
 
 **Note that** it requires the PCRE2 library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
@@ -45,7 +45,7 @@ To install it in a Unix based system, run:
 make
 sudo make install
 ```
-Now `#include <jpcre2.h>` in your code and build/compile by linking with both JPCRE2 and PCRE2 library.
+Now `#include <jpcre2.hpp>` in your code and build/compile by linking with both JPCRE2 and PCRE2 library.
 
 An example command for GCC would be:
 
@@ -53,7 +53,7 @@ An example command for GCC would be:
 g++  mycpp.cpp -ljpcre2-8 -lpcre2-8 #sequence is important
 ```
 
-If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 sources with your favourite IDE or use it as it is.
+If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 sources with your favorite IDE or use it as it is.
 
 **Notes:**
 
@@ -61,12 +61,12 @@ If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 s
 2. To use the `PCRE2 POSIX` compatible library, add the `-lpcre2-posix` along with the others.
 
 
-#How to code with JPCRE2:
+# How to code with JPCRE2:
 
 <div id="compile"></div>
 ##Compile a pattern
 
-**First create a `jpcre2::Regex`object**
+**First create a `jpcre2::Regex` object**
 
 (You can use temporary object too, see [short examples](#short-examples)).
 
@@ -80,13 +80,13 @@ Each object for each regex pattern.
 **Compile the pattern** and catch any error exception:
 
 ```cpp
-try{
-    re.compile()               //Invoke the compile() function
-      .setPattern(pat)         //set various parameters
-      .setModifiers("Jin")     //sets the modifier
-      .addJpcre2Options(0)     //Adds the jpcre2 option
-      .addPcre2Options(0)      //Adds the pcre2 option
-      .execute();              //Finally execute it.
+try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
+      .setModifier("nJ")                                                    //set modifier
+      .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                            //modifier goes through validation check
+                        | jpcre2::JIT_COMPILE                               //perform JIT compile
+                        | jpcre2::ERROR_ALL)                                //treat warnings as errors
+      .addPcre2Option(0)                                                    //add pcre2 option
+      .compile();                                                           //Finally compile it.
     
     //Another way is to use constructor to initialize and compile at the same time:
     jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
@@ -95,7 +95,7 @@ try{
 }
 catch(int e){
     /*Handle error*/
-    std::cout<<re.getErrorMessage(e)<<std::endl;
+    std::cerr<<re.getErrorMessage(e)<<std::endl;
 }
 ```
 
@@ -104,24 +104,35 @@ Now you can perform match or replace against the pattern. Use the `match()` memb
 <div id="match"></div>
 ##Match
 
-The `match()` member function can take two optional arguments (subject & modifier) and returns an object of the class *RegexMatch* which then in turn can be used to pass various parameters using  available member functions (method chaining) of *RegexMatch* class. The end function in the method chain must be the `execute()` function which returns the result (number of matches found).
+The `jpcre2::Regex::match(const String& s)` member function can take two arguments (subject & modifier) and returns the number of matches found against the compiled pattern.
+
+```cpp
+///If you want to match all and get the match count, use the action modifier 'g':
+std::cout<<"\n"<<
+    jpcre2::Regex("(\\d)|(\\w)","m").match("I am the subject","g");
+```
+
+To get the match result (captured groups) however, you need to call the `jpcre2::RegexMatch::match()` function. Point be noted that, you can not call this function directly or create any object of the class `jpcre2::RegexMatch`. To call this function, first invoke the `jpcre2::Regex::initMatch()` function. It will give you a temporary `jpcre2::RegexMatch` object. Now you can chain function calls of `jpcre2::RegexMatch::setNumberedSubstringVector(VecNum* vec_num)` and such functions from `jpcre2::RegexMatch` class to pass various parameters. After you are done passing all the parameter that you need, the `jpcre2::RegexMatch::match()` function should be called to perform the actual match and return the match count. The match results will be stored in vectors (vectors of maps) whose pointers were passed as parameters.
+
+To get the match results, you need to pass appropriate vector pointers. This is an example of how you can get the numbered substrings/captured groups from a match:
 
 **Perform match** and catch any error exception:
 
 ```cpp
 jpcre2::VecNum vec_num;
 try{
-    size_t count=re.match(subject)                               //Invoke the match() function
-                   .setModifiers(ac_mod)                         //Set various options
-                   .setNumberedSubstringVector(&vec_num)         //...
-                   .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
-                   .execute();                                   //Finally execute it.
+    size_t count=re.initMatch()									//prepare for match() call
+    			   .setSubject(subject)                         //set subject string
+                   .setModifier(ac_mod)                         //set modifier string
+                   .setNumberedSubstringVector(&vec_num)        //pass VecNum vector to store maps of numbered substrings
+                   .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)  //add jpcre2 option
+                   .match();                                    //Finally perform the match.
     //vec_num will be populated with maps of numbered substrings.
     //count is the total number of matches found
 }
 catch(int e){
     /*Handle error*/
-    std::cout<<re.getErrorMessage(e)<<std::endl;
+    std::cerr<<re.getErrorMessage(e)<<std::endl;
 }
 ```
 **Iterate through the substrings:**
@@ -129,13 +140,14 @@ catch(int e){
 ```cpp
 for(size_t i=0;i<vec_num.size();++i){
     //i=0 is the first match found, i=1 is the second and so forth
-    /*//=>C++11
-    for(auto const& ent : vec_num[i]){
-        //ent.first is the number/position of substring found
-        //ent.second is the substring itself
-        //when ent.first is 0, ent.second is the total match.
-    }*/
-    for(jpcre2::MapNum::iterator ent=vec_num0[i].begin();ent!=vec_num0[i].end();++ent){
+    /** This loop requires =>C++11
+		for(auto const& ent : vec_num[i]){
+		    //ent.first is the number/position of substring found
+		    //ent.second is the substring itself
+		    //when ent.first is 0, ent.second is the total match.
+		}
+    */
+    for(jpcre2::MapNum::iterator ent=vec_num[i].begin();ent!=vec_num[i].end();++ent){
         std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
     }
 }
@@ -148,7 +160,7 @@ std::cout<<vec_num[0][1]; // group 1 in first match
 std::cout<<vec_num[1][0]; // group 0 in second match
 ```
 
-**To get named substrings and/or name to number mapping,** pass pointer to the appropriate vectors with `namedSubstringVector()` and/or `nameToNumberMapVector()`:
+**To get named substrings and/or name to number mapping,** pass pointer to the appropriate vectors with `jpcre2::RegexMatch::setNamedSubstringVector()` and/or `jpcre2::RegexMatch::setNameToNumberMapVector()`:
 
 ```cpp
 jpcre2::VecNum vec_num;   ///Vector to store numbured substring Map.
@@ -156,18 +168,19 @@ jpcre2::VecNas vec_nas;   ///Vector to store named substring Map.
 jpcre2::VecNtN vec_ntn;   ///Vector to store Named substring to Number Map.
 std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Options()
 try{
-    re.match(subject)                               //Invoke the match() function
-      .setModifiers(ac_mod)                         //Set various options
-      .setNumberedSubstringVector(&vec_num)         //...
-      .setNamedSubstringVector(&vec_nas)            //...
-      .setNameToNumberMapVector(&vec_ntn)           //...
-      .addJpcre2Options(jpcre2::VALIDATE_MODIFIER)  //...
-      .addPcre2Options(PCRE2_ANCHORED)              //...
-      .execute();                                   //Finally execute it.
+    re.initMatch()
+      .setSubject(subject)                         //set subject string
+      .setModifier(ac_mod)                         //set modifier string
+      .setNumberedSubstringVector(&vec_num)        //pass pointer to vector of numbered substring maps
+      .setNamedSubstringVector(&vec_nas)           //pass pointer to vector of named substring maps
+      .setNameToNumberMapVector(&vec_ntn)          //pass pointer to vector of name to number maps
+      .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)  //add jpcre2 option
+      .addPcre2Option(PCRE2_ANCHORED)              //add pcre2 option
+      .match();                                    //Finally perform the match()
 }
 catch(int e){
     /*Handle error*/
-    std::cout<<re.getErrorMessage(e)<<std::endl;
+    std::cerr<<re.getErrorMessage(e)<<std::endl;
 }
 ```
 **Iterating** through the vectors and associated maps are the same as the above example for numbered substrings. The size of all three vectors are the same and can be accessed in the same way.

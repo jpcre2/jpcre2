@@ -7,7 +7,7 @@ var searchData=
   ['getlocale',['getLocale',['../classjpcre2_1_1Regex.html#ae9afaf627ed922a9e4cee8074d30edfa',1,'jpcre2::Regex']]],
   ['getmodifier',['getModifier',['../classjpcre2_1_1Regex.html#acc597ee58b9d5ab35d6e1f98b6118175',1,'jpcre2::Regex']]],
   ['getpattern',['getPattern',['../classjpcre2_1_1Regex.html#a006dd17f71a2d717aa9575d72fac6d7b',1,'jpcre2::Regex']]],
-  ['getpcre2errormessage',['getPcre2ErrorMessage',['../jpcre2_8hpp.html#a186305c70ad9dc4137aae2bcbf644805',1,'jpcre2::utils']]],
+  ['getpcre2errormessage',['getPcre2ErrorMessage',['../namespacejpcre2_1_1utils.html#a186305c70ad9dc4137aae2bcbf644805',1,'jpcre2::utils']]],
   ['getpcre2option',['getPcre2Option',['../classjpcre2_1_1Regex.html#a857307fc59ba7f010b097e61c1744923',1,'jpcre2::Regex']]],
   ['getwarningmessage',['getWarningMessage',['../classjpcre2_1_1Regex.html#a1a639ae4090b88609c03e9268faf02d8',1,'jpcre2::Regex']]]
 ];

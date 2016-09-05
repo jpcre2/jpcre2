@@ -1,11 +1,11 @@
 var NAVTREE =
 [
   [ "JPCRE2", "index.html", [
-    [ "README", "md_README.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerator", "namespacemembers_eval.html", null ]

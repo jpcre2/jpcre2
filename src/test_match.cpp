@@ -11,12 +11,12 @@ int main(){
     jpcre2::Regex re;     ///An empty object is not supposed to throw any exception in normal cases.
     
     ///Compile the pattern
-    try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set various parameters
-          .setModifier("nJ")                                                   //...
-          .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                           //modifier goes through validation check
+    try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
+          .setModifier("nJ")                                                    //set modifier
+          .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                            //modifier goes through validation check
                             | jpcre2::JIT_COMPILE                               //perform JIT compile
                             | jpcre2::ERROR_ALL)                                //treat warnings as errors
-          .addPcre2Option(0)                                                   //...
+          .addPcre2Option(0)                                                    //add pcre2 option
           .compile();}                                                          //Finaly compile it.               
     catch(int e){std::cerr<<re.getErrorMessage(e);}
     
@@ -51,6 +51,8 @@ int main(){
     ///Each of these vectors contains a map
     ///and each of the maps contains all the substrings that are matched against the pattern.
     ///All the matches in all the maps combines the total match throughout the entire string.
+    
+    
     for(size_t i=0;i<vec_num0.size();++i){
         
         

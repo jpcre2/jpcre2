@@ -1,5 +1,4 @@
-/** @mainpage
- * *****************************************************************************
+/* *****************************************************************************
  * ******************* C++ wrapper of PCRE2 Library ****************************
  * *****************************************************************************
  *            Copyright (c) 2015-2016 Md. Jahidul Hamid
@@ -97,6 +96,7 @@ enum {
 	ERROR_ALL = 0x0000008u  ///< Treat warnings as error and throw exception
 };
 
+/// Namespace for some utility functions
 namespace utils {
 extern String toString(int a);  //!< Converts an integer to String
 extern String toString(char a); ///< Converts a char to String
@@ -671,8 +671,7 @@ public:
 		return jpcre2_compile_opts;
 	}
 
-	/** Error handling
-	 *  Return error message by error_number and error_offset
+	/** Return error message by error number and error offset
 	 *  @param err_num Error number
 	 *  @param err_off Error offset
 	 *  @return Error message as a string
@@ -712,73 +711,141 @@ public:
 		return error_offset;
 	}
 
-
+	/// Set the Pattern string
+	/// @param re Pattern string
+	/// @return *this
 	Regex& setPattern(const String& re) {
 		pat_str = re;
 		return *this;
 	}
+
+	/// Set the modifier (overwrites existing JPCRE2 and PCRE2 option).
+	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then sets the modifier.
+	/// @param x Modifier string
+	/// @return *this
 	Regex& setModifier(const String& x) {
 		compile_opts = jpcre2_compile_opts = 0;
 		modifier = x;
 		return *this;
 	}
+
+	/// Set the locale.
+	/// @param x Locale string
+	/// @return *this
 	Regex& setLocale(const String& x) {
 		mylocale = x;
 		return *this;
 	}
+
+	/// Set JPCRE2 option (overwrites existing option)
+	/// @param x Option value
+	/// @return *this
 	Regex& setJpcre2Option(Uint x) {
 		jpcre2_compile_opts = x;
 		return *this;
 	}
+
+	/// Set PCRE2 option (overwrites existing option)
+	/// @param x Option value
+	/// #return *this
 	Regex& setPcre2Option(Uint x) {
 		compile_opts = x;
 		return *this;
 	}
 
+	/// Add option to existing JPCRE2 options
+	/// @param x Option value
+	/// @return *this
 	Regex& addJpcre2Option(Uint x) {
 		jpcre2_compile_opts |= x;
 		return *this;
 	}
+
+	/// Add option to existing PCRE2 options
+	/// @param x Option value
+	/// @return *this
 	Regex& addPcre2Option(Uint x) {
 		compile_opts |= x;
 		return *this;
 	}
 
+	/// Remove option from existing JPCRE2 option
+	/// @param x Option value
+	/// @return *this
 	Regex& removeJpcre2Option(Uint x) {
 		jpcre2_compile_opts &= ~x;
 		return *this;
 	}
+
+	/// Remove option from existing PCRE2 option
+	/// @param x Option value
+	/// @return *this
 	Regex& removePcre2Option(Uint x) {
 		compile_opts &= ~x;
 		return *this;
 	}
 
-	///Compiles the regex.
+	/** Compiles the regex using values from class variables.
+	 * */
 	void compile(void);
+
+	/** @overload
+	 *  Initializes with class variables, sets the specified parameters, then compiles the pattern.
+	 *  @param re Pattern string
+	 *  @param po PCRE2 option
+	 *  @param jo JPCRE2 option
+	 * */
 	void compile(const String& re, Uint po, Uint jo) {
 		init(re, po, jo);
 		compile();
 	}
+
+	/** @overload
+	 *  Initializes with class variables, sets the specified parameters, then compiles the pattern.
+	 *  @param re Pattern string
+	 *  @param po PCRE2 option
+	 * */
 	void compile(const String& re, Uint po) {
 		init(re, po, 0);
 		compile();
 	}
+
+	/** @overload
+	 *  Initializes with class variables, sets the specified parameters, then compiles the pattern.
+	 *  @param re Pattern string
+	 *  @param mod Modifier string
+	 * */
 	void compile(const String& re, const String& mod) {
 		init(re, mod);
 		compile();
 	}
+
+	/** @overload
+	 *  Initializes with class variables, sets the specified parameters, then compiles the pattern.
+	 *  @param re Pattern string
+	 * */
 	void compile(const String& re) {
 		init(re, 0, 0);
 		compile();
 	}
 
-	///This is the match() function that will be called by users
+	/** Perform regex match.
+	 *  This function takes the parameters, then passes the parameters to the appropriate function
+	 *  RegexMatch::match(const String& s, const String& mod) which returns the result
+	 *  @see RegexMatch::match(const String& s, const String& mod)
+	 * */
 	SIZE_T match(const String& s, const String& mod) {
 		delete rm;
 		rm = new RegexMatch();
 		rm->re = this;
 		return rm->match(s, mod);
 	}
+
+	/** Perform regex match.
+	 *  This function takes the parameters, then passes the parameters to the appropriate function
+	 *  RegexMatch::match(const String& s) which returns the result
+	 *  @see RegexMatch::match(const String& s)
+	 * */
 	SIZE_T match(const String& s) {
 		delete rm;
 		rm = new RegexMatch();
@@ -786,6 +853,16 @@ public:
 		return rm->match(s);
 	}
 
+	/** Prepare to call RegexMatch::match().
+	 * Other options can be set with the setter functions of RegexMatch class
+	 * in-between the Regex::initMatch() and RegexMatch::match() call.
+	 * @see RegexMatch::match()
+	 * @see RegexMatch::setSubject(const String& s)
+	 * @see RegexMatch::setModifier(const String& mod)
+	 * @see RegexMatch::setNumberedSubstringVector(VecNum* vec_num)
+	 * @see RegexMatch::setNamedSubstringVector(VecNas* vec_nas)
+	 * @see RegexMatch::setNameToNumberMapVector(VecNtN* vec_ntn)
+	 * */
 	RegexMatch& initMatch() {
 		delete rm;
 		rm = new RegexMatch();
@@ -793,25 +870,51 @@ public:
 		return *rm;
 	}
 
-	///This is the replace function that will be called by users
+	/** Perform regex replace.
+	 *  This function takes the parameters, then passes the parameters to the appropriate function
+	 *  RegexReplace::replace(const String& s, const String& r, const String& m) which returns the result
+	 *  @see RegexReplace::replace(const String& s, const String& r, const String& m)
+	 * */
 	String replace(const String& mains, const String& repl, const String& mod) {
 		delete rr;
 		rr = new RegexReplace();
 		rr->re = this;
 		return rr->replace(mains, repl, mod);
 	}
+
+	/** Perform regex replace.
+	 *  This function takes the parameters, then passes the parameters to the appropriate function
+	 *  RegexReplace::replace(const String& s, const String& r) which returns the result
+	 *  @see RegexReplace::replace(const String& s, const String& r)
+	 * */
 	String replace(const String& mains, const String& repl) {
 		delete rr;
 		rr = new RegexReplace();
 		rr->re = this;
 		return rr->replace(mains, repl);
 	}
+
+	/** Perform regex replace.
+	 *  This function takes the parameters, then passes the parameters to the appropriate function
+	 *  RegexReplace::replace(const String& s) which returns the result
+	 *  @see RegexReplace::replace(const String& s)
+	 * */
 	String replace(const String& mains) {
 		delete rr;
 		rr = new RegexReplace();
 		rr->re = this;
 		return rr->replace(mains);
 	}
+
+	/** Prepare to call RegexReplace::replace().
+	 * Other options can be set with the setter functions of RegexReplace class
+	 * in-between the Regex::initReplace() and RegexReplace::replace() call.
+	 * @see RegexReplace::replace()
+	 * @see RegexReplace::setSubject(const String& s)
+	 * @see RegexReplace::setModifier(const String& mod)
+	 * @see RegexReplace::setReplaceWith(const String& s)
+	 * @see RegexReplace::setBufferSize(PCRE2_SIZE x)
+	 * */
 	RegexReplace& initReplace() {
 		delete rr;
 		rr = new RegexReplace();
