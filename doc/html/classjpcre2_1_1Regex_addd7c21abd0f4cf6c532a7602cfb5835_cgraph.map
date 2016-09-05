@@ -1,5 +1,8 @@
 <map id="jpcre2::Regex::replace" name="jpcre2::Regex::replace">
-<area shape="rect" id="node2" href="$classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0" title="Returns a replaced string after performing regex replace. " alt="" coords="207,5,357,47"/>
+<area shape="rect" id="node2" href="$classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0" title="Returns the resultant string after performing regex replace. " alt="" coords="207,27,357,68"/>
+<area shape="rect" id="node5" href="$classjpcre2_1_1RegexReplace.html#af1069f489de9b343493da2dc77b04c73" title="Set the replacement string r_replw. " alt="" coords="607,76,757,117"/>
+<area shape="rect" id="node6" href="$classjpcre2_1_1RegexReplace.html#a46eefdb105827920bebc8436721fa4cb" title="Set the subject string r_subject. " alt="" coords="607,152,757,193"/>
 <area shape="rect" id="node3" href="$classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981" title="Perform regex replace. " alt="" coords="405,13,559,39"/>
-<area shape="rect" id="node4" href="$namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73" title="Converts an integer to String. " alt="" coords="411,63,553,90"/>
+<area shape="rect" id="node7" href="$namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73" title="Converts an integer to String. " alt="" coords="411,63,553,90"/>
+<area shape="rect" id="node4" href="$classjpcre2_1_1RegexReplace.html#ae2abe2994b0fbe54950f88e63000c910" title="Set the modifier string r_modifier (overwrites existing JPCRE2 and PCRE2 option). ..." alt="" coords="607,5,757,47"/>
 </map>

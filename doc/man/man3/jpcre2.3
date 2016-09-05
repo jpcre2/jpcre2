@@ -2,7 +2,7 @@
 .ad l
 .nh
 .SH NAME
-jpcre2 \- Main namespace of JPCRE2\&.  
+jpcre2 \- Top level namespace of JPCRE2\&.  
 
 .SH SYNOPSIS
 .br
@@ -25,7 +25,7 @@ jpcre2 \- Main namespace of JPCRE2\&.
 .ti -1c
 .RI "class \fBRegex\fP"
 .br
-.RI "\fIThis is the main class that is to be used to perform all JPCRE2 related actions\&. \fP"
+.RI "\fIThis class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables\&. \fP"
 .ti -1c
 .RI "class \fBRegexMatch\fP"
 .br
@@ -88,9 +88,9 @@ jpcre2 \- Main namespace of JPCRE2\&.
 
 .in +1c
 .ti -1c
-.RI "const \fBSIZE_T\fP \fBSUBSTITUTE_RESULT_INIT_SIZE\fP"
+.RI "const \fBSIZE_T\fP \fBSUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
 .br
-.RI "\fIUsed by default to provide big enough buffer for replaced string\&. \fP"
+.RI "\fIUsed by default to provide big enough initial buffer for replaced string\&. \fP"
 .ti -1c
 .RI "const \fBString\fP \fBLOCALE_NONE\fP = 'JPCRE2_NONE'"
 .br
@@ -106,13 +106,17 @@ jpcre2 \- Main namespace of JPCRE2\&.
 .in -1c
 .SH "Detailed Description"
 .PP 
-Main namespace of JPCRE2\&. 
+Top level namespace of JPCRE2\&. 
+
+All functions, classes, constants, enums that are provided by JPCRE2 belong to this namespace while \fBPCRE2\fP functions, constants remain outside of its scope\&.
+.PP
+If you want to use any PCRE2 functions or constants, remember that they are in the global scope and should be used as such\&. 
 .SH "Enumeration Type Documentation"
 .PP 
 .SS "anonymous enum"
 
 .PP
-Option bits\&. 
+These constants provide JPCRE2 options\&. 
 .PP
 \fBEnumerator\fP
 .in +1c
@@ -121,37 +125,36 @@ Option bits\&.
 Option 0 (zero) 
 .TP
 \fB\fIVALIDATE_MODIFIER \fP\fP
-throw INVALID_MODIFIER if any modifier is wrong 
+Perform validation check on modifiers and throw #INVALID_MODIFIER if any wrong modifier is passed\&. 
 .TP
 \fB\fIFIND_ALL \fP\fP
 Find all during match (global match) 
 .TP
 \fB\fIJIT_COMPILE \fP\fP
-Prform JIT compilation during pattern compilation\&. 
+Perform JIT compilation for optimization\&. 
 .TP
 \fB\fIERROR_ALL \fP\fP
-Treat warnings as error and throw exception\&. 
+Treat warnings as error and throw exception (warnings don't throw exception) 
 .SH "Variable Documentation"
 .PP 
 .SS "const \fBjpcre2::String\fP jpcre2::LOCALE_DEFAULT = \fBLOCALE_NONE\fP"
 
 .PP
 Default locale\&. Default local to be used\&. 
+.PP
+Referenced by jpcre2::Regex::init_vars()\&.
 .SS "const \fBjpcre2::String\fP jpcre2::LOCALE_NONE = 'JPCRE2_NONE'"
 
 .PP
 Don't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. Nothing to be done on locale\&. 
 .PP
 Referenced by jpcre2::Regex::compile()\&.
-.SS "const \fBjpcre2::SIZE_T\fP jpcre2::SUBSTITUTE_RESULT_INIT_SIZE"
-\fBInitial value:\fP
+.SS "const \fBjpcre2::SIZE_T\fP jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max()"
+
 .PP
-.nf
-= std::numeric_limits<
-        int>::max()
-.fi
+Used by default to provide big enough initial buffer for replaced string\&. Use max of int as the initial size of replaced string\&. 
 .PP
-Used by default to provide big enough buffer for replaced string\&. Use max of int as the initial size of replaced string\&. 
+Referenced by jpcre2::RegexReplace::init_vars()\&.
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for JPCRE2 from the source code\&.

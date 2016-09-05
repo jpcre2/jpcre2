@@ -1,0 +1,1580 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classjpcre2_1_1Regex" kind="class" language="C++" prot="public">
+    <compoundname>jpcre2::Regex</compoundname>
+    <includes refid="jpcre2_8hpp" local="no">jpcre2.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1a447925705d222dbbd8c7d60b98cc65f0" prot="private" static="no" mutable="no">
+        <type><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> *</type>
+        <definition>RegexMatch* jpcre2::Regex::rm</definition>
+        <argsstring></argsstring>
+        <name>rm</name>
+        <briefdescription>
+<para>Pointer to <ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> object. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="466" column="1" bodyfile="src/jpcre2.hpp" bodystart="466" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="101" endline="133">deepCopy</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1a5a7ac6c6288988079b8933b4b6637fab" prot="private" static="no" mutable="no">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> *</type>
+        <definition>RegexReplace* jpcre2::Regex::rr</definition>
+        <argsstring></argsstring>
+        <name>rr</name>
+        <briefdescription>
+<para>Pointer to <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> object. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="467" column="1" bodyfile="src/jpcre2.hpp" bodystart="467" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="101" endline="133">deepCopy</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::pat_str</definition>
+        <argsstring></argsstring>
+        <name>pat_str</name>
+        <briefdescription>
+<para>Pattern string. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="469" column="1" bodyfile="src/jpcre2.hpp" bodystart="469" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="536" endline="545">shallowCopy</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1ab4447726c0cedd7868a600ea7db876a8" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::modifier</definition>
+        <argsstring></argsstring>
+        <name>modifier</name>
+        <briefdescription>
+<para>Modifier string. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="470" column="1" bodyfile="src/jpcre2.hpp" bodystart="470" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="135" endline="187">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="536" endline="545">shallowCopy</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1a2742264206d8976c413b474b7bac4b2e" prot="private" static="no" mutable="no">
+        <type>pcre2_code *</type>
+        <definition>pcre2_code* jpcre2::Regex::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <briefdescription>
+<para>Pointer to compiled pattern. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="471" column="1" bodyfile="src/jpcre2.hpp" bodystart="471" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="101" endline="133">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">compile</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int jpcre2::Regex::error_number</definition>
+        <argsstring></argsstring>
+        <name>error_number</name>
+        <briefdescription>
+<para>Error number. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="472" column="1" bodyfile="src/jpcre2.hpp" bodystart="472" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="101" endline="133">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="135" endline="187">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="536" endline="545">shallowCopy</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" prot="private" static="no" mutable="no">
+        <type>PCRE2_SIZE</type>
+        <definition>PCRE2_SIZE jpcre2::Regex::error_offset</definition>
+        <argsstring></argsstring>
+        <name>error_offset</name>
+        <briefdescription>
+<para>Error offset. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="473" column="1" bodyfile="src/jpcre2.hpp" bodystart="473" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="101" endline="133">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="135" endline="187">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="536" endline="545">shallowCopy</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>Uint jpcre2::Regex::compile_opts</definition>
+        <argsstring></argsstring>
+        <name>compile_opts</name>
+        <briefdescription>
+<para>Compile options for PCRE2 (used by PCRE2 internal function pcre2_compile()) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="474" column="1" bodyfile="src/jpcre2.hpp" bodystart="474" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="135" endline="187">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="536" endline="545">shallowCopy</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>Uint jpcre2::Regex::jpcre2_compile_opts</definition>
+        <argsstring></argsstring>
+        <name>jpcre2_compile_opts</name>
+        <briefdescription>
+<para>Compile options specific to JPCRE2. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="475" column="1" bodyfile="src/jpcre2.hpp" bodystart="475" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="101" endline="133">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="135" endline="187">parseCompileOpts</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="536" endline="545">shallowCopy</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::mylocale</definition>
+        <argsstring></argsstring>
+        <name>mylocale</name>
+        <briefdescription>
+<para>Locale as a string. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="476" column="1" bodyfile="src/jpcre2.hpp" bodystart="476" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="536" endline="545">shallowCopy</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::current_warning_msg</definition>
+        <argsstring></argsstring>
+        <name>current_warning_msg</name>
+        <briefdescription>
+<para>current warning message </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="477" column="1" bodyfile="src/jpcre2.hpp" bodystart="477" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="101" endline="133">deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">compile</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" compoundref="jpcre2_8hpp" startline="536" endline="545">shallowCopy</referencedby>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classjpcre2_1_1Regex_1aaa8d9b93cf5a8b9ebbb78923a1494445" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class RegexMatch</definition>
+        <argsstring></argsstring>
+        <name>RegexMatch</name>
+        <briefdescription>
+<para>Define <ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> as friends. It needs to access the compiled pattern which is a private property of this class. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="531" column="1" bodyfile="src/jpcre2.hpp" bodystart="531" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classjpcre2_1_1Regex_1a2547cb5380cbe0374ac0d44d34018dbb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class RegexReplace</definition>
+        <argsstring></argsstring>
+        <name>RegexReplace</name>
+        <briefdescription>
+<para>Define <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> as friends. It needs to access the compiled pattern which is a private property of this class. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="533" column="1" bodyfile="src/jpcre2.hpp" bodystart="533" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::init_vars</definition>
+        <argsstring>()</argsstring>
+        <name>init_vars</name>
+        <briefdescription>
+<para>Initialize class variables. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="480" column="1" bodyfile="src/jpcre2.hpp" bodystart="480" bodyend="489"/>
+        <references refid="namespacejpcre2_1adfdd3d1fff99e685734ae4e59771e84d" compoundref="jpcre2_8cpp" startline="46">jpcre2::LOCALE_DEFAULT</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a6df564d3dec70bbeec65de125c7d4de2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::init</definition>
+        <argsstring>()</argsstring>
+        <name>init</name>
+        <briefdescription>
+<para>Call <ref refid="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" kindref="member">Regex::init_vars()</ref> and initialize class variables. </para>        </briefdescription>
+        <detaileddescription>
+<para>This function should not be attempted to call after creating object. To re-initialize class variables at a later stage after creating object, use the <ref refid="classjpcre2_1_1Regex_1a91f6afe257e9633cbb79a98649ab8d02" kindref="member">Regex::reset()</ref> function. This function is private and should remain as such. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="496" column="1" bodyfile="src/jpcre2.hpp" bodystart="496" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1aedc5f414e5fa401e1a91614cfab0b033" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::init</definition>
+        <argsstring>(const String &amp;re, const String &amp;mod)</argsstring>
+        <name>init</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>mod</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> pattern </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Modifier string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="503" column="1" bodyfile="src/jpcre2.hpp" bodystart="503" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1adbda074677e393438452190e55a971d0" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::init</definition>
+        <argsstring>(const String &amp;re, Uint po, Uint jo)</argsstring>
+        <name>init</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>po</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>jo</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> pattern </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>po</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PCRE2 options </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>jo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JPCRE2 options </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="513" column="1" bodyfile="src/jpcre2.hpp" bodystart="513" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a40128e1facd915e06089eeb17e2287c2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::freeRegexMemory</definition>
+        <argsstring>(void)</argsstring>
+        <name>freeRegexMemory</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Free code if it&apos;s non-NULL. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="521" column="1" bodyfile="src/jpcre2.hpp" bodystart="521" bodyend="524"/>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="101" endline="133">deepCopy</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::parseCompileOpts</definition>
+        <argsstring>(void)</argsstring>
+        <name>parseCompileOpts</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="classjpcre2_1_1Regex_1ab4447726c0cedd7868a600ea7db876a8" kindref="member">modifier</ref> and set equivalent PCRE2 and JPCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+<para>After a call to this function <ref refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" kindref="member">compile_opts</ref> and <ref refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" kindref="member">jpcre2_compile_opts</ref> will be properly set. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="528" column="1" bodyfile="src/jpcre2.cpp" bodystart="135" bodyend="187"/>
+        <references refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" compoundref="jpcre2_8hpp" startline="474">compile_opts</references>
+        <references refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" compoundref="jpcre2_8hpp" startline="472">error_number</references>
+        <references refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" compoundref="jpcre2_8hpp" startline="473">error_offset</references>
+        <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" compoundref="jpcre2_8hpp" startline="91">jpcre2::ERROR::INVALID_MODIFIER</references>
+        <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" compoundref="jpcre2_8hpp" startline="107">jpcre2::JIT_COMPILE</references>
+        <references refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" compoundref="jpcre2_8hpp" startline="475">jpcre2_compile_opts</references>
+        <references refid="classjpcre2_1_1Regex_1ab4447726c0cedd7868a600ea7db876a8" compoundref="jpcre2_8hpp" startline="470">modifier</references>
+        <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" compoundref="jpcre2_8hpp" startline="105">jpcre2::VALIDATE_MODIFIER</references>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">compile</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::shallowCopy</definition>
+        <argsstring>(const Regex &amp;r)</argsstring>
+        <name>shallowCopy</name>
+        <param>
+          <type>const <ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Do a shallow copy of class variables. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="536" column="1" bodyfile="src/jpcre2.hpp" bodystart="536" bodyend="545"/>
+        <references refid="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" compoundref="jpcre2_8hpp" startline="469">pat_str</references>
+        <references refid="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" compoundref="jpcre2_8hpp" startline="476">mylocale</references>
+        <references refid="classjpcre2_1_1Regex_1ab4447726c0cedd7868a600ea7db876a8" compoundref="jpcre2_8hpp" startline="470">modifier</references>
+        <references refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" compoundref="jpcre2_8hpp" startline="472">error_number</references>
+        <references refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" compoundref="jpcre2_8hpp" startline="473">error_offset</references>
+        <references refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" compoundref="jpcre2_8hpp" startline="474">compile_opts</references>
+        <references refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" compoundref="jpcre2_8hpp" startline="475">jpcre2_compile_opts</references>
+        <references refid="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" compoundref="jpcre2_8hpp" startline="477">current_warning_msg</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::deepCopy</definition>
+        <argsstring>(const Regex &amp;r)</argsstring>
+        <name>deepCopy</name>
+        <param>
+          <type>const <ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Do a deep copy of <ref refid="classjpcre2_1_1Regex_1a447925705d222dbbd8c7d60b98cc65f0" kindref="member">rm</ref>, <ref refid="classjpcre2_1_1Regex_1a5a7ac6c6288988079b8933b4b6637fab" kindref="member">rr</ref> and <ref refid="classjpcre2_1_1Regex_1a2742264206d8976c413b474b7bac4b2e" kindref="member">code</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="548" column="1" bodyfile="src/jpcre2.cpp" bodystart="101" bodyend="133"/>
+        <references refid="classjpcre2_1_1Regex_1a2742264206d8976c413b474b7bac4b2e" compoundref="jpcre2_8hpp" startline="471">code</references>
+        <references refid="classjpcre2_1_1Regex_1a40128e1facd915e06089eeb17e2287c2" compoundref="jpcre2_8hpp" startline="521" endline="524">freeRegexMemory</references>
+        <references refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" compoundref="jpcre2_8hpp" startline="475">jpcre2_compile_opts</references>
+        <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" compoundref="jpcre2_8hpp" startline="107">jpcre2::JIT_COMPILE</references>
+        <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" compoundref="jpcre2_8hpp" startline="108">jpcre2::ERROR_ALL</references>
+        <references refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" compoundref="jpcre2_8hpp" startline="472">error_number</references>
+        <references refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" compoundref="jpcre2_8hpp" startline="473">error_offset</references>
+        <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e" compoundref="jpcre2_8hpp" startline="92">jpcre2::ERROR::JIT_COMPILE_FAILED</references>
+        <references refid="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" compoundref="jpcre2_8hpp" startline="477">current_warning_msg</references>
+        <references refid="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" compoundref="jpcre2_8cpp" startline="47">jpcre2::JIT_ERROR_MESSAGE_PREFIX</references>
+        <references refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="80" endline="84">jpcre2::utils::getPcre2ErrorMessage</references>
+        <references refid="classjpcre2_1_1Regex_1a447925705d222dbbd8c7d60b98cc65f0" compoundref="jpcre2_8hpp" startline="466">rm</references>
+        <references refid="classjpcre2_1_1Regex_1a5a7ac6c6288988079b8933b4b6637fab" compoundref="jpcre2_8hpp" startline="467">rr</references>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a302f65cd5747c5d34570ca76516ab715" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::Regex::Regex</definition>
+        <argsstring>()</argsstring>
+        <name>Regex</name>
+        <briefdescription>
+<para>Default Constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para>Initializes all class variables to defaults. Does not perform any compilation. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="555" column="1" bodyfile="src/jpcre2.hpp" bodystart="555" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a4d959fdc32791bee6d819abfc44af51a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::Regex::Regex</definition>
+        <argsstring>(const String &amp;re)</argsstring>
+        <name>Regex</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <briefdescription>
+<para>Compiles pattern with initialization. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pattern string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="562" column="1" bodyfile="src/jpcre2.hpp" bodystart="562" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a58be9b4e1eaec2a43586af45c6ae5549" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::Regex::Regex</definition>
+        <argsstring>(const String &amp;re, const String &amp;mod)</argsstring>
+        <name>Regex</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>mod</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </para>        </briefdescription>
+        <detaileddescription>
+<para>Compiles pattern. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pattern string </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Modifier string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="573" column="1" bodyfile="src/jpcre2.hpp" bodystart="573" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a8f8a1eabf09292b782a6f33287e3fee4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::Regex::Regex</definition>
+        <argsstring>(const String &amp;re, Uint pcre2_opts)</argsstring>
+        <name>Regex</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>pcre2_opts</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </para>        </briefdescription>
+        <detaileddescription>
+<para>Compiles pattern. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pattern string </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pcre2_opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PCRE2 option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="584" column="1" bodyfile="src/jpcre2.hpp" bodystart="584" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1abe210e2ca6cfcef11760875930cf069d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::Regex::Regex</definition>
+        <argsstring>(const String &amp;re, Uint pcre2_opts, Uint opt_bits)</argsstring>
+        <name>Regex</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>pcre2_opts</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>opt_bits</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </para>        </briefdescription>
+        <detaileddescription>
+<para>Compiles pattern. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pattern string </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pcre2_opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PCRE2 option value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>opt_bits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JPCRE2 option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="596" column="1" bodyfile="src/jpcre2.hpp" bodystart="596" bodyend="598"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1ae03bb99a5bc8f945e693ddc34706f0c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::Regex::Regex</definition>
+        <argsstring>(const Regex &amp;r)</argsstring>
+        <name>Regex</name>
+        <param>
+          <type>const <ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Copy constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para>Compiles pattern and Performs a deep copy. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>const <ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp; </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="603" column="1" bodyfile="src/jpcre2.hpp" bodystart="603" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1ab43a14b4b6e75b7fa3221bc18a1d4121" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::operator=</definition>
+        <argsstring>(const Regex &amp;r)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Overloaded assignment operator. </para>        </briefdescription>
+        <detaileddescription>
+<para>Performs a deep copy <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>const <ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp; </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="613" column="1" bodyfile="src/jpcre2.hpp" bodystart="613" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a12b2bf254b59d7967681b77795c49260" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::Regex::~Regex</definition>
+        <argsstring>()</argsstring>
+        <name>~Regex</name>
+        <briefdescription>
+<para>Destructor Deletes memory used by <ref refid="classjpcre2_1_1Regex_1a447925705d222dbbd8c7d60b98cc65f0" kindref="member">rm</ref> an <ref refid="classjpcre2_1_1Regex_1a5a7ac6c6288988079b8933b4b6637fab" kindref="member">rr</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="624" column="1" bodyfile="src/jpcre2.hpp" bodystart="624" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a91f6afe257e9633cbb79a98649ab8d02" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <briefdescription>
+<para>Reset all class variables to its default (initial) state. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="633" column="1" bodyfile="src/jpcre2.hpp" bodystart="633" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1acc597ee58b9d5ab35d6e1f98b6118175" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::getModifier</definition>
+        <argsstring>()</argsstring>
+        <name>getModifier</name>
+        <briefdescription>
+<para>Get modifier string. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classjpcre2_1_1Regex_1ab4447726c0cedd7868a600ea7db876a8" kindref="member">modifier</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="642" column="1" bodyfile="src/jpcre2.hpp" bodystart="642" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a006dd17f71a2d717aa9575d72fac6d7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::getPattern</definition>
+        <argsstring>()</argsstring>
+        <name>getPattern</name>
+        <briefdescription>
+<para>Get pattern string. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" kindref="member">pat_str</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="649" column="1" bodyfile="src/jpcre2.hpp" bodystart="649" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1ae9afaf627ed922a9e4cee8074d30edfa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::getLocale</definition>
+        <argsstring>()</argsstring>
+        <name>getLocale</name>
+        <briefdescription>
+<para>Get locale as a string. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" kindref="member">mylocale</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="656" column="1" bodyfile="src/jpcre2.hpp" bodystart="656" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a857307fc59ba7f010b097e61c1744923" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>Uint jpcre2::Regex::getPcre2Option</definition>
+        <argsstring>()</argsstring>
+        <name>getPcre2Option</name>
+        <briefdescription>
+<para>Get PCRE2 option. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" kindref="member">compile_opts</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="663" column="1" bodyfile="src/jpcre2.hpp" bodystart="663" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a5d2d04eb7c393338a4c8cce941e957ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>Uint jpcre2::Regex::getJpcre2Option</definition>
+        <argsstring>()</argsstring>
+        <name>getJpcre2Option</name>
+        <briefdescription>
+<para>Get JPCRE2 option. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" kindref="member">jpcre2_compile_opts</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="670" column="1" bodyfile="src/jpcre2.hpp" bodystart="670" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>jpcre2::String jpcre2::Regex::getErrorMessage</definition>
+        <argsstring>(int err_num, PCRE2_SIZE err_off)</argsstring>
+        <name>getErrorMessage</name>
+        <param>
+          <type>int</type>
+          <declname>err_num</declname>
+        </param>
+        <param>
+          <type>PCRE2_SIZE</type>
+          <declname>err_off</declname>
+        </param>
+        <briefdescription>
+<para>Get error message by error number and error offset. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>err_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error number </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err_off</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error offset </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error message as a string </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="679" column="1" bodyfile="src/jpcre2.cpp" bodystart="89" bodyend="99"/>
+        <references refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="80" endline="84">jpcre2::utils::getPcre2ErrorMessage</references>
+        <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" compoundref="jpcre2_8hpp" startline="91">jpcre2::ERROR::INVALID_MODIFIER</references>
+        <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e" compoundref="jpcre2_8hpp" startline="92">jpcre2::ERROR::JIT_COMPILE_FAILED</references>
+        <references refid="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" compoundref="jpcre2_8cpp" startline="47">jpcre2::JIT_ERROR_MESSAGE_PREFIX</references>
+        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="64" endline="72">jpcre2::utils::toString</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a76fddd42bf11dd66c25905fb92437d6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::getErrorMessage</definition>
+        <argsstring>(int err_num)</argsstring>
+        <name>getErrorMessage</name>
+        <param>
+          <type>int</type>
+          <declname>err_num</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Use class variable error_offest as error offset. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>err_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error message as a string </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="686" column="1" bodyfile="src/jpcre2.hpp" bodystart="686" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a8606fff8b192c94f58ca9e82aa048c61" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::getErrorMessage</definition>
+        <argsstring>()</argsstring>
+        <name>getErrorMessage</name>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Use class variable error_number as error number and error_offest as error offset. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Error message as a string (empty if there is no error) </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="694" column="1" bodyfile="src/jpcre2.hpp" bodystart="694" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a1a639ae4090b88609c03e9268faf02d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::getWarningMessage</definition>
+        <argsstring>()</argsstring>
+        <name>getWarningMessage</name>
+        <briefdescription>
+<para>Get current warning message. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" kindref="member">current_warning_msg</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="700" column="1" bodyfile="src/jpcre2.hpp" bodystart="700" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a7294273e7d11907a749f2db40da9ed15" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int jpcre2::Regex::getErrorNumber</definition>
+        <argsstring>()</argsstring>
+        <name>getErrorNumber</name>
+        <briefdescription>
+<para>Get error number return <ref refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" kindref="member">error_number</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="706" column="1" bodyfile="src/jpcre2.hpp" bodystart="706" bodyend="708"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a1c7822056cd7ac9a6be5e18513bd8093" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>PCRE2_SIZE</type>
+        <definition>PCRE2_SIZE jpcre2::Regex::getErrorOffset</definition>
+        <argsstring>()</argsstring>
+        <name>getErrorOffset</name>
+        <briefdescription>
+<para>Get error offset return <ref refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" kindref="member">error_offset</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="712" column="1" bodyfile="src/jpcre2.hpp" bodystart="712" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a85d9a514ea86ae68533223adac6c6bd8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::setPattern</definition>
+        <argsstring>(const String &amp;re)</argsstring>
+        <name>setPattern</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <briefdescription>
+<para>Set the Pattern string <ref refid="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" kindref="member">pat_str</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pattern string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="719" column="1" bodyfile="src/jpcre2.hpp" bodystart="719" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1aed9865b58c60945e19f36fa310f5a595" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::setModifier</definition>
+        <argsstring>(const String &amp;x)</argsstring>
+        <name>setModifier</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Set the modifier <ref refid="classjpcre2_1_1Regex_1ab4447726c0cedd7868a600ea7db876a8" kindref="member">modifier</ref> (overwrite existing JPCRE2 and PCRE2 option). </para>        </briefdescription>
+        <detaileddescription>
+<para>Re-initializes the option bits for PCRE2 and JPCRE2 options, then sets the modifier. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Modifier string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="728" column="1" bodyfile="src/jpcre2.hpp" bodystart="728" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a56721534519e5cb436337043eee8f42d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::setLocale</definition>
+        <argsstring>(const String &amp;x)</argsstring>
+        <name>setLocale</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Set the locale <ref refid="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" kindref="member">mylocale</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Locale string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="737" column="1" bodyfile="src/jpcre2.hpp" bodystart="737" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a031617a19638ef752dcd2b29fa3464d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::setJpcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>setJpcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Set JPCRE2 option <ref refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" kindref="member">jpcre2_compile_opts</ref> (overwrites existing option) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="745" column="1" bodyfile="src/jpcre2.hpp" bodystart="745" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1acdc6f97f4030ae109c4e1a4e2310bceb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::setPcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>setPcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Set PCRE2 option <ref refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" kindref="member">compile_opts</ref> (overwrites existing option) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="753" column="1" bodyfile="src/jpcre2.hpp" bodystart="753" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a03974fa7ba8f7c47186cb8d6f54934de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::addJpcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>addJpcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Add option to existing JPCRE2 options <ref refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" kindref="member">jpcre2_compile_opts</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="761" column="1" bodyfile="src/jpcre2.hpp" bodystart="761" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a2c7dcf12f26b2b046e147b013c8b5087" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::addPcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>addPcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Add option to existing PCRE2 options <ref refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" kindref="member">compile_opts</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="769" column="1" bodyfile="src/jpcre2.hpp" bodystart="769" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a91ffbc407562d4526fd21bc7b63a0a49" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::removeJpcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>removeJpcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Remove option from existing JPCRE2 option <ref refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" kindref="member">jpcre2_compile_opts</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="777" column="1" bodyfile="src/jpcre2.hpp" bodystart="777" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a09b14cf78ae3a3302533783b7fab40a8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> &amp;</type>
+        <definition>Regex&amp; jpcre2::Regex::removePcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>removePcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Remove option from existing PCRE2 option <ref refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" kindref="member">compile_opts</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="785" column="1" bodyfile="src/jpcre2.hpp" bodystart="785" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::compile</definition>
+        <argsstring>(void)</argsstring>
+        <name>compile</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Compile the regex pattern <ref refid="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" kindref="member">pat_str</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para>Use options set in class variables. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="793" column="1" bodyfile="src/jpcre2.cpp" bodystart="189" bodyend="235"/>
+        <references refid="classjpcre2_1_1Regex_1a2742264206d8976c413b474b7bac4b2e" compoundref="jpcre2_8hpp" startline="471">code</references>
+        <references refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" compoundref="jpcre2_8hpp" startline="474">compile_opts</references>
+        <references refid="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" compoundref="jpcre2_8hpp" startline="477">current_warning_msg</references>
+        <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" compoundref="jpcre2_8hpp" startline="108">jpcre2::ERROR_ALL</references>
+        <references refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" compoundref="jpcre2_8hpp" startline="472">error_number</references>
+        <references refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" compoundref="jpcre2_8hpp" startline="473">error_offset</references>
+        <references refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="80" endline="84">jpcre2::utils::getPcre2ErrorMessage</references>
+        <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" compoundref="jpcre2_8hpp" startline="107">jpcre2::JIT_COMPILE</references>
+        <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e" compoundref="jpcre2_8hpp" startline="92">jpcre2::ERROR::JIT_COMPILE_FAILED</references>
+        <references refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" compoundref="jpcre2_8hpp" startline="475">jpcre2_compile_opts</references>
+        <references refid="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5" compoundref="jpcre2_8cpp" startline="45">jpcre2::LOCALE_NONE</references>
+        <references refid="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" compoundref="jpcre2_8hpp" startline="476">mylocale</references>
+        <references refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" compoundref="jpcre2_8cpp" startline="135" endline="187">parseCompileOpts</references>
+        <references refid="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" compoundref="jpcre2_8hpp" startline="469">pat_str</references>
+        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="64" endline="72">jpcre2::utils::toString</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a4640915bc907aa3b80da543f1eb7e74f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::compile</definition>
+        <argsstring>(const String &amp;re, Uint po, Uint jo)</argsstring>
+        <name>compile</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>po</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>jo</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Initializes with class variables, sets the specified parameters, then compiles the pattern. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pattern string </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>po</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PCRE2 option </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>jo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JPCRE2 option </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="801" column="1" bodyfile="src/jpcre2.hpp" bodystart="801" bodyend="804"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a01394dcb222c4d442cabbffb4bcf570a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::compile</definition>
+        <argsstring>(const String &amp;re, Uint po)</argsstring>
+        <name>compile</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>po</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Initializes with class variables, sets the specified parameters, then compiles the pattern. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pattern string </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>po</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PCRE2 option </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="811" column="1" bodyfile="src/jpcre2.hpp" bodystart="811" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1acd49e856009160c622e90b81b6557d8d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::compile</definition>
+        <argsstring>(const String &amp;re, const String &amp;mod)</argsstring>
+        <name>compile</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>mod</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Initializes with class variables, sets the specified parameters, then compiles the pattern. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pattern string </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Modifier string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="821" column="1" bodyfile="src/jpcre2.hpp" bodystart="821" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a81687ca434654cae776c2854c3618de0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::Regex::compile</definition>
+        <argsstring>(const String &amp;re)</argsstring>
+        <name>compile</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>re</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Initializes with class variables, sets the specified parameters, then compiles the pattern. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>re</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pattern string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="830" column="1" bodyfile="src/jpcre2.hpp" bodystart="830" bodyend="833"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1ab93775a93a0a537d09b9e9ab4a5a3894" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c" kindref="member">SIZE_T</ref></type>
+        <definition>SIZE_T jpcre2::Regex::match</definition>
+        <argsstring>(const String &amp;s, const String &amp;mod)</argsstring>
+        <name>match</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>mod</declname>
+        </param>
+        <briefdescription>
+<para>Perform regex match. </para>        </briefdescription>
+        <detaileddescription>
+<para>This function takes the parameters, then sets the parameters to <ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> class and calls <ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">RegexMatch::match()</ref> which returns the result <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subject string </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Modifier string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Match count </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">RegexMatch::match()</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="843" column="1" bodyfile="src/jpcre2.hpp" bodystart="843" bodyend="849"/>
+        <references refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" compoundref="jpcre2_8cpp" startline="446" endline="755">jpcre2::RegexMatch::match</references>
+        <references refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" compoundref="jpcre2_8hpp" startline="132">jpcre2::RegexMatch::re</references>
+        <references refid="classjpcre2_1_1RegexMatch_1a9df7e92f96b61553f62720cb8f5f23e5" compoundref="jpcre2_8hpp" startline="231" endline="235">jpcre2::RegexMatch::setModifier</references>
+        <references refid="classjpcre2_1_1RegexMatch_1a635c652195deaa8ebb9e107c4f972aab" compoundref="jpcre2_8hpp" startline="222" endline="225">jpcre2::RegexMatch::setSubject</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a9ffbb6aa54cb97125f1b4211bc1d09a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c" kindref="member">SIZE_T</ref></type>
+        <definition>SIZE_T jpcre2::Regex::match</definition>
+        <argsstring>(const String &amp;s)</argsstring>
+        <name>match</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subject string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Match count </para></simplesect>
+<simplesect kind="see"><para>RegexMatch::match(const String&amp; s) </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="856" column="1" bodyfile="src/jpcre2.hpp" bodystart="856" bodyend="862"/>
+        <references refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" compoundref="jpcre2_8cpp" startline="446" endline="755">jpcre2::RegexMatch::match</references>
+        <references refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" compoundref="jpcre2_8hpp" startline="132">jpcre2::RegexMatch::re</references>
+        <references refid="classjpcre2_1_1RegexMatch_1a635c652195deaa8ebb9e107c4f972aab" compoundref="jpcre2_8hpp" startline="222" endline="225">jpcre2::RegexMatch::setSubject</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1a519b0915bf1163c6ce6a4d674b30cfcd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> &amp;</type>
+        <definition>RegexMatch&amp; jpcre2::Regex::initMatch</definition>
+        <argsstring>()</argsstring>
+        <name>initMatch</name>
+        <briefdescription>
+<para>Prepare to call <ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">RegexMatch::match()</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para>Other options can be set with the setter functions of <ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> class in-between the <ref refid="classjpcre2_1_1Regex_1a519b0915bf1163c6ce6a4d674b30cfcd" kindref="member">Regex::initMatch()</ref> and <ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">RegexMatch::match()</ref> call. <simplesect kind="return"><para><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> object </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">RegexMatch::match()</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexMatch_1a635c652195deaa8ebb9e107c4f972aab" kindref="member">RegexMatch::setSubject(const String&amp; s)</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexMatch_1a9df7e92f96b61553f62720cb8f5f23e5" kindref="member">RegexMatch::setModifier(const String&amp; mod)</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexMatch_1a2c7efe1ec2e13827f670db4ecedcd0a0" kindref="member">RegexMatch::setNumberedSubstringVector(VecNum* vec_num)</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexMatch_1ae495431f57cae54363331237ab21b56c" kindref="member">RegexMatch::setNamedSubstringVector(VecNas* vec_nas)</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexMatch_1a04926e61d8b5f1d8bdf344efecd567d8" kindref="member">RegexMatch::setNameToNumberMapVector(VecNtN* vec_ntn)</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="875" column="1" bodyfile="src/jpcre2.hpp" bodystart="875" bodyend="880"/>
+        <references refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" compoundref="jpcre2_8hpp" startline="132">jpcre2::RegexMatch::re</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::replace</definition>
+        <argsstring>(const String &amp;mains, const String &amp;repl, const String &amp;mod)</argsstring>
+        <name>replace</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>mains</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>repl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>mod</declname>
+        </param>
+        <briefdescription>
+<para>Perform regex replace. </para>        </briefdescription>
+        <detaileddescription>
+<para>This function takes the parameters, then sets the parameters to <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> class and calls <ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">RegexReplace::replace()</ref> which returns the result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mains</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subject string </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>repl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to replace with </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Modifier string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resultant string after regex replace </para></simplesect>
+<simplesect kind="see"><para>RegexReplace::replace(const String&amp; s, const String&amp; r, const String&amp; m) </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="891" column="1" bodyfile="src/jpcre2.hpp" bodystart="891" bodyend="897"/>
+        <references refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" compoundref="jpcre2_8hpp" startline="315">jpcre2::RegexReplace::re</references>
+        <references refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="271" endline="329">jpcre2::RegexReplace::replace</references>
+        <references refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" compoundref="jpcre2_8hpp" startline="378" endline="382">jpcre2::RegexReplace::setModifier</references>
+        <references refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" compoundref="jpcre2_8hpp" startline="369" endline="372">jpcre2::RegexReplace::setReplaceWith</references>
+        <references refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" compoundref="jpcre2_8hpp" startline="360" endline="363">jpcre2::RegexReplace::setSubject</references>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="271" endline="329">jpcre2::RegexReplace::replace</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1addd7c21abd0f4cf6c532a7602cfb5835" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::replace</definition>
+        <argsstring>(const String &amp;mains, const String &amp;repl)</argsstring>
+        <name>replace</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>mains</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>repl</declname>
+        </param>
+        <briefdescription>
+<para>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mains</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subject string </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>repl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to replace with </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resultant string after regex replace </para></simplesect>
+<simplesect kind="see"><para>RegexReplace::replace(const String&amp; s, const String&amp; r) </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="905" column="1" bodyfile="src/jpcre2.hpp" bodystart="905" bodyend="911"/>
+        <references refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" compoundref="jpcre2_8hpp" startline="315">jpcre2::RegexReplace::re</references>
+        <references refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="271" endline="329">jpcre2::RegexReplace::replace</references>
+        <references refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" compoundref="jpcre2_8hpp" startline="369" endline="372">jpcre2::RegexReplace::setReplaceWith</references>
+        <references refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" compoundref="jpcre2_8hpp" startline="360" endline="363">jpcre2::RegexReplace::setSubject</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1ad13b367b6351b7e4ee51472488f68394" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::Regex::replace</definition>
+        <argsstring>(const String &amp;mains)</argsstring>
+        <name>replace</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>mains</declname>
+        </param>
+        <briefdescription>
+<para>Perform regex replace. </para>        </briefdescription>
+        <detaileddescription>
+<para>This function takes the parameters, then passes the parameters to the appropriate function RegexReplace::replace(const String&amp; s) which returns the result <simplesect kind="see"><para>RegexReplace::replace(const String&amp; s) </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="918" column="1" bodyfile="src/jpcre2.hpp" bodystart="918" bodyend="924"/>
+        <references refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" compoundref="jpcre2_8hpp" startline="315">jpcre2::RegexReplace::re</references>
+        <references refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="271" endline="329">jpcre2::RegexReplace::replace</references>
+        <references refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" compoundref="jpcre2_8hpp" startline="360" endline="363">jpcre2::RegexReplace::setSubject</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::Regex::initReplace</definition>
+        <argsstring>()</argsstring>
+        <name>initReplace</name>
+        <briefdescription>
+<para>Prepare to call <ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">RegexReplace::replace()</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para>Other options can be set with the setter functions of <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> class in-between the <ref refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" kindref="member">Regex::initReplace()</ref> and <ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">RegexReplace::replace()</ref> call. <simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">RegexReplace::replace()</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" kindref="member">RegexReplace::setSubject(const String&amp; s)</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" kindref="member">RegexReplace::setModifier(const String&amp; mod)</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" kindref="member">RegexReplace::setReplaceWith(const String&amp; s)</ref> </para></simplesect>
+<simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexReplace_1a452dd2632031a13b39c13b792f18a491" kindref="member">RegexReplace::setBufferSize(PCRE2_SIZE x)</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="935" column="1" bodyfile="src/jpcre2.hpp" bodystart="935" bodyend="940"/>
+        <references refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" compoundref="jpcre2_8hpp" startline="315">jpcre2::RegexReplace::re</references>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>This class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables. </para>    </briefdescription>
+    <detaileddescription>
+<para>Each regex pattern needs an object of this class.</para><para>A pattern must be compiled either by explicitly calling the compile function or using one of the parameterized constructors. </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="15">
+        <label>jpcre2::RegexReplace</label>
+        <link refid="classjpcre2_1_1RegexReplace"/>
+        <childnode refid="13" relation="usage">
+          <edgelabel>-re</edgelabel>
+        </childnode>
+      </node>
+      <node id="13">
+        <label>jpcre2::Regex</label>
+        <link refid="classjpcre2_1_1Regex"/>
+        <childnode refid="14" relation="usage">
+          <edgelabel>-rm</edgelabel>
+        </childnode>
+        <childnode refid="15" relation="usage">
+          <edgelabel>-rr</edgelabel>
+        </childnode>
+      </node>
+      <node id="14">
+        <label>jpcre2::RegexMatch</label>
+        <link refid="classjpcre2_1_1RegexMatch"/>
+        <childnode refid="13" relation="usage">
+          <edgelabel>-re</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/jpcre2.hpp" line="462" column="1" bodyfile="src/jpcre2.hpp" bodystart="462" bodyend="942"/>
+    <listofallmembers>
+      <member refid="classjpcre2_1_1Regex_1a03974fa7ba8f7c47186cb8d6f54934de" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>addJpcre2Option</name></member>
+      <member refid="classjpcre2_1_1Regex_1a2c7dcf12f26b2b046e147b013c8b5087" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>addPcre2Option</name></member>
+      <member refid="classjpcre2_1_1Regex_1a2742264206d8976c413b474b7bac4b2e" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>code</name></member>
+      <member refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>compile</name></member>
+      <member refid="classjpcre2_1_1Regex_1a4640915bc907aa3b80da543f1eb7e74f" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>compile</name></member>
+      <member refid="classjpcre2_1_1Regex_1a01394dcb222c4d442cabbffb4bcf570a" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>compile</name></member>
+      <member refid="classjpcre2_1_1Regex_1acd49e856009160c622e90b81b6557d8d" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>compile</name></member>
+      <member refid="classjpcre2_1_1Regex_1a81687ca434654cae776c2854c3618de0" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>compile</name></member>
+      <member refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>compile_opts</name></member>
+      <member refid="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>current_warning_msg</name></member>
+      <member refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>deepCopy</name></member>
+      <member refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>error_number</name></member>
+      <member refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>error_offset</name></member>
+      <member refid="classjpcre2_1_1Regex_1a40128e1facd915e06089eeb17e2287c2" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>freeRegexMemory</name></member>
+      <member refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getErrorMessage</name></member>
+      <member refid="classjpcre2_1_1Regex_1a76fddd42bf11dd66c25905fb92437d6b" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getErrorMessage</name></member>
+      <member refid="classjpcre2_1_1Regex_1a8606fff8b192c94f58ca9e82aa048c61" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getErrorMessage</name></member>
+      <member refid="classjpcre2_1_1Regex_1a7294273e7d11907a749f2db40da9ed15" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getErrorNumber</name></member>
+      <member refid="classjpcre2_1_1Regex_1a1c7822056cd7ac9a6be5e18513bd8093" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getErrorOffset</name></member>
+      <member refid="classjpcre2_1_1Regex_1a5d2d04eb7c393338a4c8cce941e957ef" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getJpcre2Option</name></member>
+      <member refid="classjpcre2_1_1Regex_1ae9afaf627ed922a9e4cee8074d30edfa" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getLocale</name></member>
+      <member refid="classjpcre2_1_1Regex_1acc597ee58b9d5ab35d6e1f98b6118175" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getModifier</name></member>
+      <member refid="classjpcre2_1_1Regex_1a006dd17f71a2d717aa9575d72fac6d7b" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getPattern</name></member>
+      <member refid="classjpcre2_1_1Regex_1a857307fc59ba7f010b097e61c1744923" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getPcre2Option</name></member>
+      <member refid="classjpcre2_1_1Regex_1a1a639ae4090b88609c03e9268faf02d8" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>getWarningMessage</name></member>
+      <member refid="classjpcre2_1_1Regex_1a6df564d3dec70bbeec65de125c7d4de2" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>init</name></member>
+      <member refid="classjpcre2_1_1Regex_1aedc5f414e5fa401e1a91614cfab0b033" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>init</name></member>
+      <member refid="classjpcre2_1_1Regex_1adbda074677e393438452190e55a971d0" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>init</name></member>
+      <member refid="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>init_vars</name></member>
+      <member refid="classjpcre2_1_1Regex_1a519b0915bf1163c6ce6a4d674b30cfcd" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>initMatch</name></member>
+      <member refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>initReplace</name></member>
+      <member refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>jpcre2_compile_opts</name></member>
+      <member refid="classjpcre2_1_1Regex_1ab93775a93a0a537d09b9e9ab4a5a3894" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>match</name></member>
+      <member refid="classjpcre2_1_1Regex_1a9ffbb6aa54cb97125f1b4211bc1d09a5" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>match</name></member>
+      <member refid="classjpcre2_1_1Regex_1ab4447726c0cedd7868a600ea7db876a8" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>modifier</name></member>
+      <member refid="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>mylocale</name></member>
+      <member refid="classjpcre2_1_1Regex_1ab43a14b4b6e75b7fa3221bc18a1d4121" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>operator=</name></member>
+      <member refid="classjpcre2_1_1Regex_1a0430f0a7643258cba9dc1c29ad3bc31e" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>parseCompileOpts</name></member>
+      <member refid="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>pat_str</name></member>
+      <member refid="classjpcre2_1_1Regex_1a302f65cd5747c5d34570ca76516ab715" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>Regex</name></member>
+      <member refid="classjpcre2_1_1Regex_1a4d959fdc32791bee6d819abfc44af51a" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>Regex</name></member>
+      <member refid="classjpcre2_1_1Regex_1a58be9b4e1eaec2a43586af45c6ae5549" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>Regex</name></member>
+      <member refid="classjpcre2_1_1Regex_1a8f8a1eabf09292b782a6f33287e3fee4" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>Regex</name></member>
+      <member refid="classjpcre2_1_1Regex_1abe210e2ca6cfcef11760875930cf069d" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>Regex</name></member>
+      <member refid="classjpcre2_1_1Regex_1ae03bb99a5bc8f945e693ddc34706f0c0" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>Regex</name></member>
+      <member refid="classjpcre2_1_1Regex_1aaa8d9b93cf5a8b9ebbb78923a1494445" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>RegexMatch</name></member>
+      <member refid="classjpcre2_1_1Regex_1a2547cb5380cbe0374ac0d44d34018dbb" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>RegexReplace</name></member>
+      <member refid="classjpcre2_1_1Regex_1a91ffbc407562d4526fd21bc7b63a0a49" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>removeJpcre2Option</name></member>
+      <member refid="classjpcre2_1_1Regex_1a09b14cf78ae3a3302533783b7fab40a8" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>removePcre2Option</name></member>
+      <member refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>replace</name></member>
+      <member refid="classjpcre2_1_1Regex_1addd7c21abd0f4cf6c532a7602cfb5835" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>replace</name></member>
+      <member refid="classjpcre2_1_1Regex_1ad13b367b6351b7e4ee51472488f68394" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>replace</name></member>
+      <member refid="classjpcre2_1_1Regex_1a91f6afe257e9633cbb79a98649ab8d02" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>reset</name></member>
+      <member refid="classjpcre2_1_1Regex_1a447925705d222dbbd8c7d60b98cc65f0" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>rm</name></member>
+      <member refid="classjpcre2_1_1Regex_1a5a7ac6c6288988079b8933b4b6637fab" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>rr</name></member>
+      <member refid="classjpcre2_1_1Regex_1a031617a19638ef752dcd2b29fa3464d5" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>setJpcre2Option</name></member>
+      <member refid="classjpcre2_1_1Regex_1a56721534519e5cb436337043eee8f42d" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>setLocale</name></member>
+      <member refid="classjpcre2_1_1Regex_1aed9865b58c60945e19f36fa310f5a595" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>setModifier</name></member>
+      <member refid="classjpcre2_1_1Regex_1a85d9a514ea86ae68533223adac6c6bd8" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>setPattern</name></member>
+      <member refid="classjpcre2_1_1Regex_1acdc6f97f4030ae109c4e1a4e2310bceb" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>setPcre2Option</name></member>
+      <member refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" prot="private" virt="non-virtual"><scope>jpcre2::Regex</scope><name>shallowCopy</name></member>
+      <member refid="classjpcre2_1_1Regex_1a12b2bf254b59d7967681b77795c49260" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>~Regex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

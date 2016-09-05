@@ -118,7 +118,7 @@ $(document).ready(function(){initNavTree('jpcre2_8hpp.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>Main header file for JPCRE library to be included by programs that call JPCRE2 functions.  
+<p>Main header file for JPCRE2 library to be included by programs that uses its functionalities.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;pcre2.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
@@ -155,13 +155,13 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs regex replace on a string.  <a href="classjpcre2_1_1RegexReplace.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1Regex.html">jpcre2::Regex</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the main class that is to be used to perform all JPCRE2 related actions.  <a href="classjpcre2_1_1Regex.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables.  <a href="classjpcre2_1_1Regex.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacejpcre2"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html">jpcre2</a></td></tr>
-<tr class="memdesc:namespacejpcre2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main namespace of JPCRE2. <br /></td></tr>
+<tr class="memdesc:namespacejpcre2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top level namespace of JPCRE2. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacejpcre2_1_1ERROR"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1ERROR.html">jpcre2::ERROR</a></td></tr>
 <tr class="memdesc:namespacejpcre2_1_1ERROR"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for error codes. <br /></td></tr>
@@ -252,8 +252,8 @@ String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="na
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a80cb201f2e733137b22a8ed98465096a"><td class="memItemLeft" align="right" valign="top">const SIZE_T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">jpcre2::SUBSTITUTE_RESULT_INIT_SIZE</a></td></tr>
-<tr class="memdesc:a80cb201f2e733137b22a8ed98465096a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used by default to provide big enough buffer for replaced string.  <a href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">More...</a><br /></td></tr>
+<tr class="memitem:a80cb201f2e733137b22a8ed98465096a"><td class="memItemLeft" align="right" valign="top">const SIZE_T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">jpcre2::SUBSTITUTE_RESULT_INIT_SIZE</a> = std::numeric_limits&lt;int&gt;::max()</td></tr>
+<tr class="memdesc:a80cb201f2e733137b22a8ed98465096a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used by default to provide big enough initial buffer for replaced string.  <a href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">More...</a><br /></td></tr>
 <tr class="separator:a80cb201f2e733137b22a8ed98465096a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2236dcdcc14d580724b256ce7f168e5"><td class="memItemLeft" align="right" valign="top">const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5">jpcre2::LOCALE_NONE</a> = &quot;JPCRE2_NONE&quot;</td></tr>
 <tr class="memdesc:ad2236dcdcc14d580724b256ce7f168e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Don't do anything about locale if it is set to <a class="el" href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5" title="Don&#39;t do anything about locale if it is set to LOCALE_NONE. ">LOCALE_NONE</a>.  <a href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5">More...</a><br /></td></tr>
@@ -267,15 +267,16 @@ const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="separator:abf6c3bff9268a572c299958d334ff26e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Main header file for JPCRE library to be included by programs that call JPCRE2 functions. </p>
-<p>It includes the pcre2.h header, therefore you shouldn't include pcre2.h separately in your program. Make sure to link pcre2 library when compiling. If you are using JPCRE2 as a library, then link this library too. </p><dl class="section author"><dt>Author</dt><dd>Md. Jahidul Hamid. </dd></dl>
+<div class="textblock"><p>Main header file for JPCRE2 library to be included by programs that uses its functionalities. </p>
+<p>It includes the pcre2.h header, therefore you shouldn't include pcre2.h separately in your program. Make sure to link both <a class="el" href="namespacejpcre2.html" title="Top level namespace of JPCRE2. ">jpcre2</a> and pcre2 library when compiling.</p>
+<p>If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you still need to link with pcre2 library </p><dl class="section author"><dt>Author</dt><dd>Md. Jahidul Hamid. </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="jpcre2_8hpp.html">jpcre2.hpp</a></li>
-    <li class="footer">Generated by
+    <li class="footer">Generated on Mon Sep 5 2016 22:32:01 for JPCRE2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -15,59 +15,103 @@ jpcre2::RegexReplace \- Performs regex replace on a string\&.
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBsetSubject\fP (const \fBString\fP &s)"
 .br
-.RI "\fISet the subject string\&. \fP"
+.RI "\fISet the subject string \fBr_subject\fP\&. \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBsetReplaceWith\fP (const \fBString\fP &s)"
 .br
-.RI "\fISet the replacement string\&. \fP"
+.RI "\fISet the replacement string \fBr_replw\fP\&. \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBsetModifier\fP (const \fBString\fP &s)"
 .br
-.RI "\fISet the modifier string (overwrites existing JPCRE2 and PCRE2 option)\&. \fP"
+.RI "\fISet the modifier string \fBr_modifier\fP (overwrites existing JPCRE2 and PCRE2 option)\&. \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBsetBufferSize\fP (PCRE2_SIZE x)"
 .br
-.RI "\fISet the initial buffer size to be allocated for replaced string (used by PCRE2) \fP"
+.RI "\fISet the initial buffer size (\fBbuffer_size\fP) to be allocated for replaced string (used by PCRE2) \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBsetJpcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fISet JPCRE2 option (overwrites existing option) \fP"
+.RI "\fISet JPCRE2 option \fBjpcre2_replace_opts\fP (overwrite existing option) \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBsetPcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fISet PCRE2 option (overwrites existing option) \fP"
+.RI "\fISet PCRE2 option \fBreplace_opts\fP (overwrite existing option) \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBaddJpcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fIAdd specified JPCRE2 option to existing options\&. \fP"
+.RI "\fIAdd specified JPCRE2 option to existing options \fBjpcre2_replace_opts\fP\&. \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBaddPcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fIAdd specified PCRE2 option to existing options\&. \fP"
+.RI "\fIAdd specified PCRE2 option to existing options \fBreplace_opts\fP\&. \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBremoveJpcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fIRemove JPCRE2 option from existing options\&. \fP"
+.RI "\fIRemove JPCRE2 option from existing options \fBjpcre2_replace_opts\fP\&. \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBremovePcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fIRemove PCRE2 option from existing options\&. \fP"
+.RI "\fIRemove PCRE2 option from existing options \fBreplace_opts\fP\&. \fP"
 .ti -1c
 .RI "\fBString\fP \fBreplace\fP (void)"
 .br
-.RI "\fIReturns a replaced string after performing regex replace\&. \fP"
+.RI "\fIReturns the resultant string after performing regex replace\&. \fP"
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
 .ti -1c
-.RI "\fBString\fP \fBreplace\fP (const \fBString\fP &s, const \fBString\fP &r, const \fBString\fP &m)"
+.RI "void \fBparseReplacementOpts\fP (void)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "\fIParse \fBr_modifier\fP and set equivalent PCRE2 and JPCRE2 options\&. \fP"
 .ti -1c
-.RI "\fBString\fP \fBreplace\fP (const \fBString\fP &s, const \fBString\fP &r)"
+.RI "void \fBinit_vars\fP ()"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "\fIInitialize class variables\&. \fP"
 .ti -1c
-.RI "\fBString\fP \fBreplace\fP (const \fBString\fP &s)"
+.RI "\fBRegexReplace\fP ()"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "\fIDefault constructor\&. \fP"
+.ti -1c
+.RI "\fBRegexReplace\fP (const \fBRegexReplace\fP &)"
+.br
+.RI "\fIThis is a copy constructor which is only used to prevent public object creation\&. \fP"
+.ti -1c
+.RI "\fB~RegexReplace\fP ()"
+.br
+.RI "\fIDestructor\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBRegex\fP * \fBre\fP"
+.br
+.RI "\fIThis is used to access private members in \fBRegex\fP\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBr_subject\fP"
+.br
+.RI "\fISubject string for replace\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBr_modifier\fP"
+.br
+.RI "\fIModifier string for replace\&. \fP"
+.ti -1c
+.RI "\fBString\fP \fBr_replw\fP"
+.br
+.RI "\fIReplacement string i\&.e string to replace with\&. \fP"
+.ti -1c
+.RI "\fBUint\fP \fBreplace_opts\fP"
+.br
+.RI "\fIPCRE2 options for pcre2_substitute() (PCRE2 internal function) \fP"
+.ti -1c
+.RI "\fBUint\fP \fBjpcre2_replace_opts\fP"
+.br
+.RI "\fIJPCRE2 options\&. \fP"
+.ti -1c
+.RI "PCRE2_SIZE \fBbuffer_size\fP"
+.br
+.RI "\fISize of the resultant string after replacement\&. \fP"
 .in -1c
 .SS "Friends"
 
@@ -81,15 +125,29 @@ jpcre2::RegexReplace \- Performs regex replace on a string\&.
 .PP 
 Performs regex replace on a string\&. 
 
-Provides overloaded and chained methods to set various options\&.
+Provides chained methods to set various options\&.
 .PP
 All constructors of this class are private\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "jpcre2::RegexReplace::RegexReplace ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Default constructor\&. Initialize class variables 
+.SS "jpcre2::RegexReplace::RegexReplace (const \fBRegexReplace\fP &)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+This is a copy constructor which is only used to prevent public object creation\&. No need to implement it completely 
+.SS "jpcre2::RegexReplace::~RegexReplace ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Destructor\&. Nothing to be done here\&. 
 .SH "Member Function Documentation"
 .PP 
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::addJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
 
 .PP
-Add specified JPCRE2 option to existing options\&. 
+Add specified JPCRE2 option to existing options \fBjpcre2_replace_opts\fP\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -105,7 +163,7 @@ Add specified JPCRE2 option to existing options\&.
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::addPcre2Option (\fBUint\fP x)\fC [inline]\fP"
 
 .PP
-Add specified PCRE2 option to existing options\&. 
+Add specified PCRE2 option to existing options \fBreplace_opts\fP\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -118,10 +176,16 @@ Add specified PCRE2 option to existing options\&.
 .RE
 .PP
 
+.SS "void jpcre2::RegexReplace::parseReplacementOpts (void)\fC [private]\fP"
+
+.PP
+Parse \fBr_modifier\fP and set equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBreplace_opts\fP and \fBjpcre2_replace_opts\fP will be properly set\&. 
+.PP
+References jpcre2::ERROR::INVALID_MODIFIER, and jpcre2::VALIDATE_MODIFIER\&.
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::removeJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
 
 .PP
-Remove JPCRE2 option from existing options\&. 
+Remove JPCRE2 option from existing options \fBjpcre2_replace_opts\fP\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -137,7 +201,7 @@ Remove JPCRE2 option from existing options\&.
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::removePcre2Option (\fBUint\fP x)\fC [inline]\fP"
 
 .PP
-Remove PCRE2 option from existing options\&. 
+Remove PCRE2 option from existing options \fBreplace_opts\fP\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -153,61 +217,22 @@ Remove PCRE2 option from existing options\&.
 .SS "\fBjpcre2::String\fP jpcre2::RegexReplace::replace (void)"
 
 .PP
-Returns a replaced string after performing regex replace\&. 
+Returns the resultant string after performing regex replace\&. 
 .PP
 \fBReturns:\fP
 .RS 4
-Resultant string after regex replace 
+Replaced string 
 .RE
 .PP
 
 .PP
-References jpcre2::FIND_ALL, jpcre2::ERROR::INVALID_MODIFIER, jpcre2::Regex::replace(), jpcre2::utils::toString(), and jpcre2::VALIDATE_MODIFIER\&.
+References jpcre2::Regex::replace(), and jpcre2::utils::toString()\&.
 .PP
 Referenced by jpcre2::Regex::replace()\&.
-.SS "\fBString\fP jpcre2::RegexReplace::replace (const \fBString\fP & s, const \fBString\fP & r, const \fBString\fP & m)\fC [inline]\fP"
-
-.PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIs\fP Subject string 
-.br
-\fIr\fP Replacement string (string to replace with) 
-.br
-\fIm\fP Modifier string 
-.RE
-.PP
-
-.SS "\fBString\fP jpcre2::RegexReplace::replace (const \fBString\fP & s, const \fBString\fP & r)\fC [inline]\fP"
-
-.PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIs\fP Subject string 
-.br
-\fIr\fP Replacement string (string to replace with) 
-.RE
-.PP
-
-.SS "\fBString\fP jpcre2::RegexReplace::replace (const \fBString\fP & s)\fC [inline]\fP"
-
-.PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIs\fP Subject string 
-.RE
-.PP
-
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::setBufferSize (PCRE2_SIZE x)\fC [inline]\fP"
 
 .PP
-Set the initial buffer size to be allocated for replaced string (used by PCRE2) 
+Set the initial buffer size (\fBbuffer_size\fP) to be allocated for replaced string (used by PCRE2) 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -223,7 +248,7 @@ Set the initial buffer size to be allocated for replaced string (used by PCRE2)
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::setJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
 
 .PP
-Set JPCRE2 option (overwrites existing option) 
+Set JPCRE2 option \fBjpcre2_replace_opts\fP (overwrite existing option) 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -239,7 +264,7 @@ Set JPCRE2 option (overwrites existing option)
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::setModifier (const \fBString\fP & s)\fC [inline]\fP"
 
 .PP
-Set the modifier string (overwrites existing JPCRE2 and PCRE2 option)\&. 
+Set the modifier string \fBr_modifier\fP (overwrites existing JPCRE2 and PCRE2 option)\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -252,10 +277,12 @@ Set the modifier string (overwrites existing JPCRE2 and PCRE2 option)\&.
 .RE
 .PP
 
+.PP
+Referenced by jpcre2::Regex::replace()\&.
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::setPcre2Option (\fBUint\fP x)\fC [inline]\fP"
 
 .PP
-Set PCRE2 option (overwrites existing option) 
+Set PCRE2 option \fBreplace_opts\fP (overwrite existing option) 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -271,7 +298,7 @@ Set PCRE2 option (overwrites existing option)
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::setReplaceWith (const \fBString\fP & s)\fC [inline]\fP"
 
 .PP
-Set the replacement string\&. 
+Set the replacement string \fBr_replw\fP\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -284,10 +311,12 @@ Set the replacement string\&.
 .RE
 .PP
 
+.PP
+Referenced by jpcre2::Regex::replace()\&.
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::setSubject (const \fBString\fP & s)\fC [inline]\fP"
 
 .PP
-Set the subject string\&. 
+Set the subject string \fBr_subject\fP\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -300,6 +329,8 @@ Set the subject string\&.
 .RE
 .PP
 
+.PP
+Referenced by jpcre2::Regex::replace()\&.
 
 .SH "Author"
 .PP 

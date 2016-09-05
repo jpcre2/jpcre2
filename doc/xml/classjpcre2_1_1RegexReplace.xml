@@ -1,0 +1,535 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classjpcre2_1_1RegexReplace" kind="class" language="C++" prot="public">
+    <compoundname>jpcre2::RegexReplace</compoundname>
+    <includes refid="jpcre2_8hpp" local="no">jpcre2.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" prot="private" static="no" mutable="no">
+        <type><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> *</type>
+        <definition>Regex* jpcre2::RegexReplace::re</definition>
+        <argsstring></argsstring>
+        <name>re</name>
+        <briefdescription>
+<para>This is used to access private members in <ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="315" column="1" bodyfile="src/jpcre2.hpp" bodystart="315" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" compoundref="jpcre2_8hpp" startline="891" endline="897">jpcre2::Regex::replace</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" compoundref="jpcre2_8hpp" startline="935" endline="940">jpcre2::Regex::initReplace</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1RegexReplace_1a2290e5d9f1c2336abd431fef97e72c93" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::RegexReplace::r_subject</definition>
+        <argsstring></argsstring>
+        <name>r_subject</name>
+        <briefdescription>
+<para>Subject string for replace. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="317" column="1" bodyfile="src/jpcre2.hpp" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1RegexReplace_1a3e6b848c7ad8f53cc17f49a6038930ec" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::RegexReplace::r_modifier</definition>
+        <argsstring></argsstring>
+        <name>r_modifier</name>
+        <briefdescription>
+<para>Modifier string for replace. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="318" column="1" bodyfile="src/jpcre2.hpp" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1RegexReplace_1a73d0da1aac8b83a0a47b24629b5013f4" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>String jpcre2::RegexReplace::r_replw</definition>
+        <argsstring></argsstring>
+        <name>r_replw</name>
+        <briefdescription>
+<para>Replacement string i.e string to replace with. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="319" column="1" bodyfile="src/jpcre2.hpp" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1RegexReplace_1afc79699cfcad8b7cbb26864b6b67cdc7" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>Uint jpcre2::RegexReplace::replace_opts</definition>
+        <argsstring></argsstring>
+        <name>replace_opts</name>
+        <briefdescription>
+<para>PCRE2 options for pcre2_substitute() (PCRE2 internal function) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="320" column="1" bodyfile="src/jpcre2.hpp" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1RegexReplace_1acf13bcb16918df4b7bcaa7e49a1c7d59" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>Uint jpcre2::RegexReplace::jpcre2_replace_opts</definition>
+        <argsstring></argsstring>
+        <name>jpcre2_replace_opts</name>
+        <briefdescription>
+<para>JPCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="321" column="1" bodyfile="src/jpcre2.hpp" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1RegexReplace_1a44abce541819ceb51e342411b48e95cb" prot="private" static="no" mutable="no">
+        <type>PCRE2_SIZE</type>
+        <definition>PCRE2_SIZE jpcre2::RegexReplace::buffer_size</definition>
+        <argsstring></argsstring>
+        <name>buffer_size</name>
+        <briefdescription>
+<para>Size of the resultant string after replacement. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="322" column="1" bodyfile="src/jpcre2.hpp" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classjpcre2_1_1RegexReplace_1a1f6f7620b7d2218c6c2a6a47f432ea6a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class Regex</definition>
+        <argsstring></argsstring>
+        <name>Regex</name>
+        <briefdescription>
+<para>Define <ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref> as a friend so that it can create object of this class. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="352" column="1" bodyfile="src/jpcre2.hpp" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1aa31df9e8422dd9a767f2cc5fe4aaaf0e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::RegexReplace::parseReplacementOpts</definition>
+        <argsstring>(void)</argsstring>
+        <name>parseReplacementOpts</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="classjpcre2_1_1RegexReplace_1a3e6b848c7ad8f53cc17f49a6038930ec" kindref="member">r_modifier</ref> and set equivalent PCRE2 and JPCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+<para>After a call to this function <ref refid="classjpcre2_1_1RegexReplace_1afc79699cfcad8b7cbb26864b6b67cdc7" kindref="member">replace_opts</ref> and <ref refid="classjpcre2_1_1RegexReplace_1acf13bcb16918df4b7bcaa7e49a1c7d59" kindref="member">jpcre2_replace_opts</ref> will be properly set. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="326" column="1" bodyfile="src/jpcre2.cpp" bodystart="240" bodyend="269"/>
+        <references refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" compoundref="jpcre2_8hpp" startline="91">jpcre2::ERROR::INVALID_MODIFIER</references>
+        <references refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" compoundref="jpcre2_8hpp" startline="105">jpcre2::VALIDATE_MODIFIER</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void jpcre2::RegexReplace::init_vars</definition>
+        <argsstring>()</argsstring>
+        <name>init_vars</name>
+        <briefdescription>
+<para>Initialize class variables. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="329" column="1" bodyfile="src/jpcre2.hpp" bodystart="329" bodyend="332"/>
+        <references refid="namespacejpcre2_1a80cb201f2e733137b22a8ed98465096a" compoundref="jpcre2_8cpp" startline="44">jpcre2::SUBSTITUTE_RESULT_INIT_SIZE</references>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1ac50687b874800c827a6fa623b9b35753" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::RegexReplace::RegexReplace</definition>
+        <argsstring>()</argsstring>
+        <name>RegexReplace</name>
+        <briefdescription>
+<para>Default constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para>Initialize class variables </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="336" column="1" bodyfile="src/jpcre2.hpp" bodystart="336" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1a257d326d57af9ccbc7a45b002c34ed0a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::RegexReplace::RegexReplace</definition>
+        <argsstring>(const RegexReplace &amp;)</argsstring>
+        <name>RegexReplace</name>
+        <param>
+          <type>const <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        </param>
+        <briefdescription>
+<para>This is a copy constructor which is only used to prevent public object creation. </para>        </briefdescription>
+        <detaileddescription>
+<para>No need to implement it completely </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="342" column="1" bodyfile="src/jpcre2.hpp" bodystart="342" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1ab27102839e7ff0914bcd204d750097ac" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::RegexReplace::~RegexReplace</definition>
+        <argsstring>()</argsstring>
+        <name>~RegexReplace</name>
+        <briefdescription>
+<para>Destructor. </para>        </briefdescription>
+        <detaileddescription>
+<para>Nothing to be done here. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="348" column="1" bodyfile="src/jpcre2.hpp" bodystart="348" bodyend="349"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::setSubject</definition>
+        <argsstring>(const String &amp;s)</argsstring>
+        <name>setSubject</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Set the subject string <ref refid="classjpcre2_1_1RegexReplace_1a2290e5d9f1c2336abd431fef97e72c93" kindref="member">r_subject</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subject string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="360" column="1" bodyfile="src/jpcre2.hpp" bodystart="360" bodyend="363"/>
+        <referencedby refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" compoundref="jpcre2_8hpp" startline="891" endline="897">jpcre2::Regex::replace</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::setReplaceWith</definition>
+        <argsstring>(const String &amp;s)</argsstring>
+        <name>setReplaceWith</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Set the replacement string <ref refid="classjpcre2_1_1RegexReplace_1a73d0da1aac8b83a0a47b24629b5013f4" kindref="member">r_replw</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String to replace with </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="369" column="1" bodyfile="src/jpcre2.hpp" bodystart="369" bodyend="372"/>
+        <referencedby refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" compoundref="jpcre2_8hpp" startline="891" endline="897">jpcre2::Regex::replace</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::setModifier</definition>
+        <argsstring>(const String &amp;s)</argsstring>
+        <name>setModifier</name>
+        <param>
+          <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Set the modifier string <ref refid="classjpcre2_1_1RegexReplace_1a3e6b848c7ad8f53cc17f49a6038930ec" kindref="member">r_modifier</ref> (overwrites existing JPCRE2 and PCRE2 option). </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Modifier string </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="378" column="1" bodyfile="src/jpcre2.hpp" bodystart="378" bodyend="382"/>
+        <referencedby refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" compoundref="jpcre2_8hpp" startline="891" endline="897">jpcre2::Regex::replace</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1a452dd2632031a13b39c13b792f18a491" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::setBufferSize</definition>
+        <argsstring>(PCRE2_SIZE x)</argsstring>
+        <name>setBufferSize</name>
+        <param>
+          <type>PCRE2_SIZE</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Set the initial buffer size (<ref refid="classjpcre2_1_1RegexReplace_1a44abce541819ceb51e342411b48e95cb" kindref="member">buffer_size</ref>) to be allocated for replaced string (used by PCRE2) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer size </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="388" column="1" bodyfile="src/jpcre2.hpp" bodystart="388" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1a745ab0b979035214a83ed0a04686ef6a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::setJpcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>setJpcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Set JPCRE2 option <ref refid="classjpcre2_1_1RegexReplace_1acf13bcb16918df4b7bcaa7e49a1c7d59" kindref="member">jpcre2_replace_opts</ref> (overwrite existing option) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="397" column="1" bodyfile="src/jpcre2.hpp" bodystart="397" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1aec36272d351fdc3a8cb02a4a3efea5a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::setPcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>setPcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Set PCRE2 option <ref refid="classjpcre2_1_1RegexReplace_1afc79699cfcad8b7cbb26864b6b67cdc7" kindref="member">replace_opts</ref> (overwrite existing option) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="406" column="1" bodyfile="src/jpcre2.hpp" bodystart="406" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1a3f86b1e11d08d0153a08244771e59061" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::addJpcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>addJpcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Add specified JPCRE2 option to existing options <ref refid="classjpcre2_1_1RegexReplace_1acf13bcb16918df4b7bcaa7e49a1c7d59" kindref="member">jpcre2_replace_opts</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="415" column="1" bodyfile="src/jpcre2.hpp" bodystart="415" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1a3cfd03568b23bebcbb530a2c120b5d33" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::addPcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>addPcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Add specified PCRE2 option to existing options <ref refid="classjpcre2_1_1RegexReplace_1afc79699cfcad8b7cbb26864b6b67cdc7" kindref="member">replace_opts</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="424" column="1" bodyfile="src/jpcre2.hpp" bodystart="424" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1a6fbfd673dbb865e6248bc527ba45f2f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::removeJpcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>removeJpcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Remove JPCRE2 option from existing options <ref refid="classjpcre2_1_1RegexReplace_1acf13bcb16918df4b7bcaa7e49a1c7d59" kindref="member">jpcre2_replace_opts</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="433" column="1" bodyfile="src/jpcre2.hpp" bodystart="433" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1adafa76534134e0c9b5342499478fd396" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
+        <definition>RegexReplace&amp; jpcre2::RegexReplace::removePcre2Option</definition>
+        <argsstring>(Uint x)</argsstring>
+        <name>removePcre2Option</name>
+        <param>
+          <type><ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Remove PCRE2 option from existing options <ref refid="classjpcre2_1_1RegexReplace_1afc79699cfcad8b7cbb26864b6b67cdc7" kindref="member">replace_opts</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>*this </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="442" column="1" bodyfile="src/jpcre2.hpp" bodystart="442" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>jpcre2::String jpcre2::RegexReplace::replace</definition>
+        <argsstring>(void)</argsstring>
+        <name>replace</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the resultant string after performing regex replace. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Replaced string </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="450" column="1" bodyfile="src/jpcre2.cpp" bodystart="271" bodyend="329"/>
+        <references refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" compoundref="jpcre2_8hpp" startline="891" endline="897">jpcre2::Regex::replace</references>
+        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="64" endline="72">jpcre2::utils::toString</references>
+        <referencedby refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" compoundref="jpcre2_8hpp" startline="891" endline="897">jpcre2::Regex::replace</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Performs regex replace on a string. </para>    </briefdescription>
+    <detaileddescription>
+<para>Provides chained methods to set various options.</para><para>All constructors of this class are private. </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="21">
+        <label>jpcre2::RegexReplace</label>
+        <link refid="classjpcre2_1_1RegexReplace"/>
+        <childnode refid="22" relation="usage">
+          <edgelabel>-re</edgelabel>
+        </childnode>
+      </node>
+      <node id="22">
+        <label>jpcre2::Regex</label>
+        <link refid="classjpcre2_1_1Regex"/>
+        <childnode refid="23" relation="usage">
+          <edgelabel>-rm</edgelabel>
+        </childnode>
+        <childnode refid="21" relation="usage">
+          <edgelabel>-rr</edgelabel>
+        </childnode>
+      </node>
+      <node id="23">
+        <label>jpcre2::RegexMatch</label>
+        <link refid="classjpcre2_1_1RegexMatch"/>
+        <childnode refid="22" relation="usage">
+          <edgelabel>-re</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/jpcre2.hpp" line="311" column="1" bodyfile="src/jpcre2.hpp" bodystart="311" bodyend="451"/>
+    <listofallmembers>
+      <member refid="classjpcre2_1_1RegexReplace_1a3f86b1e11d08d0153a08244771e59061" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>addJpcre2Option</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a3cfd03568b23bebcbb530a2c120b5d33" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>addPcre2Option</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a44abce541819ceb51e342411b48e95cb" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>buffer_size</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>init_vars</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1acf13bcb16918df4b7bcaa7e49a1c7d59" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>jpcre2_replace_opts</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1aa31df9e8422dd9a767f2cc5fe4aaaf0e" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>parseReplacementOpts</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a3e6b848c7ad8f53cc17f49a6038930ec" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>r_modifier</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a73d0da1aac8b83a0a47b24629b5013f4" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>r_replw</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a2290e5d9f1c2336abd431fef97e72c93" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>r_subject</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>re</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a1f6f7620b7d2218c6c2a6a47f432ea6a" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>Regex</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1ac50687b874800c827a6fa623b9b35753" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>RegexReplace</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a257d326d57af9ccbc7a45b002c34ed0a" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>RegexReplace</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a6fbfd673dbb865e6248bc527ba45f2f7" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>removeJpcre2Option</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1adafa76534134e0c9b5342499478fd396" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>removePcre2Option</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>replace</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1afc79699cfcad8b7cbb26864b6b67cdc7" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>replace_opts</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a452dd2632031a13b39c13b792f18a491" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>setBufferSize</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a745ab0b979035214a83ed0a04686ef6a" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>setJpcre2Option</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>setModifier</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1aec36272d351fdc3a8cb02a4a3efea5a2" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>setPcre2Option</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>setReplaceWith</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" prot="public" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>setSubject</name></member>
+      <member refid="classjpcre2_1_1RegexReplace_1ab27102839e7ff0914bcd204d750097ac" prot="private" virt="non-virtual"><scope>jpcre2::RegexReplace</scope><name>~RegexReplace</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -33,8 +33,6 @@
  *     POSSIBILITY OF SUCH DAMAGE.
  * */
 
-
-
 #include "jpcre2.hpp"
 
 #include <cstdio>   // snprintf
@@ -43,8 +41,7 @@
 #include <cstring>  // strlen
 
 /// Use max of int as the initial size of replaced string
-const jpcre2::SIZE_T jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<
-		int>::max();
+const jpcre2::SIZE_T jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max();
 const jpcre2::String jpcre2::LOCALE_NONE = "JPCRE2_NONE"; ///< Nothing to be done on locale
 const jpcre2::String jpcre2::LOCALE_DEFAULT = LOCALE_NONE; ///< Default local to be used
 const jpcre2::String jpcre2::JIT_ERROR_MESSAGE_PREFIX =
@@ -376,9 +373,6 @@ void jpcre2::RegexMatch::getNumberedSubstrings(int rc,
 		}
 		value = utils::toString((char*) *bufferptr);
 		///pcre2_substring_free(*bufferptr);
-		///must free memory, pcre2_substring_free() yields to segmentation fault in several cases ( try '(?<name>\d)?' )
-		/// (may be a bug?)
-		///Instead use free() to free the memory
 		::free(bufferptr);                  ///must free memory
 		if (num_map0)
 			(*num_map0)[i] = value; //This null check is paranoid, this function shouldn't be called if this map is null

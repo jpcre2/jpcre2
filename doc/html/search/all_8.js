@@ -1,9 +1,14 @@
 var searchData=
 [
-  ['mapnas',['MapNas',['../namespacejpcre2.html#a20bd901c9ca3c949806aa6b9e324f6cf',1,'jpcre2']]],
-  ['mapntn',['MapNtN',['../namespacejpcre2.html#a753ebedfb8caf4a16ffbf47d8d705656',1,'jpcre2::MapNtN()'],['../namespacejpcre2.html#a09243236543ef477ff7f284c52656ef9',1,'jpcre2::MapNtn()']]],
-  ['mapnum',['MapNum',['../namespacejpcre2.html#a947e37f0e4a1678157e7f1f855638e82',1,'jpcre2']]],
-  ['match',['match',['../classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33',1,'jpcre2::RegexMatch::match(void)'],['../classjpcre2_1_1RegexMatch.html#a1f7e98c68ab0c3ef248ca2fe96bc6ae1',1,'jpcre2::RegexMatch::match(const String &amp;s)'],['../classjpcre2_1_1RegexMatch.html#a5330454d20526d7d935de202c856a679',1,'jpcre2::RegexMatch::match(const String &amp;s, const String &amp;mod)'],['../classjpcre2_1_1Regex.html#ab93775a93a0a537d09b9e9ab4a5a3894',1,'jpcre2::Regex::match(const String &amp;s, const String &amp;mod)'],['../classjpcre2_1_1Regex.html#a9ffbb6aa54cb97125f1b4211bc1d09a5',1,'jpcre2::Regex::match(const String &amp;s)']]],
-  ['modifier',['modifier',['../classjpcre2_1_1Regex.html#ab4447726c0cedd7868a600ea7db876a8',1,'jpcre2::Regex']]],
-  ['mylocale',['mylocale',['../classjpcre2_1_1Regex.html#a92a3ad992cade62d103248302f7e2f2d',1,'jpcre2::Regex']]]
+  ['error',['ERROR',['../namespacejpcre2_1_1ERROR.html',1,'jpcre2']]],
+  ['jpcre2',['JPCRE2',['../index.html',1,'']]],
+  ['jit_5fcompile',['JIT_COMPILE',['../namespacejpcre2.html#a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e',1,'jpcre2']]],
+  ['jit_5fcompile_5ffailed',['JIT_COMPILE_FAILED',['../namespacejpcre2_1_1ERROR.html#a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e',1,'jpcre2::ERROR']]],
+  ['jit_5ferror_5fmessage_5fprefix',['JIT_ERROR_MESSAGE_PREFIX',['../namespacejpcre2.html#abf6c3bff9268a572c299958d334ff26e',1,'jpcre2']]],
+  ['jpcre2',['jpcre2',['../namespacejpcre2.html',1,'']]],
+  ['jpcre2_2ehpp',['jpcre2.hpp',['../jpcre2_8hpp.html',1,'']]],
+  ['jpcre2_5fcompile_5fopts',['jpcre2_compile_opts',['../classjpcre2_1_1Regex.html#abdd26c3bc1c3132f0aa73dde1690a7ef',1,'jpcre2::Regex']]],
+  ['jpcre2_5fmatch_5fopts',['jpcre2_match_opts',['../classjpcre2_1_1RegexMatch.html#a70d62df887eeed237724f64fbc378700',1,'jpcre2::RegexMatch']]],
+  ['jpcre2_5freplace_5fopts',['jpcre2_replace_opts',['../classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59',1,'jpcre2::RegexReplace']]],
+  ['utils',['utils',['../namespacejpcre2_1_1utils.html',1,'jpcre2']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['substitute_5fresult_5finit_5fsize',['SUBSTITUTE_RESULT_INIT_SIZE',['../namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a',1,'jpcre2']]]
+  ['pat_5fstr',['pat_str',['../classjpcre2_1_1Regex.html#a0bceb85b6dbba355b56b5cc312214435',1,'jpcre2::Regex']]]
 ];

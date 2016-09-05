@@ -2,7 +2,7 @@
 .ad l
 .nh
 .SH NAME
-jpcre2.hpp \- Main header file for JPCRE library to be included by programs that call JPCRE2 functions\&.  
+jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs that uses its functionalities\&.  
 
 .SH SYNOPSIS
 .br
@@ -34,7 +34,7 @@ jpcre2.hpp \- Main header file for JPCRE library to be included by programs that
 .ti -1c
 .RI "class \fBjpcre2::Regex\fP"
 .br
-.RI "\fIThis is the main class that is to be used to perform all JPCRE2 related actions\&. \fP"
+.RI "\fIThis class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables\&. \fP"
 .in -1c
 .SS "Namespaces"
 
@@ -42,7 +42,7 @@ jpcre2.hpp \- Main header file for JPCRE library to be included by programs that
 .ti -1c
 .RI " \fBjpcre2\fP"
 .br
-.RI "\fIMain namespace of JPCRE2\&. \fP"
+.RI "\fITop level namespace of JPCRE2\&. \fP"
 .ti -1c
 .RI " \fBjpcre2::ERROR\fP"
 .br
@@ -137,9 +137,9 @@ jpcre2.hpp \- Main header file for JPCRE library to be included by programs that
 
 .in +1c
 .ti -1c
-.RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP"
+.RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
 .br
-.RI "\fIUsed by default to provide big enough buffer for replaced string\&. \fP"
+.RI "\fIUsed by default to provide big enough initial buffer for replaced string\&. \fP"
 .ti -1c
 .RI "const String \fBjpcre2::LOCALE_NONE\fP = 'JPCRE2_NONE'"
 .br
@@ -155,9 +155,11 @@ jpcre2.hpp \- Main header file for JPCRE library to be included by programs that
 .in -1c
 .SH "Detailed Description"
 .PP 
-Main header file for JPCRE library to be included by programs that call JPCRE2 functions\&. 
+Main header file for JPCRE2 library to be included by programs that uses its functionalities\&. 
 
-It includes the pcre2\&.h header, therefore you shouldn't include pcre2\&.h separately in your program\&. Make sure to link pcre2 library when compiling\&. If you are using JPCRE2 as a library, then link this library too\&. 
+It includes the pcre2\&.h header, therefore you shouldn't include pcre2\&.h separately in your program\&. Make sure to link both \fBjpcre2\fP and pcre2 library when compiling\&.
+.PP
+If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you still need to link with pcre2 library 
 .PP
 \fBAuthor:\fP
 .RS 4

@@ -459,7 +459,7 @@ EXTRACT_LOCAL_METHODS = NO
 # are hidden.
 # The default value is: NO.
 
-EXTRACT_ANON_NSPACES = NO
+EXTRACT_ANON_NSPACES = YES
 
 # If the HIDE_UNDOC_MEMBERS tag is set to YES, doxygen will hide all
 # undocumented members inside documented classes or files. If set to NO these
@@ -737,7 +737,7 @@ WARN_IF_DOC_ERROR = YES
 # parameter documentation, but not about the absence of documentation.
 # The default value is: NO.
 
-WARN_NO_PARAMDOC = NO
+WARN_NO_PARAMDOC = YES
 
 # If the WARN_AS_ERROR tag is set to YES then doxygen will immediately stop when
 # a warning is encountered.
@@ -851,14 +851,14 @@ EXAMPLE_PATH = src/test_match.cpp src/test_match2.cpp src/test_replace.cpp src/t
 # *.h) to filter out the source-files in the directories. If left blank all
 # files are included.
 
-EXAMPLE_PATTERNS = 
+EXAMPLE_PATTERNS = *.cpp 
 
 # If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be
 # searched for input files to be used with the \include or \dontinclude commands
 # irrespective of the value of the RECURSIVE tag.
 # The default value is: NO.
 
-EXAMPLE_RECURSIVE = NO
+EXAMPLE_RECURSIVE = YES
 
 # The IMAGE_PATH tag can be used to specify one or more files or directories
 # that contain images that are to be included in the documentation (see the
@@ -1179,7 +1179,7 @@ HTML_COLORSTYLE_GAMMA = 80
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_TIMESTAMP = NO
+HTML_TIMESTAMP = YES
 
 # If the HTML_DYNAMIC_SECTIONS tag is set to YES then the generated HTML
 # documentation will contain sections that can be hidden and shown after the
@@ -1244,7 +1244,7 @@ DOCSET_PUBLISHER_ID = org.doxygen.Publisher
 # The default value is: Publisher.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_PUBLISHER_NAME = Hamid
+DOCSET_PUBLISHER_NAME = "Md Jahidul Hamid"
 
 # If the GENERATE_HTMLHELP tag is set to YES then doxygen generates three
 # additional HTML index files: index.hhp, index.hhc, and index.hhk. The
@@ -1884,7 +1884,7 @@ MAN_LINKS = NO
 # captures the structure of the code including all documentation.
 # The default value is: NO.
 
-GENERATE_XML = NO
+GENERATE_XML = YES
 
 # The XML_OUTPUT tag is used to specify where the XML pages will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
@@ -2121,7 +2121,7 @@ PERL_PATH = /usr/bin/perl
 # powerful graphs.
 # The default value is: YES.
 
-CLASS_DIAGRAMS = NO
+CLASS_DIAGRAMS = YES
 
 # You can define message sequence charts within doxygen comments using the \msc
 # command. Doxygen will then run the mscgen tool (see:
@@ -2218,7 +2218,7 @@ GROUP_GRAPHS = YES
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-UML_LOOK = NO
+UML_LOOK = YES
 
 # If the UML_LOOK tag is enabled, the fields and methods are shown inside the
 # class node. If there are many fields or methods and many nodes the graph may
@@ -2239,7 +2239,7 @@ UML_LIMIT_NUM_FIELDS = 10
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-TEMPLATE_RELATIONS = NO
+TEMPLATE_RELATIONS = YES
 
 # If the INCLUDE_GRAPH, ENABLE_PREPROCESSING and SEARCH_INCLUDES tags are set to
 # YES then doxygen will generate a graph for each documented file showing the

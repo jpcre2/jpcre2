@@ -108,6 +108,8 @@ $(document).ready(function(){initNavTree('classjpcre2_1_1RegexReplace.html','');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classjpcre2_1_1RegexReplace-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -119,64 +121,196 @@ $(document).ready(function(){initNavTree('classjpcre2_1_1RegexReplace.html','');
  <a href="classjpcre2_1_1RegexReplace.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="jpcre2_8hpp_source.html">jpcre2.hpp</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Collaboration diagram for jpcre2::RegexReplace:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classjpcre2_1_1RegexReplace__coll__graph.png" border="0" usemap="#jpcre2_1_1RegexReplace_coll__map" alt="Collaboration graph"/></div>
+<map name="jpcre2_1_1RegexReplace_coll__map" id="jpcre2_1_1RegexReplace_coll__map">
+<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html" title="This class implements public overloaded and copy constructors to provide different means of creating ..." alt="" coords="37,439,192,897"/>
+<area shape="rect" id="node3" href="classjpcre2_1_1RegexMatch.html" title="Performs regex matching. " alt="" coords="5,960,224,1448"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a46eefdb105827920bebc8436721fa4cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a46eefdb105827920bebc8436721fa4cb">setSubject</a> (const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;s)</td></tr>
-<tr class="memdesc:a46eefdb105827920bebc8436721fa4cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the subject string.  <a href="#a46eefdb105827920bebc8436721fa4cb">More...</a><br /></td></tr>
+<tr class="memdesc:a46eefdb105827920bebc8436721fa4cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the subject string <a class="el" href="classjpcre2_1_1RegexReplace.html#a2290e5d9f1c2336abd431fef97e72c93" title="Subject string for replace. ">r_subject</a>.  <a href="#a46eefdb105827920bebc8436721fa4cb">More...</a><br /></td></tr>
 <tr class="separator:a46eefdb105827920bebc8436721fa4cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1069f489de9b343493da2dc77b04c73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#af1069f489de9b343493da2dc77b04c73">setReplaceWith</a> (const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;s)</td></tr>
-<tr class="memdesc:af1069f489de9b343493da2dc77b04c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the replacement string.  <a href="#af1069f489de9b343493da2dc77b04c73">More...</a><br /></td></tr>
+<tr class="memdesc:af1069f489de9b343493da2dc77b04c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the replacement string <a class="el" href="classjpcre2_1_1RegexReplace.html#a73d0da1aac8b83a0a47b24629b5013f4" title="Replacement string i.e string to replace with. ">r_replw</a>.  <a href="#af1069f489de9b343493da2dc77b04c73">More...</a><br /></td></tr>
 <tr class="separator:af1069f489de9b343493da2dc77b04c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2abe2994b0fbe54950f88e63000c910"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#ae2abe2994b0fbe54950f88e63000c910">setModifier</a> (const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;s)</td></tr>
-<tr class="memdesc:ae2abe2994b0fbe54950f88e63000c910"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the modifier string (overwrites existing JPCRE2 and PCRE2 option).  <a href="#ae2abe2994b0fbe54950f88e63000c910">More...</a><br /></td></tr>
+<tr class="memdesc:ae2abe2994b0fbe54950f88e63000c910"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the modifier string <a class="el" href="classjpcre2_1_1RegexReplace.html#a3e6b848c7ad8f53cc17f49a6038930ec" title="Modifier string for replace. ">r_modifier</a> (overwrites existing JPCRE2 and PCRE2 option).  <a href="#ae2abe2994b0fbe54950f88e63000c910">More...</a><br /></td></tr>
 <tr class="separator:ae2abe2994b0fbe54950f88e63000c910"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a452dd2632031a13b39c13b792f18a491"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a452dd2632031a13b39c13b792f18a491">setBufferSize</a> (PCRE2_SIZE x)</td></tr>
-<tr class="memdesc:a452dd2632031a13b39c13b792f18a491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the initial buffer size to be allocated for replaced string (used by PCRE2)  <a href="#a452dd2632031a13b39c13b792f18a491">More...</a><br /></td></tr>
+<tr class="memdesc:a452dd2632031a13b39c13b792f18a491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the initial buffer size (<a class="el" href="classjpcre2_1_1RegexReplace.html#a44abce541819ceb51e342411b48e95cb" title="Size of the resultant string after replacement. ">buffer_size</a>) to be allocated for replaced string (used by PCRE2)  <a href="#a452dd2632031a13b39c13b792f18a491">More...</a><br /></td></tr>
 <tr class="separator:a452dd2632031a13b39c13b792f18a491"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a745ab0b979035214a83ed0a04686ef6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a745ab0b979035214a83ed0a04686ef6a">setJpcre2Option</a> (<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a> x)</td></tr>
-<tr class="memdesc:a745ab0b979035214a83ed0a04686ef6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set JPCRE2 option (overwrites existing option)  <a href="#a745ab0b979035214a83ed0a04686ef6a">More...</a><br /></td></tr>
+<tr class="memdesc:a745ab0b979035214a83ed0a04686ef6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set JPCRE2 option <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a> (overwrite existing option)  <a href="#a745ab0b979035214a83ed0a04686ef6a">More...</a><br /></td></tr>
 <tr class="separator:a745ab0b979035214a83ed0a04686ef6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec36272d351fdc3a8cb02a4a3efea5a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#aec36272d351fdc3a8cb02a4a3efea5a2">setPcre2Option</a> (<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a> x)</td></tr>
-<tr class="memdesc:aec36272d351fdc3a8cb02a4a3efea5a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PCRE2 option (overwrites existing option)  <a href="#aec36272d351fdc3a8cb02a4a3efea5a2">More...</a><br /></td></tr>
+<tr class="memdesc:aec36272d351fdc3a8cb02a4a3efea5a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PCRE2 option <a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7" title="PCRE2 options for pcre2_substitute() (PCRE2 internal function) ">replace_opts</a> (overwrite existing option)  <a href="#aec36272d351fdc3a8cb02a4a3efea5a2">More...</a><br /></td></tr>
 <tr class="separator:aec36272d351fdc3a8cb02a4a3efea5a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f86b1e11d08d0153a08244771e59061"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a3f86b1e11d08d0153a08244771e59061">addJpcre2Option</a> (<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a> x)</td></tr>
-<tr class="memdesc:a3f86b1e11d08d0153a08244771e59061"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add specified JPCRE2 option to existing options.  <a href="#a3f86b1e11d08d0153a08244771e59061">More...</a><br /></td></tr>
+<tr class="memdesc:a3f86b1e11d08d0153a08244771e59061"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add specified JPCRE2 option to existing options <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a>.  <a href="#a3f86b1e11d08d0153a08244771e59061">More...</a><br /></td></tr>
 <tr class="separator:a3f86b1e11d08d0153a08244771e59061"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cfd03568b23bebcbb530a2c120b5d33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a3cfd03568b23bebcbb530a2c120b5d33">addPcre2Option</a> (<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a> x)</td></tr>
-<tr class="memdesc:a3cfd03568b23bebcbb530a2c120b5d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add specified PCRE2 option to existing options.  <a href="#a3cfd03568b23bebcbb530a2c120b5d33">More...</a><br /></td></tr>
+<tr class="memdesc:a3cfd03568b23bebcbb530a2c120b5d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add specified PCRE2 option to existing options <a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7" title="PCRE2 options for pcre2_substitute() (PCRE2 internal function) ">replace_opts</a>.  <a href="#a3cfd03568b23bebcbb530a2c120b5d33">More...</a><br /></td></tr>
 <tr class="separator:a3cfd03568b23bebcbb530a2c120b5d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fbfd673dbb865e6248bc527ba45f2f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a6fbfd673dbb865e6248bc527ba45f2f7">removeJpcre2Option</a> (<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a> x)</td></tr>
-<tr class="memdesc:a6fbfd673dbb865e6248bc527ba45f2f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove JPCRE2 option from existing options.  <a href="#a6fbfd673dbb865e6248bc527ba45f2f7">More...</a><br /></td></tr>
+<tr class="memdesc:a6fbfd673dbb865e6248bc527ba45f2f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove JPCRE2 option from existing options <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a>.  <a href="#a6fbfd673dbb865e6248bc527ba45f2f7">More...</a><br /></td></tr>
 <tr class="separator:a6fbfd673dbb865e6248bc527ba45f2f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adafa76534134e0c9b5342499478fd396"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#adafa76534134e0c9b5342499478fd396">removePcre2Option</a> (<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a> x)</td></tr>
-<tr class="memdesc:adafa76534134e0c9b5342499478fd396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove PCRE2 option from existing options.  <a href="#adafa76534134e0c9b5342499478fd396">More...</a><br /></td></tr>
+<tr class="memdesc:adafa76534134e0c9b5342499478fd396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove PCRE2 option from existing options <a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7" title="PCRE2 options for pcre2_substitute() (PCRE2 internal function) ">replace_opts</a>.  <a href="#adafa76534134e0c9b5342499478fd396">More...</a><br /></td></tr>
 <tr class="separator:adafa76534134e0c9b5342499478fd396"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd087fa7a9bfedec802d1a3dd7edbdd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0">replace</a> (void)</td></tr>
-<tr class="memdesc:afd087fa7a9bfedec802d1a3dd7edbdd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a replaced string after performing regex replace.  <a href="#afd087fa7a9bfedec802d1a3dd7edbdd0">More...</a><br /></td></tr>
+<tr class="memdesc:afd087fa7a9bfedec802d1a3dd7edbdd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the resultant string after performing regex replace.  <a href="#afd087fa7a9bfedec802d1a3dd7edbdd0">More...</a><br /></td></tr>
 <tr class="separator:afd087fa7a9bfedec802d1a3dd7edbdd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36904dd7340bf23ed138b0379d9eff5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a36904dd7340bf23ed138b0379d9eff5f">replace</a> (const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;s, const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;r, const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;m)</td></tr>
-<tr class="memdesc:a36904dd7340bf23ed138b0379d9eff5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.  <a href="#a36904dd7340bf23ed138b0379d9eff5f">More...</a><br /></td></tr>
-<tr class="separator:a36904dd7340bf23ed138b0379d9eff5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66a7eb99c0068505e7ce0fad8c6179d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a66a7eb99c0068505e7ce0fad8c6179d0">replace</a> (const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;s, const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;r)</td></tr>
-<tr class="memdesc:a66a7eb99c0068505e7ce0fad8c6179d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.  <a href="#a66a7eb99c0068505e7ce0fad8c6179d0">More...</a><br /></td></tr>
-<tr class="separator:a66a7eb99c0068505e7ce0fad8c6179d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b6df93ba03638b58f658a69ebb6326d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a4b6df93ba03638b58f658a69ebb6326d">replace</a> (const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;s)</td></tr>
-<tr class="memdesc:a4b6df93ba03638b58f658a69ebb6326d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.  <a href="#a4b6df93ba03638b58f658a69ebb6326d">More...</a><br /></td></tr>
-<tr class="separator:a4b6df93ba03638b58f658a69ebb6326d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:aa31df9e8422dd9a767f2cc5fe4aaaf0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#aa31df9e8422dd9a767f2cc5fe4aaaf0e">parseReplacementOpts</a> (void)</td></tr>
+<tr class="memdesc:aa31df9e8422dd9a767f2cc5fe4aaaf0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse <a class="el" href="classjpcre2_1_1RegexReplace.html#a3e6b848c7ad8f53cc17f49a6038930ec" title="Modifier string for replace. ">r_modifier</a> and set equivalent PCRE2 and JPCRE2 options.  <a href="#aa31df9e8422dd9a767f2cc5fe4aaaf0e">More...</a><br /></td></tr>
+<tr class="separator:aa31df9e8422dd9a767f2cc5fe4aaaf0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a462810e8fc902f09e475a164e81cc5f5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a462810e8fc902f09e475a164e81cc5f5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a462810e8fc902f09e475a164e81cc5f5">init_vars</a> ()</td></tr>
+<tr class="memdesc:a462810e8fc902f09e475a164e81cc5f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize class variables. <br /></td></tr>
+<tr class="separator:a462810e8fc902f09e475a164e81cc5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac50687b874800c827a6fa623b9b35753"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#ac50687b874800c827a6fa623b9b35753">RegexReplace</a> ()</td></tr>
+<tr class="memdesc:ac50687b874800c827a6fa623b9b35753"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#ac50687b874800c827a6fa623b9b35753">More...</a><br /></td></tr>
+<tr class="separator:ac50687b874800c827a6fa623b9b35753"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a257d326d57af9ccbc7a45b002c34ed0a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a257d326d57af9ccbc7a45b002c34ed0a">RegexReplace</a> (const <a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;)</td></tr>
+<tr class="memdesc:a257d326d57af9ccbc7a45b002c34ed0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a copy constructor which is only used to prevent public object creation.  <a href="#a257d326d57af9ccbc7a45b002c34ed0a">More...</a><br /></td></tr>
+<tr class="separator:a257d326d57af9ccbc7a45b002c34ed0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab27102839e7ff0914bcd204d750097ac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#ab27102839e7ff0914bcd204d750097ac">~RegexReplace</a> ()</td></tr>
+<tr class="memdesc:ab27102839e7ff0914bcd204d750097ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#ab27102839e7ff0914bcd204d750097ac">More...</a><br /></td></tr>
+<tr class="separator:ab27102839e7ff0914bcd204d750097ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ab8adfdb3aade18fe6bff03fb3262c396"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab8adfdb3aade18fe6bff03fb3262c396"></a>
+<a class="el" href="classjpcre2_1_1Regex.html">Regex</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#ab8adfdb3aade18fe6bff03fb3262c396">re</a></td></tr>
+<tr class="memdesc:ab8adfdb3aade18fe6bff03fb3262c396"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is used to access private members in <a class="el" href="classjpcre2_1_1Regex.html" title="This class implements public overloaded and copy constructors to provide different means of creating ...">Regex</a>. <br /></td></tr>
+<tr class="separator:ab8adfdb3aade18fe6bff03fb3262c396"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2290e5d9f1c2336abd431fef97e72c93"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2290e5d9f1c2336abd431fef97e72c93"></a>
+<a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a2290e5d9f1c2336abd431fef97e72c93">r_subject</a></td></tr>
+<tr class="memdesc:a2290e5d9f1c2336abd431fef97e72c93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subject string for replace. <br /></td></tr>
+<tr class="separator:a2290e5d9f1c2336abd431fef97e72c93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e6b848c7ad8f53cc17f49a6038930ec"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e6b848c7ad8f53cc17f49a6038930ec"></a>
+<a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a3e6b848c7ad8f53cc17f49a6038930ec">r_modifier</a></td></tr>
+<tr class="memdesc:a3e6b848c7ad8f53cc17f49a6038930ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifier string for replace. <br /></td></tr>
+<tr class="separator:a3e6b848c7ad8f53cc17f49a6038930ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73d0da1aac8b83a0a47b24629b5013f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a73d0da1aac8b83a0a47b24629b5013f4"></a>
+<a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a73d0da1aac8b83a0a47b24629b5013f4">r_replw</a></td></tr>
+<tr class="memdesc:a73d0da1aac8b83a0a47b24629b5013f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replacement string i.e string to replace with. <br /></td></tr>
+<tr class="separator:a73d0da1aac8b83a0a47b24629b5013f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc79699cfcad8b7cbb26864b6b67cdc7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afc79699cfcad8b7cbb26864b6b67cdc7"></a>
+<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7">replace_opts</a></td></tr>
+<tr class="memdesc:afc79699cfcad8b7cbb26864b6b67cdc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">PCRE2 options for pcre2_substitute() (PCRE2 internal function) <br /></td></tr>
+<tr class="separator:afc79699cfcad8b7cbb26864b6b67cdc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf13bcb16918df4b7bcaa7e49a1c7d59"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf13bcb16918df4b7bcaa7e49a1c7d59"></a>
+<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59">jpcre2_replace_opts</a></td></tr>
+<tr class="memdesc:acf13bcb16918df4b7bcaa7e49a1c7d59"><td class="mdescLeft">&#160;</td><td class="mdescRight">JPCRE2 options. <br /></td></tr>
+<tr class="separator:acf13bcb16918df4b7bcaa7e49a1c7d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44abce541819ceb51e342411b48e95cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a44abce541819ceb51e342411b48e95cb"></a>
+PCRE2_SIZE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a44abce541819ceb51e342411b48e95cb">buffer_size</a></td></tr>
+<tr class="memdesc:a44abce541819ceb51e342411b48e95cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the resultant string after replacement. <br /></td></tr>
+<tr class="separator:a44abce541819ceb51e342411b48e95cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:a1f6f7620b7d2218c6c2a6a47f432ea6a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f6f7620b7d2218c6c2a6a47f432ea6a"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a1f6f7620b7d2218c6c2a6a47f432ea6a">Regex</a></td></tr>
-<tr class="memdesc:a1f6f7620b7d2218c6c2a6a47f432ea6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define <a class="el" href="classjpcre2_1_1Regex.html" title="This is the main class that is to be used to perform all JPCRE2 related actions. ">Regex</a> as a friend so that it can create object of this class. <br /></td></tr>
+<tr class="memdesc:a1f6f7620b7d2218c6c2a6a47f432ea6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define <a class="el" href="classjpcre2_1_1Regex.html" title="This class implements public overloaded and copy constructors to provide different means of creating ...">Regex</a> as a friend so that it can create object of this class. <br /></td></tr>
 <tr class="separator:a1f6f7620b7d2218c6c2a6a47f432ea6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Performs regex replace on a string. </p>
-<p>Provides overloaded and chained methods to set various options.</p>
+<p>Provides chained methods to set various options.</p>
 <p>All constructors of this class are private. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ac50687b874800c827a6fa623b9b35753"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">jpcre2::RegexReplace::RegexReplace </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default constructor. </p>
+<p>Initialize class variables </p>
+
+</div>
+</div>
+<a class="anchor" id="a257d326d57af9ccbc7a45b002c34ed0a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">jpcre2::RegexReplace::RegexReplace </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This is a copy constructor which is only used to prevent public object creation. </p>
+<p>No need to implement it completely </p>
+
+</div>
+</div>
+<a class="anchor" id="ab27102839e7ff0914bcd204d750097ac"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">jpcre2::RegexReplace::~RegexReplace </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+<p>Nothing to be done here. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a3f86b1e11d08d0153a08244771e59061"></a>
 <div class="memitem">
 <div class="memproto">
@@ -199,7 +333,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Add specified JPCRE2 option to existing options. </p>
+<p>Add specified JPCRE2 option to existing options <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Option value </td></tr>
@@ -232,7 +366,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Add specified PCRE2 option to existing options. </p>
+<p>Add specified PCRE2 option to existing options <a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7" title="PCRE2 options for pcre2_substitute() (PCRE2 internal function) ">replace_opts</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Option value </td></tr>
@@ -240,6 +374,35 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>*this </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa31df9e8422dd9a767f2cc5fe4aaaf0e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jpcre2::RegexReplace::parseReplacementOpts </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse <a class="el" href="classjpcre2_1_1RegexReplace.html#a3e6b848c7ad8f53cc17f49a6038930ec" title="Modifier string for replace. ">r_modifier</a> and set equivalent PCRE2 and JPCRE2 options. </p>
+<p>After a call to this function <a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7" title="PCRE2 options for pcre2_substitute() (PCRE2 internal function) ">replace_opts</a> and <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a> will be properly set. </p>
+
+<p>References <a class="el" href="namespacejpcre2_1_1ERROR.html#a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff">jpcre2::ERROR::INVALID_MODIFIER</a>, and <a class="el" href="namespacejpcre2.html#a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387">jpcre2::VALIDATE_MODIFIER</a>.</p>
 
 </div>
 </div>
@@ -265,7 +428,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Remove JPCRE2 option from existing options. </p>
+<p>Remove JPCRE2 option from existing options <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Option value </td></tr>
@@ -298,7 +461,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Remove PCRE2 option from existing options. </p>
+<p>Remove PCRE2 option from existing options <a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7" title="PCRE2 options for pcre2_substitute() (PCRE2 internal function) ">replace_opts</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Option value </td></tr>
@@ -323,162 +486,40 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
       </table>
 </div><div class="memdoc">
 
-<p>Returns a replaced string after performing regex replace. </p>
-<dl class="section return"><dt>Returns</dt><dd>Resultant string after regex replace </dd></dl>
+<p>Returns the resultant string after performing regex replace. </p>
+<dl class="section return"><dt>Returns</dt><dd>Replaced string </dd></dl>
 
-<p>References <a class="el" href="namespacejpcre2.html#a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c">jpcre2::FIND_ALL</a>, <a class="el" href="namespacejpcre2_1_1ERROR.html#a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff">jpcre2::ERROR::INVALID_MODIFIER</a>, <a class="el" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981">jpcre2::Regex::replace()</a>, <a class="el" href="namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73">jpcre2::utils::toString()</a>, and <a class="el" href="namespacejpcre2.html#a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387">jpcre2::VALIDATE_MODIFIER</a>.</p>
+<p>References <a class="el" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981">jpcre2::Regex::replace()</a>, and <a class="el" href="namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73">jpcre2::utils::toString()</a>.</p>
 
 <p>Referenced by <a class="el" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981">jpcre2::Regex::replace()</a>.</p>
 
-<p><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_cgraph.png" border="0" usemap="#classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_cgraph" alt=""/></div>
 <map name="classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_cgraph" id="classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_cgraph">
-<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981" title="Perform regex replace. " alt="" coords="204,13,357,39"/>
-<area shape="rect" id="node3" href="namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73" title="Converts an integer to String. " alt="" coords="209,63,352,90"/>
+<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981" title="Perform regex replace. " alt="" coords="204,78,357,105"/>
+<area shape="rect" id="node6" href="namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73" title="Converts an integer to String. " alt="" coords="209,129,352,155"/>
+<area shape="rect" id="node3" href="classjpcre2_1_1RegexReplace.html#ae2abe2994b0fbe54950f88e63000c910" title="Set the modifier string r_modifier (overwrites existing JPCRE2 and PCRE2 option). ..." alt="" coords="405,5,556,47"/>
+<area shape="rect" id="node4" href="classjpcre2_1_1RegexReplace.html#af1069f489de9b343493da2dc77b04c73" title="Set the replacement string r_replw. " alt="" coords="405,71,556,112"/>
+<area shape="rect" id="node5" href="classjpcre2_1_1RegexReplace.html#a46eefdb105827920bebc8436721fa4cb" title="Set the subject string r_subject. " alt="" coords="405,136,556,177"/>
 </map>
 </div>
 </p>
 
-<p><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+<p><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_icgraph.png" border="0" usemap="#classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_icgraph" alt=""/></div>
 <map name="classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_icgraph" id="classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_icgraph">
 <area shape="rect" id="node2" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981" title="Perform regex replace. " alt="" coords="204,13,357,39"/>
 </map>
 </div>
 </p>
-
-</div>
-</div>
-<a class="anchor" id="a36904dd7340bf23ed138b0379d9eff5f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> jpcre2::RegexReplace::replace </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>r</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>m</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>Subject string </td></tr>
-    <tr><td class="paramname">r</td><td>Replacement string (string to replace with) </td></tr>
-    <tr><td class="paramname">m</td><td>Modifier string </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a66a7eb99c0068505e7ce0fad8c6179d0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> jpcre2::RegexReplace::replace </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>s</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>r</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>Subject string </td></tr>
-    <tr><td class="paramname">r</td><td>Replacement string (string to replace with) </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a4b6df93ba03638b58f658a69ebb6326d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> jpcre2::RegexReplace::replace </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">s</td><td>Subject string </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -504,7 +545,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Set the initial buffer size to be allocated for replaced string (used by PCRE2) </p>
+<p>Set the initial buffer size (<a class="el" href="classjpcre2_1_1RegexReplace.html#a44abce541819ceb51e342411b48e95cb" title="Size of the resultant string after replacement. ">buffer_size</a>) to be allocated for replaced string (used by PCRE2) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Buffer size </td></tr>
@@ -537,7 +578,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Set JPCRE2 option (overwrites existing option) </p>
+<p>Set JPCRE2 option <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a> (overwrite existing option) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Option value </td></tr>
@@ -570,7 +611,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Set the modifier string (overwrites existing JPCRE2 and PCRE2 option). </p>
+<p>Set the modifier string <a class="el" href="classjpcre2_1_1RegexReplace.html#a3e6b848c7ad8f53cc17f49a6038930ec" title="Modifier string for replace. ">r_modifier</a> (overwrites existing JPCRE2 and PCRE2 option). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>Modifier string </td></tr>
@@ -578,6 +619,21 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>*this </dd></dl>
+
+<p>Referenced by <a class="el" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981">jpcre2::Regex::replace()</a>.</p>
+
+<p><div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910_icgraph.png" border="0" usemap="#classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910_icgraph" alt=""/></div>
+<map name="classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910_icgraph" id="classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910_icgraph">
+<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981" title="Perform regex replace. " alt="" coords="204,13,357,39"/>
+<area shape="rect" id="node3" href="classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0" title="Returns the resultant string after performing regex replace. " alt="" coords="405,5,556,47"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -603,7 +659,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Set PCRE2 option (overwrites existing option) </p>
+<p>Set PCRE2 option <a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7" title="PCRE2 options for pcre2_substitute() (PCRE2 internal function) ">replace_opts</a> (overwrite existing option) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Option value </td></tr>
@@ -636,7 +692,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Set the replacement string. </p>
+<p>Set the replacement string <a class="el" href="classjpcre2_1_1RegexReplace.html#a73d0da1aac8b83a0a47b24629b5013f4" title="Replacement string i.e string to replace with. ">r_replw</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>String to replace with </td></tr>
@@ -644,6 +700,21 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>*this </dd></dl>
+
+<p>Referenced by <a class="el" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981">jpcre2::Regex::replace()</a>.</p>
+
+<p><div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73_icgraph.png" border="0" usemap="#classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73_icgraph" alt=""/></div>
+<map name="classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73_icgraph" id="classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73_icgraph">
+<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981" title="Perform regex replace. " alt="" coords="204,13,357,39"/>
+<area shape="rect" id="node3" href="classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0" title="Returns the resultant string after performing regex replace. " alt="" coords="405,5,556,47"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -669,7 +740,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 </div><div class="memdoc">
 
-<p>Set the subject string. </p>
+<p>Set the subject string <a class="el" href="classjpcre2_1_1RegexReplace.html#a2290e5d9f1c2336abd431fef97e72c93" title="Subject string for replace. ">r_subject</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>Subject string </td></tr>
@@ -677,6 +748,21 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>*this </dd></dl>
+
+<p>Referenced by <a class="el" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981">jpcre2::Regex::replace()</a>.</p>
+
+<p><div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_icgraph.png" border="0" usemap="#classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_icgraph" alt=""/></div>
+<map name="classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_icgraph" id="classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_icgraph">
+<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981" title="Perform regex replace. " alt="" coords="204,13,357,39"/>
+<area shape="rect" id="node3" href="classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0" title="Returns the resultant string after performing regex replace. " alt="" coords="405,5,556,47"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -690,7 +776,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacejpcre2.html">jpcre2</a></li><li class="navelem"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a></li>
-    <li class="footer">Generated by
+    <li class="footer">Generated on Mon Sep 5 2016 22:32:02 for JPCRE2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

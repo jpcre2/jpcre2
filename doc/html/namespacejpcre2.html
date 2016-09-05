@@ -116,7 +116,7 @@ $(document).ready(function(){initNavTree('namespacejpcre2.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>Main namespace of JPCRE2.  
+<p>Top level namespace of JPCRE2.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -131,7 +131,7 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1Regex.html">Regex</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the main class that is to be used to perform all JPCRE2 related actions.  <a href="classjpcre2_1_1Regex.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements public overloaded and copy constructors to provide different means of creating objects and initializing class variables.  <a href="classjpcre2_1_1Regex.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexMatch.html">RegexMatch</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs regex matching.  <a href="classjpcre2_1_1RegexMatch.html#details">More...</a><br /></td></tr>
@@ -192,8 +192,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a80cb201f2e733137b22a8ed98465096a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacejpcre2.html#a2aac465ddcb123560c7c8215dd69246c">SIZE_T</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">SUBSTITUTE_RESULT_INIT_SIZE</a></td></tr>
-<tr class="memdesc:a80cb201f2e733137b22a8ed98465096a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used by default to provide big enough buffer for replaced string.  <a href="#a80cb201f2e733137b22a8ed98465096a">More...</a><br /></td></tr>
+<tr class="memitem:a80cb201f2e733137b22a8ed98465096a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacejpcre2.html#a2aac465ddcb123560c7c8215dd69246c">SIZE_T</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">SUBSTITUTE_RESULT_INIT_SIZE</a> = std::numeric_limits&lt;int&gt;::max()</td></tr>
+<tr class="memdesc:a80cb201f2e733137b22a8ed98465096a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used by default to provide big enough initial buffer for replaced string.  <a href="#a80cb201f2e733137b22a8ed98465096a">More...</a><br /></td></tr>
 <tr class="separator:a80cb201f2e733137b22a8ed98465096a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2236dcdcc14d580724b256ce7f168e5"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5">LOCALE_NONE</a> = &quot;JPCRE2_NONE&quot;</td></tr>
 <tr class="memdesc:ad2236dcdcc14d580724b256ce7f168e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Don't do anything about locale if it is set to <a class="el" href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5" title="Don&#39;t do anything about locale if it is set to LOCALE_NONE. ">LOCALE_NONE</a>.  <a href="#ad2236dcdcc14d580724b256ce7f168e5">More...</a><br /></td></tr>
@@ -207,7 +207,9 @@ const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16
 <tr class="separator:abf6c3bff9268a572c299958d334ff26e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Main namespace of JPCRE2. </p>
+<div class="textblock"><p>Top level namespace of JPCRE2. </p>
+<p>All functions, classes, constants, enums that are provided by JPCRE2 belong to this namespace while <b>PCRE2</b> functions, constants remain outside of its scope.</p>
+<p>If you want to use any PCRE2 functions or constants, remember that they are in the global scope and should be used as such. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a class="anchor" id="a85c143271501e383843f45b9999c2f00"></a>
 <div class="memitem">
@@ -219,22 +221,22 @@ const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16
       </table>
 </div><div class="memdoc">
 
-<p>Option bits. </p>
+<p>These constants provide JPCRE2 options. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9"></a>NONE&#160;</td><td class="fielddoc">
 <p>Option 0 (zero) </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387"></a>VALIDATE_MODIFIER&#160;</td><td class="fielddoc">
-<p>throw INVALID_MODIFIER if any modifier is wrong </p>
+<p>Perform validation check on modifiers and throw #INVALID_MODIFIER if any wrong modifier is passed. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c"></a>FIND_ALL&#160;</td><td class="fielddoc">
 <p>Find all during match (global match) </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e"></a>JIT_COMPILE&#160;</td><td class="fielddoc">
-<p>Prform JIT compilation during pattern compilation. </p>
+<p>Perform JIT compilation for optimization. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552"></a>ERROR_ALL&#160;</td><td class="fielddoc">
-<p>Treat warnings as error and throw exception. </p>
+<p>Treat warnings as error and throw exception (warnings don't throw exception) </p>
 </td></tr>
 </table>
 
@@ -253,6 +255,8 @@ const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16
 
 <p>Default locale. </p>
 <p>Default local to be used. </p>
+
+<p>Referenced by <a class="el" href="classjpcre2_1_1Regex.html#aff1f5cd95b6ac227014e7a5265a50cc0">jpcre2::Regex::init_vars()</a>.</p>
 
 </div>
 </div>
@@ -278,13 +282,15 @@ const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="namespacejpcre2.html#a2aac465ddcb123560c7c8215dd69246c">jpcre2::SIZE_T</a> jpcre2::SUBSTITUTE_RESULT_INIT_SIZE</td>
+          <td class="memname">const <a class="el" href="namespacejpcre2.html#a2aac465ddcb123560c7c8215dd69246c">jpcre2::SIZE_T</a> jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits&lt;int&gt;::max()</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= std::numeric_limits&lt;</div><div class="line">        <span class="keywordtype">int</span>&gt;::max()</div></div><!-- fragment -->
-<p>Used by default to provide big enough buffer for replaced string. </p>
+
+<p>Used by default to provide big enough initial buffer for replaced string. </p>
 <p>Use max of int as the initial size of replaced string. </p>
+
+<p>Referenced by <a class="el" href="classjpcre2_1_1RegexReplace.html#a462810e8fc902f09e475a164e81cc5f5">jpcre2::RegexReplace::init_vars()</a>.</p>
 
 </div>
 </div>
@@ -294,7 +300,7 @@ const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacejpcre2.html">jpcre2</a></li>
-    <li class="footer">Generated by
+    <li class="footer">Generated on Mon Sep 5 2016 22:32:01 for JPCRE2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

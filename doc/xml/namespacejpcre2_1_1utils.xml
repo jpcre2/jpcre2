@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespacejpcre2_1_1utils" kind="namespace" language="C++">
+    <compoundname>jpcre2::utils</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>jpcre2::String jpcre2::utils::toString</definition>
+        <argsstring>(int a)</argsstring>
+        <name>toString</name>
+        <param>
+          <type>int</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+<para>Converts an integer to String. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="113" column="1" bodyfile="src/jpcre2.cpp" bodystart="64" bodyend="72"/>
+        <referencedby refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" compoundref="jpcre2_8cpp" startline="80" endline="84">getPcre2ErrorMessage</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" compoundref="jpcre2_8cpp" startline="89" endline="99">jpcre2::Regex::getErrorMessage</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">jpcre2::Regex::compile</referencedby>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" compoundref="jpcre2_8cpp" startline="271" endline="329">jpcre2::RegexReplace::replace</referencedby>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a961a5f91ab24a1ddfd42910c6ab68b65" compoundref="jpcre2_8cpp" startline="354" endline="380">jpcre2::RegexMatch::getNumberedSubstrings</referencedby>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1af159e8d080ecd74f63ec67b1d5a27772" compoundref="jpcre2_8cpp" startline="382" endline="444">jpcre2::RegexMatch::getNamedSubstrings</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacejpcre2_1_1utils_1a8951a9c2c01a87cee04b55d0a032c73e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>jpcre2::String jpcre2::utils::toString</definition>
+        <argsstring>(char a)</argsstring>
+        <name>toString</name>
+        <param>
+          <type>char</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+<para>Converts a char to String. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="114" column="1" bodyfile="src/jpcre2.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejpcre2_1_1utils_1a67c67163e03c18ca3418f5f59f90b435" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>jpcre2::String jpcre2::utils::toString</definition>
+        <argsstring>(const char *a)</argsstring>
+        <name>toString</name>
+        <param>
+          <type>const char *</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+<para>Converts const char* to String. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="115" column="1" bodyfile="src/jpcre2.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejpcre2_1_1utils_1a84c5c4e28feda8b093d700a911d59c72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>jpcre2::String jpcre2::utils::toString</definition>
+        <argsstring>(PCRE2_UCHAR *a)</argsstring>
+        <name>toString</name>
+        <param>
+          <type>PCRE2_UCHAR *</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+<para>Converts a PCRE2_UCHAR* to String. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="116" column="1" bodyfile="src/jpcre2.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>jpcre2::String jpcre2::utils::getPcre2ErrorMessage</definition>
+        <argsstring>(int err_num)</argsstring>
+        <name>getPcre2ErrorMessage</name>
+        <param>
+          <type>int</type>
+          <declname>err_num</declname>
+        </param>
+        <briefdescription>
+<para>Get PCRE2 error message for an error number. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="117" column="1" bodyfile="src/jpcre2.cpp" bodystart="80" bodyend="84"/>
+        <references refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" compoundref="jpcre2_8cpp" startline="64" endline="72">toString</references>
+        <referencedby refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" compoundref="jpcre2_8cpp" startline="89" endline="99">jpcre2::Regex::getErrorMessage</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="101" endline="133">jpcre2::Regex::deepCopy</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="189" endline="235">jpcre2::Regex::compile</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Namespace for some utility functions. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/jpcre2.hpp" line="112" column="1"/>
+  </compounddef>
+</doxygen>

@@ -2,7 +2,10 @@ var NAVTREE =
 [
   [ "JPCRE2", "index.html", [
     [ "Dependency", "index.html#dependency", null ],
-    [ "Install or Include", "index.html#install-or-include", null ],
+    [ "Install or Include", "index.html#install-or-include", [
+      [ "Use with sources", "index.html#use-with-sources", null ],
+      [ "Use as a library", "index.html#install-as-a-library", null ]
+    ] ],
     [ "How to code with JPCRE2", "index.html#how-to-code-with-jpcre2", [
       [ "Compile a pattern", "index.html#compile-a-pattern", null ],
       [ "Match", "index.html#match", [

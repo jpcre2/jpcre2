@@ -1,3 +1,5 @@
 <map id="jpcre2::Regex::match" name="jpcre2::Regex::match">
-<area shape="rect" id="node2" href="$classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33" title="Returns the number of matches, stores the match results in the specified vectors (vec_num, vec_nas, vec_ntn) " alt="" coords="200,5,339,47"/>
+<area shape="rect" id="node2" href="$classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33" title="Return the number of matches, store the match results in the specified vectors (vec_num, vec_nas, vec_ntn) " alt="" coords="200,5,339,47"/>
+<area shape="rect" id="node3" href="$classjpcre2_1_1RegexMatch.html#a9df7e92f96b61553f62720cb8f5f23e5" title="Set the modifier m_modifier (overwrites existing JPCRE2 and PCRE2 option). " alt="" coords="200,71,339,112"/>
+<area shape="rect" id="node4" href="$classjpcre2_1_1RegexMatch.html#a635c652195deaa8ebb9e107c4f972aab" title="Set the subject string m_subject. " alt="" coords="200,136,339,177"/>
 </map>

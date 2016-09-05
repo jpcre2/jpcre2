@@ -16,12 +16,16 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 1. PCRE2 library (`version >=10.21`).
 
 
-If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a> which will always be kept compatible with JPCRE2.
+If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a>.
 
 
 # Install or Include {#install-or-include}
 
-It can be installed as a separate library or can be used directly in a project by including the appropriate sources:
+The `jpcre2.hpp` header should be included in the source file that uses JPCRE2 functionalities.
+
+## Use with sources {#use-with-sources}
+
+After including the header you can compile your source either by installing and linking with JPCRE2 library or providing the following sources to your compiler:
 
 1. **jpcre2.hpp**
 2. **jpcre2.cpp**
@@ -40,13 +44,14 @@ g++ mycpp.cpp ... -L/path/to/your/pcre2/library -lpcre2-8
 
 **Note that** it requires the PCRE2 library installed in your system. If it is not already installed and linked in your compiler, you will need to link it with appropriate path and options.
 
-**Installing JPCRE2 as a library:** <a name="installing-as-a-library"></a>
+## Use as a library {#install-as-a-library}
 
-To install it in a Unix based system, run:
+To install it as a library in a Unix based system, run:
+
 ```sh
 ./configure
 make
-sudo make install
+make install # or sudo make install
 ```
 Now `#include <jpcre2.hpp>` in your code and build/compile by linking with both JPCRE2 and PCRE2 library.
 
