@@ -68,17 +68,17 @@
  * */
 namespace jpcre2 {
 
-typedef std::size_t SIZE_T;           ///< Used for match count and vector size
-typedef uint32_t Uint;                ///< Used for options (bitwise operation)
-typedef std::string String;                   	///< Used as std::string
-typedef std::map<String, String> MapNas;       	///< Map for Named substrings
-typedef std::map<SIZE_T, String> MapNum;       	///< Map for Numbered substrings
-typedef std::map<String, SIZE_T> MapNtN; ///< Substring name to Substring number map
-typedef MapNtN MapNtn; 			///< Allow spelling mistake of MapNtN as MapNtn
-typedef std::vector<MapNas> VecNas; ///< Vector of matches with named substrings
-typedef std::vector<MapNtN> VecNtN; ///< Vector of substring name to Substring number map
-typedef VecNtN VecNtn; 			///< Allow spelling mistake of VecNtN as VecNtn
-typedef std::vector<MapNum> VecNum; ///< Vector of matches with numbered substrings
+typedef std::size_t SIZE_T;                     ///< Used for match count and vector size
+typedef uint32_t Uint;                          ///< Used for options (bitwise operation)
+typedef std::string String;                     ///< Used as std::string
+typedef std::map<String, String> MapNas;        ///< Map for Named substrings
+typedef std::map<SIZE_T, String> MapNum;        ///< Map for Numbered substrings
+typedef std::map<String, SIZE_T> MapNtN;        ///< Substring name to Substring number map
+typedef MapNtN MapNtn;                          ///< Allow spelling mistake of MapNtN as MapNtn
+typedef std::vector<MapNas> VecNas;             ///< Vector of matches with named substrings
+typedef std::vector<MapNtN> VecNtN;             ///< Vector of substring name to Substring number map
+typedef VecNtN VecNtn;                          ///< Allow spelling mistake of VecNtN as VecNtn
+typedef std::vector<MapNum> VecNum;             ///< Vector of matches with numbered substrings
 
 /// Namespace for error codes
 namespace ERROR {
@@ -88,33 +88,33 @@ namespace ERROR {
  *  PCRE2 error codes are negative integers.
  * */
 enum {
-	INVALID_MODIFIER = 2, ///< Error to be thrown when invalid modifier detected
-	JIT_COMPILE_FAILED = 3    	///< Error to be thrown when JIT compile fails
+	INVALID_MODIFIER        = 2,        ///< Error to be thrown when invalid modifier detected
+	JIT_COMPILE_FAILED      = 3         ///< Error to be thrown when JIT compile fails
 };
 }
 
-extern const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE; ///< Used by default to provide big enough initial buffer for replaced string
-extern const String LOCALE_NONE; ///< Don't do anything about locale if it is set to #LOCALE_NONE
-extern const String LOCALE_DEFAULT;              ///< Default locale
-extern const String JIT_ERROR_MESSAGE_PREFIX; ///< Prefix to be added to JIT error message
+extern const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE;    ///< Used by default to provide big enough initial buffer for replaced string
+extern const String LOCALE_NONE;                    ///< Don't do anything about locale if it is set to #LOCALE_NONE
+extern const String LOCALE_DEFAULT;                 ///< Default locale
+extern const String JIT_ERROR_MESSAGE_PREFIX;       ///< Prefix to be added to JIT error message
 
 /** These constants provide JPCRE2 options.
  * */
 enum {
-	NONE = 0x0000000u, ///< Option 0 (zero)
-	VALIDATE_MODIFIER = 0x0000001u, ///< Perform validation check on modifiers and throw #INVALID_MODIFIER if any wrong modifier is passed
-	FIND_ALL = 0x0000002u, ///< Find all during match (global match)
-	JIT_COMPILE = 0x0000004u, ///< Perform JIT compilation for optimization
-	ERROR_ALL = 0x0000008u ///< Treat warnings as error and throw exception (warnings don't throw exception)
+	NONE                    = 0x0000000u,   ///< Option 0 (zero)
+	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw #INVALID_MODIFIER if any wrong modifier is passed
+	FIND_ALL                = 0x0000002u,   ///< Find all during match (global match)
+	JIT_COMPILE             = 0x0000004u,   ///< Perform JIT compilation for optimization
+	ERROR_ALL               = 0x0000008u    ///< Treat warnings as error and throw exception (warnings don't throw exception)
 };
 
 /// Namespace for some utility functions
 namespace utils {
-extern String toString(int a);  //!< Converts an integer to String
-extern String toString(char a); ///< Converts a char to String
-extern String toString(const char* a); ///< Converts const char* to String
-extern String toString(PCRE2_UCHAR* a); ///< Converts a PCRE2_UCHAR* to String
-extern String getPcre2ErrorMessage(int err_num); ///< Get PCRE2 error message for an error number
+extern String toString(int a);                      ///< Converts an integer to String
+extern String toString(char a);                     ///< Converts a char to String
+extern String toString(const char* a);              ///< Converts const char* to String
+extern String toString(PCRE2_UCHAR* a);             ///< Converts a PCRE2_UCHAR* to String
+extern String getPcre2ErrorMessage(int err_num);    ///< Get PCRE2 error message for an error number
 }
 
 class Regex;
@@ -129,32 +129,32 @@ class RegexMatch {
 
 private:
 
-	Regex* re;    ///< This is used to access private members in Regex.
+	Regex* re;              ///< This is used to access private members in Regex.
 
-	String m_subject;  ///< Subject string for match
-	String m_modifier; ///< Pattern for match
-	Uint match_opts; ///< PCRE2 options for pcre2_match() (PCRE2 internal function)
+	String m_subject;       ///< Subject string for match
+	String m_modifier;      ///< Pattern for match
+	Uint match_opts;        ///< PCRE2 options for pcre2_match() (PCRE2 internal function)
 	Uint jpcre2_match_opts; ///< JPCRE2 options for match
 
-	VecNum* vec_num; ///< Pointer to vector that will store the numbered substring maps
-	VecNas* vec_nas; ///< Pointer to vector that will store the named substring maps
-	VecNtN* vec_ntn; ///< Pointer to vector that will store the name to number maps
+	VecNum* vec_num;        ///< Pointer to vector that will store the numbered substring maps
+	VecNas* vec_nas;        ///< Pointer to vector that will store the named substring maps
+	VecNtN* vec_ntn;        ///< Pointer to vector that will store the name to number maps
 
-	MapNum* num_map0; ///< Pointer to map that will store numbered substrings temporarily
-	MapNas* nas_map0; ///< Pointer to map that will store named substrings temporarily
-	MapNtN* ntn_map0; ///< Pointer to map that will store name to number mapping temporarily
+	MapNum* num_map0;       ///< Pointer to map that will store numbered substrings temporarily
+	MapNas* nas_map0;       ///< Pointer to map that will store named substrings temporarily
+	MapNtN* ntn_map0;       ///< Pointer to map that will store name to number mapping temporarily
 
 	/// Parse #m_modifier and set equivalent PCRE2 and JPCRE2 options.
 	/// After a call to this function #match_opts and #jpcre2_match_opts will be properly set.
 	void parseMatchOpts(void);
 
-	void getNumberedSubstrings(int rc, pcre2_match_data *match_data); ///< Populate #num_map0 with numbered substrings
+	void getNumberedSubstrings(int rc, pcre2_match_data *match_data);   ///< Populate #num_map0 with numbered substrings
 
 	void getNamedSubstrings(int namecount, int name_entry_size,
-			PCRE2_SPTR tabptr, pcre2_match_data *match_data); ///< Populate #nas_map0 and/or #ntn_map0
-															  ///< with named substring and/or name to number mapping
+			PCRE2_SPTR tabptr, pcre2_match_data *match_data);           ///< Populate #nas_map0 and/or #ntn_map0
+                                                                        ///< with named substring and/or name to number mapping
 
-															  /// Initialize class variables
+    /// Initialize class variables
 	void init_vars() {
 		vec_num = 0;
 		vec_nas = 0;
@@ -181,7 +181,6 @@ private:
 	/// Destructor.
 	/// Deletes the temporary maps that were created to store substrings
 	~RegexMatch() {
-		//Delete map pointers
 		delete num_map0;
 		delete nas_map0;
 		delete ntn_map0;
@@ -312,14 +311,14 @@ class RegexReplace {
 
 private:
 
-	Regex* re;    ///< This is used to access private members in Regex.
+	Regex* re;                  ///< This is used to access private members in Regex.
 
-	String r_subject; ///< Subject string for replace
-	String r_modifier; ///< Modifier string for replace
-	String r_replw; ///< Replacement string i.e string to replace with
-	Uint replace_opts; ///< PCRE2 options for pcre2_substitute() (PCRE2 internal function)
-	Uint jpcre2_replace_opts; ///< JPCRE2 options
-	PCRE2_SIZE buffer_size; ///< Size of the resultant string after replacement
+	String r_subject;           ///< Subject string for replace
+	String r_modifier;          ///< Modifier string for replace
+	String r_replw;             ///< Replacement string i.e string to replace with
+	Uint replace_opts;          ///< PCRE2 options for pcre2_substitute() (PCRE2 internal function)
+	Uint jpcre2_replace_opts;   ///< JPCRE2 options
+	PCRE2_SIZE buffer_size;     ///< Size of the resultant string after replacement
 
 	/// Parse #r_modifier and set equivalent PCRE2 and JPCRE2 options.
 	/// After a call to this function #replace_opts and #jpcre2_replace_opts will be properly set.
@@ -463,17 +462,17 @@ class Regex {
 
 private:
 
-	RegexMatch *rm;		///< Pointer to RegexMatch object
-	RegexReplace *rr;	///< Pointer to RegexReplace object
+	RegexMatch *rm;		        ///< Pointer to RegexMatch object
+	RegexReplace *rr;	        ///< Pointer to RegexReplace object
 
-	String pat_str;		///< Pattern string
-	String modifier;	///< Modifier string
-	pcre2_code *code;	///< Pointer to compiled pattern
-	int error_number;	///< Error number
+	String pat_str;		        ///< Pattern string
+	String modifier;	        ///< Modifier string
+	pcre2_code *code;	        ///< Pointer to compiled pattern
+	int error_number;	        ///< Error number
 	PCRE2_SIZE error_offset;	///< Error offset
-	Uint compile_opts;///< Compile options for PCRE2 (used by PCRE2 internal function pcre2_compile())
+	Uint compile_opts;          ///< Compile options for PCRE2 (used by PCRE2 internal function pcre2_compile())
 	Uint jpcre2_compile_opts;	///< Compile options specific to JPCRE2
-	String mylocale;	///< Locale as a string
+	String mylocale;	        ///< Locale as a string
 	String current_warning_msg;	///< current warning message
 
 	/// Initialize class variables

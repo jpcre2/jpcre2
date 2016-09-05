@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * ******************* C++ wrapper of PCRE2 Library ****************************
  * *****************************************************************************
  *            Copyright (c) 2015-2016 Md. Jahidul Hamid
@@ -18,7 +18,7 @@
  *       products derived from this software without specific prior written
  *       permission.
  *       
- * Dsclaimer:
+ * Disclaimer:
  * 
  *     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  *     AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -42,10 +42,9 @@
 
 /// Use max of int as the initial size of replaced string
 const jpcre2::SIZE_T jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max();
-const jpcre2::String jpcre2::LOCALE_NONE = "JPCRE2_NONE"; ///< Nothing to be done on locale
-const jpcre2::String jpcre2::LOCALE_DEFAULT = LOCALE_NONE; ///< Default local to be used
-const jpcre2::String jpcre2::JIT_ERROR_MESSAGE_PREFIX =
-		"JIT compilation failed! "; ///< Prefix to be added to JIT error message
+const jpcre2::String jpcre2::LOCALE_NONE = "JPCRE2_NONE";                           ///< Nothing to be done on locale
+const jpcre2::String jpcre2::LOCALE_DEFAULT = LOCALE_NONE;                          ///< Default local to be used
+const jpcre2::String jpcre2::JIT_ERROR_MESSAGE_PREFIX = "JIT compilation failed! "; ///< Prefix to be added to JIT error message
 
 ///////// utils namespace
 
@@ -208,12 +207,12 @@ void jpcre2::Regex::compile() {
 		std::setlocale(LC_CTYPE, loc_old.c_str());
 	}
 
-	code = pcre2_compile(c_pattern, /* the pattern */
-	PCRE2_ZERO_TERMINATED, /* indicates pattern is zero-terminated */
-	compile_opts, /* default options */
-	&error_number, /* for error number */
-	&error_offset, /* for error offset */
-	ccontext); /* use compile context */
+	code = pcre2_compile(c_pattern,     /* the pattern */
+                PCRE2_ZERO_TERMINATED,  /* indicates pattern is zero-terminated */
+                compile_opts,           /* default options */
+                &error_number,          /* for error number */
+                &error_offset,          /* for error offset */
+                ccontext);              /* use compile context */
 
 	if (code == 0) {
 		/* Compilation failed */
@@ -289,18 +288,18 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 
 	///loop to retry this substitute process
 	while (true) {
-		ret = pcre2_substitute(re->code, /*Points to the compiled pattern*/
-		subject, /*Points to the subject string*/
-		subject_length, /*Length of the subject string*/
-		0, /*Offset in the subject at which to start matching*/
-		replace_opts, /*Option bits*/
-		0, /*Points to a match data block, or is NULL*/
-		0, /*Points to a match context, or is NULL*/
-		replace, /*Points to the replacement string*/
-		replace_length, /*Length of the replacement string*/
-		output_buffer, /*Points to the output buffer*/
-		&outlengthptr /*Points to the length of the output buffer*/
-		);
+		ret = pcre2_substitute(re->code,    /*Points to the compiled pattern*/
+                    subject,                /*Points to the subject string*/
+                    subject_length,         /*Length of the subject string*/
+                    0,                      /*Offset in the subject at which to start matching*/
+                    replace_opts,           /*Option bits*/
+                    0,                      /*Points to a match data block, or is NULL*/
+                    0,                      /*Points to a match context, or is NULL*/
+                    replace,                /*Points to the replacement string*/
+                    replace_length,         /*Length of the replacement string*/
+                    output_buffer,          /*Points to the output buffer*/
+                    &outlengthptr           /*Points to the length of the output buffer*/
+                    );
 		re->error_number = (int) ret;
 		re->error_offset = ret;
 
@@ -486,13 +485,13 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 
 	match_data = pcre2_match_data_create_from_pattern(re->code, 0);
 
-	rc = pcre2_match(re->code, /* the compiled pattern */
-	subject, /* the subject string */
-	subject_length, /* the length of the subject */
-	0, /* start at offset 0 in the subject */
-	match_opts, /* default options */
-	match_data, /* block for storing the result */
-	0); /* use default match context */
+	rc = pcre2_match(re->code,  /* the compiled pattern */
+                subject,        /* the subject string */
+                subject_length, /* the length of the subject */
+                0,              /* start at offset 0 in the subject */
+                match_opts,     /* default options */
+                match_data,     /* block for storing the result */
+                0);             /* use default match context */
 
 	/* Matching failed: handle error cases */
 
@@ -501,7 +500,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 
 	if (rc < 0) {
 		pcre2_match_data_free(match_data); /* Release memory used for the match */
-		//pcre2_code_free(code);                //must not free code. This function has no right to modify regex
+		//must not free code. This function has no right to modify regex
 		switch (rc) {
 		case PCRE2_ERROR_NOMATCH:
 			return count;
@@ -665,13 +664,13 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 
 		/* Run the next matching operation */
 
-		rc = pcre2_match(re->code, /* the compiled pattern */
-		subject, /* the subject string */
-		subject_length, /* the length of the subject */
-		start_offset, /* starting offset in the subject */
-		options, /* options */
-		match_data, /* block for storing the result */
-		0); /* use default match context */
+		rc = pcre2_match(re->code,  /* the compiled pattern */
+                    subject,        /* the subject string */
+                    subject_length, /* the length of the subject */
+                    start_offset,   /* starting offset in the subject */
+                    options,        /* options */
+                    match_data,     /* block for storing the result */
+                    0);             /* use default match context */
 
 		/* This time, a result of NOMATCH isn't an error. If the value in "options"
 		 is zero, it just means we have found all possible matches, so the loop ends.

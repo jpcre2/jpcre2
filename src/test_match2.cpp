@@ -44,12 +44,12 @@ int main(){
     getLine(subject);
     std::string ac_mod;
 
+    size_t matched = 0;
     /// Continue loop as long as error occurs
     while(true){
 		std::cout<<"\nEnter action (matching) modifier (Ag): "<<std::endl;
 		getLine(ac_mod);
 		if(subject=="quit")return 0;
-		size_t matched=0;
 		try{matched=re.initMatch()                                //Invoke the initMatch() function
 					  .setModifier(ac_mod)                        //Set various options
 					  .setNumberedSubstringVector(&vec_num0)      //...
