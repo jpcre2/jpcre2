@@ -1,3 +1,7 @@
+/** @file test_shorts.cpp
+ *  Contains some short examples
+ *  */
+
 #include <iostream>
 #include "jpcre2.hpp"
 

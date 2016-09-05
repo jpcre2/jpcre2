@@ -1,10 +1,31 @@
 var NAVTREE =
 [
   [ "JPCRE2", "index.html", [
-    [ "Requirements", "index.html#requirements", null ],
+    [ "Dependency", "index.html#dependency", null ],
     [ "Install/Include", "index.html#install-include", null ],
     [ "How to code with JPCRE2", "index.html#how-to-code", [
-      [ "Compile a pattern", "index.html#compile-pattern", null ]
+      [ "Compile a pattern", "index.html#compile-pattern", null ],
+      [ "Match", "index.html#match", [
+        [ "Get match count", "index.html#simple-match-count", null ],
+        [ "Get match result", "index.html#do-match", null ],
+        [ "Access a substring", "index.html#access-substring", null ],
+        [ "Get named substrings", "index.html#get-named-substrings", null ],
+        [ "Accesing a substring by name", "index.html#access-substring-by-name", null ],
+        [ "Get the position of a capture group name", "index.html#get-number-to-name", null ],
+        [ "Iterate through match result", "index.html#iterate", null ]
+      ] ],
+      [ "Replace or Substitute", "index.html#replace", [
+        [ "Simple replacement", "index.html#simple-replace", null ],
+        [ "Using named parameter idiom", "index.html#replace-with-named-parameter", null ]
+      ] ]
+    ] ],
+    [ "Modifiers", "index.html#modifiers", [
+      [ "Compile modifiers", "index.html#compile-modifier", null ],
+      [ "Action modifiers", "index.html#action-modifiers", null ]
+    ] ],
+    [ "Options", "index.html#options", [
+      [ "JPCRE2 options", "index.html#jpcre-options", null ],
+      [ "PCRE2 options", "index.html#pcre2-options", null ]
     ] ],
     [ "Short examples", "index.html#short-examples", null ],
     [ "Namespaces", null, [

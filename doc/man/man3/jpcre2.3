@@ -63,6 +63,10 @@ jpcre2 \- Main namespace of JPCRE2\&.
 .br
 .RI "\fISubstring name to Substring number map\&. \fP"
 .ti -1c
+.RI "typedef \fBMapNtN\fP \fBMapNtn\fP"
+.br
+.RI "\fIAllow spelling mistake of MapNtN as MapNtn\&. \fP"
+.ti -1c
 .RI "typedef std::vector< \fBMapNas\fP > \fBVecNas\fP"
 .br
 .RI "\fIVector of matches with named substrings\&. \fP"
@@ -70,6 +74,10 @@ jpcre2 \- Main namespace of JPCRE2\&.
 .RI "typedef std::vector< \fBMapNtN\fP > \fBVecNtN\fP"
 .br
 .RI "\fIVector of substring name to Substring number map\&. \fP"
+.ti -1c
+.RI "typedef \fBVecNtN\fP \fBVecNtn\fP"
+.br
+.RI "\fIAllow spelling mistake of VecNtN as VecNtn\&. \fP"
 .ti -1c
 .RI "typedef std::vector< \fBMapNum\fP > \fBVecNum\fP"
 .br
@@ -80,19 +88,19 @@ jpcre2 \- Main namespace of JPCRE2\&.
 
 .in +1c
 .ti -1c
-.RI "const \fBSIZE_T\fP \fBSUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
+.RI "const \fBSIZE_T\fP \fBSUBSTITUTE_RESULT_INIT_SIZE\fP"
 .br
 .RI "\fIUsed by default to provide big enough buffer for replaced string\&. \fP"
 .ti -1c
 .RI "const \fBString\fP \fBLOCALE_NONE\fP = 'JPCRE2_NONE'"
 .br
-.RI "\fIDon't do anything about locale if it is set to LOCALE_NONE\&. \fP"
+.RI "\fIDon't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. \fP"
 .ti -1c
 .RI "const \fBString\fP \fBLOCALE_DEFAULT\fP = \fBLOCALE_NONE\fP"
 .br
 .RI "\fIDefault locale\&. \fP"
 .ti -1c
-.RI "const \fBString\fP \fBJIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
+.RI "const \fBString\fP \fBJIT_ERROR_MESSAGE_PREFIX\fP"
 .br
 .RI "\fIPrefix to be added to JIT error message\&. \fP"
 .in -1c
@@ -132,15 +140,18 @@ Default locale\&. Default local to be used\&.
 .SS "const \fBjpcre2::String\fP jpcre2::LOCALE_NONE = 'JPCRE2_NONE'"
 
 .PP
-Don't do anything about locale if it is set to LOCALE_NONE\&. Nothing to be doen on locale\&. 
+Don't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. Nothing to be done on locale\&. 
 .PP
 Referenced by jpcre2::Regex::compile()\&.
-.SS "const \fBjpcre2::SIZE_T\fP jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max()"
-
+.SS "const \fBjpcre2::SIZE_T\fP jpcre2::SUBSTITUTE_RESULT_INIT_SIZE"
+\fBInitial value:\fP
 .PP
-Used by default to provide big enough buffer for replaced string\&. < snprintf std::numeric_limits
+.nf
+= std::numeric_limits<
+        int>::max()
+.fi
 .PP
-< assert strlen max(int) as the initial size of replaced string 
+Used by default to provide big enough buffer for replaced string\&. Use max of int as the initial size of replaced string\&. 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for JPCRE2 from the source code\&.

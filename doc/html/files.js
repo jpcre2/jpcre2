@@ -1,5 +1,5 @@
 var files =
 [
-    [ "jpcre2.cpp", "jpcre2_8cpp.html", null ],
-    [ "jpcre2.hpp", "jpcre2_8hpp.html", "jpcre2_8hpp" ]
+    [ "jpcre2.hpp", "jpcre2_8hpp.html", "jpcre2_8hpp" ],
+    [ "test_shorts.cpp", "test__shorts_8cpp.html", null ]
 ];

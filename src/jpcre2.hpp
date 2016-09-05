@@ -59,16 +59,17 @@
 /// Main namespace of JPCRE2
 namespace jpcre2 {
 
-typedef std::size_t SIZE_T;           ///< Used for match count and vector size
-typedef uint32_t Uint;                ///< Used for options (bitwise operation)
+typedef std::size_t SIZE_T;           			///< Used for match count and vector size
+typedef uint32_t Uint;                			///< Used for options (bitwise operation)
 typedef std::string String;                   	///< Used as std::string
-
 typedef std::map<String, String> MapNas;       	///< Map for Named substrings
-typedef std::map<SIZE_T, String> MapNum;       ///< Map for Numbered substrings
-typedef std::map<String, SIZE_T> MapNtN; ///< Substring name to Substring number map
-typedef std::vector<MapNas> VecNas; ///< Vector of matches with named substrings
-typedef std::vector<MapNtN> VecNtN; ///< Vector of substring name to Substring number map
-typedef std::vector<MapNum> VecNum; ///< Vector of matches with numbered substrings
+typedef std::map<SIZE_T, String> MapNum;       	///< Map for Numbered substrings
+typedef std::map<String, SIZE_T> MapNtN; 		///< Substring name to Substring number map
+typedef MapNtN MapNtn; 							///< Allow spelling mistake of MapNtN as MapNtn
+typedef std::vector<MapNas> VecNas; 			///< Vector of matches with named substrings
+typedef std::vector<MapNtN> VecNtN; 			///< Vector of substring name to Substring number map
+typedef VecNtN VecNtn; 							///< Allow spelling mistake of VecNtN as VecNtn
+typedef std::vector<MapNum> VecNum; 			///< Vector of matches with numbered substrings
 
 /// Namespace for error codes
 namespace ERROR {
@@ -77,13 +78,13 @@ namespace ERROR {
  *  PCRE2 error codes are negative integers.
  */
 enum {
-	INVALID_MODIFIER = 2,   ///< Invalid modifier error
-	JIT_COMPILE_FAILED = 3    ///< JIT compile failed error
+	INVALID_MODIFIER = 2,   	///< Invalid modifier error
+	JIT_COMPILE_FAILED = 3    	///< JIT compile failed error
 };
 }
 
 extern const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE; ///< Used by default to provide big enough buffer for replaced string
-extern const String LOCALE_NONE; ///< Don't do anything about locale if it is set to LOCALE_NONE
+extern const String LOCALE_NONE; ///< Don't do anything about locale if it is set to #LOCALE_NONE
 extern const String LOCALE_DEFAULT;              ///< Default locale
 extern const String JIT_ERROR_MESSAGE_PREFIX; ///< Prefix to be added to JIT error message
 

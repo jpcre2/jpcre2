@@ -88,6 +88,10 @@ jpcre2.hpp \- Main header file for JPCRE library to be included by programs that
 .br
 .RI "\fISubstring name to Substring number map\&. \fP"
 .ti -1c
+.RI "typedef MapNtN \fBjpcre2::MapNtn\fP"
+.br
+.RI "\fIAllow spelling mistake of MapNtN as MapNtn\&. \fP"
+.ti -1c
 .RI "typedef std::vector< MapNas > \fBjpcre2::VecNas\fP"
 .br
 .RI "\fIVector of matches with named substrings\&. \fP"
@@ -95,6 +99,10 @@ jpcre2.hpp \- Main header file for JPCRE library to be included by programs that
 .RI "typedef std::vector< MapNtN > \fBjpcre2::VecNtN\fP"
 .br
 .RI "\fIVector of substring name to Substring number map\&. \fP"
+.ti -1c
+.RI "typedef VecNtN \fBjpcre2::VecNtn\fP"
+.br
+.RI "\fIAllow spelling mistake of VecNtN as VecNtn\&. \fP"
 .ti -1c
 .RI "typedef std::vector< MapNum > \fBjpcre2::VecNum\fP"
 .br
@@ -129,19 +137,19 @@ jpcre2.hpp \- Main header file for JPCRE library to be included by programs that
 
 .in +1c
 .ti -1c
-.RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
+.RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP"
 .br
 .RI "\fIUsed by default to provide big enough buffer for replaced string\&. \fP"
 .ti -1c
 .RI "const String \fBjpcre2::LOCALE_NONE\fP = 'JPCRE2_NONE'"
 .br
-.RI "\fIDon't do anything about locale if it is set to LOCALE_NONE\&. \fP"
+.RI "\fIDon't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. \fP"
 .ti -1c
 .RI "const String \fBjpcre2::LOCALE_DEFAULT\fP = LOCALE_NONE"
 .br
 .RI "\fIDefault locale\&. \fP"
 .ti -1c
-.RI "const String \fBjpcre2::JIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
+.RI "const String \fBjpcre2::JIT_ERROR_MESSAGE_PREFIX\fP"
 .br
 .RI "\fIPrefix to be added to JIT error message\&. \fP"
 .in -1c
