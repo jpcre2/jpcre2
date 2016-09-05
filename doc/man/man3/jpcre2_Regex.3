@@ -1,4 +1,4 @@
-.TH "jpcre2::Regex" 3 "Mon Sep 5 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::Regex" 3 "Tue Sep 6 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -131,23 +131,23 @@ jpcre2::Regex \- This class implements public overloaded and copy constructors t
 .ti -1c
 .RI "void \fBcompile\fP (void)"
 .br
-.RI "\fICompile the regex pattern \fBpat_str\fP\&. \fP"
+.RI "\fICompile the regex pattern from class variable \fBpat_str\fP\&. \fP"
 .ti -1c
 .RI "void \fBcompile\fP (const \fBString\fP &re, \fBUint\fP po, \fBUint\fP jo)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. \fP"
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
 .ti -1c
 .RI "void \fBcompile\fP (const \fBString\fP &re, \fBUint\fP po)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. \fP"
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
 .ti -1c
 .RI "void \fBcompile\fP (const \fBString\fP &re, const \fBString\fP &mod)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. \fP"
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
 .ti -1c
 .RI "void \fBcompile\fP (const \fBString\fP &re)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. \fP"
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
 .ti -1c
 .RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s, const \fBString\fP &mod)"
 .br
@@ -168,10 +168,6 @@ jpcre2::Regex \- This class implements public overloaded and copy constructors t
 .RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains, const \fBString\fP &repl)"
 .br
 .RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
-.ti -1c
-.RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains)"
-.br
-.RI "\fIPerform regex replace\&. \fP"
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBinitReplace\fP ()"
 .br
@@ -386,13 +382,35 @@ Add option to existing PCRE2 options \fBcompile_opts\fP\&.
 .SS "void jpcre2::Regex::compile (void)"
 
 .PP
-Compile the regex pattern \fBpat_str\fP\&. Use options set in class variables\&. 
+Compile the regex pattern from class variable \fBpat_str\fP\&. Use options from class variables\&.
+.PP
+Prefer using one of its variants when compiling pattern for an already declared \fBRegex\fP object\&. An use of 
+.PP
+.nf
+re = Regex("pattern");
+
+.fi
+.PP
+ (or such) is discouraged\&. see \fC\fBRegex::operator=(const Regex& r)\fP\fP for details\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+void \fBcompile(const String& re, Uint po, Uint jo)\fP 
+.PP
+void \fBcompile(const String& re, Uint po)\fP 
+.PP
+void \fBcompile(const String& re, const String& mod)\fP 
+.PP
+void \fBcompile(const String& re)\fP 
+.RE
+.PP
+
 .PP
 References code, compile_opts, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2_compile_opts, jpcre2::LOCALE_NONE, mylocale, parseCompileOpts(), pat_str, and jpcre2::utils::toString()\&.
 .SS "void jpcre2::Regex::compile (const \fBString\fP & re, \fBUint\fP po, \fBUint\fP jo)\fC [inline]\fP"
 
 .PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. 
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Set the specified parameters, then compile the pattern using information from class variables\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -407,7 +425,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .SS "void jpcre2::Regex::compile (const \fBString\fP & re, \fBUint\fP po)\fC [inline]\fP"
 
 .PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. 
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Set the specified parameters, then compile the pattern using options from class variables\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -420,7 +438,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .SS "void jpcre2::Regex::compile (const \fBString\fP & re, const \fBString\fP & mod)\fC [inline]\fP"
 
 .PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. 
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Set the specified parameters, then compile the pattern using options from class variables\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -433,7 +451,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .SS "void jpcre2::Regex::compile (const \fBString\fP & re)\fC [inline]\fP"
 
 .PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Initializes with class variables, sets the specified parameters, then compiles the pattern\&. 
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Set the specified parameters, then compile the pattern using options from class variables\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -619,6 +637,11 @@ References jpcre2::RegexMatch::re\&.
 .PP
 Prepare to call \fBRegexReplace::replace()\fP\&. Other options can be set with the setter functions of \fBRegexReplace\fP class in-between the \fBRegex::initReplace()\fP and \fBRegexReplace::replace()\fP call\&. 
 .PP
+\fBReturns:\fP
+.RS 4
+Resultant string after regex replace 
+.RE
+.PP
 \fBSee also:\fP
 .RS 4
 \fBRegexReplace::replace()\fP 
@@ -686,7 +709,19 @@ References jpcre2::RegexMatch::match(), jpcre2::RegexMatch::re, and jpcre2::Rege
 .SS "\fBRegex\fP& jpcre2::Regex::operator= (const \fBRegex\fP & r)\fC [inline]\fP"
 
 .PP
-Overloaded assignment operator\&. Performs a deep copy 
+Overloaded assignment operator\&. Performs a deep copy\&.
+.PP
+Allows assigning objects like this: 
+.PP
+.nf
+Regex re;
+re = Regex("new pattern");
+
+.fi
+.PP
+ However, use of this method is discouraged (Use \fBRegex::compile()\fP instead), because a call to this function requires an additional call to PCRE2 internal function pcre2_code_copy()\&. If the pattern was JIT compiled, it requires another additional JIT compilation because JIT memory was not copied by pcre2_code_copy()\&.
+.PP
+\fBMemory management:\fP Old JIT memory will be released along with the old compiled code\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -760,7 +795,7 @@ Resultant string after regex replace
 .PP
 \fBSee also:\fP
 .RS 4
-RegexReplace::replace(const String& s, const String& r, const String& m) 
+\fBRegexReplace::replace()\fP 
 .RE
 .PP
 
@@ -787,25 +822,12 @@ Resultant string after regex replace
 .PP
 \fBSee also:\fP
 .RS 4
-RegexReplace::replace(const String& s, const String& r) 
+\fBRegexReplace::replace()\fP 
 .RE
 .PP
 
 .PP
 References jpcre2::RegexReplace::re, jpcre2::RegexReplace::replace(), jpcre2::RegexReplace::setReplaceWith(), and jpcre2::RegexReplace::setSubject()\&.
-.SS "\fBString\fP jpcre2::Regex::replace (const \fBString\fP & mains)\fC [inline]\fP"
-
-.PP
-Perform regex replace\&. This function takes the parameters, then passes the parameters to the appropriate function RegexReplace::replace(const String& s) which returns the result 
-.PP
-\fBSee also:\fP
-.RS 4
-RegexReplace::replace(const String& s) 
-.RE
-.PP
-
-.PP
-References jpcre2::RegexReplace::re, jpcre2::RegexReplace::replace(), and jpcre2::RegexReplace::setSubject()\&.
 .SS "\fBRegex\fP& jpcre2::Regex::reset ()\fC [inline]\fP"
 
 .PP

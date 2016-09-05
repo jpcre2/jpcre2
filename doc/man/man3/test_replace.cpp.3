@@ -1,0 +1,69 @@
+.TH "test_replace.cpp" 3 "Tue Sep 6 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+test_replace.cpp \- An example of doing regex replace with JPCRE2\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <iostream>\fP
+.br
+\fC#include 'jpcre2\&.hpp'\fP
+.br
+
+.SH "Detailed Description"
+.PP 
+An example of doing regex replace with JPCRE2\&. 
+
+
+.PP
+.nf
+/**@file test_replace\&.cpp
+ * An example of doing regex replace with JPCRE2
+ * @include test_replace\&.cpp
+ * */
+
+#include <iostream>
+#include "jpcre2\&.hpp"
+
+
+int main(){
+    jpcre2::Regex re;     /// This is not supposed to throw any exception\&.
+
+    ///Compile the pattern
+    try{re\&.setPattern("(?:(?<word>[?\&.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")     //Set various parameters
+          \&.setModifier("Jin")                                                      //\&.\&.\&.
+          \&.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)                              //\&.\&.\&.
+          \&.addPcre2Option(0)                                                       //\&.\&.\&.
+          \&.compile();}                                                             //Finally compile it\&.
+    catch(int e){std::cerr<<re\&.getErrorMessage(e);}
+        
+    /******************************************************************************************************************
+     * Use try catch block to catch any exception and avoid unexpected termination of the program in case of error
+     * All jpcre2 exceptions are of type int (integer)
+     * ****************************************************************************************************************/
+    
+    //subject string
+    std::string s="I am a string with words and digits 45 and specials chars: ?\&.#@ 443 অ আ ক খ গ ঘ  56";
+    
+    try{std::cout<<"\nreplaced string: \n"<<
+        re\&.initReplace()                                                    //Invoke the initReplace() function
+          \&.setSubject(s)                                                    //Set various parameters
+          \&.setReplaceWith("(replaced:$1)(replaced:$2)(replaced:${word})")   //\&.\&.\&.
+          \&.setModifier("xE")                                                //\&.\&.\&.
+          \&.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)                       //\&.\&.\&.
+          \&.addPcre2Option(0)                                                //\&.\&.\&.
+          \&.replace();                                                       //Finally perform the replace operation\&.
+    }
+    catch(int e){std::cerr<<re\&.getErrorMessage(e);}
+    
+    return 0;
+}
+
+.fi
+.PP
+ 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for JPCRE2 from the source code\&.

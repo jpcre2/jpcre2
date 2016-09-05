@@ -1,12 +1,19 @@
+/**@file test_match.cpp
+ * An example of performing regex match against a pattern with JPCRE2 and getting the
+ * match count and match results.
+ * Shows how to iterate over the match results to get the captured groups/substrings.
+ * @include test_match.cpp
+ * */
+
 #include <iostream>
 #include "jpcre2.hpp"
 
 
 int main(){
 
-    jpcre2::VecNum vec_num0;   ///Vector to store numbured substring Map.
-    jpcre2::VecNas vec_nas0;   ///Vector to store named substring Map.
-    jpcre2::VecNtN vec_nn0;    ///Vector to store Named substring to Number Map.
+    jpcre2::VecNum vec_num0;   ///Vector to store numbered substring Maps.
+    jpcre2::VecNas vec_nas0;   ///Vector to store named substring Maps.
+    jpcre2::VecNtN vec_nn0;    ///Vector to store Named substring to Number Maps.
     
     jpcre2::Regex re;     ///An empty object is not supposed to throw any exception in normal cases.
     
@@ -17,7 +24,7 @@ int main(){
                             | jpcre2::JIT_COMPILE                               //perform JIT compile
                             | jpcre2::ERROR_ALL)                                //treat warnings as errors
           .addPcre2Option(0)                                                    //add pcre2 option
-          .compile();}                                                          //Finaly compile it.               
+          .compile();}                                                          //Finally compile it.
     catch(int e){std::cerr<<re.getErrorMessage(e);}
     
     /***************************************************************************************************************
@@ -31,26 +38,28 @@ int main(){
     size_t count=0;
     
     try{count = re.initMatch()                                  //Invoke the initMatch() function
-                  .setModifier("g")                            //set various parameters
+                  .setModifier("g")                             //set various parameters
                   .setSubject(subject)                          //...
                   .setNumberedSubstringVector(&vec_num0)        //...
                   .setNamedSubstringVector(&vec_nas0)           //...
                   .setNameToNumberMapVector(&vec_nn0)           //...
-                  .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)  //...
-                  .addPcre2Option(0)                           //...
+                  .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)   //...
+                  .addPcre2Option(0)                            //...
                   .match();}                                    //Finaly perform the match
     catch(int e){std::cerr<<re.getErrorMessage(e);}
     
     
-    re.reset();
+    /// re.reset(); /// re-initialize re
     
     
     std::cout<<"\nTotal number of mathces: "<<count<<std::endl;
     ///Now let's access the matched data
     
-    ///Each of these vectors contains a map
-    ///and each of the maps contains all the substrings that are matched against the pattern.
-    ///All the matches in all the maps combines the total match throughout the entire string.
+    ///Each of these vectors contains maps.
+    ///Each element in the vector specifies a particular match
+    ///First match is the vector element 0, second is at index 1 and so forth
+    ///A map for a vector element, i.e for a match contains all of its substrings/capture groups
+    ///The first element of the map is capture group 0 i.e total match
     
     
     for(size_t i=0;i<vec_num0.size();++i){

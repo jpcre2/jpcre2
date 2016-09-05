@@ -61,7 +61,6 @@
     <member refid="classjpcre2_1_1Regex_1a519b0915bf1163c6ce6a4d674b30cfcd" kind="function"><name>initMatch</name></member>
     <member refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" kind="function"><name>replace</name></member>
     <member refid="classjpcre2_1_1Regex_1addd7c21abd0f4cf6c532a7602cfb5835" kind="function"><name>replace</name></member>
-    <member refid="classjpcre2_1_1Regex_1ad13b367b6351b7e4ee51472488f68394" kind="function"><name>replace</name></member>
     <member refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" kind="function"><name>initReplace</name></member>
   </compound>
   <compound refid="classjpcre2_1_1RegexMatch" kind="class"><name>jpcre2::RegexMatch</name>

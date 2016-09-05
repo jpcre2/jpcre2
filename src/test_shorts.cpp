@@ -1,5 +1,6 @@
 /** @file test_shorts.cpp
- *  Contains some short examples
+ *  Contains some short examples of performing regex match and regex replace with JPCRE2
+ *  @include test_shorts.cpp
  *  */
 
 #include <iostream>
@@ -17,8 +18,6 @@ int main(){
     else
         std::cout<<"\nno match";
     /**
-     * The above is a good example of using temporary objects to perform match (or replace)
-     * 
      * Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may or may not give you
      * any performance boost (depends on the complexity of the pattern). The more complex 
      * the pattern gets, the more sense the S modifier makes.
@@ -90,7 +89,7 @@ int main(){
         ///This will throw exception, because substring 4 doesn't exist
         std::cout<<"\nCaptrued group 4 of frist match: "<<vec_num[0].at(4);
     } catch (std::logic_error e){
-        std::cout<<"\nCaptrued group 4 doesn't exist";
+        std::cerr<<"\nCaptrued group 4 doesn't exist";
     }*/
     
     ///There were two matches found (vec_num.size() == 2) in the above example
@@ -126,7 +125,7 @@ int main(){
         ///This will throw exception becasue the substring name 'name' doesn't exist
         std::cout<<"\nCaptured group (name) of first match: "<<vec_nas[0].at("name");
     } catch(std::logic_error e){
-        std::cout<<"\nCaptured group (name) doesn't exist";
+        std::cerr<<"\nCaptured group (name) doesn't exist";
     }*/
     
     ///There were two matches found (vec_nas.size() == 2) in the above example

@@ -607,7 +607,19 @@ public:
 	}
 
 	/// Overloaded assignment operator.
-	/// Performs a deep copy
+	/// Performs a deep copy.
+	///
+	/// Allows assigning objects like this:
+	/// ```cpp
+	/// Regex re;
+	/// re = Regex("new pattern");
+	/// ```
+	/// However, use of this method is discouraged (Use Regex::compile() instead), because a call to this function
+	/// requires an additional call to PCRE2 internal function pcre2_code_copy().
+	/// If the pattern was JIT compiled, it requires another additional JIT compilation because
+	/// JIT memory was not copied by pcre2_code_copy().
+	///
+	/// **Memory management:** Old JIT memory will be released along with the old compiled code.
 	/// @param r const Regex&
 	/// @return *this
 	Regex& operator=(const Regex& r) {
@@ -787,13 +799,26 @@ public:
 		return *this;
 	}
 
-	/** Compile the regex pattern #pat_str.
-	 * Use options set in class variables.
+	/** Compile the regex pattern from class variable #pat_str.
+	 * Use options from class variables.
+	 *
+	 * Prefer using one of its variants when compiling pattern for an already declared Regex object.
+	 * An use of
+	 * ```cppp
+	 * re = Regex("pattern");
+	 * ```
+	 * (or such) is discouraged. see `Regex::operator=(const Regex& r)` for details.
+	 * @see void compile(const String& re, Uint po, Uint jo)
+	 * @see void compile(const String& re, Uint po)
+	 * @see void compile(const String& re, const String& mod)
+	 * @see void compile(const String& re)
 	 * */
 	void compile(void);
 
 	/** @overload
-	 *  Initializes with class variables, sets the specified parameters, then compiles the pattern.
+	 *
+	 *
+	 *  Set the specified parameters, then compile the pattern using information from class variables.
 	 *  @param re Pattern string
 	 *  @param po PCRE2 option
 	 *  @param jo JPCRE2 option
@@ -804,7 +829,9 @@ public:
 	}
 
 	/** @overload
-	 *  Initializes with class variables, sets the specified parameters, then compiles the pattern.
+	 *
+	 *
+	 *  Set the specified parameters, then compile the pattern using options from class variables.
 	 *  @param re Pattern string
 	 *  @param po PCRE2 option
 	 * */
@@ -814,7 +841,9 @@ public:
 	}
 
 	/** @overload
-	 *  Initializes with class variables, sets the specified parameters, then compiles the pattern.
+	 *
+	 *
+	 *  Set the specified parameters, then compile the pattern using options from class variables.
 	 *  @param re Pattern string
 	 *  @param mod Modifier string
 	 * */
@@ -824,7 +853,9 @@ public:
 	}
 
 	/** @overload
-	 *  Initializes with class variables, sets the specified parameters, then compiles the pattern.
+	 *
+	 *
+	 *  Set the specified parameters, then compile the pattern using options from class variables.
 	 *  @param re Pattern string
 	 * */
 	void compile(const String& re) {
@@ -910,22 +941,10 @@ public:
 		return rr->replace();
 	}
 
-	/** @overload
-	 *  @param mains Subject string
-	 *  @return Resultant string after regex replace
-	 *  @see RegexReplace::replace()
-	 * */
-	String replace(const String& mains) {
-		delete rr;
-		rr = new RegexReplace();
-		rr->re = this;
-		rr->setSubject(mains);
-		return rr->replace();
-	}
-
 	/** Prepare to call RegexReplace::replace().
 	 * Other options can be set with the setter functions of RegexReplace class
 	 * in-between the Regex::initReplace() and RegexReplace::replace() call.
+	 * @return Resultant string after regex replace
 	 * @see RegexReplace::replace()
 	 * @see RegexReplace::setSubject(const String& s)
 	 * @see RegexReplace::setModifier(const String& mod)
@@ -941,6 +960,6 @@ public:
 
 };
 
-} ///jpcre2 namespace
+}// jpcre2 namespace
 
 #endif

@@ -41,7 +41,6 @@ var classjpcre2_1_1Regex =
     [ "removePcre2Option", "classjpcre2_1_1Regex.html#a09b14cf78ae3a3302533783b7fab40a8", null ],
     [ "replace", "classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981", null ],
     [ "replace", "classjpcre2_1_1Regex.html#addd7c21abd0f4cf6c532a7602cfb5835", null ],
-    [ "replace", "classjpcre2_1_1Regex.html#ad13b367b6351b7e4ee51472488f68394", null ],
     [ "reset", "classjpcre2_1_1Regex.html#a91f6afe257e9633cbb79a98649ab8d02", null ],
     [ "setJpcre2Option", "classjpcre2_1_1Regex.html#a031617a19638ef752dcd2b29fa3464d5", null ],
     [ "setLocale", "classjpcre2_1_1Regex.html#a56721534519e5cb436337043eee8f42d", null ],

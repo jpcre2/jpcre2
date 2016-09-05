@@ -15,51 +15,75 @@
     <includedby refid="test__replace2_8cpp" local="yes">test_replace2.cpp</includedby>
     <includedby refid="test__shorts_8cpp" local="yes">test_shorts.cpp</includedby>
     <incdepgraph>
-      <node id="33">
+      <node id="77">
         <label>pcre2.h</label>
       </node>
-      <node id="34">
+      <node id="78">
         <label>stdint.h</label>
       </node>
-      <node id="36">
+      <node id="80">
         <label>string</label>
       </node>
-      <node id="32">
+      <node id="76">
         <label>jpcre2.hpp</label>
         <link refid="jpcre2.hpp"/>
-        <childnode refid="33" relation="include">
+        <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="34" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="80" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="38" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
       </node>
-      <node id="38">
+      <node id="82">
         <label>map</label>
       </node>
-      <node id="37">
+      <node id="81">
         <label>vector</label>
       </node>
-      <node id="35">
+      <node id="79">
         <label>cstddef</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="40">
+      <node id="88">
         <label>test_shorts.cpp</label>
         <link refid="test__shorts_8cpp"/>
       </node>
-      <node id="39">
+      <node id="83">
         <label>jpcre2.hpp</label>
         <link refid="jpcre2.hpp"/>
-        <childnode refid="40" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="87">
+        <label>test_replace2.cpp</label>
+        <link refid="test__replace2_8cpp"/>
+      </node>
+      <node id="86">
+        <label>test_replace.cpp</label>
+        <link refid="test__replace_8cpp"/>
+      </node>
+      <node id="84">
+        <label>test_match.cpp</label>
+        <link refid="test__match_8cpp"/>
+      </node>
+      <node id="85">
+        <label>test_match2.cpp</label>
+        <link refid="test__match2_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classjpcre2_1_1RegexMatch" prot="public">jpcre2::RegexMatch</innerclass>
@@ -696,343 +720,362 @@
 <codeline lineno="607"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="608"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
 <codeline lineno="609"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Overloaded<sp/>assignment<sp/>operator.</highlight></codeline>
-<codeline lineno="610"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Performs<sp/>a<sp/>deep<sp/>copy</highlight></codeline>
-<codeline lineno="611"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>r<sp/>const<sp/>Regex&amp;</highlight></codeline>
-<codeline lineno="612"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="613" refid="classjpcre2_1_1Regex_1ab43a14b4b6e75b7fa3221bc18a1d4121" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1ab43a14b4b6e75b7fa3221bc18a1d4121" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/>r)<sp/>{</highlight></codeline>
-<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>&amp;r)</highlight></codeline>
-<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="616"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>///shallow<sp/>copy<sp/>must<sp/>be<sp/>performed<sp/>before<sp/>deep<sp/>copy</highlight></codeline>
-<codeline lineno="617"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shallowCopy(r);</highlight></codeline>
-<codeline lineno="618"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>deepCopy(r);</highlight></codeline>
-<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="621"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="622"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Destructor</highlight></codeline>
-<codeline lineno="623"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Deletes<sp/>memory<sp/>used<sp/>by<sp/>#rm<sp/>an<sp/>#rr</highlight></codeline>
-<codeline lineno="624" refid="classjpcre2_1_1Regex_1a12b2bf254b59d7967681b77795c49260" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex_1a12b2bf254b59d7967681b77795c49260" kindref="member">~Regex</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>freeRegexMemory();</highlight></codeline>
-<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rm;</highlight></codeline>
-<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rr;</highlight></codeline>
-<codeline lineno="628"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="629"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="630"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Reset<sp/>all<sp/>class<sp/>variables<sp/>to<sp/>its<sp/>default<sp/>(initial)<sp/>state</highlight></codeline>
-<codeline lineno="631"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="632"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="633" refid="classjpcre2_1_1Regex_1a91f6afe257e9633cbb79a98649ab8d02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a91f6afe257e9633cbb79a98649ab8d02" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="634"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>freeRegexMemory();</highlight></codeline>
-<codeline lineno="635"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init();</highlight></codeline>
-<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="638"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="639"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>modifier<sp/>string</highlight></codeline>
-<codeline lineno="640"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#modifier</highlight></codeline>
-<codeline lineno="641"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="642" refid="classjpcre2_1_1Regex_1acc597ee58b9d5ab35d6e1f98b6118175" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1acc597ee58b9d5ab35d6e1f98b6118175" kindref="member">getModifier</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>modifier;</highlight></codeline>
-<codeline lineno="644"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="645"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="646"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>pattern<sp/>string</highlight></codeline>
-<codeline lineno="647"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#pat_str</highlight></codeline>
-<codeline lineno="648"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="649" refid="classjpcre2_1_1Regex_1a006dd17f71a2d717aa9575d72fac6d7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1a006dd17f71a2d717aa9575d72fac6d7b" kindref="member">getPattern</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="650"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pat_str;</highlight></codeline>
-<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="652"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="653"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>locale<sp/>as<sp/>a<sp/>string</highlight></codeline>
-<codeline lineno="654"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#mylocale</highlight></codeline>
-<codeline lineno="655"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="656" refid="classjpcre2_1_1Regex_1ae9afaf627ed922a9e4cee8074d30edfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1ae9afaf627ed922a9e4cee8074d30edfa" kindref="member">getLocale</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="657"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mylocale;</highlight></codeline>
-<codeline lineno="658"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="659"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="660"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>PCRE2<sp/>option</highlight></codeline>
-<codeline lineno="661"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#compile_opts</highlight></codeline>
-<codeline lineno="662"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="663" refid="classjpcre2_1_1Regex_1a857307fc59ba7f010b097e61c1744923" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Uint<sp/><ref refid="classjpcre2_1_1Regex_1a857307fc59ba7f010b097e61c1744923" kindref="member">getPcre2Option</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>compile_opts;</highlight></codeline>
-<codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="666"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="667"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>JPCRE2<sp/>option</highlight></codeline>
-<codeline lineno="668"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#jpcre2_compile_opts</highlight></codeline>
-<codeline lineno="669"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="670" refid="classjpcre2_1_1Regex_1a5d2d04eb7c393338a4c8cce941e957ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Uint<sp/><ref refid="classjpcre2_1_1Regex_1a5d2d04eb7c393338a4c8cce941e957ef" kindref="member">getJpcre2Option</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="671"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>jpcre2_compile_opts;</highlight></codeline>
-<codeline lineno="672"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="673"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="674"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>error<sp/>message<sp/>by<sp/>error<sp/>number<sp/>and<sp/>error<sp/>offset</highlight></codeline>
-<codeline lineno="675"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>err_num<sp/>Error<sp/>number</highlight></codeline>
-<codeline lineno="676"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>err_off<sp/>Error<sp/>offset</highlight></codeline>
-<codeline lineno="677"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Error<sp/>message<sp/>as<sp/>a<sp/>string</highlight></codeline>
-<codeline lineno="678"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="679"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/>getErrorMessage(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>err_num,<sp/>PCRE2_SIZE<sp/>err_off);</highlight></codeline>
-<codeline lineno="680"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="681"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
-<codeline lineno="682"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Use<sp/>class<sp/>variable<sp/>error_offest<sp/>as<sp/>error<sp/>offset</highlight></codeline>
-<codeline lineno="683"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>err_num</highlight></codeline>
-<codeline lineno="684"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Error<sp/>message<sp/>as<sp/>a<sp/>string</highlight></codeline>
-<codeline lineno="685"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="686" refid="classjpcre2_1_1Regex_1a76fddd42bf11dd66c25905fb92437d6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1a76fddd42bf11dd66c25905fb92437d6b" kindref="member">getErrorMessage</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>err_num)<sp/>{</highlight></codeline>
-<codeline lineno="687"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getErrorMessage(err_num,<sp/>error_offset);</highlight></codeline>
-<codeline lineno="688"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="689"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="690"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
-<codeline lineno="691"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Use<sp/>class<sp/>variable<sp/>error_number<sp/>as<sp/>error<sp/>number<sp/>and<sp/>error_offest<sp/>as<sp/>error<sp/>offset</highlight></codeline>
-<codeline lineno="692"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Error<sp/>message<sp/>as<sp/>a<sp/>string<sp/>(empty<sp/>if<sp/>there<sp/>is<sp/>no<sp/>error)</highlight></codeline>
-<codeline lineno="693"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="694" refid="classjpcre2_1_1Regex_1a8606fff8b192c94f58ca9e82aa048c61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1a8606fff8b192c94f58ca9e82aa048c61" kindref="member">getErrorMessage</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="695"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getErrorMessage(error_number,<sp/>error_offset);</highlight></codeline>
-<codeline lineno="696"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="697"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="698"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Get<sp/>current<sp/>warning<sp/>message</highlight></codeline>
-<codeline lineno="699"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>#current_warning_msg</highlight></codeline>
-<codeline lineno="700" refid="classjpcre2_1_1Regex_1a1a639ae4090b88609c03e9268faf02d8" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1a1a639ae4090b88609c03e9268faf02d8" kindref="member">getWarningMessage</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="701"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_warning_msg;</highlight></codeline>
-<codeline lineno="702"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="703"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="704"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Get<sp/>error<sp/>number</highlight></codeline>
-<codeline lineno="705"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>return<sp/>#error_number</highlight></codeline>
-<codeline lineno="706" refid="classjpcre2_1_1Regex_1a7294273e7d11907a749f2db40da9ed15" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1a7294273e7d11907a749f2db40da9ed15" kindref="member">getErrorNumber</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="707"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error_number;</highlight></codeline>
+<codeline lineno="610"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Performs<sp/>a<sp/>deep<sp/>copy.</highlight></codeline>
+<codeline lineno="611"><highlight class="comment"><sp/><sp/><sp/><sp/>///</highlight></codeline>
+<codeline lineno="612"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Allows<sp/>assigning<sp/>objects<sp/>like<sp/>this:</highlight></codeline>
+<codeline lineno="613"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>```cpp</highlight></codeline>
+<codeline lineno="614"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Regex<sp/>re;</highlight></codeline>
+<codeline lineno="615"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>re<sp/>=<sp/>Regex(&quot;new<sp/>pattern&quot;);</highlight></codeline>
+<codeline lineno="616"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>```</highlight></codeline>
+<codeline lineno="617"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>However,<sp/>use<sp/>of<sp/>this<sp/>method<sp/>is<sp/>discouraged<sp/>(Use<sp/>Regex::compile()<sp/>instead),<sp/>because<sp/>a<sp/>call<sp/>to<sp/>this<sp/>function</highlight></codeline>
+<codeline lineno="618"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>requires<sp/>an<sp/>additional<sp/>call<sp/>to<sp/>PCRE2<sp/>internal<sp/>function<sp/>pcre2_code_copy().</highlight></codeline>
+<codeline lineno="619"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>If<sp/>the<sp/>pattern<sp/>was<sp/>JIT<sp/>compiled,<sp/>it<sp/>requires<sp/>another<sp/>additional<sp/>JIT<sp/>compilation<sp/>because</highlight></codeline>
+<codeline lineno="620"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>JIT<sp/>memory<sp/>was<sp/>not<sp/>copied<sp/>by<sp/>pcre2_code_copy().</highlight></codeline>
+<codeline lineno="621"><highlight class="comment"><sp/><sp/><sp/><sp/>///</highlight></codeline>
+<codeline lineno="622"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>**Memory<sp/>management:**<sp/>Old<sp/>JIT<sp/>memory<sp/>will<sp/>be<sp/>released<sp/>along<sp/>with<sp/>the<sp/>old<sp/>compiled<sp/>code.</highlight></codeline>
+<codeline lineno="623"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>r<sp/>const<sp/>Regex&amp;</highlight></codeline>
+<codeline lineno="624"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="625" refid="classjpcre2_1_1Regex_1ab43a14b4b6e75b7fa3221bc18a1d4121" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1ab43a14b4b6e75b7fa3221bc18a1d4121" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/>r)<sp/>{</highlight></codeline>
+<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>&amp;r)</highlight></codeline>
+<codeline lineno="627"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="628"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>///shallow<sp/>copy<sp/>must<sp/>be<sp/>performed<sp/>before<sp/>deep<sp/>copy</highlight></codeline>
+<codeline lineno="629"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shallowCopy(r);</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>deepCopy(r);</highlight></codeline>
+<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="632"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="633"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="634"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Destructor</highlight></codeline>
+<codeline lineno="635"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Deletes<sp/>memory<sp/>used<sp/>by<sp/>#rm<sp/>an<sp/>#rr</highlight></codeline>
+<codeline lineno="636" refid="classjpcre2_1_1Regex_1a12b2bf254b59d7967681b77795c49260" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex_1a12b2bf254b59d7967681b77795c49260" kindref="member">~Regex</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>freeRegexMemory();</highlight></codeline>
+<codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rm;</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rr;</highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="642"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Reset<sp/>all<sp/>class<sp/>variables<sp/>to<sp/>its<sp/>default<sp/>(initial)<sp/>state</highlight></codeline>
+<codeline lineno="643"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="644"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="645" refid="classjpcre2_1_1Regex_1a91f6afe257e9633cbb79a98649ab8d02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a91f6afe257e9633cbb79a98649ab8d02" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>freeRegexMemory();</highlight></codeline>
+<codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init();</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="649"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="650"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="651"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>modifier<sp/>string</highlight></codeline>
+<codeline lineno="652"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#modifier</highlight></codeline>
+<codeline lineno="653"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="654" refid="classjpcre2_1_1Regex_1acc597ee58b9d5ab35d6e1f98b6118175" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1acc597ee58b9d5ab35d6e1f98b6118175" kindref="member">getModifier</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="655"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>modifier;</highlight></codeline>
+<codeline lineno="656"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="657"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="658"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>pattern<sp/>string</highlight></codeline>
+<codeline lineno="659"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#pat_str</highlight></codeline>
+<codeline lineno="660"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="661" refid="classjpcre2_1_1Regex_1a006dd17f71a2d717aa9575d72fac6d7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1a006dd17f71a2d717aa9575d72fac6d7b" kindref="member">getPattern</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pat_str;</highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="664"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="665"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>locale<sp/>as<sp/>a<sp/>string</highlight></codeline>
+<codeline lineno="666"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#mylocale</highlight></codeline>
+<codeline lineno="667"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="668" refid="classjpcre2_1_1Regex_1ae9afaf627ed922a9e4cee8074d30edfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1ae9afaf627ed922a9e4cee8074d30edfa" kindref="member">getLocale</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="669"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mylocale;</highlight></codeline>
+<codeline lineno="670"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="671"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="672"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>PCRE2<sp/>option</highlight></codeline>
+<codeline lineno="673"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#compile_opts</highlight></codeline>
+<codeline lineno="674"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="675" refid="classjpcre2_1_1Regex_1a857307fc59ba7f010b097e61c1744923" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Uint<sp/><ref refid="classjpcre2_1_1Regex_1a857307fc59ba7f010b097e61c1744923" kindref="member">getPcre2Option</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="676"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>compile_opts;</highlight></codeline>
+<codeline lineno="677"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="678"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="679"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>JPCRE2<sp/>option</highlight></codeline>
+<codeline lineno="680"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>#jpcre2_compile_opts</highlight></codeline>
+<codeline lineno="681"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="682" refid="classjpcre2_1_1Regex_1a5d2d04eb7c393338a4c8cce941e957ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Uint<sp/><ref refid="classjpcre2_1_1Regex_1a5d2d04eb7c393338a4c8cce941e957ef" kindref="member">getJpcre2Option</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="683"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>jpcre2_compile_opts;</highlight></codeline>
+<codeline lineno="684"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="685"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="686"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Get<sp/>error<sp/>message<sp/>by<sp/>error<sp/>number<sp/>and<sp/>error<sp/>offset</highlight></codeline>
+<codeline lineno="687"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>err_num<sp/>Error<sp/>number</highlight></codeline>
+<codeline lineno="688"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>err_off<sp/>Error<sp/>offset</highlight></codeline>
+<codeline lineno="689"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Error<sp/>message<sp/>as<sp/>a<sp/>string</highlight></codeline>
+<codeline lineno="690"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/>getErrorMessage(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>err_num,<sp/>PCRE2_SIZE<sp/>err_off);</highlight></codeline>
+<codeline lineno="692"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="693"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
+<codeline lineno="694"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Use<sp/>class<sp/>variable<sp/>error_offest<sp/>as<sp/>error<sp/>offset</highlight></codeline>
+<codeline lineno="695"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>err_num</highlight></codeline>
+<codeline lineno="696"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Error<sp/>message<sp/>as<sp/>a<sp/>string</highlight></codeline>
+<codeline lineno="697"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="698" refid="classjpcre2_1_1Regex_1a76fddd42bf11dd66c25905fb92437d6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1a76fddd42bf11dd66c25905fb92437d6b" kindref="member">getErrorMessage</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>err_num)<sp/>{</highlight></codeline>
+<codeline lineno="699"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getErrorMessage(err_num,<sp/>error_offset);</highlight></codeline>
+<codeline lineno="700"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="701"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="702"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
+<codeline lineno="703"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Use<sp/>class<sp/>variable<sp/>error_number<sp/>as<sp/>error<sp/>number<sp/>and<sp/>error_offest<sp/>as<sp/>error<sp/>offset</highlight></codeline>
+<codeline lineno="704"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Error<sp/>message<sp/>as<sp/>a<sp/>string<sp/>(empty<sp/>if<sp/>there<sp/>is<sp/>no<sp/>error)</highlight></codeline>
+<codeline lineno="705"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="706" refid="classjpcre2_1_1Regex_1a8606fff8b192c94f58ca9e82aa048c61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1a8606fff8b192c94f58ca9e82aa048c61" kindref="member">getErrorMessage</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="707"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getErrorMessage(error_number,<sp/>error_offset);</highlight></codeline>
 <codeline lineno="708"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="709"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="710"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Get<sp/>error<sp/>offset</highlight></codeline>
-<codeline lineno="711"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>return<sp/>#error_offset</highlight></codeline>
-<codeline lineno="712" refid="classjpcre2_1_1Regex_1a1c7822056cd7ac9a6be5e18513bd8093" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>PCRE2_SIZE<sp/><ref refid="classjpcre2_1_1Regex_1a1c7822056cd7ac9a6be5e18513bd8093" kindref="member">getErrorOffset</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="713"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error_offset;</highlight></codeline>
+<codeline lineno="710"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Get<sp/>current<sp/>warning<sp/>message</highlight></codeline>
+<codeline lineno="711"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>#current_warning_msg</highlight></codeline>
+<codeline lineno="712" refid="classjpcre2_1_1Regex_1a1a639ae4090b88609c03e9268faf02d8" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1a1a639ae4090b88609c03e9268faf02d8" kindref="member">getWarningMessage</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="713"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_warning_msg;</highlight></codeline>
 <codeline lineno="714"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="715"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="716"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>the<sp/>Pattern<sp/>string<sp/>#pat_str</highlight></codeline>
-<codeline lineno="717"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
-<codeline lineno="718"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="719" refid="classjpcre2_1_1Regex_1a85d9a514ea86ae68533223adac6c6bd8" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a85d9a514ea86ae68533223adac6c6bd8" kindref="member">setPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re)<sp/>{</highlight></codeline>
-<codeline lineno="720"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pat_str<sp/>=<sp/>re;</highlight></codeline>
-<codeline lineno="721"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="722"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="723"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="724"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>the<sp/>modifier<sp/>#modifier<sp/>(overwrite<sp/>existing<sp/>JPCRE2<sp/>and<sp/>PCRE2<sp/>option).</highlight></codeline>
-<codeline lineno="725"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Re-initializes<sp/>the<sp/>option<sp/>bits<sp/>for<sp/>PCRE2<sp/>and<sp/>JPCRE2<sp/>options,<sp/>then<sp/>sets<sp/>the<sp/>modifier.</highlight></codeline>
-<codeline lineno="726"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Modifier<sp/>string</highlight></codeline>
-<codeline lineno="727"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="728" refid="classjpcre2_1_1Regex_1aed9865b58c60945e19f36fa310f5a595" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1aed9865b58c60945e19f36fa310f5a595" kindref="member">setModifier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>x)<sp/>{</highlight></codeline>
-<codeline lineno="729"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile_opts<sp/>=<sp/>jpcre2_compile_opts<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="730"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>modifier<sp/>=<sp/>x;</highlight></codeline>
-<codeline lineno="731"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="732"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="733"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="734"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>the<sp/>locale<sp/>#mylocale.</highlight></codeline>
-<codeline lineno="735"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Locale<sp/>string</highlight></codeline>
-<codeline lineno="736"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="737" refid="classjpcre2_1_1Regex_1a56721534519e5cb436337043eee8f42d" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a56721534519e5cb436337043eee8f42d" kindref="member">setLocale</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>x)<sp/>{</highlight></codeline>
-<codeline lineno="738"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mylocale<sp/>=<sp/>x;</highlight></codeline>
-<codeline lineno="739"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="740"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="741"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="742"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>JPCRE2<sp/>option<sp/>#jpcre2_compile_opts<sp/>(overwrites<sp/>existing<sp/>option)</highlight></codeline>
-<codeline lineno="743"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
-<codeline lineno="744"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="745" refid="classjpcre2_1_1Regex_1a031617a19638ef752dcd2b29fa3464d5" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a031617a19638ef752dcd2b29fa3464d5" kindref="member">setJpcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
-<codeline lineno="746"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jpcre2_compile_opts<sp/>=<sp/>x;</highlight></codeline>
-<codeline lineno="747"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="748"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="749"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="750"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>PCRE2<sp/>option<sp/>#compile_opts<sp/>(overwrites<sp/>existing<sp/>option)</highlight></codeline>
-<codeline lineno="751"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
-<codeline lineno="752"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="753" refid="classjpcre2_1_1Regex_1acdc6f97f4030ae109c4e1a4e2310bceb" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1acdc6f97f4030ae109c4e1a4e2310bceb" kindref="member">setPcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
-<codeline lineno="754"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile_opts<sp/>=<sp/>x;</highlight></codeline>
-<codeline lineno="755"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="756"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="757"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="758"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Add<sp/>option<sp/>to<sp/>existing<sp/>JPCRE2<sp/>options<sp/>#jpcre2_compile_opts</highlight></codeline>
-<codeline lineno="759"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
-<codeline lineno="760"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="761" refid="classjpcre2_1_1Regex_1a03974fa7ba8f7c47186cb8d6f54934de" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a03974fa7ba8f7c47186cb8d6f54934de" kindref="member">addJpcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
-<codeline lineno="762"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jpcre2_compile_opts<sp/>|=<sp/>x;</highlight></codeline>
-<codeline lineno="763"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="764"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="765"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="766"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Add<sp/>option<sp/>to<sp/>existing<sp/>PCRE2<sp/>options<sp/>#compile_opts</highlight></codeline>
-<codeline lineno="767"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
-<codeline lineno="768"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="769" refid="classjpcre2_1_1Regex_1a2c7dcf12f26b2b046e147b013c8b5087" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a2c7dcf12f26b2b046e147b013c8b5087" kindref="member">addPcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
-<codeline lineno="770"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile_opts<sp/>|=<sp/>x;</highlight></codeline>
-<codeline lineno="771"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="772"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="773"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="774"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Remove<sp/>option<sp/>from<sp/>existing<sp/>JPCRE2<sp/>option<sp/>#jpcre2_compile_opts</highlight></codeline>
-<codeline lineno="775"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
-<codeline lineno="776"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="777" refid="classjpcre2_1_1Regex_1a91ffbc407562d4526fd21bc7b63a0a49" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a91ffbc407562d4526fd21bc7b63a0a49" kindref="member">removeJpcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
-<codeline lineno="778"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jpcre2_compile_opts<sp/>&amp;=<sp/>~x;</highlight></codeline>
-<codeline lineno="779"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="780"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="781"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="782"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Remove<sp/>option<sp/>from<sp/>existing<sp/>PCRE2<sp/>option<sp/>#compile_opts</highlight></codeline>
-<codeline lineno="783"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
-<codeline lineno="784"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
-<codeline lineno="785" refid="classjpcre2_1_1Regex_1a09b14cf78ae3a3302533783b7fab40a8" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a09b14cf78ae3a3302533783b7fab40a8" kindref="member">removePcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
-<codeline lineno="786"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile_opts<sp/>&amp;=<sp/>~x;</highlight></codeline>
-<codeline lineno="787"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="788"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="789"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="790"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Compile<sp/>the<sp/>regex<sp/>pattern<sp/>#pat_str.</highlight></codeline>
-<codeline lineno="791"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>Use<sp/>options<sp/>set<sp/>in<sp/>class<sp/>variables.</highlight></codeline>
-<codeline lineno="792"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="793"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>compile(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="794"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="795"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
-<codeline lineno="796"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Initializes<sp/>with<sp/>class<sp/>variables,<sp/>sets<sp/>the<sp/>specified<sp/>parameters,<sp/>then<sp/>compiles<sp/>the<sp/>pattern.</highlight></codeline>
-<codeline lineno="797"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
-<codeline lineno="798"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>po<sp/>PCRE2<sp/>option</highlight></codeline>
-<codeline lineno="799"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>jo<sp/>JPCRE2<sp/>option</highlight></codeline>
-<codeline lineno="800"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="801" refid="classjpcre2_1_1Regex_1a4640915bc907aa3b80da543f1eb7e74f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1a4640915bc907aa3b80da543f1eb7e74f" kindref="member">compile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re,<sp/>Uint<sp/>po,<sp/>Uint<sp/>jo)<sp/>{</highlight></codeline>
-<codeline lineno="802"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init(re,<sp/>po,<sp/>jo);</highlight></codeline>
-<codeline lineno="803"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile();</highlight></codeline>
-<codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="805"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="806"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
-<codeline lineno="807"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Initializes<sp/>with<sp/>class<sp/>variables,<sp/>sets<sp/>the<sp/>specified<sp/>parameters,<sp/>then<sp/>compiles<sp/>the<sp/>pattern.</highlight></codeline>
-<codeline lineno="808"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
-<codeline lineno="809"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>po<sp/>PCRE2<sp/>option</highlight></codeline>
-<codeline lineno="810"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="811" refid="classjpcre2_1_1Regex_1a01394dcb222c4d442cabbffb4bcf570a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1a01394dcb222c4d442cabbffb4bcf570a" kindref="member">compile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re,<sp/>Uint<sp/>po)<sp/>{</highlight></codeline>
-<codeline lineno="812"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init(re,<sp/>po,<sp/>0);</highlight></codeline>
-<codeline lineno="813"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile();</highlight></codeline>
-<codeline lineno="814"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="815"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="816"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
-<codeline lineno="817"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Initializes<sp/>with<sp/>class<sp/>variables,<sp/>sets<sp/>the<sp/>specified<sp/>parameters,<sp/>then<sp/>compiles<sp/>the<sp/>pattern.</highlight></codeline>
-<codeline lineno="818"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
-<codeline lineno="819"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mod<sp/>Modifier<sp/>string</highlight></codeline>
-<codeline lineno="820"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="821" refid="classjpcre2_1_1Regex_1acd49e856009160c622e90b81b6557d8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1acd49e856009160c622e90b81b6557d8d" kindref="member">compile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mod)<sp/>{</highlight></codeline>
-<codeline lineno="822"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init(re,<sp/>mod);</highlight></codeline>
-<codeline lineno="823"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile();</highlight></codeline>
-<codeline lineno="824"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="825"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="826"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
-<codeline lineno="827"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Initializes<sp/>with<sp/>class<sp/>variables,<sp/>sets<sp/>the<sp/>specified<sp/>parameters,<sp/>then<sp/>compiles<sp/>the<sp/>pattern.</highlight></codeline>
-<codeline lineno="828"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
-<codeline lineno="829"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="830" refid="classjpcre2_1_1Regex_1a81687ca434654cae776c2854c3618de0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1a81687ca434654cae776c2854c3618de0" kindref="member">compile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re)<sp/>{</highlight></codeline>
-<codeline lineno="831"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init(re,<sp/>0,<sp/>0);</highlight></codeline>
-<codeline lineno="832"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile();</highlight></codeline>
-<codeline lineno="833"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="834"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="835"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Perform<sp/>regex<sp/>match.</highlight></codeline>
-<codeline lineno="836"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>This<sp/>function<sp/>takes<sp/>the<sp/>parameters,<sp/>then<sp/>sets<sp/>the<sp/>parameters<sp/>to<sp/>RegexMatch<sp/>class<sp/>and<sp/>calls</highlight></codeline>
-<codeline lineno="837"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>RegexMatch::match()<sp/>which<sp/>returns<sp/>the<sp/>result</highlight></codeline>
-<codeline lineno="838"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>s<sp/>Subject<sp/>string</highlight></codeline>
-<codeline lineno="839"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mod<sp/>Modifier<sp/>string</highlight></codeline>
-<codeline lineno="840"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Match<sp/>count</highlight></codeline>
-<codeline lineno="841"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@see<sp/>RegexMatch::match()</highlight></codeline>
-<codeline lineno="842"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="843" refid="classjpcre2_1_1Regex_1ab93775a93a0a537d09b9e9ab4a5a3894" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>SIZE_T<sp/><ref refid="classjpcre2_1_1Regex_1ab93775a93a0a537d09b9e9ab4a5a3894" kindref="member">match</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>s,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mod)<sp/>{</highlight></codeline>
-<codeline lineno="844"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rm;</highlight></codeline>
-<codeline lineno="845"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref>();</highlight></codeline>
-<codeline lineno="846"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="847"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a635c652195deaa8ebb9e107c4f972aab" kindref="member">setSubject</ref>(s).<ref refid="classjpcre2_1_1RegexMatch_1a9df7e92f96b61553f62720cb8f5f23e5" kindref="member">setModifier</ref>(mod);</highlight></codeline>
-<codeline lineno="848"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">match</ref>();</highlight></codeline>
-<codeline lineno="849"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="850"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="851"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
-<codeline lineno="852"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>s<sp/>Subject<sp/>string</highlight></codeline>
-<codeline lineno="853"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Match<sp/>count</highlight></codeline>
-<codeline lineno="854"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@see<sp/>RegexMatch::match(const<sp/>String&amp;<sp/>s)</highlight></codeline>
-<codeline lineno="855"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="856" refid="classjpcre2_1_1Regex_1a9ffbb6aa54cb97125f1b4211bc1d09a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>SIZE_T<sp/><ref refid="classjpcre2_1_1Regex_1a9ffbb6aa54cb97125f1b4211bc1d09a5" kindref="member">match</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>s)<sp/>{</highlight></codeline>
-<codeline lineno="857"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rm;</highlight></codeline>
-<codeline lineno="858"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref>();</highlight></codeline>
-<codeline lineno="859"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="860"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a635c652195deaa8ebb9e107c4f972aab" kindref="member">setSubject</ref>(s);</highlight></codeline>
-<codeline lineno="861"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">match</ref>();</highlight></codeline>
-<codeline lineno="862"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="863"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="864"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Prepare<sp/>to<sp/>call<sp/>RegexMatch::match().</highlight></codeline>
-<codeline lineno="865"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>Other<sp/>options<sp/>can<sp/>be<sp/>set<sp/>with<sp/>the<sp/>setter<sp/>functions<sp/>of<sp/>RegexMatch<sp/>class</highlight></codeline>
-<codeline lineno="866"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>in-between<sp/>the<sp/>Regex::initMatch()<sp/>and<sp/>RegexMatch::match()<sp/>call.</highlight></codeline>
-<codeline lineno="867"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@return<sp/>RegexMatch<sp/>object</highlight></codeline>
-<codeline lineno="868"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::match()</highlight></codeline>
-<codeline lineno="869"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setSubject(const<sp/>String&amp;<sp/>s)</highlight></codeline>
-<codeline lineno="870"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setModifier(const<sp/>String&amp;<sp/>mod)</highlight></codeline>
-<codeline lineno="871"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setNumberedSubstringVector(VecNum*<sp/>vec_num)</highlight></codeline>
-<codeline lineno="872"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setNamedSubstringVector(VecNas*<sp/>vec_nas)</highlight></codeline>
-<codeline lineno="873"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setNameToNumberMapVector(VecNtN*<sp/>vec_ntn)</highlight></codeline>
-<codeline lineno="874"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="875" refid="classjpcre2_1_1Regex_1a519b0915bf1163c6ce6a4d674b30cfcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a519b0915bf1163c6ce6a4d674b30cfcd" kindref="member">initMatch</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="876"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rm;</highlight></codeline>
-<codeline lineno="877"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref>();</highlight></codeline>
-<codeline lineno="878"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="879"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*rm;</highlight></codeline>
+<codeline lineno="716"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Get<sp/>error<sp/>number</highlight></codeline>
+<codeline lineno="717"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>return<sp/>#error_number</highlight></codeline>
+<codeline lineno="718" refid="classjpcre2_1_1Regex_1a7294273e7d11907a749f2db40da9ed15" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1a7294273e7d11907a749f2db40da9ed15" kindref="member">getErrorNumber</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="719"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error_number;</highlight></codeline>
+<codeline lineno="720"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="721"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="722"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Get<sp/>error<sp/>offset</highlight></codeline>
+<codeline lineno="723"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>return<sp/>#error_offset</highlight></codeline>
+<codeline lineno="724" refid="classjpcre2_1_1Regex_1a1c7822056cd7ac9a6be5e18513bd8093" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>PCRE2_SIZE<sp/><ref refid="classjpcre2_1_1Regex_1a1c7822056cd7ac9a6be5e18513bd8093" kindref="member">getErrorOffset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="725"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>error_offset;</highlight></codeline>
+<codeline lineno="726"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="727"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="728"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>the<sp/>Pattern<sp/>string<sp/>#pat_str</highlight></codeline>
+<codeline lineno="729"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
+<codeline lineno="730"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="731" refid="classjpcre2_1_1Regex_1a85d9a514ea86ae68533223adac6c6bd8" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a85d9a514ea86ae68533223adac6c6bd8" kindref="member">setPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re)<sp/>{</highlight></codeline>
+<codeline lineno="732"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pat_str<sp/>=<sp/>re;</highlight></codeline>
+<codeline lineno="733"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="734"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="735"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="736"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>the<sp/>modifier<sp/>#modifier<sp/>(overwrite<sp/>existing<sp/>JPCRE2<sp/>and<sp/>PCRE2<sp/>option).</highlight></codeline>
+<codeline lineno="737"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Re-initializes<sp/>the<sp/>option<sp/>bits<sp/>for<sp/>PCRE2<sp/>and<sp/>JPCRE2<sp/>options,<sp/>then<sp/>sets<sp/>the<sp/>modifier.</highlight></codeline>
+<codeline lineno="738"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Modifier<sp/>string</highlight></codeline>
+<codeline lineno="739"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="740" refid="classjpcre2_1_1Regex_1aed9865b58c60945e19f36fa310f5a595" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1aed9865b58c60945e19f36fa310f5a595" kindref="member">setModifier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>x)<sp/>{</highlight></codeline>
+<codeline lineno="741"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile_opts<sp/>=<sp/>jpcre2_compile_opts<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="742"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>modifier<sp/>=<sp/>x;</highlight></codeline>
+<codeline lineno="743"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="745"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="746"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>the<sp/>locale<sp/>#mylocale.</highlight></codeline>
+<codeline lineno="747"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Locale<sp/>string</highlight></codeline>
+<codeline lineno="748"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="749" refid="classjpcre2_1_1Regex_1a56721534519e5cb436337043eee8f42d" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a56721534519e5cb436337043eee8f42d" kindref="member">setLocale</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>x)<sp/>{</highlight></codeline>
+<codeline lineno="750"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mylocale<sp/>=<sp/>x;</highlight></codeline>
+<codeline lineno="751"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="752"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="753"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="754"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>JPCRE2<sp/>option<sp/>#jpcre2_compile_opts<sp/>(overwrites<sp/>existing<sp/>option)</highlight></codeline>
+<codeline lineno="755"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
+<codeline lineno="756"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="757" refid="classjpcre2_1_1Regex_1a031617a19638ef752dcd2b29fa3464d5" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a031617a19638ef752dcd2b29fa3464d5" kindref="member">setJpcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
+<codeline lineno="758"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jpcre2_compile_opts<sp/>=<sp/>x;</highlight></codeline>
+<codeline lineno="759"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="760"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="761"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="762"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Set<sp/>PCRE2<sp/>option<sp/>#compile_opts<sp/>(overwrites<sp/>existing<sp/>option)</highlight></codeline>
+<codeline lineno="763"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
+<codeline lineno="764"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="765" refid="classjpcre2_1_1Regex_1acdc6f97f4030ae109c4e1a4e2310bceb" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1acdc6f97f4030ae109c4e1a4e2310bceb" kindref="member">setPcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
+<codeline lineno="766"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile_opts<sp/>=<sp/>x;</highlight></codeline>
+<codeline lineno="767"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="768"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="769"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="770"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Add<sp/>option<sp/>to<sp/>existing<sp/>JPCRE2<sp/>options<sp/>#jpcre2_compile_opts</highlight></codeline>
+<codeline lineno="771"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
+<codeline lineno="772"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="773" refid="classjpcre2_1_1Regex_1a03974fa7ba8f7c47186cb8d6f54934de" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a03974fa7ba8f7c47186cb8d6f54934de" kindref="member">addJpcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
+<codeline lineno="774"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jpcre2_compile_opts<sp/>|=<sp/>x;</highlight></codeline>
+<codeline lineno="775"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="776"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="777"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="778"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Add<sp/>option<sp/>to<sp/>existing<sp/>PCRE2<sp/>options<sp/>#compile_opts</highlight></codeline>
+<codeline lineno="779"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
+<codeline lineno="780"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="781" refid="classjpcre2_1_1Regex_1a2c7dcf12f26b2b046e147b013c8b5087" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a2c7dcf12f26b2b046e147b013c8b5087" kindref="member">addPcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
+<codeline lineno="782"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile_opts<sp/>|=<sp/>x;</highlight></codeline>
+<codeline lineno="783"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="784"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="785"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="786"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Remove<sp/>option<sp/>from<sp/>existing<sp/>JPCRE2<sp/>option<sp/>#jpcre2_compile_opts</highlight></codeline>
+<codeline lineno="787"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
+<codeline lineno="788"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="789" refid="classjpcre2_1_1Regex_1a91ffbc407562d4526fd21bc7b63a0a49" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a91ffbc407562d4526fd21bc7b63a0a49" kindref="member">removeJpcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
+<codeline lineno="790"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jpcre2_compile_opts<sp/>&amp;=<sp/>~x;</highlight></codeline>
+<codeline lineno="791"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="792"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="793"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="794"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>Remove<sp/>option<sp/>from<sp/>existing<sp/>PCRE2<sp/>option<sp/>#compile_opts</highlight></codeline>
+<codeline lineno="795"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@param<sp/>x<sp/>Option<sp/>value</highlight></codeline>
+<codeline lineno="796"><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>@return<sp/>*this</highlight></codeline>
+<codeline lineno="797" refid="classjpcre2_1_1Regex_1a09b14cf78ae3a3302533783b7fab40a8" refkind="member"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">Regex</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a09b14cf78ae3a3302533783b7fab40a8" kindref="member">removePcre2Option</ref>(Uint<sp/>x)<sp/>{</highlight></codeline>
+<codeline lineno="798"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile_opts<sp/>&amp;=<sp/>~x;</highlight></codeline>
+<codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="800"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="801"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="802"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Compile<sp/>the<sp/>regex<sp/>pattern<sp/>from<sp/>class<sp/>variable<sp/>#pat_str.</highlight></codeline>
+<codeline lineno="803"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>Use<sp/>options<sp/>from<sp/>class<sp/>variables.</highlight></codeline>
+<codeline lineno="804"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="805"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>Prefer<sp/>using<sp/>one<sp/>of<sp/>its<sp/>variants<sp/>when<sp/>compiling<sp/>pattern<sp/>for<sp/>an<sp/>already<sp/>declared<sp/>Regex<sp/>object.</highlight></codeline>
+<codeline lineno="806"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>An<sp/>use<sp/>of</highlight></codeline>
+<codeline lineno="807"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>```cppp</highlight></codeline>
+<codeline lineno="808"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>re<sp/>=<sp/>Regex(&quot;pattern&quot;);</highlight></codeline>
+<codeline lineno="809"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>```</highlight></codeline>
+<codeline lineno="810"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>(or<sp/>such)<sp/>is<sp/>discouraged.<sp/>see<sp/>`Regex::operator=(const<sp/>Regex&amp;<sp/>r)`<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="811"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>void<sp/>compile(const<sp/>String&amp;<sp/>re,<sp/>Uint<sp/>po,<sp/>Uint<sp/>jo)</highlight></codeline>
+<codeline lineno="812"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>void<sp/>compile(const<sp/>String&amp;<sp/>re,<sp/>Uint<sp/>po)</highlight></codeline>
+<codeline lineno="813"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>void<sp/>compile(const<sp/>String&amp;<sp/>re,<sp/>const<sp/>String&amp;<sp/>mod)</highlight></codeline>
+<codeline lineno="814"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>void<sp/>compile(const<sp/>String&amp;<sp/>re)</highlight></codeline>
+<codeline lineno="815"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="816"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>compile(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="817"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="818"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
+<codeline lineno="819"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="820"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="821"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Set<sp/>the<sp/>specified<sp/>parameters,<sp/>then<sp/>compile<sp/>the<sp/>pattern<sp/>using<sp/>information<sp/>from<sp/>class<sp/>variables.</highlight></codeline>
+<codeline lineno="822"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
+<codeline lineno="823"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>po<sp/>PCRE2<sp/>option</highlight></codeline>
+<codeline lineno="824"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>jo<sp/>JPCRE2<sp/>option</highlight></codeline>
+<codeline lineno="825"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="826" refid="classjpcre2_1_1Regex_1a4640915bc907aa3b80da543f1eb7e74f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1a4640915bc907aa3b80da543f1eb7e74f" kindref="member">compile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re,<sp/>Uint<sp/>po,<sp/>Uint<sp/>jo)<sp/>{</highlight></codeline>
+<codeline lineno="827"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init(re,<sp/>po,<sp/>jo);</highlight></codeline>
+<codeline lineno="828"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile();</highlight></codeline>
+<codeline lineno="829"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="830"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="831"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
+<codeline lineno="832"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="833"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="834"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Set<sp/>the<sp/>specified<sp/>parameters,<sp/>then<sp/>compile<sp/>the<sp/>pattern<sp/>using<sp/>options<sp/>from<sp/>class<sp/>variables.</highlight></codeline>
+<codeline lineno="835"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
+<codeline lineno="836"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>po<sp/>PCRE2<sp/>option</highlight></codeline>
+<codeline lineno="837"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="838" refid="classjpcre2_1_1Regex_1a01394dcb222c4d442cabbffb4bcf570a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1a01394dcb222c4d442cabbffb4bcf570a" kindref="member">compile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re,<sp/>Uint<sp/>po)<sp/>{</highlight></codeline>
+<codeline lineno="839"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init(re,<sp/>po,<sp/>0);</highlight></codeline>
+<codeline lineno="840"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile();</highlight></codeline>
+<codeline lineno="841"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="842"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="843"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
+<codeline lineno="844"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="845"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="846"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Set<sp/>the<sp/>specified<sp/>parameters,<sp/>then<sp/>compile<sp/>the<sp/>pattern<sp/>using<sp/>options<sp/>from<sp/>class<sp/>variables.</highlight></codeline>
+<codeline lineno="847"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
+<codeline lineno="848"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mod<sp/>Modifier<sp/>string</highlight></codeline>
+<codeline lineno="849"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="850" refid="classjpcre2_1_1Regex_1acd49e856009160c622e90b81b6557d8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1acd49e856009160c622e90b81b6557d8d" kindref="member">compile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mod)<sp/>{</highlight></codeline>
+<codeline lineno="851"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init(re,<sp/>mod);</highlight></codeline>
+<codeline lineno="852"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile();</highlight></codeline>
+<codeline lineno="853"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="854"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="855"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
+<codeline lineno="856"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="857"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="858"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>Set<sp/>the<sp/>specified<sp/>parameters,<sp/>then<sp/>compile<sp/>the<sp/>pattern<sp/>using<sp/>options<sp/>from<sp/>class<sp/>variables.</highlight></codeline>
+<codeline lineno="859"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>re<sp/>Pattern<sp/>string</highlight></codeline>
+<codeline lineno="860"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="861" refid="classjpcre2_1_1Regex_1a81687ca434654cae776c2854c3618de0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1Regex_1a81687ca434654cae776c2854c3618de0" kindref="member">compile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>re)<sp/>{</highlight></codeline>
+<codeline lineno="862"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>init(re,<sp/>0,<sp/>0);</highlight></codeline>
+<codeline lineno="863"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compile();</highlight></codeline>
+<codeline lineno="864"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="865"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="866"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Perform<sp/>regex<sp/>match.</highlight></codeline>
+<codeline lineno="867"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>This<sp/>function<sp/>takes<sp/>the<sp/>parameters,<sp/>then<sp/>sets<sp/>the<sp/>parameters<sp/>to<sp/>RegexMatch<sp/>class<sp/>and<sp/>calls</highlight></codeline>
+<codeline lineno="868"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>RegexMatch::match()<sp/>which<sp/>returns<sp/>the<sp/>result</highlight></codeline>
+<codeline lineno="869"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>s<sp/>Subject<sp/>string</highlight></codeline>
+<codeline lineno="870"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mod<sp/>Modifier<sp/>string</highlight></codeline>
+<codeline lineno="871"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Match<sp/>count</highlight></codeline>
+<codeline lineno="872"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@see<sp/>RegexMatch::match()</highlight></codeline>
+<codeline lineno="873"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="874" refid="classjpcre2_1_1Regex_1ab93775a93a0a537d09b9e9ab4a5a3894" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>SIZE_T<sp/><ref refid="classjpcre2_1_1Regex_1ab93775a93a0a537d09b9e9ab4a5a3894" kindref="member">match</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>s,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mod)<sp/>{</highlight></codeline>
+<codeline lineno="875"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rm;</highlight></codeline>
+<codeline lineno="876"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref>();</highlight></codeline>
+<codeline lineno="877"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="878"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a635c652195deaa8ebb9e107c4f972aab" kindref="member">setSubject</ref>(s).<ref refid="classjpcre2_1_1RegexMatch_1a9df7e92f96b61553f62720cb8f5f23e5" kindref="member">setModifier</ref>(mod);</highlight></codeline>
+<codeline lineno="879"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">match</ref>();</highlight></codeline>
 <codeline lineno="880"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="881"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="882"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Perform<sp/>regex<sp/>replace.</highlight></codeline>
-<codeline lineno="883"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>This<sp/>function<sp/>takes<sp/>the<sp/>parameters,<sp/>then<sp/>sets<sp/>the<sp/>parameters<sp/>to<sp/>RegexReplace<sp/>class<sp/>and<sp/>calls</highlight></codeline>
-<codeline lineno="884"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>RegexReplace::replace()<sp/>which<sp/>returns<sp/>the<sp/>result.</highlight></codeline>
-<codeline lineno="885"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mains<sp/>Subject<sp/>string</highlight></codeline>
-<codeline lineno="886"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>repl<sp/>String<sp/>to<sp/>replace<sp/>with</highlight></codeline>
-<codeline lineno="887"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mod<sp/>Modifier<sp/>string</highlight></codeline>
-<codeline lineno="888"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Resultant<sp/>string<sp/>after<sp/>regex<sp/>replace</highlight></codeline>
-<codeline lineno="889"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@see<sp/>RegexReplace::replace(const<sp/>String&amp;<sp/>s,<sp/>const<sp/>String&amp;<sp/>r,<sp/>const<sp/>String&amp;<sp/>m)</highlight></codeline>
-<codeline lineno="890"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="891" refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" kindref="member">replace</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mains,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>repl,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mod)<sp/>{</highlight></codeline>
-<codeline lineno="892"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rr;</highlight></codeline>
-<codeline lineno="893"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref>();</highlight></codeline>
-<codeline lineno="894"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="895"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" kindref="member">setSubject</ref>(mains).<ref refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" kindref="member">setReplaceWith</ref>(repl).<ref refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" kindref="member">setModifier</ref>(mod);</highlight></codeline>
-<codeline lineno="896"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">replace</ref>();</highlight></codeline>
-<codeline lineno="897"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="898"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="899"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
-<codeline lineno="900"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mains<sp/>Subject<sp/>string</highlight></codeline>
-<codeline lineno="901"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>repl<sp/>String<sp/>to<sp/>replace<sp/>with</highlight></codeline>
-<codeline lineno="902"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Resultant<sp/>string<sp/>after<sp/>regex<sp/>replace</highlight></codeline>
-<codeline lineno="903"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@see<sp/>RegexReplace::replace(const<sp/>String&amp;<sp/>s,<sp/>const<sp/>String&amp;<sp/>r)</highlight></codeline>
-<codeline lineno="904"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="905" refid="classjpcre2_1_1Regex_1addd7c21abd0f4cf6c532a7602cfb5835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1addd7c21abd0f4cf6c532a7602cfb5835" kindref="member">replace</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mains,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>repl)<sp/>{</highlight></codeline>
-<codeline lineno="906"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rr;</highlight></codeline>
-<codeline lineno="907"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref>();</highlight></codeline>
-<codeline lineno="908"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="909"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" kindref="member">setSubject</ref>(mains).<ref refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" kindref="member">setReplaceWith</ref>(repl);</highlight></codeline>
-<codeline lineno="910"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">replace</ref>();</highlight></codeline>
+<codeline lineno="882"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
+<codeline lineno="883"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>s<sp/>Subject<sp/>string</highlight></codeline>
+<codeline lineno="884"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Match<sp/>count</highlight></codeline>
+<codeline lineno="885"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@see<sp/>RegexMatch::match(const<sp/>String&amp;<sp/>s)</highlight></codeline>
+<codeline lineno="886"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="887" refid="classjpcre2_1_1Regex_1a9ffbb6aa54cb97125f1b4211bc1d09a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>SIZE_T<sp/><ref refid="classjpcre2_1_1Regex_1a9ffbb6aa54cb97125f1b4211bc1d09a5" kindref="member">match</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="888"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rm;</highlight></codeline>
+<codeline lineno="889"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref>();</highlight></codeline>
+<codeline lineno="890"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="891"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a635c652195deaa8ebb9e107c4f972aab" kindref="member">setSubject</ref>(s);</highlight></codeline>
+<codeline lineno="892"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">match</ref>();</highlight></codeline>
+<codeline lineno="893"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="894"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="895"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Prepare<sp/>to<sp/>call<sp/>RegexMatch::match().</highlight></codeline>
+<codeline lineno="896"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>Other<sp/>options<sp/>can<sp/>be<sp/>set<sp/>with<sp/>the<sp/>setter<sp/>functions<sp/>of<sp/>RegexMatch<sp/>class</highlight></codeline>
+<codeline lineno="897"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>in-between<sp/>the<sp/>Regex::initMatch()<sp/>and<sp/>RegexMatch::match()<sp/>call.</highlight></codeline>
+<codeline lineno="898"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@return<sp/>RegexMatch<sp/>object</highlight></codeline>
+<codeline lineno="899"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::match()</highlight></codeline>
+<codeline lineno="900"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setSubject(const<sp/>String&amp;<sp/>s)</highlight></codeline>
+<codeline lineno="901"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setModifier(const<sp/>String&amp;<sp/>mod)</highlight></codeline>
+<codeline lineno="902"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setNumberedSubstringVector(VecNum*<sp/>vec_num)</highlight></codeline>
+<codeline lineno="903"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setNamedSubstringVector(VecNas*<sp/>vec_nas)</highlight></codeline>
+<codeline lineno="904"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexMatch::setNameToNumberMapVector(VecNtN*<sp/>vec_ntn)</highlight></codeline>
+<codeline lineno="905"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="906" refid="classjpcre2_1_1Regex_1a519b0915bf1163c6ce6a4d674b30cfcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1a519b0915bf1163c6ce6a4d674b30cfcd" kindref="member">initMatch</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="907"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rm;</highlight></codeline>
+<codeline lineno="908"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref>();</highlight></codeline>
+<codeline lineno="909"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rm-&gt;<ref refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="910"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*rm;</highlight></codeline>
 <codeline lineno="911"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="912"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
 <codeline lineno="913"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Perform<sp/>regex<sp/>replace.</highlight></codeline>
-<codeline lineno="914"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>This<sp/>function<sp/>takes<sp/>the<sp/>parameters,<sp/>then<sp/>passes<sp/>the<sp/>parameters<sp/>to<sp/>the<sp/>appropriate<sp/>function</highlight></codeline>
-<codeline lineno="915"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>RegexReplace::replace(const<sp/>String&amp;<sp/>s)<sp/>which<sp/>returns<sp/>the<sp/>result</highlight></codeline>
-<codeline lineno="916"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@see<sp/>RegexReplace::replace(const<sp/>String&amp;<sp/>s)</highlight></codeline>
-<codeline lineno="917"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="918" refid="classjpcre2_1_1Regex_1ad13b367b6351b7e4ee51472488f68394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1ad13b367b6351b7e4ee51472488f68394" kindref="member">replace</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mains)<sp/>{</highlight></codeline>
-<codeline lineno="919"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rr;</highlight></codeline>
-<codeline lineno="920"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref>();</highlight></codeline>
-<codeline lineno="921"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="922"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" kindref="member">setSubject</ref>(mains);</highlight></codeline>
-<codeline lineno="923"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">replace</ref>();</highlight></codeline>
-<codeline lineno="924"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="925"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="926"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Prepare<sp/>to<sp/>call<sp/>RegexReplace::replace().</highlight></codeline>
-<codeline lineno="927"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>Other<sp/>options<sp/>can<sp/>be<sp/>set<sp/>with<sp/>the<sp/>setter<sp/>functions<sp/>of<sp/>RegexReplace<sp/>class</highlight></codeline>
-<codeline lineno="928"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>in-between<sp/>the<sp/>Regex::initReplace()<sp/>and<sp/>RegexReplace::replace()<sp/>call.</highlight></codeline>
-<codeline lineno="929"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::replace()</highlight></codeline>
-<codeline lineno="930"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::setSubject(const<sp/>String&amp;<sp/>s)</highlight></codeline>
-<codeline lineno="931"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::setModifier(const<sp/>String&amp;<sp/>mod)</highlight></codeline>
-<codeline lineno="932"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::setReplaceWith(const<sp/>String&amp;<sp/>s)</highlight></codeline>
-<codeline lineno="933"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::setBufferSize(PCRE2_SIZE<sp/>x)</highlight></codeline>
-<codeline lineno="934"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="935" refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" kindref="member">initReplace</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="936"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rr;</highlight></codeline>
-<codeline lineno="937"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref>();</highlight></codeline>
-<codeline lineno="938"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="939"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*rr;</highlight></codeline>
-<codeline lineno="940"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="941"><highlight class="normal"></highlight></codeline>
-<codeline lineno="942"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="943"><highlight class="normal"></highlight></codeline>
-<codeline lineno="944"><highlight class="normal">}<sp/></highlight><highlight class="comment">///jpcre2<sp/>namespace</highlight></codeline>
-<codeline lineno="945"><highlight class="comment"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="946"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="914"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>This<sp/>function<sp/>takes<sp/>the<sp/>parameters,<sp/>then<sp/>sets<sp/>the<sp/>parameters<sp/>to<sp/>RegexReplace<sp/>class<sp/>and<sp/>calls</highlight></codeline>
+<codeline lineno="915"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>RegexReplace::replace()<sp/>which<sp/>returns<sp/>the<sp/>result.</highlight></codeline>
+<codeline lineno="916"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mains<sp/>Subject<sp/>string</highlight></codeline>
+<codeline lineno="917"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>repl<sp/>String<sp/>to<sp/>replace<sp/>with</highlight></codeline>
+<codeline lineno="918"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mod<sp/>Modifier<sp/>string</highlight></codeline>
+<codeline lineno="919"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Resultant<sp/>string<sp/>after<sp/>regex<sp/>replace</highlight></codeline>
+<codeline lineno="920"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@see<sp/>RegexReplace::replace()</highlight></codeline>
+<codeline lineno="921"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="922" refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" kindref="member">replace</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mains,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>repl,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mod)<sp/>{</highlight></codeline>
+<codeline lineno="923"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rr;</highlight></codeline>
+<codeline lineno="924"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref>();</highlight></codeline>
+<codeline lineno="925"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="926"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" kindref="member">setSubject</ref>(mains).<ref refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" kindref="member">setReplaceWith</ref>(repl).<ref refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" kindref="member">setModifier</ref>(mod);</highlight></codeline>
+<codeline lineno="927"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">replace</ref>();</highlight></codeline>
+<codeline lineno="928"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="929"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="930"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>@overload</highlight></codeline>
+<codeline lineno="931"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>mains<sp/>Subject<sp/>string</highlight></codeline>
+<codeline lineno="932"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@param<sp/>repl<sp/>String<sp/>to<sp/>replace<sp/>with</highlight></codeline>
+<codeline lineno="933"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@return<sp/>Resultant<sp/>string<sp/>after<sp/>regex<sp/>replace</highlight></codeline>
+<codeline lineno="934"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>@see<sp/>RegexReplace::replace()</highlight></codeline>
+<codeline lineno="935"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="936" refid="classjpcre2_1_1Regex_1addd7c21abd0f4cf6c532a7602cfb5835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="classjpcre2_1_1Regex_1addd7c21abd0f4cf6c532a7602cfb5835" kindref="member">replace</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>mains,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/>repl)<sp/>{</highlight></codeline>
+<codeline lineno="937"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rr;</highlight></codeline>
+<codeline lineno="938"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref>();</highlight></codeline>
+<codeline lineno="939"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="940"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" kindref="member">setSubject</ref>(mains).<ref refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" kindref="member">setReplaceWith</ref>(repl);</highlight></codeline>
+<codeline lineno="941"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">replace</ref>();</highlight></codeline>
+<codeline lineno="942"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="943"><highlight class="normal"></highlight><highlight class="comment"></highlight></codeline>
+<codeline lineno="944"><highlight class="comment"><sp/><sp/><sp/><sp/>/**<sp/>Prepare<sp/>to<sp/>call<sp/>RegexReplace::replace().</highlight></codeline>
+<codeline lineno="945"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>Other<sp/>options<sp/>can<sp/>be<sp/>set<sp/>with<sp/>the<sp/>setter<sp/>functions<sp/>of<sp/>RegexReplace<sp/>class</highlight></codeline>
+<codeline lineno="946"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>in-between<sp/>the<sp/>Regex::initReplace()<sp/>and<sp/>RegexReplace::replace()<sp/>call.</highlight></codeline>
+<codeline lineno="947"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@return<sp/>Resultant<sp/>string<sp/>after<sp/>regex<sp/>replace</highlight></codeline>
+<codeline lineno="948"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::replace()</highlight></codeline>
+<codeline lineno="949"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::setSubject(const<sp/>String&amp;<sp/>s)</highlight></codeline>
+<codeline lineno="950"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::setModifier(const<sp/>String&amp;<sp/>mod)</highlight></codeline>
+<codeline lineno="951"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::setReplaceWith(const<sp/>String&amp;<sp/>s)</highlight></codeline>
+<codeline lineno="952"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@see<sp/>RegexReplace::setBufferSize(PCRE2_SIZE<sp/>x)</highlight></codeline>
+<codeline lineno="953"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="954" refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref>&amp;<sp/><ref refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" kindref="member">initReplace</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="955"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>rr;</highlight></codeline>
+<codeline lineno="956"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref>();</highlight></codeline>
+<codeline lineno="957"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rr-&gt;<ref refid="classjpcre2_1_1RegexReplace_1ab8adfdb3aade18fe6bff03fb3262c396" kindref="member">re</ref><sp/>=<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="958"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*rr;</highlight></codeline>
+<codeline lineno="959"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="960"><highlight class="normal"></highlight></codeline>
+<codeline lineno="961"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="962"><highlight class="normal"></highlight></codeline>
+<codeline lineno="963"><highlight class="normal">}</highlight><highlight class="comment">//<sp/>jpcre2<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="964"><highlight class="normal"></highlight></codeline>
+<codeline lineno="965"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="src/jpcre2.hpp"/>
   </compounddef>

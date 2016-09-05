@@ -1,12 +1,19 @@
+/**@file test_match2.cpp
+ * Contains an example to take subject string, pattern and modifier
+ * from user input and perform regex match using JPCRE2.
+ * @include test_match2.cpp
+ * */
+
 #include <iostream>
 #include "jpcre2.hpp"
 
-#define getLine(a) std::getline(std::cin,a,'\n');
+
+#define getLine(a) std::getline(std::cin,a,'\n')
 
 
 int main(){
 
-    jpcre2::VecNum vec_num0;   ///Vector to store numbured substring Map.
+    jpcre2::VecNum vec_num0;   ///Vector to store numbered substring Map.
     jpcre2::VecNas vec_nas0;   ///Vector to store named substring Map.
     jpcre2::VecNtN vec_nn0;    ///Vector to store Named substring to Number Map.
     
@@ -24,10 +31,10 @@ int main(){
     
     ///Compile pattern
     try{re.compile(pat,mod);}
-    catch(int e){std::cout<<re.getErrorMessage(e)<<std::endl;goto cp;}
+    catch(int e){std::cerr<<re.getErrorMessage(e)<<std::endl;goto cp;}
            
     /***************************************************************************************************************
-     * Always use try catch block to catch any exception and avoid unexpected termination of the program.
+     * Use try catch block to catch any exception and avoid unexpected termination of the program in case of error
      * All jpcre2 exceptions are of type int (integer)
      * *************************************************************************************************************/
     
@@ -36,29 +43,34 @@ int main(){
     std::cout<<"\nEnter subject string (enter quit to quit): "<<std::endl;
     getLine(subject);
     std::string ac_mod;
-    loop2:
-    std::cout<<"\nEnter action (matching) modifier (Ag): "<<std::endl;
-    getLine(ac_mod);
-    if(subject=="quit")return 0;
-    size_t matched=0;
-    try{matched=re.initMatch()                               //Invoke the match() function
-                  .setModifier(ac_mod)                         //Set various options
-                  .setNumberedSubstringVector(&vec_num0)         //...
-                  .setNamedSubstringVector(&vec_nas0)            //...
-                  .setNameToNumberMapVector(&vec_nn0)            //...
-                  .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)  //...
-                  .addPcre2Option(0)                           //...
-                  .match();                                   //Finally execute it.
-    }                               
-    catch(int e){std::cout<<re.getErrorMessage(e);
-        if(e==jpcre2::ERROR::INVALID_MODIFIER) goto loop2;
-    }  
 
+    /// Continue loop as long as error occurs
+    while(true){
+		std::cout<<"\nEnter action (matching) modifier (Ag): "<<std::endl;
+		getLine(ac_mod);
+		if(subject=="quit")return 0;
+		size_t matched=0;
+		try{matched=re.initMatch()                                //Invoke the initMatch() function
+					  .setModifier(ac_mod)                        //Set various options
+					  .setNumberedSubstringVector(&vec_num0)      //...
+					  .setNamedSubstringVector(&vec_nas0)         //...
+					  .setNameToNumberMapVector(&vec_nn0)         //...
+					  .addJpcre2Option(jpcre2::VALIDATE_MODIFIER) //...
+					  .addPcre2Option(0)                          //...
+					  .match();                                   //Finally do the match
+		}
+		catch(int e){std::cerr<<re.getErrorMessage(e);
+			if(e==jpcre2::ERROR::INVALID_MODIFIER) continue;
+		}
+		break;
+    }
     ///Now let's access the matched data
-    
-    ///Each of these vectors contains a map
-    ///and each of the maps contains all the substrings that are matched against the pattern.
-    ///All the matches in all the maps combines the total match throughout the entire string.
+
+    ///Each of these vectors contains maps.
+    ///Each element in the vector specifies a particular match
+    ///First match is the vector element 0, second is at index 1 and so forth
+    ///A map for a vector element, i.e for a match contains all of its substrings/capture groups
+    ///The first element of the map is capture group 0 i.e total match
     std::cout<<"\nTotal number of matches: "<<matched<<std::endl;
     if(matched){
         for(size_t i=0;i<vec_num0.size();++i){
@@ -96,6 +108,6 @@ int main(){
         }
     }
     else std::cout<<"\nNo match found\n";
-    main();
+    //main();
 	return 0;
 }
