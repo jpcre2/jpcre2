@@ -1,0 +1,478 @@
+\hypertarget{classjpcre2_1_1RegexMatch}{}\subsection{jpcre2\+:\+:Regex\+Match Class Reference}
+\label{classjpcre2_1_1RegexMatch}\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+
+
+Performs regex matching.  
+
+
+
+
+{\ttfamily \#include $<$jpcre2.\+hpp$>$}
+
+
+
+Collaboration diagram for jpcre2\+:\+:Regex\+Match\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classjpcre2_1_1RegexMatch__coll__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0}{set\+Numbered\+Substring\+Vector} (\hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{Vec\+Num} $\ast$v)
+\begin{DoxyCompactList}\small\item\em Set a pointer to the numbered substring vector of type \hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{jpcre2\+::\+Vec\+Num}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c}{set\+Named\+Substring\+Vector} (\hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{Vec\+Nas} $\ast$v)
+\begin{DoxyCompactList}\small\item\em Set a pointer to the named substring vector of type \hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{jpcre2\+::\+Vec\+Nas}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8}{set\+Name\+To\+Number\+Map\+Vector} (\hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{Vec\+NtN} $\ast$v)
+\begin{DoxyCompactList}\small\item\em Set a pointer to the name to number map vector of type \hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2\+::\+Vec\+NtN}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab}{set\+Subject} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&s)
+\begin{DoxyCompactList}\small\item\em Set the subject string \hyperlink{classjpcre2_1_1RegexMatch_a9df4f1897e7fa33e05a9f6f938992ca7}{m\+\_\+subject}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5}{set\+Modifier} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&s)
+\begin{DoxyCompactList}\small\item\em Set the modifier \hyperlink{classjpcre2_1_1RegexMatch_a5d3e216a4cfc80d00fc45c51a8136821}{m\+\_\+modifier} (overwrites existing J\+P\+C\+R\+E2 and P\+C\+R\+E2 option). \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a0d76033d9c134caa9ddfc21849603920}{set\+Jpcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Set J\+P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts} (overwrite existing option) \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_ae4ab558c2bec0bc9639dbca70ab47496}{set\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Set P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts} (overwrite existing option) \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a85bdec86583f800dafcb1aae27f855e7}{set\+Find\+All} (bool x=true)
+\begin{DoxyCompactList}\small\item\em Set whether to perform global match. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a0a4cf8554a7e00f3cf2db34f60a43f60}{add\+Jpcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Add option to existing J\+P\+C\+R\+E2 options \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522}{add\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Add option to existing P\+C\+R\+E2 options \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a580a64c66ea34153559142928d33d78a}{remove\+Jpcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Remove option from existing J\+P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a1405a2d332d1a928ceb67857097be665}{remove\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Remove option from existing P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts}. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{S\+I\+Z\+E\+\_\+T} \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{match} (void)
+\begin{DoxyCompactList}\small\item\em Return the number of matches, store the match results in the specified vectors (\hyperlink{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}{vec\+\_\+num}, \hyperlink{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}{vec\+\_\+nas}, \hyperlink{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}{vec\+\_\+ntn}) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classjpcre2_1_1RegexMatch_a5cacfea4b4d3c26307fb10e88e711af3}{parse\+Match\+Opts} (void)
+\begin{DoxyCompactList}\small\item\em Parse \hyperlink{classjpcre2_1_1RegexMatch_a5d3e216a4cfc80d00fc45c51a8136821}{m\+\_\+modifier} and set equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
+void \hyperlink{classjpcre2_1_1RegexMatch_a961a5f91ab24a1ddfd42910c6ab68b65}{get\+Numbered\+Substrings} (int rc, pcre2\+\_\+match\+\_\+data $\ast$match\+\_\+data)\hypertarget{classjpcre2_1_1RegexMatch_a961a5f91ab24a1ddfd42910c6ab68b65}{}\label{classjpcre2_1_1RegexMatch_a961a5f91ab24a1ddfd42910c6ab68b65}
+
+\begin{DoxyCompactList}\small\item\em Populate \hyperlink{classjpcre2_1_1RegexMatch_a94ad930ea8cb22873737fda344bae508}{num\+\_\+map0} with numbered substrings. \end{DoxyCompactList}\item 
+void \hyperlink{classjpcre2_1_1RegexMatch_af159e8d080ecd74f63ec67b1d5a27772}{get\+Named\+Substrings} (int namecount, int name\+\_\+entry\+\_\+size, P\+C\+R\+E2\+\_\+\+S\+P\+TR tabptr, pcre2\+\_\+match\+\_\+data $\ast$match\+\_\+data)\hypertarget{classjpcre2_1_1RegexMatch_af159e8d080ecd74f63ec67b1d5a27772}{}\label{classjpcre2_1_1RegexMatch_af159e8d080ecd74f63ec67b1d5a27772}
+
+\begin{DoxyCompactList}\small\item\em Populate \hyperlink{classjpcre2_1_1RegexMatch_a36749947847f266de03c3991ac88a694}{nas\+\_\+map0} and/or \hyperlink{classjpcre2_1_1RegexMatch_a1c790683d023313967ce80db6045419f}{ntn\+\_\+map0} with named substring and/or name to number mapping. \end{DoxyCompactList}\item 
+void \hyperlink{classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99}{init\+\_\+vars} ()\hypertarget{classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99}{}\label{classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99}
+
+\begin{DoxyCompactList}\small\item\em Initialize class variables. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch_a40127e5057e2343848d8c8a6d4c32bcd}{Regex\+Match} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch_a098ddb46b2f297870ea548ef07597d94}{Regex\+Match} (const \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \&)
+\begin{DoxyCompactList}\small\item\em This is a copy constructor which is only used to prevent public object creation. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch_ab6a9f9b8404852e46edd08a5b8712847}{$\sim$\+Regex\+Match} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classjpcre2_1_1Regex}{Regex} $\ast$ \hyperlink{classjpcre2_1_1RegexMatch_a7743b27db00c1e13d8fee51b70d5a133}{re}\hypertarget{classjpcre2_1_1RegexMatch_a7743b27db00c1e13d8fee51b70d5a133}{}\label{classjpcre2_1_1RegexMatch_a7743b27db00c1e13d8fee51b70d5a133}
+
+\begin{DoxyCompactList}\small\item\em This is used to access private members in \hyperlink{classjpcre2_1_1Regex}{Regex}. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1RegexMatch_a9df4f1897e7fa33e05a9f6f938992ca7}{m\+\_\+subject}\hypertarget{classjpcre2_1_1RegexMatch_a9df4f1897e7fa33e05a9f6f938992ca7}{}\label{classjpcre2_1_1RegexMatch_a9df4f1897e7fa33e05a9f6f938992ca7}
+
+\begin{DoxyCompactList}\small\item\em Subject string for match. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1RegexMatch_a5d3e216a4cfc80d00fc45c51a8136821}{m\+\_\+modifier}\hypertarget{classjpcre2_1_1RegexMatch_a5d3e216a4cfc80d00fc45c51a8136821}{}\label{classjpcre2_1_1RegexMatch_a5d3e216a4cfc80d00fc45c51a8136821}
+
+\begin{DoxyCompactList}\small\item\em Pattern for match. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts}\hypertarget{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{}\label{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}
+
+\begin{DoxyCompactList}\small\item\em P\+C\+R\+E2 options for pcre2\+\_\+match() (P\+C\+R\+E2 internal function) \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts}\hypertarget{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{}\label{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}
+
+\begin{DoxyCompactList}\small\item\em J\+P\+C\+R\+E2 options for match. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{Vec\+Num} $\ast$ \hyperlink{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}{vec\+\_\+num}\hypertarget{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}{}\label{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}
+
+\begin{DoxyCompactList}\small\item\em Pointer to vector that will store the numbered substring maps. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{Vec\+Nas} $\ast$ \hyperlink{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}{vec\+\_\+nas}\hypertarget{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}{}\label{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}
+
+\begin{DoxyCompactList}\small\item\em Pointer to vector that will store the named substring maps. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{Vec\+NtN} $\ast$ \hyperlink{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}{vec\+\_\+ntn}\hypertarget{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}{}\label{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}
+
+\begin{DoxyCompactList}\small\item\em Pointer to vector that will store the name to number maps. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82}{Map\+Num} $\ast$ \hyperlink{classjpcre2_1_1RegexMatch_a94ad930ea8cb22873737fda344bae508}{num\+\_\+map0}\hypertarget{classjpcre2_1_1RegexMatch_a94ad930ea8cb22873737fda344bae508}{}\label{classjpcre2_1_1RegexMatch_a94ad930ea8cb22873737fda344bae508}
+
+\begin{DoxyCompactList}\small\item\em Pointer to map that will store numbered substrings temporarily. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf}{Map\+Nas} $\ast$ \hyperlink{classjpcre2_1_1RegexMatch_a36749947847f266de03c3991ac88a694}{nas\+\_\+map0}\hypertarget{classjpcre2_1_1RegexMatch_a36749947847f266de03c3991ac88a694}{}\label{classjpcre2_1_1RegexMatch_a36749947847f266de03c3991ac88a694}
+
+\begin{DoxyCompactList}\small\item\em Pointer to map that will store named substrings temporarily. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656}{Map\+NtN} $\ast$ \hyperlink{classjpcre2_1_1RegexMatch_a1c790683d023313967ce80db6045419f}{ntn\+\_\+map0}\hypertarget{classjpcre2_1_1RegexMatch_a1c790683d023313967ce80db6045419f}{}\label{classjpcre2_1_1RegexMatch_a1c790683d023313967ce80db6045419f}
+
+\begin{DoxyCompactList}\small\item\em Pointer to map that will store name to number mapping temporarily. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classjpcre2_1_1RegexMatch_a1f6f7620b7d2218c6c2a6a47f432ea6a}{Regex}\hypertarget{classjpcre2_1_1RegexMatch_a1f6f7620b7d2218c6c2a6a47f432ea6a}{}\label{classjpcre2_1_1RegexMatch_a1f6f7620b7d2218c6c2a6a47f432ea6a}
+
+\begin{DoxyCompactList}\small\item\em Define class \hyperlink{classjpcre2_1_1Regex}{Regex} as friend and thus allow \hyperlink{classjpcre2_1_1Regex}{Regex} to create object of this class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+Performs regex matching. 
+
+Provides chained methods to set various options.
+
+All constructors of this class are private. 
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!Regex\+Match@{Regex\+Match}}
+\index{Regex\+Match@{Regex\+Match}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{Regex\+Match()}{RegexMatch()}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+Match\+::\+Regex\+Match (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classjpcre2_1_1RegexMatch_a40127e5057e2343848d8c8a6d4c32bcd}{}\label{classjpcre2_1_1RegexMatch_a40127e5057e2343848d8c8a6d4c32bcd}
+
+
+Default constructor. 
+
+Initialize class variables. \index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!Regex\+Match@{Regex\+Match}}
+\index{Regex\+Match@{Regex\+Match}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{Regex\+Match(const Regex\+Match \&)}{RegexMatch(const RegexMatch &)}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+Match\+::\+Regex\+Match (
+\begin{DoxyParamCaption}
+\item[{const {\bf Regex\+Match} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classjpcre2_1_1RegexMatch_a098ddb46b2f297870ea548ef07597d94}{}\label{classjpcre2_1_1RegexMatch_a098ddb46b2f297870ea548ef07597d94}
+
+
+This is a copy constructor which is only used to prevent public object creation. 
+
+No need to implement it completely \index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!````~Regex\+Match@{$\sim$\+Regex\+Match}}
+\index{````~Regex\+Match@{$\sim$\+Regex\+Match}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{$\sim$\+Regex\+Match()}{~RegexMatch()}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+Match\+::$\sim$\+Regex\+Match (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classjpcre2_1_1RegexMatch_ab6a9f9b8404852e46edd08a5b8712847}{}\label{classjpcre2_1_1RegexMatch_ab6a9f9b8404852e46edd08a5b8712847}
+
+
+Destructor. 
+
+Deletes the temporary maps that were created to store substrings 
+
+\subsubsection{Member Function Documentation}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!add\+Jpcre2\+Option@{add\+Jpcre2\+Option}}
+\index{add\+Jpcre2\+Option@{add\+Jpcre2\+Option}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{add\+Jpcre2\+Option(\+Uint x)}{addJpcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::add\+Jpcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a0a4cf8554a7e00f3cf2db34f60a43f60}{}\label{classjpcre2_1_1RegexMatch_a0a4cf8554a7e00f3cf2db34f60a43f60}
+
+
+Add option to existing J\+P\+C\+R\+E2 options \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!add\+Pcre2\+Option@{add\+Pcre2\+Option}}
+\index{add\+Pcre2\+Option@{add\+Pcre2\+Option}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{add\+Pcre2\+Option(\+Uint x)}{addPcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::add\+Pcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522}{}\label{classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522}
+
+
+Add option to existing P\+C\+R\+E2 options \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!match@{match}}
+\index{match@{match}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{match(void)}{match(void)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf jpcre2\+::\+S\+I\+Z\+E\+\_\+T} jpcre2\+::\+Regex\+Match\+::match (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{}\label{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}
+
+
+Return the number of matches, store the match results in the specified vectors (\hyperlink{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}{vec\+\_\+num}, \hyperlink{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}{vec\+\_\+nas}, \hyperlink{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}{vec\+\_\+ntn}) 
+
+\begin{DoxyReturn}{Returns}
+Number of matches found 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{S\+I\+Z\+E\+\_\+T} match(const String\& s) 
+
+\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{S\+I\+Z\+E\+\_\+T} match(const String\& s, const String\& mod) 
+\end{DoxySeeAlso}
+
+
+References jpcre2\+::\+F\+I\+N\+D\+\_\+\+A\+LL.
+
+
+
+Referenced by jpcre2\+::\+Regex\+::match().
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!parse\+Match\+Opts@{parse\+Match\+Opts}}
+\index{parse\+Match\+Opts@{parse\+Match\+Opts}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{parse\+Match\+Opts(void)}{parseMatchOpts(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void jpcre2\+::\+Regex\+Match\+::parse\+Match\+Opts (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classjpcre2_1_1RegexMatch_a5cacfea4b4d3c26307fb10e88e711af3}{}\label{classjpcre2_1_1RegexMatch_a5cacfea4b4d3c26307fb10e88e711af3}
+
+
+Parse \hyperlink{classjpcre2_1_1RegexMatch_a5d3e216a4cfc80d00fc45c51a8136821}{m\+\_\+modifier} and set equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. 
+
+After a call to this function \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts} and \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts} will be properly set. 
+
+References jpcre2\+::\+F\+I\+N\+D\+\_\+\+A\+LL, jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER, and jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER.
+
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!remove\+Jpcre2\+Option@{remove\+Jpcre2\+Option}}
+\index{remove\+Jpcre2\+Option@{remove\+Jpcre2\+Option}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{remove\+Jpcre2\+Option(\+Uint x)}{removeJpcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::remove\+Jpcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a580a64c66ea34153559142928d33d78a}{}\label{classjpcre2_1_1RegexMatch_a580a64c66ea34153559142928d33d78a}
+
+
+Remove option from existing J\+P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!remove\+Pcre2\+Option@{remove\+Pcre2\+Option}}
+\index{remove\+Pcre2\+Option@{remove\+Pcre2\+Option}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{remove\+Pcre2\+Option(\+Uint x)}{removePcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::remove\+Pcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a1405a2d332d1a928ceb67857097be665}{}\label{classjpcre2_1_1RegexMatch_a1405a2d332d1a928ceb67857097be665}
+
+
+Remove option from existing P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!set\+Find\+All@{set\+Find\+All}}
+\index{set\+Find\+All@{set\+Find\+All}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{set\+Find\+All(bool x=true)}{setFindAll(bool x=true)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::set\+Find\+All (
+\begin{DoxyParamCaption}
+\item[{bool}]{x = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a85bdec86583f800dafcb1aae27f855e7}{}\label{classjpcre2_1_1RegexMatch_a85bdec86583f800dafcb1aae27f855e7}
+
+
+Set whether to perform global match. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & True or False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+
+
+References jpcre2\+::\+F\+I\+N\+D\+\_\+\+A\+LL.
+
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!set\+Jpcre2\+Option@{set\+Jpcre2\+Option}}
+\index{set\+Jpcre2\+Option@{set\+Jpcre2\+Option}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{set\+Jpcre2\+Option(\+Uint x)}{setJpcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::set\+Jpcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a0d76033d9c134caa9ddfc21849603920}{}\label{classjpcre2_1_1RegexMatch_a0d76033d9c134caa9ddfc21849603920}
+
+
+Set J\+P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts} (overwrite existing option) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!set\+Modifier@{set\+Modifier}}
+\index{set\+Modifier@{set\+Modifier}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{set\+Modifier(const String \&s)}{setModifier(const String &s)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::set\+Modifier (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5}{}\label{classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5}
+
+
+Set the modifier \hyperlink{classjpcre2_1_1RegexMatch_a5d3e216a4cfc80d00fc45c51a8136821}{m\+\_\+modifier} (overwrites existing J\+P\+C\+R\+E2 and P\+C\+R\+E2 option). 
+
+Re-\/initializes the option bits for P\+C\+R\+E2 and J\+P\+C\+R\+E2 options, then sets the modifier. 
+\begin{DoxyParams}{Parameters}
+{\em s} & Modifier string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+
+
+Referenced by jpcre2\+::\+Regex\+::match().
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!set\+Named\+Substring\+Vector@{set\+Named\+Substring\+Vector}}
+\index{set\+Named\+Substring\+Vector@{set\+Named\+Substring\+Vector}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{set\+Named\+Substring\+Vector(\+Vec\+Nas $\ast$v)}{setNamedSubstringVector(VecNas *v)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::set\+Named\+Substring\+Vector (
+\begin{DoxyParamCaption}
+\item[{{\bf Vec\+Nas} $\ast$}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c}{}\label{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c}
+
+
+Set a pointer to the named substring vector of type \hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{jpcre2\+::\+Vec\+Nas}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & \hyperlink{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}{vec\+\_\+nas} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!set\+Name\+To\+Number\+Map\+Vector@{set\+Name\+To\+Number\+Map\+Vector}}
+\index{set\+Name\+To\+Number\+Map\+Vector@{set\+Name\+To\+Number\+Map\+Vector}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{set\+Name\+To\+Number\+Map\+Vector(\+Vec\+Nt\+N $\ast$v)}{setNameToNumberMapVector(VecNtN *v)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::set\+Name\+To\+Number\+Map\+Vector (
+\begin{DoxyParamCaption}
+\item[{{\bf Vec\+NtN} $\ast$}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8}{}\label{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8}
+
+
+Set a pointer to the name to number map vector of type \hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2\+::\+Vec\+NtN}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & \hyperlink{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}{vec\+\_\+ntn} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!set\+Numbered\+Substring\+Vector@{set\+Numbered\+Substring\+Vector}}
+\index{set\+Numbered\+Substring\+Vector@{set\+Numbered\+Substring\+Vector}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{set\+Numbered\+Substring\+Vector(\+Vec\+Num $\ast$v)}{setNumberedSubstringVector(VecNum *v)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::set\+Numbered\+Substring\+Vector (
+\begin{DoxyParamCaption}
+\item[{{\bf Vec\+Num} $\ast$}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0}{}\label{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0}
+
+
+Set a pointer to the numbered substring vector of type \hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{jpcre2\+::\+Vec\+Num}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & \hyperlink{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}{vec\+\_\+num} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!set\+Pcre2\+Option@{set\+Pcre2\+Option}}
+\index{set\+Pcre2\+Option@{set\+Pcre2\+Option}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{set\+Pcre2\+Option(\+Uint x)}{setPcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::set\+Pcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_ae4ab558c2bec0bc9639dbca70ab47496}{}\label{classjpcre2_1_1RegexMatch_ae4ab558c2bec0bc9639dbca70ab47496}
+
+
+Set P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts} (overwrite existing option) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!set\+Subject@{set\+Subject}}
+\index{set\+Subject@{set\+Subject}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{set\+Subject(const String \&s)}{setSubject(const String &s)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::set\+Subject (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab}{}\label{classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab}
+
+
+Set the subject string \hyperlink{classjpcre2_1_1RegexMatch_a9df4f1897e7fa33e05a9f6f938992ca7}{m\+\_\+subject}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Subject string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+
+
+Referenced by jpcre2\+::\+Regex\+::match().
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{jpcre2_8hpp}{jpcre2.\+hpp}\item 
+jpcre2.\+cpp\end{DoxyCompactItemize}

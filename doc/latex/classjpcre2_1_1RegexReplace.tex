@@ -1,0 +1,435 @@
+\hypertarget{classjpcre2_1_1RegexReplace}{}\subsection{jpcre2\+:\+:Regex\+Replace Class Reference}
+\label{classjpcre2_1_1RegexReplace}\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+
+
+Performs regex replace on a string.  
+
+
+
+
+{\ttfamily \#include $<$jpcre2.\+hpp$>$}
+
+
+
+Collaboration diagram for jpcre2\+:\+:Regex\+Replace\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classjpcre2_1_1RegexReplace__coll__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb}{set\+Subject} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&s)
+\begin{DoxyCompactList}\small\item\em Set the subject string \hyperlink{classjpcre2_1_1RegexReplace_a2290e5d9f1c2336abd431fef97e72c93}{r\+\_\+subject}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73}{set\+Replace\+With} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&s)
+\begin{DoxyCompactList}\small\item\em Set the replacement string \hyperlink{classjpcre2_1_1RegexReplace_a73d0da1aac8b83a0a47b24629b5013f4}{r\+\_\+replw}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910}{set\+Modifier} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&s)
+\begin{DoxyCompactList}\small\item\em Set the modifier string \hyperlink{classjpcre2_1_1RegexReplace_a3e6b848c7ad8f53cc17f49a6038930ec}{r\+\_\+modifier} (overwrites existing J\+P\+C\+R\+E2 and P\+C\+R\+E2 option). \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_a452dd2632031a13b39c13b792f18a491}{set\+Buffer\+Size} (P\+C\+R\+E2\+\_\+\+S\+I\+ZE x)
+\begin{DoxyCompactList}\small\item\em Set the initial buffer size (\hyperlink{classjpcre2_1_1RegexReplace_a44abce541819ceb51e342411b48e95cb}{buffer\+\_\+size}) to be allocated for replaced string (used by P\+C\+R\+E2) \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_a745ab0b979035214a83ed0a04686ef6a}{set\+Jpcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Set J\+P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}{jpcre2\+\_\+replace\+\_\+opts} (overwrite existing option) \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_aec36272d351fdc3a8cb02a4a3efea5a2}{set\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Set P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}{replace\+\_\+opts} (overwrite existing option) \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_a3f86b1e11d08d0153a08244771e59061}{add\+Jpcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Add specified J\+P\+C\+R\+E2 option to existing options \hyperlink{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}{jpcre2\+\_\+replace\+\_\+opts}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_a3cfd03568b23bebcbb530a2c120b5d33}{add\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Add specified P\+C\+R\+E2 option to existing options \hyperlink{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}{replace\+\_\+opts}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_a6fbfd673dbb865e6248bc527ba45f2f7}{remove\+Jpcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Remove J\+P\+C\+R\+E2 option from existing options \hyperlink{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}{jpcre2\+\_\+replace\+\_\+opts}. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \& \hyperlink{classjpcre2_1_1RegexReplace_adafa76534134e0c9b5342499478fd396}{remove\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
+\begin{DoxyCompactList}\small\item\em Remove P\+C\+R\+E2 option from existing options \hyperlink{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}{replace\+\_\+opts}. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0}{replace} (void)
+\begin{DoxyCompactList}\small\item\em Returns the resultant string after performing regex replace. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classjpcre2_1_1RegexReplace_aa31df9e8422dd9a767f2cc5fe4aaaf0e}{parse\+Replacement\+Opts} (void)
+\begin{DoxyCompactList}\small\item\em Parse \hyperlink{classjpcre2_1_1RegexReplace_a3e6b848c7ad8f53cc17f49a6038930ec}{r\+\_\+modifier} and set equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
+void \hyperlink{classjpcre2_1_1RegexReplace_a462810e8fc902f09e475a164e81cc5f5}{init\+\_\+vars} ()\hypertarget{classjpcre2_1_1RegexReplace_a462810e8fc902f09e475a164e81cc5f5}{}\label{classjpcre2_1_1RegexReplace_a462810e8fc902f09e475a164e81cc5f5}
+
+\begin{DoxyCompactList}\small\item\em Initialize class variables. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace_ac50687b874800c827a6fa623b9b35753}{Regex\+Replace} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace_a257d326d57af9ccbc7a45b002c34ed0a}{Regex\+Replace} (const \hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} \&)
+\begin{DoxyCompactList}\small\item\em This is a copy constructor which is only used to prevent public object creation. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexReplace_ab27102839e7ff0914bcd204d750097ac}{$\sim$\+Regex\+Replace} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classjpcre2_1_1Regex}{Regex} $\ast$ \hyperlink{classjpcre2_1_1RegexReplace_ab8adfdb3aade18fe6bff03fb3262c396}{re}\hypertarget{classjpcre2_1_1RegexReplace_ab8adfdb3aade18fe6bff03fb3262c396}{}\label{classjpcre2_1_1RegexReplace_ab8adfdb3aade18fe6bff03fb3262c396}
+
+\begin{DoxyCompactList}\small\item\em This is used to access private members in \hyperlink{classjpcre2_1_1Regex}{Regex}. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1RegexReplace_a2290e5d9f1c2336abd431fef97e72c93}{r\+\_\+subject}\hypertarget{classjpcre2_1_1RegexReplace_a2290e5d9f1c2336abd431fef97e72c93}{}\label{classjpcre2_1_1RegexReplace_a2290e5d9f1c2336abd431fef97e72c93}
+
+\begin{DoxyCompactList}\small\item\em Subject string for replace. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1RegexReplace_a3e6b848c7ad8f53cc17f49a6038930ec}{r\+\_\+modifier}\hypertarget{classjpcre2_1_1RegexReplace_a3e6b848c7ad8f53cc17f49a6038930ec}{}\label{classjpcre2_1_1RegexReplace_a3e6b848c7ad8f53cc17f49a6038930ec}
+
+\begin{DoxyCompactList}\small\item\em Modifier string for replace. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1RegexReplace_a73d0da1aac8b83a0a47b24629b5013f4}{r\+\_\+replw}\hypertarget{classjpcre2_1_1RegexReplace_a73d0da1aac8b83a0a47b24629b5013f4}{}\label{classjpcre2_1_1RegexReplace_a73d0da1aac8b83a0a47b24629b5013f4}
+
+\begin{DoxyCompactList}\small\item\em Replacement string i.\+e string to replace with. \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} \hyperlink{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}{replace\+\_\+opts}\hypertarget{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}{}\label{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}
+
+\begin{DoxyCompactList}\small\item\em P\+C\+R\+E2 options for pcre2\+\_\+substitute() (P\+C\+R\+E2 internal function) \end{DoxyCompactList}\item 
+\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} \hyperlink{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}{jpcre2\+\_\+replace\+\_\+opts}\hypertarget{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}{}\label{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}
+
+\begin{DoxyCompactList}\small\item\em J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
+P\+C\+R\+E2\+\_\+\+S\+I\+ZE \hyperlink{classjpcre2_1_1RegexReplace_a44abce541819ceb51e342411b48e95cb}{buffer\+\_\+size}\hypertarget{classjpcre2_1_1RegexReplace_a44abce541819ceb51e342411b48e95cb}{}\label{classjpcre2_1_1RegexReplace_a44abce541819ceb51e342411b48e95cb}
+
+\begin{DoxyCompactList}\small\item\em Size of the resultant string after replacement. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classjpcre2_1_1RegexReplace_a1f6f7620b7d2218c6c2a6a47f432ea6a}{Regex}\hypertarget{classjpcre2_1_1RegexReplace_a1f6f7620b7d2218c6c2a6a47f432ea6a}{}\label{classjpcre2_1_1RegexReplace_a1f6f7620b7d2218c6c2a6a47f432ea6a}
+
+\begin{DoxyCompactList}\small\item\em Define \hyperlink{classjpcre2_1_1Regex}{Regex} as a friend so that it can create object of this class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+Performs regex replace on a string. 
+
+Provides chained methods to set various options.
+
+All constructors of this class are private. 
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!Regex\+Replace@{Regex\+Replace}}
+\index{Regex\+Replace@{Regex\+Replace}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{Regex\+Replace()}{RegexReplace()}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+Replace\+::\+Regex\+Replace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classjpcre2_1_1RegexReplace_ac50687b874800c827a6fa623b9b35753}{}\label{classjpcre2_1_1RegexReplace_ac50687b874800c827a6fa623b9b35753}
+
+
+Default constructor. 
+
+Initialize class variables \index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!Regex\+Replace@{Regex\+Replace}}
+\index{Regex\+Replace@{Regex\+Replace}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{Regex\+Replace(const Regex\+Replace \&)}{RegexReplace(const RegexReplace &)}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+Replace\+::\+Regex\+Replace (
+\begin{DoxyParamCaption}
+\item[{const {\bf Regex\+Replace} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classjpcre2_1_1RegexReplace_a257d326d57af9ccbc7a45b002c34ed0a}{}\label{classjpcre2_1_1RegexReplace_a257d326d57af9ccbc7a45b002c34ed0a}
+
+
+This is a copy constructor which is only used to prevent public object creation. 
+
+No need to implement it completely \index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!````~Regex\+Replace@{$\sim$\+Regex\+Replace}}
+\index{````~Regex\+Replace@{$\sim$\+Regex\+Replace}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{$\sim$\+Regex\+Replace()}{~RegexReplace()}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+Replace\+::$\sim$\+Regex\+Replace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classjpcre2_1_1RegexReplace_ab27102839e7ff0914bcd204d750097ac}{}\label{classjpcre2_1_1RegexReplace_ab27102839e7ff0914bcd204d750097ac}
+
+
+Destructor. 
+
+Nothing to be done here. 
+
+\subsubsection{Member Function Documentation}
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!add\+Jpcre2\+Option@{add\+Jpcre2\+Option}}
+\index{add\+Jpcre2\+Option@{add\+Jpcre2\+Option}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{add\+Jpcre2\+Option(\+Uint x)}{addJpcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::add\+Jpcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_a3f86b1e11d08d0153a08244771e59061}{}\label{classjpcre2_1_1RegexReplace_a3f86b1e11d08d0153a08244771e59061}
+
+
+Add specified J\+P\+C\+R\+E2 option to existing options \hyperlink{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}{jpcre2\+\_\+replace\+\_\+opts}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!add\+Pcre2\+Option@{add\+Pcre2\+Option}}
+\index{add\+Pcre2\+Option@{add\+Pcre2\+Option}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{add\+Pcre2\+Option(\+Uint x)}{addPcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::add\+Pcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_a3cfd03568b23bebcbb530a2c120b5d33}{}\label{classjpcre2_1_1RegexReplace_a3cfd03568b23bebcbb530a2c120b5d33}
+
+
+Add specified P\+C\+R\+E2 option to existing options \hyperlink{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}{replace\+\_\+opts}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!parse\+Replacement\+Opts@{parse\+Replacement\+Opts}}
+\index{parse\+Replacement\+Opts@{parse\+Replacement\+Opts}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{parse\+Replacement\+Opts(void)}{parseReplacementOpts(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void jpcre2\+::\+Regex\+Replace\+::parse\+Replacement\+Opts (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classjpcre2_1_1RegexReplace_aa31df9e8422dd9a767f2cc5fe4aaaf0e}{}\label{classjpcre2_1_1RegexReplace_aa31df9e8422dd9a767f2cc5fe4aaaf0e}
+
+
+Parse \hyperlink{classjpcre2_1_1RegexReplace_a3e6b848c7ad8f53cc17f49a6038930ec}{r\+\_\+modifier} and set equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. 
+
+After a call to this function \hyperlink{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}{replace\+\_\+opts} and \hyperlink{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}{jpcre2\+\_\+replace\+\_\+opts} will be properly set. 
+
+References jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER, and jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER.
+
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!remove\+Jpcre2\+Option@{remove\+Jpcre2\+Option}}
+\index{remove\+Jpcre2\+Option@{remove\+Jpcre2\+Option}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{remove\+Jpcre2\+Option(\+Uint x)}{removeJpcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::remove\+Jpcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_a6fbfd673dbb865e6248bc527ba45f2f7}{}\label{classjpcre2_1_1RegexReplace_a6fbfd673dbb865e6248bc527ba45f2f7}
+
+
+Remove J\+P\+C\+R\+E2 option from existing options \hyperlink{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}{jpcre2\+\_\+replace\+\_\+opts}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!remove\+Pcre2\+Option@{remove\+Pcre2\+Option}}
+\index{remove\+Pcre2\+Option@{remove\+Pcre2\+Option}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{remove\+Pcre2\+Option(\+Uint x)}{removePcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::remove\+Pcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_adafa76534134e0c9b5342499478fd396}{}\label{classjpcre2_1_1RegexReplace_adafa76534134e0c9b5342499478fd396}
+
+
+Remove P\+C\+R\+E2 option from existing options \hyperlink{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}{replace\+\_\+opts}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!replace@{replace}}
+\index{replace@{replace}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{replace(void)}{replace(void)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf jpcre2\+::\+String} jpcre2\+::\+Regex\+Replace\+::replace (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0}{}\label{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0}
+
+
+Returns the resultant string after performing regex replace. 
+
+\begin{DoxyReturn}{Returns}
+Replaced string 
+\end{DoxyReturn}
+
+
+References jpcre2\+::\+Regex\+::replace(), and jpcre2\+::utils\+::to\+String().
+
+
+
+Referenced by jpcre2\+::\+Regex\+::replace().
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=344pt]{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!set\+Buffer\+Size@{set\+Buffer\+Size}}
+\index{set\+Buffer\+Size@{set\+Buffer\+Size}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{set\+Buffer\+Size(\+P\+C\+R\+E2\+\_\+\+S\+I\+Z\+E x)}{setBufferSize(PCRE2_SIZE x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::set\+Buffer\+Size (
+\begin{DoxyParamCaption}
+\item[{P\+C\+R\+E2\+\_\+\+S\+I\+ZE}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_a452dd2632031a13b39c13b792f18a491}{}\label{classjpcre2_1_1RegexReplace_a452dd2632031a13b39c13b792f18a491}
+
+
+Set the initial buffer size (\hyperlink{classjpcre2_1_1RegexReplace_a44abce541819ceb51e342411b48e95cb}{buffer\+\_\+size}) to be allocated for replaced string (used by P\+C\+R\+E2) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Buffer size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!set\+Jpcre2\+Option@{set\+Jpcre2\+Option}}
+\index{set\+Jpcre2\+Option@{set\+Jpcre2\+Option}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{set\+Jpcre2\+Option(\+Uint x)}{setJpcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::set\+Jpcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_a745ab0b979035214a83ed0a04686ef6a}{}\label{classjpcre2_1_1RegexReplace_a745ab0b979035214a83ed0a04686ef6a}
+
+
+Set J\+P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexReplace_acf13bcb16918df4b7bcaa7e49a1c7d59}{jpcre2\+\_\+replace\+\_\+opts} (overwrite existing option) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!set\+Modifier@{set\+Modifier}}
+\index{set\+Modifier@{set\+Modifier}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{set\+Modifier(const String \&s)}{setModifier(const String &s)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::set\+Modifier (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910}{}\label{classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910}
+
+
+Set the modifier string \hyperlink{classjpcre2_1_1RegexReplace_a3e6b848c7ad8f53cc17f49a6038930ec}{r\+\_\+modifier} (overwrites existing J\+P\+C\+R\+E2 and P\+C\+R\+E2 option). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Modifier string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+
+
+Referenced by jpcre2\+::\+Regex\+::replace().
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!set\+Pcre2\+Option@{set\+Pcre2\+Option}}
+\index{set\+Pcre2\+Option@{set\+Pcre2\+Option}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{set\+Pcre2\+Option(\+Uint x)}{setPcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::set\+Pcre2\+Option (
+\begin{DoxyParamCaption}
+\item[{{\bf Uint}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_aec36272d351fdc3a8cb02a4a3efea5a2}{}\label{classjpcre2_1_1RegexReplace_aec36272d351fdc3a8cb02a4a3efea5a2}
+
+
+Set P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexReplace_afc79699cfcad8b7cbb26864b6b67cdc7}{replace\+\_\+opts} (overwrite existing option) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Option value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!set\+Replace\+With@{set\+Replace\+With}}
+\index{set\+Replace\+With@{set\+Replace\+With}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{set\+Replace\+With(const String \&s)}{setReplaceWith(const String &s)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::set\+Replace\+With (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73}{}\label{classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73}
+
+
+Set the replacement string \hyperlink{classjpcre2_1_1RegexReplace_a73d0da1aac8b83a0a47b24629b5013f4}{r\+\_\+replw}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & String to replace with \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+
+
+Referenced by jpcre2\+::\+Regex\+::replace().
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}!set\+Subject@{set\+Subject}}
+\index{set\+Subject@{set\+Subject}!jpcre2\+::\+Regex\+Replace@{jpcre2\+::\+Regex\+Replace}}
+\paragraph[{\texorpdfstring{set\+Subject(const String \&s)}{setSubject(const String &s)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Replace}\& jpcre2\+::\+Regex\+Replace\+::set\+Subject (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb}{}\label{classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb}
+
+
+Set the subject string \hyperlink{classjpcre2_1_1RegexReplace_a2290e5d9f1c2336abd431fef97e72c93}{r\+\_\+subject}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Subject string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+$\ast$this 
+\end{DoxyReturn}
+
+
+Referenced by jpcre2\+::\+Regex\+::replace().
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{jpcre2_8hpp}{jpcre2.\+hpp}\item 
+jpcre2.\+cpp\end{DoxyCompactItemize}
