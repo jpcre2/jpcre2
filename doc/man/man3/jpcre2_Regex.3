@@ -1,4 +1,4 @@
-.TH "jpcre2::Regex" 3 "Tue Sep 6 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::Regex" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -19,7 +19,7 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "\fBRegex\fP (const \fBString\fP &re)"
 .br
-.RI "\fICompiles pattern with initialization\&. \fP"
+.RI "\fICompile pattern with initialization\&. \fP"
 .ti -1c
 .RI "\fBRegex\fP (const \fBString\fP &re, const \fBString\fP &mod)"
 .br
@@ -99,7 +99,7 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "\fBRegex\fP & \fBsetModifier\fP (const \fBString\fP &x)"
 .br
-.RI "\fISet the modifier \fBmodifier\fP (overwrite existing JPCRE2 and PCRE2 option)\&. \fP"
+.RI "\fISet the modifier (overwrite existing JPCRE2 and PCRE2 option)\&. \fP"
 .ti -1c
 .RI "\fBRegex\fP & \fBsetLocale\fP (const \fBString\fP &x)"
 .br
@@ -113,6 +113,18 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "\fISet PCRE2 option \fBcompile_opts\fP (overwrites existing option) \fP"
 .ti -1c
+.RI "\fBRegex\fP & \fBchangeModifier\fP (const \fBString\fP &mod, bool x)"
+.br
+.RI "\fIParse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBchangeJpcre2Option\fP (\fBUint\fP opt, bool x)"
+.br
+.RI "\fIAdd or remove a JPCRE2 option\&. \fP"
+.ti -1c
+.RI "\fBRegex\fP & \fBchangePcre2Option\fP (\fBUint\fP opt, bool x)"
+.br
+.RI "\fIAdd or remove a PCRE2 option\&. \fP"
+.ti -1c
 .RI "\fBRegex\fP & \fBaddJpcre2Option\fP (\fBUint\fP x)"
 .br
 .RI "\fIAdd option to existing JPCRE2 options \fBjpcre2_compile_opts\fP\&. \fP"
@@ -120,14 +132,6 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .RI "\fBRegex\fP & \fBaddPcre2Option\fP (\fBUint\fP x)"
 .br
 .RI "\fIAdd option to existing PCRE2 options \fBcompile_opts\fP\&. \fP"
-.ti -1c
-.RI "\fBRegex\fP & \fBremoveJpcre2Option\fP (\fBUint\fP x)"
-.br
-.RI "\fIRemove option from existing JPCRE2 option \fBjpcre2_compile_opts\fP\&. \fP"
-.ti -1c
-.RI "\fBRegex\fP & \fBremovePcre2Option\fP (\fBUint\fP x)"
-.br
-.RI "\fIRemove option from existing PCRE2 option \fBcompile_opts\fP\&. \fP"
 .ti -1c
 .RI "void \fBcompile\fP (void)"
 .br
@@ -197,17 +201,13 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "\fIFree code if it's non-NULL\&. \fP"
 .ti -1c
-.RI "void \fBparseCompileOpts\fP (void)"
-.br
-.RI "\fIParse \fBmodifier\fP and set equivalent PCRE2 and JPCRE2 options\&. \fP"
-.ti -1c
 .RI "void \fBshallowCopy\fP (const \fBRegex\fP &r)"
 .br
 .RI "\fIDo a shallow copy of class variables\&. \fP"
 .ti -1c
 .RI "void \fBdeepCopy\fP (const \fBRegex\fP &r)"
 .br
-.RI "\fIDo a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. \fP"
+.RI "\fIDo a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP Copy compiled pattern to a new location, free the old memory and set the new pointer to \fBcode\fP\&. \fP"
 .in -1c
 .SS "Private Attributes"
 
@@ -224,10 +224,6 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .RI "\fBString\fP \fBpat_str\fP"
 .br
 .RI "\fIPattern string\&. \fP"
-.ti -1c
-.RI "\fBString\fP \fBmodifier\fP"
-.br
-.RI "\fIModifier string\&. \fP"
 .ti -1c
 .RI "pcre2_code * \fBcode\fP"
 .br
@@ -285,7 +281,7 @@ Default Constructor\&. Initializes all class variables to defaults\&. Does not p
 .SS "jpcre2::Regex::Regex (const \fBString\fP & re)\fC [inline]\fP"
 
 .PP
-Compiles pattern with initialization\&. 
+Compile pattern with initialization\&. 
 .PP
 \fBExceptions:\fP
 .RS 4
@@ -301,7 +297,7 @@ Compiles pattern with initialization\&.
 .SS "jpcre2::Regex::Regex (const \fBString\fP & re, const \fBString\fP & mod)\fC [inline]\fP"
 
 .PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compiles pattern\&. 
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compile pattern\&. 
 .PP
 \fBExceptions:\fP
 .RS 4
@@ -319,7 +315,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .SS "jpcre2::Regex::Regex (const \fBString\fP & re, \fBUint\fP pcre2_opts)\fC [inline]\fP"
 
 .PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compiles pattern\&. 
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compile pattern\&. 
 .PP
 \fBExceptions:\fP
 .RS 4
@@ -384,7 +380,14 @@ Add option to existing JPCRE2 options \fBjpcre2_compile_opts\fP\&.
 .PP
 \fBReturns:\fP
 .RS 4
-*this 
+\fBRegex\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::addJpcre2Option()\fP 
+.PP
+\fBRegexReplace::addJpcre2Option()\fP 
 .RE
 .PP
 
@@ -400,16 +403,104 @@ Add option to existing PCRE2 options \fBcompile_opts\fP\&.
 .PP
 \fBReturns:\fP
 .RS 4
-*this 
+\fBRegex\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::addPcre2Option()\fP 
+.PP
+\fBRegexReplace::addPcre2Option()\fP 
 .RE
 .PP
 
+.SS "\fBRegex\fP& jpcre2::Regex::changeJpcre2Option (\fBUint\fP opt, bool x)\fC [inline]\fP"
+
+.PP
+Add or remove a JPCRE2 option\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIopt\fP JPCRE2 option value 
+.br
+\fIx\fP Add the option if it's true, remove otherwise\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBRegex\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::changeJpcre2Option()\fP 
+.PP
+\fBRegexReplace::changeJpcre2Option()\fP 
+.RE
+.PP
+
+.PP
+Referenced by jpcre2::RegexReplace::changeModifier(), changeModifier(), and jpcre2::RegexMatch::chnageModifier()\&.
+.SS "\fBjpcre2::Regex\fP & jpcre2::Regex::changeModifier (const \fBString\fP & mod, bool x)"
+
+.PP
+Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP will be properly set\&. This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to 0 before calling this function\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImod\fP Modifier string 
+.br
+\fIx\fP Whether to add or remove option 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBRegex\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+RegexMatch::changeModifier() 
+.PP
+\fBRegexReplace::changeModifier()\fP 
+.RE
+.PP
+
+.PP
+References jpcre2::MOD::C_N, jpcre2::MOD::C_V, changeJpcre2Option(), changePcre2Option(), jpcre2::MOD::CJ_N, jpcre2::MOD::CJ_V, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, getErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2_compile_opts, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
+.SS "\fBRegex\fP& jpcre2::Regex::changePcre2Option (\fBUint\fP opt, bool x)\fC [inline]\fP"
+
+.PP
+Add or remove a PCRE2 option\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIopt\fP PCRE2 option value 
+.br
+\fIx\fP Add the option if it's true, remove otherwise\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBRegex\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::changePcre2Option()\fP 
+.PP
+\fBRegexReplace::changePcre2Option()\fP 
+.RE
+.PP
+
+.PP
+Referenced by jpcre2::RegexReplace::changeModifier(), changeModifier(), and jpcre2::RegexMatch::chnageModifier()\&.
 .SS "void jpcre2::Regex::compile (void)"
 
 .PP
 Compile the regex pattern from class variable \fBpat_str\fP\&. Use options from class variables\&.
 .PP
-Prefer using one of its variants when compiling pattern for an already declared \fBRegex\fP object\&. An use of 
+Prefer using one of its variants when compiling pattern for an already declared \fBRegex\fP object\&. A use of 
 .PP
 .nf
 re = Regex("pattern");
@@ -436,7 +527,7 @@ void \fBcompile(const String& re)\fP
 .PP
 
 .PP
-References code, compile_opts, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2_compile_opts, jpcre2::LOCALE_NONE, mylocale, parseCompileOpts(), pat_str, and jpcre2::utils::toString()\&.
+References code, compile_opts, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2_compile_opts, jpcre2::LOCALE_NONE, mylocale, pat_str, jpcre2::utils::throwException(), and jpcre2::utils::toString()\&.
 .SS "void jpcre2::Regex::compile (const \fBString\fP & re, \fBUint\fP po, \fBUint\fP jo)\fC [inline]\fP"
 
 .PP
@@ -512,16 +603,21 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .SS "void jpcre2::Regex::deepCopy (const \fBRegex\fP & r)\fC [private]\fP"
 
 .PP
-Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. 
+Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP Copy compiled pattern to a new location, free the old memory and set the new pointer to \fBcode\fP\&. 
 .PP
 \fBExceptions:\fP
 .RS 4
 \fI\fBRegex::error_number\fP\fP Throws exception (error number) if error occurs 
 .RE
 .PP
+\fBParameters:\fP
+.RS 4
+\fIr\fP \fBRegex\fP& 
+.RE
+.PP
 
 .PP
-References code, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, freeRegexMemory(), jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2::JIT_ERROR_MESSAGE_PREFIX, jpcre2_compile_opts, rm, and rr\&.
+References code, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, freeRegexMemory(), jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2::JIT_ERROR_MESSAGE_PREFIX, jpcre2_compile_opts, rm, rr, and jpcre2::utils::throwException()\&.
 .SS "\fBjpcre2::String\fP jpcre2::Regex::getErrorMessage (int err_num, PCRE2_SIZE err_off)"
 
 .PP
@@ -569,6 +665,8 @@ Error message as a string (empty if there is no error)
 .RE
 .PP
 
+.PP
+Referenced by changeModifier()\&.
 .SS "\fBUint\fP jpcre2::Regex::getJpcre2Option ()\fC [inline]\fP"
 
 .PP
@@ -591,17 +689,25 @@ Get locale as a string\&.
 .RE
 .PP
 
-.SS "\fBString\fP jpcre2::Regex::getModifier ()\fC [inline]\fP"
+.SS "\fBjpcre2::String\fP jpcre2::Regex::getModifier ()"
 
 .PP
-Get modifier string\&. 
+Get modifier string\&. Calculate modifier string from \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP and return it
+.PP
+Note that, this only gives you the modifiers used for pattern compilation\&. There is no such function to get the action modifiers and neither there's any need for it as action modifiers are required to be passed anew with every action\&. On the other hand, you may set some modifiers to the \fBRegex\fP object and forget about it later or you may want to get the existing modifier and compile the regex again by modifying the existing ones\&.
+.PP
+Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized as long as you don't do that explicitly\&. Calling \fBRegex::setModifier()\fP will re-set them\&.
+.PP
+\fBMixed or combined modifier\fP Some modifier may include other modifiers i\&.e they have the same meaning of some modifiers combined together\&. For example, the 'n' modifier includes the 'u' modifier and together they are equivalent to \fCPCRE2_UTF | PCRE2_UCP\fP\&. When you set a modifier like this, both options get set, and when you remove (\fC\fBRegex::changeModifier()\fP)\fP the 'n', both will get removed 
 .PP
 \fBReturns:\fP
 .RS 4
-\fBmodifier\fP 
+Calculated modifier string 
 .RE
 .PP
 
+.PP
+References jpcre2::MOD::C_N, jpcre2::MOD::C_V, jpcre2::MOD::CJ_N, jpcre2::MOD::CJ_V, compile_opts, and jpcre2_compile_opts\&.
 .SS "\fBString\fP jpcre2::Regex::getPattern ()\fC [inline]\fP"
 
 .PP
@@ -674,7 +780,7 @@ Prepare to call \fBRegexMatch::match()\fP\&. Other options can be set with the s
 .PP
 \fBReturns:\fP
 .RS 4
-\fBRegexMatch\fP object 
+\fBRegexMatch\fP& 
 .RE
 .PP
 \fBSee also:\fP
@@ -702,7 +808,7 @@ Prepare to call \fBRegexReplace::replace()\fP\&. Other options can be set with t
 .PP
 \fBReturns:\fP
 .RS 4
-Resultant string after regex replace 
+\fBRegexReplace\fP& 
 .RE
 .PP
 \fBSee also:\fP
@@ -771,11 +877,6 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 Match count 
 .RE
 .PP
-\fBSee also:\fP
-.RS 4
-RegexMatch::match(const String& s) 
-.RE
-.PP
 
 .PP
 References jpcre2::RegexMatch::match(), jpcre2::RegexMatch::re, and jpcre2::RegexMatch::setSubject()\&.
@@ -804,46 +905,6 @@ re = Regex("new pattern");
 \fBParameters:\fP
 .RS 4
 \fIr\fP const \fBRegex\fP& 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-*this 
-.RE
-.PP
-
-.SS "void jpcre2::Regex::parseCompileOpts (void)\fC [private]\fP"
-
-.PP
-Parse \fBmodifier\fP and set equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP will be properly set\&. 
-.PP
-References compile_opts, error_number, error_offset, jpcre2::ERROR::INVALID_MODIFIER, jpcre2::JIT_COMPILE, jpcre2_compile_opts, modifier, and jpcre2::VALIDATE_MODIFIER\&.
-.PP
-Referenced by compile()\&.
-.SS "\fBRegex\fP& jpcre2::Regex::removeJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
-
-.PP
-Remove option from existing JPCRE2 option \fBjpcre2_compile_opts\fP\&. 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIx\fP Option value 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-*this 
-.RE
-.PP
-
-.SS "\fBRegex\fP& jpcre2::Regex::removePcre2Option (\fBUint\fP x)\fC [inline]\fP"
-
-.PP
-Remove option from existing PCRE2 option \fBcompile_opts\fP\&. 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIx\fP Option value 
 .RE
 .PP
 \fBReturns:\fP
@@ -919,7 +980,7 @@ References jpcre2::RegexReplace::re, jpcre2::RegexReplace::replace(), jpcre2::Re
 .SS "\fBRegex\fP& jpcre2::Regex::reset ()\fC [inline]\fP"
 
 .PP
-Reset all class variables to its default (initial) state\&. 
+Reset all class variables to its default (initial) state\&. Release any memory used by existing compiled pattern\&. 
 .PP
 \fBReturns:\fP
 .RS 4
@@ -939,7 +1000,14 @@ Set JPCRE2 option \fBjpcre2_compile_opts\fP (overwrites existing option)
 .PP
 \fBReturns:\fP
 .RS 4
-*this 
+\fBRegex\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::setJpcre2Option()\fP 
+.PP
+\fBRegexReplace::setJpcre2Option()\fP 
 .RE
 .PP
 
@@ -955,14 +1023,14 @@ Set the locale \fBmylocale\fP\&.
 .PP
 \fBReturns:\fP
 .RS 4
-*this 
+\fBRegex\fP& 
 .RE
 .PP
 
 .SS "\fBRegex\fP& jpcre2::Regex::setModifier (const \fBString\fP & x)\fC [inline]\fP"
 
 .PP
-Set the modifier \fBmodifier\fP (overwrite existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then sets the modifier\&. 
+Set the modifier (overwrite existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets equivalent PCRE2 and JPCRE2 options 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -971,7 +1039,14 @@ Set the modifier \fBmodifier\fP (overwrite existing JPCRE2 and PCRE2 option)\&. 
 .PP
 \fBReturns:\fP
 .RS 4
-*this 
+\fBRegex\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::setModifier()\fP 
+.PP
+\fBRegexReplace::setModifier()\fP 
 .RE
 .PP
 
@@ -987,7 +1062,7 @@ Set the Pattern string \fBpat_str\fP\&.
 .PP
 \fBReturns:\fP
 .RS 4
-*this 
+\fBRegex\fP& 
 .RE
 .PP
 
@@ -1003,7 +1078,14 @@ Set PCRE2 option \fBcompile_opts\fP (overwrites existing option)
 .PP
 \fBReturns:\fP
 .RS 4
-*this 
+\fBRegex\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::setPcre2Option()\fP 
+.PP
+\fBRegexReplace::setPcre2Option()\fP 
 .RE
 .PP
 

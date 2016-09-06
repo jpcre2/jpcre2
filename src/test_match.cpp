@@ -28,6 +28,10 @@ int main(){
           .compile();}                                                          //Finally compile it.
     catch(int e){std::cerr<<re.getErrorMessage(e);}
     
+    /// The above `jpcre2::VALIDATE_MODIFIER` option won't have any effect as modifier was passe before it.
+    /// You can pass a modifier (~ or &) to turn this validation check on. In that case
+    /// validation will start after ~ or & modifier is encountered,
+
     /***************************************************************************************************************
      * Always use try catch to catch any exception and avoid unexpected termination of the program.
      * All jpcre2 exceptions are of type int (integer)
@@ -46,7 +50,7 @@ int main(){
                   .setNameToNumberMapVector(&vec_nn0)           //...
                   .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)   //...
                   .addPcre2Option(0)                            //...
-                  .match();}                                    //Finaly perform the match
+                  .match();}                                    //Finally perform the match
     catch(int e){std::cerr<<"\n"<<re.getErrorMessage(e);}
     
     std::cerr<<re.getWarningMessage(); //(f: invalid modifier) warning

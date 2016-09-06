@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespacejpcre2_1_1INFO" kind="namespace" language="C++">
+    <compoundname>jpcre2::INFO</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a0d5716a82b496f2ccf5eee832275b4b8" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::INFO::NAME</definition>
+        <argsstring></argsstring>
+        <name>NAME</name>
+        <briefdescription>
+<para>Name of the project. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para><ulink url="https://github.com/neurobin">Md Jahidul Hamid</ulink> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="87" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a315fc58da1463f4d1cc417677bd31ca1" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::INFO::FULL_VERSION</definition>
+        <argsstring></argsstring>
+        <name>FULL_VERSION</name>
+        <briefdescription>
+<para>Full version string. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="88" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a9d046526610d624eaaa04b5fb000e48f" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::INFO::VERSION_GENRE</definition>
+        <argsstring></argsstring>
+        <name>VERSION_GENRE</name>
+        <briefdescription>
+<para>Generation, depends on original PCRE2 version. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="89" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a5deb805502c30063a5a68d91bf034d86" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::INFO::VERSION_MAJOR</definition>
+        <argsstring></argsstring>
+        <name>VERSION_MAJOR</name>
+        <briefdescription>
+<para>Major version, updated when API change is made. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="90" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a0644b3b2680e99fc88c0a98f6a0d25d1" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::INFO::VERSION_MINOR</definition>
+        <argsstring></argsstring>
+        <name>VERSION_MINOR</name>
+        <briefdescription>
+<para>Minor version, includes bug fix or minor feature upgrade. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="91" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a85fb46b46141271d426f53b2c2ba6b15" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::INFO::VERSION_PRE_RELEASE</definition>
+        <argsstring></argsstring>
+        <name>VERSION_PRE_RELEASE</name>
+        <briefdescription>
+<para>Alpha or beta (testing) release version. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="92" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Namespace to provide information about JPCRE2 library itself. </para>    </briefdescription>
+    <detaileddescription>
+<para>Contains constant Strings with version info. </para>    </detaileddescription>
+    <location file="src/jpcre2.hpp" line="86" column="1"/>
+  </compounddef>
+</doxygen>

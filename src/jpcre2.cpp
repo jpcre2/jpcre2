@@ -45,6 +45,15 @@
 #include <cassert>  // assert
 #include <cstring>  // strlen
 
+
+const jpcre2::String jpcre2::INFO::NAME("JPCRE2");
+const jpcre2::String jpcre2::INFO::FULL_VERSION("10.25.02");
+const jpcre2::String jpcre2::INFO::VERSION_GENRE("10");
+const jpcre2::String jpcre2::INFO::VERSION_MAJOR("25");
+const jpcre2::String jpcre2::INFO::VERSION_MINOR("02");
+const jpcre2::String jpcre2::INFO::VERSION_PRE_RELEASE("");
+
+
 /// Use max of int as the initial size of replaced string
 const jpcre2::SIZE_T jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max();
 const jpcre2::String jpcre2::LOCALE_NONE = "JPCRE2_NONE";                           ///< Nothing to be done on locale
@@ -52,8 +61,8 @@ const jpcre2::String jpcre2::LOCALE_DEFAULT = LOCALE_NONE;                      
 const jpcre2::String jpcre2::JIT_ERROR_MESSAGE_PREFIX = "JIT compilation failed! "; ///< Prefix to be added to JIT error message
 
 
-/// Define modifiers for compile
-/// Every modifier needs to be unique in this block
+// Define modifiers for compile
+// Every modifier needs to be unique in this block
 const jpcre2::String jpcre2::MOD::C_N("eijmnsuxADJU");
 const jpcre2::Uint jpcre2::MOD::C_V[12] = { PCRE2_MATCH_UNSET_BACKREF,                  ///< Modifier e
                                             PCRE2_CASELESS,                             ///< Modifier i
@@ -78,8 +87,8 @@ const jpcre2::Uint jpcre2::MOD::CJ_V[3] = { JIT_COMPILE,                        
 
 
 
-/// Define modifiers for replace
-/// Every modifier needs to be unique in this block
+// Define modifiers for replace
+// Every modifier needs to be unique in this block
 const jpcre2::String jpcre2::MOD::R_N("eEgx");
 const jpcre2::Uint jpcre2::MOD::R_V[4] = { PCRE2_SUBSTITUTE_UNSET_EMPTY,                ///< Modifier  e
                                            PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   ///< Modifier E (includes e)
@@ -94,8 +103,8 @@ const jpcre2::Uint jpcre2::MOD::RJ_V[2] = { ERROR_ALL,                          
                                           };
 
 
-/// Define modifiers for match
-/// Every modifier needs to be unique in this block
+// Define modifiers for match
+// Every modifier needs to be unique in this block
 const jpcre2::String jpcre2::MOD::M_N("A");
 const jpcre2::Uint jpcre2::MOD::M_V[1] = { PCRE2_ANCHORED                               ///< Modifier  A
                                          };
@@ -108,7 +117,7 @@ const jpcre2::Uint jpcre2::MOD::MJ_V[3] = { FIND_ALL,                           
 
 ///////// utils namespace
 
-/// Used throghout JPCRE2 to throw exception
+/// Used throughout JPCRE2 to throw exceptions
 void jpcre2::utils::throwException(int x){
     throw(x);
 }
@@ -365,7 +374,7 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 				outlengthptr++;  /// It was changed to required length
 				output_buffer = (PCRE2_UCHAR*) realloc(output_buffer,
 						outlengthptr * sizeof(PCRE2_UCHAR));
-				/// Go and try to perform the substitue again
+				/// Go and try to perform the substitute again
 				continue;
 			} else {
 				::free(output_buffer);
@@ -525,7 +534,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 	pcre2_match_data *match_data;
 	subject_length = strlen((char *) subject);
 
-	///Clear all verctors and initialize maps
+	///Clear all vectors and initialize maps
 	if (vec_num) {
 		vec_num->clear();
 		num_map0 = new MapNum();
@@ -765,7 +774,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 			return count;
 		}
 
-		/* match succeded */
+		/* match succeeded */
 		++count; //Increment the counter
 
 		if (rc == 0) {

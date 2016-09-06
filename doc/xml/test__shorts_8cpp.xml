@@ -5,49 +5,44 @@
     <includes local="no">iostream</includes>
     <includes refid="jpcre2_8hpp" local="yes">jpcre2.hpp</includes>
     <incdepgraph>
-      <node id="139">
+      <node id="127">
         <label>pcre2.h</label>
       </node>
-      <node id="140">
-        <label>stdint.h</label>
-      </node>
-      <node id="136">
+      <node id="124">
         <label>test_shorts.cpp</label>
         <link refid="test_shorts.cpp"/>
-        <childnode refid="137" relation="include">
+        <childnode refid="125" relation="include">
         </childnode>
-        <childnode refid="138" relation="include">
+        <childnode refid="126" relation="include">
         </childnode>
       </node>
-      <node id="142">
+      <node id="129">
         <label>string</label>
       </node>
-      <node id="138">
+      <node id="126">
         <label>jpcre2.hpp</label>
         <link refid="jpcre2_8hpp"/>
-        <childnode refid="139" relation="include">
+        <childnode refid="127" relation="include">
         </childnode>
-        <childnode refid="140" relation="include">
+        <childnode refid="128" relation="include">
         </childnode>
-        <childnode refid="141" relation="include">
+        <childnode refid="129" relation="include">
         </childnode>
-        <childnode refid="142" relation="include">
+        <childnode refid="130" relation="include">
         </childnode>
-        <childnode refid="143" relation="include">
-        </childnode>
-        <childnode refid="144" relation="include">
+        <childnode refid="131" relation="include">
         </childnode>
       </node>
-      <node id="144">
+      <node id="131">
         <label>map</label>
       </node>
-      <node id="143">
+      <node id="130">
         <label>vector</label>
       </node>
-      <node id="137">
+      <node id="125">
         <label>iostream</label>
       </node>
-      <node id="141">
+      <node id="128">
         <label>cstddef</label>
       </node>
     </incdepgraph>
@@ -148,9 +143,9 @@
 <codeline><highlight class="comment"><sp/><sp/><sp/><sp/>///vec_num[0]<sp/>is<sp/>the<sp/>first<sp/>match</highlight></codeline>
 <codeline><highlight class="comment"><sp/><sp/><sp/><sp/>///The<sp/>type<sp/>of<sp/>vec_num[0]<sp/>is<sp/>jpcre2::MapNum</highlight></codeline>
 <codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nTotal<sp/>match<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][0];<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">///Total<sp/>match<sp/>(group<sp/>0)<sp/>from<sp/>first<sp/>match</highlight></codeline>
-<codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>1<sp/>of<sp/>frist<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][1];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>1<sp/>from<sp/>first<sp/>match<sp/></highlight></codeline>
-<codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>2<sp/>of<sp/>frist<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][2];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>2<sp/>from<sp/>first<sp/>match</highlight></codeline>
-<codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>3<sp/>of<sp/>frist<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][3];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>3<sp/>doesn&apos;t<sp/>exist,<sp/>it<sp/>will<sp/>give<sp/>you<sp/>empty<sp/>string</highlight></codeline>
+<codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>1<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][1];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>1<sp/>from<sp/>first<sp/>match</highlight></codeline>
+<codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>2<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][2];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>2<sp/>from<sp/>first<sp/>match</highlight></codeline>
+<codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>3<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][3];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>3<sp/>doesn&apos;t<sp/>exist,<sp/>it<sp/>will<sp/>give<sp/>you<sp/>empty<sp/>string</highlight></codeline>
 <codeline><highlight class="comment"></highlight><highlight class="comment"><sp/><sp/><sp/><sp/>///Using<sp/>the<sp/>[]<sp/>operator<sp/>with<sp/>jpcre2::MapNum<sp/>will<sp/>create<sp/>new<sp/>element<sp/>if<sp/>it<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
 <codeline><highlight class="comment"></highlight><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>i.e<sp/>vec_num[0][3]<sp/>were<sp/>created<sp/>in<sp/>the<sp/>above<sp/>example.</highlight></codeline>
 <codeline><highlight class="comment"></highlight><highlight class="comment"><sp/><sp/><sp/><sp/>///This<sp/>should<sp/>be<sp/>ok,<sp/>if<sp/>existence<sp/>of<sp/>a<sp/>particular<sp/>substring<sp/>is<sp/>not<sp/>important</highlight></codeline>
@@ -159,7 +154,7 @@
 <codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>//&gt;=C++11</highlight></codeline>
 <codeline><highlight class="comment"><sp/><sp/><sp/><sp/>try{</highlight><highlight class="comment"></highlight></codeline>
 <codeline><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>///This<sp/>will<sp/>throw<sp/>exception,<sp/>because<sp/>substring<sp/>4<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
-<codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>of<sp/>frist<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0].at(4);</highlight></codeline>
+<codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0].at(4);</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>catch<sp/>(std::logic_error<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>doesn&apos;t<sp/>exist&quot;;</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}*/</highlight></codeline>
@@ -194,7 +189,7 @@
 <codeline><highlight class="comment"><sp/><sp/><sp/><sp/>///If<sp/>the<sp/>existence<sp/>of<sp/>a<sp/>substring<sp/>is<sp/>important,<sp/>use<sp/>the<sp/>std::map::find()<sp/>or<sp/>std::map::at()<sp/>(&gt;=C++11)<sp/>function<sp/>to<sp/>access<sp/>map<sp/>elements</highlight></codeline>
 <codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>//&gt;=C++11</highlight></codeline>
 <codeline><highlight class="comment"><sp/><sp/><sp/><sp/>try{</highlight><highlight class="comment"></highlight></codeline>
-<codeline><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>///This<sp/>will<sp/>throw<sp/>exception<sp/>becasue<sp/>the<sp/>substring<sp/>name<sp/>&apos;name&apos;<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
+<codeline><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>///This<sp/>will<sp/>throw<sp/>exception<sp/>because<sp/>the<sp/>substring<sp/>name<sp/>&apos;name&apos;<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
 <codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptured<sp/>group<sp/>(name)<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_nas[0].at(&quot;name&quot;);</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>catch(std::logic_error<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;&quot;\nCaptured<sp/>group<sp/>(name)<sp/>doesn&apos;t<sp/>exist&quot;;</highlight></codeline>
@@ -224,7 +219,7 @@
 <codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">jpcre2::Regex</ref>(</highlight><highlight class="stringliteral">&quot;\\d&quot;</highlight><highlight class="normal">).<ref refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" kindref="member">replace</ref>(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>the<sp/>subject<sp/>string<sp/>44&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;@&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">&lt;&lt;</highlight><highlight class="comment"></highlight></codeline>
-<codeline><highlight class="comment"><sp/><sp/><sp/><sp/>///replace<sp/>all<sp/>occrrences<sp/>of<sp/>a<sp/>digit<sp/>with<sp/>@</highlight></codeline>
+<codeline><highlight class="comment"><sp/><sp/><sp/><sp/>///replace<sp/>all<sp/>occurrences<sp/>of<sp/>a<sp/>digit<sp/>with<sp/>@</highlight></codeline>
 <codeline><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">jpcre2::Regex</ref>(</highlight><highlight class="stringliteral">&quot;\\d&quot;</highlight><highlight class="normal">).<ref refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" kindref="member">replace</ref>(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>the<sp/>subject<sp/>string<sp/>44&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;@&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;g&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment"></highlight></codeline>
 <codeline><highlight class="comment"><sp/><sp/><sp/><sp/>///swap<sp/>two<sp/>parts<sp/>of<sp/>a<sp/>string</highlight></codeline>
@@ -317,9 +312,9 @@
 <codeline lineno="77"><highlight class="comment"><sp/><sp/><sp/><sp/>///vec_num[0]<sp/>is<sp/>the<sp/>first<sp/>match</highlight></codeline>
 <codeline lineno="78"><highlight class="comment"><sp/><sp/><sp/><sp/>///The<sp/>type<sp/>of<sp/>vec_num[0]<sp/>is<sp/>jpcre2::MapNum</highlight></codeline>
 <codeline lineno="79"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nTotal<sp/>match<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][0];<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">///Total<sp/>match<sp/>(group<sp/>0)<sp/>from<sp/>first<sp/>match</highlight></codeline>
-<codeline lineno="80"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>1<sp/>of<sp/>frist<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][1];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>1<sp/>from<sp/>first<sp/>match<sp/></highlight></codeline>
-<codeline lineno="81"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>2<sp/>of<sp/>frist<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][2];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>2<sp/>from<sp/>first<sp/>match</highlight></codeline>
-<codeline lineno="82"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>3<sp/>of<sp/>frist<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][3];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>3<sp/>doesn&apos;t<sp/>exist,<sp/>it<sp/>will<sp/>give<sp/>you<sp/>empty<sp/>string</highlight></codeline>
+<codeline lineno="80"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>1<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][1];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>1<sp/>from<sp/>first<sp/>match</highlight></codeline>
+<codeline lineno="81"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>2<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][2];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>2<sp/>from<sp/>first<sp/>match</highlight></codeline>
+<codeline lineno="82"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nCaptrued<sp/>group<sp/>3<sp/>of<sp/>first<sp/>match:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;vec_num[0][3];<sp/></highlight><highlight class="comment">///captured<sp/>group<sp/>3<sp/>doesn&apos;t<sp/>exist,<sp/>it<sp/>will<sp/>give<sp/>you<sp/>empty<sp/>string</highlight></codeline>
 <codeline lineno="83"><highlight class="comment"></highlight><highlight class="comment"><sp/><sp/><sp/><sp/>///Using<sp/>the<sp/>[]<sp/>operator<sp/>with<sp/>jpcre2::MapNum<sp/>will<sp/>create<sp/>new<sp/>element<sp/>if<sp/>it<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
 <codeline lineno="84"><highlight class="comment"></highlight><highlight class="comment"><sp/><sp/><sp/><sp/>///<sp/>i.e<sp/>vec_num[0][3]<sp/>were<sp/>created<sp/>in<sp/>the<sp/>above<sp/>example.</highlight></codeline>
 <codeline lineno="85"><highlight class="comment"></highlight><highlight class="comment"><sp/><sp/><sp/><sp/>///This<sp/>should<sp/>be<sp/>ok,<sp/>if<sp/>existence<sp/>of<sp/>a<sp/>particular<sp/>substring<sp/>is<sp/>not<sp/>important</highlight></codeline>
@@ -328,7 +323,7 @@
 <codeline lineno="88"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>//&gt;=C++11</highlight></codeline>
 <codeline lineno="89"><highlight class="comment"><sp/><sp/><sp/><sp/>try{</highlight><highlight class="comment"></highlight></codeline>
 <codeline lineno="90"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>///This<sp/>will<sp/>throw<sp/>exception,<sp/>because<sp/>substring<sp/>4<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
-<codeline lineno="91"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>of<sp/>frist<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0].at(4);</highlight></codeline>
+<codeline lineno="91"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0].at(4);</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>catch<sp/>(std::logic_error<sp/>e){</highlight></codeline>
 <codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>doesn&apos;t<sp/>exist&quot;;</highlight></codeline>
 <codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}*/</highlight></codeline>
@@ -363,7 +358,7 @@
 <codeline lineno="123"><highlight class="comment"><sp/><sp/><sp/><sp/>///If<sp/>the<sp/>existence<sp/>of<sp/>a<sp/>substring<sp/>is<sp/>important,<sp/>use<sp/>the<sp/>std::map::find()<sp/>or<sp/>std::map::at()<sp/>(&gt;=C++11)<sp/>function<sp/>to<sp/>access<sp/>map<sp/>elements</highlight></codeline>
 <codeline lineno="124"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>//&gt;=C++11</highlight></codeline>
 <codeline lineno="125"><highlight class="comment"><sp/><sp/><sp/><sp/>try{</highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="126"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>///This<sp/>will<sp/>throw<sp/>exception<sp/>becasue<sp/>the<sp/>substring<sp/>name<sp/>&apos;name&apos;<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
+<codeline lineno="126"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>///This<sp/>will<sp/>throw<sp/>exception<sp/>because<sp/>the<sp/>substring<sp/>name<sp/>&apos;name&apos;<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
 <codeline lineno="127"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptured<sp/>group<sp/>(name)<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_nas[0].at(&quot;name&quot;);</highlight></codeline>
 <codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>catch(std::logic_error<sp/>e){</highlight></codeline>
 <codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;&quot;\nCaptured<sp/>group<sp/>(name)<sp/>doesn&apos;t<sp/>exist&quot;;</highlight></codeline>
@@ -393,7 +388,7 @@
 <codeline lineno="153"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">jpcre2::Regex</ref>(</highlight><highlight class="stringliteral">&quot;\\d&quot;</highlight><highlight class="normal">).<ref refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" kindref="member">replace</ref>(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>the<sp/>subject<sp/>string<sp/>44&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;@&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">&lt;&lt;</highlight><highlight class="comment"></highlight></codeline>
-<codeline lineno="156"><highlight class="comment"><sp/><sp/><sp/><sp/>///replace<sp/>all<sp/>occrrences<sp/>of<sp/>a<sp/>digit<sp/>with<sp/>@</highlight></codeline>
+<codeline lineno="156"><highlight class="comment"><sp/><sp/><sp/><sp/>///replace<sp/>all<sp/>occurrences<sp/>of<sp/>a<sp/>digit<sp/>with<sp/>@</highlight></codeline>
 <codeline lineno="157"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">jpcre2::Regex</ref>(</highlight><highlight class="stringliteral">&quot;\\d&quot;</highlight><highlight class="normal">).<ref refid="classjpcre2_1_1Regex_1ac592ce7a5e4210ed5f90a0105b1f2981" kindref="member">replace</ref>(</highlight><highlight class="stringliteral">&quot;I<sp/>am<sp/>the<sp/>subject<sp/>string<sp/>44&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;@&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;g&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment"></highlight></codeline>
 <codeline lineno="159"><highlight class="comment"><sp/><sp/><sp/><sp/>///swap<sp/>two<sp/>parts<sp/>of<sp/>a<sp/>string</highlight></codeline>

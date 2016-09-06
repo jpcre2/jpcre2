@@ -53,8 +53,8 @@ int main(){
 		try{std::cout<<"\nreplaced string: "<<re.initReplace()
 												.setSubject(subject)
 												.setReplaceWith(repl)
-												.setModifier(repl_mod)
 												.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)
+												.setModifier(repl_mod)
 												.replace();}
 		catch(int e){std::cerr<<re.getErrorMessage(e);
 			if(e==jpcre2::ERROR::INVALID_MODIFIER) continue;

@@ -1,4 +1,4 @@
-.TH "test_match2.cpp" 3 "Tue Sep 6 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "test_match2.cpp" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -47,14 +47,18 @@ int main(){
 
     std::cout<<"Enter pattern: ";
     getLine(pat);
-    cp:
-    std::cout<<"Enter compile modifiers (eijmnsuxADJSU): ";
-    getLine(mod);
+    while(true){
+        std::cout<<"Enter compile modifiers (eijmnsuxADJSU): ";
+        getLine(mod);
+        
+        ///Compile pattern
+        try{re\&.compile(pat,mod);}
+        catch(int e){std::cerr<<re\&.getErrorMessage(e)<<std::endl;continue;}
+        break;
+    }
     
-    ///Compile pattern
-    try{re\&.compile(pat,mod);}
-    catch(int e){std::cerr<<re\&.getErrorMessage(e)<<std::endl;goto cp;}
-           
+    std::cout<<"\nPattern compiled with modifiers: "<<re\&.getModifier();
+    
     /***************************************************************************************************************
      * Use try catch block to catch any exception and avoid unexpected termination of the program in case of error
      * All jpcre2 exceptions are of type int (integer)
@@ -73,11 +77,12 @@ int main(){
         getLine(ac_mod);
         if(subject=="quit")return 0;
         try{matched=re\&.initMatch()                                //Invoke the initMatch() function
+                      \&.setSubject(subject)                         //subject
+                      \&.addJpcre2Option(jpcre2::VALIDATE_MODIFIER) //Turn on modifier validation check
                       \&.setModifier(ac_mod)                        //Set various options
                       \&.setNumberedSubstringVector(&vec_num0)      //\&.\&.\&.
                       \&.setNamedSubstringVector(&vec_nas0)         //\&.\&.\&.
                       \&.setNameToNumberMapVector(&vec_nn0)         //\&.\&.\&.
-                      \&.addJpcre2Option(jpcre2::VALIDATE_MODIFIER) //\&.\&.\&.
                       \&.addPcre2Option(0)                          //\&.\&.\&.
                       \&.match();                                   //Finally do the match
         }

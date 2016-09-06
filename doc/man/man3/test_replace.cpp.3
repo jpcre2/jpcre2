@@ -1,4 +1,4 @@
-.TH "test_replace.cpp" 3 "Tue Sep 6 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "test_replace.cpp" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -34,8 +34,8 @@ int main(){
 
     ///Compile the pattern
     try{re\&.setPattern("(?:(?<word>[?\&.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")     //Set various parameters
-          \&.setModifier("Jin")                                                      //\&.\&.\&.
           \&.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)                              //\&.\&.\&.
+          \&.setModifier("Jin")                                                      //\&.\&.\&.
           \&.addPcre2Option(0)                                                       //\&.\&.\&.
           \&.compile();}                                                             //Finally compile it\&.
     catch(int e){std::cerr<<re\&.getErrorMessage(e);}
@@ -52,8 +52,8 @@ int main(){
         re\&.initReplace()                                                    //Invoke the initReplace() function
           \&.setSubject(s)                                                    //Set various parameters
           \&.setReplaceWith("(replaced:$1)(replaced:$2)(replaced:${word})")   //\&.\&.\&.
-          \&.setModifier("xE")                                                //\&.\&.\&.
           \&.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)                       //\&.\&.\&.
+          \&.setModifier("xE")                                                //\&.\&.\&.
           \&.addPcre2Option(0)                                                //\&.\&.\&.
           \&.replace();                                                       //Finally perform the replace operation\&.
     }

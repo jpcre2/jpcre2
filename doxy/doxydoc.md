@@ -111,7 +111,7 @@ catch(int e){
 }
 ```
 
-Now you can perform match or replace against the pattern. Use the `match()` member function to preform regex match and the `replace()` member function to perform regex replace.
+Now you can perform match or replace against the pattern. Use the `match()` member function to perform regex match and the `replace()` member function to perform regex replace.
 
 
 ## Match {#match}
@@ -166,7 +166,7 @@ std::cout<<vec_num[1][0]; // group 0 in second match
 To get named substring and/or name to number mapping, pass pointer to the appropriate vectors with `jpcre2::RegexMatch::setNamedSubstringVector()` and/or `jpcre2::RegexMatch::setNameToNumberMapVector()` before doing the match.
 
 ```cpp
-jpcre2::VecNum vec_num;   ///Vector to store numbured substring Map.
+jpcre2::VecNum vec_num;   ///Vector to store numbered substring Map.
 jpcre2::VecNas vec_nas;   ///Vector to store named substring Map.
 jpcre2::VecNtN vec_ntn;   ///Vector to store Named substring to Number Map.
 std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Options()
@@ -249,7 +249,7 @@ std::cout<<jpcre2::Regex("\\d+").replace("I am digits 1234","5678", "g");
 //'g' modifier is for global replacement
 ```
 
-### Using named parameter idiom {#replace-with-named-parameter}
+### Using method chaining {#using-method-chaining}
 
 ```cpp
 try{
@@ -300,15 +300,17 @@ Modifier | Details
 
 ## Action modifiers {#action-modifiers}
 
-These modifiers are not compiled in the regex itself, rather they are used per call of each match or replace function.
+These modifiers are not compiled in the regex itself, rather they are used per call of each match, replace or compile function.
 
-Modifier | Details
------- | ------
-`A` | Match at start. Equivalent to `PCRE2_ANCHORED`. Can be used in match operation. Setting this option only at match time (i.e regex was not compiled with this option) will disable optimization during match time.
-`e` | Replaces unset group with empty string. Equivalent to `PCRE2_SUBSTITUTE_UNSET_EMPTY`. Can be used in replace operation.
-`E` | Extension of `e` modifier. Sets even unknown groups to empty string. Equivalent to PCRE2_SUBSTITUTE_UNSET_EMPTY \| PCRE2_SUBSTITUTE_UNKNOWN_UNSET.
-`g` | Global. Will perform global matching or replacement if passed.
-`x` | Extended replacement operation. It enables some Bash like features:<br>`${<n>:-<string>}`<br>`${<n>:+<string1>:<string2>}`<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
+Modifier | Action | Details
+------ | ------ | ----- |
+`A` | match | Match at start. Equivalent to `PCRE2_ANCHORED`. Can be used in match operation. Setting this option only at match time (i.e regex was not compiled with this option) will disable optimization during match time.
+`e` | replace | Replaces unset group with empty string. Equivalent to `PCRE2_SUBSTITUTE_UNSET_EMPTY`.
+`E` | replace | Extension of `e` modifier. Sets even unknown groups to empty string. Equivalent to PCRE2_SUBSTITUTE_UNSET_EMPTY \| PCRE2_SUBSTITUTE_UNKNOWN_UNSET
+`g` | match<br>replace | Global. Will perform global matching or replacement if passed. Equivalent to `jpcre2::FIND_ALL`.
+`x` | replace | Extended replacement operation. It enables some Bash like features:<br>`${<n>:-<string>}`<br>`${<n>:+<string1>:<string2>}`<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
+`~` | match<br>replace<br>compile | Treat warnings as errors. Equivalent to `jpcre2::ERROR_ALL`.
+`&` | match<br>replace<br>compile | Validate modifier. Throws `jpcre2::ERROR::INVALID_MODIFIER` error in case invalid modifier encountered. Equivalent to `jpcre2::VALIDATE_MODIFIER`.
 
 <div id="jpcre2-options"></div>
 
@@ -318,19 +320,19 @@ JPCRE2 allows both PCRE2 and native JPCRE2 options to be passed. PCRE2 options a
 
 ## JPCRE2 options {#jpcre-options}
 
-These options are meaningful only for the **JPCRE2** library itself not the original **PCRE2** library. We use the `addJpcre2Options()` function to pass these options.
+These options are meaningful only for the **JPCRE2** library itself not the original **PCRE2** library. We use the `jpcre2::Regex::addJpcre2Option()` and such functions to pass these options.
 
 Option | Details
 ------ | ------
 `jpcre2::NONE` | This is the default option. Equivalent to 0 (zero).
-`jpcre2::VALIDATE_MODIFIER` | If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message with `jpcre2::Regex::getErrorMessage(error_code)` member function.
+`jpcre2::VALIDATE_MODIFIER` | If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message with `jpcre2::Regex::getErrorMessage()` member function.
 `jpcre2::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `jpcre2::RegexMatch::setModifier()` function.
 `jpcre2::ERROR_ALL` | Treat warnings as errors and throw exception.
 `jpcre2::JIT_COMPILE` | This is same as passing the `S` modifier during pattern compilation.
 
 ## PCRE2 options {#pcre2-options}
 
-While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `addPcre2Option()` functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
+While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `jpcre2::Regex::addPcre2Option()` and such functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
 
 # Short examples {#short-examples}
 
@@ -405,9 +407,9 @@ std::cout<<"\nNumber of matches: "<<count/* or vec_num.size()*/;
 ///vec_num[0] is the first match
 ///The type of vec_num[0] is jpcre2::MapNum
 std::cout<<"\nTotal match of first match: "<<vec_num[0][0];      ///Total match (group 0) from first match
-std::cout<<"\nCaptrued group 1 of frist match: "<<vec_num[0][1]; ///captured group 1 from first match 
-std::cout<<"\nCaptrued group 2 of frist match: "<<vec_num[0][2]; ///captured group 2 from first match
-std::cout<<"\nCaptrued group 3 of frist match: "<<vec_num[0][3]; ///captured group 3 doesn't exist, it will give you empty string
+std::cout<<"\nCaptrued group 1 of first match: "<<vec_num[0][1]; ///captured group 1 from first match 
+std::cout<<"\nCaptrued group 2 of first match: "<<vec_num[0][2]; ///captured group 2 from first match
+std::cout<<"\nCaptrued group 3 of first match: "<<vec_num[0][3]; ///captured group 3 doesn't exist, it will give you empty string
 ///Using the [] operator with jpcre2::MapNum will create new element if it doesn't exist
 /// i.e vec_num[0][3] were created in the above example.
 ///This should be ok, if existence of a particular substring is not important
@@ -416,7 +418,7 @@ std::cout<<"\nCaptrued group 3 of frist match: "<<vec_num[0][3]; ///captured gro
 /* //>=C++11
 try{
     ///This will throw exception, because substring 4 doesn't exist
-    std::cout<<"\nCaptrued group 4 of frist match: "<<vec_num[0].at(4);
+    std::cout<<"\nCaptrued group 4 of first match: "<<vec_num[0].at(4);
 } catch (std::logic_error e){
     std::cout<<"\nCaptrued group 4 doesn't exist";
 }*/
@@ -451,7 +453,7 @@ std::cout<<"\nCaptured group (digit) of first match: "<<vec_nas[0]["digit"];
 ///If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
 /* //>=C++11
 try{
-    ///This will throw exception becasue the substring name 'name' doesn't exist
+    ///This will throw exception because the substring name 'name' doesn't exist
     std::cout<<"\nCaptured group (name) of first match: "<<vec_nas[0].at("name");
 } catch(std::logic_error e){
     std::cout<<"\nCaptured group (name) doesn't exist";
@@ -481,7 +483,7 @@ std::cout<<"\n"<<
 jpcre2::Regex("\\d").replace("I am the subject string 44", "@");
 
 std::cout<<"\n"<<
-///replace all occrrences of a digit with @
+///replace all occurrences of a digit with @
 jpcre2::Regex("\\d").replace("I am the subject string 44", "@", "g");
 
 ///swap two parts of a string

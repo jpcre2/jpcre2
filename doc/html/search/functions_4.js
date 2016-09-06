@@ -5,7 +5,7 @@ var searchData=
   ['geterroroffset',['getErrorOffset',['../classjpcre2_1_1Regex.html#a1c7822056cd7ac9a6be5e18513bd8093',1,'jpcre2::Regex']]],
   ['getjpcre2option',['getJpcre2Option',['../classjpcre2_1_1Regex.html#a5d2d04eb7c393338a4c8cce941e957ef',1,'jpcre2::Regex']]],
   ['getlocale',['getLocale',['../classjpcre2_1_1Regex.html#ae9afaf627ed922a9e4cee8074d30edfa',1,'jpcre2::Regex']]],
-  ['getmodifier',['getModifier',['../classjpcre2_1_1Regex.html#acc597ee58b9d5ab35d6e1f98b6118175',1,'jpcre2::Regex']]],
+  ['getmodifier',['getModifier',['../classjpcre2_1_1Regex.html#a0ac4e063f00128b96cd94c33609dc559',1,'jpcre2::Regex']]],
   ['getnamedsubstrings',['getNamedSubstrings',['../classjpcre2_1_1RegexMatch.html#af159e8d080ecd74f63ec67b1d5a27772',1,'jpcre2::RegexMatch']]],
   ['getnumberedsubstrings',['getNumberedSubstrings',['../classjpcre2_1_1RegexMatch.html#a961a5f91ab24a1ddfd42910c6ab68b65',1,'jpcre2::RegexMatch']]],
   ['getpattern',['getPattern',['../classjpcre2_1_1Regex.html#a006dd17f71a2d717aa9575d72fac6d7b',1,'jpcre2::Regex']]],

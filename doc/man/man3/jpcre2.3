@@ -1,4 +1,4 @@
-.TH "jpcre2" 3 "Tue Sep 6 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -15,6 +15,14 @@ jpcre2 \- Top level namespace of JPCRE2\&.
 .br
 .RI "\fINamespace for error codes\&. \fP"
 .ti -1c
+.RI " \fBINFO\fP"
+.br
+.RI "\fINamespace to provide information about JPCRE2 library itself\&. \fP"
+.ti -1c
+.RI " \fBMOD\fP"
+.br
+.RI "\fINamespace for modifier constants\&. \fP"
+.ti -1c
 .RI " \fButils\fP"
 .br
 .RI "\fINamespace for some utility functions\&. \fP"
@@ -29,11 +37,11 @@ jpcre2 \- Top level namespace of JPCRE2\&.
 .ti -1c
 .RI "class \fBRegexMatch\fP"
 .br
-.RI "\fIPerforms regex matching\&. \fP"
+.RI "\fIProvides the \fBRegexMatch::match()\fP function to perform regex matching\&. \fP"
 .ti -1c
 .RI "class \fBRegexReplace\fP"
 .br
-.RI "\fIPerforms regex replace on a string\&. \fP"
+.RI "\fIProvides the \fBRegexReplace::replace()\fP function to perform regex replace on a string\&. \fP"
 .in -1c
 .SS "Typedefs"
 
@@ -125,7 +133,7 @@ These constants provide JPCRE2 options\&.
 Option 0 (zero) 
 .TP
 \fB\fIVALIDATE_MODIFIER \fP\fP
-Perform validation check on modifiers and throw #INVALID_MODIFIER if any wrong modifier is passed\&. 
+Perform validation check on modifiers and throw \fBjpcre2::ERROR::INVALID_MODIFIER\fP if any wrong modifier is passed\&. 
 .TP
 \fB\fIFIND_ALL \fP\fP
 Find all during match (global match) 
@@ -152,14 +160,7 @@ Referenced by jpcre2::Regex::compile()\&.
 .SS "const \fBjpcre2::SIZE_T\fP jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max()"
 
 .PP
-Used by default to provide big enough initial buffer for replaced string\&. Use max of int as the initial size of replaced string\&.
-.PP
-\fBAuthor:\fP
-.RS 4
-\fCMd Jahidul Hamid\fP 
-.RE
-.PP
-
+Used by default to provide big enough initial buffer for replaced string\&. Use max of int as the initial size of replaced string\&. 
 .PP
 Referenced by jpcre2::RegexReplace::init_vars()\&.
 .SH "Author"

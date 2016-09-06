@@ -77,9 +77,9 @@ int main(){
     ///vec_num[0] is the first match
     ///The type of vec_num[0] is jpcre2::MapNum
     std::cout<<"\nTotal match of first match: "<<vec_num[0][0];      ///Total match (group 0) from first match
-    std::cout<<"\nCaptrued group 1 of frist match: "<<vec_num[0][1]; ///captured group 1 from first match 
-    std::cout<<"\nCaptrued group 2 of frist match: "<<vec_num[0][2]; ///captured group 2 from first match
-    std::cout<<"\nCaptrued group 3 of frist match: "<<vec_num[0][3]; ///captured group 3 doesn't exist, it will give you empty string
+    std::cout<<"\nCaptrued group 1 of first match: "<<vec_num[0][1]; ///captured group 1 from first match
+    std::cout<<"\nCaptrued group 2 of first match: "<<vec_num[0][2]; ///captured group 2 from first match
+    std::cout<<"\nCaptrued group 3 of first match: "<<vec_num[0][3]; ///captured group 3 doesn't exist, it will give you empty string
     ///Using the [] operator with jpcre2::MapNum will create new element if it doesn't exist
     /// i.e vec_num[0][3] were created in the above example.
     ///This should be ok, if existence of a particular substring is not important
@@ -88,7 +88,7 @@ int main(){
     /* //>=C++11
     try{
         ///This will throw exception, because substring 4 doesn't exist
-        std::cout<<"\nCaptrued group 4 of frist match: "<<vec_num[0].at(4);
+        std::cout<<"\nCaptrued group 4 of first match: "<<vec_num[0].at(4);
     } catch (std::logic_error e){
         std::cerr<<"\nCaptrued group 4 doesn't exist";
     }*/
@@ -123,7 +123,7 @@ int main(){
     ///If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
     /* //>=C++11
     try{
-        ///This will throw exception becasue the substring name 'name' doesn't exist
+        ///This will throw exception because the substring name 'name' doesn't exist
         std::cout<<"\nCaptured group (name) of first match: "<<vec_nas[0].at("name");
     } catch(std::logic_error e){
         std::cerr<<"\nCaptured group (name) doesn't exist";
@@ -153,7 +153,7 @@ int main(){
     jpcre2::Regex("\\d").replace("I am the subject string 44", "@");
     
     std::cout<<"\n"<<
-    ///replace all occrrences of a digit with @
+    ///replace all occurrences of a digit with @
     jpcre2::Regex("\\d").replace("I am the subject string 44", "@", "g");
     
     ///swap two parts of a string

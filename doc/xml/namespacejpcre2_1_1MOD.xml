@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespacejpcre2_1_1MOD" kind="namespace" language="C++">
+    <compoundname>jpcre2::MOD</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a3b72b258386dc5ea4a23504e89908247" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::MOD::C_N</definition>
+        <argsstring></argsstring>
+        <name>C_N</name>
+        <briefdescription>
+<para>String of compile modifier characters for PCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="129" column="1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="163" endline="178">jpcre2::Regex::getModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" compoundref="jpcre2_8cpp" startline="227" endline="255">jpcre2::Regex::changeModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a78025b5470499fcedb9f9bcb7cc0060b" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>const jpcre2::Uint jpcre2::MOD::C_V</definition>
+        <argsstring>[]</argsstring>
+        <name>C_V</name>
+        <initializer>= { PCRE2_MATCH_UNSET_BACKREF,                  
+                                            PCRE2_CASELESS,                             
+                                            PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, 
+                                            PCRE2_MULTILINE,                            
+                                            PCRE2_UTF | PCRE2_UCP,                      
+                                            PCRE2_DOTALL,                               
+                                            PCRE2_UTF,                                  
+                                            PCRE2_EXTENDED,                             
+                                            PCRE2_ANCHORED,                             
+                                            PCRE2_DOLLAR_ENDONLY,                       
+                                            PCRE2_DUPNAMES,                             
+                                            PCRE2_UNGREEDY                              
+                                          }</initializer>
+        <briefdescription>
+<para>Array of compile modifier values for PCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="130" column="1" bodyfile="src/jpcre2.cpp" bodystart="67" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="163" endline="178">jpcre2::Regex::getModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" compoundref="jpcre2_8cpp" startline="227" endline="255">jpcre2::Regex::changeModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1aa17f8c8525a87009846a6b9d9e3d1336" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::MOD::CJ_N</definition>
+        <argsstring></argsstring>
+        <name>CJ_N</name>
+        <briefdescription>
+<para>String of compile modifier characters for JPCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="131" column="1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="163" endline="178">jpcre2::Regex::getModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" compoundref="jpcre2_8cpp" startline="227" endline="255">jpcre2::Regex::changeModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a455f33361efc25e03e5a8613de8a0fa0" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>const jpcre2::Uint jpcre2::MOD::CJ_V</definition>
+        <argsstring>[]</argsstring>
+        <name>CJ_V</name>
+        <initializer>= { <ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" kindref="member">JIT_COMPILE</ref>,                                
+                                            <ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" kindref="member">ERROR_ALL</ref>,                                  
+                                            <ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">VALIDATE_MODIFIER</ref>                           
+                                          }</initializer>
+        <briefdescription>
+<para>Array of compile modifier values for JPCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="132" column="1" bodyfile="src/jpcre2.cpp" bodystart="83" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="163" endline="178">jpcre2::Regex::getModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" compoundref="jpcre2_8cpp" startline="227" endline="255">jpcre2::Regex::changeModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1ae9029cd8600f49ba50ae0c7e42804a91" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::MOD::M_N</definition>
+        <argsstring></argsstring>
+        <name>M_N</name>
+        <briefdescription>
+<para>String of action (match) modifier characters for PCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="133" column="1"/>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a7f5283c0fd9b4514b37354a08562ff9e" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::chnageModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a7dd2150647fee002204e7005aa126289" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>const jpcre2::Uint jpcre2::MOD::M_V</definition>
+        <argsstring>[]</argsstring>
+        <name>M_V</name>
+        <initializer>= { PCRE2_ANCHORED                               
+                                         }</initializer>
+        <briefdescription>
+<para>Array of action (match) modifier values for PCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="134" column="1" bodyfile="src/jpcre2.cpp" bodystart="109" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a7f5283c0fd9b4514b37354a08562ff9e" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::chnageModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a079cc9fcb1e7eeab134b2146d4d67fe8" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::MOD::MJ_N</definition>
+        <argsstring></argsstring>
+        <name>MJ_N</name>
+        <briefdescription>
+<para>String of action (match) modifier characters for JPCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="135" column="1"/>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a7f5283c0fd9b4514b37354a08562ff9e" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::chnageModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a02e60618af8087b9a99ae8fbed0b887c" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>const jpcre2::Uint jpcre2::MOD::MJ_V</definition>
+        <argsstring>[]</argsstring>
+        <name>MJ_V</name>
+        <initializer>= { <ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c" kindref="member">FIND_ALL</ref>,                                   
+                                            <ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" kindref="member">ERROR_ALL</ref>,                                  
+                                            <ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">VALIDATE_MODIFIER</ref>                           
+                                          }</initializer>
+        <briefdescription>
+<para>Array of action (match) modifier values for JPCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="136" column="1" bodyfile="src/jpcre2.cpp" bodystart="113" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a7f5283c0fd9b4514b37354a08562ff9e" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::chnageModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a122c288202e5ffc105b93fac5a7335bf" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::MOD::R_N</definition>
+        <argsstring></argsstring>
+        <name>R_N</name>
+        <briefdescription>
+<para>String of action (replace) modifier characters for PCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="137" column="1"/>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" compoundref="jpcre2_8cpp" startline="305" endline="333">jpcre2::RegexReplace::changeModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1adde7332e9b90d54c907c30dfa9fbc4d6" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>const jpcre2::Uint jpcre2::MOD::R_V</definition>
+        <argsstring>[]</argsstring>
+        <name>R_V</name>
+        <initializer>= { PCRE2_SUBSTITUTE_UNSET_EMPTY,                
+                                           PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   
+                                           PCRE2_SUBSTITUTE_GLOBAL,                     
+                                           PCRE2_SUBSTITUTE_EXTENDED                    
+                                         }</initializer>
+        <briefdescription>
+<para>Array of action (replace) modifier values for PCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="138" column="1" bodyfile="src/jpcre2.cpp" bodystart="93" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" compoundref="jpcre2_8cpp" startline="305" endline="333">jpcre2::RegexReplace::changeModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a8d13695c0e0355460cef4f7b96076210" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
+        <definition>const jpcre2::String jpcre2::MOD::RJ_N</definition>
+        <argsstring></argsstring>
+        <name>RJ_N</name>
+        <briefdescription>
+<para>String of action (replace) modifier characters for JPCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="139" column="1"/>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" compoundref="jpcre2_8cpp" startline="305" endline="333">jpcre2::RegexReplace::changeModifier</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a30011385a69e77d8681517c621c2a140" prot="public" static="no" mutable="no">
+        <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
+        <definition>const jpcre2::Uint jpcre2::MOD::RJ_V</definition>
+        <argsstring>[]</argsstring>
+        <name>RJ_V</name>
+        <initializer>= { <ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" kindref="member">ERROR_ALL</ref>,                                  
+                                            <ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">VALIDATE_MODIFIER</ref>                           
+                                          }</initializer>
+        <briefdescription>
+<para>Array of action (replace) modifier values for JPCRE2 options. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="140" column="1" bodyfile="src/jpcre2.cpp" bodystart="101" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" compoundref="jpcre2_8cpp" startline="305" endline="333">jpcre2::RegexReplace::changeModifier</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Namespace for modifier constants. </para>    </briefdescription>
+    <detaileddescription>
+<para>For each modifier constant there is a <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">jpcre2::Uint</ref> option value. Some modifiers may have multiple values set together (ORed in bitwise operation) and thus they may include other modifiers. Such an example is the &apos;n&apos; modifier. It is combined together with &apos;u&apos;. </para>    </detaileddescription>
+    <location file="src/jpcre2.hpp" line="128" column="1"/>
+  </compounddef>
+</doxygen>

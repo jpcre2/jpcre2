@@ -36,10 +36,10 @@
 /** @file jpcre2.hpp
  * @brief Main header file for JPCRE2 library to be included by programs that uses its functionalities.
  * It includes the pcre2.h header, therefore you shouldn't include pcre2.h
- * separately in your program. Make sure to link both jpcre2 and pcre2 library when compiling.
+ * separately in your program. Make sure to link both JPCRE2 and PCRE2 library when compiling.
  *
  * If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you
- * still need to link with  pcre2 library
+ * still need to link with  PCRE2 library
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  */
 
@@ -52,7 +52,7 @@
 #endif
 
 #include <pcre2.h> 
-#include <stdint.h> 	// uint32_t
+//#include <stdint.h> 	// uint32_t		//pcre2 itself includes this
 #include <cstddef>  	// std::size_t
 #include <string>  		// std::string
 #include <vector>   	// std::vector
@@ -80,10 +80,21 @@ typedef std::vector<MapNtN> VecNtN;             ///< Vector of substring name to
 typedef VecNtN VecNtn;                          ///< Allow spelling mistake of VecNtN as VecNtn
 typedef std::vector<MapNum> VecNum;             ///< Vector of matches with numbered substrings
 
+/**Namespace to provide information about JPCRE2 library itself.
+ * Contains constant Strings with version info.
+ * */
+namespace INFO{
+extern const String NAME;					///< Name of the project
+extern const String FULL_VERSION;			///< Full version string
+extern const String VERSION_GENRE;			///< Generation, depends on original PCRE2 version
+extern const String VERSION_MAJOR;			///< Major version, updated when API change is made
+extern const String VERSION_MINOR;			///< Minor version, includes bug fix or minor feature upgrade
+extern const String VERSION_PRE_RELEASE;	///< Alpha or beta (testing) release version
+}
 /// Namespace for error codes
 namespace ERROR {
 
-/** ERROR codes that are thrown in case error occurs.
+/**ERROR codes that are thrown in case error occurs.
  *  JPCRE2 error codes are positive integers while
  *  PCRE2 error codes are negative integers.
  * */
@@ -102,30 +113,31 @@ extern const String JIT_ERROR_MESSAGE_PREFIX;       ///< Prefix to be added to J
  * */
 enum {
 	NONE                    = 0x0000000u,   ///< Option 0 (zero)
-	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw #INVALID_MODIFIER if any wrong modifier is passed
+	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw
+											///< jpcre2::ERROR::INVALID_MODIFIER if any wrong modifier is passed
 	FIND_ALL                = 0x0000002u,   ///< Find all during match (global match)
 	JIT_COMPILE             = 0x0000004u,   ///< Perform JIT compilation for optimization
 	ERROR_ALL               = 0x0000008u    ///< Treat warnings as error and throw exception (warnings don't throw exception)
 };
 
 /** Namespace for modifier constants.
- *  For each modifier constant there is a jpcre2::Uint option value
+ *  For each modifier constant there is a jpcre2::Uint option value.
  *  Some modifiers may have multiple values set together (ORed in bitwise operation) and
- *  thus they may iclude other modiers. Such an example is the 'n' modifer. It includes 'u'.
+ *  thus they may include other modifiers. Such an example is the 'n' modifier. It is combined together with 'u'.
  * */
 namespace MOD {
-extern const String C_N;        ///< String of compile modifier characters for PCRE2
-extern const Uint C_V[];        ///< Array of compile modifier values for PCRE2
-extern const String CJ_N;       ///< String of compile modifier characters for JPCRE2
-extern const Uint CJ_V[];       ///< Array of compile modifier values for JPCRE2
-extern const String M_N;        ///< String of action (match) modifier characters
-extern const Uint M_V[];        ///< Array of action (match) modifier values
-extern const String MJ_N;       ///< String of action (match) modifier characters for JPCRE2
-extern const Uint MJ_V[];       ///< Array of action (match) modifier values for JPCRE2
-extern const String R_N;        ///< String of action (replace) modifier characters
-extern const Uint R_V[];        ///< Array of action (replace) modifer values
-extern const String RJ_N;       ///< String of action (replace) modifier characters for JPCRE2
-extern const Uint RJ_V[];       ///< Array of action (replace) modifer values for JPCRE2
+extern const String C_N;        ///< String of compile modifier characters for PCRE2 options
+extern const Uint C_V[];        ///< Array of compile modifier values for PCRE2 options
+extern const String CJ_N;       ///< String of compile modifier characters for JPCRE2 options
+extern const Uint CJ_V[];       ///< Array of compile modifier values for JPCRE2 options
+extern const String M_N;        ///< String of action (match) modifier characters for PCRE2 options
+extern const Uint M_V[];        ///< Array of action (match) modifier values for PCRE2 options
+extern const String MJ_N;       ///< String of action (match) modifier characters for JPCRE2 options
+extern const Uint MJ_V[];       ///< Array of action (match) modifier values for JPCRE2 options
+extern const String R_N;        ///< String of action (replace) modifier characters for PCRE2 options
+extern const Uint R_V[];        ///< Array of action (replace) modifier values for PCRE2 options
+extern const String RJ_N;       ///< String of action (replace) modifier characters for JPCRE2 options
+extern const Uint RJ_V[];       ///< Array of action (replace) modifier values for JPCRE2 options
 }
 
 /// Namespace for some utility functions
@@ -135,7 +147,8 @@ extern String toString(char a);                     ///< Converts a char to Stri
 extern String toString(const char* a);              ///< Converts const char* to String
 extern String toString(PCRE2_UCHAR* a);             ///< Converts a PCRE2_UCHAR* to String
 extern String getPcre2ErrorMessage(int err_num);    ///< Get PCRE2 error message for an error number
-extern void throwException(int x);                  ///< Function used to throw exception
+/// Used throughout JPCRE2 to throw exceptions
+extern void throwException(int);                    ///< Function used to throw exceptions
 }
 
 class Regex;
@@ -245,6 +258,7 @@ public:
 	/// Set the subject string #m_subject
 	/// @param s Subject string
 	/// @return RegexMatch&
+	/// @see RegexReplace::setSubject()
 	RegexMatch& setSubject(const String& s) {
 		m_subject = s;
 		return *this;
@@ -254,6 +268,8 @@ public:
 	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options.
 	/// @param s Modifier string
 	/// @return RegexMatch&
+	/// @see RegexReplace::setModifier()
+	/// @see Regex::setModifier()
 	RegexMatch& setModifier(const String& s) {
 		match_opts = 0;
         jpcre2_match_opts = 0;
@@ -264,6 +280,8 @@ public:
 	/// Set JPCRE2 option #jpcre2_match_opts (overwrite existing option)
 	/// @param x Option value
 	/// @return RegexMatch&
+	/// @see RegexReplace::setJpcre2Option()
+	/// @see Regex::setJpcre2Option()
 	RegexMatch& setJpcre2Option(Uint x) {
 		jpcre2_match_opts = x;
 		return *this;
@@ -272,6 +290,8 @@ public:
 	/// Set PCRE2 option #match_opts (overwrite existing option)
 	/// @param x Option value
 	/// @return RegexMatch&
+	/// @see RegexReplace::setPcre2Option()
+	/// @see Regex::setPcre2Option()
 	RegexMatch& setPcre2Option(Uint x) {
 		match_opts = x;
 		return *this;
@@ -283,12 +303,17 @@ public:
     /// If you want to set options from scratch, initialize them to their default values before calling this function.
     /// @param mod Modifier string
     /// @param x Whether to add or remove options
+	/// @return RegexMatch&
+	/// @see RegexReplace::chnageModifier()
+	/// @see Regex::chnageModifier()
 	RegexMatch& chnageModifier(const String& mod, bool x);
 
     /// Add or remove a JPCRE2 option
     /// @param opt JPCRE2 option value
     /// @param x Add the option if it's true, remove otherwise.
     /// @return Regex&
+	/// @see RegexReplace::changeJpcre2Option()
+	/// @see Regex::changeJpcre2Option()
     RegexMatch& changeJpcre2Option(Uint opt, bool x) {
         if(x)
             jpcre2_match_opts |= opt;
@@ -301,6 +326,8 @@ public:
     /// @param opt PCRE2 option value
     /// @param x Add the option if it's true, remove otherwise.
     /// @return Regex&
+	/// @see RegexReplace::changePcre2Option()
+	/// @see Regex::changePcre2Option()
     RegexMatch& changePcre2Option(Uint opt, bool x) {
         if(x)
             match_opts |= opt;
@@ -323,6 +350,8 @@ public:
 	/// Add option to existing JPCRE2 options #jpcre2_match_opts
 	/// @param x Option value
 	/// @return RegexMatch&
+	/// @see RegexReplace::addJpcre2Option()
+	/// @see Regex::addJpcre2Option()
 	RegexMatch& addJpcre2Option(Uint x) {
 		jpcre2_match_opts |= x;
 		return *this;
@@ -331,6 +360,8 @@ public:
 	/// Add option to existing PCRE2 options #match_opts
 	/// @param x Option value
 	/// @return RegexMatch&
+	/// @see RegexReplace::addPcre2Option()
+	/// @see Regex::addPcre2Option()
 	RegexMatch& addPcre2Option(Uint x) {
 		match_opts |= x;
 		return *this;
@@ -405,6 +436,7 @@ public:
 	/** Set the subject string #r_subject
 	 * @param s Subject string
 	 * @return RegexReplace&
+	 * @see RegexMatch::setSubject()
 	 * */
 	RegexReplace& setSubject(const String& s) {
 		r_subject = s;
@@ -423,6 +455,8 @@ public:
 	/** Set the modifier string (overwrites existing JPCRE2 and PCRE2 option).
 	 * @param s Modifier string
 	 * @return RegexReplace&
+	 * @see RegexMatch::setModifier()
+	 * @see Regex::setModifier()
 	 * */
 	RegexReplace& setModifier(const String& s) {
 		replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; //must not be initialized to 0
@@ -442,6 +476,8 @@ public:
 	/** Set JPCRE2 option #jpcre2_replace_opts (overwrite existing option)
 	 * @param x Option value
 	 * @return RegexReplace&
+	 * @see RegexMatch::setJpcre2Option()
+	 * @see Regex::setJpcre2Option()
 	 * */
 	RegexReplace& setJpcre2Option(Uint x) {
 		jpcre2_replace_opts = x;
@@ -451,6 +487,8 @@ public:
 	/** Set PCRE2 option #replace_opts (overwrite existing option)
 	 * @param x Option value
 	 * @return RegexReplace&
+	 * @see RegexMatch::setPcre2Option()
+	 * @see Regex::setPcre2Option()
 	 * */
 	RegexReplace& setPcre2Option(Uint x) {
 		replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH | x;
@@ -463,12 +501,17 @@ public:
     /// If you want to set options from scratch, initialize them to their defaults before calling this function.
     /// @param mod Modifier string
     /// @param x Whether to add or remove option
+	/// @return RegexReplace&
+	/// @see RegexMatch::changeModifier()
+	/// @see Regex::changeModifier()
     RegexReplace& changeModifier(const String& mod, bool x);
     
     /// Add or remove a JPCRE2 option
     /// @param opt JPCRE2 option value
     /// @param x Add the option if it's true, remove otherwise.
     /// @return Regex&
+	/// @see RegexMatch::changeJpcre2Option()
+	/// @see Regex::changeJpcre2Option()
     RegexReplace& changeJpcre2Option(Uint opt, bool x) {
         if(x)
             jpcre2_replace_opts |= opt;
@@ -481,6 +524,8 @@ public:
     /// @param opt PCRE2 option value
     /// @param x Add the option if it's true, remove otherwise.
     /// @return Regex&
+	/// @see RegexMatch::changePcre2Option()
+	/// @see Regex::changePcre2Option()
     RegexReplace& changePcre2Option(Uint opt, bool x) {
         if(x)
             replace_opts |= opt;
@@ -493,6 +538,8 @@ public:
 	/** Add specified JPCRE2 option to existing options #jpcre2_replace_opts
 	 * @param x Option value
 	 * @return RegexReplace&
+	 * @see RegexMatch::addJpcre2Option()
+	 * @see Regex::addJpcre2Option()
 	 * */
 	RegexReplace& addJpcre2Option(Uint x) {
 		jpcre2_replace_opts |= x;
@@ -502,6 +549,8 @@ public:
 	/** Add specified PCRE2 option to existing options #replace_opts
 	 * @param x Option value
 	 * @return RegexReplace&
+	 * @see RegexMatch::addPcre2Option()
+	 * @see Regex::addPcre2Option()
 	 * */
 	RegexReplace& addPcre2Option(Uint x) {
 		replace_opts |= x;
@@ -608,6 +657,7 @@ private:
 	/// Do a deep copy of #rm, #rr and #code
     /// Copy compiled pattern to a new location, free the old memory and set the new pointer to #code
     /// @throw Regex::error_number Throws exception (error number) if error occurs
+	/// @param r Regex&
 	void deepCopy(const Regex& r);
 
 public:
@@ -718,23 +768,24 @@ public:
 		return *this;
 	}
 
-	/** Get modifier string
+	/** Get modifier string.
+	 *
      *  Calculate modifier string from #compile_opts and #jpcre2_compile_opts and return it
      * 
-     *  Note that, this only gives you the modifers used for pattern compilation. 
+     *  Note that, this only gives you the modifiers used for pattern compilation.
      *  There is no such function to get the action modifiers and neither there's any need for it as
      *  action modifiers are required to be passed anew with every action. On the other hand,
      *  you may set some modifiers to the Regex object and forget about it later or you may want
      *  to get the existing modifier and compile the regex again by modifying the existing ones.
      * 
      *  Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized
-     *  as long as you don't do that explicitly. Calling Regex::setModifier will re-set them.
+     *  as long as you don't do that explicitly. Calling Regex::setModifier() will re-set them.
      * 
      *  **Mixed or combined modifier**
      *  Some modifier may include other modifiers i.e they have the same meaning of some modifiers
-     *  combined together. For example, the 'n' modifier icludes the 'u' modifer and together they
+     *  combined together. For example, the 'n' modifier includes the 'u' modifier and together they
      *  are equivalent to `PCRE2_UTF | PCRE2_UCP`. When you set a modifier like this, both options
-     *  get set, and when you remove (`Regex::changeModifer(mod, false)` the 'n', both will get removed
+     *  get set, and when you remove (`Regex::changeModifier())` the 'n', both will get removed
 	 *  @return Calculated modifier string
 	 * */
 	String getModifier();
@@ -821,6 +872,8 @@ public:
 	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets equivalent PCRE2 and JPCRE2 options
 	/// @param x Modifier string
 	/// @return Regex&
+	/// @see RegexMatch::setModifier()
+	/// @see RegexReplace::setModifier()
 	Regex& setModifier(const String& x) {
 		compile_opts = 0;
         jpcre2_compile_opts = 0;
@@ -838,6 +891,8 @@ public:
 	/// Set JPCRE2 option #jpcre2_compile_opts (overwrites existing option)
 	/// @param x Option value
 	/// @return Regex&
+	/// @see RegexMatch::setJpcre2Option()
+	/// @see RegexReplace::setJpcre2Option()
 	Regex& setJpcre2Option(Uint x) {
 		jpcre2_compile_opts = x;
 		return *this;
@@ -846,6 +901,8 @@ public:
 	/// Set PCRE2 option #compile_opts (overwrites existing option)
 	/// @param x Option value
 	/// @return Regex&
+	/// @see RegexMatch::setPcre2Option()
+	/// @see RegexReplace::setPcre2Option()
 	Regex& setPcre2Option(Uint x) {
 		compile_opts = x;
 		return *this;
@@ -857,12 +914,17 @@ public:
     /// If you want to set options from scratch, initialize them to 0 before calling this function.
     /// @param mod Modifier string
     /// @param x Whether to add or remove option
+	/// @return Regex&
+	/// @see RegexMatch::changeModifier()
+	/// @see RegexReplace::changeModifier()
     Regex& changeModifier(const String& mod, bool x);
 
     /// Add or remove a JPCRE2 option
     /// @param opt JPCRE2 option value
     /// @param x Add the option if it's true, remove otherwise.
     /// @return Regex&
+	/// @see RegexMatch::changeJpcre2Option()
+	/// @see RegexReplace::changeJpcre2Option()
     Regex& changeJpcre2Option(Uint opt, bool x) {
         if(x)
             jpcre2_compile_opts |= opt;
@@ -875,6 +937,8 @@ public:
     /// @param opt PCRE2 option value
     /// @param x Add the option if it's true, remove otherwise.
     /// @return Regex&
+	/// @see RegexMatch::changePcre2Option()
+	/// @see RegexReplace::changePcre2Option()
     Regex& changePcre2Option(Uint opt, bool x) {
         if(x)
             compile_opts |= opt;
@@ -886,6 +950,8 @@ public:
 	/// Add option to existing JPCRE2 options #jpcre2_compile_opts
 	/// @param x Option value
 	/// @return Regex&
+	/// @see RegexMatch::addJpcre2Option()
+	/// @see RegexReplace::addJpcre2Option()
 	Regex& addJpcre2Option(Uint x) {
 		jpcre2_compile_opts |= x;
 		return *this;
@@ -894,6 +960,8 @@ public:
 	/// Add option to existing PCRE2 options #compile_opts
 	/// @param x Option value
 	/// @return Regex&
+	/// @see RegexMatch::addPcre2Option()
+	/// @see RegexReplace::addPcre2Option()
 	Regex& addPcre2Option(Uint x) {
 		compile_opts |= x;
 		return *this;
@@ -988,7 +1056,6 @@ public:
      *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param s Subject string
 	 *  @return Match count
-	 *  @see RegexMatch::match(const String& s)
 	 * */
 	SIZE_T match(const String& s) {
 		delete rm;

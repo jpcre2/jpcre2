@@ -101,9 +101,9 @@ Contains some short examples of performing regex match and regex replace with J\
 \textcolor{comment}{    ///The type of vec\_num[0] is jpcre2::MapNum}
 \textcolor{comment}{}    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nTotal match of first match: "}<<vec\_num[0][0];      \textcolor{comment}{///Total match (group 0) from first
        match}
-\textcolor{comment}{}    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 1 of frist match: "}<<vec\_num[0][1]; \textcolor{comment}{///captured group 1 from first match }
-\textcolor{comment}{}    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 2 of frist match: "}<<vec\_num[0][2]; \textcolor{comment}{///captured group 2 from first match}
-\textcolor{comment}{}    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 3 of frist match: "}<<vec\_num[0][3]; \textcolor{comment}{///captured group 3 doesn't exist, it
+\textcolor{comment}{}    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 1 of first match: "}<<vec\_num[0][1]; \textcolor{comment}{///captured group 1 from first match}
+\textcolor{comment}{}    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 2 of first match: "}<<vec\_num[0][2]; \textcolor{comment}{///captured group 2 from first match}
+\textcolor{comment}{}    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nCaptrued group 3 of first match: "}<<vec\_num[0][3]; \textcolor{comment}{///captured group 3 doesn't exist, it
        will give you empty string}
 \textcolor{comment}{}\textcolor{comment}{    ///Using the [] operator with jpcre2::MapNum will create new element if it doesn't exist}
 \textcolor{comment}{}\textcolor{comment}{    /// i.e vec\_num[0][3] were created in the above example.}
@@ -114,7 +114,7 @@ Contains some short examples of performing regex match and regex replace with J\
 \textcolor{comment}{}    \textcolor{comment}{/* //>=C++11}
 \textcolor{comment}{    try\{}\textcolor{comment}{}
 \textcolor{comment}{        ///This will throw exception, because substring 4 doesn't exist}
-\textcolor{comment}{}        std::cout<<"\(\backslash\)nCaptrued group 4 of frist match: "<<vec\_num[0].at(4);
+\textcolor{comment}{}        std::cout<<"\(\backslash\)nCaptrued group 4 of first match: "<<vec\_num[0].at(4);
     \} catch (std::logic\_error e)\{
         std::cerr<<"\(\backslash\)nCaptrued group 4 doesn't exist";
     \}*/
@@ -153,7 +153,7 @@ Contains some short examples of performing regex match and regex replace with J\
        function to access map elements}
 \textcolor{comment}{}    \textcolor{comment}{/* //>=C++11}
 \textcolor{comment}{    try\{}\textcolor{comment}{}
-\textcolor{comment}{        ///This will throw exception becasue the substring name 'name' doesn't exist}
+\textcolor{comment}{        ///This will throw exception because the substring name 'name' doesn't exist}
 \textcolor{comment}{}        std::cout<<"\(\backslash\)nCaptured group (name) of first match: "<<vec\_nas[0].at("name");
     \} catch(std::logic\_error e)\{
         std::cerr<<"\(\backslash\)nCaptured group (name) doesn't exist";
@@ -183,7 +183,7 @@ Contains some short examples of performing regex match and regex replace with J\
 \textcolor{comment}{}    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"\(\backslash\)\(\backslash\)d"}).\hyperlink{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}{replace}(\textcolor{stringliteral}{"I am the subject string 44"}, \textcolor{stringliteral}{"@"});
     
     std::cout<<\textcolor{stringliteral}{"\(\backslash\)n"}<<\textcolor{comment}{}
-\textcolor{comment}{    ///replace all occrrences of a digit with @}
+\textcolor{comment}{    ///replace all occurrences of a digit with @}
 \textcolor{comment}{}    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"\(\backslash\)\(\backslash\)d"}).\hyperlink{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}{replace}(\textcolor{stringliteral}{"I am the subject string 44"}, \textcolor{stringliteral}{"@"}, \textcolor{stringliteral}{"g"});
     \textcolor{comment}{}
 \textcolor{comment}{    ///swap two parts of a string}

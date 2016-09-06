@@ -1,5 +1,5 @@
 <map id="jpcre2::Regex::compile" name="jpcre2::Regex::compile">
-<area shape="rect" id="node2" href="$namespacejpcre2_1_1utils.html#a186305c70ad9dc4137aae2bcbf644805" title="Get PCRE2 error message for an error number. " alt="" coords="230,5,407,47"/>
-<area shape="rect" id="node3" href="$namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73" title="Converts an integer to String. " alt="" coords="476,42,619,69"/>
-<area shape="rect" id="node4" href="$classjpcre2_1_1Regex.html#a0430f0a7643258cba9dc1c29ad3bc31e" title="Parse modifier and set equivalent PCRE2 and JPCRE2 options. " alt="" coords="209,122,428,149"/>
+<area shape="rect" id="node2" href="$namespacejpcre2_1_1utils.html#a186305c70ad9dc4137aae2bcbf644805" title="Get PCRE2 error message for an error number. " alt="" coords="214,5,391,47"/>
+<area shape="rect" id="node3" href="$namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73" title="Converts an integer to String. " alt="" coords="444,42,587,69"/>
+<area shape="rect" id="node4" href="$namespacejpcre2_1_1utils.html#ae46ee8a2fbb7bc5b583aee0d1f047052" title="Used throughout JPCRE2 to throw exceptions. " alt="" coords="209,122,396,149"/>
 </map>

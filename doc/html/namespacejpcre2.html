@@ -130,6 +130,12 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacejpcre2_1_1ERROR"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1ERROR.html">ERROR</a></td></tr>
 <tr class="memdesc:namespacejpcre2_1_1ERROR"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for error codes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacejpcre2_1_1INFO"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1INFO.html">INFO</a></td></tr>
+<tr class="memdesc:namespacejpcre2_1_1INFO"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace to provide information about JPCRE2 library itself. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacejpcre2_1_1MOD"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1MOD.html">MOD</a></td></tr>
+<tr class="memdesc:namespacejpcre2_1_1MOD"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for modifier constants. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacejpcre2_1_1utils"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html">utils</a></td></tr>
 <tr class="memdesc:namespacejpcre2_1_1utils"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for some utility functions. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,10 +146,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern.  <a href="classjpcre2_1_1Regex.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexMatch.html">RegexMatch</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs regex matching.  <a href="classjpcre2_1_1RegexMatch.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the <a class="el" href="classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33" title="Store match result in vectors and return the number of matches. ">RegexMatch::match()</a> function to perform regex matching.  <a href="classjpcre2_1_1RegexMatch.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs regex replace on a string.  <a href="classjpcre2_1_1RegexReplace.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the <a class="el" href="classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0" title="Returns the resultant string after performing regex replace. ">RegexReplace::replace()</a> function to perform regex replace on a string.  <a href="classjpcre2_1_1RegexReplace.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -233,7 +239,7 @@ const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16
 <p>Option 0 (zero) </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387"></a>VALIDATE_MODIFIER&#160;</td><td class="fielddoc">
-<p>Perform validation check on modifiers and throw #INVALID_MODIFIER if any wrong modifier is passed. </p>
+<p>Perform validation check on modifiers and throw <a class="el" href="namespacejpcre2_1_1ERROR.html#a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" title="Error to be thrown when invalid modifier detected. ">jpcre2::ERROR::INVALID_MODIFIER</a> if any wrong modifier is passed. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c"></a>FIND_ALL&#160;</td><td class="fielddoc">
 <p>Find all during match (global match) </p>
@@ -294,8 +300,7 @@ const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16
 </div><div class="memdoc">
 
 <p>Used by default to provide big enough initial buffer for replaced string. </p>
-<p>Use max of int as the initial size of replaced string.</p>
-<dl class="section author"><dt>Author</dt><dd><a href="https://github.com/neurobin">Md Jahidul Hamid</a> </dd></dl>
+<p>Use max of int as the initial size of replaced string. </p>
 
 <p>Referenced by <a class="el" href="classjpcre2_1_1RegexReplace.html#a462810e8fc902f09e475a164e81cc5f5">jpcre2::RegexReplace::init_vars()</a>.</p>
 

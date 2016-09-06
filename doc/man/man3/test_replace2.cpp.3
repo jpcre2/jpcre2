@@ -1,4 +1,4 @@
-.TH "test_replace2.cpp" 3 "Tue Sep 6 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "test_replace2.cpp" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -74,8 +74,8 @@ int main(){
         try{std::cout<<"\nreplaced string: "<<re\&.initReplace()
                                                 \&.setSubject(subject)
                                                 \&.setReplaceWith(repl)
-                                                \&.setModifier(repl_mod)
                                                 \&.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)
+                                                \&.setModifier(repl_mod)
                                                 \&.replace();}
         catch(int e){std::cerr<<re\&.getErrorMessage(e);
             if(e==jpcre2::ERROR::INVALID_MODIFIER) continue;

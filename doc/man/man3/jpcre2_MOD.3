@@ -1,0 +1,69 @@
+.TH "jpcre2::MOD" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+jpcre2::MOD \- Namespace for modifier constants\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const \fBString\fP \fBC_N\fP"
+.br
+.RI "\fIString of compile modifier characters for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBUint\fP \fBC_V\fP []"
+.br
+.RI "\fIArray of compile modifier values for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBString\fP \fBCJ_N\fP"
+.br
+.RI "\fIString of compile modifier characters for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBUint\fP \fBCJ_V\fP []"
+.br
+.RI "\fIArray of compile modifier values for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBString\fP \fBM_N\fP"
+.br
+.RI "\fIString of action (match) modifier characters for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBUint\fP \fBM_V\fP []"
+.br
+.RI "\fIArray of action (match) modifier values for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBString\fP \fBMJ_N\fP"
+.br
+.RI "\fIString of action (match) modifier characters for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBUint\fP \fBMJ_V\fP []"
+.br
+.RI "\fIArray of action (match) modifier values for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBString\fP \fBR_N\fP"
+.br
+.RI "\fIString of action (replace) modifier characters for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBUint\fP \fBR_V\fP []"
+.br
+.RI "\fIArray of action (replace) modifier values for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBString\fP \fBRJ_N\fP"
+.br
+.RI "\fIString of action (replace) modifier characters for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const \fBUint\fP \fBRJ_V\fP []"
+.br
+.RI "\fIArray of action (replace) modifier values for JPCRE2 options\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Namespace for modifier constants\&. 
+
+For each modifier constant there is a \fBjpcre2::Uint\fP option value\&. Some modifiers may have multiple values set together (ORed in bitwise operation) and thus they may include other modifiers\&. Such an example is the 'n' modifier\&. It is combined together with 'u'\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for JPCRE2 from the source code\&.

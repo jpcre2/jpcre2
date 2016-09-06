@@ -5,49 +5,44 @@
     <includes local="no">iostream</includes>
     <includes refid="jpcre2_8hpp" local="yes">jpcre2.hpp</includes>
     <incdepgraph>
-      <node id="129">
+      <node id="118">
         <label>pcre2.h</label>
       </node>
-      <node id="130">
-        <label>stdint.h</label>
-      </node>
-      <node id="132">
+      <node id="120">
         <label>string</label>
       </node>
-      <node id="128">
+      <node id="117">
         <label>jpcre2.hpp</label>
         <link refid="jpcre2_8hpp"/>
-        <childnode refid="129" relation="include">
+        <childnode refid="118" relation="include">
         </childnode>
-        <childnode refid="130" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
-        <childnode refid="131" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
-        <childnode refid="132" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
-        <childnode refid="133" relation="include">
-        </childnode>
-        <childnode refid="134" relation="include">
+        <childnode refid="122" relation="include">
         </childnode>
       </node>
-      <node id="134">
+      <node id="122">
         <label>map</label>
       </node>
-      <node id="126">
+      <node id="115">
         <label>test_replace2.cpp</label>
         <link refid="test_replace2.cpp"/>
-        <childnode refid="127" relation="include">
+        <childnode refid="116" relation="include">
         </childnode>
-        <childnode refid="128" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
       </node>
-      <node id="133">
+      <node id="121">
         <label>vector</label>
       </node>
-      <node id="127">
+      <node id="116">
         <label>iostream</label>
       </node>
-      <node id="131">
+      <node id="119">
         <label>cstddef</label>
       </node>
     </incdepgraph>
@@ -138,8 +133,8 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">{std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nreplaced<sp/>string:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" kindref="member">initReplace</ref>()</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" kindref="member">setSubject</ref>(subject)</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" kindref="member">setReplaceWith</ref>(repl)</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" kindref="member">setModifier</ref>(repl_mod)</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1a3f86b1e11d08d0153a08244771e59061" kindref="member">addJpcre2Option</ref>(<ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">jpcre2::VALIDATE_MODIFIER</ref>)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" kindref="member">setModifier</ref>(repl_mod)</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">replace</ref>();}</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" kindref="member">getErrorMessage</ref>(e);</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(e==<ref refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" kindref="member">jpcre2::ERROR::INVALID_MODIFIER</ref>)<sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
@@ -208,8 +203,8 @@
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">{std::cout&lt;&lt;</highlight><highlight class="stringliteral">&quot;\nreplaced<sp/>string:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1ae7235a991492fa88f1bd3fb02d59cd0a" kindref="member">initReplace</ref>()</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1a46eefdb105827920bebc8436721fa4cb" kindref="member">setSubject</ref>(subject)</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1af1069f489de9b343493da2dc77b04c73" kindref="member">setReplaceWith</ref>(repl)</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" kindref="member">setModifier</ref>(repl_mod)</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1a3f86b1e11d08d0153a08244771e59061" kindref="member">addJpcre2Option</ref>(<ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">jpcre2::VALIDATE_MODIFIER</ref>)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1a3f86b1e11d08d0153a08244771e59061" kindref="member">addJpcre2Option</ref>(<ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">jpcre2::VALIDATE_MODIFIER</ref>)</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1ae2abe2994b0fbe54950f88e63000c910" kindref="member">setModifier</ref>(repl_mod)</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">replace</ref>();}</highlight></codeline>
 <codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" kindref="member">getErrorMessage</ref>(e);</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(e==<ref refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" kindref="member">jpcre2::ERROR::INVALID_MODIFIER</ref>)<sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>

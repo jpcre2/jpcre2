@@ -10,6 +10,10 @@ Top level namespace of J\+P\+C\+R\+E2.
 \item 
  \hyperlink{namespacejpcre2_1_1ERROR}{E\+R\+R\+OR}
 \begin{DoxyCompactList}\small\item\em Namespace for error codes. \end{DoxyCompactList}\item 
+ \hyperlink{namespacejpcre2_1_1INFO}{I\+N\+FO}
+\begin{DoxyCompactList}\small\item\em Namespace to provide information about J\+P\+C\+R\+E2 library itself. \end{DoxyCompactList}\item 
+ \hyperlink{namespacejpcre2_1_1MOD}{M\+OD}
+\begin{DoxyCompactList}\small\item\em Namespace for modifier constants. \end{DoxyCompactList}\item 
  \hyperlink{namespacejpcre2_1_1utils}{utils}
 \begin{DoxyCompactList}\small\item\em Namespace for some utility functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Classes}
@@ -18,9 +22,9 @@ Top level namespace of J\+P\+C\+R\+E2.
 class \hyperlink{classjpcre2_1_1Regex}{Regex}
 \begin{DoxyCompactList}\small\item\em Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match}
-\begin{DoxyCompactList}\small\item\em Performs regex matching. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Provides the \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{Regex\+Match\+::match()} function to perform regex matching. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace}
-\begin{DoxyCompactList}\small\item\em Performs regex replace on a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Provides the \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0}{Regex\+Replace\+::replace()} function to perform regex replace on a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -92,7 +96,7 @@ These constants provide J\+P\+C\+R\+E2 options.
 N\+O\+NE\hypertarget{namespacejpcre2_a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9}{}\label{namespacejpcre2_a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9}
 }]Option 0 (zero) \index{V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER@{V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER}!jpcre2@{jpcre2}}\index{jpcre2@{jpcre2}!V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER@{V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER}}\item[{\em 
 V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER\hypertarget{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{}\label{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}
-}]Perform validation check on modifiers and throw \#\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER if any wrong modifier is passed. \index{F\+I\+N\+D\+\_\+\+A\+LL@{F\+I\+N\+D\+\_\+\+A\+LL}!jpcre2@{jpcre2}}\index{jpcre2@{jpcre2}!F\+I\+N\+D\+\_\+\+A\+LL@{F\+I\+N\+D\+\_\+\+A\+LL}}\item[{\em 
+}]Perform validation check on modifiers and throw \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER} if any wrong modifier is passed. \index{F\+I\+N\+D\+\_\+\+A\+LL@{F\+I\+N\+D\+\_\+\+A\+LL}!jpcre2@{jpcre2}}\index{jpcre2@{jpcre2}!F\+I\+N\+D\+\_\+\+A\+LL@{F\+I\+N\+D\+\_\+\+A\+LL}}\item[{\em 
 F\+I\+N\+D\+\_\+\+A\+LL\hypertarget{namespacejpcre2_a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c}{}\label{namespacejpcre2_a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c}
 }]Find all during match (global match) \index{J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE@{J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE}!jpcre2@{jpcre2}}\index{jpcre2@{jpcre2}!J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE@{J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE}}\item[{\em 
 J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE\hypertarget{namespacejpcre2_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{}\label{namespacejpcre2_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}
@@ -132,12 +136,7 @@ Referenced by jpcre2\+::\+Regex\+::compile().
 
 Used by default to provide big enough initial buffer for replaced string. 
 
-Use max of int as the initial size of replaced string.
-
-\begin{DoxyAuthor}{Author}
-\href{https://github.com/neurobin}{\tt Md Jahidul Hamid} 
-\end{DoxyAuthor}
-
+Use max of int as the initial size of replaced string. 
 
 Referenced by jpcre2\+::\+Regex\+Replace\+::init\+\_\+vars().
 

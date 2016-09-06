@@ -143,10 +143,57 @@ Functions</h2></td></tr>
 <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html#a186305c70ad9dc4137aae2bcbf644805">getPcre2ErrorMessage</a> (int err_num)</td></tr>
 <tr class="memdesc:a186305c70ad9dc4137aae2bcbf644805"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get PCRE2 error message for an error number. <br /></td></tr>
 <tr class="separator:a186305c70ad9dc4137aae2bcbf644805"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae46ee8a2fbb7bc5b583aee0d1f047052"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html#ae46ee8a2fbb7bc5b583aee0d1f047052">throwException</a> (int)</td></tr>
+<tr class="memdesc:ae46ee8a2fbb7bc5b583aee0d1f047052"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used throughout JPCRE2 to throw exceptions.  <a href="#ae46ee8a2fbb7bc5b583aee0d1f047052">More...</a><br /></td></tr>
+<tr class="separator:ae46ee8a2fbb7bc5b583aee0d1f047052"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Namespace for some utility functions. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ae46ee8a2fbb7bc5b583aee0d1f047052"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jpcre2::utils::throwException </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Used throughout JPCRE2 to throw exceptions. </p>
+<p>Function used to throw exceptions </p>
+
+<p>Referenced by <a class="el" href="classjpcre2_1_1RegexReplace.html#ae58d2a44ed474568554202612d45c814">jpcre2::RegexReplace::changeModifier()</a>, <a class="el" href="classjpcre2_1_1Regex.html#abc4a13f1baa8f23a8747fb0ffd46a836">jpcre2::Regex::changeModifier()</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a7f5283c0fd9b4514b37354a08562ff9e">jpcre2::RegexMatch::chnageModifier()</a>, <a class="el" href="classjpcre2_1_1Regex.html#aad1d5ef1e87f762f68a587eec4022e69">jpcre2::Regex::compile()</a>, <a class="el" href="classjpcre2_1_1Regex.html#acaa5da5fc3ad903e3ecc724750214e07">jpcre2::Regex::deepCopy()</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#af159e8d080ecd74f63ec67b1d5a27772">jpcre2::RegexMatch::getNamedSubstrings()</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a961a5f91ab24a1ddfd42910c6ab68b65">jpcre2::RegexMatch::getNumberedSubstrings()</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33">jpcre2::RegexMatch::match()</a>, and <a class="el" href="classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0">jpcre2::RegexReplace::replace()</a>.</p>
+
+<p><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052_icgraph.png" border="0" usemap="#namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052_icgraph" alt=""/></div>
+<map name="namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052_icgraph" id="namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052_icgraph">
+<area shape="rect" id="node2" href="classjpcre2_1_1RegexReplace.html#ae58d2a44ed474568554202612d45c814" title="Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. " alt="" coords="264,5,415,47"/>
+<area shape="rect" id="node3" href="classjpcre2_1_1Regex.html#abc4a13f1baa8f23a8747fb0ffd46a836" title="Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. " alt="" coords="240,71,439,98"/>
+<area shape="rect" id="node4" href="classjpcre2_1_1RegexMatch.html#a7f5283c0fd9b4514b37354a08562ff9e" title="Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. " alt="" coords="270,123,409,164"/>
+<area shape="rect" id="node5" href="classjpcre2_1_1Regex.html#aad1d5ef1e87f762f68a587eec4022e69" title="Compile the regex pattern from class variable pat_str. " alt="" coords="261,189,417,215"/>
+<area shape="rect" id="node6" href="classjpcre2_1_1Regex.html#acaa5da5fc3ad903e3ecc724750214e07" title="Do a deep copy of rm, rr and code Copy compiled pattern to a new location, free the old memory and se..." alt="" coords="254,239,425,266"/>
+<area shape="rect" id="node7" href="classjpcre2_1_1RegexMatch.html#af159e8d080ecd74f63ec67b1d5a27772" title="Populate nas_map0 and/or ntn_map0 with named substring and/or name to number mapping. " alt="" coords="263,291,415,332"/>
+<area shape="rect" id="node8" href="classjpcre2_1_1RegexMatch.html#a961a5f91ab24a1ddfd42910c6ab68b65" title="Populate num_map0 with numbered substrings. " alt="" coords="254,356,425,397"/>
+<area shape="rect" id="node9" href="classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33" title="Store match result in vectors and return the number of matches. " alt="" coords="270,421,409,463"/>
+<area shape="rect" id="node11" href="classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0" title="Returns the resultant string after performing regex replace. " alt="" coords="264,487,415,528"/>
+<area shape="rect" id="node10" href="classjpcre2_1_1Regex.html#ab93775a93a0a537d09b9e9ab4a5a3894" title="Perform regex match. " alt="" coords="490,429,637,455"/>
+<area shape="rect" id="node12" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981" title="Perform regex replace. " alt="" coords="487,494,640,521"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->

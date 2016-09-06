@@ -19,7 +19,7 @@ var NAVTREE =
       ] ],
       [ "Replace or Substitute", "index.html#replace", [
         [ "Simple replacement", "index.html#simple-replace", null ],
-        [ "Using named parameter idiom", "index.html#replace-with-named-parameter", null ]
+        [ "Using method chaining", "index.html#using-method-chaining", null ]
       ] ]
     ] ],
     [ "Modifiers", "index.html#modifiers", [

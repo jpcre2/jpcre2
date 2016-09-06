@@ -120,7 +120,7 @@
 <codeline><highlight class="normal">}</highlight></codeline>
 <codeline><highlight class="normal">```</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">Now<sp/>you<sp/>can<sp/>perform<sp/>match<sp/>or<sp/>replace<sp/>against<sp/>the<sp/>pattern.<sp/>Use<sp/>the<sp/>`match()`<sp/>member<sp/>function<sp/>to<sp/>preform<sp/>regex<sp/>match<sp/>and<sp/>the<sp/>`replace()`<sp/>member<sp/>function<sp/>to<sp/>perform<sp/>regex<sp/>replace.</highlight></codeline>
+<codeline><highlight class="normal">Now<sp/>you<sp/>can<sp/>perform<sp/>match<sp/>or<sp/>replace<sp/>against<sp/>the<sp/>pattern.<sp/>Use<sp/>the<sp/>`match()`<sp/>member<sp/>function<sp/>to<sp/>perform<sp/>regex<sp/>match<sp/>and<sp/>the<sp/>`replace()`<sp/>member<sp/>function<sp/>to<sp/>perform<sp/>regex<sp/>replace.</highlight></codeline>
 <codeline></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">##<sp/>Match<sp/>{#match}</highlight></codeline>
@@ -175,7 +175,7 @@
 <codeline><highlight class="normal">To<sp/>get<sp/>named<sp/>substring<sp/>and/or<sp/>name<sp/>to<sp/>number<sp/>mapping,<sp/>pass<sp/>pointer<sp/>to<sp/>the<sp/>appropriate<sp/>vectors<sp/>with<sp/>`jpcre2::RegexMatch::setNamedSubstringVector()`<sp/>and/or<sp/>`jpcre2::RegexMatch::setNameToNumberMapVector()`<sp/>before<sp/>doing<sp/>the<sp/>match.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">```cpp</highlight></codeline>
-<codeline><highlight class="normal">jpcre2::VecNum<sp/>vec_num;<sp/><sp/><sp/>///Vector<sp/>to<sp/>store<sp/>numbured<sp/>substring<sp/>Map.</highlight></codeline>
+<codeline><highlight class="normal">jpcre2::VecNum<sp/>vec_num;<sp/><sp/><sp/>///Vector<sp/>to<sp/>store<sp/>numbered<sp/>substring<sp/>Map.</highlight></codeline>
 <codeline><highlight class="normal">jpcre2::VecNas<sp/>vec_nas;<sp/><sp/><sp/>///Vector<sp/>to<sp/>store<sp/>named<sp/>substring<sp/>Map.</highlight></codeline>
 <codeline><highlight class="normal">jpcre2::VecNtN<sp/>vec_ntn;<sp/><sp/><sp/>///Vector<sp/>to<sp/>store<sp/>Named<sp/>substring<sp/>to<sp/>Number<sp/>Map.</highlight></codeline>
 <codeline><highlight class="normal">std::string<sp/>ac_mod=&quot;g&quot;;<sp/><sp/><sp/>//<sp/>g<sp/>is<sp/>for<sp/>global<sp/>match.<sp/>Equivalent<sp/>to<sp/>using<sp/>setFindAll()<sp/>or<sp/>FIND_ALL<sp/>in<sp/>addJpcre2Options()</highlight></codeline>
@@ -258,7 +258,7 @@
 <codeline><highlight class="normal">//&apos;g&apos;<sp/>modifier<sp/>is<sp/>for<sp/>global<sp/>replacement</highlight></codeline>
 <codeline><highlight class="normal">```</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">###<sp/>Using<sp/>named<sp/>parameter<sp/>idiom<sp/>{#replace-with-named-parameter}</highlight></codeline>
+<codeline><highlight class="normal">###<sp/>Using<sp/>method<sp/>chaining<sp/>{#using-method-chaining}</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">```cpp</highlight></codeline>
 <codeline><highlight class="normal">try{</highlight></codeline>
@@ -309,15 +309,17 @@
 <codeline></codeline>
 <codeline><highlight class="normal">##<sp/>Action<sp/>modifiers<sp/>{#action-modifiers}</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">These<sp/>modifiers<sp/>are<sp/>not<sp/>compiled<sp/>in<sp/>the<sp/>regex<sp/>itself,<sp/>rather<sp/>they<sp/>are<sp/>used<sp/>per<sp/>call<sp/>of<sp/>each<sp/>match<sp/>or<sp/>replace<sp/>function.</highlight></codeline>
+<codeline><highlight class="normal">These<sp/>modifiers<sp/>are<sp/>not<sp/>compiled<sp/>in<sp/>the<sp/>regex<sp/>itself,<sp/>rather<sp/>they<sp/>are<sp/>used<sp/>per<sp/>call<sp/>of<sp/>each<sp/>match,<sp/>replace<sp/>or<sp/>compile<sp/>function.</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">Modifier<sp/>|<sp/>Details</highlight></codeline>
-<codeline><highlight class="normal">------<sp/>|<sp/>------</highlight></codeline>
-<codeline><highlight class="normal">`A`<sp/>|<sp/>Match<sp/>at<sp/>start.<sp/>Equivalent<sp/>to<sp/>`PCRE2_ANCHORED`.<sp/>Can<sp/>be<sp/>used<sp/>in<sp/>match<sp/>operation.<sp/>Setting<sp/>this<sp/>option<sp/>only<sp/>at<sp/>match<sp/>time<sp/>(i.e<sp/>regex<sp/>was<sp/>not<sp/>compiled<sp/>with<sp/>this<sp/>option)<sp/>will<sp/>disable<sp/>optimization<sp/>during<sp/>match<sp/>time.</highlight></codeline>
-<codeline><highlight class="normal">`e`<sp/>|<sp/>Replaces<sp/>unset<sp/>group<sp/>with<sp/>empty<sp/>string.<sp/>Equivalent<sp/>to<sp/>`PCRE2_SUBSTITUTE_UNSET_EMPTY`.<sp/>Can<sp/>be<sp/>used<sp/>in<sp/>replace<sp/>operation.</highlight></codeline>
-<codeline><highlight class="normal">`E`<sp/>|<sp/>Extension<sp/>of<sp/>`e`<sp/>modifier.<sp/>Sets<sp/>even<sp/>unknown<sp/>groups<sp/>to<sp/>empty<sp/>string.<sp/>Equivalent<sp/>to<sp/>PCRE2_SUBSTITUTE_UNSET_EMPTY<sp/>\|<sp/>PCRE2_SUBSTITUTE_UNKNOWN_UNSET.</highlight></codeline>
-<codeline><highlight class="normal">`g`<sp/>|<sp/>Global.<sp/>Will<sp/>perform<sp/>global<sp/>matching<sp/>or<sp/>replacement<sp/>if<sp/>passed.</highlight></codeline>
-<codeline><highlight class="normal">`x`<sp/>|<sp/>Extended<sp/>replacement<sp/>operation.<sp/>It<sp/>enables<sp/>some<sp/>Bash<sp/>like<sp/>features:&lt;br&gt;`${&lt;n&gt;:-&lt;string&gt;}`&lt;br&gt;`${&lt;n&gt;:+&lt;string1&gt;:&lt;string2&gt;}`&lt;br&gt;`&lt;n&gt;`<sp/>may<sp/>be<sp/>a<sp/>group<sp/>number<sp/>or<sp/>a<sp/>name.<sp/>The<sp/>first<sp/>form<sp/>specifies<sp/>a<sp/>default<sp/>value.<sp/>If<sp/>group<sp/>`&lt;n&gt;`<sp/>is<sp/>set,<sp/>its<sp/>value<sp/>is<sp/>inserted;<sp/>if<sp/>not,<sp/>`&lt;string&gt;`<sp/>is<sp/>expanded<sp/>and<sp/>the<sp/>result<sp/>is<sp/>inserted.<sp/>The<sp/>second<sp/>form<sp/>specifies<sp/>strings<sp/>that<sp/>are<sp/>expanded<sp/>and<sp/>inserted<sp/>when<sp/>group<sp/>`&lt;n&gt;`<sp/>is<sp/>set<sp/>or<sp/>unset,<sp/>respectively.<sp/>The<sp/>first<sp/>form<sp/>is<sp/>just<sp/>a<sp/>convenient<sp/>shorthand<sp/>for<sp/>`${&lt;n&gt;:+${&lt;n&gt;}:&lt;string&gt;}`.</highlight></codeline>
+<codeline><highlight class="normal">Modifier<sp/>|<sp/>Action<sp/>|<sp/>Details</highlight></codeline>
+<codeline><highlight class="normal">------<sp/>|<sp/>------<sp/>|<sp/>-----<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">`A`<sp/>|<sp/>match<sp/>|<sp/>Match<sp/>at<sp/>start.<sp/>Equivalent<sp/>to<sp/>`PCRE2_ANCHORED`.<sp/>Can<sp/>be<sp/>used<sp/>in<sp/>match<sp/>operation.<sp/>Setting<sp/>this<sp/>option<sp/>only<sp/>at<sp/>match<sp/>time<sp/>(i.e<sp/>regex<sp/>was<sp/>not<sp/>compiled<sp/>with<sp/>this<sp/>option)<sp/>will<sp/>disable<sp/>optimization<sp/>during<sp/>match<sp/>time.</highlight></codeline>
+<codeline><highlight class="normal">`e`<sp/>|<sp/>replace<sp/>|<sp/>Replaces<sp/>unset<sp/>group<sp/>with<sp/>empty<sp/>string.<sp/>Equivalent<sp/>to<sp/>`PCRE2_SUBSTITUTE_UNSET_EMPTY`.</highlight></codeline>
+<codeline><highlight class="normal">`E`<sp/>|<sp/>replace<sp/>|<sp/>Extension<sp/>of<sp/>`e`<sp/>modifier.<sp/>Sets<sp/>even<sp/>unknown<sp/>groups<sp/>to<sp/>empty<sp/>string.<sp/>Equivalent<sp/>to<sp/>PCRE2_SUBSTITUTE_UNSET_EMPTY<sp/>\|<sp/>PCRE2_SUBSTITUTE_UNKNOWN_UNSET</highlight></codeline>
+<codeline><highlight class="normal">`g`<sp/>|<sp/>match&lt;br&gt;replace<sp/>|<sp/>Global.<sp/>Will<sp/>perform<sp/>global<sp/>matching<sp/>or<sp/>replacement<sp/>if<sp/>passed.<sp/>Equivalent<sp/>to<sp/>`jpcre2::FIND_ALL`.</highlight></codeline>
+<codeline><highlight class="normal">`x`<sp/>|<sp/>replace<sp/>|<sp/>Extended<sp/>replacement<sp/>operation.<sp/>It<sp/>enables<sp/>some<sp/>Bash<sp/>like<sp/>features:&lt;br&gt;`${&lt;n&gt;:-&lt;string&gt;}`&lt;br&gt;`${&lt;n&gt;:+&lt;string1&gt;:&lt;string2&gt;}`&lt;br&gt;`&lt;n&gt;`<sp/>may<sp/>be<sp/>a<sp/>group<sp/>number<sp/>or<sp/>a<sp/>name.<sp/>The<sp/>first<sp/>form<sp/>specifies<sp/>a<sp/>default<sp/>value.<sp/>If<sp/>group<sp/>`&lt;n&gt;`<sp/>is<sp/>set,<sp/>its<sp/>value<sp/>is<sp/>inserted;<sp/>if<sp/>not,<sp/>`&lt;string&gt;`<sp/>is<sp/>expanded<sp/>and<sp/>the<sp/>result<sp/>is<sp/>inserted.<sp/>The<sp/>second<sp/>form<sp/>specifies<sp/>strings<sp/>that<sp/>are<sp/>expanded<sp/>and<sp/>inserted<sp/>when<sp/>group<sp/>`&lt;n&gt;`<sp/>is<sp/>set<sp/>or<sp/>unset,<sp/>respectively.<sp/>The<sp/>first<sp/>form<sp/>is<sp/>just<sp/>a<sp/>convenient<sp/>shorthand<sp/>for<sp/>`${&lt;n&gt;:+${&lt;n&gt;}:&lt;string&gt;}`.</highlight></codeline>
+<codeline><highlight class="normal">`~`<sp/>|<sp/>match&lt;br&gt;replace&lt;br&gt;compile<sp/>|<sp/>Treat<sp/>warnings<sp/>as<sp/>errors.<sp/>Equivalent<sp/>to<sp/>`jpcre2::ERROR_ALL`.</highlight></codeline>
+<codeline><highlight class="normal">`&amp;`<sp/>|<sp/>match&lt;br&gt;replace&lt;br&gt;compile<sp/>|<sp/>Validate<sp/>modifier.<sp/>Throws<sp/>`jpcre2::ERROR::INVALID_MODIFIER`<sp/>error<sp/>in<sp/>case<sp/>invalid<sp/>modifier<sp/>encountered.<sp/>Equivalent<sp/>to<sp/>`jpcre2::VALIDATE_MODIFIER`.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">&lt;div<sp/>id=&quot;jpcre2-options&quot;&gt;&lt;/div&gt;</highlight></codeline>
 <codeline></codeline>
@@ -327,19 +329,19 @@
 <codeline></codeline>
 <codeline><highlight class="normal">##<sp/>JPCRE2<sp/>options<sp/>{#jpcre-options}</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">These<sp/>options<sp/>are<sp/>meaningful<sp/>only<sp/>for<sp/>the<sp/>**JPCRE2**<sp/>library<sp/>itself<sp/>not<sp/>the<sp/>original<sp/>**PCRE2**<sp/>library.<sp/>We<sp/>use<sp/>the<sp/>`addJpcre2Options()`<sp/>function<sp/>to<sp/>pass<sp/>these<sp/>options.</highlight></codeline>
+<codeline><highlight class="normal">These<sp/>options<sp/>are<sp/>meaningful<sp/>only<sp/>for<sp/>the<sp/>**JPCRE2**<sp/>library<sp/>itself<sp/>not<sp/>the<sp/>original<sp/>**PCRE2**<sp/>library.<sp/>We<sp/>use<sp/>the<sp/>`jpcre2::Regex::addJpcre2Option()`<sp/>and<sp/>such<sp/>functions<sp/>to<sp/>pass<sp/>these<sp/>options.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">Option<sp/>|<sp/>Details</highlight></codeline>
 <codeline><highlight class="normal">------<sp/>|<sp/>------</highlight></codeline>
 <codeline><highlight class="normal">`jpcre2::NONE`<sp/>|<sp/>This<sp/>is<sp/>the<sp/>default<sp/>option.<sp/>Equivalent<sp/>to<sp/>0<sp/>(zero).</highlight></codeline>
-<codeline><highlight class="normal">`jpcre2::VALIDATE_MODIFIER`<sp/>|<sp/>If<sp/>this<sp/>option<sp/>is<sp/>passed,<sp/>modifiers<sp/>will<sp/>be<sp/>subject<sp/>to<sp/>validation<sp/>check.<sp/>If<sp/>any<sp/>of<sp/>them<sp/>is<sp/>invalid,<sp/>a<sp/>`jpcre2::ERROR::INVALID_MODIFIER`<sp/>error<sp/>exception<sp/>will<sp/>be<sp/>thrown.<sp/>You<sp/>can<sp/>get<sp/>the<sp/>error<sp/>message<sp/>with<sp/>`jpcre2::Regex::getErrorMessage(error_code)`<sp/>member<sp/>function.</highlight></codeline>
+<codeline><highlight class="normal">`jpcre2::VALIDATE_MODIFIER`<sp/>|<sp/>If<sp/>this<sp/>option<sp/>is<sp/>passed,<sp/>modifiers<sp/>will<sp/>be<sp/>subject<sp/>to<sp/>validation<sp/>check.<sp/>If<sp/>any<sp/>of<sp/>them<sp/>is<sp/>invalid,<sp/>a<sp/>`jpcre2::ERROR::INVALID_MODIFIER`<sp/>error<sp/>exception<sp/>will<sp/>be<sp/>thrown.<sp/>You<sp/>can<sp/>get<sp/>the<sp/>error<sp/>message<sp/>with<sp/>`jpcre2::Regex::getErrorMessage()`<sp/>member<sp/>function.</highlight></codeline>
 <codeline><highlight class="normal">`jpcre2::FIND_ALL`<sp/>|<sp/>This<sp/>option<sp/>will<sp/>do<sp/>a<sp/>global<sp/>matching<sp/>if<sp/>passed<sp/>during<sp/>matching.<sp/>The<sp/>same<sp/>can<sp/>be<sp/>achieved<sp/>by<sp/>passing<sp/>the<sp/>&apos;g&apos;<sp/>modifier<sp/>with<sp/>`jpcre2::RegexMatch::setModifier()`<sp/>function.</highlight></codeline>
 <codeline><highlight class="normal">`jpcre2::ERROR_ALL`<sp/>|<sp/>Treat<sp/>warnings<sp/>as<sp/>errors<sp/>and<sp/>throw<sp/>exception.</highlight></codeline>
 <codeline><highlight class="normal">`jpcre2::JIT_COMPILE`<sp/>|<sp/>This<sp/>is<sp/>same<sp/>as<sp/>passing<sp/>the<sp/>`S`<sp/>modifier<sp/>during<sp/>pattern<sp/>compilation.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">##<sp/>PCRE2<sp/>options<sp/>{#pcre2-options}</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">While<sp/>having<sp/>its<sp/>own<sp/>way<sp/>of<sp/>doing<sp/>things,<sp/>JPCRE2<sp/>also<sp/>supports<sp/>the<sp/>traditional<sp/>PCRE2<sp/>options<sp/>to<sp/>be<sp/>passed.<sp/>We<sp/>use<sp/>the<sp/>`addPcre2Option()`<sp/>functions<sp/>to<sp/>pass<sp/>the<sp/>PCRE2<sp/>options.<sp/>These<sp/>options<sp/>are<sp/>the<sp/>same<sp/>as<sp/>the<sp/>PCRE2<sp/>library<sp/>and<sp/>have<sp/>the<sp/>same<sp/>meaning.<sp/>For<sp/>example<sp/>instead<sp/>of<sp/>passing<sp/>the<sp/>&apos;g&apos;<sp/>modifier<sp/>to<sp/>the<sp/>replacement<sp/>operation<sp/>we<sp/>can<sp/>also<sp/>pass<sp/>its<sp/>PCRE2<sp/>equivalent<sp/>`PCRE2_SUBSTITUTE_GLOBAL`<sp/>to<sp/>have<sp/>the<sp/>same<sp/>effect.</highlight></codeline>
+<codeline><highlight class="normal">While<sp/>having<sp/>its<sp/>own<sp/>way<sp/>of<sp/>doing<sp/>things,<sp/>JPCRE2<sp/>also<sp/>supports<sp/>the<sp/>traditional<sp/>PCRE2<sp/>options<sp/>to<sp/>be<sp/>passed.<sp/>We<sp/>use<sp/>the<sp/>`jpcre2::Regex::addPcre2Option()`<sp/>and<sp/>such<sp/>functions<sp/>to<sp/>pass<sp/>the<sp/>PCRE2<sp/>options.<sp/>These<sp/>options<sp/>are<sp/>the<sp/>same<sp/>as<sp/>the<sp/>PCRE2<sp/>library<sp/>and<sp/>have<sp/>the<sp/>same<sp/>meaning.<sp/>For<sp/>example<sp/>instead<sp/>of<sp/>passing<sp/>the<sp/>&apos;g&apos;<sp/>modifier<sp/>to<sp/>the<sp/>replacement<sp/>operation<sp/>we<sp/>can<sp/>also<sp/>pass<sp/>its<sp/>PCRE2<sp/>equivalent<sp/>`PCRE2_SUBSTITUTE_GLOBAL`<sp/>to<sp/>have<sp/>the<sp/>same<sp/>effect.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">#<sp/>Short<sp/>examples<sp/>{#short-examples}</highlight></codeline>
 <codeline></codeline>
@@ -414,9 +416,9 @@
 <codeline><highlight class="normal">///vec_num[0]<sp/>is<sp/>the<sp/>first<sp/>match</highlight></codeline>
 <codeline><highlight class="normal">///The<sp/>type<sp/>of<sp/>vec_num[0]<sp/>is<sp/>jpcre2::MapNum</highlight></codeline>
 <codeline><highlight class="normal">std::cout&lt;&lt;&quot;\nTotal<sp/>match<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0][0];<sp/><sp/><sp/><sp/><sp/><sp/>///Total<sp/>match<sp/>(group<sp/>0)<sp/>from<sp/>first<sp/>match</highlight></codeline>
-<codeline><highlight class="normal">std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>1<sp/>of<sp/>frist<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0][1];<sp/>///captured<sp/>group<sp/>1<sp/>from<sp/>first<sp/>match<sp/></highlight></codeline>
-<codeline><highlight class="normal">std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>2<sp/>of<sp/>frist<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0][2];<sp/>///captured<sp/>group<sp/>2<sp/>from<sp/>first<sp/>match</highlight></codeline>
-<codeline><highlight class="normal">std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>3<sp/>of<sp/>frist<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0][3];<sp/>///captured<sp/>group<sp/>3<sp/>doesn&apos;t<sp/>exist,<sp/>it<sp/>will<sp/>give<sp/>you<sp/>empty<sp/>string</highlight></codeline>
+<codeline><highlight class="normal">std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>1<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0][1];<sp/>///captured<sp/>group<sp/>1<sp/>from<sp/>first<sp/>match<sp/></highlight></codeline>
+<codeline><highlight class="normal">std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>2<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0][2];<sp/>///captured<sp/>group<sp/>2<sp/>from<sp/>first<sp/>match</highlight></codeline>
+<codeline><highlight class="normal">std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>3<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0][3];<sp/>///captured<sp/>group<sp/>3<sp/>doesn&apos;t<sp/>exist,<sp/>it<sp/>will<sp/>give<sp/>you<sp/>empty<sp/>string</highlight></codeline>
 <codeline><highlight class="normal">///Using<sp/>the<sp/>[]<sp/>operator<sp/>with<sp/>jpcre2::MapNum<sp/>will<sp/>create<sp/>new<sp/>element<sp/>if<sp/>it<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
 <codeline><highlight class="normal">///<sp/>i.e<sp/>vec_num[0][3]<sp/>were<sp/>created<sp/>in<sp/>the<sp/>above<sp/>example.</highlight></codeline>
 <codeline><highlight class="normal">///This<sp/>should<sp/>be<sp/>ok,<sp/>if<sp/>existence<sp/>of<sp/>a<sp/>particular<sp/>substring<sp/>is<sp/>not<sp/>important</highlight></codeline>
@@ -425,7 +427,7 @@
 <codeline><highlight class="normal">/*<sp/>//&gt;=C++11</highlight></codeline>
 <codeline><highlight class="normal">try{</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>///This<sp/>will<sp/>throw<sp/>exception,<sp/>because<sp/>substring<sp/>4<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>of<sp/>frist<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0].at(4);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_num[0].at(4);</highlight></codeline>
 <codeline><highlight class="normal">}<sp/>catch<sp/>(std::logic_error<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptrued<sp/>group<sp/>4<sp/>doesn&apos;t<sp/>exist&quot;;</highlight></codeline>
 <codeline><highlight class="normal">}*/</highlight></codeline>
@@ -460,7 +462,7 @@
 <codeline><highlight class="normal">///If<sp/>the<sp/>existence<sp/>of<sp/>a<sp/>substring<sp/>is<sp/>important,<sp/>use<sp/>the<sp/>std::map::find()<sp/>or<sp/>std::map::at()<sp/>(&gt;=C++11)<sp/>function<sp/>to<sp/>access<sp/>map<sp/>elements</highlight></codeline>
 <codeline><highlight class="normal">/*<sp/>//&gt;=C++11</highlight></codeline>
 <codeline><highlight class="normal">try{</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>///This<sp/>will<sp/>throw<sp/>exception<sp/>becasue<sp/>the<sp/>substring<sp/>name<sp/>&apos;name&apos;<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>///This<sp/>will<sp/>throw<sp/>exception<sp/>because<sp/>the<sp/>substring<sp/>name<sp/>&apos;name&apos;<sp/>doesn&apos;t<sp/>exist</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptured<sp/>group<sp/>(name)<sp/>of<sp/>first<sp/>match:<sp/>&quot;&lt;&lt;vec_nas[0].at(&quot;name&quot;);</highlight></codeline>
 <codeline><highlight class="normal">}<sp/>catch(std::logic_error<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;&quot;\nCaptured<sp/>group<sp/>(name)<sp/>doesn&apos;t<sp/>exist&quot;;</highlight></codeline>
@@ -490,7 +492,7 @@
 <codeline><highlight class="normal">jpcre2::Regex(&quot;\\d&quot;).replace(&quot;I<sp/>am<sp/>the<sp/>subject<sp/>string<sp/>44&quot;,<sp/>&quot;@&quot;);</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">std::cout&lt;&lt;&quot;\n&quot;&lt;&lt;</highlight></codeline>
-<codeline><highlight class="normal">///replace<sp/>all<sp/>occrrences<sp/>of<sp/>a<sp/>digit<sp/>with<sp/>@</highlight></codeline>
+<codeline><highlight class="normal">///replace<sp/>all<sp/>occurrences<sp/>of<sp/>a<sp/>digit<sp/>with<sp/>@</highlight></codeline>
 <codeline><highlight class="normal">jpcre2::Regex(&quot;\\d&quot;).replace(&quot;I<sp/>am<sp/>the<sp/>subject<sp/>string<sp/>44&quot;,<sp/>&quot;@&quot;,<sp/>&quot;g&quot;);</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">///swap<sp/>two<sp/>parts<sp/>of<sp/>a<sp/>string</highlight></codeline>

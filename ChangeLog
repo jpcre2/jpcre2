@@ -1,6 +1,14 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.25.02 - Tue Sep  6 22:49:45 UTC 2016
+-----------------------------------------------
+
+1. Removed `removePcre2Option()` and such functions in favor of the new `changePcre2Option()` (and such) functions
+2. Validation check on modifier is done immediately.
+3. Include version info in the source.
+4. Added action modifiers `~` and `&` to provide `jpcre2::ERROR_ALL` and `jpcre2::VALIDATE_MODIFIER` respectively
+
 Version 10.25.01 - Tue Sep  6 00:06:14 UTC 2016
 -----------------------------------------------
 

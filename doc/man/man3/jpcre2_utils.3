@@ -1,4 +1,4 @@
-.TH "jpcre2::utils" 3 "Tue Sep 6 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::utils" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -30,10 +30,22 @@ jpcre2::utils \- Namespace for some utility functions\&.
 .RI "\fBString\fP \fBgetPcre2ErrorMessage\fP (int err_num)"
 .br
 .RI "\fIGet PCRE2 error message for an error number\&. \fP"
+.ti -1c
+.RI "void \fBthrowException\fP (int)"
+.br
+.RI "\fIUsed throughout JPCRE2 to throw exceptions\&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
 Namespace for some utility functions\&. 
+.SH "Function Documentation"
+.PP 
+.SS "void jpcre2::utils::throwException (int x)"
+
+.PP
+Used throughout JPCRE2 to throw exceptions\&. Function used to throw exceptions 
+.PP
+Referenced by jpcre2::RegexReplace::changeModifier(), jpcre2::Regex::changeModifier(), jpcre2::RegexMatch::chnageModifier(), jpcre2::Regex::compile(), jpcre2::Regex::deepCopy(), jpcre2::RegexMatch::getNamedSubstrings(), jpcre2::RegexMatch::getNumberedSubstrings(), jpcre2::RegexMatch::match(), and jpcre2::RegexReplace::replace()\&.
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for JPCRE2 from the source code\&.

@@ -1,4 +1,4 @@
-.TH "jpcre2.hpp" 3 "Tue Sep 6 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2.hpp" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -8,8 +8,6 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .br
 .PP
 \fC#include <pcre2\&.h>\fP
-.br
-\fC#include <stdint\&.h>\fP
 .br
 \fC#include <cstddef>\fP
 .br
@@ -26,11 +24,11 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .ti -1c
 .RI "class \fBjpcre2::RegexMatch\fP"
 .br
-.RI "\fIPerforms regex matching\&. \fP"
+.RI "\fIProvides the \fBRegexMatch::match()\fP function to perform regex matching\&. \fP"
 .ti -1c
 .RI "class \fBjpcre2::RegexReplace\fP"
 .br
-.RI "\fIPerforms regex replace on a string\&. \fP"
+.RI "\fIProvides the \fBRegexReplace::replace()\fP function to perform regex replace on a string\&. \fP"
 .ti -1c
 .RI "class \fBjpcre2::Regex\fP"
 .br
@@ -44,9 +42,17 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .br
 .RI "\fITop level namespace of JPCRE2\&. \fP"
 .ti -1c
+.RI " \fBjpcre2::INFO\fP"
+.br
+.RI "\fINamespace to provide information about JPCRE2 library itself\&. \fP"
+.ti -1c
 .RI " \fBjpcre2::ERROR\fP"
 .br
 .RI "\fINamespace for error codes\&. \fP"
+.ti -1c
+.RI " \fBjpcre2::MOD\fP"
+.br
+.RI "\fINamespace for modifier constants\&. \fP"
 .ti -1c
 .RI " \fBjpcre2::utils\fP"
 .br
@@ -132,10 +138,38 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .RI "String \fBjpcre2::utils::getPcre2ErrorMessage\fP (int err_num)"
 .br
 .RI "\fIGet PCRE2 error message for an error number\&. \fP"
+.ti -1c
+.RI "void \fBjpcre2::utils::throwException\fP (int)"
+.br
+.RI "\fIUsed throughout JPCRE2 to throw exceptions\&. \fP"
 .in -1c
 .SS "Variables"
 
 .in +1c
+.ti -1c
+.RI "const String \fBjpcre2::INFO::NAME\fP"
+.br
+.RI "\fIName of the project\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::INFO::FULL_VERSION\fP"
+.br
+.RI "\fIFull version string\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::INFO::VERSION_GENRE\fP"
+.br
+.RI "\fIGeneration, depends on original PCRE2 version\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::INFO::VERSION_MAJOR\fP"
+.br
+.RI "\fIMajor version, updated when API change is made\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::INFO::VERSION_MINOR\fP"
+.br
+.RI "\fIMinor version, includes bug fix or minor feature upgrade\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::INFO::VERSION_PRE_RELEASE\fP"
+.br
+.RI "\fIAlpha or beta (testing) release version\&. \fP"
 .ti -1c
 .RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
 .br
@@ -152,14 +186,62 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .RI "const String \fBjpcre2::JIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
 .br
 .RI "\fIPrefix to be added to JIT error message\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::MOD::C_N\fP"
+.br
+.RI "\fIString of compile modifier characters for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const Uint \fBjpcre2::MOD::C_V\fP []"
+.br
+.RI "\fIArray of compile modifier values for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::MOD::CJ_N\fP"
+.br
+.RI "\fIString of compile modifier characters for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const Uint \fBjpcre2::MOD::CJ_V\fP []"
+.br
+.RI "\fIArray of compile modifier values for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::MOD::M_N\fP"
+.br
+.RI "\fIString of action (match) modifier characters for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const Uint \fBjpcre2::MOD::M_V\fP []"
+.br
+.RI "\fIArray of action (match) modifier values for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::MOD::MJ_N\fP"
+.br
+.RI "\fIString of action (match) modifier characters for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const Uint \fBjpcre2::MOD::MJ_V\fP []"
+.br
+.RI "\fIArray of action (match) modifier values for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::MOD::R_N\fP"
+.br
+.RI "\fIString of action (replace) modifier characters for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const Uint \fBjpcre2::MOD::R_V\fP []"
+.br
+.RI "\fIArray of action (replace) modifier values for PCRE2 options\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::MOD::RJ_N\fP"
+.br
+.RI "\fIString of action (replace) modifier characters for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const Uint \fBjpcre2::MOD::RJ_V\fP []"
+.br
+.RI "\fIArray of action (replace) modifier values for JPCRE2 options\&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
 Main header file for JPCRE2 library to be included by programs that uses its functionalities\&. 
 
-It includes the pcre2\&.h header, therefore you shouldn't include pcre2\&.h separately in your program\&. Make sure to link both \fBjpcre2\fP and pcre2 library when compiling\&.
+It includes the pcre2\&.h header, therefore you shouldn't include pcre2\&.h separately in your program\&. Make sure to link both JPCRE2 and PCRE2 library when compiling\&.
 .PP
-If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you still need to link with pcre2 library 
+If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you still need to link with PCRE2 library 
 .PP
 \fBAuthor:\fP
 .RS 4
