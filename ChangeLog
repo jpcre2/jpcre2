@@ -6,7 +6,7 @@ Version 10.25.01 - Tue Sep  6 00:06:14 UTC 2016
 
 1. New API
 2. Automated documentation created with Doxygen
-3. Removed execute() methods. compile(), match() or replace() call will mark the end of method chain.
+3. Removed `execute()` methods. `compile()`, `match()` or `replace()` call will mark the end of method chain.
 
 
 
