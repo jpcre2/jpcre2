@@ -1,6 +1,15 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.25.01 - Tue Sep  6 00:06:14 UTC 2016
+-----------------------------------------------
+
+1. New API
+2. Automated documentation created with Doxygen
+3. Removed execute() methods. compile(), match() or replace() call will mark the end of method chain.
+
+
+
 Version 10.24.05 - Sat Sep  3 20:35:13 UTC 2016
 -----------------------------------------------
 
