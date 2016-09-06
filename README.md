@@ -3,7 +3,7 @@ JPCRE2
 
 C++ wrapper of PCRE2 library
 
-[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![doc image](img/doc.png)](https://neurobin.org/docs/lib/jpcre2)
+[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![doc image](img/doc.png)](https://neurobin.org/docs/libs/jpcre2)
 
 
 PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.
