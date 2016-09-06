@@ -11,7 +11,8 @@ Implements public overloaded and copy constructors, provides functions to set/un
 
 
 
-Collaboration diagram for jpcre2\+:\+:Regex\+:\nopagebreak
+Collaboration diagram for jpcre2\+:\+:Regex\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -124,8 +125,7 @@ void \hyperlink{classjpcre2_1_1Regex_a0430f0a7643258cba9dc1c29ad3bc31e}{parse\+C
 void \hyperlink{classjpcre2_1_1Regex_a24594d3bdb08b3795080c68019928f3a}{shallow\+Copy} (const \hyperlink{classjpcre2_1_1Regex}{Regex} \&r)\hypertarget{classjpcre2_1_1Regex_a24594d3bdb08b3795080c68019928f3a}{}\label{classjpcre2_1_1Regex_a24594d3bdb08b3795080c68019928f3a}
 
 \begin{DoxyCompactList}\small\item\em Do a shallow copy of class variables. \end{DoxyCompactList}\item 
-void \hyperlink{classjpcre2_1_1Regex_acaa5da5fc3ad903e3ecc724750214e07}{deep\+Copy} (const \hyperlink{classjpcre2_1_1Regex}{Regex} \&r)\hypertarget{classjpcre2_1_1Regex_acaa5da5fc3ad903e3ecc724750214e07}{}\label{classjpcre2_1_1Regex_acaa5da5fc3ad903e3ecc724750214e07}
-
+void \hyperlink{classjpcre2_1_1Regex_acaa5da5fc3ad903e3ecc724750214e07}{deep\+Copy} (const \hyperlink{classjpcre2_1_1Regex}{Regex} \&r)
 \begin{DoxyCompactList}\small\item\em Do a deep copy of \hyperlink{classjpcre2_1_1Regex_a447925705d222dbbd8c7d60b98cc65f0}{rm}, \hyperlink{classjpcre2_1_1Regex_a5a7ac6c6288988079b8933b4b6637fab}{rr} and \hyperlink{classjpcre2_1_1Regex_a2742264206d8976c413b474b7bac4b2e}{code}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -162,7 +162,7 @@ P\+C\+R\+E2\+\_\+\+S\+I\+ZE \hyperlink{classjpcre2_1_1Regex_a0b9613704582b9c6b01
 \begin{DoxyCompactList}\small\item\em Locale as a string. \end{DoxyCompactList}\item 
 \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{classjpcre2_1_1Regex_a1cfacd49c8bceaae1e2a66efd4082ea8}{current\+\_\+warning\+\_\+msg}\hypertarget{classjpcre2_1_1Regex_a1cfacd49c8bceaae1e2a66efd4082ea8}{}\label{classjpcre2_1_1Regex_a1cfacd49c8bceaae1e2a66efd4082ea8}
 
-\begin{DoxyCompactList}\small\item\em current warning message \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Current warning message. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -193,7 +193,7 @@ A pattern must be compiled either by explicitly calling the compile function or 
 
 Default Constructor. 
 
-Initializes all class variables to defaults. Does not perform any compilation. \index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!Regex@{Regex}}
+Initializes all class variables to defaults. Does not perform any compilation, and thus not expected to throw any exception. \index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!Regex@{Regex}}
 \index{Regex@{Regex}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
 \paragraph[{\texorpdfstring{Regex(const String \&re)}{Regex(const String &re)}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Regex\+::\+Regex (
 \begin{DoxyParamCaption}
@@ -204,6 +204,11 @@ Initializes all class variables to defaults. Does not perform any compilation. \
 
 Compiles pattern with initialization. 
 
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
 
 \begin{DoxyParams}{Parameters}
 {\em re} & Pattern string \\
@@ -222,6 +227,11 @@ Compiles pattern with initialization.
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. 
 
 Compiles pattern. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em re} & Pattern string \\
 \hline
@@ -241,6 +251,11 @@ Compiles pattern.
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. 
 
 Compiles pattern. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em re} & Pattern string \\
 \hline
@@ -261,6 +276,11 @@ Compiles pattern.
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. 
 
 Compiles pattern. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em re} & Pattern string \\
 \hline
@@ -280,7 +300,12 @@ Compiles pattern.
 
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. Copy constructor. 
 
-Compiles pattern and Performs a deep copy. 
+Performs a deep copy. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em r} & const \hyperlink{classjpcre2_1_1Regex}{Regex}\& \\
 \hline
@@ -343,7 +368,12 @@ Prefer using one of its variants when compiling pattern for an already declared 
 \begin{DoxyCode}
 re = \hyperlink{classjpcre2_1_1Regex_a302f65cd5747c5d34570ca76516ab715}{Regex}(\textcolor{stringliteral}{"pattern"});
 \end{DoxyCode}
- (or such) is discouraged. see {\ttfamily \hyperlink{classjpcre2_1_1Regex_ab43a14b4b6e75b7fa3221bc18a1d4121}{Regex\+::operator=(const Regex\& r)}} for details. \begin{DoxySeeAlso}{See also}
+ (or such) is discouraged. see {\ttfamily \hyperlink{classjpcre2_1_1Regex_ab43a14b4b6e75b7fa3221bc18a1d4121}{Regex\+::operator=(const Regex\& r)}} for details. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxySeeAlso}{See also}
 void \hyperlink{classjpcre2_1_1Regex_a4640915bc907aa3b80da543f1eb7e74f}{compile(const String\& re, Uint po, Uint jo)} 
 
 void \hyperlink{classjpcre2_1_1Regex_a01394dcb222c4d442cabbffb4bcf570a}{compile(const String\& re, Uint po)} 
@@ -381,6 +411,11 @@ Here is the call graph for this function\+:\nopagebreak
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. 
 
 Set the specified parameters, then compile the pattern using information from class variables. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em re} & Pattern string \\
 \hline
@@ -402,6 +437,11 @@ Set the specified parameters, then compile the pattern using information from cl
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. 
 
 Set the specified parameters, then compile the pattern using options from class variables. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em re} & Pattern string \\
 \hline
@@ -421,6 +461,11 @@ Set the specified parameters, then compile the pattern using options from class 
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. 
 
 Set the specified parameters, then compile the pattern using options from class variables. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em re} & Pattern string \\
 \hline
@@ -439,10 +484,47 @@ Set the specified parameters, then compile the pattern using options from class 
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. 
 
 Set the specified parameters, then compile the pattern using options from class variables. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em re} & Pattern string \\
 \hline
 \end{DoxyParams}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!deep\+Copy@{deep\+Copy}}
+\index{deep\+Copy@{deep\+Copy}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\paragraph[{\texorpdfstring{deep\+Copy(const Regex \&r)}{deepCopy(const Regex &r)}}]{\setlength{\rightskip}{0pt plus 5cm}void jpcre2\+::\+Regex\+::deep\+Copy (
+\begin{DoxyParamCaption}
+\item[{const {\bf Regex} \&}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classjpcre2_1_1Regex_acaa5da5fc3ad903e3ecc724750214e07}{}\label{classjpcre2_1_1Regex_acaa5da5fc3ad903e3ecc724750214e07}
+
+
+Do a deep copy of \hyperlink{classjpcre2_1_1Regex_a447925705d222dbbd8c7d60b98cc65f0}{rm}, \hyperlink{classjpcre2_1_1Regex_a5a7ac6c6288988079b8933b4b6637fab}{rr} and \hyperlink{classjpcre2_1_1Regex_a2742264206d8976c413b474b7bac4b2e}{code}. 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{Regex\+::error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
+
+References code, current\+\_\+warning\+\_\+msg, jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL, error\+\_\+number, error\+\_\+offset, free\+Regex\+Memory(), jpcre2\+::utils\+::get\+Pcre2\+Error\+Message(), jpcre2\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE, jpcre2\+::\+E\+R\+R\+O\+R\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+L\+E\+\_\+\+F\+A\+I\+L\+ED, jpcre2\+::\+J\+I\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+P\+R\+E\+F\+IX, jpcre2\+\_\+compile\+\_\+opts, rm, and rr.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classjpcre2_1_1Regex_acaa5da5fc3ad903e3ecc724750214e07_cgraph}
+\end{center}
+\end{figure}
+
+
 \index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!get\+Error\+Message@{get\+Error\+Message}}
 \index{get\+Error\+Message@{get\+Error\+Message}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
 \paragraph[{\texorpdfstring{get\+Error\+Message(int err\+\_\+num, P\+C\+R\+E2\+\_\+\+S\+I\+Z\+E err\+\_\+off)}{getErrorMessage(int err_num, PCRE2_SIZE err_off)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf jpcre2\+::\+String} jpcre2\+::\+Regex\+::get\+Error\+Message (
@@ -722,6 +804,11 @@ References jpcre2\+::\+Regex\+Replace\+::re.
 Perform regex match. 
 
 This function takes the parameters, then sets the parameters to \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} class and calls \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{Regex\+Match\+::match()} which returns the result 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em s} & Subject string \\
 \hline
@@ -740,7 +827,8 @@ References jpcre2\+::\+Regex\+Match\+::match(), jpcre2\+::\+Regex\+Match\+::re, 
 
 
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -761,6 +849,11 @@ Here is the call graph for this function\+:\nopagebreak
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. 
 
 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em s} & Subject string \\
 \hline
@@ -777,7 +870,8 @@ References jpcre2\+::\+Regex\+Match\+::match(), jpcre2\+::\+Regex\+Match\+::re, 
 
 
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -807,6 +901,11 @@ re = \hyperlink{classjpcre2_1_1Regex_a302f65cd5747c5d34570ca76516ab715}{Regex}(\
  However, use of this method is discouraged (Use \hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69}{Regex\+::compile()} instead), because a call to this function requires an additional call to P\+C\+R\+E2 internal function pcre2\+\_\+code\+\_\+copy(). If the pattern was J\+IT compiled, it requires another additional J\+IT compilation because J\+IT memory was not copied by pcre2\+\_\+code\+\_\+copy().
 
 {\bfseries Memory management\+:} Old J\+IT memory will be released along with the old compiled code. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em r} & const \hyperlink{classjpcre2_1_1Regex}{Regex}\& \\
 \hline
@@ -896,6 +995,11 @@ $\ast$this
 Perform regex replace. 
 
 This function takes the parameters, then sets the parameters to \hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} class and calls \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0}{Regex\+Replace\+::replace()} which returns the result. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
+
 \begin{DoxyParams}{Parameters}
 {\em mains} & Subject string \\
 \hline
@@ -952,6 +1056,11 @@ Here is the caller graph for this function\+:\nopagebreak
 
 This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. 
 
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{error\+\_\+number}} & Throws exception (error number) if error occurs \\
+\hline
+\end{DoxyExceptions}
 
 \begin{DoxyParams}{Parameters}
 {\em mains} & Subject string \\

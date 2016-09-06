@@ -79,6 +79,7 @@
     <member refid="classjpcre2_1_1RegexMatch_1a5cacfea4b4d3c26307fb10e88e711af3" kind="function"><name>parseMatchOpts</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a961a5f91ab24a1ddfd42910c6ab68b65" kind="function"><name>getNumberedSubstrings</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1af159e8d080ecd74f63ec67b1d5a27772" kind="function"><name>getNamedSubstrings</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_1aeeffc8edc43a8e5d1d24ae4055213730" kind="function"><name>pushMapsIntoVectors</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a3da6a2319cd577d7f2f10c66dcf59a99" kind="function"><name>init_vars</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a40127e5057e2343848d8c8a6d4c32bcd" kind="function"><name>RegexMatch</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a098ddb46b2f297870ea548ef07597d94" kind="function"><name>RegexMatch</name></member>

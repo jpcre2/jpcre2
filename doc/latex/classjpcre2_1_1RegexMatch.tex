@@ -11,7 +11,8 @@ Performs regex matching.
 
 
 
-Collaboration diagram for jpcre2\+:\+:Regex\+Match\+:\nopagebreak
+Collaboration diagram for jpcre2\+:\+:Regex\+Match\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -46,7 +47,7 @@ Collaboration diagram for jpcre2\+:\+:Regex\+Match\+:\nopagebreak
 \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a1405a2d332d1a928ceb67857097be665}{remove\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
 \begin{DoxyCompactList}\small\item\em Remove option from existing P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts}. \end{DoxyCompactList}\item 
 \hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{S\+I\+Z\+E\+\_\+T} \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{match} (void)
-\begin{DoxyCompactList}\small\item\em Return the number of matches, store the match results in the specified vectors (\hyperlink{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}{vec\+\_\+num}, \hyperlink{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}{vec\+\_\+nas}, \hyperlink{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}{vec\+\_\+ntn}) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Store match result in vectors and return the number of matches. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -58,6 +59,9 @@ void \hyperlink{classjpcre2_1_1RegexMatch_a961a5f91ab24a1ddfd42910c6ab68b65}{get
 void \hyperlink{classjpcre2_1_1RegexMatch_af159e8d080ecd74f63ec67b1d5a27772}{get\+Named\+Substrings} (int namecount, int name\+\_\+entry\+\_\+size, P\+C\+R\+E2\+\_\+\+S\+P\+TR tabptr, pcre2\+\_\+match\+\_\+data $\ast$match\+\_\+data)\hypertarget{classjpcre2_1_1RegexMatch_af159e8d080ecd74f63ec67b1d5a27772}{}\label{classjpcre2_1_1RegexMatch_af159e8d080ecd74f63ec67b1d5a27772}
 
 \begin{DoxyCompactList}\small\item\em Populate \hyperlink{classjpcre2_1_1RegexMatch_a36749947847f266de03c3991ac88a694}{nas\+\_\+map0} and/or \hyperlink{classjpcre2_1_1RegexMatch_a1c790683d023313967ce80db6045419f}{ntn\+\_\+map0} with named substring and/or name to number mapping. \end{DoxyCompactList}\item 
+void \hyperlink{classjpcre2_1_1RegexMatch_aeeffc8edc43a8e5d1d24ae4055213730}{push\+Maps\+Into\+Vectors} (void)\hypertarget{classjpcre2_1_1RegexMatch_aeeffc8edc43a8e5d1d24ae4055213730}{}\label{classjpcre2_1_1RegexMatch_aeeffc8edc43a8e5d1d24ae4055213730}
+
+\begin{DoxyCompactList}\small\item\em Push maps into the vectors pointed by \hyperlink{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}{vec\+\_\+num}, \hyperlink{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}{vec\+\_\+nas} and \hyperlink{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}{vec\+\_\+ntn} and thus store match results in them. \end{DoxyCompactList}\item 
 void \hyperlink{classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99}{init\+\_\+vars} ()\hypertarget{classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99}{}\label{classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99}
 
 \begin{DoxyCompactList}\small\item\em Initialize class variables. \end{DoxyCompactList}\item 
@@ -202,15 +206,22 @@ $\ast$this
 )}\hypertarget{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{}\label{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}
 
 
-Return the number of matches, store the match results in the specified vectors (\hyperlink{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}{vec\+\_\+num}, \hyperlink{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}{vec\+\_\+nas}, \hyperlink{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}{vec\+\_\+ntn}) 
+Store match result in vectors and return the number of matches. 
 
+Clear the specified vectors (\hyperlink{classjpcre2_1_1RegexMatch_a836705e0444568c78abaab4c8e351335}{vec\+\_\+num}, \hyperlink{classjpcre2_1_1RegexMatch_a812b57dc08fdc0caa93a1b508ef8242c}{vec\+\_\+nas}, \hyperlink{classjpcre2_1_1RegexMatch_a86ef413ab6d237972af858be26ff77f7}{vec\+\_\+ntn}) and re-\/fill them with match results, then return the match count.
+
+The return value is guaranteed to give you the right match count. The size of each vectors should be equal to the match count. 
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{Regex\+::error\+\_\+number}} & Throws exception (error number) if error occurs during match. \\
+\hline
+\end{DoxyExceptions}
 \begin{DoxyReturn}{Returns}
 Number of matches found 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{S\+I\+Z\+E\+\_\+T} match(const String\& s) 
+\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{S\+I\+Z\+E\+\_\+T} \hyperlink{classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5}{Regex\+::match(const String\& s)} 
 
-\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{S\+I\+Z\+E\+\_\+T} match(const String\& s, const String\& mod) 
+\hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{S\+I\+Z\+E\+\_\+T} \hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894}{Regex\+::match(const String\& s, const String\& mod)} 
 \end{DoxySeeAlso}
 
 

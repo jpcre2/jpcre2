@@ -38,7 +38,7 @@
   <td id="projectlogo"><img alt="Logo" src="thumb0.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">JPCRE2
-   &#160;<span id="projectnumber">10.25.01</span>
+   &#160;<span id="projectnumber">10.25.02</span>
    </div>
    <div id="projectbrief">C++ wrapper of PCRE2 library</div>
   </td>
@@ -135,7 +135,7 @@ $(document).ready(function(){initNavTree('classjpcre2_1_1RegexReplace.html','');
 <div class="center"><img src="classjpcre2_1_1RegexReplace__coll__graph.png" border="0" usemap="#jpcre2_1_1RegexReplace_coll__map" alt="Collaboration graph"/></div>
 <map name="jpcre2_1_1RegexReplace_coll__map" id="jpcre2_1_1RegexReplace_coll__map">
 <area shape="rect" id="node2" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a..." alt="" coords="37,439,192,897"/>
-<area shape="rect" id="node3" href="classjpcre2_1_1RegexMatch.html" title="Performs regex matching. " alt="" coords="5,960,224,1448"/>
+<area shape="rect" id="node3" href="classjpcre2_1_1RegexMatch.html" title="Performs regex matching. " alt="" coords="5,960,224,1463"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -493,6 +493,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div><div class="memdoc">
 
 <p>Returns the resultant string after performing regex replace. </p>
+<p>Retrieves subject string, replacement string, modifier and other options from class variables. </p><dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classjpcre2_1_1Regex.html#a91b7b795c9efe76ef4e015325ff33f1c" title="Error number. ">Regex::error_number</a></td><td>Throws exception (error number) if error occurs. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>Replaced string </dd></dl>
 
 <p>References <a class="el" href="classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981">jpcre2::Regex::replace()</a>, and <a class="el" href="namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73">jpcre2::utils::toString()</a>.</p>

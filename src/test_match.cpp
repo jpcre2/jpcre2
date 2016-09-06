@@ -16,13 +16,13 @@ int main(){
     jpcre2::VecNas vec_nas0;   ///Vector to store named substring Maps.
     jpcre2::VecNtN vec_nn0;    ///Vector to store Named substring to Number Maps.
     
-    jpcre2::Regex re;     ///An empty object is not supposed to throw any exception in normal cases.
+    jpcre2::Regex re;     ///It's not supposed to throw any exception.
     
     ///Compile the pattern
     try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
           .setModifier("nJ")                                                    //set modifier
           .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                            //modifier goes through validation check
-                            | jpcre2::JIT_COMPILE                               //perform JIT compile
+                            | jpcre2::JIT_COMPILE                               //perform JIT compile (warning if JIT is not available)
                             | jpcre2::ERROR_ALL)                                //treat warnings as errors
           .addPcre2Option(0)                                                    //add pcre2 option
           .compile();}                                                          //Finally compile it.
@@ -39,7 +39,7 @@ int main(){
     size_t count=0;
     
     try{count = re.initMatch()                                  //Invoke the initMatch() function
-                  .setModifier("g")                             //set various parameters
+                  .setModifier("gf")                            //set various parameters (f: invalid modifier)
                   .setSubject(subject)                          //...
                   .setNumberedSubstringVector(&vec_num0)        //...
                   .setNamedSubstringVector(&vec_nas0)           //...
@@ -47,8 +47,9 @@ int main(){
                   .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)   //...
                   .addPcre2Option(0)                            //...
                   .match();}                                    //Finaly perform the match
-    catch(int e){std::cerr<<re.getErrorMessage(e);}
+    catch(int e){std::cerr<<"\n"<<re.getErrorMessage(e);}
     
+    std::cerr<<re.getWarningMessage(); //(f: invalid modifier) warning
     
     /// re.reset(); /// re-initialize re
     

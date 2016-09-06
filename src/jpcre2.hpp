@@ -108,6 +108,26 @@ enum {
 	ERROR_ALL               = 0x0000008u    ///< Treat warnings as error and throw exception (warnings don't throw exception)
 };
 
+/** Namespace for modifier constants.
+ *  For each modifier constant there is a jpcre2::Uint option value
+ *  Some modifiers may have multiple values set together (ORed in bitwise operation) and
+ *  thus they may iclude other modiers. Such an example is the 'n' modifer. It includes 'u'.
+ * */
+namespace MOD {
+extern const String C_N;        ///< String of compile modifier characters for PCRE2
+extern const Uint C_V[];        ///< Array of compile modifier values for PCRE2
+extern const String CJ_N;       ///< String of compile modifier characters for JPCRE2
+extern const Uint CJ_V[];       ///< Array of compile modifier values for JPCRE2
+extern const String M_N;        ///< String of action (match) modifier characters
+extern const Uint M_V[];        ///< Array of action (match) modifier values
+extern const String MJ_N;       ///< String of action (match) modifier characters for JPCRE2
+extern const Uint MJ_V[];       ///< Array of action (match) modifier values for JPCRE2
+extern const String R_N;        ///< String of action (replace) modifier characters
+extern const Uint R_V[];        ///< Array of action (replace) modifer values
+extern const String RJ_N;       ///< String of action (replace) modifier characters for JPCRE2
+extern const Uint RJ_V[];       ///< Array of action (replace) modifer values for JPCRE2
+}
+
 /// Namespace for some utility functions
 namespace utils {
 extern String toString(int a);                      ///< Converts an integer to String
@@ -115,12 +135,14 @@ extern String toString(char a);                     ///< Converts a char to Stri
 extern String toString(const char* a);              ///< Converts const char* to String
 extern String toString(PCRE2_UCHAR* a);             ///< Converts a PCRE2_UCHAR* to String
 extern String getPcre2ErrorMessage(int err_num);    ///< Get PCRE2 error message for an error number
+extern void throwException(int x);                  ///< Function used to throw exception
 }
 
 class Regex;
 
 /** @class RegexMatch
- *  Performs regex matching.
+ *  Provides the RegexMatch::match() function to perform regex matching.
+ * 
  *  Provides chained methods to set various options.
  *
  *  All constructors of this class are private.
@@ -132,7 +154,6 @@ private:
 	Regex* re;              ///< This is used to access private members in Regex.
 
 	String m_subject;       ///< Subject string for match
-	String m_modifier;      ///< Pattern for match
 	Uint match_opts;        ///< PCRE2 options for pcre2_match() (PCRE2 internal function)
 	Uint jpcre2_match_opts; ///< JPCRE2 options for match
 
@@ -144,16 +165,22 @@ private:
 	MapNas* nas_map0;       ///< Pointer to map that will store named substrings temporarily
 	MapNtN* ntn_map0;       ///< Pointer to map that will store name to number mapping temporarily
 
-	/// Parse #m_modifier and set equivalent PCRE2 and JPCRE2 options.
-	/// After a call to this function #match_opts and #jpcre2_match_opts will be properly set.
-	void parseMatchOpts(void);
-
 	void getNumberedSubstrings(int rc, pcre2_match_data *match_data);   ///< Populate #num_map0 with numbered substrings
 
 	void getNamedSubstrings(int namecount, int name_entry_size,
 			PCRE2_SPTR tabptr, pcre2_match_data *match_data);           ///< Populate #nas_map0 and/or #ntn_map0
                                                                         ///< with named substring and/or name to number mapping
-
+    
+    /// Push maps into the vectors pointed by #vec_num, #vec_nas and #vec_ntn and thus store match results in them.
+    void pushMapsIntoVectors(void){
+        if (vec_num)
+            vec_num->push_back(*num_map0);
+        if (vec_nas)
+            vec_nas->push_back(*nas_map0);
+        if (vec_ntn)
+            vec_ntn->push_back(*ntn_map0);
+    }
+    
     /// Initialize class variables
 	void init_vars() {
 		vec_num = 0;
@@ -173,7 +200,7 @@ private:
 	}
 
 	/// This is a copy constructor which is only used to prevent public object creation.
-	/// No need to implement it completely
+	/// No need to implement it completely.
 	RegexMatch(const RegexMatch&) {
 		init_vars();
 	}
@@ -193,7 +220,7 @@ public:
 
 	/// Set a pointer to the numbered substring vector of type jpcre2::VecNum
 	/// @param v #vec_num
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& setNumberedSubstringVector(VecNum* v) {
 		vec_num = v;
 		return *this;
@@ -201,7 +228,7 @@ public:
 
 	/// Set a pointer to the named substring vector of type jpcre2::VecNas
 	/// @param v #vec_nas
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& setNamedSubstringVector(VecNas* v) {
 		vec_nas = v;
 		return *this;
@@ -209,7 +236,7 @@ public:
 
 	/// Set a pointer to the name to number map vector of type jpcre2::VecNtN
 	/// @param v #vec_ntn
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& setNameToNumberMapVector(VecNtN* v) {
 		vec_ntn = v;
 		return *this;
@@ -217,25 +244,26 @@ public:
 
 	/// Set the subject string #m_subject
 	/// @param s Subject string
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& setSubject(const String& s) {
 		m_subject = s;
 		return *this;
 	}
 
-	/// Set the modifier #m_modifier (overwrites existing JPCRE2 and PCRE2 option).
-	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then sets the modifier.
+	/// Set the modifier (overwrites existing JPCRE2 and PCRE2 option).
+	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options.
 	/// @param s Modifier string
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& setModifier(const String& s) {
-		match_opts = jpcre2_match_opts = 0;
-		m_modifier = s;
+		match_opts = 0;
+        jpcre2_match_opts = 0;
+        chnageModifier(s, true);
 		return *this;
 	}
 
 	/// Set JPCRE2 option #jpcre2_match_opts (overwrite existing option)
 	/// @param x Option value
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& setJpcre2Option(Uint x) {
 		jpcre2_match_opts = x;
 		return *this;
@@ -243,15 +271,47 @@ public:
 
 	/// Set PCRE2 option #match_opts (overwrite existing option)
 	/// @param x Option value
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& setPcre2Option(Uint x) {
 		match_opts = x;
 		return *this;
 	}
 
+	/// Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options.
+	/// After a call to this function #match_opts and #jpcre2_match_opts will be properly set.
+    /// This function does not initialize or re-initialize options.
+    /// If you want to set options from scratch, initialize them to their default values before calling this function.
+    /// @param mod Modifier string
+    /// @param x Whether to add or remove options
+	RegexMatch& chnageModifier(const String& mod, bool x);
+
+    /// Add or remove a JPCRE2 option
+    /// @param opt JPCRE2 option value
+    /// @param x Add the option if it's true, remove otherwise.
+    /// @return Regex&
+    RegexMatch& changeJpcre2Option(Uint opt, bool x) {
+        if(x)
+            jpcre2_match_opts |= opt;
+        else
+            jpcre2_match_opts &= ~opt;
+        return *this;
+    }
+
+    /// Add or remove a PCRE2 option
+    /// @param opt PCRE2 option value
+    /// @param x Add the option if it's true, remove otherwise.
+    /// @return Regex&
+    RegexMatch& changePcre2Option(Uint opt, bool x) {
+        if(x)
+            match_opts |= opt;
+        else
+            match_opts &= ~opt;
+        return *this;
+    }
+
 	/// Set whether to perform global match
 	/// @param x True or False
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& setFindAll(bool x = true) {
 		if (x)
 			jpcre2_match_opts |= FIND_ALL;
@@ -262,7 +322,7 @@ public:
 
 	/// Add option to existing JPCRE2 options #jpcre2_match_opts
 	/// @param x Option value
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& addJpcre2Option(Uint x) {
 		jpcre2_match_opts |= x;
 		return *this;
@@ -270,39 +330,30 @@ public:
 
 	/// Add option to existing PCRE2 options #match_opts
 	/// @param x Option value
-	/// @return *this
+	/// @return RegexMatch&
 	RegexMatch& addPcre2Option(Uint x) {
 		match_opts |= x;
 		return *this;
 	}
 
-	/// Remove option from existing JPCRE2 option #jpcre2_match_opts
-	/// @param x Option value
-	/// @return *this
-	RegexMatch& removeJpcre2Option(Uint x) {
-		jpcre2_match_opts &= ~x;
-		return *this;
-	}
-
-	/// Remove option from existing PCRE2 option #match_opts
-	/// @param x Option value
-	/// @return *this
-	RegexMatch& removePcre2Option(Uint x) {
-		match_opts &= ~x;
-		return *this;
-	}
-
-	/// Return the number of matches, store the match results in the specified vectors (#vec_num, #vec_nas, #vec_ntn)
+	/// Store match result in vectors and return the number of matches.
+    /// Clear the specified vectors (#vec_num, #vec_nas, #vec_ntn) and re-fill them with match results,
+    /// then return the match count.
+    ///
+    /// The size of each vectors should be equal to the match count.
+    /// The return value is guaranteed to give you the right match count.
 	/**
+     * @throw Regex::error_number Throws exception (error number) if error occurs during match.
 	 * @return Number of matches found
-	 * @see SIZE_T match(const String& s)
-	 * @see SIZE_T match(const String& s, const String& mod)
+	 * @see SIZE_T Regex::match(const String& s)
+	 * @see SIZE_T Regex::match(const String& s, const String& mod)
 	 * */
 	SIZE_T match(void);
 };
 
 /** @class RegexReplace
- *  Performs regex replace on a string.
+ *  Provides the RegexReplace::replace() function to perform regex replace on a string.
+ * 
  *  Provides chained methods to set various options.
  *
  *  All constructors of this class are private.
@@ -314,19 +365,18 @@ private:
 	Regex* re;                  ///< This is used to access private members in Regex.
 
 	String r_subject;           ///< Subject string for replace
-	String r_modifier;          ///< Modifier string for replace
 	String r_replw;             ///< Replacement string i.e string to replace with
 	Uint replace_opts;          ///< PCRE2 options for pcre2_substitute() (PCRE2 internal function)
 	Uint jpcre2_replace_opts;   ///< JPCRE2 options
 	PCRE2_SIZE buffer_size;     ///< Size of the resultant string after replacement
 
-	/// Parse #r_modifier and set equivalent PCRE2 and JPCRE2 options.
-	/// After a call to this function #replace_opts and #jpcre2_replace_opts will be properly set.
-	void parseReplacementOpts(void);
-
 	/// Initialize class variables
 	void init_vars() {
-		replace_opts = jpcre2_replace_opts = 0;
+        ///This enables returning the required length of string
+        replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
+        ///in case substitute fails due to insufficient memory. It is required to try again with the correct amount of
+        ///memory allocation.
+        jpcre2_replace_opts = 0;
 		buffer_size = SUBSTITUTE_RESULT_INIT_SIZE;
 	}
 
@@ -354,7 +404,7 @@ public:
 
 	/** Set the subject string #r_subject
 	 * @param s Subject string
-	 * @return *this
+	 * @return RegexReplace&
 	 * */
 	RegexReplace& setSubject(const String& s) {
 		r_subject = s;
@@ -363,26 +413,26 @@ public:
 
 	/** Set the replacement string #r_replw
 	 * @param s String to replace with
-	 * @return *this
+	 * @return RegexReplace&
 	 * */
 	RegexReplace& setReplaceWith(const String& s) {
 		r_replw = s;
 		return *this;
 	}
 
-	/** Set the modifier string #r_modifier (overwrites existing JPCRE2 and PCRE2 option).
+	/** Set the modifier string (overwrites existing JPCRE2 and PCRE2 option).
 	 * @param s Modifier string
-	 * @return *this
+	 * @return RegexReplace&
 	 * */
 	RegexReplace& setModifier(const String& s) {
-		replace_opts = jpcre2_replace_opts = 0;
-		r_modifier = s;
-		return *this;
+		replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; //must not be initialized to 0
+        jpcre2_replace_opts = 0;
+        return changeModifier(s, true);
 	}
 
 	/** Set the initial buffer size (#buffer_size) to be allocated for replaced string (used by PCRE2)
 	 * @param x Buffer size
-	 * @return *this
+	 * @return RegexReplace&
 	 * */
 	RegexReplace& setBufferSize(PCRE2_SIZE x) {
 		buffer_size = x;
@@ -391,7 +441,7 @@ public:
 
 	/** Set JPCRE2 option #jpcre2_replace_opts (overwrite existing option)
 	 * @param x Option value
-	 * @return *this
+	 * @return RegexReplace&
 	 * */
 	RegexReplace& setJpcre2Option(Uint x) {
 		jpcre2_replace_opts = x;
@@ -400,16 +450,49 @@ public:
 
 	/** Set PCRE2 option #replace_opts (overwrite existing option)
 	 * @param x Option value
-	 * @return *this
+	 * @return RegexReplace&
 	 * */
 	RegexReplace& setPcre2Option(Uint x) {
-		replace_opts = x;
+		replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH | x;
 		return *this;
 	}
 
+	/// Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options.
+	/// After a call to this function #replace_opts and #jpcre2_replace_opts will be properly set.
+    /// This function does not initialize or re-initialize options.
+    /// If you want to set options from scratch, initialize them to their defaults before calling this function.
+    /// @param mod Modifier string
+    /// @param x Whether to add or remove option
+    RegexReplace& changeModifier(const String& mod, bool x);
+    
+    /// Add or remove a JPCRE2 option
+    /// @param opt JPCRE2 option value
+    /// @param x Add the option if it's true, remove otherwise.
+    /// @return Regex&
+    RegexReplace& changeJpcre2Option(Uint opt, bool x) {
+        if(x)
+            jpcre2_replace_opts |= opt;
+        else
+            jpcre2_replace_opts &= ~opt;
+        return *this;
+    }
+
+    /// Add or remove a PCRE2 option
+    /// @param opt PCRE2 option value
+    /// @param x Add the option if it's true, remove otherwise.
+    /// @return Regex&
+    RegexReplace& changePcre2Option(Uint opt, bool x) {
+        if(x)
+            replace_opts |= opt;
+        else
+            replace_opts &= ~opt;
+            replace_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; //It's important, this option must not be removed
+        return *this;
+    }
+
 	/** Add specified JPCRE2 option to existing options #jpcre2_replace_opts
 	 * @param x Option value
-	 * @return *this
+	 * @return RegexReplace&
 	 * */
 	RegexReplace& addJpcre2Option(Uint x) {
 		jpcre2_replace_opts |= x;
@@ -418,33 +501,18 @@ public:
 
 	/** Add specified PCRE2 option to existing options #replace_opts
 	 * @param x Option value
-	 * @return *this
+	 * @return RegexReplace&
 	 * */
 	RegexReplace& addPcre2Option(Uint x) {
 		replace_opts |= x;
 		return *this;
 	}
 
-	/** Remove JPCRE2 option from existing options #jpcre2_replace_opts
-	 * @param x Option value
-	 * @return *this
-	 * */
-	RegexReplace& removeJpcre2Option(Uint x) {
-		jpcre2_replace_opts &= ~x;
-		return *this;
-	}
-
-	/** Remove PCRE2 option from existing options #replace_opts
-	 * @param x Option value
-	 * @return *this
-	 * */
-	RegexReplace& removePcre2Option(Uint x) {
-		replace_opts &= ~x;
-		return *this;
-	}
-
 	/** Returns the resultant string after performing regex replace.
-	 *@return Replaced string
+     * 
+     * Retrieves subject string, replacement string, modifier and other options from class variables.
+     * @throw Regex::error_number Throws exception (error number) if error occurs.
+	 * @return Replaced string
 	 * */
 	String replace(void);
 };
@@ -466,14 +534,13 @@ private:
 	RegexReplace *rr;	        ///< Pointer to RegexReplace object
 
 	String pat_str;		        ///< Pattern string
-	String modifier;	        ///< Modifier string
 	pcre2_code *code;	        ///< Pointer to compiled pattern
 	int error_number;	        ///< Error number
 	PCRE2_SIZE error_offset;	///< Error offset
 	Uint compile_opts;          ///< Compile options for PCRE2 (used by PCRE2 internal function pcre2_compile())
 	Uint jpcre2_compile_opts;	///< Compile options specific to JPCRE2
 	String mylocale;	        ///< Locale as a string
-	String current_warning_msg;	///< current warning message
+	String current_warning_msg;	///< Current warning message
 
 	/// Initialize class variables
 	void init_vars() {
@@ -502,7 +569,7 @@ private:
 	void init(const String& re, const String& mod) {
 		init_vars();
 		pat_str = re;
-		modifier = mod;
+        changeModifier(mod, true);
 	}
 
 	/// @overload
@@ -522,10 +589,6 @@ private:
 			pcre2_code_free(code);
 	}
 
-	/// Parse #modifier and set equivalent PCRE2 and JPCRE2 options.
-	/// After a call to this function #compile_opts and #jpcre2_compile_opts will be properly set.
-	void parseCompileOpts(void);
-
 	/// Define RegexMatch as friends. It needs to access the compiled pattern which is a private property of this class.
 	friend class RegexMatch;
 	/// Define RegexReplace as friends. It needs to access the compiled pattern which is a private property of this class.
@@ -535,7 +598,6 @@ private:
 	void shallowCopy(const Regex& r) {
 		pat_str = r.pat_str;
 		mylocale = r.mylocale;
-		modifier = r.modifier;
 		error_number = r.error_number;
 		error_offset = r.error_offset;
 		compile_opts = r.compile_opts;
@@ -544,18 +606,21 @@ private:
 	}
 
 	/// Do a deep copy of #rm, #rr and #code
+    /// Copy compiled pattern to a new location, free the old memory and set the new pointer to #code
+    /// @throw Regex::error_number Throws exception (error number) if error occurs
 	void deepCopy(const Regex& r);
 
 public:
 
 	/// Default Constructor.
 	/// Initializes all class variables to defaults.
-	/// Does not perform any compilation.
+	/// Does not perform any compilation, and thus not expected to throw any exception.
 	Regex() {
 		init();
 	}
 
-	/** Compiles pattern with initialization.
+	/** Compile pattern with initialization.
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param re Pattern string
 	 * */
 	Regex(const String& re) {
@@ -565,7 +630,8 @@ public:
 	/** @overload
 	 *
 	 *
-	 *  Compiles pattern.
+	 *  Compile pattern.
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param re Pattern string
 	 *  @param mod Modifier string
 	 * */
@@ -576,7 +642,8 @@ public:
 	/** @overload
 	 *
 	 *
-	 *  Compiles pattern.
+	 *  Compile pattern.
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param re Pattern string
 	 *  @param pcre2_opts PCRE2 option value
 	 * */
@@ -588,6 +655,7 @@ public:
 	 *
 	 *
 	 *  Compiles pattern.
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param re Pattern string
 	 *  @param pcre2_opts	PCRE2 option value
 	 *  @param opt_bits		JPCRE2 option value
@@ -597,7 +665,8 @@ public:
 	}
 
 	/// @overload
-	/// Copy constructor\. Compiles pattern and Performs a deep copy.
+	/// Copy constructor\. Performs a deep copy.
+    /// @throw #error_number Throws exception (error number) if error occurs
 	/// @param r const Regex&
 	Regex(const Regex& r) {
 		///shallow copy must be performed **before** deep copy
@@ -619,6 +688,7 @@ public:
 	/// JIT memory was not copied by pcre2_code_copy().
 	///
 	/// **Memory management:** Old JIT memory will be released along with the old compiled code.
+    /// @throw #error_number Throws exception (error number) if error occurs
 	/// @param r const Regex&
 	/// @return *this
 	Regex& operator=(const Regex& r) {
@@ -638,7 +708,8 @@ public:
 		delete rr;
 	}
 
-	/** Reset all class variables to its default (initial) state
+	/** Reset all class variables to its default (initial) state.
+     * Release any memory used by existing compiled pattern.
 	 * @return *this
 	 * */
 	Regex& reset() {
@@ -648,11 +719,25 @@ public:
 	}
 
 	/** Get modifier string
-	 *  @return #modifier
+     *  Calculate modifier string from #compile_opts and #jpcre2_compile_opts and return it
+     * 
+     *  Note that, this only gives you the modifers used for pattern compilation. 
+     *  There is no such function to get the action modifiers and neither there's any need for it as
+     *  action modifiers are required to be passed anew with every action. On the other hand,
+     *  you may set some modifiers to the Regex object and forget about it later or you may want
+     *  to get the existing modifier and compile the regex again by modifying the existing ones.
+     * 
+     *  Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized
+     *  as long as you don't do that explicitly. Calling Regex::setModifier will re-set them.
+     * 
+     *  **Mixed or combined modifier**
+     *  Some modifier may include other modifiers i.e they have the same meaning of some modifiers
+     *  combined together. For example, the 'n' modifier icludes the 'u' modifer and together they
+     *  are equivalent to `PCRE2_UTF | PCRE2_UCP`. When you set a modifier like this, both options
+     *  get set, and when you remove (`Regex::changeModifer(mod, false)` the 'n', both will get removed
+	 *  @return Calculated modifier string
 	 * */
-	String getModifier() {
-		return modifier;
-	}
+	String getModifier();
 
 	/** Get pattern string
 	 *  @return #pat_str
@@ -726,25 +811,25 @@ public:
 
 	/// Set the Pattern string #pat_str
 	/// @param re Pattern string
-	/// @return *this
+	/// @return Regex&
 	Regex& setPattern(const String& re) {
 		pat_str = re;
 		return *this;
 	}
 
-	/// Set the modifier #modifier (overwrite existing JPCRE2 and PCRE2 option).
-	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then sets the modifier.
+	/// Set the modifier (overwrite existing JPCRE2 and PCRE2 option).
+	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets equivalent PCRE2 and JPCRE2 options
 	/// @param x Modifier string
-	/// @return *this
+	/// @return Regex&
 	Regex& setModifier(const String& x) {
-		compile_opts = jpcre2_compile_opts = 0;
-		modifier = x;
-		return *this;
+		compile_opts = 0;
+        jpcre2_compile_opts = 0;
+		return changeModifier(x, true);
 	}
 
 	/// Set the locale #mylocale.
 	/// @param x Locale string
-	/// @return *this
+	/// @return Regex&
 	Regex& setLocale(const String& x) {
 		mylocale = x;
 		return *this;
@@ -752,23 +837,55 @@ public:
 
 	/// Set JPCRE2 option #jpcre2_compile_opts (overwrites existing option)
 	/// @param x Option value
-	/// @return *this
+	/// @return Regex&
 	Regex& setJpcre2Option(Uint x) {
 		jpcre2_compile_opts = x;
 		return *this;
 	}
-
+    
 	/// Set PCRE2 option #compile_opts (overwrites existing option)
 	/// @param x Option value
-	/// @return *this
+	/// @return Regex&
 	Regex& setPcre2Option(Uint x) {
 		compile_opts = x;
 		return *this;
 	}
 
+	/// Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options.
+	/// After a call to this function #compile_opts and #jpcre2_compile_opts will be properly set.
+    /// This function does not initialize or re-initialize options.
+    /// If you want to set options from scratch, initialize them to 0 before calling this function.
+    /// @param mod Modifier string
+    /// @param x Whether to add or remove option
+    Regex& changeModifier(const String& mod, bool x);
+
+    /// Add or remove a JPCRE2 option
+    /// @param opt JPCRE2 option value
+    /// @param x Add the option if it's true, remove otherwise.
+    /// @return Regex&
+    Regex& changeJpcre2Option(Uint opt, bool x) {
+        if(x)
+            jpcre2_compile_opts |= opt;
+        else
+            jpcre2_compile_opts &= ~opt;
+        return *this;
+    }
+
+    /// Add or remove a PCRE2 option
+    /// @param opt PCRE2 option value
+    /// @param x Add the option if it's true, remove otherwise.
+    /// @return Regex&
+    Regex& changePcre2Option(Uint opt, bool x) {
+        if(x)
+            compile_opts |= opt;
+        else
+            compile_opts &= ~opt;
+        return *this;
+    }
+
 	/// Add option to existing JPCRE2 options #jpcre2_compile_opts
 	/// @param x Option value
-	/// @return *this
+	/// @return Regex&
 	Regex& addJpcre2Option(Uint x) {
 		jpcre2_compile_opts |= x;
 		return *this;
@@ -776,25 +893,9 @@ public:
 
 	/// Add option to existing PCRE2 options #compile_opts
 	/// @param x Option value
-	/// @return *this
+	/// @return Regex&
 	Regex& addPcre2Option(Uint x) {
 		compile_opts |= x;
-		return *this;
-	}
-
-	/// Remove option from existing JPCRE2 option #jpcre2_compile_opts
-	/// @param x Option value
-	/// @return *this
-	Regex& removeJpcre2Option(Uint x) {
-		jpcre2_compile_opts &= ~x;
-		return *this;
-	}
-
-	/// Remove option from existing PCRE2 option #compile_opts
-	/// @param x Option value
-	/// @return *this
-	Regex& removePcre2Option(Uint x) {
-		compile_opts &= ~x;
 		return *this;
 	}
 
@@ -802,11 +903,12 @@ public:
 	 * Use options from class variables.
 	 *
 	 * Prefer using one of its variants when compiling pattern for an already declared Regex object.
-	 * An use of
+	 * A use of
 	 * ```cppp
 	 * re = Regex("pattern");
 	 * ```
 	 * (or such) is discouraged. see `Regex::operator=(const Regex& r)` for details.
+     * @throw #error_number Throws exception (error number) if error occurs
 	 * @see void compile(const String& re, Uint po, Uint jo)
 	 * @see void compile(const String& re, Uint po)
 	 * @see void compile(const String& re, const String& mod)
@@ -818,6 +920,7 @@ public:
 	 *
 	 *
 	 *  Set the specified parameters, then compile the pattern using information from class variables.
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param re Pattern string
 	 *  @param po PCRE2 option
 	 *  @param jo JPCRE2 option
@@ -831,6 +934,7 @@ public:
 	 *
 	 *
 	 *  Set the specified parameters, then compile the pattern using options from class variables.
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param re Pattern string
 	 *  @param po PCRE2 option
 	 * */
@@ -843,6 +947,7 @@ public:
 	 *
 	 *
 	 *  Set the specified parameters, then compile the pattern using options from class variables.
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param re Pattern string
 	 *  @param mod Modifier string
 	 * */
@@ -855,6 +960,7 @@ public:
 	 *
 	 *
 	 *  Set the specified parameters, then compile the pattern using options from class variables.
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param re Pattern string
 	 * */
 	void compile(const String& re) {
@@ -865,6 +971,7 @@ public:
 	/** Perform regex match.
 	 *  This function takes the parameters, then sets the parameters to RegexMatch class and calls
 	 *  RegexMatch::match() which returns the result
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param s Subject string
 	 *  @param mod Modifier string
 	 *  @return Match count
@@ -874,11 +981,11 @@ public:
 		delete rm;
 		rm = new RegexMatch();
 		rm->re = this;
-		rm->setSubject(s).setModifier(mod);
-		return rm->match();
+		return rm->setSubject(s).setModifier(mod).match();
 	}
 
 	/** @overload
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param s Subject string
 	 *  @return Match count
 	 *  @see RegexMatch::match(const String& s)
@@ -887,14 +994,13 @@ public:
 		delete rm;
 		rm = new RegexMatch();
 		rm->re = this;
-		rm->setSubject(s);
-		return rm->match();
+		return rm->setSubject(s).match();
 	}
 
 	/** Prepare to call RegexMatch::match().
 	 * Other options can be set with the setter functions of RegexMatch class
 	 * in-between the Regex::initMatch() and RegexMatch::match() call.
-	 * @return RegexMatch object
+	 * @return RegexMatch&
 	 * @see RegexMatch::match()
 	 * @see RegexMatch::setSubject(const String& s)
 	 * @see RegexMatch::setModifier(const String& mod)
@@ -912,6 +1018,7 @@ public:
 	/** Perform regex replace.
 	 *  This function takes the parameters, then sets the parameters to RegexReplace class and calls
 	 *  RegexReplace::replace() which returns the result.
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param mains Subject string
 	 *  @param repl String to replace with
 	 *  @param mod Modifier string
@@ -922,11 +1029,11 @@ public:
 		delete rr;
 		rr = new RegexReplace();
 		rr->re = this;
-		rr->setSubject(mains).setReplaceWith(repl).setModifier(mod);
-		return rr->replace();
+		return rr->setSubject(mains).setReplaceWith(repl).setModifier(mod).replace();
 	}
 
 	/** @overload
+     *  @throw #error_number Throws exception (error number) if error occurs
 	 *  @param mains Subject string
 	 *  @param repl String to replace with
 	 *  @return Resultant string after regex replace
@@ -936,14 +1043,13 @@ public:
 		delete rr;
 		rr = new RegexReplace();
 		rr->re = this;
-		rr->setSubject(mains).setReplaceWith(repl);
-		return rr->replace();
+		return rr->setSubject(mains).setReplaceWith(repl).replace();
 	}
 
 	/** Prepare to call RegexReplace::replace().
 	 * Other options can be set with the setter functions of RegexReplace class
 	 * in-between the Regex::initReplace() and RegexReplace::replace() call.
-	 * @return Resultant string after regex replace
+	 * @return RegexReplace&
 	 * @see RegexReplace::replace()
 	 * @see RegexReplace::setSubject(const String& s)
 	 * @see RegexReplace::setModifier(const String& mod)
@@ -956,7 +1062,6 @@ public:
 		rr->re = this;
 		return *rr;
 	}
-
 };
 
 }// jpcre2 namespace

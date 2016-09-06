@@ -1,4 +1,4 @@
-.TH "jpcre2::RegexMatch" 3 "Tue Sep 6 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::RegexMatch" 3 "Tue Sep 6 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -63,7 +63,7 @@ jpcre2::RegexMatch \- Performs regex matching\&.
 .ti -1c
 .RI "\fBSIZE_T\fP \fBmatch\fP (void)"
 .br
-.RI "\fIReturn the number of matches, store the match results in the specified vectors (\fBvec_num\fP, \fBvec_nas\fP, \fBvec_ntn\fP) \fP"
+.RI "\fIStore match result in vectors and return the number of matches\&. \fP"
 .in -1c
 .SS "Private Member Functions"
 
@@ -80,6 +80,10 @@ jpcre2::RegexMatch \- Performs regex matching\&.
 .RI "void \fBgetNamedSubstrings\fP (int namecount, int name_entry_size, PCRE2_SPTR tabptr, pcre2_match_data *match_data)"
 .br
 .RI "\fIPopulate \fBnas_map0\fP and/or \fBntn_map0\fP with named substring and/or name to number mapping\&. \fP"
+.ti -1c
+.RI "void \fBpushMapsIntoVectors\fP (void)"
+.br
+.RI "\fIPush maps into the vectors pointed by \fBvec_num\fP, \fBvec_nas\fP and \fBvec_ntn\fP and thus store match results in them\&. \fP"
 .ti -1c
 .RI "void \fBinit_vars\fP ()"
 .br
@@ -211,7 +215,14 @@ Add option to existing PCRE2 options \fBmatch_opts\fP\&.
 .SS "\fBjpcre2::SIZE_T\fP jpcre2::RegexMatch::match (void)"
 
 .PP
-Return the number of matches, store the match results in the specified vectors (\fBvec_num\fP, \fBvec_nas\fP, \fBvec_ntn\fP) 
+Store match result in vectors and return the number of matches\&. Clear the specified vectors (\fBvec_num\fP, \fBvec_nas\fP, \fBvec_ntn\fP) and re-fill them with match results, then return the match count\&.
+.PP
+The return value is guaranteed to give you the right match count\&. The size of each vectors should be equal to the match count\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBRegex::error_number\fP\fP Throws exception (error number) if error occurs during match\&. 
+.RE
 .PP
 \fBReturns:\fP
 .RS 4
@@ -220,9 +231,9 @@ Number of matches found
 .PP
 \fBSee also:\fP
 .RS 4
-\fBSIZE_T\fP match(const String& s) 
+\fBSIZE_T\fP \fBRegex::match(const String& s)\fP 
 .PP
-\fBSIZE_T\fP match(const String& s, const String& mod) 
+\fBSIZE_T\fP \fBRegex::match(const String& s, const String& mod)\fP 
 .RE
 .PP
 

@@ -10,6 +10,7 @@ var classjpcre2_1_1RegexMatch =
     [ "init_vars", "classjpcre2_1_1RegexMatch.html#a3da6a2319cd577d7f2f10c66dcf59a99", null ],
     [ "match", "classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33", null ],
     [ "parseMatchOpts", "classjpcre2_1_1RegexMatch.html#a5cacfea4b4d3c26307fb10e88e711af3", null ],
+    [ "pushMapsIntoVectors", "classjpcre2_1_1RegexMatch.html#aeeffc8edc43a8e5d1d24ae4055213730", null ],
     [ "removeJpcre2Option", "classjpcre2_1_1RegexMatch.html#a580a64c66ea34153559142928d33d78a", null ],
     [ "removePcre2Option", "classjpcre2_1_1RegexMatch.html#a1405a2d332d1a928ceb67857097be665", null ],
     [ "setFindAll", "classjpcre2_1_1RegexMatch.html#a85bdec86583f800dafcb1aae27f855e7", null ],

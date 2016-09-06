@@ -26,14 +26,18 @@ int main(){
 
     std::cout<<"Enter pattern: ";
     getLine(pat);
-    cp:
-    std::cout<<"Enter compile modifiers (eijmnsuxADJSU): ";
-    getLine(mod);
+    while(true){
+        std::cout<<"Enter compile modifiers (eijmnsuxADJSU): ";
+        getLine(mod);
+        
+        ///Compile pattern
+        try{re.compile(pat,mod);}
+        catch(int e){std::cerr<<re.getErrorMessage(e)<<std::endl;continue;}
+        break;
+    }
     
-    ///Compile pattern
-    try{re.compile(pat,mod);}
-    catch(int e){std::cerr<<re.getErrorMessage(e)<<std::endl;goto cp;}
-           
+    std::cout<<"\nPattern compiled with modifiers: "<<re.getModifier();
+    
     /***************************************************************************************************************
      * Use try catch block to catch any exception and avoid unexpected termination of the program in case of error
      * All jpcre2 exceptions are of type int (integer)
@@ -52,6 +56,7 @@ int main(){
 		getLine(ac_mod);
 		if(subject=="quit")return 0;
 		try{matched=re.initMatch()                                //Invoke the initMatch() function
+                      .setSubject(subject)
 					  .setModifier(ac_mod)                        //Set various options
 					  .setNumberedSubstringVector(&vec_num0)      //...
 					  .setNamedSubstringVector(&vec_nas0)         //...

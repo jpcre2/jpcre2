@@ -219,7 +219,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="96" column="1" bodyfile="src/jpcre2.cpp" bodystart="49" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5" compoundref="jpcre2_8hpp" startline="328" endline="331">jpcre2::RegexReplace::init_vars</referencedby>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5" compoundref="jpcre2_8hpp" startline="344" endline="347">jpcre2::RegexReplace::init_vars</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -249,7 +249,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="98" column="1" bodyfile="src/jpcre2.cpp" bodystart="51" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" compoundref="jpcre2_8hpp" startline="479" endline="488">jpcre2::Regex::init_vars</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" compoundref="jpcre2_8hpp" startline="497" endline="506">jpcre2::Regex::init_vars</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>

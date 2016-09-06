@@ -38,7 +38,7 @@
   <td id="projectlogo"><img alt="Logo" src="thumb0.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">JPCRE2
-   &#160;<span id="projectnumber">10.25.01</span>
+   &#160;<span id="projectnumber">10.25.02</span>
    </div>
    <div id="projectbrief">C++ wrapper of PCRE2 library</div>
   </td>
@@ -134,8 +134,8 @@ $(document).ready(function(){initNavTree('classjpcre2_1_1RegexMatch.html','');})
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classjpcre2_1_1RegexMatch__coll__graph.png" border="0" usemap="#jpcre2_1_1RegexMatch_coll__map" alt="Collaboration graph"/></div>
 <map name="jpcre2_1_1RegexMatch_coll__map" id="jpcre2_1_1RegexMatch_coll__map">
-<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a..." alt="" coords="37,556,192,1015"/>
-<area shape="rect" id="node3" href="classjpcre2_1_1RegexReplace.html" title="Performs regex replace on a string. " alt="" coords="27,1077,202,1448"/>
+<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a..." alt="" coords="37,571,192,1029"/>
+<area shape="rect" id="node3" href="classjpcre2_1_1RegexReplace.html" title="Performs regex replace on a string. " alt="" coords="27,1092,202,1463"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -178,7 +178,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a1405a2d332d1a928ceb67857097be665"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove option from existing PCRE2 option <a class="el" href="classjpcre2_1_1RegexMatch.html#a697d5731007350b0f20d2018fcfafa90" title="PCRE2 options for pcre2_match() (PCRE2 internal function) ">match_opts</a>.  <a href="#a1405a2d332d1a928ceb67857097be665">More...</a><br /></td></tr>
 <tr class="separator:a1405a2d332d1a928ceb67857097be665"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5868aef3a146594ea1ebef34d122bb33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejpcre2.html#a2aac465ddcb123560c7c8215dd69246c">SIZE_T</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33">match</a> (void)</td></tr>
-<tr class="memdesc:a5868aef3a146594ea1ebef34d122bb33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of matches, store the match results in the specified vectors (<a class="el" href="classjpcre2_1_1RegexMatch.html#a836705e0444568c78abaab4c8e351335" title="Pointer to vector that will store the numbered substring maps. ">vec_num</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a812b57dc08fdc0caa93a1b508ef8242c" title="Pointer to vector that will store the named substring maps. ">vec_nas</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a86ef413ab6d237972af858be26ff77f7" title="Pointer to vector that will store the name to number maps. ">vec_ntn</a>)  <a href="#a5868aef3a146594ea1ebef34d122bb33">More...</a><br /></td></tr>
+<tr class="memdesc:a5868aef3a146594ea1ebef34d122bb33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store match result in vectors and return the number of matches.  <a href="#a5868aef3a146594ea1ebef34d122bb33">More...</a><br /></td></tr>
 <tr class="separator:a5868aef3a146594ea1ebef34d122bb33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
@@ -194,6 +194,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexMatch.html#af159e8d080ecd74f63ec67b1d5a27772">getNamedSubstrings</a> (int namecount, int name_entry_size, PCRE2_SPTR tabptr, pcre2_match_data *match_data)</td></tr>
 <tr class="memdesc:af159e8d080ecd74f63ec67b1d5a27772"><td class="mdescLeft">&#160;</td><td class="mdescRight">Populate <a class="el" href="classjpcre2_1_1RegexMatch.html#a36749947847f266de03c3991ac88a694" title="Pointer to map that will store named substrings temporarily. ">nas_map0</a> and/or <a class="el" href="classjpcre2_1_1RegexMatch.html#a1c790683d023313967ce80db6045419f" title="Pointer to map that will store name to number mapping temporarily. ">ntn_map0</a> with named substring and/or name to number mapping. <br /></td></tr>
 <tr class="separator:af159e8d080ecd74f63ec67b1d5a27772"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeffc8edc43a8e5d1d24ae4055213730"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeeffc8edc43a8e5d1d24ae4055213730"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexMatch.html#aeeffc8edc43a8e5d1d24ae4055213730">pushMapsIntoVectors</a> (void)</td></tr>
+<tr class="memdesc:aeeffc8edc43a8e5d1d24ae4055213730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push maps into the vectors pointed by <a class="el" href="classjpcre2_1_1RegexMatch.html#a836705e0444568c78abaab4c8e351335" title="Pointer to vector that will store the numbered substring maps. ">vec_num</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a812b57dc08fdc0caa93a1b508ef8242c" title="Pointer to vector that will store the named substring maps. ">vec_nas</a> and <a class="el" href="classjpcre2_1_1RegexMatch.html#a86ef413ab6d237972af858be26ff77f7" title="Pointer to vector that will store the name to number maps. ">vec_ntn</a> and thus store match results in them. <br /></td></tr>
+<tr class="separator:aeeffc8edc43a8e5d1d24ae4055213730"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3da6a2319cd577d7f2f10c66dcf59a99"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3da6a2319cd577d7f2f10c66dcf59a99"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexMatch.html#a3da6a2319cd577d7f2f10c66dcf59a99">init_vars</a> ()</td></tr>
 <tr class="memdesc:a3da6a2319cd577d7f2f10c66dcf59a99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize class variables. <br /></td></tr>
@@ -427,11 +431,18 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
       </table>
 </div><div class="memdoc">
 
-<p>Return the number of matches, store the match results in the specified vectors (<a class="el" href="classjpcre2_1_1RegexMatch.html#a836705e0444568c78abaab4c8e351335" title="Pointer to vector that will store the numbered substring maps. ">vec_num</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a812b57dc08fdc0caa93a1b508ef8242c" title="Pointer to vector that will store the named substring maps. ">vec_nas</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a86ef413ab6d237972af858be26ff77f7" title="Pointer to vector that will store the name to number maps. ">vec_ntn</a>) </p>
+<p>Store match result in vectors and return the number of matches. </p>
+<p>Clear the specified vectors (<a class="el" href="classjpcre2_1_1RegexMatch.html#a836705e0444568c78abaab4c8e351335" title="Pointer to vector that will store the numbered substring maps. ">vec_num</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a812b57dc08fdc0caa93a1b508ef8242c" title="Pointer to vector that will store the named substring maps. ">vec_nas</a>, <a class="el" href="classjpcre2_1_1RegexMatch.html#a86ef413ab6d237972af858be26ff77f7" title="Pointer to vector that will store the name to number maps. ">vec_ntn</a>) and re-fill them with match results, then return the match count.</p>
+<p>The return value is guaranteed to give you the right match count. The size of each vectors should be equal to the match count. </p><dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classjpcre2_1_1Regex.html#a91b7b795c9efe76ef4e015325ff33f1c" title="Error number. ">Regex::error_number</a></td><td>Throws exception (error number) if error occurs during match. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>Number of matches found </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacejpcre2.html#a2aac465ddcb123560c7c8215dd69246c" title="Used for match count and vector size. ">SIZE_T</a> match(const String&amp; s) </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacejpcre2.html#a2aac465ddcb123560c7c8215dd69246c" title="Used for match count and vector size. ">SIZE_T</a> <a class="el" href="classjpcre2_1_1Regex.html#a9ffbb6aa54cb97125f1b4211bc1d09a5" title="This is an overloaded member function, provided for convenience. It differs from the above function o...">Regex::match(const String&amp; s)</a> </dd>
 <dd>
-<a class="el" href="namespacejpcre2.html#a2aac465ddcb123560c7c8215dd69246c" title="Used for match count and vector size. ">SIZE_T</a> match(const String&amp; s, const String&amp; mod) </dd></dl>
+<a class="el" href="namespacejpcre2.html#a2aac465ddcb123560c7c8215dd69246c" title="Used for match count and vector size. ">SIZE_T</a> <a class="el" href="classjpcre2_1_1Regex.html#ab93775a93a0a537d09b9e9ab4a5a3894" title="Perform regex match. ">Regex::match(const String&amp; s, const String&amp; mod)</a> </dd></dl>
 
 <p>References <a class="el" href="namespacejpcre2.html#a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c">jpcre2::FIND_ALL</a>.</p>
 

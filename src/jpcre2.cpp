@@ -51,7 +51,67 @@ const jpcre2::String jpcre2::LOCALE_NONE = "JPCRE2_NONE";                       
 const jpcre2::String jpcre2::LOCALE_DEFAULT = LOCALE_NONE;                          ///< Default local to be used
 const jpcre2::String jpcre2::JIT_ERROR_MESSAGE_PREFIX = "JIT compilation failed! "; ///< Prefix to be added to JIT error message
 
+
+/// Define modifiers for compile
+/// Every modifier needs to be unique in this block
+const jpcre2::String jpcre2::MOD::C_N("eijmnsuxADJU");
+const jpcre2::Uint jpcre2::MOD::C_V[12] = { PCRE2_MATCH_UNSET_BACKREF,                  ///< Modifier e
+                                            PCRE2_CASELESS,                             ///< Modifier i
+                                            PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, ///< Modifier j
+                                            PCRE2_MULTILINE,                            ///< Modifier m
+                                            PCRE2_UTF | PCRE2_UCP,                      ///< Modifier n (includes u)
+                                            PCRE2_DOTALL,                               ///< Modifier s
+                                            PCRE2_UTF,                                  ///< Modifier u
+                                            PCRE2_EXTENDED,                             ///< Modifier x
+                                            PCRE2_ANCHORED,                             ///< Modifier A
+                                            PCRE2_DOLLAR_ENDONLY,                       ///< Modifier D
+                                            PCRE2_DUPNAMES,                             ///< Modifier J
+                                            PCRE2_UNGREEDY                              ///< Modifier U
+                                          };
+
+
+const jpcre2::String jpcre2::MOD::CJ_N("S~&");
+const jpcre2::Uint jpcre2::MOD::CJ_V[3] = { JIT_COMPILE,                                ///< Modifier S
+                                            ERROR_ALL,                                  ///< Modifier ~
+                                            VALIDATE_MODIFIER                           ///< Modifier &
+                                          };
+
+
+
+/// Define modifiers for replace
+/// Every modifier needs to be unique in this block
+const jpcre2::String jpcre2::MOD::R_N("eEgx");
+const jpcre2::Uint jpcre2::MOD::R_V[4] = { PCRE2_SUBSTITUTE_UNSET_EMPTY,                ///< Modifier  e
+                                           PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   ///< Modifier E (includes e)
+                                           PCRE2_SUBSTITUTE_GLOBAL,                     ///< Modifier g
+                                           PCRE2_SUBSTITUTE_EXTENDED                    ///< Modifier x
+                                         };
+
+
+const jpcre2::String jpcre2::MOD::RJ_N("~&");
+const jpcre2::Uint jpcre2::MOD::RJ_V[2] = { ERROR_ALL,                                  ///< Modifier ~
+                                            VALIDATE_MODIFIER                           ///< Modifier &
+                                          };
+
+
+/// Define modifiers for match
+/// Every modifier needs to be unique in this block
+const jpcre2::String jpcre2::MOD::M_N("A");
+const jpcre2::Uint jpcre2::MOD::M_V[1] = { PCRE2_ANCHORED                               ///< Modifier  A
+                                         };
+
+const jpcre2::String jpcre2::MOD::MJ_N("g~&");
+const jpcre2::Uint jpcre2::MOD::MJ_V[3] = { FIND_ALL,                                   ///< Modifier  g
+                                            ERROR_ALL,                                  ///< Modifier  ~
+                                            VALIDATE_MODIFIER                           ///< Modifier  &
+                                          };
+
 ///////// utils namespace
+
+/// Used throghout JPCRE2 to throw exception
+void jpcre2::utils::throwException(int x){
+    throw(x);
+}
 
 jpcre2::String jpcre2::utils::toString(const char* a) {
 	if (a)
@@ -86,9 +146,27 @@ jpcre2::String jpcre2::utils::getPcre2ErrorMessage(int err_num) {
 	pcre2_get_error_message(err_num, buffer, sizeof(buffer));
 	return toString((PCRE2_UCHAR*) buffer);
 }
+
 /////////
 
 ///////// Regex class
+
+jpcre2::String jpcre2::Regex::getModifier(){
+    //Calculate PCRE2 mod
+    String temp("");
+    for(SIZE_T i = 0; i < MOD::C_N.length(); ++i){
+        if( (MOD::C_V[i] & compile_opts) != 0 && 
+            (MOD::C_V[i] & compile_opts) == MOD::C_V[i]) //One option can include other
+            temp += MOD::C_N[i];
+    }
+    //Calculate JPCRE2 mod
+    for(SIZE_T i = 0; i < MOD::CJ_N.length(); ++i){
+        if( (MOD::CJ_V[i] & jpcre2_compile_opts) != 0 && 
+            (MOD::CJ_V[i] & jpcre2_compile_opts) == MOD::CJ_V[i]) //One option can include other
+            temp += MOD::CJ_N[i];
+    }
+    return temp;
+}
 
 jpcre2::String jpcre2::Regex::getErrorMessage(int err_num, PCRE2_SIZE err_off) {
 	if (err_num == ERROR::INVALID_MODIFIER) {
@@ -103,20 +181,20 @@ jpcre2::String jpcre2::Regex::getErrorMessage(int err_num, PCRE2_SIZE err_off) {
 }
 
 void jpcre2::Regex::deepCopy(const Regex& r) {
-	//Now copy r.code if it is non-null
+	//Copy r.code if it is non-null
 	if (r.code) {
-		freeRegexMemory();  //first release memory if it is non-NULL
-		//copy only if code is non-null
+        //First release memory of code if it is non-NULL
+		freeRegexMemory();
+		//Copy only if code is non-null
 		code = pcre2_code_copy(r.code);
-		//pcre2_code_copy doesn't copy JIT memory
-		//JIT compilation is needed
+		//pcre2_code_copy doesn't copy JIT memory, JIT compilation is needed
 		if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
-			//perform jit compilation:
+			//Perform JIT compilation:
 			int jit_ret = pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
 			if (jit_ret != 0) {
 				if ((jpcre2_compile_opts & ERROR_ALL) != 0) {
 					error_number = error_offset = ERROR::JIT_COMPILE_FAILED;
-					throw((int) ERROR::JIT_COMPILE_FAILED);
+					utils::throwException(ERROR::JIT_COMPILE_FAILED);
 				} else
 					current_warning_msg = JIT_ERROR_MESSAGE_PREFIX
 							+ utils::getPcre2ErrorMessage(jit_ret);
@@ -136,66 +214,40 @@ void jpcre2::Regex::deepCopy(const Regex& r) {
 	delete r.rr;
 }
 
-void jpcre2::Regex::parseCompileOpts() {
-	///parse modifiers
-	for (SIZE_T i = 0; i < modifier.length(); ++i) {
-		switch (modifier[i]) {
-		case 'e':
-			compile_opts |= PCRE2_MATCH_UNSET_BACKREF;
-			break;
-		case 'i':
-			compile_opts |= PCRE2_CASELESS;
-			break;
-		case 'j':
-			compile_opts |= PCRE2_ALT_BSUX ///\u \U \x will act as javascript standard
-			| PCRE2_MATCH_UNSET_BACKREF;
-			break; ///unset back-references will act as javascript std.
-		case 'm':
-			compile_opts |= PCRE2_MULTILINE;
-			break;
-		case 'n':
-			compile_opts |= PCRE2_UTF | PCRE2_UCP;
-			break;
-		case 's':
-			compile_opts |= PCRE2_DOTALL;
-			break;
-		case 'u':
-			compile_opts |= PCRE2_UTF;
-			break;
-		case 'x':
-			compile_opts |= PCRE2_EXTENDED;
-			break;
-		case 'A':
-			compile_opts |= PCRE2_ANCHORED;
-			break;
-		case 'D':
-			compile_opts |= PCRE2_DOLLAR_ENDONLY;
-			break;
-		case 'J':
-			compile_opts |= PCRE2_DUPNAMES;
-			break;
-		case 'S':
-			jpcre2_compile_opts |= JIT_COMPILE;
-			break;    ///Optimization opt
-		case 'U':
-			compile_opts |= PCRE2_UNGREEDY;
-			break;
-		default:
-			if ((jpcre2_compile_opts & VALIDATE_MODIFIER) != 0) {
-				error_number = error_offset = (int) modifier[i];
-				throw((int) ERROR::INVALID_MODIFIER);
-			}
-			break; ///break is needed
-		}
+
+jpcre2::Regex& jpcre2::Regex::changeModifier(const String& mod, bool x) {
+	//loop through mod
+	for (SIZE_T i = 0; i < mod.length(); ++i) {
+        //First check for JPCRE2 mods
+        for(SIZE_T j = 0; j < MOD::CJ_N.length(); ++j){
+            if(MOD::CJ_N[j] == mod[i]) {
+                changeJpcre2Option(MOD::CJ_V[j], x);
+                goto endfor;
+            }
+        }
+        //Now check for PCRE2 mods
+        for(SIZE_T j = 0; j< MOD::C_N.length(); ++j){
+            if(MOD::C_N[j] == mod[i]){
+                changePcre2Option(MOD::C_V[j], x);
+                goto endfor;
+            }
+        }
+        //Modifier didn't match, invalid modifier error
+        if((jpcre2_compile_opts & VALIDATE_MODIFIER) != 0 || (jpcre2_compile_opts & ERROR_ALL) != 0) {
+            error_number = error_offset = (int) mod[i];
+            utils::throwException(ERROR::INVALID_MODIFIER);
+        }
+        //If exception wasn't thrown, add to warning message
+        current_warning_msg = getErrorMessage(ERROR::INVALID_MODIFIER, mod[i]);
+        
+        endfor:;
 	}
+    return *this;
 }
 
 void jpcre2::Regex::compile() {
 	///Get c_str of pattern
 	PCRE2_SPTR c_pattern = (PCRE2_SPTR) pat_str.c_str();
-
-	///populate compile_opts
-	parseCompileOpts();
 
 	/*************************************************************************
 	 * Now we are going to compile the regular expression pattern, and handle *
@@ -222,7 +274,7 @@ void jpcre2::Regex::compile() {
 	if (code == 0) {
 		/* Compilation failed */
 		//must not free regex memory, the only function has that right is the destroyer.
-		throw(error_number);
+		utils::throwException(error_number);
 	} else if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
 		///perform jit compilation:
 		int jit_ret = pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
@@ -230,7 +282,7 @@ void jpcre2::Regex::compile() {
 			if ((jpcre2_compile_opts & ERROR_ALL) != 0) {
 				error_number = ERROR::JIT_COMPILE_FAILED;
 				error_offset = jit_ret;
-				throw((int) ERROR::JIT_COMPILE_FAILED);
+				utils::throwException(ERROR::JIT_COMPILE_FAILED);
 			} else
 				current_warning_msg = "JIT compile failed: "
 						+ utils::getPcre2ErrorMessage(jit_ret);
@@ -241,35 +293,34 @@ void jpcre2::Regex::compile() {
 
 ///////// RegexReplace class
 
-void jpcre2::RegexReplace::parseReplacementOpts() {
-	///This enables returning the required length of string
-	replace_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
-	///in case substitute fails due to insufficient memory. It is required to try again with the correct amount of
-	///memory allocation.
-	///parse options
-	for (SIZE_T i = 0; i < r_modifier.length(); i++) {
-		switch (r_modifier[i]) {
-		case 'e':
-			replace_opts |= PCRE2_SUBSTITUTE_UNSET_EMPTY;
-			break;
-		case 'E':
-			replace_opts |= PCRE2_SUBSTITUTE_UNKNOWN_UNSET
-					| PCRE2_SUBSTITUTE_UNSET_EMPTY;
-			break;
-		case 'g':
-			replace_opts |= PCRE2_SUBSTITUTE_GLOBAL;
-			break;
-		case 'x':
-			replace_opts |= PCRE2_SUBSTITUTE_EXTENDED;
-			break;
-		default:
-			if ((jpcre2_replace_opts & VALIDATE_MODIFIER) != 0) {
-				re->error_number = re->error_offset = (int) r_modifier[i];
-				throw((int) ERROR::INVALID_MODIFIER);
-			}
-			break;
-		}
+jpcre2::RegexReplace& jpcre2::RegexReplace::changeModifier(const String& mod, bool x) {
+	//loop through mod
+	for (SIZE_T i = 0; i < mod.length(); ++i) {
+        //First check for JPCRE2 mods
+        for(SIZE_T j = 0; j < MOD::RJ_N.length(); ++j){
+            if(MOD::RJ_N[j] == mod[i]) {
+                changeJpcre2Option(MOD::RJ_V[j], x);
+                goto endfor;
+            }
+        }
+        //Now check for PCRE2 mods
+        for(SIZE_T j = 0; j< MOD::R_N.length(); ++j){
+            if(MOD::R_N[j] == mod[i]){
+                changePcre2Option(MOD::R_V[j], x);
+                goto endfor;
+            }
+        }
+        //Modifier didn't match, invalid modifier error
+        if((jpcre2_replace_opts & VALIDATE_MODIFIER) != 0 || (jpcre2_replace_opts & ERROR_ALL) != 0) {
+            re->error_number = re->error_offset = (int) mod[i];
+            utils::throwException(ERROR::INVALID_MODIFIER);
+        }
+        //If exception wasn't thrown, add to warning message
+        re->current_warning_msg = re->getErrorMessage(ERROR::INVALID_MODIFIER, mod[i]);
+        
+        endfor:;
 	}
+    return *this;
 }
 
 jpcre2::String jpcre2::RegexReplace::replace() {
@@ -277,9 +328,6 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 	/// If code is null, there's no need to proceed any further
 	if (re->code == 0)
 		return r_subject;
-
-	///Parse replace_opts from scratch
-	parseReplacementOpts();
 
 	PCRE2_SPTR subject = (PCRE2_SPTR) r_subject.c_str();
 	PCRE2_SIZE subject_length = strlen((char *) subject);
@@ -321,7 +369,7 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 				continue;
 			} else {
 				::free(output_buffer);
-				throw(ret);
+				utils::throwException(ret);
 			}
 		}
 		///If everything's ok exit the loop
@@ -335,24 +383,33 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 
 ///////// RegexMatch class
 
-void jpcre2::RegexMatch::parseMatchOpts() {
-	///parse pcre and jpcre2 options
-	for (SIZE_T i = 0; i < m_modifier.length(); ++i) {
-		switch (m_modifier[i]) {
-		case 'A':
-			match_opts |= PCRE2_ANCHORED;
-			break;
-		case 'g':
-			jpcre2_match_opts |= FIND_ALL;
-			break;
-		default:
-			if ((jpcre2_match_opts & VALIDATE_MODIFIER) != 0) {
-				re->error_number = re->error_offset = (int) m_modifier[i];
-				throw((int) ERROR::INVALID_MODIFIER);
-			}
-			break;
-		}
+jpcre2::RegexMatch& jpcre2::RegexMatch::chnageModifier(const String& mod, bool x) {
+	//loop through mod
+	for (SIZE_T i = 0; i < mod.length(); ++i) {
+        //First check for JPCRE2 mods
+        for(SIZE_T j = 0; j < MOD::MJ_N.length(); ++j){
+            if(MOD::MJ_N[j] == mod[i]) {
+                changeJpcre2Option(MOD::MJ_V[j], x);
+                goto endfor;
+            }
+        }
+        //Now check for PCRE2 mods
+        for(SIZE_T j = 0; j< MOD::M_N.length(); ++j){
+            if(MOD::M_N[j] == mod[i]){
+                changePcre2Option(MOD::M_V[j], x);
+                goto endfor;
+            }
+        }
+        //Modifier didn't match, invalid modifier error
+        if((jpcre2_match_opts & VALIDATE_MODIFIER) != 0 || (jpcre2_match_opts & ERROR_ALL) != 0) {
+            re->error_number = re->error_offset = (int) mod[i];
+            utils::throwException(ERROR::INVALID_MODIFIER);
+        }
+        //If exception wasn't thrown, add to warning message
+        re->current_warning_msg = re->getErrorMessage(ERROR::INVALID_MODIFIER, mod[i]);
+        endfor:;
 	}
+    return *this;
 }
 
 void jpcre2::RegexMatch::getNumberedSubstrings(int rc,
@@ -370,7 +427,7 @@ void jpcre2::RegexMatch::getNumberedSubstrings(int rc,
 		if (ret < 0) {
 			switch (ret) {
 			case PCRE2_ERROR_NOMEMORY:
-				throw(ret);
+				utils::throwException(ret);
 			default:
 				break;   ///Other errors should be ignored
 			}
@@ -402,7 +459,7 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
 		if (ret < 0) {
 			switch (ret) {
 			case PCRE2_ERROR_NOMEMORY:
-				throw(ret);
+				utils::throwException(ret);
 			default:
 				break;   ///Other errors should be ignored
 			}
@@ -423,7 +480,7 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
 		if (ret < 0) {
 			switch (ret) {
 			case PCRE2_ERROR_NOMEMORY:
-				throw(ret);
+				utils::throwException(ret);
 			default:
 				break;   ///Other errors should be ignored
 			}
@@ -452,9 +509,6 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 	/// If code is null, there's no need to proceed any further
 	if (re->code == 0)
 		return 0;
-
-	///Parse options
-	parseMatchOpts();
 
 	PCRE2_SPTR subject = (PCRE2_SPTR) m_subject.c_str();
 	PCRE2_SPTR name_table;
@@ -513,7 +567,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 			 Handle other special cases if you like
 			 */
 		default:
-			throw(rc);
+			utils::throwException(rc);
 		}
 		return count;
 	}
@@ -586,12 +640,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 	}
 
 	///populate vector
-	if (vec_num)
-		vec_num->push_back(*num_map0);
-	if (vec_nas)
-		vec_nas->push_back(*nas_map0);
-	if (vec_ntn)
-		vec_ntn->push_back(*ntn_map0);
+	pushMapsIntoVectors();
 
 	/*************************************************************************
 	 * If the "-g" option was given on the command line, we want to continue  *
@@ -744,12 +793,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 		}
 
 		///populate vector
-		if (vec_num)
-			vec_num->push_back(*num_map0);
-		if (vec_nas)
-			vec_nas->push_back(*nas_map0);
-		if (vec_ntn)
-			vec_ntn->push_back(*ntn_map0);
+		pushMapsIntoVectors();
 
 	} /* End of loop to find second and subsequent matches */
 

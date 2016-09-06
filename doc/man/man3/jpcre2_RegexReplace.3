@@ -1,4 +1,4 @@
-.TH "jpcre2::RegexReplace" 3 "Tue Sep 6 2016" "Version 10.25.01" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::RegexReplace" 3 "Tue Sep 6 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -217,7 +217,12 @@ Remove PCRE2 option from existing options \fBreplace_opts\fP\&.
 .SS "\fBjpcre2::String\fP jpcre2::RegexReplace::replace (void)"
 
 .PP
-Returns the resultant string after performing regex replace\&. 
+Returns the resultant string after performing regex replace\&. Retrieves subject string, replacement string, modifier and other options from class variables\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBRegex::error_number\fP\fP Throws exception (error number) if error occurs\&. 
+.RE
 .PP
 \fBReturns:\fP
 .RS 4
