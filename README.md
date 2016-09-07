@@ -75,7 +75,7 @@ If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 s
 
 **Notes:**
 
-1. `PCRE2_CODE_UNIT_WIDTH` other than 8 is not supported in this version.
+1. Only `PCRE2_CODE_UNIT_WIDTH` 8 is supported in this version.
 2. To use the `PCRE2 POSIX` compatible library, add the `-lpcre2-posix` along with the others.
 
 

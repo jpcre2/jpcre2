@@ -74,7 +74,7 @@
 <codeline></codeline>
 <codeline><highlight class="normal">**Notes:**</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">1.<sp/>`PCRE2_CODE_UNIT_WIDTH`<sp/>other<sp/>than<sp/>8<sp/>is<sp/>not<sp/>supported<sp/>in<sp/>this<sp/>version.</highlight></codeline>
+<codeline><highlight class="normal">1.<sp/>Only<sp/>`PCRE2_CODE_UNIT_WIDTH`<sp/>8<sp/>is<sp/>supported<sp/>in<sp/>this<sp/>version.</highlight></codeline>
 <codeline><highlight class="normal">2.<sp/>To<sp/>use<sp/>the<sp/>`PCRE2<sp/>POSIX`<sp/>compatible<sp/>library,<sp/>add<sp/>the<sp/>`-lpcre2-posix`<sp/>along<sp/>with<sp/>the<sp/>others.</highlight></codeline>
 <codeline></codeline>
 <codeline></codeline>

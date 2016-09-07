@@ -25,7 +25,7 @@
 <codeline><highlight class="normal">make<sp/>install<sp/>#<sp/>or<sp/>sudo<sp/>make<sp/>install</highlight></codeline>
 </programlisting> Now <computeroutput>#include &lt;<ref refid="jpcre2_8hpp" kindref="compound">jpcre2.hpp</ref>&gt;</computeroutput> in your code and build/compile by linking with both JPCRE2 and PCRE2 library.</para><para>An example command for GCC would be:</para><para><programlisting><codeline><highlight class="normal">g++<sp/><sp/>mycpp.cpp<sp/>-ljpcre2-8<sp/>-lpcre2-8<sp/>#sequence<sp/>is<sp/>important</highlight></codeline>
 </programlisting></para><para>If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 sources with your favorite IDE or use it as it is.</para><para><bold>Notes:</bold></para><para><orderedlist>
-<listitem><para><computeroutput>PCRE2_CODE_UNIT_WIDTH</computeroutput> other than 8 is not supported in this version.</para></listitem><listitem><para>To use the <computeroutput>PCRE2 POSIX</computeroutput> compatible library, add the <computeroutput>-lpcre2-posix</computeroutput> along with the others.</para></listitem></orderedlist>
+<listitem><para>Only <computeroutput>PCRE2_CODE_UNIT_WIDTH</computeroutput> 8 is supported in this version.</para></listitem><listitem><para>To use the <computeroutput>PCRE2 POSIX</computeroutput> compatible library, add the <computeroutput>-lpcre2-posix</computeroutput> along with the others.</para></listitem></orderedlist>
 </para></sect2>
 </sect1>
 <sect1 id="index_1how-to-code-with-jpcre2">
