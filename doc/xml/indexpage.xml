@@ -52,7 +52,7 @@
 <codeline><highlight class="normal">}</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*Handle<sp/>error*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 </programlisting></para><para>Now you can perform match or replace against the pattern. Use the <computeroutput>match()</computeroutput> member function to perform regex match and the <computeroutput>replace()</computeroutput> member function to perform regex replace.</para></sect2>
 <sect2 id="index_1match">
@@ -76,7 +76,7 @@
 <codeline><highlight class="normal">}</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*Handle<sp/>error*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 </programlisting> </para></sect3>
 <sect3 id="index_1access-a-capture-group">
@@ -102,7 +102,7 @@
 <codeline><highlight class="normal">}</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*Handle<sp/>error*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 </programlisting></para></sect3>
 <sect3 id="index_1access-substring-by-name">
@@ -157,7 +157,7 @@
 <codeline><highlight class="normal">}</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*Handle<sp/>error*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 </programlisting> If you pass the size of the resultant string with <computeroutput><ref refid="classjpcre2_1_1RegexReplace_1a452dd2632031a13b39c13b792f18a491" kindref="member">jpcre2::RegexReplace::setBufferSize()</ref></computeroutput> function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function (<computeroutput>pcre2_substitute()</computeroutput>) will be called <emphasis>twice</emphasis> to adjust the size of the buffer to hold the whole resultant string in order to avoid <computeroutput>PCRE2_ERROR_NOMEMORY</computeroutput> error.</para></sect3>
 </sect2>

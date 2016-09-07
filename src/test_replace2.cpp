@@ -7,7 +7,7 @@
 
 
 #include <iostream>
-#include "jpcre2.hpp"
+#include "jpcre2.cpp"
 
 
 #define getLine(a) std::getline(std::cin,a,'\n')
@@ -26,7 +26,7 @@ int main(){
 
     /// Compile the pattern
     try{re.compile(pat,mod);}
-    catch(int e){std::cerr<<re.getErrorMessage(e);}
+    catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
 
 
     /***************************************************************************************************************
@@ -56,8 +56,8 @@ int main(){
 												.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)
 												.addModifier(repl_mod)
 												.replace();}
-		catch(int e){std::cerr<<re.getErrorMessage(e);
-			if(e==jpcre2::ERROR::INVALID_MODIFIER) continue;
+		catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();
+			if(e.getErrorNumber()==jpcre2::ERROR::INVALID_MODIFIER) continue;
 		}
 		break;
     }

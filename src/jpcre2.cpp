@@ -34,7 +34,6 @@
  * */
 
 /**
- *
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
 
@@ -117,23 +116,26 @@ const jpcre2::Uint jpcre2::MOD::MJ_V[3] = { FIND_ALL,                           
 
 ///////// utils namespace
 
-/// Used throughout JPCRE2 to throw exceptions
-void jpcre2::utils::throwException(int x){
-    throw(x);
-}
-
+/// @param a const char* to be converted to jpcre2::String
+/// @return jpcre2::String
 jpcre2::String jpcre2::utils::toString(const char* a) {
 	if (a)
 		return String(a);
 	else
 		return "";
 }
+
+/// @param a char to be converted to jpcre2::String
+/// @return jpcre2::String
 jpcre2::String jpcre2::utils::toString(char a) {
 	if (a != '\0')
 		return String(1, a);
 	else
 		return "";
 }
+
+/// @param x Integer to be converted to jpcre2::String
+/// @return jpcre2::String
 jpcre2::String jpcre2::utils::toString(int x) {
 	int length = snprintf(0, 0, "%d", x);
 	assert(length >= 0);
@@ -143,6 +145,9 @@ jpcre2::String jpcre2::utils::toString(int x) {
 	delete[] buf;
 	return str;
 }
+
+/// @param a PCRE2_UCHAR* to be converted to jpcre2::String
+/// @return jpcre2::String
 jpcre2::String jpcre2::utils::toString(PCRE2_UCHAR* a) {
 	if (a)
 		return String((char*) a);
@@ -150,16 +155,68 @@ jpcre2::String jpcre2::utils::toString(PCRE2_UCHAR* a) {
 		return "";
 }
 
-jpcre2::String jpcre2::utils::getPcre2ErrorMessage(int err_num) {
+/// @param err_num PCRE2 error number
+/// @return Error message as jpcre2::String
+std::string jpcre2::utils::getPcre2ErrorMessage(int err_num) {
 	PCRE2_UCHAR buffer[8048];
 	pcre2_get_error_message(err_num, buffer, sizeof(buffer));
 	return toString((PCRE2_UCHAR*) buffer);
+}
+
+
+/**
+ * Return error message according to error number and error offset
+ * @param err_num Error number
+ * @param err_off Error offset
+ * @return Error message as a string
+ * */
+std::string jpcre2::utils::getErrorMessage(int err_num, int err_off) {
+	if (err_num == (int)ERROR::INVALID_MODIFIER) {
+		return "Invalid Modifier: " + toString((char) err_off);
+	} else if (err_num == (int)ERROR::JIT_COMPILE_FAILED) {
+		return JIT_ERROR_MESSAGE_PREFIX
+				+ getPcre2ErrorMessage((int) err_off);
+	} else {
+		return getPcre2ErrorMessage((int) err_num) + ". Error offset: "
+				+ toString((int) err_off);
+	}
+}
+
+
+/// Used throughout JPCRE2 to throw exceptions
+///@throw jpcre2::Except Throws exception. 
+///       Should be caught by reference. See jpcre2::Except for details.
+///@param err_num Error number
+///@param err_off Error offset
+void jpcre2::utils::throwException(int err_num, int err_off){
+    throw Except(getErrorMessage(err_num, err_off), err_num, err_off);
 }
 
 /////////
 
 ///////// Regex class
 
+
+/**
+ *  Calculate modifier string from #compile_opts and #jpcre2_compile_opts and return it
+ *
+ *  Note that, this only gives you the modifiers used for pattern compilation.
+ *  There is no such function to get the action modifiers and neither there's any need for it as
+ *  action modifiers are required to be passed anew with every action. On the other hand,
+ *  you may set some modifiers to the Regex object and forget about it later or you may want
+ *  to get the existing modifier and compile the regex again by modifying the existing ones.
+ *
+ *  Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized
+ *  as long as you don't do that explicitly. Calling Regex::setModifier() will re-set them.
+ *
+ *  **Mixed or combined modifier**.
+ *
+ *  Some modifier may include other modifiers i.e they have the same meaning of some modifiers
+ *  combined together. For example, the 'n' modifier includes the 'u' modifier and together they
+ *  are equivalent to `PCRE2_UTF | PCRE2_UCP`. When you set a modifier like this, both options
+ *  get set, and when you remove (`Regex::changeModifier())` the 'n', both will get removed
+ *  @return Calculated modifier string
+ * */
 jpcre2::String jpcre2::Regex::getModifier(){
     //Calculate PCRE2 mod
     String temp("");
@@ -177,18 +234,10 @@ jpcre2::String jpcre2::Regex::getModifier(){
     return temp;
 }
 
-jpcre2::String jpcre2::Regex::getErrorMessage(int err_num, PCRE2_SIZE err_off) {
-	if (err_num == (int)ERROR::INVALID_MODIFIER) {
-		return "Invalid Modifier: " + utils::toString((char) err_off);
-	} else if (err_num == (int)ERROR::JIT_COMPILE_FAILED) {
-		return JIT_ERROR_MESSAGE_PREFIX
-				+ utils::getPcre2ErrorMessage((int) err_off);
-	} else {
-		return utils::getPcre2ErrorMessage((int) err_num) + ". Error offset: "
-				+ utils::toString((int) err_off);
-	}
-}
 
+/// Copy compiled pattern to a new location, free the old memory and set the new pointer to #code
+/// @throw jpcre2::Except Throws exception with PCRE2 error number and error offset.
+/// @param r Regex&
 void jpcre2::Regex::deepCopy(const Regex& r) {
 	//Copy r.code if it is non-null
 	if (r.code) {
@@ -202,8 +251,8 @@ void jpcre2::Regex::deepCopy(const Regex& r) {
 			int jit_ret = pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
 			if (jit_ret != 0) {
 				if ((jpcre2_compile_opts & ERROR_ALL) != 0) {
-					error_number = error_offset = (int)ERROR::JIT_COMPILE_FAILED;
-					utils::throwException((int)ERROR::JIT_COMPILE_FAILED);
+					utils::throwException((int)ERROR::JIT_COMPILE_FAILED,
+                     (int)ERROR::JIT_COMPILE_FAILED);
 				} else
 					current_warning_msg = JIT_ERROR_MESSAGE_PREFIX
 							+ utils::getPcre2ErrorMessage(jit_ret);
@@ -224,6 +273,19 @@ void jpcre2::Regex::deepCopy(const Regex& r) {
 }
 
 
+/// After a call to this function #compile_opts and #jpcre2_compile_opts will be properly set.
+/// This function does not initialize or re-initialize options.
+/// If you want to set options from scratch, initialize them to 0 before calling this function.
+///
+/// **Note:** If speed of operation is very crucial, use Regex::changeJpcre2Option() and
+/// Regex::changePcre2Option() with equivalent options. It will be faster that way.
+/// @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER if jpcre2::VALIDATE_MODIFIER or
+///        jpcre2::ERROR_ALL was set and a wrong modifier was encountered.
+/// @param mod Modifier string
+/// @param x Whether to add or remove option
+/// @return Regex&
+/// @see RegexMatch::changeModifier()
+/// @see RegexReplace::changeModifier()
 jpcre2::Regex& jpcre2::Regex::changeModifier(const String& mod, bool x) {
 	//loop through mod
 	for (SIZE_T i = 0; i < mod.length(); ++i) {
@@ -243,20 +305,38 @@ jpcre2::Regex& jpcre2::Regex::changeModifier(const String& mod, bool x) {
         }
         //Modifier didn't match, invalid modifier error
         if((jpcre2_compile_opts & VALIDATE_MODIFIER) != 0 || (jpcre2_compile_opts & ERROR_ALL) != 0) {
-            error_number = error_offset = (int) mod[i];
-            utils::throwException((int)ERROR::INVALID_MODIFIER);
+            utils::throwException((int)ERROR::INVALID_MODIFIER, (int) mod[i]);
         }
         //If exception wasn't thrown, add to warning message
-        current_warning_msg = getErrorMessage((int)ERROR::INVALID_MODIFIER, mod[i]);
+        current_warning_msg = utils::getErrorMessage((int)ERROR::INVALID_MODIFIER, mod[i]);
         
         endfor:;
 	}
     return *this;
 }
 
+
+/**
+ *
+ * Use options from class variables.
+ *
+ * Prefer using one of its variants when compiling pattern for an already declared Regex object.
+ * A use of
+ * ```cppp
+ * re = Regex("pattern");
+ * ```
+ * (or such) is discouraged. see `Regex::operator=(const Regex& r)` for details.
+ * @throw jpcre2::Except Throws exception with PCRE2 error number and error offset.
+ * @see void compile(const String& re, Uint po, Uint jo)
+ * @see void compile(const String& re, Uint po)
+ * @see void compile(const String& re, const String& mod)
+ * @see void compile(const String& re)
+ * */
 void jpcre2::Regex::compile() {
 	///Get c_str of pattern
 	PCRE2_SPTR c_pattern = (PCRE2_SPTR) pat_str.c_str();
+	int error_number;	        ///< Error number
+	PCRE2_SIZE error_offset;	///< Error offset
 
 	/*************************************************************************
 	 * Now we are going to compile the regular expression pattern, and handle *
@@ -283,15 +363,13 @@ void jpcre2::Regex::compile() {
 	if (code == 0) {
 		/* Compilation failed */
 		//must not free regex memory, the only function has that right is the destroyer.
-		utils::throwException(error_number);
+		utils::throwException(error_number, error_number);
 	} else if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
 		///perform jit compilation:
 		int jit_ret = pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
 		if (jit_ret != 0) {
 			if ((jpcre2_compile_opts & ERROR_ALL) != 0) {
-				error_number = (int)ERROR::JIT_COMPILE_FAILED;
-				error_offset = jit_ret;
-				utils::throwException((int)ERROR::JIT_COMPILE_FAILED);
+				utils::throwException((int)ERROR::JIT_COMPILE_FAILED, jit_ret);
 			} else
 				current_warning_msg = "JIT compile failed: "
 						+ utils::getPcre2ErrorMessage(jit_ret);
@@ -302,6 +380,19 @@ void jpcre2::Regex::compile() {
 
 ///////// RegexReplace class
 
+/// After a call to this function #replace_opts and #jpcre2_replace_opts will be properly set.
+/// This function does not initialize or re-initialize options.
+/// If you want to set options from scratch, initialize them to their defaults before calling this function.
+///
+/// **Note:** If speed of operation is very crucial, use RegexReplace::changeJpcre2Option() and
+/// RegexReplace::changePcre2Option() with equivalent options. It will be faster that way.
+/// @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER if jpcre2::VALIDATE_MODIFIER or
+///        jpcre2::ERROR_ALL was set and a wrong modifier was encountered.
+/// @param mod Modifier string
+/// @param x Whether to add or remove option
+/// @return RegexReplace&
+/// @see RegexMatch::changeModifier()
+/// @see Regex::changeModifier()
 jpcre2::RegexReplace& jpcre2::RegexReplace::changeModifier(const String& mod, bool x) {
 	//loop through mod
 	for (SIZE_T i = 0; i < mod.length(); ++i) {
@@ -321,17 +412,21 @@ jpcre2::RegexReplace& jpcre2::RegexReplace::changeModifier(const String& mod, bo
         }
         //Modifier didn't match, invalid modifier error
         if((jpcre2_replace_opts & VALIDATE_MODIFIER) != 0 || (jpcre2_replace_opts & ERROR_ALL) != 0) {
-            re->error_number = re->error_offset = (int) mod[i];
-            utils::throwException((int)ERROR::INVALID_MODIFIER);
+            utils::throwException((int)ERROR::INVALID_MODIFIER, (int) mod[i]);
         }
         //If exception wasn't thrown, add to warning message
-        re->current_warning_msg = re->getErrorMessage((int)ERROR::INVALID_MODIFIER, mod[i]);
+        re->current_warning_msg = utils::getErrorMessage((int)ERROR::INVALID_MODIFIER, mod[i]);
         
         endfor:;
 	}
     return *this;
 }
 
+
+/** Retrieves subject string, replacement string, modifier and other options from class variables.
+/// @throw jpcre2::Except Throws exception with PCRE2 error number and error offset.
+ * @return Replaced string
+ * */
 jpcre2::String jpcre2::RegexReplace::replace() {
 
 	/// If code is null, there's no need to proceed any further
@@ -362,8 +457,6 @@ jpcre2::String jpcre2::RegexReplace::replace() {
                     output_buffer,          /*Points to the output buffer*/
                     &outlengthptr           /*Points to the length of the output buffer*/
                     );
-		re->error_number = (int) ret;
-		re->error_offset = ret;
 
 		if (ret < 0) {
 			///Handle errors
@@ -378,7 +471,7 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 				continue;
 			} else {
 				::free(output_buffer);
-				utils::throwException(ret);
+				utils::throwException(ret, ret);
 			}
 		}
 		///If everything's ok exit the loop
@@ -392,6 +485,20 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 
 ///////// RegexMatch class
 
+
+/// After a call to this function #match_opts and #jpcre2_match_opts will be properly set.
+/// This function does not initialize or re-initialize options.
+/// If you want to set options from scratch, initialize them to their default values before calling this function.
+///
+/// **Note:** If speed of operation is very crucial, use RegexMatch::changeJpcre2Option() and
+/// RegexMatch::changePcre2Option() with equivalent options. It will be faster that way.
+/// @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER if jpcre2::VALIDATE_MODIFIER or
+///        jpcre2::ERROR_ALL was set and a wrong modifier was encountered.
+/// @param mod Modifier string
+/// @param x Whether to add or remove options
+/// @return RegexMatch&
+/// @see RegexReplace::changeModifier()
+/// @see Regex::changeModifier()
 jpcre2::RegexMatch& jpcre2::RegexMatch::changeModifier(const String& mod, bool x) {
 	//loop through mod
 	for (SIZE_T i = 0; i < mod.length(); ++i) {
@@ -411,16 +518,18 @@ jpcre2::RegexMatch& jpcre2::RegexMatch::changeModifier(const String& mod, bool x
         }
         //Modifier didn't match, invalid modifier error
         if((jpcre2_match_opts & VALIDATE_MODIFIER) != 0 || (jpcre2_match_opts & ERROR_ALL) != 0) {
-            re->error_number = re->error_offset = (int) mod[i];
-            utils::throwException((int)ERROR::INVALID_MODIFIER);
+            utils::throwException((int)ERROR::INVALID_MODIFIER, (int) mod[i]);
         }
         //If exception wasn't thrown, add to warning message
-        re->current_warning_msg = re->getErrorMessage((int)ERROR::INVALID_MODIFIER, mod[i]);
+        re->current_warning_msg = utils::getErrorMessage((int)ERROR::INVALID_MODIFIER, mod[i]);
         endfor:;
 	}
     return *this;
 }
 
+/// @throw jpcre2::Except Throws exception with PCRE2 error number and error offset.
+/// @param rc Return value from pcre2_match()
+/// @param match_data pcre2 match data
 void jpcre2::RegexMatch::getNumberedSubstrings(int rc,
 		pcre2_match_data *match_data) {
 	for (int i = 0; i < rc; i++) {
@@ -436,7 +545,7 @@ void jpcre2::RegexMatch::getNumberedSubstrings(int rc,
 		if (ret < 0) {
 			switch (ret) {
 			case PCRE2_ERROR_NOMEMORY:
-				utils::throwException(ret);
+				utils::throwException(ret, ret);
 			default:
 				break;   ///Other errors should be ignored
 			}
@@ -449,6 +558,11 @@ void jpcre2::RegexMatch::getNumberedSubstrings(int rc,
 	}
 }
 
+/// @throw jpcre2::Except Throws exception with PCRE2 error number and error offset.
+/// @param namecount Number of capture group name
+/// @param name_entry_size Size of each entry in the name table.
+/// @param tabptr Pointer to name table
+/// @param match_data PCRE2 match data
 void jpcre2::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
 		PCRE2_SPTR tabptr, pcre2_match_data *match_data) {
 
@@ -468,7 +582,7 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
 		if (ret < 0) {
 			switch (ret) {
 			case PCRE2_ERROR_NOMEMORY:
-				utils::throwException(ret);
+				utils::throwException(ret, ret);
 			default:
 				break;   ///Other errors should be ignored
 			}
@@ -489,7 +603,7 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
 		if (ret < 0) {
 			switch (ret) {
 			case PCRE2_ERROR_NOMEMORY:
-				utils::throwException(ret);
+				utils::throwException(ret, ret);
 			default:
 				break;   ///Other errors should be ignored
 			}
@@ -513,6 +627,17 @@ void jpcre2::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
 	}
 }
 
+/** Clear the specified vectors (#vec_num, #vec_nas, #vec_ntn) and re-fill them with match results,
+ * then return the match count.
+ *
+ * The size of each vectors should be equal to the match count.
+ * The return value is guaranteed to give you the right match count.
+
+ * @throw jpcre2::Except Throws exception with PCRE2 error number and error offset.
+ * @return Number of matches found
+ * @see SIZE_T Regex::match(const String& s)
+ * @see SIZE_T Regex::match(const String& s, const String& mod)
+ * */
 jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 
 	/// If code is null, there's no need to proceed any further
@@ -563,9 +688,6 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 
 	/* Matching failed: handle error cases */
 
-	re->error_number = rc;
-	re->error_offset = rc;
-
 	if (rc < 0) {
 		pcre2_match_data_free(match_data); /* Release memory used for the match */
 		//must not free code. This function has no right to modify regex
@@ -576,7 +698,7 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 			 Handle other special cases if you like
 			 */
 		default:
-			utils::throwException(rc);
+			utils::throwException(rc, rc);
 		}
 		return count;
 	}

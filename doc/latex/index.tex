@@ -109,7 +109,7 @@ This object will hold the pattern, modifiers, compiled pattern, error and warnin
 \}
 \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
     \textcolor{comment}{/*Handle error*/}
-    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
+    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e)<<std::endl;
 \}
 \end{DoxyCode}
 
@@ -143,7 +143,7 @@ To get the match results, you need to pass appropriate vector pointers. This is 
 \}
 \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
     \textcolor{comment}{/*Handle error*/}
-    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
+    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e)<<std::endl;
 \}
 \end{DoxyCode}
  \hypertarget{index_access-a-capture-group}{}\paragraph{Access a captured group}\label{index_access-a-capture-group}
@@ -179,7 +179,7 @@ To get named substring and/or name to number mapping, pass pointer to the approp
 \}
 \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
     \textcolor{comment}{/*Handle error*/}
-    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
+    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e)<<std::endl;
 \}
 \end{DoxyCode}
 \hypertarget{index_access-substring-by-name}{}\paragraph{Access a capture group by name}\label{index_access-substring-by-name}
@@ -254,7 +254,7 @@ std::cout<<\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringlite
 \}
 \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
     \textcolor{comment}{/*Handle error*/}
-    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
+    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e)<<std::endl;
 \}
 \end{DoxyCode}
  If you pass the size of the resultant string with {\ttfamily \hyperlink{classjpcre2_1_1RegexReplace_a452dd2632031a13b39c13b792f18a491}{jpcre2\+::\+Regex\+Replace\+::set\+Buffer\+Size()}} function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function ({\ttfamily pcre2\+\_\+substitute()}) will be called {\itshape twice} to adjust the size of the buffer to hold the whole resultant string in order to avoid {\ttfamily P\+C\+R\+E2\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M\+O\+RY} error.\hypertarget{index_modifiers}{}\subsection{Modifiers}\label{index_modifiers}

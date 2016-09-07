@@ -19,7 +19,7 @@
     <member refid="classjpcre2_1_1Regex_1adbda074677e393438452190e55a971d0" kind="function"><name>init</name></member>
     <member refid="classjpcre2_1_1Regex_1a40128e1facd915e06089eeb17e2287c2" kind="function"><name>freeRegexMemory</name></member>
     <member refid="classjpcre2_1_1Regex_1a24594d3bdb08b3795080c68019928f3a" kind="function"><name>shallowCopy</name></member>
-    <member refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" kind="function"><name>deepCopy</name></member>
+    <member refid="classjpcre2_1_1Regex_1a240790a0f3d8e97af0a76ad3f882e02a" kind="function"><name>deepCopy</name></member>
     <member refid="classjpcre2_1_1Regex_1a302f65cd5747c5d34570ca76516ab715" kind="function"><name>Regex</name></member>
     <member refid="classjpcre2_1_1Regex_1a4d959fdc32791bee6d819abfc44af51a" kind="function"><name>Regex</name></member>
     <member refid="classjpcre2_1_1Regex_1a58be9b4e1eaec2a43586af45c6ae5549" kind="function"><name>Regex</name></member>
@@ -34,7 +34,7 @@
     <member refid="classjpcre2_1_1Regex_1ae9afaf627ed922a9e4cee8074d30edfa" kind="function"><name>getLocale</name></member>
     <member refid="classjpcre2_1_1Regex_1a857307fc59ba7f010b097e61c1744923" kind="function"><name>getPcre2Option</name></member>
     <member refid="classjpcre2_1_1Regex_1a5d2d04eb7c393338a4c8cce941e957ef" kind="function"><name>getJpcre2Option</name></member>
-    <member refid="classjpcre2_1_1Regex_1a92b75c438ccff871205b2175a6141fd5" kind="function"><name>getErrorMessage</name></member>
+    <member refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kind="function"><name>getErrorMessage</name></member>
     <member refid="classjpcre2_1_1Regex_1a76fddd42bf11dd66c25905fb92437d6b" kind="function"><name>getErrorMessage</name></member>
     <member refid="classjpcre2_1_1Regex_1a8606fff8b192c94f58ca9e82aa048c61" kind="function"><name>getErrorMessage</name></member>
     <member refid="classjpcre2_1_1Regex_1a1a639ae4090b88609c03e9268faf02d8" kind="function"><name>getWarningMessage</name></member>
@@ -45,7 +45,7 @@
     <member refid="classjpcre2_1_1Regex_1a56721534519e5cb436337043eee8f42d" kind="function"><name>setLocale</name></member>
     <member refid="classjpcre2_1_1Regex_1a031617a19638ef752dcd2b29fa3464d5" kind="function"><name>setJpcre2Option</name></member>
     <member refid="classjpcre2_1_1Regex_1acdc6f97f4030ae109c4e1a4e2310bceb" kind="function"><name>setPcre2Option</name></member>
-    <member refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" kind="function"><name>changeModifier</name></member>
+    <member refid="classjpcre2_1_1Regex_1a9ab3efed9819a51225456e6d8487de56" kind="function"><name>changeModifier</name></member>
     <member refid="classjpcre2_1_1Regex_1ab8e0b1a49eeb1077ba54cf3b5292c95e" kind="function"><name>changeJpcre2Option</name></member>
     <member refid="classjpcre2_1_1Regex_1ae5bde8008cc5a700163ca3162dbd5823" kind="function"><name>changePcre2Option</name></member>
     <member refid="classjpcre2_1_1Regex_1ab1af1471339602446d8221b8c97c6b55" kind="function"><name>addModifier</name></member>
@@ -75,8 +75,8 @@
     <member refid="classjpcre2_1_1RegexMatch_1a36749947847f266de03c3991ac88a694" kind="variable"><name>nas_map0</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a1c790683d023313967ce80db6045419f" kind="variable"><name>ntn_map0</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a1f6f7620b7d2218c6c2a6a47f432ea6a" kind="friend"><name>Regex</name></member>
-    <member refid="classjpcre2_1_1RegexMatch_1a961a5f91ab24a1ddfd42910c6ab68b65" kind="function"><name>getNumberedSubstrings</name></member>
-    <member refid="classjpcre2_1_1RegexMatch_1af159e8d080ecd74f63ec67b1d5a27772" kind="function"><name>getNamedSubstrings</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_1a82bfef9700b1c62b84e4a32ee4b0731e" kind="function"><name>getNumberedSubstrings</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_1ac494245673c474d518e8ae47b2ab9db9" kind="function"><name>getNamedSubstrings</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1aeeffc8edc43a8e5d1d24ae4055213730" kind="function"><name>pushMapsIntoVectors</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a3da6a2319cd577d7f2f10c66dcf59a99" kind="function"><name>init_vars</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a40127e5057e2343848d8c8a6d4c32bcd" kind="function"><name>RegexMatch</name></member>
@@ -89,8 +89,9 @@
     <member refid="classjpcre2_1_1RegexMatch_1a9df7e92f96b61553f62720cb8f5f23e5" kind="function"><name>setModifier</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a0d76033d9c134caa9ddfc21849603920" kind="function"><name>setJpcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1ae4ab558c2bec0bc9639dbca70ab47496" kind="function"><name>setPcre2Option</name></member>
-    <member refid="classjpcre2_1_1RegexMatch_1a85bdec86583f800dafcb1aae27f855e7" kind="function"><name>setFindAll</name></member>
-    <member refid="classjpcre2_1_1RegexMatch_1a1265862f04984dfde8d36e2ff409b0c9" kind="function"><name>changeModifier</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_1ae586d43ec197c57c66086eeb4f8d83a1" kind="function"><name>setFindAll</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_1a9e04456a81606362a2ecdf748912e3ea" kind="function"><name>setFindAll</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_1a877be3123d789020d259939bc79e8cfe" kind="function"><name>changeModifier</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a154430c66b8794d6632be6211a3ce870" kind="function"><name>changeJpcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a6893abc21b24a9d9fca146a33c0f823c" kind="function"><name>changePcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a08c2e481fe8b9c001e67733fb4e33972" kind="function"><name>addModifier</name></member>
@@ -116,7 +117,7 @@
     <member refid="classjpcre2_1_1RegexReplace_1a452dd2632031a13b39c13b792f18a491" kind="function"><name>setBufferSize</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1a745ab0b979035214a83ed0a04686ef6a" kind="function"><name>setJpcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1aec36272d351fdc3a8cb02a4a3efea5a2" kind="function"><name>setPcre2Option</name></member>
-    <member refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" kind="function"><name>changeModifier</name></member>
+    <member refid="classjpcre2_1_1RegexReplace_1a0a2dc39fc28e6f7fe0a5d638f5891bdb" kind="function"><name>changeModifier</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1afebf5e76bce8e312ab6dbdec3288b02b" kind="function"><name>changeJpcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1aea15c694bba7d994f048596a1f90f71f" kind="function"><name>changePcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1a06a57430f62058822d48722a2a6425d7" kind="function"><name>addModifier</name></member>
@@ -175,11 +176,11 @@
     <member refid="namespacejpcre2_1_1MOD_1a30011385a69e77d8681517c621c2a140" kind="variable"><name>RJ_V</name></member>
   </compound>
   <compound refid="namespacejpcre2_1_1utils" kind="namespace"><name>jpcre2::utils</name>
-    <member refid="namespacejpcre2_1_1utils_1a433f24d37008ed65f829be30aa0f2c73" kind="function"><name>toString</name></member>
-    <member refid="namespacejpcre2_1_1utils_1a8951a9c2c01a87cee04b55d0a032c73e" kind="function"><name>toString</name></member>
-    <member refid="namespacejpcre2_1_1utils_1a67c67163e03c18ca3418f5f59f90b435" kind="function"><name>toString</name></member>
-    <member refid="namespacejpcre2_1_1utils_1a84c5c4e28feda8b093d700a911d59c72" kind="function"><name>toString</name></member>
-    <member refid="namespacejpcre2_1_1utils_1a186305c70ad9dc4137aae2bcbf644805" kind="function"><name>getPcre2ErrorMessage</name></member>
+    <member refid="namespacejpcre2_1_1utils_1a3603a3493202e7408e18fd0a912bf725" kind="function"><name>toString</name></member>
+    <member refid="namespacejpcre2_1_1utils_1a917512161b56047d6ef240bdba2ac212" kind="function"><name>toString</name></member>
+    <member refid="namespacejpcre2_1_1utils_1a4065a2a40144999cd2a94e7a7e1d5eb6" kind="function"><name>toString</name></member>
+    <member refid="namespacejpcre2_1_1utils_1aea66a35f467adf41730c5a3bb21be6ed" kind="function"><name>toString</name></member>
+    <member refid="namespacejpcre2_1_1utils_1a46868509af4188b7250b01384a16427e" kind="function"><name>getPcre2ErrorMessage</name></member>
     <member refid="namespacejpcre2_1_1utils_1ae46ee8a2fbb7bc5b583aee0d1f047052" kind="function"><name>throwException</name></member>
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>

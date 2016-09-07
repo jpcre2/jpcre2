@@ -7,7 +7,7 @@ var classjpcre2_1_1RegexReplace =
     [ "addModifier", "classjpcre2_1_1RegexReplace.html#a06a57430f62058822d48722a2a6425d7", null ],
     [ "addPcre2Option", "classjpcre2_1_1RegexReplace.html#a3cfd03568b23bebcbb530a2c120b5d33", null ],
     [ "changeJpcre2Option", "classjpcre2_1_1RegexReplace.html#afebf5e76bce8e312ab6dbdec3288b02b", null ],
-    [ "changeModifier", "classjpcre2_1_1RegexReplace.html#ae58d2a44ed474568554202612d45c814", null ],
+    [ "changeModifier", "classjpcre2_1_1RegexReplace.html#a0a2dc39fc28e6f7fe0a5d638f5891bdb", null ],
     [ "changePcre2Option", "classjpcre2_1_1RegexReplace.html#aea15c694bba7d994f048596a1f90f71f", null ],
     [ "init_vars", "classjpcre2_1_1RegexReplace.html#a462810e8fc902f09e475a164e81cc5f5", null ],
     [ "replace", "classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0", null ],

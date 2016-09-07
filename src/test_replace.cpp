@@ -5,7 +5,7 @@
  * */
 
 #include <iostream>
-#include "jpcre2.hpp"
+#include "jpcre2.cpp"
 
 
 int main(){
@@ -16,7 +16,7 @@ int main(){
           .addModifier("&Jin")                                                     //modifier & == jpcre2::VALIDATE_MODIFIER
           .addPcre2Option(0)                                                       //...
           .compile();}                                                             //Finally compile it.
-    catch(int e){std::cerr<<re.getErrorMessage(e);}
+    catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
         
     /******************************************************************************************************************
      * Use try catch block to catch any exception and avoid unexpected termination of the program in case of error
@@ -34,7 +34,7 @@ int main(){
           .addPcre2Option(0)                                                //...
           .replace();                                                       //Finally perform the replace operation.
     }
-    catch(int e){std::cerr<<re.getErrorMessage(e);}
+    catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
     
 	return 0;
 }

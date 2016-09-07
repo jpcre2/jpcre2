@@ -7,7 +7,7 @@
  * */
 
 #include <iostream>
-#include "jpcre2.hpp"
+#include "jpcre2.cpp"
 
 
 int main(){
@@ -26,7 +26,7 @@ int main(){
                             | jpcre2::ERROR_ALL)                                //treat warnings as errors
           .addPcre2Option(0)                                                    //add pcre2 option
           .compile();}                                                          //Finally compile it.
-    catch(int e){std::cerr<<re.getErrorMessage(e);}
+    catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
     
     /// The above `jpcre2::VALIDATE_MODIFIER` option won't have any effect as modifier was passed before it.
     /// You can pass a modifier (~ or &) to turn this validation check on. In that case
@@ -43,16 +43,18 @@ int main(){
     size_t count=0;
     
     try{count = re.initMatch()                                  //Invoke the initMatch() function
-                  .addModifier("gf")                             //set various parameters (f: invalid modifier)
+                  .addModifier("~gf")                             //set various parameters (f: invalid modifier)
                   .setSubject(subject)                          //...
                   .setNumberedSubstringVector(&vec_num0)        //...
                   .setNamedSubstringVector(&vec_nas0)           //...
                   .setNameToNumberMapVector(&vec_nn0)           //...
                   .addPcre2Option(0)                            //...
                   .match();}                                    //Finally perform the match
-    catch(int e){std::cerr<<"\n"<<re.getErrorMessage(e);}
+    catch(jpcre2::Except& e){std::cerr<<"\n"<<e.getErrorMessage();}
     
     std::cerr<<"\n"<<re.getWarningMessage(); //(f: invalid modifier) warning
+    
+    //std::cout<<jpcre2::utils::getErrorMessage(2,2);
     
     /// re.reset(); /// re-initialize re
     

@@ -1,4 +1,4 @@
-.TH "jpcre2::RegexReplace" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::RegexReplace" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -37,7 +37,7 @@ jpcre2::RegexReplace \- Provides the \fBRegexReplace::replace()\fP function to p
 .br
 .RI "\fISet PCRE2 option \fBreplace_opts\fP (overwrite existing option) \fP"
 .ti -1c
-.RI "\fBRegexReplace\fP & \fBchangeModifier\fP (const \fBString\fP &mod, bool x)"
+.RI "\fBRegexReplace\fP & \fBchangeModifier\fP (const \fBString\fP &, bool)"
 .br
 .RI "\fIParse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. \fP"
 .ti -1c
@@ -174,6 +174,11 @@ Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is jus
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegexReplace::addJpcre2Option()\fP and \fBRegexReplace::addPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+.RE
+.PP
 \fBParameters:\fP
 .RS 4
 \fImod\fP Modifier string 
@@ -243,9 +248,16 @@ Add or remove a JPCRE2 option\&.
 .SS "\fBjpcre2::RegexReplace\fP & jpcre2::RegexReplace::changeModifier (const \fBString\fP & mod, bool x)"
 
 .PP
-Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBreplace_opts\fP and \fBjpcre2_replace_opts\fP will be properly set\&. This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to their defaults before calling this function\&.
+Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBreplace_opts\fP and \fBjpcre2_replace_opts\fP will be properly set\&.
+.PP
+This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to their defaults before calling this function\&.
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegexReplace::changeJpcre2Option()\fP and \fBRegexReplace::changePcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -297,7 +309,7 @@ Add or remove a PCRE2 option\&.
 .SS "\fBjpcre2::String\fP jpcre2::RegexReplace::replace (void)"
 
 .PP
-Returns the resultant string after performing regex replace\&. Retrieves subject string, replacement string, modifier and other options from class variables\&. 
+Returns the resultant string after performing regex replace\&. Retrieves subject string, replacement string, modifier and other options from class variables\&.
 .PP
 \fBExceptions:\fP
 .RS 4
@@ -356,7 +368,12 @@ Set JPCRE2 option \fBjpcre2_replace_opts\fP (overwrite existing option)
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::setModifier (const \fBString\fP & s)\fC [inline]\fP"
 
 .PP
-Set the modifier string (overwrites existing JPCRE2 and PCRE2 option)\&. \fBNote:\fP If speed of operation is very crucial, use \fBRegexReplace::setJpcre2Option()\fP and \fBRegexReplace::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
+Set the modifier string (overwrites existing JPCRE2 and PCRE2 option)\&. \fBNote:\fP If speed of operation is very crucial, use \fBRegexReplace::setJpcre2Option()\fP and \fBRegexReplace::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. / 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP / is set and a wrong modifier was encountered\&. 
+.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -442,6 +459,12 @@ Set the subject string \fBr_subject\fP\&.
 
 .PP
 Referenced by jpcre2::Regex::replace()\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "PCRE2_SIZE jpcre2::RegexReplace::buffer_size\fC [private]\fP"
+
+.PP
+Size of the resultant string after replacement\&. Used to allocate enough memory for replaced string by PCRE2 internal function pcre2_substitute\&. Initialized to \fBSUBSTITUTE_RESULT_INIT_SIZE\fP\&. 
 
 .SH "Author"
 .PP 

@@ -1,7 +1,6 @@
 <map id="jpcre2.hpp" name="jpcre2.hpp">
-<area shape="rect" id="node2" href="$test__match_8cpp.html" title="An example of performing regex match against a pattern with JPCRE2 and getting the match count and ma..." alt="" coords="5,80,117,107"/>
-<area shape="rect" id="node3" href="$test__match2_8cpp.html" title="Contains an example to take subject string, pattern and modifier from user input and perform regex ma..." alt="" coords="141,80,259,107"/>
-<area shape="rect" id="node4" href="$test__replace_8cpp.html" title="An example of doing regex replace with JPCRE2. " alt="" coords="283,80,402,107"/>
-<area shape="rect" id="node5" href="$test__replace2_8cpp.html" title="Contains an example to take subject string, replacement string, modifier and pattern from user input ..." alt="" coords="427,80,552,107"/>
-<area shape="rect" id="node6" href="$test__shorts_8cpp.html" title="Contains some short examples of performing regex match and regex replace with JPCRE2. " alt="" coords="576,80,688,107"/>
+<area shape="rect" id="node2" href="$test__match2_8cpp.html" title="Contains an example to take subject string, pattern and modifier from user input and perform regex ma..." alt="" coords="5,80,124,107"/>
+<area shape="rect" id="node3" href="$test__replace_8cpp.html" title="An example of doing regex replace with JPCRE2. " alt="" coords="148,80,267,107"/>
+<area shape="rect" id="node4" href="$test__replace2_8cpp.html" title="Contains an example to take subject string, replacement string, modifier and pattern from user input ..." alt="" coords="291,80,417,107"/>
+<area shape="rect" id="node5" href="$test__shorts_8cpp.html" title="Contains some short examples of performing regex match and regex replace with JPCRE2. " alt="" coords="441,80,553,107"/>
 </map>

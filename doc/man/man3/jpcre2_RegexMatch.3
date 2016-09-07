@@ -1,4 +1,4 @@
-.TH "jpcre2::RegexMatch" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::RegexMatch" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -41,11 +41,17 @@ jpcre2::RegexMatch \- Provides the \fBRegexMatch::match()\fP function to perform
 .br
 .RI "\fISet PCRE2 option \fBmatch_opts\fP (overwrite existing option) \fP"
 .ti -1c
-.RI "\fBRegexMatch\fP & \fBsetFindAll\fP (bool x=true)"
+.RI "\fBRegexMatch\fP & \fBsetFindAll\fP (bool x)"
 .br
 .RI "\fISet whether to perform global match\&. \fP"
 .ti -1c
-.RI "\fBRegexMatch\fP & \fBchangeModifier\fP (const \fBString\fP &mod, bool x)"
+.RI "\fBRegexMatch\fP & \fBsetFindAll\fP ()"
+.br
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
+.PP
+This function just calls \fBRegexMatch::setFindAll(bool x)\fP with \fCtrue\fP as the parameter\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBchangeModifier\fP (const \fBString\fP &, bool)"
 .br
 .RI "\fIParse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. \fP"
 .ti -1c
@@ -77,11 +83,11 @@ jpcre2::RegexMatch \- Provides the \fBRegexMatch::match()\fP function to perform
 
 .in +1c
 .ti -1c
-.RI "void \fBgetNumberedSubstrings\fP (int rc, pcre2_match_data *match_data)"
+.RI "void \fBgetNumberedSubstrings\fP (int, pcre2_match_data *)"
 .br
 .RI "\fIPopulate \fBnum_map0\fP with numbered substrings\&. \fP"
 .ti -1c
-.RI "void \fBgetNamedSubstrings\fP (int namecount, int name_entry_size, PCRE2_SPTR tabptr, pcre2_match_data *match_data)"
+.RI "void \fBgetNamedSubstrings\fP (int, int, PCRE2_SPTR, pcre2_match_data *)"
 .br
 .RI "\fIPopulate \fBnas_map0\fP and/or \fBntn_map0\fP with named substring and/or name to number mapping\&. \fP"
 .ti -1c
@@ -210,6 +216,11 @@ Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is jus
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegexMatch::addJpcre2Option()\fP and \fBRegexMatch::addPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+.RE
+.PP
 \fBParameters:\fP
 .RS 4
 \fImod\fP Modifier string 
@@ -279,9 +290,16 @@ Add or remove a JPCRE2 option\&.
 .SS "\fBjpcre2::RegexMatch\fP & jpcre2::RegexMatch::changeModifier (const \fBString\fP & mod, bool x)"
 
 .PP
-Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBmatch_opts\fP and \fBjpcre2_match_opts\fP will be properly set\&. This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to their default values before calling this function\&.
+Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBmatch_opts\fP and \fBjpcre2_match_opts\fP will be properly set\&.
+.PP
+This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to their default values before calling this function\&.
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegexMatch::changeJpcre2Option()\fP and \fBRegexMatch::changePcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -330,12 +348,56 @@ Add or remove a PCRE2 option\&.
 .RE
 .PP
 
+.SS "void jpcre2::RegexMatch::getNamedSubstrings (int namecount, int name_entry_size, PCRE2_SPTR tabptr, pcre2_match_data * match_data)\fC [private]\fP"
+
+.PP
+Populate \fBnas_map0\fP and/or \fBntn_map0\fP with named substring and/or name to number mapping\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fIPCRE2_ERROR_*\fP Throws exception if PCRE2 error occurs 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fInamecount\fP Number of capture group name 
+.br
+\fIname_entry_size\fP Size of each entry in the name table\&. 
+.br
+\fItabptr\fP Pointer to name table 
+.br
+\fImatch_data\fP PCRE2 match data 
+.RE
+.PP
+
+.PP
+References jpcre2::utils::throwException(), and jpcre2::utils::toString()\&.
+.SS "void jpcre2::RegexMatch::getNumberedSubstrings (int rc, pcre2_match_data * match_data)\fC [private]\fP"
+
+.PP
+Populate \fBnum_map0\fP with numbered substrings\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fIPCRE2_ERROR_*\fP Throws exception if PCRE2 error occurs 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrc\fP Return value from pcre2_match() 
+.br
+\fImatch_data\fP pcre2 match data 
+.RE
+.PP
+
+.PP
+References jpcre2::utils::throwException(), and jpcre2::utils::toString()\&.
 .SS "\fBjpcre2::SIZE_T\fP jpcre2::RegexMatch::match (void)"
 
 .PP
 Store match result in vectors and return the number of matches\&. Clear the specified vectors (\fBvec_num\fP, \fBvec_nas\fP, \fBvec_ntn\fP) and re-fill them with match results, then return the match count\&.
 .PP
-The size of each vectors should be equal to the match count\&. The return value is guaranteed to give you the right match count\&. 
+The size of each vectors should be equal to the match count\&. The return value is guaranteed to give you the right match count\&.
 .PP
 \fBExceptions:\fP
 .RS 4
@@ -359,7 +421,7 @@ Number of matches found
 References jpcre2::FIND_ALL, and jpcre2::utils::throwException()\&.
 .PP
 Referenced by jpcre2::Regex::match()\&.
-.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setFindAll (bool x = \fCtrue\fP)\fC [inline]\fP"
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setFindAll (bool x)\fC [inline]\fP"
 
 .PP
 Set whether to perform global match\&. 
@@ -377,6 +439,19 @@ Set whether to perform global match\&.
 
 .PP
 References jpcre2::FIND_ALL\&.
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setFindAll ()\fC [inline]\fP"
+
+.PP
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
+.PP
+This function just calls \fBRegexMatch::setFindAll(bool x)\fP with \fCtrue\fP as the parameter\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBRegexMatch\fP& 
+.RE
+.PP
+
 .SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setJpcre2Option (\fBUint\fP x)\fC [inline]\fP"
 
 .PP
@@ -406,6 +481,11 @@ Set JPCRE2 option \fBjpcre2_match_opts\fP (overwrite existing option)
 Set the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options\&.
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegexMatch::setJpcre2Option()\fP and \fBRegexMatch::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+.RE
 .PP
 \fBParameters:\fP
 .RS 4

@@ -6,12 +6,13 @@ An example of performing regex match against a pattern with J\+P\+C\+R\+E2 and g
 
 
 {\ttfamily \#include $<$iostream$>$}\\*
-{\ttfamily \#include \char`\"{}jpcre2.\+hpp\char`\"{}}\\*
-Include dependency graph for test\+\_\+match.\+cpp\+:\nopagebreak
+{\ttfamily \#include \char`\"{}jpcre2.\+cpp\char`\"{}}\\*
+Include dependency graph for test\+\_\+match.\+cpp\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{test__match_8cpp__incl}
+\includegraphics[width=164pt]{test__match_8cpp__incl}
 \end{center}
 \end{figure}
 
@@ -30,7 +31,7 @@ Shows how to iterate over the match results to get the captured groups/substring
 \textcolor{comment}{ * */}
 
 \textcolor{preprocessor}{#include <iostream>}
-\textcolor{preprocessor}{#include "\hyperlink{jpcre2_8hpp}{jpcre2.hpp}"}
+\textcolor{preprocessor}{#include "jpcre2.cpp"}
 
 
 \textcolor{keywordtype}{int} main()\{
@@ -54,7 +55,7 @@ Shows how to iterate over the match results to get the captured groups/substring
        option}
           .\hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69}{compile}();\}                                                          \textcolor{comment}{//Finally compile
        it.}
-    \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e);\}
+    \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e);\}
     \textcolor{comment}{}
 \textcolor{comment}{    /// The above `jpcre2::VALIDATE\_MODIFIER` option won't have any effect as modifier was passed before
        it.}
@@ -83,7 +84,7 @@ Shows how to iterate over the match results to get the captured groups/substring
                   .\hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8}{setNameToNumberMapVector}(&vec\_nn0)           \textcolor{comment}{//...}
                   .\hyperlink{classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522}{addPcre2Option}(0)                            \textcolor{comment}{//...}
                   .\hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{match}();\}                                    \textcolor{comment}{//Finally perform the match}
-    \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{std::cerr<<\textcolor{stringliteral}{"\(\backslash\)n"}<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e);\}
+    \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{std::cerr<<\textcolor{stringliteral}{"\(\backslash\)n"}<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e);\}
     
     std::cerr<<\textcolor{stringliteral}{"\(\backslash\)n"}<<re.\hyperlink{classjpcre2_1_1Regex_a1a639ae4090b88609c03e9268faf02d8}{getWarningMessage}(); \textcolor{comment}{//(f: invalid modifier) warning}
     \textcolor{comment}{}

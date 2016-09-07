@@ -1,4 +1,4 @@
-.TH "jpcre2::Regex" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::Regex" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -51,7 +51,7 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "\fBString\fP \fBgetModifier\fP ()"
 .br
-.RI "\fIGet modifier string\&. \fP"
+.RI "\fIGet modifier string calculated from JPCRE2 and PCRE2 options\&. \fP"
 .ti -1c
 .RI "\fBString\fP \fBgetPattern\fP ()"
 .br
@@ -69,17 +69,21 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "\fIGet JPCRE2 option\&. \fP"
 .ti -1c
-.RI "\fBString\fP \fBgetErrorMessage\fP (int err_num, PCRE2_SIZE err_off)"
+.RI "\fBString\fP \fBgetErrorMessage\fP (int, int)"
 .br
 .RI "\fIGet error message by error number and error offset\&. \fP"
 .ti -1c
 .RI "\fBString\fP \fBgetErrorMessage\fP (int err_num)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Use class variable error_offest as error offset\&. \fP"
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
+.PP
+Use class variable \fBerror_offset\fP as error offset\&. \fP"
 .ti -1c
 .RI "\fBString\fP \fBgetErrorMessage\fP ()"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Use class variable error_number as error number and error_offest as error offset\&. \fP"
+.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
+.PP
+Use class variable \fBerror_number\fP as error number and \fBerror_offset\fP as error offset\&. \fP"
 .ti -1c
 .RI "\fBString\fP \fBgetWarningMessage\fP ()"
 .br
@@ -113,7 +117,7 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "\fISet PCRE2 option \fBcompile_opts\fP (overwrites existing option) \fP"
 .ti -1c
-.RI "\fBRegex\fP & \fBchangeModifier\fP (const \fBString\fP &mod, bool x)"
+.RI "\fBRegex\fP & \fBchangeModifier\fP (const \fBString\fP &, bool)"
 .br
 .RI "\fIParse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. \fP"
 .ti -1c
@@ -159,7 +163,7 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s, const \fBString\fP &mod)"
 .br
-.RI "\fIPerform regex match\&. \fP"
+.RI "\fIPerform regex match and return match count\&. \fP"
 .ti -1c
 .RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s)"
 .br
@@ -171,7 +175,7 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains, const \fBString\fP &repl, const \fBString\fP &mod)"
 .br
-.RI "\fIPerform regex replace\&. \fP"
+.RI "\fIPerform regex replace and return the replaced string\&. \fP"
 .ti -1c
 .RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains, const \fBString\fP &repl)"
 .br
@@ -209,9 +213,9 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "\fIDo a shallow copy of class variables\&. \fP"
 .ti -1c
-.RI "void \fBdeepCopy\fP (const \fBRegex\fP &r)"
+.RI "void \fBdeepCopy\fP (const \fBRegex\fP &)"
 .br
-.RI "\fIDo a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP Copy compiled pattern to a new location, free the old memory and set the new pointer to \fBcode\fP\&. \fP"
+.RI "\fIDo a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. \fP"
 .in -1c
 .SS "Private Attributes"
 
@@ -402,6 +406,11 @@ Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is jus
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegex::addJpcre2Option()\fP and \fBRegex::addPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+.RE
+.PP
 \fBParameters:\fP
 .RS 4
 \fImod\fP Modifier string 
@@ -473,9 +482,16 @@ Referenced by jpcre2::RegexMatch::changeModifier(), jpcre2::RegexReplace::change
 .SS "\fBjpcre2::Regex\fP & jpcre2::Regex::changeModifier (const \fBString\fP & mod, bool x)"
 
 .PP
-Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP will be properly set\&. This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to 0 before calling this function\&.
+Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP will be properly set\&.
+.PP
+This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to 0 before calling this function\&.
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegex::changeJpcre2Option()\fP and \fBRegex::changePcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -634,7 +650,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .SS "void jpcre2::Regex::deepCopy (const \fBRegex\fP & r)\fC [private]\fP"
 
 .PP
-Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP Copy compiled pattern to a new location, free the old memory and set the new pointer to \fBcode\fP\&. 
+Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. Copy compiled pattern to a new location, free the old memory and set the new pointer to \fBcode\fP\&.
 .PP
 \fBExceptions:\fP
 .RS 4
@@ -649,10 +665,10 @@ Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP Copy compiled pattern to a n
 
 .PP
 References code, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, freeRegexMemory(), jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2::JIT_ERROR_MESSAGE_PREFIX, jpcre2_compile_opts, rm, rr, and jpcre2::utils::throwException()\&.
-.SS "\fBjpcre2::String\fP jpcre2::Regex::getErrorMessage (int err_num, PCRE2_SIZE err_off)"
+.SS "\fBjpcre2::String\fP jpcre2::Regex::getErrorMessage (int err_num, int err_off)"
 
 .PP
-Get error message by error number and error offset\&. 
+Get error message by error number and error offset\&. Return error message according to error number and error offset\&.
 .PP
 \fBParameters:\fP
 .RS 4
@@ -672,23 +688,27 @@ References jpcre2::utils::getPcre2ErrorMessage(), jpcre2::ERROR::INVALID_MODIFIE
 .SS "\fBString\fP jpcre2::Regex::getErrorMessage (int err_num)\fC [inline]\fP"
 
 .PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Use class variable error_offest as error offset\&. 
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
+.PP
+Use class variable \fBerror_offset\fP as error offset\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIerr_num\fP 
+\fIerr_num\fP Error number 
 .RE
 .PP
 \fBReturns:\fP
 .RS 4
-Error message as a string 
+Error message as \fBjpcre2::String\fP 
 .RE
 .PP
 
 .SS "\fBString\fP jpcre2::Regex::getErrorMessage ()\fC [inline]\fP"
 
 .PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Use class variable error_number as error number and error_offest as error offset\&. 
+This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
+.PP
+Use class variable \fBerror_number\fP as error number and \fBerror_offset\fP as error offset\&. 
 .PP
 \fBReturns:\fP
 .RS 4
@@ -723,7 +743,7 @@ Get locale as a string\&.
 .SS "\fBjpcre2::String\fP jpcre2::Regex::getModifier ()"
 
 .PP
-Get modifier string\&. Calculate modifier string from \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP and return it
+Get modifier string calculated from JPCRE2 and PCRE2 options\&. Calculate modifier string from \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP and return it\&.
 .PP
 Note that, this only gives you the modifiers used for pattern compilation\&. There is no such function to get the action modifiers and neither there's any need for it as action modifiers are required to be passed anew with every action\&. On the other hand, you may set some modifiers to the \fBRegex\fP object and forget about it later or you may want to get the existing modifier and compile the regex again by modifying the existing ones\&.
 .PP
@@ -863,7 +883,7 @@ References jpcre2::RegexReplace::re\&.
 .SS "\fBSIZE_T\fP jpcre2::Regex::match (const \fBString\fP & s, const \fBString\fP & mod)\fC [inline]\fP"
 
 .PP
-Perform regex match\&. This function takes the parameters, then sets the parameters to \fBRegexMatch\fP class and calls \fBRegexMatch::match()\fP which returns the result 
+Perform regex match and return match count\&. This function takes the parameters, then sets the parameters to \fBRegexMatch\fP class and calls \fBRegexMatch::match()\fP which returns the result 
 .PP
 \fBExceptions:\fP
 .RS 4
@@ -949,7 +969,7 @@ re = Regex("new pattern");
 .SS "\fBString\fP jpcre2::Regex::replace (const \fBString\fP & mains, const \fBString\fP & repl, const \fBString\fP & mod)\fC [inline]\fP"
 
 .PP
-Perform regex replace\&. This function takes the parameters, then sets the parameters to \fBRegexReplace\fP class and calls \fBRegexReplace::replace()\fP which returns the result\&. 
+Perform regex replace and return the replaced string\&. This function takes the parameters, then sets the parameters to \fBRegexReplace\fP class and calls \fBRegexReplace::replace()\fP which returns the result\&. 
 .PP
 \fBExceptions:\fP
 .RS 4
@@ -1066,6 +1086,11 @@ Set the locale \fBmylocale\fP\&.
 Set the modifier (overwrite existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets equivalent PCRE2 and JPCRE2 options\&.
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegex::setJpcre2Option()\fP and \fBRegex::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+.RE
 .PP
 \fBParameters:\fP
 .RS 4

@@ -15,8 +15,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="129" column="1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="163" endline="178">jpcre2::Regex::getModifier</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" compoundref="jpcre2_8cpp" startline="227" endline="255">jpcre2::Regex::changeModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="198" endline="213">jpcre2::Regex::getModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a9ab3efed9819a51225456e6d8487de56" compoundref="jpcre2_8cpp" startline="285" endline="313">jpcre2::Regex::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a78025b5470499fcedb9f9bcb7cc0060b" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -42,9 +42,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="130" column="1" bodyfile="src/jpcre2.cpp" bodystart="67" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="163" endline="178">jpcre2::Regex::getModifier</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" compoundref="jpcre2_8cpp" startline="227" endline="255">jpcre2::Regex::changeModifier</referencedby>
+        <location file="src/jpcre2.hpp" line="130" column="1" bodyfile="src/jpcre2.cpp" bodystart="66" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="198" endline="213">jpcre2::Regex::getModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a9ab3efed9819a51225456e6d8487de56" compoundref="jpcre2_8cpp" startline="285" endline="313">jpcre2::Regex::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1aa17f8c8525a87009846a6b9d9e3d1336" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -58,8 +58,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="131" column="1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="163" endline="178">jpcre2::Regex::getModifier</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" compoundref="jpcre2_8cpp" startline="227" endline="255">jpcre2::Regex::changeModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="198" endline="213">jpcre2::Regex::getModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a9ab3efed9819a51225456e6d8487de56" compoundref="jpcre2_8cpp" startline="285" endline="313">jpcre2::Regex::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a455f33361efc25e03e5a8613de8a0fa0" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -76,9 +76,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="132" column="1" bodyfile="src/jpcre2.cpp" bodystart="83" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="163" endline="178">jpcre2::Regex::getModifier</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" compoundref="jpcre2_8cpp" startline="227" endline="255">jpcre2::Regex::changeModifier</referencedby>
+        <location file="src/jpcre2.hpp" line="132" column="1" bodyfile="src/jpcre2.cpp" bodystart="82" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="198" endline="213">jpcre2::Regex::getModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1Regex_1a9ab3efed9819a51225456e6d8487de56" compoundref="jpcre2_8cpp" startline="285" endline="313">jpcre2::Regex::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1ae9029cd8600f49ba50ae0c7e42804a91" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -92,7 +92,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="133" column="1"/>
-        <referencedby refid="classjpcre2_1_1RegexMatch_1a1265862f04984dfde8d36e2ff409b0c9" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::changeModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a877be3123d789020d259939bc79e8cfe" compoundref="jpcre2_8cpp" startline="502" endline="529">jpcre2::RegexMatch::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a7dd2150647fee002204e7005aa126289" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -107,8 +107,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="134" column="1" bodyfile="src/jpcre2.cpp" bodystart="109" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1RegexMatch_1a1265862f04984dfde8d36e2ff409b0c9" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::changeModifier</referencedby>
+        <location file="src/jpcre2.hpp" line="134" column="1" bodyfile="src/jpcre2.cpp" bodystart="108" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a877be3123d789020d259939bc79e8cfe" compoundref="jpcre2_8cpp" startline="502" endline="529">jpcre2::RegexMatch::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a079cc9fcb1e7eeab134b2146d4d67fe8" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -122,7 +122,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="135" column="1"/>
-        <referencedby refid="classjpcre2_1_1RegexMatch_1a1265862f04984dfde8d36e2ff409b0c9" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::changeModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a877be3123d789020d259939bc79e8cfe" compoundref="jpcre2_8cpp" startline="502" endline="529">jpcre2::RegexMatch::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a02e60618af8087b9a99ae8fbed0b887c" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -139,8 +139,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="136" column="1" bodyfile="src/jpcre2.cpp" bodystart="113" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1RegexMatch_1a1265862f04984dfde8d36e2ff409b0c9" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::changeModifier</referencedby>
+        <location file="src/jpcre2.hpp" line="136" column="1" bodyfile="src/jpcre2.cpp" bodystart="112" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a877be3123d789020d259939bc79e8cfe" compoundref="jpcre2_8cpp" startline="502" endline="529">jpcre2::RegexMatch::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a122c288202e5ffc105b93fac5a7335bf" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -154,7 +154,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="137" column="1"/>
-        <referencedby refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" compoundref="jpcre2_8cpp" startline="305" endline="333">jpcre2::RegexReplace::changeModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1a0a2dc39fc28e6f7fe0a5d638f5891bdb" compoundref="jpcre2_8cpp" startline="393" endline="421">jpcre2::RegexReplace::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1adde7332e9b90d54c907c30dfa9fbc4d6" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -172,8 +172,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="138" column="1" bodyfile="src/jpcre2.cpp" bodystart="93" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" compoundref="jpcre2_8cpp" startline="305" endline="333">jpcre2::RegexReplace::changeModifier</referencedby>
+        <location file="src/jpcre2.hpp" line="138" column="1" bodyfile="src/jpcre2.cpp" bodystart="92" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1a0a2dc39fc28e6f7fe0a5d638f5891bdb" compoundref="jpcre2_8cpp" startline="393" endline="421">jpcre2::RegexReplace::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a8d13695c0e0355460cef4f7b96076210" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -187,7 +187,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="139" column="1"/>
-        <referencedby refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" compoundref="jpcre2_8cpp" startline="305" endline="333">jpcre2::RegexReplace::changeModifier</referencedby>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1a0a2dc39fc28e6f7fe0a5d638f5891bdb" compoundref="jpcre2_8cpp" startline="393" endline="421">jpcre2::RegexReplace::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a30011385a69e77d8681517c621c2a140" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -203,8 +203,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="140" column="1" bodyfile="src/jpcre2.cpp" bodystart="101" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" compoundref="jpcre2_8cpp" startline="305" endline="333">jpcre2::RegexReplace::changeModifier</referencedby>
+        <location file="src/jpcre2.hpp" line="140" column="1" bodyfile="src/jpcre2.cpp" bodystart="100" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1a0a2dc39fc28e6f7fe0a5d638f5891bdb" compoundref="jpcre2_8cpp" startline="393" endline="421">jpcre2::RegexReplace::changeModifier</referencedby>
       </memberdef>
       </sectiondef>
     <briefdescription>

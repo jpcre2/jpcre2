@@ -1,4 +1,4 @@
-.TH "jpcre2::utils" 3 "Wed Sep 7 2016" "Version 10.25.02" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::utils" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -11,23 +11,23 @@ jpcre2::utils \- Namespace for some utility functions\&.
 
 .in +1c
 .ti -1c
-.RI "\fBString\fP \fBtoString\fP (int a)"
+.RI "\fBString\fP \fBtoString\fP (int)"
 .br
 .RI "\fIConverts an integer to String\&. \fP"
 .ti -1c
-.RI "\fBString\fP \fBtoString\fP (char a)"
+.RI "\fBString\fP \fBtoString\fP (char)"
 .br
 .RI "\fIConverts a char to String\&. \fP"
 .ti -1c
-.RI "\fBString\fP \fBtoString\fP (const char *a)"
+.RI "\fBString\fP \fBtoString\fP (const char *)"
 .br
 .RI "\fIConverts const char* to String\&. \fP"
 .ti -1c
-.RI "\fBString\fP \fBtoString\fP (PCRE2_UCHAR *a)"
+.RI "\fBString\fP \fBtoString\fP (PCRE2_UCHAR *)"
 .br
 .RI "\fIConverts a PCRE2_UCHAR* to String\&. \fP"
 .ti -1c
-.RI "\fBString\fP \fBgetPcre2ErrorMessage\fP (int err_num)"
+.RI "\fBString\fP \fBgetPcre2ErrorMessage\fP (int)"
 .br
 .RI "\fIGet PCRE2 error message for an error number\&. \fP"
 .ti -1c
@@ -40,12 +40,110 @@ jpcre2::utils \- Namespace for some utility functions\&.
 Namespace for some utility functions\&. 
 .SH "Function Documentation"
 .PP 
+.SS "\fBjpcre2::String\fP jpcre2::utils::getPcre2ErrorMessage (int err_num)"
+
+.PP
+Get PCRE2 error message for an error number\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerr_num\fP PCRE2 error number 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Error message as \fBjpcre2::String\fP 
+.RE
+.PP
+
+.PP
+References toString()\&.
+.PP
+Referenced by jpcre2::Regex::compile(), jpcre2::Regex::deepCopy(), and jpcre2::Regex::getErrorMessage()\&.
 .SS "void jpcre2::utils::throwException (int x)"
 
 .PP
-Used throughout JPCRE2 to throw exceptions\&. Function used to throw exceptions 
+Used throughout JPCRE2 to throw exceptions\&. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fIx\fP Throws x as exception 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Integer to be thrown as exception 
+.RE
+.PP
+
 .PP
 Referenced by jpcre2::RegexMatch::changeModifier(), jpcre2::RegexReplace::changeModifier(), jpcre2::Regex::changeModifier(), jpcre2::Regex::compile(), jpcre2::Regex::deepCopy(), jpcre2::RegexMatch::getNamedSubstrings(), jpcre2::RegexMatch::getNumberedSubstrings(), jpcre2::RegexMatch::match(), and jpcre2::RegexReplace::replace()\&.
+.SS "\fBjpcre2::String\fP jpcre2::utils::toString (int x)"
+
+.PP
+Converts an integer to String\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP Integer to be converted to \fBjpcre2::String\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBjpcre2::String\fP 
+.RE
+.PP
+
+.PP
+Referenced by jpcre2::Regex::compile(), jpcre2::Regex::getErrorMessage(), jpcre2::RegexMatch::getNamedSubstrings(), jpcre2::RegexMatch::getNumberedSubstrings(), getPcre2ErrorMessage(), and jpcre2::RegexReplace::replace()\&.
+.SS "\fBjpcre2::String\fP jpcre2::utils::toString (char a)"
+
+.PP
+Converts a char to String\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP char to be converted to \fBjpcre2::String\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBjpcre2::String\fP 
+.RE
+.PP
+
+.SS "\fBjpcre2::String\fP jpcre2::utils::toString (const char * a)"
+
+.PP
+Converts const char* to String\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP const char* to be converted to \fBjpcre2::String\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBjpcre2::String\fP 
+.RE
+.PP
+
+.SS "\fBjpcre2::String\fP jpcre2::utils::toString (PCRE2_UCHAR * a)"
+
+.PP
+Converts a PCRE2_UCHAR* to String\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP PCRE2_UCHAR* to be converted to \fBjpcre2::String\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBjpcre2::String\fP 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for JPCRE2 from the source code\&.
