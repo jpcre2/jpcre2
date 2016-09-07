@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="121" column="1"/>
+        <location file="src/jpcre2.hpp" line="140" column="1"/>
         <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="219" endline="234">jpcre2::Regex::getModifier</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a9ab3efed9819a51225456e6d8487de56" compoundref="jpcre2_8cpp" startline="288" endline="315">jpcre2::Regex::changeModifier</referencedby>
       </memberdef>
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="122" column="1" bodyfile="src/jpcre2.cpp" bodystart="66" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="141" column="1" bodyfile="src/jpcre2.cpp" bodystart="66" bodyend="-1"/>
         <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="219" endline="234">jpcre2::Regex::getModifier</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a9ab3efed9819a51225456e6d8487de56" compoundref="jpcre2_8cpp" startline="288" endline="315">jpcre2::Regex::changeModifier</referencedby>
       </memberdef>
@@ -57,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="123" column="1"/>
+        <location file="src/jpcre2.hpp" line="142" column="1"/>
         <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="219" endline="234">jpcre2::Regex::getModifier</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a9ab3efed9819a51225456e6d8487de56" compoundref="jpcre2_8cpp" startline="288" endline="315">jpcre2::Regex::changeModifier</referencedby>
       </memberdef>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="124" column="1" bodyfile="src/jpcre2.cpp" bodystart="82" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="143" column="1" bodyfile="src/jpcre2.cpp" bodystart="82" bodyend="-1"/>
         <referencedby refid="classjpcre2_1_1Regex_1a0ac4e063f00128b96cd94c33609dc559" compoundref="jpcre2_8cpp" startline="219" endline="234">jpcre2::Regex::getModifier</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a9ab3efed9819a51225456e6d8487de56" compoundref="jpcre2_8cpp" startline="288" endline="315">jpcre2::Regex::changeModifier</referencedby>
       </memberdef>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="125" column="1"/>
+        <location file="src/jpcre2.hpp" line="144" column="1"/>
         <referencedby refid="classjpcre2_1_1RegexMatch_1a877be3123d789020d259939bc79e8cfe" compoundref="jpcre2_8cpp" startline="501" endline="527">jpcre2::RegexMatch::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a7dd2150647fee002204e7005aa126289" prot="public" static="no" mutable="no">
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="126" column="1" bodyfile="src/jpcre2.cpp" bodystart="108" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="145" column="1" bodyfile="src/jpcre2.cpp" bodystart="108" bodyend="-1"/>
         <referencedby refid="classjpcre2_1_1RegexMatch_1a877be3123d789020d259939bc79e8cfe" compoundref="jpcre2_8cpp" startline="501" endline="527">jpcre2::RegexMatch::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a079cc9fcb1e7eeab134b2146d4d67fe8" prot="public" static="no" mutable="no">
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="127" column="1"/>
+        <location file="src/jpcre2.hpp" line="146" column="1"/>
         <referencedby refid="classjpcre2_1_1RegexMatch_1a877be3123d789020d259939bc79e8cfe" compoundref="jpcre2_8cpp" startline="501" endline="527">jpcre2::RegexMatch::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a02e60618af8087b9a99ae8fbed0b887c" prot="public" static="no" mutable="no">
@@ -139,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="128" column="1" bodyfile="src/jpcre2.cpp" bodystart="112" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="147" column="1" bodyfile="src/jpcre2.cpp" bodystart="112" bodyend="-1"/>
         <referencedby refid="classjpcre2_1_1RegexMatch_1a877be3123d789020d259939bc79e8cfe" compoundref="jpcre2_8cpp" startline="501" endline="527">jpcre2::RegexMatch::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a122c288202e5ffc105b93fac5a7335bf" prot="public" static="no" mutable="no">
@@ -153,7 +153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="129" column="1"/>
+        <location file="src/jpcre2.hpp" line="148" column="1"/>
         <referencedby refid="classjpcre2_1_1RegexReplace_1a0a2dc39fc28e6f7fe0a5d638f5891bdb" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexReplace::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1adde7332e9b90d54c907c30dfa9fbc4d6" prot="public" static="no" mutable="no">
@@ -172,7 +172,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="130" column="1" bodyfile="src/jpcre2.cpp" bodystart="92" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="149" column="1" bodyfile="src/jpcre2.cpp" bodystart="92" bodyend="-1"/>
         <referencedby refid="classjpcre2_1_1RegexReplace_1a0a2dc39fc28e6f7fe0a5d638f5891bdb" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexReplace::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a8d13695c0e0355460cef4f7b96076210" prot="public" static="no" mutable="no">
@@ -186,7 +186,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="131" column="1"/>
+        <location file="src/jpcre2.hpp" line="150" column="1"/>
         <referencedby refid="classjpcre2_1_1RegexReplace_1a0a2dc39fc28e6f7fe0a5d638f5891bdb" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexReplace::changeModifier</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a30011385a69e77d8681517c621c2a140" prot="public" static="no" mutable="no">
@@ -203,7 +203,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="132" column="1" bodyfile="src/jpcre2.cpp" bodystart="100" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="151" column="1" bodyfile="src/jpcre2.cpp" bodystart="100" bodyend="-1"/>
         <referencedby refid="classjpcre2_1_1RegexReplace_1a0a2dc39fc28e6f7fe0a5d638f5891bdb" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexReplace::changeModifier</referencedby>
       </memberdef>
       </sectiondef>
@@ -211,6 +211,6 @@
 <para>Namespace for modifier constants. </para>    </briefdescription>
     <detaileddescription>
 <para>For each modifier constant there is a <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">jpcre2::Uint</ref> option value. Some modifiers may have multiple values set together (ORed in bitwise operation) and thus they may include other modifiers. Such an example is the &apos;n&apos; modifier. It is combined together with &apos;u&apos;. </para>    </detaileddescription>
-    <location file="src/jpcre2.hpp" line="114" column="1"/>
+    <location file="src/jpcre2.hpp" line="133" column="1"/>
   </compounddef>
 </doxygen>

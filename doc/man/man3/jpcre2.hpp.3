@@ -157,29 +157,45 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 
 .in +1c
 .ti -1c
-.RI "const String \fBjpcre2::INFO::NAME\fP"
+.RI "const std::string \fBjpcre2::INFO::NAME\fP"
 .br
 .RI "\fIName of the project\&. \fP"
 .ti -1c
-.RI "const String \fBjpcre2::INFO::FULL_VERSION\fP"
+.RI "const std::string \fBjpcre2::INFO::FULL_VERSION\fP"
 .br
 .RI "\fIFull version string\&. \fP"
 .ti -1c
-.RI "const String \fBjpcre2::INFO::VERSION_GENRE\fP"
+.RI "const std::string \fBjpcre2::INFO::VERSION_GENRE\fP"
 .br
 .RI "\fIGeneration, depends on original PCRE2 version\&. \fP"
 .ti -1c
-.RI "const String \fBjpcre2::INFO::VERSION_MAJOR\fP"
+.RI "const std::string \fBjpcre2::INFO::VERSION_MAJOR\fP"
 .br
 .RI "\fIMajor version, updated when API change is made\&. \fP"
 .ti -1c
-.RI "const String \fBjpcre2::INFO::VERSION_MINOR\fP"
+.RI "const std::string \fBjpcre2::INFO::VERSION_MINOR\fP"
 .br
 .RI "\fIMinor version, includes bug fix or minor feature upgrade\&. \fP"
 .ti -1c
-.RI "const String \fBjpcre2::INFO::VERSION_PRE_RELEASE\fP"
+.RI "const std::string \fBjpcre2::INFO::VERSION_PRE_RELEASE\fP"
 .br
 .RI "\fIAlpha or beta (testing) release version\&. \fP"
+.ti -1c
+.RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
+.br
+.RI "\fIUsed by default to provide big enough initial buffer for replaced string\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::LOCALE_NONE\fP = 'JPCRE2_NONE'"
+.br
+.RI "\fIDon't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::LOCALE_DEFAULT\fP = LOCALE_NONE"
+.br
+.RI "\fIDefault locale\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::JIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
+.br
+.RI "\fIPrefix to be added to JIT error message\&. \fP"
 .ti -1c
 .RI "const String \fBjpcre2::MOD::C_N\fP"
 .br
@@ -228,22 +244,6 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .RI "const Uint \fBjpcre2::MOD::RJ_V\fP []"
 .br
 .RI "\fIArray of action (replace) modifier values for JPCRE2 options\&. \fP"
-.ti -1c
-.RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
-.br
-.RI "\fIUsed by default to provide big enough initial buffer for replaced string\&. \fP"
-.ti -1c
-.RI "const String \fBjpcre2::LOCALE_NONE\fP = 'JPCRE2_NONE'"
-.br
-.RI "\fIDon't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. \fP"
-.ti -1c
-.RI "const String \fBjpcre2::LOCALE_DEFAULT\fP = LOCALE_NONE"
-.br
-.RI "\fIDefault locale\&. \fP"
-.ti -1c
-.RI "const String \fBjpcre2::JIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
-.br
-.RI "\fIPrefix to be added to JIT error message\&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 

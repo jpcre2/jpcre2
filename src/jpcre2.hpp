@@ -70,6 +70,20 @@
  */
 namespace jpcre2 {
 
+/** @namespace jpcre2::INFO
+ *  Namespace to provide information about JPCRE2 library itself.
+ *  Contains constant Strings with version info.
+ */
+namespace INFO {
+	extern const std::string NAME;					///< Name of the project
+	extern const std::string FULL_VERSION;			///< Full version string
+	extern const std::string VERSION_GENRE;			///< Generation, depends on original PCRE2 version
+	extern const std::string VERSION_MAJOR;			///< Major version, updated when API change is made
+	extern const std::string VERSION_MINOR;			///< Minor version, includes bug fix or minor feature upgrade
+	extern const std::string VERSION_PRE_RELEASE;	///< Alpha or beta (testing) release version
+}
+
+
 typedef std::size_t SIZE_T;                     ///< Used for match count and vector size
 typedef uint32_t Uint;                          ///< Used for options (bitwise operation)
 typedef std::string String;                     ///< Used as std::string
@@ -83,18 +97,23 @@ typedef VecNtN VecNtn;                          ///< Allow spelling mistake of V
 typedef std::vector<MapNum> VecNum;             ///< Vector of matches with numbered substrings
 
 
-/** @namespace jpcre2::INFO
- *  Namespace to provide information about JPCRE2 library itself.
- *  Contains constant Strings with version info.
+extern const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE;    ///< Used by default to provide big enough initial buffer for replaced string
+extern const String LOCALE_NONE;                    ///< Don't do anything about locale if it is set to #LOCALE_NONE
+extern const String LOCALE_DEFAULT;                 ///< Default locale
+extern const String JIT_ERROR_MESSAGE_PREFIX;       ///< Prefix to be added to JIT error message
+
+
+/** These constants provide JPCRE2 options.
  */
-namespace INFO {
-	extern const String NAME;					///< Name of the project
-	extern const String FULL_VERSION;			///< Full version string
-	extern const String VERSION_GENRE;			///< Generation, depends on original PCRE2 version
-	extern const String VERSION_MAJOR;			///< Major version, updated when API change is made
-	extern const String VERSION_MINOR;			///< Minor version, includes bug fix or minor feature upgrade
-	extern const String VERSION_PRE_RELEASE;	///< Alpha or beta (testing) release version
-}
+enum {
+	NONE                    = 0x0000000u,   ///< Option 0 (zero)
+	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw
+											///< jpcre2::ERROR::INVALID_MODIFIER if any wrong modifier is passed
+	FIND_ALL                = 0x0000002u,   ///< Find all during match (global match)
+	JIT_COMPILE             = 0x0000004u,   ///< Perform JIT compilation for optimization
+	ERROR_ALL               = 0x0000008u    ///< Treat warnings as error and throw exception (warnings don't throw exception)
+};
+
 
 
 /// @namespace jpcre2::ERROR
@@ -144,23 +163,6 @@ namespace utils {
 	extern std::string getErrorMessage(int, int);     ///< Get error message from error number and error offset
 	extern void throwException(int, int);			  /// Used throughout JPCRE2 to throw exceptions
 }
-
-extern const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE;    ///< Used by default to provide big enough initial buffer for replaced string
-extern const String LOCALE_NONE;                    ///< Don't do anything about locale if it is set to #LOCALE_NONE
-extern const String LOCALE_DEFAULT;                 ///< Default locale
-extern const String JIT_ERROR_MESSAGE_PREFIX;       ///< Prefix to be added to JIT error message
-
-
-/** These constants provide JPCRE2 options.
- */
-enum {
-	NONE                    = 0x0000000u,   ///< Option 0 (zero)
-	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw
-											///< jpcre2::ERROR::INVALID_MODIFIER if any wrong modifier is passed
-	FIND_ALL                = 0x0000002u,   ///< Find all during match (global match)
-	JIT_COMPILE             = 0x0000004u,   ///< Perform JIT compilation for optimization
-	ERROR_ALL               = 0x0000008u    ///< Treat warnings as error and throw exception (warnings don't throw exception)
-};
 
 
 /** @class Except

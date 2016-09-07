@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="156" column="1" bodyfile="src/jpcre2.hpp" bodystart="156" bodyend="163"/>
+        <location file="src/jpcre2.hpp" line="108" column="1" bodyfile="src/jpcre2.hpp" bodystart="108" bodyend="115"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="73" column="1" bodyfile="src/jpcre2.hpp" bodystart="73" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="87" column="1" bodyfile="src/jpcre2.hpp" bodystart="87" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" prot="public" static="no">
         <type>uint32_t</type>
@@ -87,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="74" column="1" bodyfile="src/jpcre2.hpp" bodystart="74" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="88" column="1" bodyfile="src/jpcre2.hpp" bodystart="88" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" prot="public" static="no">
         <type>std::string</type>
@@ -100,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="75" column="1" bodyfile="src/jpcre2.hpp" bodystart="75" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="89" column="1" bodyfile="src/jpcre2.hpp" bodystart="89" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1a20bd901c9ca3c949806aa6b9e324f6cf" prot="public" static="no">
         <type>std::map&lt; <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref>, <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &gt;</type>
@@ -113,7 +113,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="76" column="1" bodyfile="src/jpcre2.hpp" bodystart="76" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="90" column="1" bodyfile="src/jpcre2.hpp" bodystart="90" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1a947e37f0e4a1678157e7f1f855638e82" prot="public" static="no">
         <type>std::map&lt; <ref refid="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c" kindref="member">SIZE_T</ref>, <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref> &gt;</type>
@@ -126,7 +126,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="77" column="1" bodyfile="src/jpcre2.hpp" bodystart="77" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="91" column="1" bodyfile="src/jpcre2.hpp" bodystart="91" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1a753ebedfb8caf4a16ffbf47d8d705656" prot="public" static="no">
         <type>std::map&lt; <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref>, <ref refid="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c" kindref="member">SIZE_T</ref> &gt;</type>
@@ -139,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="78" column="1" bodyfile="src/jpcre2.hpp" bodystart="78" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="92" column="1" bodyfile="src/jpcre2.hpp" bodystart="92" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1a09243236543ef477ff7f284c52656ef9" prot="public" static="no">
         <type><ref refid="namespacejpcre2_1a753ebedfb8caf4a16ffbf47d8d705656" kindref="member">MapNtN</ref></type>
@@ -152,7 +152,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="79" column="1" bodyfile="src/jpcre2.hpp" bodystart="79" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="93" column="1" bodyfile="src/jpcre2.hpp" bodystart="93" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1a2b121ae776ea5b2913839f418a7d856b" prot="public" static="no">
         <type>std::vector&lt; <ref refid="namespacejpcre2_1a20bd901c9ca3c949806aa6b9e324f6cf" kindref="member">MapNas</ref> &gt;</type>
@@ -165,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="80" column="1" bodyfile="src/jpcre2.hpp" bodystart="80" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="94" column="1" bodyfile="src/jpcre2.hpp" bodystart="94" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1a88a7aaf84cad627d34c8152e726168eb" prot="public" static="no">
         <type>std::vector&lt; <ref refid="namespacejpcre2_1a753ebedfb8caf4a16ffbf47d8d705656" kindref="member">MapNtN</ref> &gt;</type>
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="81" column="1" bodyfile="src/jpcre2.hpp" bodystart="81" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="95" column="1" bodyfile="src/jpcre2.hpp" bodystart="95" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1a8d6b7b4c873bc7cb4626f950d2b40f9d" prot="public" static="no">
         <type><ref refid="namespacejpcre2_1a88a7aaf84cad627d34c8152e726168eb" kindref="member">VecNtN</ref></type>
@@ -191,7 +191,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="82" column="1" bodyfile="src/jpcre2.hpp" bodystart="82" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="96" column="1" bodyfile="src/jpcre2.hpp" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespacejpcre2_1ac1cf752c8fbb0be78020be3b80e77ce3" prot="public" static="no">
         <type>std::vector&lt; <ref refid="namespacejpcre2_1a947e37f0e4a1678157e7f1f855638e82" kindref="member">MapNum</ref> &gt;</type>
@@ -204,7 +204,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="83" column="1" bodyfile="src/jpcre2.hpp" bodystart="83" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="97" column="1" bodyfile="src/jpcre2.hpp" bodystart="97" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -220,8 +220,8 @@
 <para>Use max of int as the initial size of replaced string. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="148" column="1" bodyfile="src/jpcre2.cpp" bodystart="57" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5" compoundref="jpcre2_8hpp" startline="510" endline="517">jpcre2::RegexReplace::init_vars</referencedby>
+        <location file="src/jpcre2.hpp" line="100" column="1" bodyfile="src/jpcre2.cpp" bodystart="57" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5" compoundref="jpcre2_8hpp" startline="512" endline="519">jpcre2::RegexReplace::init_vars</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -235,7 +235,7 @@
 <para>Nothing to be done on locale. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="149" column="1" bodyfile="src/jpcre2.cpp" bodystart="58" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="101" column="1" bodyfile="src/jpcre2.cpp" bodystart="58" bodyend="-1"/>
         <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="334" endline="377">jpcre2::Regex::compile</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1adfdd3d1fff99e685734ae4e59771e84d" prot="public" static="no" mutable="no">
@@ -250,8 +250,8 @@
 <para>Default local to be used. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="150" column="1" bodyfile="src/jpcre2.cpp" bodystart="59" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" compoundref="jpcre2_8hpp" startline="706" endline="713">jpcre2::Regex::init_vars</referencedby>
+        <location file="src/jpcre2.hpp" line="102" column="1" bodyfile="src/jpcre2.cpp" bodystart="59" bodyend="-1"/>
+        <referencedby refid="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" compoundref="jpcre2_8hpp" startline="708" endline="715">jpcre2::Regex::init_vars</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -265,7 +265,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="151" column="1" bodyfile="src/jpcre2.cpp" bodystart="60" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="103" column="1" bodyfile="src/jpcre2.cpp" bodystart="60" bodyend="-1"/>
         <referencedby refid="namespacejpcre2_1_1utils_1a58db3a9ce0296d70469611445cb42209" compoundref="jpcre2_8cpp" startline="172" endline="182">jpcre2::utils::getErrorMessage</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1a240790a0f3d8e97af0a76ad3f882e02a" compoundref="jpcre2_8cpp" startline="240" endline="272">jpcre2::Regex::deepCopy</referencedby>
       </memberdef>
