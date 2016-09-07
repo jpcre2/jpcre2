@@ -84,7 +84,7 @@
 <para>You can access a substring/captured group by specifying their index (position):</para><para><programlisting><codeline><highlight class="normal">std::cout&lt;&lt;vec_num[0][0];<sp/></highlight><highlight class="comment">//<sp/>group<sp/>0<sp/>in<sp/>first<sp/>match</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">std::cout&lt;&lt;vec_num[0][1];<sp/></highlight><highlight class="comment">//<sp/>group<sp/>1<sp/>in<sp/>first<sp/>match</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">std::cout&lt;&lt;vec_num[1][0];<sp/></highlight><highlight class="comment">//<sp/>group<sp/>0<sp/>in<sp/>second<sp/>match</highlight></codeline>
-</programlisting> <anchor id="_1get-named-capture-group"/></para></sect3>
+</programlisting> </para></sect3>
 <sect3 id="index_1get-named-capture-group">
 <title>Get named capture group</title>
 <para>To get named substring and/or name to number mapping, pass pointer to the appropriate vectors with <computeroutput><ref refid="classjpcre2_1_1RegexMatch_1ae495431f57cae54363331237ab21b56c" kindref="member">jpcre2::RegexMatch::setNamedSubstringVector()</ref></computeroutput> and/or <computeroutput><ref refid="classjpcre2_1_1RegexMatch_1a04926e61d8b5f1d8bdf344efecd567d8" kindref="member">jpcre2::RegexMatch::setNameToNumberMapVector()</ref></computeroutput> before doing the match.</para><para><programlisting><codeline><highlight class="normal"><ref refid="namespacejpcre2_1ac1cf752c8fbb0be78020be3b80e77ce3" kindref="member">jpcre2::VecNum</ref><sp/>vec_num;<sp/><sp/><sp/></highlight><highlight class="comment">///Vector<sp/>to<sp/>store<sp/>numbered<sp/>substring<sp/>Map.</highlight></codeline>
@@ -261,7 +261,7 @@ compile </para></entry><entry thead="no"><para>Validate modifier. Throws <comput
 </para></sect2>
 <sect2 id="index_1pcre2-options">
 <title>PCRE2 options</title>
-<para>While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the <computeroutput><ref refid="classjpcre2_1_1Regex_1a2c7dcf12f26b2b046e147b013c8b5087" kindref="member">jpcre2::Regex::addPcre2Option()</ref></computeroutput> and such functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the &apos;g&apos; modifier to the replacement operation we can also pass its PCRE2 equivalent <computeroutput>PCRE2_SUBSTITUTE_GLOBAL</computeroutput> to have the same effect.</para><para><anchor id="_1short-examples"/></para></sect2>
+<para>While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the <computeroutput><ref refid="classjpcre2_1_1Regex_1a2c7dcf12f26b2b046e147b013c8b5087" kindref="member">jpcre2::Regex::addPcre2Option()</ref></computeroutput> and such functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the &apos;g&apos; modifier to the replacement operation we can also pass its PCRE2 equivalent <computeroutput>PCRE2_SUBSTITUTE_GLOBAL</computeroutput> to have the same effect.</para><para></para></sect2>
 </sect1>
 <sect1 id="index_1short-examples">
 <title>Short examples</title>
