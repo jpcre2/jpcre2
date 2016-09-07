@@ -1,5 +1,6 @@
 var jpcre2_8hpp =
 [
+    [ "Except", "classjpcre2_1_1Except.html", "classjpcre2_1_1Except" ],
     [ "RegexMatch", "classjpcre2_1_1RegexMatch.html", "classjpcre2_1_1RegexMatch" ],
     [ "RegexReplace", "classjpcre2_1_1RegexReplace.html", "classjpcre2_1_1RegexReplace" ],
     [ "Regex", "classjpcre2_1_1Regex.html", "classjpcre2_1_1Regex" ],
@@ -22,8 +23,9 @@ var jpcre2_8hpp =
     [ "ERROR_ALL", "jpcre2_8hpp.html#a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552", null ],
     [ "INVALID_MODIFIER", "jpcre2_8hpp.html#a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff", null ],
     [ "JIT_COMPILE_FAILED", "jpcre2_8hpp.html#a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e", null ],
-    [ "getPcre2ErrorMessage", "jpcre2_8hpp.html#a46868509af4188b7250b01384a16427e", null ],
-    [ "throwException", "jpcre2_8hpp.html#ae46ee8a2fbb7bc5b583aee0d1f047052", null ],
+    [ "getErrorMessage", "jpcre2_8hpp.html#a58db3a9ce0296d70469611445cb42209", null ],
+    [ "getPcre2ErrorMessage", "jpcre2_8hpp.html#a6f28489b48095eeaacfaa43a0a8e87a6", null ],
+    [ "throwException", "jpcre2_8hpp.html#a71c7842918bdcc6936266813981492dc", null ],
     [ "toString", "jpcre2_8hpp.html#a3603a3493202e7408e18fd0a912bf725", null ],
     [ "toString", "jpcre2_8hpp.html#a917512161b56047d6ef240bdba2ac212", null ],
     [ "toString", "jpcre2_8hpp.html#a4065a2a40144999cd2a94e7a7e1d5eb6", null ],

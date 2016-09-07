@@ -5,7 +5,7 @@
  * */
 
 #include <iostream>
-#include "jpcre2.cpp"
+#include "jpcre2.hpp"
 
 
 int main(){
@@ -20,7 +20,7 @@ int main(){
         
     /******************************************************************************************************************
      * Use try catch block to catch any exception and avoid unexpected termination of the program in case of error
-     * All jpcre2 exceptions are of type int (integer)
+     * All jpcre2 exceptions are of type jpcre2::Except
      * ****************************************************************************************************************/
     
     //subject string

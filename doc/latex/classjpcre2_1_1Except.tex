@@ -1,0 +1,167 @@
+\hypertarget{classjpcre2_1_1Except}{}\subsection{jpcre2\+:\+:Except Class Reference}
+\label{classjpcre2_1_1Except}\index{jpcre2\+::\+Except@{jpcre2\+::\+Except}}
+
+
+Class to handle exception.  
+
+
+
+
+{\ttfamily \#include $<$jpcre2.\+hpp$>$}
+
+
+
+Inherits std\+::exception.
+
+
+
+Collaboration diagram for jpcre2\+:\+:Except\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{classjpcre2_1_1Except__coll__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classjpcre2_1_1Except_a302b67f0fbc5f906bac67a4572ff29ec}{Except} (const std\+::string \&msg, int err\+\_\+num, int err\+\_\+off)
+\begin{DoxyCompactList}\small\item\em Constructor (C++ S\+TL strings). \end{DoxyCompactList}\item 
+virtual \hyperlink{classjpcre2_1_1Except_a569a8058f61bb4e0b7085f18c4bd528c}{$\sim$\+Except} ()  throw ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual const char $\ast$ \hyperlink{classjpcre2_1_1Except_a25b9f1b3aed24f47eee5c06b859b4adf}{what} () const   throw ()
+\begin{DoxyCompactList}\small\item\em Returns a pointer to the (constant) error description. \end{DoxyCompactList}\item 
+virtual int \hyperlink{classjpcre2_1_1Except_aaaf8e0495d44a7767bdaaec6e0ad8f86}{get\+Error\+Number} () const   throw ()
+\begin{DoxyCompactList}\small\item\em Returns error number. \end{DoxyCompactList}\item 
+virtual int \hyperlink{classjpcre2_1_1Except_a1d866b4f80cf0b4103db226e55c9cef8}{get\+Error\+Offset} () const   throw ()
+\begin{DoxyCompactList}\small\item\em Returns error offset. \end{DoxyCompactList}\item 
+virtual const char $\ast$ \hyperlink{classjpcre2_1_1Except_aa9f557fe16222ac89a30c438212c0c09}{get\+Error\+Message} () const   throw ()
+\begin{DoxyCompactList}\small\item\em Just another name for \hyperlink{classjpcre2_1_1Except_a25b9f1b3aed24f47eee5c06b859b4adf}{what()} for convenience. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classjpcre2_1_1Except_aa72e1a71b4cdf1d4baecce57b63caafc}{error\+\_\+number}\hypertarget{classjpcre2_1_1Except_aa72e1a71b4cdf1d4baecce57b63caafc}{}\label{classjpcre2_1_1Except_aa72e1a71b4cdf1d4baecce57b63caafc}
+
+\begin{DoxyCompactList}\small\item\em Error number. \end{DoxyCompactList}\item 
+int \hyperlink{classjpcre2_1_1Except_a12b09693ebee9b4a8b981ec1bd7506c4}{error\+\_\+offset}\hypertarget{classjpcre2_1_1Except_a12b09693ebee9b4a8b981ec1bd7506c4}{}\label{classjpcre2_1_1Except_a12b09693ebee9b4a8b981ec1bd7506c4}
+
+\begin{DoxyCompactList}\small\item\em Error offset. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{classjpcre2_1_1Except_a88590c6c8c512608c1000639d527dd55}{error\+\_\+message}\hypertarget{classjpcre2_1_1Except_a88590c6c8c512608c1000639d527dd55}{}\label{classjpcre2_1_1Except_a88590c6c8c512608c1000639d527dd55}
+
+\begin{DoxyCompactList}\small\item\em Error message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+Class to handle exception. 
+
+Provides public functions to get the error number, error offset and error message.
+
+Any exception should be caught by reference, e.\+g 
+\begin{DoxyCode}
+\textcolor{keywordflow}{try} \{
+    \textcolor{keywordflow}{throw} \hyperlink{classjpcre2_1_1Except_a302b67f0fbc5f906bac67a4572ff29ec}{Except}(\textcolor{stringliteral}{"Error"}, 1, 2);
+\}
+\textcolor{keywordflow}{catch}( \hyperlink{classjpcre2_1_1Except_a302b67f0fbc5f906bac67a4572ff29ec}{Except}& e)\{
+    std::cout<<e.what();
+\}
+\end{DoxyCode}
+ 
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{jpcre2\+::\+Except@{jpcre2\+::\+Except}!Except@{Except}}
+\index{Except@{Except}!jpcre2\+::\+Except@{jpcre2\+::\+Except}}
+\paragraph[{\texorpdfstring{Except(const std\+::string \&msg, int err\+\_\+num, int err\+\_\+off)}{Except(const std::string &msg, int err_num, int err_off)}}]{\setlength{\rightskip}{0pt plus 5cm}jpcre2\+::\+Except\+::\+Except (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{msg, }
+\item[{int}]{err\+\_\+num, }
+\item[{int}]{err\+\_\+off}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}\hypertarget{classjpcre2_1_1Except_a302b67f0fbc5f906bac67a4572ff29ec}{}\label{classjpcre2_1_1Except_a302b67f0fbc5f906bac67a4572ff29ec}
+
+
+Constructor (C++ S\+TL strings). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & The error message \\
+\hline
+{\em err\+\_\+num} & Error number \\
+\hline
+{\em err\+\_\+off} & Error offset \\
+\hline
+\end{DoxyParams}
+\index{jpcre2\+::\+Except@{jpcre2\+::\+Except}!````~Except@{$\sim$\+Except}}
+\index{````~Except@{$\sim$\+Except}!jpcre2\+::\+Except@{jpcre2\+::\+Except}}
+\paragraph[{\texorpdfstring{$\sim$\+Except()}{~Except()}}]{\setlength{\rightskip}{0pt plus 5cm}virtual jpcre2\+::\+Except\+::$\sim$\+Except (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throw  ) \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classjpcre2_1_1Except_a569a8058f61bb4e0b7085f18c4bd528c}{}\label{classjpcre2_1_1Except_a569a8058f61bb4e0b7085f18c4bd528c}
+
+
+Destructor. 
+
+Virtual to allow for subclassing. 
+
+\subsubsection{Member Function Documentation}
+\index{jpcre2\+::\+Except@{jpcre2\+::\+Except}!get\+Error\+Message@{get\+Error\+Message}}
+\index{get\+Error\+Message@{get\+Error\+Message}!jpcre2\+::\+Except@{jpcre2\+::\+Except}}
+\paragraph[{\texorpdfstring{get\+Error\+Message() const }{getErrorMessage() const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual const char$\ast$ jpcre2\+::\+Except\+::get\+Error\+Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classjpcre2_1_1Except_aa9f557fe16222ac89a30c438212c0c09}{}\label{classjpcre2_1_1Except_aa9f557fe16222ac89a30c438212c0c09}
+
+
+Just another name for \hyperlink{classjpcre2_1_1Except_a25b9f1b3aed24f47eee5c06b859b4adf}{what()} for convenience. 
+
+Returns a pointer to the (constant) error description. \begin{DoxyReturn}{Returns}
+A pointer to a const char$\ast$. The underlying memory is in possession of the Exception object. Callers must not attempt to free the memory. 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Except@{jpcre2\+::\+Except}!get\+Error\+Number@{get\+Error\+Number}}
+\index{get\+Error\+Number@{get\+Error\+Number}!jpcre2\+::\+Except@{jpcre2\+::\+Except}}
+\paragraph[{\texorpdfstring{get\+Error\+Number() const }{getErrorNumber() const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual int jpcre2\+::\+Except\+::get\+Error\+Number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classjpcre2_1_1Except_aaaf8e0495d44a7767bdaaec6e0ad8f86}{}\label{classjpcre2_1_1Except_aaaf8e0495d44a7767bdaaec6e0ad8f86}
+
+
+Returns error number. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1Except_aa72e1a71b4cdf1d4baecce57b63caafc}{error\+\_\+number} 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Except@{jpcre2\+::\+Except}!get\+Error\+Offset@{get\+Error\+Offset}}
+\index{get\+Error\+Offset@{get\+Error\+Offset}!jpcre2\+::\+Except@{jpcre2\+::\+Except}}
+\paragraph[{\texorpdfstring{get\+Error\+Offset() const }{getErrorOffset() const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual int jpcre2\+::\+Except\+::get\+Error\+Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classjpcre2_1_1Except_a1d866b4f80cf0b4103db226e55c9cef8}{}\label{classjpcre2_1_1Except_a1d866b4f80cf0b4103db226e55c9cef8}
+
+
+Returns error offset. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1Except_a12b09693ebee9b4a8b981ec1bd7506c4}{error\+\_\+offset} 
+\end{DoxyReturn}
+\index{jpcre2\+::\+Except@{jpcre2\+::\+Except}!what@{what}}
+\index{what@{what}!jpcre2\+::\+Except@{jpcre2\+::\+Except}}
+\paragraph[{\texorpdfstring{what() const }{what() const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual const char$\ast$ jpcre2\+::\+Except\+::what (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const throw  ) \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classjpcre2_1_1Except_a25b9f1b3aed24f47eee5c06b859b4adf}{}\label{classjpcre2_1_1Except_a25b9f1b3aed24f47eee5c06b859b4adf}
+
+
+Returns a pointer to the (constant) error description. 
+
+\begin{DoxyReturn}{Returns}
+A pointer to a const char$\ast$. The underlying memory is in possession of the \hyperlink{classjpcre2_1_1Except}{Except} object. Callers must not attempt to free the memory. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{jpcre2_8hpp}{jpcre2.\+hpp}\end{DoxyCompactItemize}

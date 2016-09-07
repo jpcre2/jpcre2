@@ -1,4 +1,4 @@
-.TH "jpcre2::utils" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::utils" 3 "Thu Sep 8 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -27,11 +27,15 @@ jpcre2::utils \- Namespace for some utility functions\&.
 .br
 .RI "\fIConverts a PCRE2_UCHAR* to String\&. \fP"
 .ti -1c
-.RI "\fBString\fP \fBgetPcre2ErrorMessage\fP (int)"
+.RI "std::string \fBgetPcre2ErrorMessage\fP (int)"
 .br
 .RI "\fIGet PCRE2 error message for an error number\&. \fP"
 .ti -1c
-.RI "void \fBthrowException\fP (int)"
+.RI "std::string \fBgetErrorMessage\fP (int, int)"
+.br
+.RI "\fIGet error message from error number and error offset\&. \fP"
+.ti -1c
+.RI "void \fBthrowException\fP (int, int)"
 .br
 .RI "\fIUsed throughout JPCRE2 to throw exceptions\&. \fP"
 .in -1c
@@ -40,7 +44,29 @@ jpcre2::utils \- Namespace for some utility functions\&.
 Namespace for some utility functions\&. 
 .SH "Function Documentation"
 .PP 
-.SS "\fBjpcre2::String\fP jpcre2::utils::getPcre2ErrorMessage (int err_num)"
+.SS "std::string jpcre2::utils::getErrorMessage (int err_num, int err_off)"
+
+.PP
+Get error message from error number and error offset\&. Return error message according to error number and error offset\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIerr_num\fP Error number 
+.br
+\fIerr_off\fP Error offset 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Error message as a string 
+.RE
+.PP
+
+.PP
+References getPcre2ErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2::JIT_ERROR_MESSAGE_PREFIX, and toString()\&.
+.PP
+Referenced by jpcre2::RegexMatch::changeModifier(), jpcre2::RegexReplace::changeModifier(), jpcre2::Regex::changeModifier(), and throwException()\&.
+.SS "std::string jpcre2::utils::getPcre2ErrorMessage (int err_num)"
 
 .PP
 Get PCRE2 error message for an error number\&. 
@@ -59,23 +85,27 @@ Error message as \fBjpcre2::String\fP
 .PP
 References toString()\&.
 .PP
-Referenced by jpcre2::Regex::compile(), jpcre2::Regex::deepCopy(), and jpcre2::Regex::getErrorMessage()\&.
-.SS "void jpcre2::utils::throwException (int x)"
+Referenced by jpcre2::Regex::compile(), jpcre2::Regex::deepCopy(), and getErrorMessage()\&.
+.SS "void jpcre2::utils::throwException (int err_num, int err_off)"
 
 .PP
 Used throughout JPCRE2 to throw exceptions\&. 
 .PP
 \fBExceptions:\fP
 .RS 4
-\fIx\fP Throws x as exception 
+\fI\fBjpcre2::Except\fP\fP Throws exception\&. Should be caught by reference\&. See \fBjpcre2::Except\fP for details\&. 
 .RE
 .PP
 \fBParameters:\fP
 .RS 4
-\fIx\fP Integer to be thrown as exception 
+\fIerr_num\fP Error number 
+.br
+\fIerr_off\fP Error offset 
 .RE
 .PP
 
+.PP
+References getErrorMessage()\&.
 .PP
 Referenced by jpcre2::RegexMatch::changeModifier(), jpcre2::RegexReplace::changeModifier(), jpcre2::Regex::changeModifier(), jpcre2::Regex::compile(), jpcre2::Regex::deepCopy(), jpcre2::RegexMatch::getNamedSubstrings(), jpcre2::RegexMatch::getNumberedSubstrings(), jpcre2::RegexMatch::match(), and jpcre2::RegexReplace::replace()\&.
 .SS "\fBjpcre2::String\fP jpcre2::utils::toString (int x)"
@@ -95,7 +125,7 @@ Converts an integer to String\&.
 .PP
 
 .PP
-Referenced by jpcre2::Regex::compile(), jpcre2::Regex::getErrorMessage(), jpcre2::RegexMatch::getNamedSubstrings(), jpcre2::RegexMatch::getNumberedSubstrings(), getPcre2ErrorMessage(), and jpcre2::RegexReplace::replace()\&.
+Referenced by jpcre2::Regex::compile(), getErrorMessage(), jpcre2::RegexMatch::getNamedSubstrings(), jpcre2::RegexMatch::getNumberedSubstrings(), getPcre2ErrorMessage(), and jpcre2::RegexReplace::replace()\&.
 .SS "\fBjpcre2::String\fP jpcre2::utils::toString (char a)"
 
 .PP

@@ -1,4 +1,6 @@
 <map id="jpcre2::RegexMatch::getNumberedSubstrings" name="jpcre2::RegexMatch::getNumberedSubstrings">
-<area shape="rect" id="node2" href="$namespacejpcre2_1_1utils.html#ae46ee8a2fbb7bc5b583aee0d1f047052" title="Used throughout JPCRE2 to throw exceptions. " alt="" coords="224,5,411,32"/>
-<area shape="rect" id="node3" href="$namespacejpcre2_1_1utils.html#a3603a3493202e7408e18fd0a912bf725" title="Converts an integer to String. " alt="" coords="246,56,389,83"/>
+<area shape="rect" id="node2" href="$namespacejpcre2_1_1utils.html#a71c7842918bdcc6936266813981492dc" title="Used throughout JPCRE2 to throw exceptions. " alt="" coords="224,35,411,62"/>
+<area shape="rect" id="node4" href="$namespacejpcre2_1_1utils.html#a3603a3493202e7408e18fd0a912bf725" title="Converts an integer to String. " alt="" coords="928,31,1071,58"/>
+<area shape="rect" id="node3" href="$namespacejpcre2_1_1utils.html#a58db3a9ce0296d70469611445cb42209" title="Get error message from error number and error offset. " alt="" coords="459,31,655,58"/>
+<area shape="rect" id="node5" href="$namespacejpcre2_1_1utils.html#a6f28489b48095eeaacfaa43a0a8e87a6" title="Get PCRE2 error message for an error number. " alt="" coords="703,24,880,65"/>
 </map>

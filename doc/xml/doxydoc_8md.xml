@@ -116,9 +116,9 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::Regex<sp/>re3(&quot;pattern3&quot;,<sp/>PCRE2_ANCHORED);</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::Regex<sp/>re4(&quot;pattern4&quot;,<sp/>PCRE2_ANCHORED,<sp/>jpcre2::JIT_COMPILE);</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
-<codeline><highlight class="normal">catch(int<sp/>e){</highlight></codeline>
+<codeline><highlight class="normal">catch(jpcre2::Except&amp;<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>/*Handle<sp/>error*/</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;e.getErrorMessage()&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 <codeline><highlight class="normal">```</highlight></codeline>
 <codeline></codeline>
@@ -157,9 +157,9 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//vec_num<sp/>will<sp/>be<sp/>populated<sp/>with<sp/>maps<sp/>of<sp/>numbered<sp/>substrings.</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//count<sp/>is<sp/>the<sp/>total<sp/>number<sp/>of<sp/>matches<sp/>found</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
-<codeline><highlight class="normal">catch(int<sp/>e){</highlight></codeline>
+<codeline><highlight class="normal">catch(jpcre2::Except&amp;<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>/*Handle<sp/>error*/</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;e.getErrorMessage()&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 <codeline><highlight class="normal">```</highlight></codeline>
 <codeline><highlight class="normal">###<sp/>Access<sp/>a<sp/>captured<sp/>group<sp/>{#access-a-capture-group}</highlight></codeline>
@@ -189,9 +189,9 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.setNameToNumberMapVector(&amp;vec_ntn)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//pass<sp/>pointer<sp/>to<sp/>vector<sp/>of<sp/>name<sp/>to<sp/>number<sp/>maps</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.match();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//Finally<sp/>perform<sp/>the<sp/>match()</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
-<codeline><highlight class="normal">catch(int<sp/>e){</highlight></codeline>
+<codeline><highlight class="normal">catch(jpcre2::Except&amp;<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>/*Handle<sp/>error*/</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;e.getErrorMessage()&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 <codeline><highlight class="normal">```</highlight></codeline>
 <codeline></codeline>
@@ -273,9 +273,9 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//Access<sp/>substrings/captured<sp/>groups<sp/>with<sp/>${1234},$1234<sp/>(for<sp/>numbered<sp/>substrings)</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>or<sp/>${name}<sp/>(for<sp/>named<sp/>substrings)<sp/>in<sp/>the<sp/>replacement<sp/>part<sp/>i.e<sp/>in<sp/>setReplaceWith()</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
-<codeline><highlight class="normal">catch(int<sp/>e){</highlight></codeline>
+<codeline><highlight class="normal">catch(jpcre2::Except&amp;<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>/*Handle<sp/>error*/</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.getErrorMessage(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;e.getErrorMessage()&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 <codeline><highlight class="normal">```</highlight></codeline>
 <codeline><highlight class="normal">If<sp/>you<sp/>pass<sp/>the<sp/>size<sp/>of<sp/>the<sp/>resultant<sp/>string<sp/>with<sp/>`jpcre2::RegexReplace::setBufferSize()`<sp/>function,<sp/>make<sp/>sure<sp/>it<sp/>will<sp/>be<sp/>enough<sp/>to<sp/>store<sp/>the<sp/>whole<sp/>resultant<sp/>replaced<sp/>string;<sp/>otherwise<sp/>the<sp/>internal<sp/>replace<sp/>function<sp/>(`pcre2_substitute()`)<sp/>will<sp/>be<sp/>called<sp/>*twice*<sp/>to<sp/>adjust<sp/>the<sp/>size<sp/>of<sp/>the<sp/>buffer<sp/>to<sp/>hold<sp/>the<sp/>whole<sp/>resultant<sp/>string<sp/>in<sp/>order<sp/>to<sp/>avoid<sp/>`PCRE2_ERROR_NOMEMORY`<sp/>error.</highlight></codeline>
@@ -344,7 +344,7 @@
 <codeline><highlight class="normal">Option<sp/>|<sp/>Details</highlight></codeline>
 <codeline><highlight class="normal">------<sp/>|<sp/>------</highlight></codeline>
 <codeline><highlight class="normal">`jpcre2::NONE`<sp/>|<sp/>This<sp/>is<sp/>the<sp/>default<sp/>option.<sp/>Equivalent<sp/>to<sp/>0<sp/>(zero).</highlight></codeline>
-<codeline><highlight class="normal">`jpcre2::VALIDATE_MODIFIER`<sp/>|<sp/>If<sp/>this<sp/>option<sp/>is<sp/>passed,<sp/>modifiers<sp/>will<sp/>be<sp/>subject<sp/>to<sp/>validation<sp/>check.<sp/>If<sp/>any<sp/>of<sp/>them<sp/>is<sp/>invalid,<sp/>a<sp/>`jpcre2::ERROR::INVALID_MODIFIER`<sp/>error<sp/>exception<sp/>will<sp/>be<sp/>thrown.<sp/>You<sp/>can<sp/>get<sp/>the<sp/>error<sp/>message<sp/>with<sp/>`jpcre2::Regex::getErrorMessage()`<sp/>member<sp/>function.</highlight></codeline>
+<codeline><highlight class="normal">`jpcre2::VALIDATE_MODIFIER`<sp/>|<sp/>If<sp/>this<sp/>option<sp/>is<sp/>passed,<sp/>modifiers<sp/>will<sp/>be<sp/>subject<sp/>to<sp/>validation<sp/>check.<sp/>If<sp/>any<sp/>of<sp/>them<sp/>is<sp/>invalid,<sp/>a<sp/>`jpcre2::ERROR::INVALID_MODIFIER`<sp/>error<sp/>exception<sp/>will<sp/>be<sp/>thrown.</highlight></codeline>
 <codeline><highlight class="normal">`jpcre2::FIND_ALL`<sp/>|<sp/>This<sp/>option<sp/>will<sp/>do<sp/>a<sp/>global<sp/>matching<sp/>if<sp/>passed<sp/>during<sp/>matching.<sp/>The<sp/>same<sp/>can<sp/>be<sp/>achieved<sp/>by<sp/>passing<sp/>the<sp/>&apos;g&apos;<sp/>modifier<sp/>with<sp/>`jpcre2::RegexMatch::setModifier()`<sp/>function.</highlight></codeline>
 <codeline><highlight class="normal">`jpcre2::ERROR_ALL`<sp/>|<sp/>Treat<sp/>warnings<sp/>as<sp/>errors<sp/>and<sp/>throw<sp/>exception.</highlight></codeline>
 <codeline><highlight class="normal">`jpcre2::JIT_COMPILE`<sp/>|<sp/>This<sp/>is<sp/>same<sp/>as<sp/>passing<sp/>the<sp/>`S`<sp/>modifier<sp/>during<sp/>pattern<sp/>compilation.</highlight></codeline>

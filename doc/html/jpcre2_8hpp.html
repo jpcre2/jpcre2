@@ -131,6 +131,7 @@ $(document).ready(function(){initNavTree('jpcre2_8hpp.html','');});
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
+<code>#include &lt;exception&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for jpcre2.hpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -145,10 +146,11 @@ $(document).ready(function(){initNavTree('jpcre2_8hpp.html','');});
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="jpcre2_8hpp__dep__incl.png" border="0" usemap="#jpcre2_8hppdep" alt=""/></div>
 <map name="jpcre2_8hppdep" id="jpcre2_8hppdep">
-<area shape="rect" id="node2" href="test__match2_8cpp.html" title="Contains an example to take subject string, pattern and modifier from user input and perform regex ma..." alt="" coords="5,80,124,107"/>
-<area shape="rect" id="node3" href="test__replace_8cpp.html" title="An example of doing regex replace with JPCRE2. " alt="" coords="148,80,267,107"/>
-<area shape="rect" id="node4" href="test__replace2_8cpp.html" title="Contains an example to take subject string, replacement string, modifier and pattern from user input ..." alt="" coords="291,80,417,107"/>
-<area shape="rect" id="node5" href="test__shorts_8cpp.html" title="Contains some short examples of performing regex match and regex replace with JPCRE2. " alt="" coords="441,80,553,107"/>
+<area shape="rect" id="node3" href="test__match_8cpp.html" title="An example of performing regex match against a pattern with JPCRE2 and getting the match count and ma..." alt="" coords="112,80,224,107"/>
+<area shape="rect" id="node4" href="test__match2_8cpp.html" title="Contains an example to take subject string, pattern and modifier from user input and perform regex ma..." alt="" coords="247,80,366,107"/>
+<area shape="rect" id="node5" href="test__replace_8cpp.html" title="An example of doing regex replace with JPCRE2. " alt="" coords="390,80,509,107"/>
+<area shape="rect" id="node6" href="test__replace2_8cpp.html" title="Contains an example to take subject string, replacement string, modifier and pattern from user input ..." alt="" coords="533,80,659,107"/>
+<area shape="rect" id="node7" href="test__shorts_8cpp.html" title="Contains some short examples of performing regex match and regex replace with JPCRE2. " alt="" coords="683,80,795,107"/>
 </map>
 </div>
 </div>
@@ -156,6 +158,9 @@ $(document).ready(function(){initNavTree('jpcre2_8hpp.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1Except.html">jpcre2::Except</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class to handle exception.  <a href="classjpcre2_1_1Except.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexMatch.html">jpcre2::RegexMatch</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the <a class="el" href="classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33" title="Store match result in vectors and return the number of matches. ">RegexMatch::match()</a> function to perform regex matching.  <a href="classjpcre2_1_1RegexMatch.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -255,12 +260,15 @@ Functions</h2></td></tr>
 <tr class="memitem:aea66a35f467adf41730c5a3bb21be6ed"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html#aea66a35f467adf41730c5a3bb21be6ed">jpcre2::utils::toString</a> (PCRE2_UCHAR *)</td></tr>
 <tr class="memdesc:aea66a35f467adf41730c5a3bb21be6ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a PCRE2_UCHAR* to String.  <a href="namespacejpcre2_1_1utils.html#aea66a35f467adf41730c5a3bb21be6ed">More...</a><br /></td></tr>
 <tr class="separator:aea66a35f467adf41730c5a3bb21be6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46868509af4188b7250b01384a16427e"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html#a46868509af4188b7250b01384a16427e">jpcre2::utils::getPcre2ErrorMessage</a> (int)</td></tr>
-<tr class="memdesc:a46868509af4188b7250b01384a16427e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get PCRE2 error message for an error number.  <a href="namespacejpcre2_1_1utils.html#a46868509af4188b7250b01384a16427e">More...</a><br /></td></tr>
-<tr class="separator:a46868509af4188b7250b01384a16427e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae46ee8a2fbb7bc5b583aee0d1f047052"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html#ae46ee8a2fbb7bc5b583aee0d1f047052">jpcre2::utils::throwException</a> (int)</td></tr>
-<tr class="memdesc:ae46ee8a2fbb7bc5b583aee0d1f047052"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used throughout JPCRE2 to throw exceptions.  <a href="namespacejpcre2_1_1utils.html#ae46ee8a2fbb7bc5b583aee0d1f047052">More...</a><br /></td></tr>
-<tr class="separator:ae46ee8a2fbb7bc5b583aee0d1f047052"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f28489b48095eeaacfaa43a0a8e87a6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html#a6f28489b48095eeaacfaa43a0a8e87a6">jpcre2::utils::getPcre2ErrorMessage</a> (int)</td></tr>
+<tr class="memdesc:a6f28489b48095eeaacfaa43a0a8e87a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get PCRE2 error message for an error number.  <a href="namespacejpcre2_1_1utils.html#a6f28489b48095eeaacfaa43a0a8e87a6">More...</a><br /></td></tr>
+<tr class="separator:a6f28489b48095eeaacfaa43a0a8e87a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58db3a9ce0296d70469611445cb42209"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html#a58db3a9ce0296d70469611445cb42209">jpcre2::utils::getErrorMessage</a> (int, int)</td></tr>
+<tr class="memdesc:a58db3a9ce0296d70469611445cb42209"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get error message from error number and error offset.  <a href="namespacejpcre2_1_1utils.html#a58db3a9ce0296d70469611445cb42209">More...</a><br /></td></tr>
+<tr class="separator:a58db3a9ce0296d70469611445cb42209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71c7842918bdcc6936266813981492dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html#a71c7842918bdcc6936266813981492dc">jpcre2::utils::throwException</a> (int, int)</td></tr>
+<tr class="memdesc:a71c7842918bdcc6936266813981492dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used throughout JPCRE2 to throw exceptions.  <a href="namespacejpcre2_1_1utils.html#a71c7842918bdcc6936266813981492dc">More...</a><br /></td></tr>
+<tr class="separator:a71c7842918bdcc6936266813981492dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -287,19 +295,6 @@ const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1INFO.html#a85fb46b46141271d426f53b2c2ba6b15">jpcre2::INFO::VERSION_PRE_RELEASE</a></td></tr>
 <tr class="memdesc:a85fb46b46141271d426f53b2c2ba6b15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alpha or beta (testing) release version. <br /></td></tr>
 <tr class="separator:a85fb46b46141271d426f53b2c2ba6b15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80cb201f2e733137b22a8ed98465096a"><td class="memItemLeft" align="right" valign="top">const SIZE_T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">jpcre2::SUBSTITUTE_RESULT_INIT_SIZE</a> = std::numeric_limits&lt;int&gt;::max()</td></tr>
-<tr class="memdesc:a80cb201f2e733137b22a8ed98465096a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used by default to provide big enough initial buffer for replaced string.  <a href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">More...</a><br /></td></tr>
-<tr class="separator:a80cb201f2e733137b22a8ed98465096a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2236dcdcc14d580724b256ce7f168e5"><td class="memItemLeft" align="right" valign="top">const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5">jpcre2::LOCALE_NONE</a> = &quot;JPCRE2_NONE&quot;</td></tr>
-<tr class="memdesc:ad2236dcdcc14d580724b256ce7f168e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Don't do anything about locale if it is set to <a class="el" href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5" title="Don&#39;t do anything about locale if it is set to LOCALE_NONE. ">LOCALE_NONE</a>.  <a href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5">More...</a><br /></td></tr>
-<tr class="separator:ad2236dcdcc14d580724b256ce7f168e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfdd3d1fff99e685734ae4e59771e84d"><td class="memItemLeft" align="right" valign="top">const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#adfdd3d1fff99e685734ae4e59771e84d">jpcre2::LOCALE_DEFAULT</a> = LOCALE_NONE</td></tr>
-<tr class="memdesc:adfdd3d1fff99e685734ae4e59771e84d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default locale.  <a href="namespacejpcre2.html#adfdd3d1fff99e685734ae4e59771e84d">More...</a><br /></td></tr>
-<tr class="separator:adfdd3d1fff99e685734ae4e59771e84d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf6c3bff9268a572c299958d334ff26e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf6c3bff9268a572c299958d334ff26e"></a>
-const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#abf6c3bff9268a572c299958d334ff26e">jpcre2::JIT_ERROR_MESSAGE_PREFIX</a> = &quot;JIT compilation failed! &quot;</td></tr>
-<tr class="memdesc:abf6c3bff9268a572c299958d334ff26e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prefix to be added to JIT error message. <br /></td></tr>
-<tr class="separator:abf6c3bff9268a572c299958d334ff26e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b72b258386dc5ea4a23504e89908247"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b72b258386dc5ea4a23504e89908247"></a>
 const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1MOD.html#a3b72b258386dc5ea4a23504e89908247">jpcre2::MOD::C_N</a></td></tr>
 <tr class="memdesc:a3b72b258386dc5ea4a23504e89908247"><td class="mdescLeft">&#160;</td><td class="mdescRight">String of compile modifier characters for PCRE2 options. <br /></td></tr>
@@ -348,11 +343,24 @@ const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 const Uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1MOD.html#a30011385a69e77d8681517c621c2a140">jpcre2::MOD::RJ_V</a> []</td></tr>
 <tr class="memdesc:a30011385a69e77d8681517c621c2a140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of action (replace) modifier values for JPCRE2 options. <br /></td></tr>
 <tr class="separator:a30011385a69e77d8681517c621c2a140"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80cb201f2e733137b22a8ed98465096a"><td class="memItemLeft" align="right" valign="top">const SIZE_T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">jpcre2::SUBSTITUTE_RESULT_INIT_SIZE</a> = std::numeric_limits&lt;int&gt;::max()</td></tr>
+<tr class="memdesc:a80cb201f2e733137b22a8ed98465096a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used by default to provide big enough initial buffer for replaced string.  <a href="namespacejpcre2.html#a80cb201f2e733137b22a8ed98465096a">More...</a><br /></td></tr>
+<tr class="separator:a80cb201f2e733137b22a8ed98465096a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2236dcdcc14d580724b256ce7f168e5"><td class="memItemLeft" align="right" valign="top">const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5">jpcre2::LOCALE_NONE</a> = &quot;JPCRE2_NONE&quot;</td></tr>
+<tr class="memdesc:ad2236dcdcc14d580724b256ce7f168e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Don't do anything about locale if it is set to <a class="el" href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5" title="Don&#39;t do anything about locale if it is set to LOCALE_NONE. ">LOCALE_NONE</a>.  <a href="namespacejpcre2.html#ad2236dcdcc14d580724b256ce7f168e5">More...</a><br /></td></tr>
+<tr class="separator:ad2236dcdcc14d580724b256ce7f168e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfdd3d1fff99e685734ae4e59771e84d"><td class="memItemLeft" align="right" valign="top">const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#adfdd3d1fff99e685734ae4e59771e84d">jpcre2::LOCALE_DEFAULT</a> = LOCALE_NONE</td></tr>
+<tr class="memdesc:adfdd3d1fff99e685734ae4e59771e84d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default locale.  <a href="namespacejpcre2.html#adfdd3d1fff99e685734ae4e59771e84d">More...</a><br /></td></tr>
+<tr class="separator:adfdd3d1fff99e685734ae4e59771e84d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf6c3bff9268a572c299958d334ff26e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf6c3bff9268a572c299958d334ff26e"></a>
+const String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2.html#abf6c3bff9268a572c299958d334ff26e">jpcre2::JIT_ERROR_MESSAGE_PREFIX</a> = &quot;JIT compilation failed! &quot;</td></tr>
+<tr class="memdesc:abf6c3bff9268a572c299958d334ff26e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prefix to be added to JIT error message. <br /></td></tr>
+<tr class="separator:abf6c3bff9268a572c299958d334ff26e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main header file for JPCRE2 library to be included by programs that uses its functionalities. </p>
 <p>It includes the pcre2.h header, therefore you shouldn't include pcre2.h separately in your program. Make sure to link both JPCRE2 and PCRE2 library when compiling.</p>
-<p>If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you still need to link with PCRE2 library </p><dl class="section author"><dt>Author</dt><dd><a href="https://github.com/neurobin">Md Jahidul Hamid</a> </dd></dl>
+<p>If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you still need to link with PCRE2 library. </p><dl class="section author"><dt>Author</dt><dd><a href="https://github.com/neurobin">Md Jahidul Hamid</a> </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.11-->

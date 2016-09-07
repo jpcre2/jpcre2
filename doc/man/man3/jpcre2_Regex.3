@@ -1,4 +1,4 @@
-.TH "jpcre2::Regex" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::Regex" 3 "Thu Sep 8 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -69,33 +69,9 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "\fIGet JPCRE2 option\&. \fP"
 .ti -1c
-.RI "\fBString\fP \fBgetErrorMessage\fP (int, int)"
-.br
-.RI "\fIGet error message by error number and error offset\&. \fP"
-.ti -1c
-.RI "\fBString\fP \fBgetErrorMessage\fP (int err_num)"
-.br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
-.PP
-Use class variable \fBerror_offset\fP as error offset\&. \fP"
-.ti -1c
-.RI "\fBString\fP \fBgetErrorMessage\fP ()"
-.br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
-.PP
-Use class variable \fBerror_number\fP as error number and \fBerror_offset\fP as error offset\&. \fP"
-.ti -1c
 .RI "\fBString\fP \fBgetWarningMessage\fP ()"
 .br
 .RI "\fIGet current warning message\&. \fP"
-.ti -1c
-.RI "int \fBgetErrorNumber\fP ()"
-.br
-.RI "\fIGet error number return \fBerror_number\fP\&. \fP"
-.ti -1c
-.RI "PCRE2_SIZE \fBgetErrorOffset\fP ()"
-.br
-.RI "\fIGet error offset return \fBerror_offset\fP\&. \fP"
 .ti -1c
 .RI "\fBRegex\fP & \fBsetPattern\fP (const \fBString\fP &re)"
 .br
@@ -237,14 +213,6 @@ Use class variable \fBerror_number\fP as error number and \fBerror_offset\fP as 
 .br
 .RI "\fIPointer to compiled pattern\&. \fP"
 .ti -1c
-.RI "int \fBerror_number\fP"
-.br
-.RI "\fIError number\&. \fP"
-.ti -1c
-.RI "PCRE2_SIZE \fBerror_offset\fP"
-.br
-.RI "\fIError offset\&. \fP"
-.ti -1c
 .RI "\fBUint\fP \fBcompile_opts\fP"
 .br
 .RI "\fICompile options for PCRE2 (used by PCRE2 internal function pcre2_compile()) \fP"
@@ -293,7 +261,7 @@ Compile pattern with initialization\&.
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -309,7 +277,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -327,7 +295,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -345,7 +313,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -365,7 +333,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -408,7 +376,7 @@ Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is jus
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. is set and a wrong modifier was encountered\&. 
 .RE
 .PP
 \fBParameters:\fP
@@ -490,7 +458,7 @@ This function does not initialize or re-initialize options\&. If you want to set
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP was set and a wrong modifier was encountered\&. 
 .RE
 .PP
 \fBParameters:\fP
@@ -514,7 +482,7 @@ This function does not initialize or re-initialize options\&. If you want to set
 .PP
 
 .PP
-References jpcre2::MOD::C_N, jpcre2::MOD::C_V, changeJpcre2Option(), changePcre2Option(), jpcre2::MOD::CJ_N, jpcre2::MOD::CJ_V, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, getErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2_compile_opts, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
+References jpcre2::MOD::C_N, jpcre2::MOD::C_V, changeJpcre2Option(), changePcre2Option(), jpcre2::MOD::CJ_N, jpcre2::MOD::CJ_V, current_warning_msg, jpcre2::ERROR_ALL, jpcre2::utils::getErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2_compile_opts, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
 .SS "\fBRegex\fP& jpcre2::Regex::changePcre2Option (\fBUint\fP opt, bool x)\fC [inline]\fP"
 
 .PP
@@ -558,7 +526,7 @@ re = Regex("pattern");
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset\&. 
 .RE
 .PP
 \fBSee also:\fP
@@ -574,7 +542,7 @@ void \fBcompile(const String& re)\fP
 .PP
 
 .PP
-References code, compile_opts, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2_compile_opts, jpcre2::LOCALE_NONE, mylocale, pat_str, jpcre2::utils::throwException(), and jpcre2::utils::toString()\&.
+References code, compile_opts, current_warning_msg, jpcre2::ERROR_ALL, jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2_compile_opts, jpcre2::LOCALE_NONE, mylocale, pat_str, jpcre2::utils::throwException(), and jpcre2::utils::toString()\&.
 .SS "void jpcre2::Regex::compile (const \fBString\fP & re, \fBUint\fP po, \fBUint\fP jo)\fC [inline]\fP"
 
 .PP
@@ -582,7 +550,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -602,7 +570,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -620,7 +588,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -638,7 +606,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -654,7 +622,7 @@ Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. Copy compiled pattern to 
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBRegex::error_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset\&. 
 .RE
 .PP
 \fBParameters:\fP
@@ -664,60 +632,7 @@ Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. Copy compiled pattern to 
 .PP
 
 .PP
-References code, current_warning_msg, jpcre2::ERROR_ALL, error_number, error_offset, freeRegexMemory(), jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2::JIT_ERROR_MESSAGE_PREFIX, jpcre2_compile_opts, rm, rr, and jpcre2::utils::throwException()\&.
-.SS "\fBjpcre2::String\fP jpcre2::Regex::getErrorMessage (int err_num, int err_off)"
-
-.PP
-Get error message by error number and error offset\&. Return error message according to error number and error offset\&.
-.PP
-\fBParameters:\fP
-.RS 4
-\fIerr_num\fP Error number 
-.br
-\fIerr_off\fP Error offset 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-Error message as a string 
-.RE
-.PP
-
-.PP
-References jpcre2::utils::getPcre2ErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2::JIT_ERROR_MESSAGE_PREFIX, and jpcre2::utils::toString()\&.
-.SS "\fBString\fP jpcre2::Regex::getErrorMessage (int err_num)\fC [inline]\fP"
-
-.PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
-.PP
-Use class variable \fBerror_offset\fP as error offset\&. 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIerr_num\fP Error number 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-Error message as \fBjpcre2::String\fP 
-.RE
-.PP
-
-.SS "\fBString\fP jpcre2::Regex::getErrorMessage ()\fC [inline]\fP"
-
-.PP
-This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
-.PP
-Use class variable \fBerror_number\fP as error number and \fBerror_offset\fP as error offset\&. 
-.PP
-\fBReturns:\fP
-.RS 4
-Error message as a string (empty if there is no error) 
-.RE
-.PP
-
-.PP
-Referenced by changeModifier()\&.
+References code, current_warning_msg, jpcre2::ERROR_ALL, freeRegexMemory(), jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2::JIT_ERROR_MESSAGE_PREFIX, jpcre2_compile_opts, rm, rr, and jpcre2::utils::throwException()\&.
 .SS "\fBUint\fP jpcre2::Regex::getJpcre2Option ()\fC [inline]\fP"
 
 .PP
@@ -887,7 +802,7 @@ Perform regex match and return match count\&. This function takes the parameters
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -917,7 +832,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -952,7 +867,7 @@ re = Regex("new pattern");
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -973,7 +888,7 @@ Perform regex replace and return the replaced string\&. This function takes the 
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -1007,7 +922,7 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBerror_number\fP\fP Throws exception (error number) if error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
 .RE
 .PP
 \fBParameters:\fP
@@ -1089,7 +1004,7 @@ Set the modifier (overwrite existing JPCRE2 and PCRE2 option)\&. Re-initializes 
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
 .RE
 .PP
 \fBParameters:\fP

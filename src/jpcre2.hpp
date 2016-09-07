@@ -39,7 +39,7 @@
  * separately in your program. Make sure to link both JPCRE2 and PCRE2 library when compiling.
  *
  * If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you
- * still need to link with  PCRE2 library
+ * still need to link with  PCRE2 library.
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  */
 
@@ -59,14 +59,15 @@
 #include <map>      	// std::map
 #include <exception>    // std::exception
 
-/** Top level namespace of JPCRE2.
+/** @namespace jpcre2
+ *  Top level namespace of JPCRE2.
  *
- * All functions, classes, constants, enums that are provided by JPCRE2 belong to this namespace while
- * **PCRE2** functions, constants remain outside of its scope.
+ *  All functions, classes, constants, enums that are provided by JPCRE2 belong to this namespace while
+ *  **PCRE2** functions, constants remain outside of its scope.
  *
- * If you want to use any PCRE2 functions or constants,
+ *  If you want to use any PCRE2 functions or constants,
  *  remember that they are in the global scope and should be used as such.
- * */
+ */
 namespace jpcre2 {
 
 typedef std::size_t SIZE_T;                     ///< Used for match count and vector size
@@ -81,28 +82,67 @@ typedef std::vector<MapNtN> VecNtN;             ///< Vector of substring name to
 typedef VecNtN VecNtn;                          ///< Allow spelling mistake of VecNtN as VecNtn
 typedef std::vector<MapNum> VecNum;             ///< Vector of matches with numbered substrings
 
-/**Namespace to provide information about JPCRE2 library itself.
- * Contains constant Strings with version info.
- * */
-namespace INFO{
-extern const String NAME;					///< Name of the project
-extern const String FULL_VERSION;			///< Full version string
-extern const String VERSION_GENRE;			///< Generation, depends on original PCRE2 version
-extern const String VERSION_MAJOR;			///< Major version, updated when API change is made
-extern const String VERSION_MINOR;			///< Minor version, includes bug fix or minor feature upgrade
-extern const String VERSION_PRE_RELEASE;	///< Alpha or beta (testing) release version
-}
-/// Namespace for error codes
-namespace ERROR {
 
-/**ERROR numbers.
- *  JPCRE2 error numbers are positive integers while
- *  PCRE2 error numbers are negative integers.
- * */
-enum {
-	INVALID_MODIFIER        = 2,        ///< Error number implying that invalid modifier was detected
-	JIT_COMPILE_FAILED      = 3         ///< Error number implying that JIT compile failed
-};
+/** @namespace jpcre2::INFO
+ *  Namespace to provide information about JPCRE2 library itself.
+ *  Contains constant Strings with version info.
+ */
+namespace INFO {
+	extern const String NAME;					///< Name of the project
+	extern const String FULL_VERSION;			///< Full version string
+	extern const String VERSION_GENRE;			///< Generation, depends on original PCRE2 version
+	extern const String VERSION_MAJOR;			///< Major version, updated when API change is made
+	extern const String VERSION_MINOR;			///< Minor version, includes bug fix or minor feature upgrade
+	extern const String VERSION_PRE_RELEASE;	///< Alpha or beta (testing) release version
+}
+
+
+/// @namespace jpcre2::ERROR
+/// Namespace for error codes.
+namespace ERROR {
+	/** ERROR numbers.
+	 *  JPCRE2 error numbers are positive integers while
+	 *  PCRE2 error numbers are negative integers.
+	 */
+	enum {
+		INVALID_MODIFIER        = 2,        ///< Error number implying that invalid modifier was detected
+		JIT_COMPILE_FAILED      = 3         ///< Error number implying that JIT compile failed
+	};
+}
+
+
+/** @namespace jpcre2::MOD
+ *  Namespace for modifier constants.
+ *  For each modifier constant there is a jpcre2::Uint option value.
+ *  Some modifiers may have multiple values set together (ORed in bitwise operation) and
+ *  thus they may include other modifiers. Such an example is the 'n' modifier. It is combined together with 'u'.
+ */
+namespace MOD {
+	extern const String C_N;        ///< String of compile modifier characters for PCRE2 options
+	extern const Uint C_V[];        ///< Array of compile modifier values for PCRE2 options
+	extern const String CJ_N;       ///< String of compile modifier characters for JPCRE2 options
+	extern const Uint CJ_V[];       ///< Array of compile modifier values for JPCRE2 options
+	extern const String M_N;        ///< String of action (match) modifier characters for PCRE2 options
+	extern const Uint M_V[];        ///< Array of action (match) modifier values for PCRE2 options
+	extern const String MJ_N;       ///< String of action (match) modifier characters for JPCRE2 options
+	extern const Uint MJ_V[];       ///< Array of action (match) modifier values for JPCRE2 options
+	extern const String R_N;        ///< String of action (replace) modifier characters for PCRE2 options
+	extern const Uint R_V[];        ///< Array of action (replace) modifier values for PCRE2 options
+	extern const String RJ_N;       ///< String of action (replace) modifier characters for JPCRE2 options
+	extern const Uint RJ_V[];       ///< Array of action (replace) modifier values for JPCRE2 options
+}
+
+
+/// @namespace jpcre2::utils
+/// Namespace for some utility functions
+namespace utils {
+	extern String toString(int);                      ///< Converts an integer to String
+	extern String toString(char);                     ///< Converts a char to String
+	extern String toString(const char*);              ///< Converts const char* to String
+	extern String toString(PCRE2_UCHAR*);             ///< Converts a PCRE2_UCHAR* to String
+	extern std::string getPcre2ErrorMessage(int);     ///< Get PCRE2 error message for an error number
+	extern std::string getErrorMessage(int, int);     ///< Get error message from error number and error offset
+	extern void throwException(int, int);			  /// Used throughout JPCRE2 to throw exceptions
 }
 
 extern const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE;    ///< Used by default to provide big enough initial buffer for replaced string
@@ -110,8 +150,9 @@ extern const String LOCALE_NONE;                    ///< Don't do anything about
 extern const String LOCALE_DEFAULT;                 ///< Default locale
 extern const String JIT_ERROR_MESSAGE_PREFIX;       ///< Prefix to be added to JIT error message
 
+
 /** These constants provide JPCRE2 options.
- * */
+ */
 enum {
 	NONE                    = 0x0000000u,   ///< Option 0 (zero)
 	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw
@@ -121,53 +162,22 @@ enum {
 	ERROR_ALL               = 0x0000008u    ///< Treat warnings as error and throw exception (warnings don't throw exception)
 };
 
-/** Namespace for modifier constants.
- *  For each modifier constant there is a jpcre2::Uint option value.
- *  Some modifiers may have multiple values set together (ORed in bitwise operation) and
- *  thus they may include other modifiers. Such an example is the 'n' modifier. It is combined together with 'u'.
- * */
-namespace MOD {
-extern const String C_N;        ///< String of compile modifier characters for PCRE2 options
-extern const Uint C_V[];        ///< Array of compile modifier values for PCRE2 options
-extern const String CJ_N;       ///< String of compile modifier characters for JPCRE2 options
-extern const Uint CJ_V[];       ///< Array of compile modifier values for JPCRE2 options
-extern const String M_N;        ///< String of action (match) modifier characters for PCRE2 options
-extern const Uint M_V[];        ///< Array of action (match) modifier values for PCRE2 options
-extern const String MJ_N;       ///< String of action (match) modifier characters for JPCRE2 options
-extern const Uint MJ_V[];       ///< Array of action (match) modifier values for JPCRE2 options
-extern const String R_N;        ///< String of action (replace) modifier characters for PCRE2 options
-extern const Uint R_V[];        ///< Array of action (replace) modifier values for PCRE2 options
-extern const String RJ_N;       ///< String of action (replace) modifier characters for JPCRE2 options
-extern const Uint RJ_V[];       ///< Array of action (replace) modifier values for JPCRE2 options
-}
 
-/// Namespace for some utility functions
-namespace utils {
-extern String toString(int);                      ///< Converts an integer to String
-extern String toString(char);                     ///< Converts a char to String
-extern String toString(const char*);              ///< Converts const char* to String
-extern String toString(PCRE2_UCHAR*);             ///< Converts a PCRE2_UCHAR* to String
-extern std::string getPcre2ErrorMessage(int);     ///< Get PCRE2 error message for an error number
-extern std::string getErrorMessage(int, int);            ///< Get error message from error number and error offset
-
-/// Used throughout JPCRE2 to throw exceptions.
-extern void throwException(int, int);
-}
-
-/**Class to handle exception.
- * Provides public functions to get the error number,
- * error offset and error message.
+/** @class Except
+ * Class to handle exception.
+ *  Provides public functions to get the error number,
+ *  error offset and error message.
  * 
- * Any exception should be caught by reference, e.g
- * ```
- * try {
- *     throw Except("Error", 1, 2);
- * }
- * catch( Except& e){
- *     std::cout<<e.what();
- * }
- * ```
- * */
+ *  Any exception should be caught by reference, e.g
+ *  ```
+ *  try {
+ *      throw Except("Error", 1, 2);
+ *  }
+ *  catch( Except& e){
+ *      std::cout<<e.what();
+ *  }
+ *  ```
+ */
 class Except: public std::exception {
     
 protected:
@@ -179,7 +189,7 @@ protected:
 public:
 
     /** Constructor (C++ STL strings).
-     *  @param msg The error message.
+     *  @param msg The error message
      *  @param err_num Error number
      *  @param err_off Error offset
      */
@@ -191,39 +201,39 @@ public:
         {}
 
     /** Destructor.
-     * Virtual to allow for subclassing.
+     *  Virtual to allow for subclassing.
      */
     virtual ~Except() throw () {}
 
     /** Returns a pointer to the (constant) error description.
      *  @return A pointer to a const char*. The underlying memory
-     *          is in posession of the Except object. Callers must
-     *          not attempt to free the memory.
+     *  is in possession of the Except object. Callers must
+     *  not attempt to free the memory.
      */
     virtual const char* what() const throw () {
        return error_message.c_str();
     }
     
-    /**Returns error number
-     * @return #error_number
-     * */
+    /** Returns error number.
+     *  @return #error_number
+     */
     virtual int getErrorNumber() const throw() {
         return error_number;
     }
     
-    /**Returns error offset
+    /**Returns error offset.
      * @return #error_offset
-     * */
+     */
     virtual int getErrorOffset() const throw() {
         return error_offset;
     }
     
 
-    /** Just another name for what() for convenience
+    /** Just another name for what() for convenience.
      *  Returns a pointer to the (constant) error description.
      *  @return A pointer to a const char*. The underlying memory
-     *          is in posession of the Exception object. Callers must
-     *          not attempt to free the memory.
+     *  is in possession of the Exception object. Callers must
+     *  not attempt to free the memory.
      */
     virtual const char* getErrorMessage() const throw() {
         return error_message.c_str();
@@ -231,13 +241,12 @@ public:
 
 };
 
-/// Forward declaration of Regex class
+
+// Forward declaration of Regex class
 class Regex;
 
 
-
-/** @class RegexMatch
- *  Provides the RegexMatch::match() function to perform regex matching.
+/** Provides the RegexMatch::match() function to perform regex matching.
  * 
  *  Provides chained methods to set various options.
  *
@@ -475,8 +484,8 @@ public:
 	SIZE_T match(void);
 };
 
-/** @class RegexReplace
- *  Provides the RegexReplace::replace() function to perform regex replace on a string.
+
+/** Provides the RegexReplace::replace() function to perform regex replace on a string.
  * 
  *  Provides chained methods to set various options.
  *
@@ -551,13 +560,13 @@ public:
 	 *
 	 * **Note:** If speed of operation is very crucial, use RegexReplace::setJpcre2Option() and RegexReplace::setPcre2Option()
 	 * with equivalent options. It will be faster that way.
-	/// @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER as error number
-    ///        if jpcre2::VALIDATE_MODIFIER or jpcre2::ERROR_ALL is set and a wrong modifier was encountered.
+	 * @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER as error number
+     *        if jpcre2::VALIDATE_MODIFIER or jpcre2::ERROR_ALL is set and a wrong modifier was encountered.
 	 * @param s Modifier string
 	 * @return RegexReplace&
 	 * @see RegexMatch::setModifier()
 	 * @see Regex::setModifier()
-	 * */
+	 */
 	RegexReplace& setModifier(const String& s) {
 		replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; //must not be initialized to 0
         jpcre2_replace_opts = 0;
@@ -567,7 +576,7 @@ public:
 	/** Set the initial buffer size (#buffer_size) to be allocated for replaced string (used by PCRE2)
 	 * @param x Buffer size
 	 * @return RegexReplace&
-	 * */
+	 */
 	RegexReplace& setBufferSize(PCRE2_SIZE x) {
 		buffer_size = x;
 		return *this;
@@ -578,7 +587,7 @@ public:
 	 * @return RegexReplace&
 	 * @see RegexMatch::setJpcre2Option()
 	 * @see Regex::setJpcre2Option()
-	 * */
+	 */
 	RegexReplace& setJpcre2Option(Uint x) {
 		jpcre2_replace_opts = x;
 		return *this;
@@ -589,7 +598,7 @@ public:
 	 * @return RegexReplace&
 	 * @see RegexMatch::setPcre2Option()
 	 * @see Regex::setPcre2Option()
-	 * */
+	 */
 	RegexReplace& setPcre2Option(Uint x) {
 		replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH | x;
 		return *this;
@@ -670,15 +679,15 @@ public:
 	String replace(void);
 };
 
-/** @class Regex
- * Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match
- * and replace against a compiled pattern.
+
+/** Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match
+ *  and replace against a compiled pattern.
  *
- * Each regex pattern needs an object of this class.
+ *  Each regex pattern needs an object of this class.
  *
- * A pattern must be compiled either by explicitly calling the compile function or using one of the parameterized constructors.
+ *  A pattern must be compiled either by explicitly calling the compile function or using one of the parameterized constructors.
  *
- * */
+ */
 class Regex {
 
 private:

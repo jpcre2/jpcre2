@@ -1,12 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.11">
+  <compound refid="classjpcre2_1_1Except" kind="class"><name>jpcre2::Except</name>
+    <member refid="classjpcre2_1_1Except_1aa72e1a71b4cdf1d4baecce57b63caafc" kind="variable"><name>error_number</name></member>
+    <member refid="classjpcre2_1_1Except_1a12b09693ebee9b4a8b981ec1bd7506c4" kind="variable"><name>error_offset</name></member>
+    <member refid="classjpcre2_1_1Except_1a88590c6c8c512608c1000639d527dd55" kind="variable"><name>error_message</name></member>
+    <member refid="classjpcre2_1_1Except_1a302b67f0fbc5f906bac67a4572ff29ec" kind="function"><name>Except</name></member>
+    <member refid="classjpcre2_1_1Except_1a569a8058f61bb4e0b7085f18c4bd528c" kind="function"><name>~Except</name></member>
+    <member refid="classjpcre2_1_1Except_1a25b9f1b3aed24f47eee5c06b859b4adf" kind="function"><name>what</name></member>
+    <member refid="classjpcre2_1_1Except_1aaaf8e0495d44a7767bdaaec6e0ad8f86" kind="function"><name>getErrorNumber</name></member>
+    <member refid="classjpcre2_1_1Except_1a1d866b4f80cf0b4103db226e55c9cef8" kind="function"><name>getErrorOffset</name></member>
+    <member refid="classjpcre2_1_1Except_1aa9f557fe16222ac89a30c438212c0c09" kind="function"><name>getErrorMessage</name></member>
+  </compound>
   <compound refid="classjpcre2_1_1Regex" kind="class"><name>jpcre2::Regex</name>
     <member refid="classjpcre2_1_1Regex_1a447925705d222dbbd8c7d60b98cc65f0" kind="variable"><name>rm</name></member>
     <member refid="classjpcre2_1_1Regex_1a5a7ac6c6288988079b8933b4b6637fab" kind="variable"><name>rr</name></member>
     <member refid="classjpcre2_1_1Regex_1a0bceb85b6dbba355b56b5cc312214435" kind="variable"><name>pat_str</name></member>
     <member refid="classjpcre2_1_1Regex_1a2742264206d8976c413b474b7bac4b2e" kind="variable"><name>code</name></member>
-    <member refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" kind="variable"><name>error_number</name></member>
-    <member refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" kind="variable"><name>error_offset</name></member>
     <member refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" kind="variable"><name>compile_opts</name></member>
     <member refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" kind="variable"><name>jpcre2_compile_opts</name></member>
     <member refid="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" kind="variable"><name>mylocale</name></member>
@@ -34,12 +43,7 @@
     <member refid="classjpcre2_1_1Regex_1ae9afaf627ed922a9e4cee8074d30edfa" kind="function"><name>getLocale</name></member>
     <member refid="classjpcre2_1_1Regex_1a857307fc59ba7f010b097e61c1744923" kind="function"><name>getPcre2Option</name></member>
     <member refid="classjpcre2_1_1Regex_1a5d2d04eb7c393338a4c8cce941e957ef" kind="function"><name>getJpcre2Option</name></member>
-    <member refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kind="function"><name>getErrorMessage</name></member>
-    <member refid="classjpcre2_1_1Regex_1a76fddd42bf11dd66c25905fb92437d6b" kind="function"><name>getErrorMessage</name></member>
-    <member refid="classjpcre2_1_1Regex_1a8606fff8b192c94f58ca9e82aa048c61" kind="function"><name>getErrorMessage</name></member>
     <member refid="classjpcre2_1_1Regex_1a1a639ae4090b88609c03e9268faf02d8" kind="function"><name>getWarningMessage</name></member>
-    <member refid="classjpcre2_1_1Regex_1a7294273e7d11907a749f2db40da9ed15" kind="function"><name>getErrorNumber</name></member>
-    <member refid="classjpcre2_1_1Regex_1a1c7822056cd7ac9a6be5e18513bd8093" kind="function"><name>getErrorOffset</name></member>
     <member refid="classjpcre2_1_1Regex_1a85d9a514ea86ae68533223adac6c6bd8" kind="function"><name>setPattern</name></member>
     <member refid="classjpcre2_1_1Regex_1aed9865b58c60945e19f36fa310f5a595" kind="function"><name>setModifier</name></member>
     <member refid="classjpcre2_1_1Regex_1a56721534519e5cb436337043eee8f42d" kind="function"><name>setLocale</name></member>
@@ -180,8 +184,9 @@
     <member refid="namespacejpcre2_1_1utils_1a917512161b56047d6ef240bdba2ac212" kind="function"><name>toString</name></member>
     <member refid="namespacejpcre2_1_1utils_1a4065a2a40144999cd2a94e7a7e1d5eb6" kind="function"><name>toString</name></member>
     <member refid="namespacejpcre2_1_1utils_1aea66a35f467adf41730c5a3bb21be6ed" kind="function"><name>toString</name></member>
-    <member refid="namespacejpcre2_1_1utils_1a46868509af4188b7250b01384a16427e" kind="function"><name>getPcre2ErrorMessage</name></member>
-    <member refid="namespacejpcre2_1_1utils_1ae46ee8a2fbb7bc5b583aee0d1f047052" kind="function"><name>throwException</name></member>
+    <member refid="namespacejpcre2_1_1utils_1a6f28489b48095eeaacfaa43a0a8e87a6" kind="function"><name>getPcre2ErrorMessage</name></member>
+    <member refid="namespacejpcre2_1_1utils_1a58db3a9ce0296d70469611445cb42209" kind="function"><name>getErrorMessage</name></member>
+    <member refid="namespacejpcre2_1_1utils_1a71c7842918bdcc6936266813981492dc" kind="function"><name>throwException</name></member>
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
   </compound>

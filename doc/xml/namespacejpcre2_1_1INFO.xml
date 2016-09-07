@@ -15,7 +15,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="87" column="1"/>
+        <location file="src/jpcre2.hpp" line="91" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a315fc58da1463f4d1cc417677bd31ca1" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="88" column="1"/>
+        <location file="src/jpcre2.hpp" line="92" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a9d046526610d624eaaa04b5fb000e48f" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="89" column="1"/>
+        <location file="src/jpcre2.hpp" line="93" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a5deb805502c30063a5a68d91bf034d86" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="90" column="1"/>
+        <location file="src/jpcre2.hpp" line="94" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a0644b3b2680e99fc88c0a98f6a0d25d1" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -67,7 +67,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="91" column="1"/>
+        <location file="src/jpcre2.hpp" line="95" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a85fb46b46141271d426f53b2c2ba6b15" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="92" column="1"/>
+        <location file="src/jpcre2.hpp" line="96" column="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

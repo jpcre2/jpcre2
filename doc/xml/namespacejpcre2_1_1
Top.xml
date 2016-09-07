@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespacejpcre2_1_1
+Top" kind="namespace" language="C++">
+    <compoundname>jpcre2::
+Top</compoundname>
+    <briefdescription>
+<para>level namespace of JPCRE2. </para>    </briefdescription>
+    <detaileddescription>
+<para>All functions, classes, constants, enums that are provided by JPCRE2 belong to this namespace while <bold>PCRE2</bold> functions, constants remain outside of its scope.</para><para>If you want to use any PCRE2 functions or constants, remember that they are in the global scope and should be used as such. </para>    </detaileddescription>
+    <location file="src/jpcre2.hpp" line="62" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classjpcre2_1_1Except" kind="class" language="C++" prot="public">
+    <compoundname>jpcre2::Except</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::exception</basecompoundref>
+    <includes refid="jpcre2_8hpp" local="no">jpcre2.hpp</includes>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classjpcre2_1_1Except_1aa72e1a71b4cdf1d4baecce57b63caafc" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int jpcre2::Except::error_number</definition>
+        <argsstring></argsstring>
+        <name>error_number</name>
+        <briefdescription>
+<para>Error number. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="185" column="1" bodyfile="src/jpcre2.hpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Except_1a12b09693ebee9b4a8b981ec1bd7506c4" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int jpcre2::Except::error_offset</definition>
+        <argsstring></argsstring>
+        <name>error_offset</name>
+        <briefdescription>
+<para>Error offset. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="186" column="1" bodyfile="src/jpcre2.hpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjpcre2_1_1Except_1a88590c6c8c512608c1000639d527dd55" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string jpcre2::Except::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <briefdescription>
+<para>Error message. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="187" column="1" bodyfile="src/jpcre2.hpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjpcre2_1_1Except_1a302b67f0fbc5f906bac67a4572ff29ec" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>jpcre2::Except::Except</definition>
+        <argsstring>(const std::string &amp;msg, int err_num, int err_off)</argsstring>
+        <name>Except</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>err_num</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>err_off</declname>
+        </param>
+        <briefdescription>
+<para>Constructor (C++ STL strings). </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error message </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error number </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>err_off</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error offset </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="197" column="1" bodyfile="src/jpcre2.hpp" bodystart="197" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Except_1a569a8058f61bb4e0b7085f18c4bd528c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual jpcre2::Except::~Except</definition>
+        <argsstring>()</argsstring>
+        <name>~Except</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+<para>Destructor. </para>        </briefdescription>
+        <detaileddescription>
+<para>Virtual to allow for subclassing. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="206" column="1" bodyfile="src/jpcre2.hpp" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Except_1a25b9f1b3aed24f47eee5c06b859b4adf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>virtual const char* jpcre2::Except::what</definition>
+        <argsstring>() const </argsstring>
+        <name>what</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+<para>Returns a pointer to the (constant) error description. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A pointer to a const char*. The underlying memory is in possession of the <ref refid="classjpcre2_1_1Except" kindref="compound">Except</ref> object. Callers must not attempt to free the memory. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="213" column="1" bodyfile="src/jpcre2.hpp" bodystart="213" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Except_1aaaf8e0495d44a7767bdaaec6e0ad8f86" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>int</type>
+        <definition>virtual int jpcre2::Except::getErrorNumber</definition>
+        <argsstring>() const </argsstring>
+        <name>getErrorNumber</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+<para>Returns error number. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classjpcre2_1_1Except_1aa72e1a71b4cdf1d4baecce57b63caafc" kindref="member">error_number</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="220" column="1" bodyfile="src/jpcre2.hpp" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Except_1a1d866b4f80cf0b4103db226e55c9cef8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>int</type>
+        <definition>virtual int jpcre2::Except::getErrorOffset</definition>
+        <argsstring>() const </argsstring>
+        <name>getErrorOffset</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+<para>Returns error offset. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classjpcre2_1_1Except_1a12b09693ebee9b4a8b981ec1bd7506c4" kindref="member">error_offset</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="227" column="1" bodyfile="src/jpcre2.hpp" bodystart="227" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classjpcre2_1_1Except_1aa9f557fe16222ac89a30c438212c0c09" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>virtual const char* jpcre2::Except::getErrorMessage</definition>
+        <argsstring>() const </argsstring>
+        <name>getErrorMessage</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+<para>Just another name for <ref refid="classjpcre2_1_1Except_1a25b9f1b3aed24f47eee5c06b859b4adf" kindref="member">what()</ref> for convenience. </para>        </briefdescription>
+        <detaileddescription>
+<para>Returns a pointer to the (constant) error description. <simplesect kind="return"><para>A pointer to a const char*. The underlying memory is in possession of the Exception object. Callers must not attempt to free the memory. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/jpcre2.hpp" line="238" column="1" bodyfile="src/jpcre2.hpp" bodystart="238" bodyend="240"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Class to handle exception. </para>    </briefdescription>
+    <detaileddescription>
+<para>Provides public functions to get the error number, error offset and error message.</para><para>Any exception should be caught by reference, e.g <programlisting><codeline><highlight class="normal">try<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>throw<sp/>Except(&quot;Error&quot;,<sp/>1,<sp/>2);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">catch(<sp/>Except&amp;<sp/>e){</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;e.what();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="15">
+        <label>jpcre2::Except</label>
+        <link refid="classjpcre2_1_1Except"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/jpcre2.hpp" line="181" column="1" bodyfile="src/jpcre2.hpp" bodystart="181" bodyend="242"/>
+    <listofallmembers>
+      <member refid="classjpcre2_1_1Except_1a88590c6c8c512608c1000639d527dd55" prot="protected" virt="non-virtual"><scope>jpcre2::Except</scope><name>error_message</name></member>
+      <member refid="classjpcre2_1_1Except_1aa72e1a71b4cdf1d4baecce57b63caafc" prot="protected" virt="non-virtual"><scope>jpcre2::Except</scope><name>error_number</name></member>
+      <member refid="classjpcre2_1_1Except_1a12b09693ebee9b4a8b981ec1bd7506c4" prot="protected" virt="non-virtual"><scope>jpcre2::Except</scope><name>error_offset</name></member>
+      <member refid="classjpcre2_1_1Except_1a302b67f0fbc5f906bac67a4572ff29ec" prot="public" virt="non-virtual"><scope>jpcre2::Except</scope><name>Except</name></member>
+      <member refid="classjpcre2_1_1Except_1aa9f557fe16222ac89a30c438212c0c09" prot="public" virt="virtual"><scope>jpcre2::Except</scope><name>getErrorMessage</name></member>
+      <member refid="classjpcre2_1_1Except_1aaaf8e0495d44a7767bdaaec6e0ad8f86" prot="public" virt="virtual"><scope>jpcre2::Except</scope><name>getErrorNumber</name></member>
+      <member refid="classjpcre2_1_1Except_1a1d866b4f80cf0b4103db226e55c9cef8" prot="public" virt="virtual"><scope>jpcre2::Except</scope><name>getErrorOffset</name></member>
+      <member refid="classjpcre2_1_1Except_1a25b9f1b3aed24f47eee5c06b859b4adf" prot="public" virt="virtual"><scope>jpcre2::Except</scope><name>what</name></member>
+      <member refid="classjpcre2_1_1Except_1a569a8058f61bb4e0b7085f18c4bd528c" prot="public" virt="virtual"><scope>jpcre2::Except</scope><name>~Except</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

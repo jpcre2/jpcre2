@@ -1,6 +1,0 @@
-<map id="jpcre2::Regex::deepCopy" name="jpcre2::Regex::deepCopy">
-<area shape="rect" id="node2" href="$classjpcre2_1_1Regex.html#a40128e1facd915e06089eeb17e2287c2" title="Free code if it&#39;s non&#45;NULL. " alt="" coords="232,5,403,47"/>
-<area shape="rect" id="node3" href="$namespacejpcre2_1_1utils.html#a186305c70ad9dc4137aae2bcbf644805" title="Get PCRE2 error message for an error number. " alt="" coords="229,71,406,112"/>
-<area shape="rect" id="node5" href="$namespacejpcre2_1_1utils.html#ae46ee8a2fbb7bc5b583aee0d1f047052" title="Used throughout JPCRE2 to throw exceptions. " alt="" coords="224,137,411,163"/>
-<area shape="rect" id="node4" href="$namespacejpcre2_1_1utils.html#a433f24d37008ed65f829be30aa0f2c73" title="Converts an integer to String. " alt="" coords="459,78,601,105"/>
-</map>

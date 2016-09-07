@@ -1,5 +1,8 @@
 <map id="jpcre2::RegexMatch::changeModifier" name="jpcre2::RegexMatch::changeModifier">
 <area shape="rect" id="node2" href="$classjpcre2_1_1Regex.html#ab8e0b1a49eeb1077ba54cf3b5292c95e" title="Add or remove a JPCRE2 option. " alt="" coords="192,5,384,47"/>
 <area shape="rect" id="node3" href="$classjpcre2_1_1Regex.html#ae5bde8008cc5a700163ca3162dbd5823" title="Add or remove a PCRE2 option. " alt="" coords="195,71,381,112"/>
-<area shape="rect" id="node4" href="$namespacejpcre2_1_1utils.html#ae46ee8a2fbb7bc5b583aee0d1f047052" title="Used throughout JPCRE2 to throw exceptions. " alt="" coords="195,137,381,163"/>
+<area shape="rect" id="node4" href="$namespacejpcre2_1_1utils.html#a58db3a9ce0296d70469611445cb42209" title="Get error message from error number and error offset. " alt="" coords="432,162,628,189"/>
+<area shape="rect" id="node7" href="$namespacejpcre2_1_1utils.html#a71c7842918bdcc6936266813981492dc" title="Used throughout JPCRE2 to throw exceptions. " alt="" coords="195,187,381,214"/>
+<area shape="rect" id="node5" href="$namespacejpcre2_1_1utils.html#a3603a3493202e7408e18fd0a912bf725" title="Converts an integer to String. " alt="" coords="901,162,1044,189"/>
+<area shape="rect" id="node6" href="$namespacejpcre2_1_1utils.html#a6f28489b48095eeaacfaa43a0a8e87a6" title="Get PCRE2 error message for an error number. " alt="" coords="676,184,853,225"/>
 </map>

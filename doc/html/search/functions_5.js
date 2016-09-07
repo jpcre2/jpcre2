@@ -1,7 +1,15 @@
 var searchData=
 [
-  ['init',['init',['../classjpcre2_1_1Regex.html#a6df564d3dec70bbeec65de125c7d4de2',1,'jpcre2::Regex::init()'],['../classjpcre2_1_1Regex.html#aedc5f414e5fa401e1a91614cfab0b033',1,'jpcre2::Regex::init(const String &amp;re, const String &amp;mod)'],['../classjpcre2_1_1Regex.html#adbda074677e393438452190e55a971d0',1,'jpcre2::Regex::init(const String &amp;re, Uint po, Uint jo)']]],
-  ['init_5fvars',['init_vars',['../classjpcre2_1_1RegexMatch.html#a3da6a2319cd577d7f2f10c66dcf59a99',1,'jpcre2::RegexMatch::init_vars()'],['../classjpcre2_1_1RegexReplace.html#a462810e8fc902f09e475a164e81cc5f5',1,'jpcre2::RegexReplace::init_vars()'],['../classjpcre2_1_1Regex.html#aff1f5cd95b6ac227014e7a5265a50cc0',1,'jpcre2::Regex::init_vars()']]],
-  ['initmatch',['initMatch',['../classjpcre2_1_1Regex.html#a519b0915bf1163c6ce6a4d674b30cfcd',1,'jpcre2::Regex']]],
-  ['initreplace',['initReplace',['../classjpcre2_1_1Regex.html#ae7235a991492fa88f1bd3fb02d59cd0a',1,'jpcre2::Regex']]]
+  ['geterrormessage',['getErrorMessage',['../classjpcre2_1_1Except.html#aa9f557fe16222ac89a30c438212c0c09',1,'jpcre2::Except::getErrorMessage()'],['../namespacejpcre2_1_1utils.html#a58db3a9ce0296d70469611445cb42209',1,'jpcre2::utils::getErrorMessage()']]],
+  ['geterrornumber',['getErrorNumber',['../classjpcre2_1_1Except.html#aaaf8e0495d44a7767bdaaec6e0ad8f86',1,'jpcre2::Except']]],
+  ['geterroroffset',['getErrorOffset',['../classjpcre2_1_1Except.html#a1d866b4f80cf0b4103db226e55c9cef8',1,'jpcre2::Except']]],
+  ['getjpcre2option',['getJpcre2Option',['../classjpcre2_1_1Regex.html#a5d2d04eb7c393338a4c8cce941e957ef',1,'jpcre2::Regex']]],
+  ['getlocale',['getLocale',['../classjpcre2_1_1Regex.html#ae9afaf627ed922a9e4cee8074d30edfa',1,'jpcre2::Regex']]],
+  ['getmodifier',['getModifier',['../classjpcre2_1_1Regex.html#a0ac4e063f00128b96cd94c33609dc559',1,'jpcre2::Regex']]],
+  ['getnamedsubstrings',['getNamedSubstrings',['../classjpcre2_1_1RegexMatch.html#ac494245673c474d518e8ae47b2ab9db9',1,'jpcre2::RegexMatch']]],
+  ['getnumberedsubstrings',['getNumberedSubstrings',['../classjpcre2_1_1RegexMatch.html#a82bfef9700b1c62b84e4a32ee4b0731e',1,'jpcre2::RegexMatch']]],
+  ['getpattern',['getPattern',['../classjpcre2_1_1Regex.html#a006dd17f71a2d717aa9575d72fac6d7b',1,'jpcre2::Regex']]],
+  ['getpcre2errormessage',['getPcre2ErrorMessage',['../namespacejpcre2_1_1utils.html#a6f28489b48095eeaacfaa43a0a8e87a6',1,'jpcre2::utils']]],
+  ['getpcre2option',['getPcre2Option',['../classjpcre2_1_1Regex.html#a857307fc59ba7f010b097e61c1744923',1,'jpcre2::Regex']]],
+  ['getwarningmessage',['getWarningMessage',['../classjpcre2_1_1Regex.html#a1a639ae4090b88609c03e9268faf02d8',1,'jpcre2::Regex']]]
 ];

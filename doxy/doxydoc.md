@@ -107,9 +107,9 @@ try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //se
     jpcre2::Regex re3("pattern3", PCRE2_ANCHORED);
     jpcre2::Regex re4("pattern4", PCRE2_ANCHORED, jpcre2::JIT_COMPILE);
 }
-catch(int e){
+catch(jpcre2::Except& e){
     /*Handle error*/
-    std::cerr<<re.getErrorMessage(e)<<std::endl;
+    std::cerr<<e.getErrorMessage()<<std::endl;
 }
 ```
 
@@ -148,9 +148,9 @@ try{
     //vec_num will be populated with maps of numbered substrings.
     //count is the total number of matches found
 }
-catch(int e){
+catch(jpcre2::Except& e){
     /*Handle error*/
-    std::cerr<<re.getErrorMessage(e)<<std::endl;
+    std::cerr<<e.getErrorMessage()<<std::endl;
 }
 ```
 ### Access a captured group {#access-a-capture-group}
@@ -180,9 +180,9 @@ try{
       .setNameToNumberMapVector(&vec_ntn)          //pass pointer to vector of name to number maps
       .match();                                    //Finally perform the match()
 }
-catch(int e){
+catch(jpcre2::Except& e){
     /*Handle error*/
-    std::cerr<<re.getErrorMessage(e)<<std::endl;
+    std::cerr<<e.getErrorMessage()<<std::endl;
 }
 ```
 
@@ -264,9 +264,9 @@ try{
     //Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
     // or ${name} (for named substrings) in the replacement part i.e in setReplaceWith()
 }
-catch(int e){
+catch(jpcre2::Except& e){
     /*Handle error*/
-    std::cerr<<re.getErrorMessage(e)<<std::endl;
+    std::cerr<<e.getErrorMessage()<<std::endl;
 }
 ```
 If you pass the size of the resultant string with `jpcre2::RegexReplace::setBufferSize()` function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function (`pcre2_substitute()`) will be called *twice* to adjust the size of the buffer to hold the whole resultant string in order to avoid `PCRE2_ERROR_NOMEMORY` error.
@@ -335,7 +335,7 @@ These options are meaningful only for the **JPCRE2** library itself not the orig
 Option | Details
 ------ | ------
 `jpcre2::NONE` | This is the default option. Equivalent to 0 (zero).
-`jpcre2::VALIDATE_MODIFIER` | If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown. You can get the error message with `jpcre2::Regex::getErrorMessage()` member function.
+`jpcre2::VALIDATE_MODIFIER` | If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown.
 `jpcre2::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `jpcre2::RegexMatch::setModifier()` function.
 `jpcre2::ERROR_ALL` | Treat warnings as errors and throw exception.
 `jpcre2::JIT_COMPILE` | This is same as passing the `S` modifier during pattern compilation.

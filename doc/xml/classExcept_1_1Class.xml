@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classExcept_1_1Class" kind="class" language="C++" prot="public">
+    <compoundname>Except::Class</compoundname>
+    <briefdescription>
+<para>exception. </para>    </briefdescription>
+    <detaileddescription>
+<para>Provides public functions to get the error number, error offset and error message.</para><para>Any exception should be caught by reference, e.g <programlisting><codeline><highlight class="normal">try<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>throw<sp/>Except(&quot;Error&quot;,<sp/>1,<sp/>2);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">catch(<sp/>Except&amp;<sp/>e){</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout&lt;&lt;e.what();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="11">
+        <label>Except::Class</label>
+        <link refid="classExcept_1_1Class"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/jpcre2.hpp" line="162" column="1"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

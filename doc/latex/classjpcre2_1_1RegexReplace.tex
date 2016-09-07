@@ -11,8 +11,7 @@ Provides the \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7e
 
 
 
-Collaboration diagram for jpcre2\+:\+:Regex\+Replace\+:
-\nopagebreak
+Collaboration diagram for jpcre2\+:\+:Regex\+Replace\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -171,7 +170,7 @@ This is just a wrapper of the original function \hyperlink{classjpcre2_1_1RegexR
 
 {\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1RegexReplace_a3f86b1e11d08d0153a08244771e59061}{Regex\+Replace\+::add\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1RegexReplace_a3cfd03568b23bebcbb530a2c120b5d33}{Regex\+Replace\+::add\+Pcre2\+Option()} with equivalent options. It will be faster that way. 
 \begin{DoxyExceptions}{Exceptions}
-{\em \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} & Throws exception if \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER} or \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL} is set and a wrong modifier was encountered. \\
+{\em \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} & Throws exception with \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER} as error number if \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER} or \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL} is set and a wrong modifier was encountered. \\
 \hline
 \end{DoxyExceptions}
 
@@ -256,7 +255,7 @@ This function does not initialize or re-\/initialize options. If you want to set
 
 {\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1RegexReplace_afebf5e76bce8e312ab6dbdec3288b02b}{Regex\+Replace\+::change\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1RegexReplace_aea15c694bba7d994f048596a1f90f71f}{Regex\+Replace\+::change\+Pcre2\+Option()} with equivalent options. It will be faster that way. 
 \begin{DoxyExceptions}{Exceptions}
-{\em \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} & Throws exception if \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER} or \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL} is set and a wrong modifier was encountered. \\
+{\em \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} & Throws exception with \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER} if \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER} or \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL} was set and a wrong modifier was encountered. \\
 \hline
 \end{DoxyExceptions}
 
@@ -276,7 +275,7 @@ This function does not initialize or re-\/initialize options. If you want to set
 \end{DoxySeeAlso}
 
 
-References jpcre2\+::\+Regex\+::change\+Jpcre2\+Option(), jpcre2\+::\+Regex\+::change\+Pcre2\+Option(), jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL, jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER, jpcre2\+::\+M\+O\+D\+::\+R\+\_\+N, jpcre2\+::\+M\+O\+D\+::\+R\+\_\+V, jpcre2\+::\+M\+O\+D\+::\+R\+J\+\_\+N, jpcre2\+::\+M\+O\+D\+::\+R\+J\+\_\+V, jpcre2\+::utils\+::throw\+Exception(), and jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER.
+References jpcre2\+::\+Regex\+::change\+Jpcre2\+Option(), jpcre2\+::\+Regex\+::change\+Pcre2\+Option(), jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL, jpcre2\+::utils\+::get\+Error\+Message(), jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER, jpcre2\+::\+M\+O\+D\+::\+R\+\_\+N, jpcre2\+::\+M\+O\+D\+::\+R\+\_\+V, jpcre2\+::\+M\+O\+D\+::\+R\+J\+\_\+N, jpcre2\+::\+M\+O\+D\+::\+R\+J\+\_\+V, jpcre2\+::utils\+::throw\+Exception(), and jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER.
 
 
 
@@ -331,7 +330,7 @@ Retrieves subject string, replacement string, modifier and other options from cl
 
 
 \begin{DoxyExceptions}{Exceptions}
-{\em \hyperlink{classjpcre2_1_1Regex_a91b7b795c9efe76ef4e015325ff33f1c}{Regex\+::error\+\_\+number}} & Throws exception (error number) if error occurs. \\
+{\em \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} & Throws exception with P\+C\+R\+E2 error number and error offset. \\
 \hline
 \end{DoxyExceptions}
 \begin{DoxyReturn}{Returns}
@@ -421,9 +420,9 @@ Set J\+P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexReplace_acf13bcb16918df
 
 Set the modifier string (overwrites existing J\+P\+C\+R\+E2 and P\+C\+R\+E2 option). 
 
-{\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1RegexReplace_a745ab0b979035214a83ed0a04686ef6a}{Regex\+Replace\+::set\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1RegexReplace_aec36272d351fdc3a8cb02a4a3efea5a2}{Regex\+Replace\+::set\+Pcre2\+Option()} with equivalent options. It will be faster that way. / 
+{\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1RegexReplace_a745ab0b979035214a83ed0a04686ef6a}{Regex\+Replace\+::set\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1RegexReplace_aec36272d351fdc3a8cb02a4a3efea5a2}{Regex\+Replace\+::set\+Pcre2\+Option()} with equivalent options. It will be faster that way. 
 \begin{DoxyExceptions}{Exceptions}
-{\em \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} & Throws exception if \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER} or \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL} / is set and a wrong modifier was encountered. \\
+{\em \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} & Throws exception with \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER} as error number if \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER} or \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL} is set and a wrong modifier was encountered. \\
 \hline
 \end{DoxyExceptions}
 

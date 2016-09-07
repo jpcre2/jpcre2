@@ -1,5 +1,6 @@
 <map id="jpcre2::Regex::compile" name="jpcre2::Regex::compile">
-<area shape="rect" id="node2" href="$namespacejpcre2_1_1utils.html#a46868509af4188b7250b01384a16427e" title="Get PCRE2 error message for an error number. " alt="" coords="214,5,391,47"/>
-<area shape="rect" id="node3" href="$namespacejpcre2_1_1utils.html#a3603a3493202e7408e18fd0a912bf725" title="Converts an integer to String. " alt="" coords="444,42,587,69"/>
-<area shape="rect" id="node4" href="$namespacejpcre2_1_1utils.html#ae46ee8a2fbb7bc5b583aee0d1f047052" title="Used throughout JPCRE2 to throw exceptions. " alt="" coords="209,122,396,149"/>
+<area shape="rect" id="node2" href="$namespacejpcre2_1_1utils.html#a6f28489b48095eeaacfaa43a0a8e87a6" title="Get PCRE2 error message for an error number. " alt="" coords="688,38,865,79"/>
+<area shape="rect" id="node3" href="$namespacejpcre2_1_1utils.html#a3603a3493202e7408e18fd0a912bf725" title="Converts an integer to String. " alt="" coords="913,45,1056,72"/>
+<area shape="rect" id="node4" href="$namespacejpcre2_1_1utils.html#a71c7842918bdcc6936266813981492dc" title="Used throughout JPCRE2 to throw exceptions. " alt="" coords="209,92,396,118"/>
+<area shape="rect" id="node5" href="$namespacejpcre2_1_1utils.html#a58db3a9ce0296d70469611445cb42209" title="Get error message from error number and error offset. " alt="" coords="444,92,640,118"/>
 </map>

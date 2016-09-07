@@ -9,7 +9,7 @@
           <name>INVALID_MODIFIER</name>
           <initializer>= 2</initializer>
           <briefdescription>
-<para>Error to be thrown when invalid modifier detected. </para>          </briefdescription>
+<para>Error number implying that invalid modifier was detected. </para>          </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
@@ -17,23 +17,23 @@
           <name>JIT_COMPILE_FAILED</name>
           <initializer>= 3</initializer>
           <briefdescription>
-<para>Error to be thrown when JIT compile fails. </para>          </briefdescription>
+<para>Error number implying that JIT compile failed. </para>          </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
         <briefdescription>
-<para><ref refid="namespacejpcre2_1_1ERROR" kindref="compound">ERROR</ref> codes that are thrown in case error occurs. </para>        </briefdescription>
+<para><ref refid="namespacejpcre2_1_1ERROR" kindref="compound">ERROR</ref> numbers. </para>        </briefdescription>
         <detaileddescription>
-<para>JPCRE2 error codes are positive integers while PCRE2 error codes are negative integers. </para>        </detaileddescription>
+<para>JPCRE2 error numbers are positive integers while PCRE2 error numbers are negative integers. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="101" column="1" bodyfile="src/jpcre2.hpp" bodystart="101" bodyend="104"/>
+        <location file="src/jpcre2.hpp" line="107" column="1" bodyfile="src/jpcre2.hpp" bodystart="107" bodyend="110"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Namespace for error codes. </para>    </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/jpcre2.hpp" line="95" column="1"/>
+    <location file="src/jpcre2.hpp" line="100" column="1"/>
   </compounddef>
 </doxygen>

@@ -1,4 +1,4 @@
-.TH "jpcre2.hpp" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2.hpp" 3 "Thu Sep 8 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -17,10 +17,16 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .br
 \fC#include <map>\fP
 .br
+\fC#include <exception>\fP
+.br
 
 .SS "Classes"
 
 .in +1c
+.ti -1c
+.RI "class \fBjpcre2::Except\fP"
+.br
+.RI "\fIClass to handle exception\&. \fP"
 .ti -1c
 .RI "class \fBjpcre2::RegexMatch\fP"
 .br
@@ -135,11 +141,15 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .br
 .RI "\fIConverts a PCRE2_UCHAR* to String\&. \fP"
 .ti -1c
-.RI "String \fBjpcre2::utils::getPcre2ErrorMessage\fP (int)"
+.RI "std::string \fBjpcre2::utils::getPcre2ErrorMessage\fP (int)"
 .br
 .RI "\fIGet PCRE2 error message for an error number\&. \fP"
 .ti -1c
-.RI "void \fBjpcre2::utils::throwException\fP (int)"
+.RI "std::string \fBjpcre2::utils::getErrorMessage\fP (int, int)"
+.br
+.RI "\fIGet error message from error number and error offset\&. \fP"
+.ti -1c
+.RI "void \fBjpcre2::utils::throwException\fP (int, int)"
 .br
 .RI "\fIUsed throughout JPCRE2 to throw exceptions\&. \fP"
 .in -1c
@@ -170,22 +180,6 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .RI "const String \fBjpcre2::INFO::VERSION_PRE_RELEASE\fP"
 .br
 .RI "\fIAlpha or beta (testing) release version\&. \fP"
-.ti -1c
-.RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
-.br
-.RI "\fIUsed by default to provide big enough initial buffer for replaced string\&. \fP"
-.ti -1c
-.RI "const String \fBjpcre2::LOCALE_NONE\fP = 'JPCRE2_NONE'"
-.br
-.RI "\fIDon't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. \fP"
-.ti -1c
-.RI "const String \fBjpcre2::LOCALE_DEFAULT\fP = LOCALE_NONE"
-.br
-.RI "\fIDefault locale\&. \fP"
-.ti -1c
-.RI "const String \fBjpcre2::JIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
-.br
-.RI "\fIPrefix to be added to JIT error message\&. \fP"
 .ti -1c
 .RI "const String \fBjpcre2::MOD::C_N\fP"
 .br
@@ -234,6 +228,22 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .RI "const Uint \fBjpcre2::MOD::RJ_V\fP []"
 .br
 .RI "\fIArray of action (replace) modifier values for JPCRE2 options\&. \fP"
+.ti -1c
+.RI "const SIZE_T \fBjpcre2::SUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
+.br
+.RI "\fIUsed by default to provide big enough initial buffer for replaced string\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::LOCALE_NONE\fP = 'JPCRE2_NONE'"
+.br
+.RI "\fIDon't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::LOCALE_DEFAULT\fP = LOCALE_NONE"
+.br
+.RI "\fIDefault locale\&. \fP"
+.ti -1c
+.RI "const String \fBjpcre2::JIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
+.br
+.RI "\fIPrefix to be added to JIT error message\&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -241,7 +251,7 @@ Main header file for JPCRE2 library to be included by programs that uses its fun
 
 It includes the pcre2\&.h header, therefore you shouldn't include pcre2\&.h separately in your program\&. Make sure to link both JPCRE2 and PCRE2 library when compiling\&.
 .PP
-If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you still need to link with PCRE2 library 
+If you are using JPCRE2 with all of its source files, you won't need to link it with JPCRE2 library, but do remember that you still need to link with PCRE2 library\&. 
 .PP
 \fBAuthor:\fP
 .RS 4

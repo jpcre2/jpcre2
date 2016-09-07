@@ -107,9 +107,9 @@ This object will hold the pattern, modifiers, compiled pattern, error and warnin
     \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re4(\textcolor{stringliteral}{"pattern4"}, PCRE2\_ANCHORED, 
       \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2::JIT\_COMPILE});
 \}
-\textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
+\textcolor{keywordflow}{catch}(\hyperlink{classjpcre2_1_1Except}{jpcre2::Except}& e)\{
     \textcolor{comment}{/*Handle error*/}
-    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e)<<std::endl;
+    std::cerr<<e.\hyperlink{classjpcre2_1_1Except_aa9f557fe16222ac89a30c438212c0c09}{getErrorMessage}()<<std::endl;
 \}
 \end{DoxyCode}
 
@@ -141,9 +141,9 @@ To get the match results, you need to pass appropriate vector pointers. This is 
     \textcolor{comment}{//vec\_num will be populated with maps of numbered substrings.}
     \textcolor{comment}{//count is the total number of matches found}
 \}
-\textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
+\textcolor{keywordflow}{catch}(\hyperlink{classjpcre2_1_1Except}{jpcre2::Except}& e)\{
     \textcolor{comment}{/*Handle error*/}
-    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e)<<std::endl;
+    std::cerr<<e.\hyperlink{classjpcre2_1_1Except_aa9f557fe16222ac89a30c438212c0c09}{getErrorMessage}()<<std::endl;
 \}
 \end{DoxyCode}
  \hypertarget{index_access-a-capture-group}{}\paragraph{Access a captured group}\label{index_access-a-capture-group}
@@ -177,9 +177,9 @@ To get named substring and/or name to number mapping, pass pointer to the approp
        to number maps}
       .\hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{match}();                                    \textcolor{comment}{//Finally perform the match()}
 \}
-\textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
+\textcolor{keywordflow}{catch}(\hyperlink{classjpcre2_1_1Except}{jpcre2::Except}& e)\{
     \textcolor{comment}{/*Handle error*/}
-    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e)<<std::endl;
+    std::cerr<<e.\hyperlink{classjpcre2_1_1Except_aa9f557fe16222ac89a30c438212c0c09}{getErrorMessage}()<<std::endl;
 \}
 \end{DoxyCode}
 \hypertarget{index_access-substring-by-name}{}\paragraph{Access a capture group by name}\label{index_access-substring-by-name}
@@ -252,9 +252,9 @@ std::cout<<\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringlite
     \textcolor{comment}{//Access substrings/captured groups with $\{1234\},$1234 (for numbered substrings)}
     \textcolor{comment}{// or $\{name\} (for named substrings) in the replacement part i.e in setReplaceWith()}
 \}
-\textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
+\textcolor{keywordflow}{catch}(\hyperlink{classjpcre2_1_1Except}{jpcre2::Except}& e)\{
     \textcolor{comment}{/*Handle error*/}
-    std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e)<<std::endl;
+    std::cerr<<e.\hyperlink{classjpcre2_1_1Except_aa9f557fe16222ac89a30c438212c0c09}{getErrorMessage}()<<std::endl;
 \}
 \end{DoxyCode}
  If you pass the size of the resultant string with {\ttfamily \hyperlink{classjpcre2_1_1RegexReplace_a452dd2632031a13b39c13b792f18a491}{jpcre2\+::\+Regex\+Replace\+::set\+Buffer\+Size()}} function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function ({\ttfamily pcre2\+\_\+substitute()}) will be called {\itshape twice} to adjust the size of the buffer to hold the whole resultant string in order to avoid {\ttfamily P\+C\+R\+E2\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M\+O\+RY} error.\hypertarget{index_modifiers}{}\subsection{Modifiers}\label{index_modifiers}
@@ -355,7 +355,7 @@ These options are meaningful only for the {\bfseries J\+P\+C\+R\+E2} library its
 \rowcolor{\tableheadbgcolor}{\bf Option }&{\bf Details  }\\\cline{1-2}
 \endhead
 {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9}{jpcre2\+::\+N\+O\+NE}} &This is the default option. Equivalent to 0 (zero). \\\cline{1-2}
-{\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} &If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a {\ttfamily \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} error exception will be thrown. You can get the error message with {\ttfamily \hyperlink{classjpcre2_1_1Regex_a8606fff8b192c94f58ca9e82aa048c61}{jpcre2\+::\+Regex\+::get\+Error\+Message()}} member function. \\\cline{1-2}
+{\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} &If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a {\ttfamily \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} error exception will be thrown. \\\cline{1-2}
 {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c}{jpcre2\+::\+F\+I\+N\+D\+\_\+\+A\+LL}} &This option will do a global matching if passed during matching. The same can be achieved by passing the \textquotesingle{}g\textquotesingle{} modifier with {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5}{jpcre2\+::\+Regex\+Match\+::set\+Modifier()}} function. \\\cline{1-2}
 {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL}} &Treat warnings as errors and throw exception. \\\cline{1-2}
 {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE}} &This is same as passing the {\ttfamily S} modifier during pattern compilation. \\\cline{1-2}

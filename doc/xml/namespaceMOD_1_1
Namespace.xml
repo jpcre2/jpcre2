@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespaceMOD_1_1
+Namespace" kind="namespace" language="C++">
+    <compoundname>MOD::
+Namespace</compoundname>
+    <briefdescription>
+<para>for modifier constants. </para>    </briefdescription>
+    <detaileddescription>
+<para>For each modifier constant there is a jpcre2::Uint option value. Some modifiers may have multiple values set together (ORed in bitwise operation) and thus they may include other modifiers. Such an example is the &apos;n&apos; modifier. It is combined together with &apos;u&apos;. </para>    </detaileddescription>
+    <location file="src/jpcre2.hpp" line="127" column="1"/>
+  </compounddef>
+</doxygen>

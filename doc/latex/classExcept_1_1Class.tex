@@ -1,0 +1,38 @@
+\hypertarget{classExcept_1_1Class}{}\subsection{Except\+:\+:Class Class Reference}
+\label{classExcept_1_1Class}\index{Except\+::\+Class@{Except\+::\+Class}}
+
+
+exception.  
+
+
+
+
+Collaboration diagram for Except\+:\+:Class\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{classExcept_1_1Class__coll__graph}
+\end{center}
+\end{figure}
+
+
+\subsubsection{Detailed Description}
+exception. 
+
+Provides public functions to get the error number, error offset and error message.
+
+Any exception should be caught by reference, e.\+g 
+\begin{DoxyCode}
+\textcolor{keywordflow}{try} \{
+    \textcolor{keywordflow}{throw} \hyperlink{namespaceExcept}{Except}(\textcolor{stringliteral}{"Error"}, 1, 2);
+\}
+\textcolor{keywordflow}{catch}( \hyperlink{namespaceExcept}{Except}& e)\{
+    std::cout<<e.what();
+\}
+\end{DoxyCode}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{jpcre2_8hpp}{jpcre2.\+hpp}\end{DoxyCompactItemize}

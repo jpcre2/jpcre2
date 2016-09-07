@@ -63,25 +63,25 @@ const jpcre2::String jpcre2::JIT_ERROR_MESSAGE_PREFIX = "JIT compilation failed!
 // Define modifiers for compile
 // Every modifier needs to be unique in this block
 const jpcre2::String jpcre2::MOD::C_N("eijmnsuxADJU");
-const jpcre2::Uint jpcre2::MOD::C_V[12] = { PCRE2_MATCH_UNSET_BACKREF,                  ///< Modifier e
-                                            PCRE2_CASELESS,                             ///< Modifier i
-                                            PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, ///< Modifier j
-                                            PCRE2_MULTILINE,                            ///< Modifier m
-                                            PCRE2_UTF | PCRE2_UCP,                      ///< Modifier n (includes u)
-                                            PCRE2_DOTALL,                               ///< Modifier s
-                                            PCRE2_UTF,                                  ///< Modifier u
-                                            PCRE2_EXTENDED,                             ///< Modifier x
-                                            PCRE2_ANCHORED,                             ///< Modifier A
-                                            PCRE2_DOLLAR_ENDONLY,                       ///< Modifier D
-                                            PCRE2_DUPNAMES,                             ///< Modifier J
-                                            PCRE2_UNGREEDY                              ///< Modifier U
+const jpcre2::Uint jpcre2::MOD::C_V[12] = { PCRE2_MATCH_UNSET_BACKREF,                  // Modifier e
+                                            PCRE2_CASELESS,                             // Modifier i
+                                            PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, // Modifier j
+                                            PCRE2_MULTILINE,                            // Modifier m
+                                            PCRE2_UTF | PCRE2_UCP,                      // Modifier n (includes u)
+                                            PCRE2_DOTALL,                               // Modifier s
+                                            PCRE2_UTF,                                  // Modifier u
+                                            PCRE2_EXTENDED,                             // Modifier x
+                                            PCRE2_ANCHORED,                             // Modifier A
+                                            PCRE2_DOLLAR_ENDONLY,                       // Modifier D
+                                            PCRE2_DUPNAMES,                             // Modifier J
+                                            PCRE2_UNGREEDY                              // Modifier U
                                           };
 
 
 const jpcre2::String jpcre2::MOD::CJ_N("S~&");
-const jpcre2::Uint jpcre2::MOD::CJ_V[3] = { JIT_COMPILE,                                ///< Modifier S
-                                            ERROR_ALL,                                  ///< Modifier ~
-                                            VALIDATE_MODIFIER                           ///< Modifier &
+const jpcre2::Uint jpcre2::MOD::CJ_V[3] = { JIT_COMPILE,                                // Modifier S
+                                            ERROR_ALL,                                  // Modifier ~
+                                            VALIDATE_MODIFIER                           // Modifier &
                                           };
 
 
@@ -89,32 +89,32 @@ const jpcre2::Uint jpcre2::MOD::CJ_V[3] = { JIT_COMPILE,                        
 // Define modifiers for replace
 // Every modifier needs to be unique in this block
 const jpcre2::String jpcre2::MOD::R_N("eEgx");
-const jpcre2::Uint jpcre2::MOD::R_V[4] = { PCRE2_SUBSTITUTE_UNSET_EMPTY,                ///< Modifier  e
-                                           PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   ///< Modifier E (includes e)
-                                           PCRE2_SUBSTITUTE_GLOBAL,                     ///< Modifier g
-                                           PCRE2_SUBSTITUTE_EXTENDED                    ///< Modifier x
+const jpcre2::Uint jpcre2::MOD::R_V[4] = { PCRE2_SUBSTITUTE_UNSET_EMPTY,                // Modifier  e
+                                           PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   // Modifier E (includes e)
+                                           PCRE2_SUBSTITUTE_GLOBAL,                     // Modifier g
+                                           PCRE2_SUBSTITUTE_EXTENDED                    // Modifier x
                                          };
 
 
 const jpcre2::String jpcre2::MOD::RJ_N("~&");
-const jpcre2::Uint jpcre2::MOD::RJ_V[2] = { ERROR_ALL,                                  ///< Modifier ~
-                                            VALIDATE_MODIFIER                           ///< Modifier &
+const jpcre2::Uint jpcre2::MOD::RJ_V[2] = { ERROR_ALL,                                  // Modifier ~
+                                            VALIDATE_MODIFIER                           // Modifier &
                                           };
 
 
 // Define modifiers for match
 // Every modifier needs to be unique in this block
 const jpcre2::String jpcre2::MOD::M_N("A");
-const jpcre2::Uint jpcre2::MOD::M_V[1] = { PCRE2_ANCHORED                               ///< Modifier  A
+const jpcre2::Uint jpcre2::MOD::M_V[1] = { PCRE2_ANCHORED                               // Modifier  A
                                          };
 
 const jpcre2::String jpcre2::MOD::MJ_N("g~&");
-const jpcre2::Uint jpcre2::MOD::MJ_V[3] = { FIND_ALL,                                   ///< Modifier  g
-                                            ERROR_ALL,                                  ///< Modifier  ~
-                                            VALIDATE_MODIFIER                           ///< Modifier  &
+const jpcre2::Uint jpcre2::MOD::MJ_V[3] = { FIND_ALL,                                   // Modifier  g
+                                            ERROR_ALL,                                  // Modifier  ~
+                                            VALIDATE_MODIFIER                           // Modifier  &
                                           };
 
-///////// utils namespace
+// utils namespace
 
 /// @param a const char* to be converted to jpcre2::String
 /// @return jpcre2::String
@@ -164,8 +164,7 @@ std::string jpcre2::utils::getPcre2ErrorMessage(int err_num) {
 }
 
 
-/**
- * Return error message according to error number and error offset
+/**Return error message according to error number and error offset
  * @param err_num Error number
  * @param err_off Error offset
  * @return Error message as a string
@@ -184,17 +183,17 @@ std::string jpcre2::utils::getErrorMessage(int err_num, int err_off) {
 
 
 /// Used throughout JPCRE2 to throw exceptions
-///@throw jpcre2::Except Throws exception. 
+/// @throw jpcre2::Except Throws exception.
 ///       Should be caught by reference. See jpcre2::Except for details.
-///@param err_num Error number
-///@param err_off Error offset
+/// @param err_num Error number
+/// @param err_off Error offset
 void jpcre2::utils::throwException(int err_num, int err_off){
     throw Except(getErrorMessage(err_num, err_off), err_num, err_off);
 }
 
 /////////
 
-///////// Regex class
+// Regex class
 
 
 /**
@@ -376,9 +375,9 @@ void jpcre2::Regex::compile() {
 		}
 	}
 }
-/////////
 
-///////// RegexReplace class
+
+// RegexReplace class
 
 /// After a call to this function #replace_opts and #jpcre2_replace_opts will be properly set.
 /// This function does not initialize or re-initialize options.
@@ -424,7 +423,7 @@ jpcre2::RegexReplace& jpcre2::RegexReplace::changeModifier(const String& mod, bo
 
 
 /** Retrieves subject string, replacement string, modifier and other options from class variables.
-/// @throw jpcre2::Except Throws exception with PCRE2 error number and error offset.
+ * @throw jpcre2::Except Throws exception with PCRE2 error number and error offset.
  * @return Replaced string
  * */
 jpcre2::String jpcre2::RegexReplace::replace() {
@@ -481,9 +480,9 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 	::free(output_buffer);
 	return result;
 }
-/////////
 
-///////// RegexMatch class
+
+// RegexMatch class
 
 
 /// After a call to this function #match_opts and #jpcre2_match_opts will be properly set.
@@ -932,5 +931,4 @@ jpcre2::SIZE_T jpcre2::RegexMatch::match() {
 	/// Must not free pcre2_code* code. This function has no right to modify regex.
 	return count;
 }
-/////////
 

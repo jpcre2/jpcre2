@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classRegexMatch_1_1Provides" kind="class" language="C++" prot="public">
+    <compoundname>RegexMatch::Provides</compoundname>
+    <briefdescription>
+<para>() function to perform regex matching. </para>    </briefdescription>
+    <detaileddescription>
+<para>Provides chained methods to set various options.</para><para>All constructors of this class are private. </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="15">
+        <label>RegexMatch::Provides</label>
+        <link refid="classRegexMatch_1_1Provides"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/jpcre2.hpp" line="245" column="1" bodyfile="src/jpcre2.hpp" bodystart="241" bodyend="-1"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,4 +1,4 @@
-.TH "test_match2.cpp" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
+.TH "test_match2.cpp" 3 "Thu Sep 8 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -53,7 +53,7 @@ int main(){
         
         ///Compile pattern
         try{re\&.compile(pat,mod);}
-        catch(int e){std::cerr<<re\&.getErrorMessage(e)<<std::endl;continue;}
+        catch(jpcre2::Except& e){std::cerr<<e\&.getErrorMessage()<<std::endl;continue;}
         break;
     }
     
@@ -61,7 +61,7 @@ int main(){
     
     /***************************************************************************************************************
      * Use try catch block to catch any exception and avoid unexpected termination of the program in case of error
-     * All jpcre2 exceptions are of type int (integer)
+     * All jpcre2 exceptions are of type jpcre2::Except
      * *************************************************************************************************************/
     
 
@@ -86,8 +86,8 @@ int main(){
                       \&.addPcre2Option(0)                          //add PCRE2 option
                       \&.match();                                   //Finally do the match
         }
-        catch(int e){std::cerr<<re\&.getErrorMessage(e);
-            if(e==jpcre2::ERROR::INVALID_MODIFIER) continue;
+        catch(jpcre2::Except& e){std::cerr<<e\&.getErrorMessage();
+            if(e\&.getErrorNumber()==jpcre2::ERROR::INVALID_MODIFIER) continue;
         }
         break;
     }

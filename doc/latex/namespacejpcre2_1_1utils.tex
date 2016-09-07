@@ -16,9 +16,11 @@ Namespace for some utility functions.
 \begin{DoxyCompactList}\small\item\em Converts const char$\ast$ to String. \end{DoxyCompactList}\item 
 \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{namespacejpcre2_1_1utils_aea66a35f467adf41730c5a3bb21be6ed}{to\+String} (P\+C\+R\+E2\+\_\+\+U\+C\+H\+AR $\ast$)
 \begin{DoxyCompactList}\small\item\em Converts a P\+C\+R\+E2\+\_\+\+U\+C\+H\+A\+R$\ast$ to String. \end{DoxyCompactList}\item 
-\hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \hyperlink{namespacejpcre2_1_1utils_a46868509af4188b7250b01384a16427e}{get\+Pcre2\+Error\+Message} (int)
+std\+::string \hyperlink{namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6}{get\+Pcre2\+Error\+Message} (int)
 \begin{DoxyCompactList}\small\item\em Get P\+C\+R\+E2 error message for an error number. \end{DoxyCompactList}\item 
-void \hyperlink{namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052}{throw\+Exception} (int)
+std\+::string \hyperlink{namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209}{get\+Error\+Message} (int, int)
+\begin{DoxyCompactList}\small\item\em Get error message from error number and error offset. \end{DoxyCompactList}\item 
+void \hyperlink{namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc}{throw\+Exception} (int, int)
 \begin{DoxyCompactList}\small\item\em Used throughout J\+P\+C\+R\+E2 to throw exceptions. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -26,13 +28,67 @@ void \hyperlink{namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052}{thro
 Namespace for some utility functions. 
 
 \subsubsection{Function Documentation}
+\index{jpcre2\+::utils@{jpcre2\+::utils}!get\+Error\+Message@{get\+Error\+Message}}
+\index{get\+Error\+Message@{get\+Error\+Message}!jpcre2\+::utils@{jpcre2\+::utils}}
+\paragraph[{\texorpdfstring{get\+Error\+Message(int, int)}{getErrorMessage(int, int)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string jpcre2\+::utils\+::get\+Error\+Message (
+\begin{DoxyParamCaption}
+\item[{int}]{err\+\_\+num, }
+\item[{int}]{err\+\_\+off}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209}{}\label{namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209}
+
+
+Get error message from error number and error offset. 
+
+Return error message according to error number and error offset.
+
+
+\begin{DoxyParams}{Parameters}
+{\em err\+\_\+num} & Error number \\
+\hline
+{\em err\+\_\+off} & Error offset \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error message as a string 
+\end{DoxyReturn}
+
+
+References get\+Pcre2\+Error\+Message(), jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER, jpcre2\+::\+E\+R\+R\+O\+R\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+L\+E\+\_\+\+F\+A\+I\+L\+ED, jpcre2\+::\+J\+I\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+P\+R\+E\+F\+IX, and to\+String().
+
+
+
+Referenced by jpcre2\+::\+Regex\+Match\+::change\+Modifier(), jpcre2\+::\+Regex\+Replace\+::change\+Modifier(), jpcre2\+::\+Regex\+::change\+Modifier(), and throw\+Exception().
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_icgraph}
+\end{center}
+\end{figure}
+
+
 \index{jpcre2\+::utils@{jpcre2\+::utils}!get\+Pcre2\+Error\+Message@{get\+Pcre2\+Error\+Message}}
 \index{get\+Pcre2\+Error\+Message@{get\+Pcre2\+Error\+Message}!jpcre2\+::utils@{jpcre2\+::utils}}
-\paragraph[{\texorpdfstring{get\+Pcre2\+Error\+Message(int)}{getPcre2ErrorMessage(int)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf jpcre2\+::\+String} jpcre2\+::utils\+::get\+Pcre2\+Error\+Message (
+\paragraph[{\texorpdfstring{get\+Pcre2\+Error\+Message(int)}{getPcre2ErrorMessage(int)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string jpcre2\+::utils\+::get\+Pcre2\+Error\+Message (
 \begin{DoxyParamCaption}
 \item[{int}]{err\+\_\+num}
 \end{DoxyParamCaption}
-)}\hypertarget{namespacejpcre2_1_1utils_a46868509af4188b7250b01384a16427e}{}\label{namespacejpcre2_1_1utils_a46868509af4188b7250b01384a16427e}
+)}\hypertarget{namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6}{}\label{namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6}
 
 
 Get P\+C\+R\+E2 error message for an error number. 
@@ -51,7 +107,7 @@ References to\+String().
 
 
 
-Referenced by jpcre2\+::\+Regex\+::compile(), jpcre2\+::\+Regex\+::deep\+Copy(), and jpcre2\+::\+Regex\+::get\+Error\+Message().
+Referenced by jpcre2\+::\+Regex\+::compile(), jpcre2\+::\+Regex\+::deep\+Copy(), and get\+Error\+Message().
 
 
 
@@ -59,47 +115,10 @@ Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespacejpcre2_1_1utils_a46868509af4188b7250b01384a16427e_cgraph}
+\includegraphics[width=350pt]{namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_cgraph}
 \end{center}
 \end{figure}
 
-
-
-
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacejpcre2_1_1utils_a46868509af4188b7250b01384a16427e_icgraph}
-\end{center}
-\end{figure}
-
-
-\index{jpcre2\+::utils@{jpcre2\+::utils}!throw\+Exception@{throw\+Exception}}
-\index{throw\+Exception@{throw\+Exception}!jpcre2\+::utils@{jpcre2\+::utils}}
-\paragraph[{\texorpdfstring{throw\+Exception(int)}{throwException(int)}}]{\setlength{\rightskip}{0pt plus 5cm}void jpcre2\+::utils\+::throw\+Exception (
-\begin{DoxyParamCaption}
-\item[{int}]{x}
-\end{DoxyParamCaption}
-)}\hypertarget{namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052}{}\label{namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052}
-
-
-Used throughout J\+P\+C\+R\+E2 to throw exceptions. 
-
-
-\begin{DoxyExceptions}{Exceptions}
-{\em x} & Throws x as exception \\
-\hline
-\end{DoxyExceptions}
-
-\begin{DoxyParams}{Parameters}
-{\em x} & Integer to be thrown as exception \\
-\hline
-\end{DoxyParams}
-
-
-Referenced by jpcre2\+::\+Regex\+Match\+::change\+Modifier(), jpcre2\+::\+Regex\+Replace\+::change\+Modifier(), jpcre2\+::\+Regex\+::change\+Modifier(), jpcre2\+::\+Regex\+::compile(), jpcre2\+::\+Regex\+::deep\+Copy(), jpcre2\+::\+Regex\+Match\+::get\+Named\+Substrings(), jpcre2\+::\+Regex\+Match\+::get\+Numbered\+Substrings(), jpcre2\+::\+Regex\+Match\+::match(), and jpcre2\+::\+Regex\+Replace\+::replace().
 
 
 
@@ -107,7 +126,61 @@ Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052_icgraph}
+\includegraphics[width=350pt]{namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{jpcre2\+::utils@{jpcre2\+::utils}!throw\+Exception@{throw\+Exception}}
+\index{throw\+Exception@{throw\+Exception}!jpcre2\+::utils@{jpcre2\+::utils}}
+\paragraph[{\texorpdfstring{throw\+Exception(int, int)}{throwException(int, int)}}]{\setlength{\rightskip}{0pt plus 5cm}void jpcre2\+::utils\+::throw\+Exception (
+\begin{DoxyParamCaption}
+\item[{int}]{err\+\_\+num, }
+\item[{int}]{err\+\_\+off}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc}{}\label{namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc}
+
+
+Used throughout J\+P\+C\+R\+E2 to throw exceptions. 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} & Throws exception. Should be caught by reference. See \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except} for details. \\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em err\+\_\+num} & Error number \\
+\hline
+{\em err\+\_\+off} & Error offset \\
+\hline
+\end{DoxyParams}
+
+
+References get\+Error\+Message().
+
+
+
+Referenced by jpcre2\+::\+Regex\+Match\+::change\+Modifier(), jpcre2\+::\+Regex\+Replace\+::change\+Modifier(), jpcre2\+::\+Regex\+::change\+Modifier(), jpcre2\+::\+Regex\+::compile(), jpcre2\+::\+Regex\+::deep\+Copy(), jpcre2\+::\+Regex\+Match\+::get\+Named\+Substrings(), jpcre2\+::\+Regex\+Match\+::get\+Numbered\+Substrings(), jpcre2\+::\+Regex\+Match\+::match(), and jpcre2\+::\+Regex\+Replace\+::replace().
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_icgraph}
 \end{center}
 \end{figure}
 
@@ -133,12 +206,11 @@ Converts an integer to String.
 \end{DoxyReturn}
 
 
-Referenced by jpcre2\+::\+Regex\+::compile(), jpcre2\+::\+Regex\+::get\+Error\+Message(), jpcre2\+::\+Regex\+Match\+::get\+Named\+Substrings(), jpcre2\+::\+Regex\+Match\+::get\+Numbered\+Substrings(), get\+Pcre2\+Error\+Message(), and jpcre2\+::\+Regex\+Replace\+::replace().
+Referenced by jpcre2\+::\+Regex\+::compile(), get\+Error\+Message(), jpcre2\+::\+Regex\+Match\+::get\+Named\+Substrings(), jpcre2\+::\+Regex\+Match\+::get\+Numbered\+Substrings(), get\+Pcre2\+Error\+Message(), and jpcre2\+::\+Regex\+Replace\+::replace().
 
 
 
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

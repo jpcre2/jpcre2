@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pushmapsintovectors',['pushMapsIntoVectors',['../classjpcre2_1_1RegexMatch.html#aeeffc8edc43a8e5d1d24ae4055213730',1,'jpcre2::RegexMatch']]]
+  ['operator_3d',['operator=',['../classjpcre2_1_1Regex.html#ab43a14b4b6e75b7fa3221bc18a1d4121',1,'jpcre2::Regex']]]
 ];

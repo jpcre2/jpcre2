@@ -50,9 +50,9 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">jpcre2::Regex</ref><sp/>re3(</highlight><highlight class="stringliteral">&quot;pattern3&quot;</highlight><highlight class="normal">,<sp/>PCRE2_ANCHORED);</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjpcre2_1_1Regex" kindref="compound">jpcre2::Regex</ref><sp/>re4(</highlight><highlight class="stringliteral">&quot;pattern4&quot;</highlight><highlight class="normal">,<sp/>PCRE2_ANCHORED,<sp/><ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" kindref="member">jpcre2::JIT_COMPILE</ref>);</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(<ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref>&amp;<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*Handle<sp/>error*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;e.<ref refid="classjpcre2_1_1Except_1aa9f557fe16222ac89a30c438212c0c09" kindref="member">getErrorMessage</ref>()&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 </programlisting></para><para>Now you can perform match or replace against the pattern. Use the <computeroutput>match()</computeroutput> member function to perform regex match and the <computeroutput>replace()</computeroutput> member function to perform regex replace.</para></sect2>
 <sect2 id="index_1match">
@@ -74,9 +74,9 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//vec_num<sp/>will<sp/>be<sp/>populated<sp/>with<sp/>maps<sp/>of<sp/>numbered<sp/>substrings.</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//count<sp/>is<sp/>the<sp/>total<sp/>number<sp/>of<sp/>matches<sp/>found</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(<ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref>&amp;<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*Handle<sp/>error*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;e.<ref refid="classjpcre2_1_1Except_1aa9f557fe16222ac89a30c438212c0c09" kindref="member">getErrorMessage</ref>()&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 </programlisting> </para></sect3>
 <sect3 id="index_1access-a-capture-group">
@@ -100,9 +100,9 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexMatch_1a04926e61d8b5f1d8bdf344efecd567d8" kindref="member">setNameToNumberMapVector</ref>(&amp;vec_ntn)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//pass<sp/>pointer<sp/>to<sp/>vector<sp/>of<sp/>name<sp/>to<sp/>number<sp/>maps</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">match</ref>();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Finally<sp/>perform<sp/>the<sp/>match()</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(<ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref>&amp;<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*Handle<sp/>error*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;e.<ref refid="classjpcre2_1_1Except_1aa9f557fe16222ac89a30c438212c0c09" kindref="member">getErrorMessage</ref>()&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 </programlisting></para></sect3>
 <sect3 id="index_1access-substring-by-name">
@@ -155,9 +155,9 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Access<sp/>substrings/captured<sp/>groups<sp/>with<sp/>${1234},$1234<sp/>(for<sp/>numbered<sp/>substrings)</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>or<sp/>${name}<sp/>(for<sp/>named<sp/>substrings)<sp/>in<sp/>the<sp/>replacement<sp/>part<sp/>i.e<sp/>in<sp/>setReplaceWith()</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>e){</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal">(<ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref>&amp;<sp/>e){</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*Handle<sp/>error*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;re.<ref refid="classjpcre2_1_1Regex_1a83b93ff7f6860757445e5edbecbfb7a2" kindref="member">getErrorMessage</ref>(e)&lt;&lt;std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr&lt;&lt;e.<ref refid="classjpcre2_1_1Except_1aa9f557fe16222ac89a30c438212c0c09" kindref="member">getErrorMessage</ref>()&lt;&lt;std::endl;</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
 </programlisting> If you pass the size of the resultant string with <computeroutput><ref refid="classjpcre2_1_1RegexReplace_1a452dd2632031a13b39c13b792f18a491" kindref="member">jpcre2::RegexReplace::setBufferSize()</ref></computeroutput> function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function (<computeroutput>pcre2_substitute()</computeroutput>) will be called <emphasis>twice</emphasis> to adjust the size of the buffer to hold the whole resultant string in order to avoid <computeroutput>PCRE2_ERROR_NOMEMORY</computeroutput> error.</para></sect3>
 </sect2>
@@ -250,7 +250,7 @@ compile </para></entry><entry thead="no"><para>Validate modifier. Throws <comput
 <row>
 <entry thead="no"><para><computeroutput><ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9" kindref="member">jpcre2::NONE</ref></computeroutput> </para></entry><entry thead="no"><para>This is the default option. Equivalent to 0 (zero). </para></entry></row>
 <row>
-<entry thead="no"><para><computeroutput><ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">jpcre2::VALIDATE_MODIFIER</ref></computeroutput> </para></entry><entry thead="no"><para>If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a <computeroutput><ref refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" kindref="member">jpcre2::ERROR::INVALID_MODIFIER</ref></computeroutput> error exception will be thrown. You can get the error message with <computeroutput><ref refid="classjpcre2_1_1Regex_1a8606fff8b192c94f58ca9e82aa048c61" kindref="member">jpcre2::Regex::getErrorMessage()</ref></computeroutput> member function. </para></entry></row>
+<entry thead="no"><para><computeroutput><ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">jpcre2::VALIDATE_MODIFIER</ref></computeroutput> </para></entry><entry thead="no"><para>If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a <computeroutput><ref refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" kindref="member">jpcre2::ERROR::INVALID_MODIFIER</ref></computeroutput> error exception will be thrown. </para></entry></row>
 <row>
 <entry thead="no"><para><computeroutput><ref refid="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c" kindref="member">jpcre2::FIND_ALL</ref></computeroutput> </para></entry><entry thead="no"><para>This option will do a global matching if passed during matching. The same can be achieved by passing the &apos;g&apos; modifier with <computeroutput><ref refid="classjpcre2_1_1RegexMatch_1a9df7e92f96b61553f62720cb8f5f23e5" kindref="member">jpcre2::RegexMatch::setModifier()</ref></computeroutput> function. </para></entry></row>
 <row>

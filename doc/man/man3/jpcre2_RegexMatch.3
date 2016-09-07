@@ -1,4 +1,4 @@
-.TH "jpcre2::RegexMatch" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::RegexMatch" 3 "Thu Sep 8 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -218,7 +218,7 @@ Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is jus
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
 .RE
 .PP
 \fBParameters:\fP
@@ -298,7 +298,7 @@ This function does not initialize or re-initialize options\&. If you want to set
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP was set and a wrong modifier was encountered\&. 
 .RE
 .PP
 \fBParameters:\fP
@@ -322,7 +322,7 @@ This function does not initialize or re-initialize options\&. If you want to set
 .PP
 
 .PP
-References jpcre2::Regex::changeJpcre2Option(), jpcre2::Regex::changePcre2Option(), jpcre2::ERROR_ALL, jpcre2::ERROR::INVALID_MODIFIER, jpcre2::MOD::M_N, jpcre2::MOD::M_V, jpcre2::MOD::MJ_N, jpcre2::MOD::MJ_V, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
+References jpcre2::Regex::changeJpcre2Option(), jpcre2::Regex::changePcre2Option(), jpcre2::ERROR_ALL, jpcre2::utils::getErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2::MOD::M_N, jpcre2::MOD::M_V, jpcre2::MOD::MJ_N, jpcre2::MOD::MJ_V, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
 .SS "\fBRegexMatch\fP& jpcre2::RegexMatch::changePcre2Option (\fBUint\fP opt, bool x)\fC [inline]\fP"
 
 .PP
@@ -355,7 +355,7 @@ Populate \fBnas_map0\fP and/or \fBntn_map0\fP with named substring and/or name t
 .PP
 \fBExceptions:\fP
 .RS 4
-\fIPCRE2_ERROR_*\fP Throws exception if PCRE2 error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset\&. 
 .RE
 .PP
 \fBParameters:\fP
@@ -379,7 +379,7 @@ Populate \fBnum_map0\fP with numbered substrings\&.
 .PP
 \fBExceptions:\fP
 .RS 4
-\fIPCRE2_ERROR_*\fP Throws exception if PCRE2 error occurs 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset\&. 
 .RE
 .PP
 \fBParameters:\fP
@@ -392,6 +392,10 @@ Populate \fBnum_map0\fP with numbered substrings\&.
 
 .PP
 References jpcre2::utils::throwException(), and jpcre2::utils::toString()\&.
+.SS "void jpcre2::RegexMatch::init_vars ()\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Initialize class variables\&. Do not call this without releasing vector/map memory\&. 
 .SS "\fBjpcre2::SIZE_T\fP jpcre2::RegexMatch::match (void)"
 
 .PP
@@ -401,7 +405,7 @@ The size of each vectors should be equal to the match count\&. The return value 
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBRegex::error_number\fP\fP Throws exception (error number) if error occurs during match\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset\&. 
 .RE
 .PP
 \fBReturns:\fP
@@ -484,7 +488,7 @@ Set the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. Re-initializes
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
 .RE
 .PP
 \fBParameters:\fP

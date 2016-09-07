@@ -1,0 +1,15 @@
+<map id="jpcre2::utils::getPcre2ErrorMessage" name="jpcre2::utils::getPcre2ErrorMessage">
+<area shape="rect" id="node2" href="$classjpcre2_1_1Regex.html#aad1d5ef1e87f762f68a587eec4022e69" title="Compile the regex pattern from class variable pat_str. " alt="" coords="731,5,887,32"/>
+<area shape="rect" id="node3" href="$classjpcre2_1_1Regex.html#a240790a0f3d8e97af0a76ad3f882e02a" title="Do a deep copy of rm, rr and code. " alt="" coords="723,56,894,83"/>
+<area shape="rect" id="node4" href="$namespacejpcre2_1_1utils.html#a58db3a9ce0296d70469611445cb42209" title="Get error message from error number and error offset. " alt="" coords="231,376,427,403"/>
+<area shape="rect" id="node5" href="$classjpcre2_1_1RegexMatch.html#a877be3123d789020d259939bc79e8cfe" title="Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. " alt="" coords="739,369,878,410"/>
+<area shape="rect" id="node6" href="$classjpcre2_1_1RegexReplace.html#a0a2dc39fc28e6f7fe0a5d638f5891bdb" title="Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. " alt="" coords="733,434,884,475"/>
+<area shape="rect" id="node7" href="$classjpcre2_1_1Regex.html#a9ab3efed9819a51225456e6d8487de56" title="Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. " alt="" coords="709,500,908,527"/>
+<area shape="rect" id="node8" href="$namespacejpcre2_1_1utils.html#a71c7842918bdcc6936266813981492dc" title="Used throughout JPCRE2 to throw exceptions. " alt="" coords="475,279,661,305"/>
+<area shape="rect" id="node9" href="$classjpcre2_1_1RegexReplace.html#afd087fa7a9bfedec802d1a3dd7edbdd0" title="Returns the resultant string after performing regex replace. " alt="" coords="733,107,884,149"/>
+<area shape="rect" id="node11" href="$classjpcre2_1_1RegexMatch.html#a82bfef9700b1c62b84e4a32ee4b0731e" title="Populate num_map0 with numbered substrings. " alt="" coords="723,173,894,214"/>
+<area shape="rect" id="node12" href="$classjpcre2_1_1RegexMatch.html#ac494245673c474d518e8ae47b2ab9db9" title="Populate nas_map0 and/or ntn_map0 with named substring and/or name to number mapping. " alt="" coords="733,238,885,279"/>
+<area shape="rect" id="node13" href="$classjpcre2_1_1RegexMatch.html#a5868aef3a146594ea1ebef34d122bb33" title="Store match result in vectors and return the number of matches. " alt="" coords="739,303,878,345"/>
+<area shape="rect" id="node10" href="$classjpcre2_1_1Regex.html#ac592ce7a5e4210ed5f90a0105b1f2981" title="Perform regex replace and return the replaced string. " alt="" coords="956,115,1109,141"/>
+<area shape="rect" id="node14" href="$classjpcre2_1_1Regex.html#ab93775a93a0a537d09b9e9ab4a5a3894" title="Perform regex match and return match count. " alt="" coords="959,311,1106,337"/>
+</map>

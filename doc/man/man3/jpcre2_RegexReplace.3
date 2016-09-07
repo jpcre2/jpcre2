@@ -1,4 +1,4 @@
-.TH "jpcre2::RegexReplace" 3 "Wed Sep 7 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::RegexReplace" 3 "Thu Sep 8 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -176,7 +176,7 @@ Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is jus
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
 .RE
 .PP
 \fBParameters:\fP
@@ -256,7 +256,7 @@ This function does not initialize or re-initialize options\&. If you want to set
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP was set and a wrong modifier was encountered\&. 
 .RE
 .PP
 \fBParameters:\fP
@@ -280,7 +280,7 @@ This function does not initialize or re-initialize options\&. If you want to set
 .PP
 
 .PP
-References jpcre2::Regex::changeJpcre2Option(), jpcre2::Regex::changePcre2Option(), jpcre2::ERROR_ALL, jpcre2::ERROR::INVALID_MODIFIER, jpcre2::MOD::R_N, jpcre2::MOD::R_V, jpcre2::MOD::RJ_N, jpcre2::MOD::RJ_V, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
+References jpcre2::Regex::changeJpcre2Option(), jpcre2::Regex::changePcre2Option(), jpcre2::ERROR_ALL, jpcre2::utils::getErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2::MOD::R_N, jpcre2::MOD::R_V, jpcre2::MOD::RJ_N, jpcre2::MOD::RJ_V, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::changePcre2Option (\fBUint\fP opt, bool x)\fC [inline]\fP"
 
 .PP
@@ -313,7 +313,7 @@ Returns the resultant string after performing regex replace\&. Retrieves subject
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBRegex::error_number\fP\fP Throws exception (error number) if error occurs\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset\&. 
 .RE
 .PP
 \fBReturns:\fP
@@ -368,11 +368,11 @@ Set JPCRE2 option \fBjpcre2_replace_opts\fP (overwrite existing option)
 .SS "\fBRegexReplace\fP& jpcre2::RegexReplace::setModifier (const \fBString\fP & s)\fC [inline]\fP"
 
 .PP
-Set the modifier string (overwrites existing JPCRE2 and PCRE2 option)\&. \fBNote:\fP If speed of operation is very crucial, use \fBRegexReplace::setJpcre2Option()\fP and \fBRegexReplace::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. / 
+Set the modifier string (overwrites existing JPCRE2 and PCRE2 option)\&. \fBNote:\fP If speed of operation is very crucial, use \fBRegexReplace::setJpcre2Option()\fP and \fBRegexReplace::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
 \fBExceptions:\fP
 .RS 4
-\fI\fBERROR::INVALID_MODIFIER\fP\fP Throws exception if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP / is set and a wrong modifier was encountered\&. 
+\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
 .RE
 .PP
 \fBParameters:\fP

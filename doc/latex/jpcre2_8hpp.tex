@@ -10,6 +10,7 @@ Main header file for J\+P\+C\+R\+E2 library to be included by programs that uses
 {\ttfamily \#include $<$string$>$}\\*
 {\ttfamily \#include $<$vector$>$}\\*
 {\ttfamily \#include $<$map$>$}\\*
+{\ttfamily \#include $<$exception$>$}\\*
 Include dependency graph for jpcre2.\+hpp\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -17,8 +18,7 @@ Include dependency graph for jpcre2.\+hpp\+:\nopagebreak
 \includegraphics[width=350pt]{jpcre2_8hpp__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -28,6 +28,8 @@ This graph shows which files directly or indirectly include this file\+:
 \subsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
+class \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}
+\begin{DoxyCompactList}\small\item\em Class to handle exception. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}
 \begin{DoxyCompactList}\small\item\em Provides the \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{Regex\+Match\+::match()} function to perform regex matching. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexReplace}{jpcre2\+::\+Regex\+Replace}
@@ -101,9 +103,11 @@ String \hyperlink{namespacejpcre2_1_1utils_a4065a2a40144999cd2a94e7a7e1d5eb6}{jp
 \begin{DoxyCompactList}\small\item\em Converts const char$\ast$ to String. \end{DoxyCompactList}\item 
 String \hyperlink{namespacejpcre2_1_1utils_aea66a35f467adf41730c5a3bb21be6ed}{jpcre2\+::utils\+::to\+String} (P\+C\+R\+E2\+\_\+\+U\+C\+H\+AR $\ast$)
 \begin{DoxyCompactList}\small\item\em Converts a P\+C\+R\+E2\+\_\+\+U\+C\+H\+A\+R$\ast$ to String. \end{DoxyCompactList}\item 
-String \hyperlink{namespacejpcre2_1_1utils_a46868509af4188b7250b01384a16427e}{jpcre2\+::utils\+::get\+Pcre2\+Error\+Message} (int)
+std\+::string \hyperlink{namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6}{jpcre2\+::utils\+::get\+Pcre2\+Error\+Message} (int)
 \begin{DoxyCompactList}\small\item\em Get P\+C\+R\+E2 error message for an error number. \end{DoxyCompactList}\item 
-void \hyperlink{namespacejpcre2_1_1utils_ae46ee8a2fbb7bc5b583aee0d1f047052}{jpcre2\+::utils\+::throw\+Exception} (int)
+std\+::string \hyperlink{namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209}{jpcre2\+::utils\+::get\+Error\+Message} (int, int)
+\begin{DoxyCompactList}\small\item\em Get error message from error number and error offset. \end{DoxyCompactList}\item 
+void \hyperlink{namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc}{jpcre2\+::utils\+::throw\+Exception} (int, int)
 \begin{DoxyCompactList}\small\item\em Used throughout J\+P\+C\+R\+E2 to throw exceptions. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -125,15 +129,6 @@ const String \hyperlink{namespacejpcre2_1_1INFO_a0644b3b2680e99fc88c0a98f6a0d25d
 const String \hyperlink{namespacejpcre2_1_1INFO_a85fb46b46141271d426f53b2c2ba6b15}{jpcre2\+::\+I\+N\+F\+O\+::\+V\+E\+R\+S\+I\+O\+N\+\_\+\+P\+R\+E\+\_\+\+R\+E\+L\+E\+A\+SE}\hypertarget{namespacejpcre2_1_1INFO_a85fb46b46141271d426f53b2c2ba6b15}{}\label{namespacejpcre2_1_1INFO_a85fb46b46141271d426f53b2c2ba6b15}
 
 \begin{DoxyCompactList}\small\item\em Alpha or beta (testing) release version. \end{DoxyCompactList}\item 
-const S\+I\+Z\+E\+\_\+T \hyperlink{namespacejpcre2_a80cb201f2e733137b22a8ed98465096a}{jpcre2\+::\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+R\+E\+S\+U\+L\+T\+\_\+\+I\+N\+I\+T\+\_\+\+S\+I\+ZE} = std\+::numeric\+\_\+limits$<$int$>$\+::max()
-\begin{DoxyCompactList}\small\item\em Used by default to provide big enough initial buffer for replaced string. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE} = \char`\"{}J\+P\+C\+R\+E2\+\_\+\+N\+O\+NE\char`\"{}
-\begin{DoxyCompactList}\small\item\em Don\textquotesingle{}t do anything about locale if it is set to \hyperlink{namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5}{L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE}. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_adfdd3d1fff99e685734ae4e59771e84d}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+LT} = L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE
-\begin{DoxyCompactList}\small\item\em Default locale. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{jpcre2\+::\+J\+I\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+P\+R\+E\+F\+IX} = \char`\"{}J\+IT compilation failed! \char`\"{}\hypertarget{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{}\label{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}
-
-\begin{DoxyCompactList}\small\item\em Prefix to be added to J\+IT error message. \end{DoxyCompactList}\item 
 const String \hyperlink{namespacejpcre2_1_1MOD_a3b72b258386dc5ea4a23504e89908247}{jpcre2\+::\+M\+O\+D\+::\+C\+\_\+N}\hypertarget{namespacejpcre2_1_1MOD_a3b72b258386dc5ea4a23504e89908247}{}\label{namespacejpcre2_1_1MOD_a3b72b258386dc5ea4a23504e89908247}
 
 \begin{DoxyCompactList}\small\item\em String of compile modifier characters for P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
@@ -169,7 +164,16 @@ const String \hyperlink{namespacejpcre2_1_1MOD_a8d13695c0e0355460cef4f7b96076210
 \begin{DoxyCompactList}\small\item\em String of action (replace) modifier characters for J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
 const Uint \hyperlink{namespacejpcre2_1_1MOD_a30011385a69e77d8681517c621c2a140}{jpcre2\+::\+M\+O\+D\+::\+R\+J\+\_\+V} \mbox{[}$\,$\mbox{]}\hypertarget{namespacejpcre2_1_1MOD_a30011385a69e77d8681517c621c2a140}{}\label{namespacejpcre2_1_1MOD_a30011385a69e77d8681517c621c2a140}
 
-\begin{DoxyCompactList}\small\item\em Array of action (replace) modifier values for J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Array of action (replace) modifier values for J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
+const S\+I\+Z\+E\+\_\+T \hyperlink{namespacejpcre2_a80cb201f2e733137b22a8ed98465096a}{jpcre2\+::\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+R\+E\+S\+U\+L\+T\+\_\+\+I\+N\+I\+T\+\_\+\+S\+I\+ZE} = std\+::numeric\+\_\+limits$<$int$>$\+::max()
+\begin{DoxyCompactList}\small\item\em Used by default to provide big enough initial buffer for replaced string. \end{DoxyCompactList}\item 
+const String \hyperlink{namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE} = \char`\"{}J\+P\+C\+R\+E2\+\_\+\+N\+O\+NE\char`\"{}
+\begin{DoxyCompactList}\small\item\em Don\textquotesingle{}t do anything about locale if it is set to \hyperlink{namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5}{L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE}. \end{DoxyCompactList}\item 
+const String \hyperlink{namespacejpcre2_adfdd3d1fff99e685734ae4e59771e84d}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+LT} = L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE
+\begin{DoxyCompactList}\small\item\em Default locale. \end{DoxyCompactList}\item 
+const String \hyperlink{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{jpcre2\+::\+J\+I\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+P\+R\+E\+F\+IX} = \char`\"{}J\+IT compilation failed! \char`\"{}\hypertarget{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{}\label{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}
+
+\begin{DoxyCompactList}\small\item\em Prefix to be added to J\+IT error message. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsubsection{Detailed Description}
@@ -177,6 +181,6 @@ Main header file for J\+P\+C\+R\+E2 library to be included by programs that uses
 
 It includes the pcre2.\+h header, therefore you shouldn\textquotesingle{}t include pcre2.\+h separately in your program. Make sure to link both J\+P\+C\+R\+E2 and P\+C\+R\+E2 library when compiling.
 
-If you are using J\+P\+C\+R\+E2 with all of its source files, you won\textquotesingle{}t need to link it with J\+P\+C\+R\+E2 library, but do remember that you still need to link with P\+C\+R\+E2 library \begin{DoxyAuthor}{Author}
+If you are using J\+P\+C\+R\+E2 with all of its source files, you won\textquotesingle{}t need to link it with J\+P\+C\+R\+E2 library, but do remember that you still need to link with P\+C\+R\+E2 library. \begin{DoxyAuthor}{Author}
 \href{https://github.com/neurobin}{\tt Md Jahidul Hamid} 
 \end{DoxyAuthor}

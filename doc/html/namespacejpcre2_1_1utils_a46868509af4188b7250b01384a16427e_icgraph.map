@@ -1,5 +1,0 @@
-<map id="jpcre2::utils::getPcre2ErrorMessage" name="jpcre2::utils::getPcre2ErrorMessage">
-<area shape="rect" id="node2" href="$classjpcre2_1_1Regex.html#aad1d5ef1e87f762f68a587eec4022e69" title="Compile the regex pattern from class variable pat_str. " alt="" coords="258,5,414,32"/>
-<area shape="rect" id="node3" href="$classjpcre2_1_1Regex.html#a240790a0f3d8e97af0a76ad3f882e02a" title="Do a deep copy of rm, rr and code. " alt="" coords="251,56,421,83"/>
-<area shape="rect" id="node4" href="$classjpcre2_1_1Regex.html#a83b93ff7f6860757445e5edbecbfb7a2" title="Get error message by error number and error offset. " alt="" coords="231,107,441,133"/>
-</map>

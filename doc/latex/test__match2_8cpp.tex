@@ -55,7 +55,8 @@ Contains an example to take subject string, pattern and modifier from user input
         \textcolor{comment}{}
 \textcolor{comment}{        ///Compile pattern}
 \textcolor{comment}{}        \textcolor{keywordflow}{try}\{re.\hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69}{compile}(pat,mod);\}
-        \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e)<<std::endl;\textcolor{keywordflow}{continue};\}
+        \textcolor{keywordflow}{catch}(\hyperlink{classjpcre2_1_1Except}{jpcre2::Except}& e)\{std::cerr<<e.\hyperlink{classjpcre2_1_1Except_aa9f557fe16222ac89a30c438212c0c09}{getErrorMessage}()<<std::endl;\textcolor{keywordflow}{
+      continue};\}
         \textcolor{keywordflow}{break};
     \}
     
@@ -65,7 +66,7 @@ Contains an example to take subject string, pattern and modifier from user input
       *********}
 \textcolor{comment}{     * Use try catch block to catch any exception and avoid unexpected termination of the program in case
        of error}
-\textcolor{comment}{     * All jpcre2 exceptions are of type int (integer)}
+\textcolor{comment}{     * All jpcre2 exceptions are of type jpcre2::Except}
 \textcolor{comment}{     * ****************************************************************************************************
       *********/}
     
@@ -96,8 +97,9 @@ Contains an example to take subject string, pattern and modifier from user input
                       .\hyperlink{classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522}{addPcre2Option}(0)                          \textcolor{comment}{//add PCRE2 option}
                       .\hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{match}();                                   \textcolor{comment}{//Finally do the match}
         \}
-        \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a83b93ff7f6860757445e5edbecbfb7a2}{getErrorMessage}(e);
-            \textcolor{keywordflow}{if}(e==\hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2::ERROR::INVALID\_MODIFIER}) \textcolor{keywordflow}{continue};
+        \textcolor{keywordflow}{catch}(\hyperlink{classjpcre2_1_1Except}{jpcre2::Except}& e)\{std::cerr<<e.\hyperlink{classjpcre2_1_1Except_aa9f557fe16222ac89a30c438212c0c09}{getErrorMessage}();
+            \textcolor{keywordflow}{if}(e.\hyperlink{classjpcre2_1_1Except_aaaf8e0495d44a7767bdaaec6e0ad8f86}{getErrorNumber}()==\hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2::ERROR::INVALID\_MODIFIER}
+      ) \textcolor{keywordflow}{continue};
         \}
         \textcolor{keywordflow}{break};
     \}\textcolor{comment}{}

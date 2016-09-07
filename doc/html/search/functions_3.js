@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['freeregexmemory',['freeRegexMemory',['../classjpcre2_1_1Regex.html#a40128e1facd915e06089eeb17e2287c2',1,'jpcre2::Regex']]]
+  ['except',['Except',['../classjpcre2_1_1Except.html#a302b67f0fbc5f906bac67a4572ff29ec',1,'jpcre2::Except']]]
 ];
