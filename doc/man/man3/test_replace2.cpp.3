@@ -75,7 +75,7 @@ int main(){
                                                 \&.setSubject(subject)
                                                 \&.setReplaceWith(repl)
                                                 \&.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)
-                                                \&.setModifier(repl_mod)
+                                                \&.addModifier(repl_mod)
                                                 \&.replace();}
         catch(int e){std::cerr<<re\&.getErrorMessage(e);
             if(e==jpcre2::ERROR::INVALID_MODIFIER) continue;

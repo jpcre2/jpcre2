@@ -134,8 +134,8 @@ $(document).ready(function(){initNavTree('classjpcre2_1_1RegexReplace.html','');
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="classjpcre2_1_1RegexReplace__coll__graph.png" border="0" usemap="#jpcre2_1_1RegexReplace_coll__map" alt="Collaboration graph"/></div>
 <map name="jpcre2_1_1RegexReplace_coll__map" id="jpcre2_1_1RegexReplace_coll__map">
-<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a..." alt="" coords="37,424,192,853"/>
-<area shape="rect" id="node3" href="classjpcre2_1_1RegexMatch.html" title="Provides the RegexMatch::match() function to perform regex matching. " alt="" coords="5,916,224,1404"/>
+<area shape="rect" id="node2" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a..." alt="" coords="37,439,192,868"/>
+<area shape="rect" id="node3" href="classjpcre2_1_1RegexMatch.html" title="Provides the RegexMatch::match() function to perform regex matching. " alt="" coords="5,931,224,1433"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -168,6 +168,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aea15c694bba7d994f048596a1f90f71f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#aea15c694bba7d994f048596a1f90f71f">changePcre2Option</a> (<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a> opt, bool x)</td></tr>
 <tr class="memdesc:aea15c694bba7d994f048596a1f90f71f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add or remove a PCRE2 option.  <a href="#aea15c694bba7d994f048596a1f90f71f">More...</a><br /></td></tr>
 <tr class="separator:aea15c694bba7d994f048596a1f90f71f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06a57430f62058822d48722a2a6425d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a06a57430f62058822d48722a2a6425d7">addModifier</a> (const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;mod)</td></tr>
+<tr class="memdesc:a06a57430f62058822d48722a2a6425d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse modifier string and add equivalent PCRE2 and JPCRE2 options.  <a href="#a06a57430f62058822d48722a2a6425d7">More...</a><br /></td></tr>
+<tr class="separator:a06a57430f62058822d48722a2a6425d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f86b1e11d08d0153a08244771e59061"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexReplace.html#a3f86b1e11d08d0153a08244771e59061">addJpcre2Option</a> (<a class="el" href="namespacejpcre2.html#a078242d38221a13fb3543b9edd78c099">Uint</a> x)</td></tr>
 <tr class="memdesc:a3f86b1e11d08d0153a08244771e59061"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add specified JPCRE2 option to existing options <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a>.  <a href="#a3f86b1e11d08d0153a08244771e59061">More...</a><br /></td></tr>
 <tr class="separator:a3f86b1e11d08d0153a08244771e59061"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -349,6 +352,43 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 
 </div>
 </div>
+<a class="anchor" id="a06a57430f62058822d48722a2a6425d7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classjpcre2_1_1RegexReplace.html">RegexReplace</a>&amp; jpcre2::RegexReplace::addModifier </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacejpcre2.html#a91f03070152fb228bc116c5a737f1d16">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>mod</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse modifier string and add equivalent PCRE2 and JPCRE2 options. </p>
+<p>This is just a wrapper of the original function <a class="el" href="classjpcre2_1_1RegexReplace.html#ae58d2a44ed474568554202612d45c814" title="Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. ">RegexReplace::changeModifier()</a> provided for convenience.</p>
+<p><b>Note:</b> If speed of operation is very crucial, use <a class="el" href="classjpcre2_1_1RegexReplace.html#a3f86b1e11d08d0153a08244771e59061" title="Add specified JPCRE2 option to existing options jpcre2_replace_opts. ">RegexReplace::addJpcre2Option()</a> and <a class="el" href="classjpcre2_1_1RegexReplace.html#a3cfd03568b23bebcbb530a2c120b5d33" title="Add specified PCRE2 option to existing options replace_opts. ">RegexReplace::addPcre2Option()</a> with equivalent options. It will be faster that way. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mod</td><td>Modifier string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classjpcre2_1_1RegexReplace.html" title="Provides the RegexReplace::replace() function to perform regex replace on a string. ">RegexReplace</a>&amp; </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classjpcre2_1_1RegexMatch.html#a08c2e481fe8b9c001e67733fb4e33972" title="Parse modifier string and add equivalent PCRE2 and JPCRE2 options. ">RegexMatch::addModifier()</a> </dd>
+<dd>
+<a class="el" href="classjpcre2_1_1Regex.html#ab1af1471339602446d8221b8c97c6b55" title="Parse modifier string and add equivalent PCRE2 and JPCRE2 options. ">Regex::addModifier()</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a3cfd03568b23bebcbb530a2c120b5d33"></a>
 <div class="memitem">
 <div class="memproto">
@@ -457,7 +497,8 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div><div class="memdoc">
 
 <p>Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. </p>
-<p>After a call to this function <a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7" title="PCRE2 options for pcre2_substitute() (PCRE2 internal function) ">replace_opts</a> and <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a> will be properly set. This function does not initialize or re-initialize options. If you want to set options from scratch, initialize them to their defaults before calling this function. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>After a call to this function <a class="el" href="classjpcre2_1_1RegexReplace.html#afc79699cfcad8b7cbb26864b6b67cdc7" title="PCRE2 options for pcre2_substitute() (PCRE2 internal function) ">replace_opts</a> and <a class="el" href="classjpcre2_1_1RegexReplace.html#acf13bcb16918df4b7bcaa7e49a1c7d59" title="JPCRE2 options. ">jpcre2_replace_opts</a> will be properly set. This function does not initialize or re-initialize options. If you want to set options from scratch, initialize them to their defaults before calling this function.</p>
+<p><b>Note:</b> If speed of operation is very crucial, use <a class="el" href="classjpcre2_1_1RegexReplace.html#afebf5e76bce8e312ab6dbdec3288b02b" title="Add or remove a JPCRE2 option. ">RegexReplace::changeJpcre2Option()</a> and <a class="el" href="classjpcre2_1_1RegexReplace.html#aea15c694bba7d994f048596a1f90f71f" title="Add or remove a PCRE2 option. ">RegexReplace::changePcre2Option()</a> with equivalent options. It will be faster that way. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mod</td><td>Modifier string </td></tr>
     <tr><td class="paramname">x</td><td>Whether to add or remove option </td></tr>
@@ -465,7 +506,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classjpcre2_1_1RegexReplace.html" title="Provides the RegexReplace::replace() function to perform regex replace on a string. ">RegexReplace</a>&amp; </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>RegexMatch::changeModifier() </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classjpcre2_1_1RegexMatch.html#a1265862f04984dfde8d36e2ff409b0c9" title="Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. ">RegexMatch::changeModifier()</a> </dd>
 <dd>
 <a class="el" href="classjpcre2_1_1Regex.html#abc4a13f1baa8f23a8747fb0ffd46a836" title="Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options. ">Regex::changeModifier()</a> </dd></dl>
 
@@ -684,7 +725,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div><div class="memdoc">
 
 <p>Set the modifier string (overwrites existing JPCRE2 and PCRE2 option). </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p><b>Note:</b> If speed of operation is very crucial, use <a class="el" href="classjpcre2_1_1RegexReplace.html#a745ab0b979035214a83ed0a04686ef6a" title="Set JPCRE2 option jpcre2_replace_opts (overwrite existing option) ">RegexReplace::setJpcre2Option()</a> and <a class="el" href="classjpcre2_1_1RegexReplace.html#aec36272d351fdc3a8cb02a4a3efea5a2" title="Set PCRE2 option replace_opts (overwrite existing option) ">RegexReplace::setPcre2Option()</a> with equivalent options. It will be faster that way. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>Modifier string </td></tr>
   </table>

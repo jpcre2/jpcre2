@@ -35,14 +35,16 @@ Collaboration diagram for jpcre2\+:\+:Regex\+Match\+:\nopagebreak
 \begin{DoxyCompactList}\small\item\em Set J\+P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts} (overwrite existing option) \end{DoxyCompactList}\item 
 \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_ae4ab558c2bec0bc9639dbca70ab47496}{set\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
 \begin{DoxyCompactList}\small\item\em Set P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts} (overwrite existing option) \end{DoxyCompactList}\item 
-\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a7f5283c0fd9b4514b37354a08562ff9e}{chnage\+Modifier} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&mod, bool x)
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a85bdec86583f800dafcb1aae27f855e7}{set\+Find\+All} (bool x=true)
+\begin{DoxyCompactList}\small\item\em Set whether to perform global match. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a1265862f04984dfde8d36e2ff409b0c9}{change\+Modifier} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&mod, bool x)
 \begin{DoxyCompactList}\small\item\em Parse modifier and add/remove equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
 \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a154430c66b8794d6632be6211a3ce870}{change\+Jpcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} opt, bool x)
 \begin{DoxyCompactList}\small\item\em Add or remove a J\+P\+C\+R\+E2 option. \end{DoxyCompactList}\item 
 \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a6893abc21b24a9d9fca146a33c0f823c}{change\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} opt, bool x)
 \begin{DoxyCompactList}\small\item\em Add or remove a P\+C\+R\+E2 option. \end{DoxyCompactList}\item 
-\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a85bdec86583f800dafcb1aae27f855e7}{set\+Find\+All} (bool x=true)
-\begin{DoxyCompactList}\small\item\em Set whether to perform global match. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a08c2e481fe8b9c001e67733fb4e33972}{add\+Modifier} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&mod)
+\begin{DoxyCompactList}\small\item\em Parse modifier string and add equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
 \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_a0a4cf8554a7e00f3cf2db34f60a43f60}{add\+Jpcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
 \begin{DoxyCompactList}\small\item\em Add option to existing J\+P\+C\+R\+E2 options \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts}. \end{DoxyCompactList}\item 
 \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} \& \hyperlink{classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522}{add\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
@@ -179,6 +181,32 @@ Add option to existing J\+P\+C\+R\+E2 options \hyperlink{classjpcre2_1_1RegexMat
 
 \hyperlink{classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de}{Regex\+::add\+Jpcre2\+Option()} 
 \end{DoxySeeAlso}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!add\+Modifier@{add\+Modifier}}
+\index{add\+Modifier@{add\+Modifier}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{add\+Modifier(const String \&mod)}{addModifier(const String &mod)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::add\+Modifier (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{mod}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1RegexMatch_a08c2e481fe8b9c001e67733fb4e33972}{}\label{classjpcre2_1_1RegexMatch_a08c2e481fe8b9c001e67733fb4e33972}
+
+
+Parse modifier string and add equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. 
+
+This is just a wrapper of the original function \hyperlink{classjpcre2_1_1RegexMatch_a1265862f04984dfde8d36e2ff409b0c9}{Regex\+Match\+::change\+Modifier()} provided for convenience.
+
+{\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1RegexMatch_a0a4cf8554a7e00f3cf2db34f60a43f60}{Regex\+Match\+::add\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522}{Regex\+Match\+::add\+Pcre2\+Option()} with equivalent options. It will be faster that way. 
+\begin{DoxyParams}{Parameters}
+{\em mod} & Modifier string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match}\& 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classjpcre2_1_1RegexReplace_a06a57430f62058822d48722a2a6425d7}{Regex\+Replace\+::add\+Modifier()} 
+
+\hyperlink{classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55}{Regex\+::add\+Modifier()} 
+\end{DoxySeeAlso}
 \index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!add\+Pcre2\+Option@{add\+Pcre2\+Option}}
 \index{add\+Pcre2\+Option@{add\+Pcre2\+Option}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
 \paragraph[{\texorpdfstring{add\+Pcre2\+Option(\+Uint x)}{addPcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::add\+Pcre2\+Option (
@@ -230,6 +258,50 @@ Add or remove a J\+P\+C\+R\+E2 option.
 
 \hyperlink{classjpcre2_1_1Regex_ab8e0b1a49eeb1077ba54cf3b5292c95e}{Regex\+::change\+Jpcre2\+Option()} 
 \end{DoxySeeAlso}
+\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!change\+Modifier@{change\+Modifier}}
+\index{change\+Modifier@{change\+Modifier}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
+\paragraph[{\texorpdfstring{change\+Modifier(const String \&mod, bool x)}{changeModifier(const String &mod, bool x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf jpcre2\+::\+Regex\+Match} \& jpcre2\+::\+Regex\+Match\+::change\+Modifier (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{mod, }
+\item[{bool}]{x}
+\end{DoxyParamCaption}
+)}\hypertarget{classjpcre2_1_1RegexMatch_a1265862f04984dfde8d36e2ff409b0c9}{}\label{classjpcre2_1_1RegexMatch_a1265862f04984dfde8d36e2ff409b0c9}
+
+
+Parse modifier and add/remove equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. 
+
+After a call to this function \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts} and \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts} will be properly set. This function does not initialize or re-\/initialize options. If you want to set options from scratch, initialize them to their default values before calling this function.
+
+{\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1RegexMatch_a154430c66b8794d6632be6211a3ce870}{Regex\+Match\+::change\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1RegexMatch_a6893abc21b24a9d9fca146a33c0f823c}{Regex\+Match\+::change\+Pcre2\+Option()} with equivalent options. It will be faster that way. 
+\begin{DoxyParams}{Parameters}
+{\em mod} & Modifier string \\
+\hline
+{\em x} & Whether to add or remove options \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match}\& 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classjpcre2_1_1RegexReplace_ae58d2a44ed474568554202612d45c814}{Regex\+Replace\+::change\+Modifier()} 
+
+\hyperlink{classjpcre2_1_1Regex_abc4a13f1baa8f23a8747fb0ffd46a836}{Regex\+::change\+Modifier()} 
+\end{DoxySeeAlso}
+
+
+References jpcre2\+::\+Regex\+::change\+Jpcre2\+Option(), jpcre2\+::\+Regex\+::change\+Pcre2\+Option(), jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL, jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER, jpcre2\+::\+M\+O\+D\+::\+M\+\_\+N, jpcre2\+::\+M\+O\+D\+::\+M\+\_\+V, jpcre2\+::\+M\+O\+D\+::\+M\+J\+\_\+N, jpcre2\+::\+M\+O\+D\+::\+M\+J\+\_\+V, jpcre2\+::utils\+::throw\+Exception(), and jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classjpcre2_1_1RegexMatch_a1265862f04984dfde8d36e2ff409b0c9_cgraph}
+\end{center}
+\end{figure}
+
+
 \index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!change\+Pcre2\+Option@{change\+Pcre2\+Option}}
 \index{change\+Pcre2\+Option@{change\+Pcre2\+Option}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
 \paragraph[{\texorpdfstring{change\+Pcre2\+Option(\+Uint opt, bool x)}{changePcre2Option(Uint opt, bool x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex\+Match}\& jpcre2\+::\+Regex\+Match\+::change\+Pcre2\+Option (
@@ -257,48 +329,6 @@ Add or remove a P\+C\+R\+E2 option.
 
 \hyperlink{classjpcre2_1_1Regex_ae5bde8008cc5a700163ca3162dbd5823}{Regex\+::change\+Pcre2\+Option()} 
 \end{DoxySeeAlso}
-\index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!chnage\+Modifier@{chnage\+Modifier}}
-\index{chnage\+Modifier@{chnage\+Modifier}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
-\paragraph[{\texorpdfstring{chnage\+Modifier(const String \&mod, bool x)}{chnageModifier(const String &mod, bool x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf jpcre2\+::\+Regex\+Match} \& jpcre2\+::\+Regex\+Match\+::chnage\+Modifier (
-\begin{DoxyParamCaption}
-\item[{const {\bf String} \&}]{mod, }
-\item[{bool}]{x}
-\end{DoxyParamCaption}
-)}\hypertarget{classjpcre2_1_1RegexMatch_a7f5283c0fd9b4514b37354a08562ff9e}{}\label{classjpcre2_1_1RegexMatch_a7f5283c0fd9b4514b37354a08562ff9e}
-
-
-Parse modifier and add/remove equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. 
-
-After a call to this function \hyperlink{classjpcre2_1_1RegexMatch_a697d5731007350b0f20d2018fcfafa90}{match\+\_\+opts} and \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed237724f64fbc378700}{jpcre2\+\_\+match\+\_\+opts} will be properly set. This function does not initialize or re-\/initialize options. If you want to set options from scratch, initialize them to their default values before calling this function. 
-\begin{DoxyParams}{Parameters}
-{\em mod} & Modifier string \\
-\hline
-{\em x} & Whether to add or remove options \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-\hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match}\& 
-\end{DoxyReturn}
-\begin{DoxySeeAlso}{See also}
-Regex\+Replace\+::chnage\+Modifier() 
-
-Regex\+::chnage\+Modifier() 
-\end{DoxySeeAlso}
-
-
-References jpcre2\+::\+Regex\+::change\+Jpcre2\+Option(), jpcre2\+::\+Regex\+::change\+Pcre2\+Option(), jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL, jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER, jpcre2\+::\+M\+O\+D\+::\+M\+\_\+N, jpcre2\+::\+M\+O\+D\+::\+M\+\_\+V, jpcre2\+::\+M\+O\+D\+::\+M\+J\+\_\+N, jpcre2\+::\+M\+O\+D\+::\+M\+J\+\_\+V, jpcre2\+::utils\+::throw\+Exception(), and jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER.
-
-
-
-Here is the call graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classjpcre2_1_1RegexMatch_a7f5283c0fd9b4514b37354a08562ff9e_cgraph}
-\end{center}
-\end{figure}
-
-
 \index{jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}!match@{match}}
 \index{match@{match}!jpcre2\+::\+Regex\+Match@{jpcre2\+::\+Regex\+Match}}
 \paragraph[{\texorpdfstring{match(void)}{match(void)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf jpcre2\+::\+S\+I\+Z\+E\+\_\+T} jpcre2\+::\+Regex\+Match\+::match (
@@ -413,7 +443,9 @@ Set J\+P\+C\+R\+E2 option \hyperlink{classjpcre2_1_1RegexMatch_a70d62df887eeed23
 
 Set the modifier (overwrites existing J\+P\+C\+R\+E2 and P\+C\+R\+E2 option). 
 
-Re-\/initializes the option bits for P\+C\+R\+E2 and J\+P\+C\+R\+E2 options, then parses the modifier to set their equivalent options. 
+Re-\/initializes the option bits for P\+C\+R\+E2 and J\+P\+C\+R\+E2 options, then parses the modifier to set their equivalent options.
+
+{\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1RegexMatch_a0d76033d9c134caa9ddfc21849603920}{Regex\+Match\+::set\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1RegexMatch_ae4ab558c2bec0bc9639dbca70ab47496}{Regex\+Match\+::set\+Pcre2\+Option()} with equivalent options. It will be faster that way. 
 \begin{DoxyParams}{Parameters}
 {\em s} & Modifier string \\
 \hline

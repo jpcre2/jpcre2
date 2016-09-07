@@ -11,15 +11,15 @@ var NAVTREE =
       [ "Match", "index.html#match", [
         [ "Get match count", "index.html#simple-match-count", null ],
         [ "Get match result", "index.html#do-match", null ],
-        [ "Access a substring", "index.html#access-substring", null ],
-        [ "Get named substrings", "index.html#get-named-substrings", null ],
-        [ "Accesing a substring by name", "index.html#access-substring-by-name", null ],
+        [ "Access a captured group", "index.html#access-a-capture-group", null ],
+        [ "Get named capture group", "index.html#get-named-capture-group", null ],
+        [ "Access a capture group by name", "index.html#access-substring-by-name", null ],
         [ "Get the position of a capture group name", "index.html#get-number-to-name", null ],
         [ "Iterate through match result", "index.html#iterate", null ]
       ] ],
       [ "Replace or Substitute", "index.html#replace", [
         [ "Simple replacement", "index.html#simple-replace", null ],
-        [ "Using method chaining", "index.html#using-method-chaining", null ]
+        [ "Using method chain", "index.html#using-method-chaining", null ]
       ] ]
     ] ],
     [ "Modifiers", "index.html#modifiers", [

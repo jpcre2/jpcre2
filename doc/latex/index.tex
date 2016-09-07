@@ -88,16 +88,18 @@ This object will hold the pattern, modifiers, compiled pattern, error and warnin
 
 \begin{DoxyCode}
 \textcolor{keywordflow}{try}\{re.\hyperlink{classjpcre2_1_1Regex_a85d9a514ea86ae68533223adac6c6bd8}{setPattern}(\textcolor{stringliteral}{"(?:(?<word>[?.#@:]+)|(?<word>\(\backslash\)\(\backslash\)w+))\(\backslash\)\(\backslash\)s*(?<digit>\(\backslash\)\(\backslash\)d+)"})  \textcolor{comment}{//set pattern}
-      .\hyperlink{classjpcre2_1_1Regex_aed9865b58c60945e19f36fa310f5a595}{setModifier}(\textcolor{stringliteral}{"nJ"})                                                    \textcolor{comment}{//set modifier}
       .\hyperlink{classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de}{addJpcre2Option}(\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2::VALIDATE\_MODIFIER}                   
                \textcolor{comment}{//modifier goes through validation check}
                         | \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2::JIT\_COMPILE}                               \textcolor{comment}{//perform
        JIT compile}
                         | \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2::ERROR\_ALL})                                \textcolor{comment}{//treat
        warnings as errors}
+      .\hyperlink{classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55}{addModifier}(\textcolor{stringliteral}{"nJ"})                                                    \textcolor{comment}{//add modifier}
       .\hyperlink{classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087}{addPcre2Option}(0)                                                    \textcolor{comment}{//add pcre2
        option}
       .\hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69}{compile}();                                                           \textcolor{comment}{//Finally compile it.}
+
+    \textcolor{comment}{//Do not use setModifier() after adding any options, it will reset them.}
 
     \textcolor{comment}{//Another way is to use constructor to initialize and compile at the same time:}
     \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re2(\textcolor{stringliteral}{"pattern2"},\textcolor{stringliteral}{"mSi"});  \textcolor{comment}{//S is an optimization mod.}
@@ -135,8 +137,6 @@ To get the match results, you need to pass appropriate vector pointers. This is 
                    .\hyperlink{classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5}{setModifier}(ac\_mod)                         \textcolor{comment}{//set modifier string}
                    .\hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0}{setNumberedSubstringVector}(&vec\_num)        \textcolor{comment}{//pass VecNum
        vector to store maps of numbered substrings}
-                   .\hyperlink{classjpcre2_1_1RegexMatch_a0a4cf8554a7e00f3cf2db34f60a43f60}{addJpcre2Option}(\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2::VALIDATE\_MODIFIER})  \textcolor{comment}{//
-      add jpcre2 option}
                    .\hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{match}();                                    \textcolor{comment}{//Finally perform the match.}
     \textcolor{comment}{//vec\_num will be populated with maps of numbered substrings.}
     \textcolor{comment}{//count is the total number of matches found}
@@ -146,7 +146,7 @@ To get the match results, you need to pass appropriate vector pointers. This is 
     std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
 \}
 \end{DoxyCode}
- \hypertarget{index_access-substring}{}\paragraph{Access a substring}\label{index_access-substring}
+ \hypertarget{index_access-a-capture-group}{}\paragraph{Access a captured group}\label{index_access-a-capture-group}
 You can access a substring/captured group by specifying their index (position)\+:
 
 
@@ -155,7 +155,7 @@ std::cout<<vec\_num[0][0]; \textcolor{comment}{// group 0 in first match}
 std::cout<<vec\_num[0][1]; \textcolor{comment}{// group 1 in first match}
 std::cout<<vec\_num[1][0]; \textcolor{comment}{// group 0 in second match}
 \end{DoxyCode}
- \hypertarget{index_get-named-substrings}{}\paragraph{Get named substrings}\label{index_get-named-substrings}
+ \hypertarget{index_get-named-capture-group}{}\paragraph{Get named capture group}\label{index_get-named-capture-group}
 To get named substring and/or name to number mapping, pass pointer to the appropriate vectors with {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c}{jpcre2\+::\+Regex\+Match\+::set\+Named\+Substring\+Vector()}} and/or {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8}{jpcre2\+::\+Regex\+Match\+::set\+Name\+To\+Number\+Map\+Vector()}} before doing the match.
 
 
@@ -175,9 +175,6 @@ To get named substring and/or name to number mapping, pass pointer to the approp
        substring maps}
       .\hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8}{setNameToNumberMapVector}(&vec\_ntn)          \textcolor{comment}{//pass pointer to vector of name
        to number maps}
-      .\hyperlink{classjpcre2_1_1RegexMatch_a0a4cf8554a7e00f3cf2db34f60a43f60}{addJpcre2Option}(\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2::VALIDATE\_MODIFIER})  \textcolor{comment}{//add jpcre2
-       option}
-      .\hyperlink{classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522}{addPcre2Option}(PCRE2\_ANCHORED)              \textcolor{comment}{//add pcre2 option}
       .\hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{match}();                                    \textcolor{comment}{//Finally perform the match()}
 \}
 \textcolor{keywordflow}{catch}(\textcolor{keywordtype}{int} e)\{
@@ -185,14 +182,14 @@ To get named substring and/or name to number mapping, pass pointer to the approp
     std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5}{getErrorMessage}(e)<<std::endl;
 \}
 \end{DoxyCode}
-\hypertarget{index_access-substring-by-name}{}\paragraph{Accesing a substring by name}\label{index_access-substring-by-name}
+\hypertarget{index_access-substring-by-name}{}\paragraph{Access a capture group by name}\label{index_access-substring-by-name}
 
 \begin{DoxyCode}
 std::cout<<vec\_nas[0][\textcolor{stringliteral}{"name"}]; \textcolor{comment}{// captured group by name in first match}
 std::cout<<vec\_nas[1][\textcolor{stringliteral}{"name"}]; \textcolor{comment}{// captured group by name in second match}
 \end{DoxyCode}
 \hypertarget{index_get-number-to-name}{}\paragraph{Get the position of a capture group name}\label{index_get-number-to-name}
-If you need this information, you should have passed a {\ttfamily \hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2\+::\+Vec\+NtN}} pointer to {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8}{jpcre2\+::\+Regex\+Match\+::set\+Name\+To\+Number\+Map\+Vector()}} function before doing the match (\href{#get-named-substrings}{\tt see above}).
+If you need this information, you should have passed a {\ttfamily \hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2\+::\+Vec\+NtN}} pointer to {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8}{jpcre2\+::\+Regex\+Match\+::set\+Name\+To\+Number\+Map\+Vector()}} function before doing the match (\href{#get-named-capture-group}{\tt see above}).
 
 
 \begin{DoxyCode}
@@ -239,7 +236,7 @@ If you want to pass more options or prefer a named parameter idiom, you will hav
 std::cout<<\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"\(\backslash\)\(\backslash\)d+"}).\hyperlink{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981}{replace}(\textcolor{stringliteral}{"I am digits 1234"},\textcolor{stringliteral}{"5678"}, \textcolor{stringliteral}{"g"});
 \textcolor{comment}{//'g' modifier is for global replacement}
 \end{DoxyCode}
-\hypertarget{index_using-method-chaining}{}\paragraph{Using method chaining}\label{index_using-method-chaining}
+\hypertarget{index_using-method-chaining}{}\paragraph{Using method chain}\label{index_using-method-chaining}
 
 \begin{DoxyCode}
 \textcolor{keywordflow}{try}\{
@@ -261,7 +258,27 @@ std::cout<<\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringlite
 \}
 \end{DoxyCode}
  If you pass the size of the resultant string with {\ttfamily \hyperlink{classjpcre2_1_1RegexReplace_a452dd2632031a13b39c13b792f18a491}{jpcre2\+::\+Regex\+Replace\+::set\+Buffer\+Size()}} function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function ({\ttfamily pcre2\+\_\+substitute()}) will be called {\itshape twice} to adjust the size of the buffer to hold the whole resultant string in order to avoid {\ttfamily P\+C\+R\+E2\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M\+O\+RY} error.\hypertarget{index_modifiers}{}\subsection{Modifiers}\label{index_modifiers}
-{\bfseries J\+P\+C\+R\+E2} uses modifiers to control various options, type, behavior of the regex and its\textquotesingle{} interactions with different functions that uses it. Two types of modifiers are available\+: {\itshape compile modifiers} and {\itshape action modifiers}\+:\hypertarget{index_compile-modifier}{}\subsubsection{Compile modifiers}\label{index_compile-modifier}
+{\bfseries J\+P\+C\+R\+E2} uses modifiers to control various options, type, behavior of the regex and its\textquotesingle{} interactions with different functions that uses it.
+
+\begin{quote}
+All modifier string are parsed and converted to equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options on the fly. If you don\textquotesingle{}t want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of {\ttfamily add\+Jpcre2\+Option()} and {\ttfamily add\+Pcre2\+Option()} functions. \end{quote}
+
+
+Types of modifiers available\+:
+
+
+\begin{DoxyEnumerate}
+\item Compile modifier
+\begin{DoxyEnumerate}
+\item Unique modifier
+\item Combined or mixed modifier (e.\+g \textquotesingle{}n\textquotesingle{})
+\end{DoxyEnumerate}
+\item Action modifier
+\begin{DoxyEnumerate}
+\item Unique modifier
+\item Combined or mixed modifier (e.\+g \textquotesingle{}E\textquotesingle{})
+\end{DoxyEnumerate}
+\end{DoxyEnumerate}\hypertarget{index_compile-modifier}{}\subsubsection{Compile modifiers}\label{index_compile-modifier}
 These modifiers define the behavior of a regex pattern. They have more or less the same meaning as the \href{https://php.net/manual/en/reference.pcre.pattern.modifiers.php}{\tt P\+HP regex modifiers} except for {\ttfamily e, j and n} (marked with \textsuperscript{$\ast$}).
 
 \tabulinesep=1mm
@@ -312,7 +329,7 @@ These modifiers are not compiled in the regex itself, rather they are used per c
 {\ttfamily E} &replace &Extension of {\ttfamily e} modifier. Sets even unknown groups to empty string. Equivalent to P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+U\+N\+S\+E\+T\+\_\+\+E\+M\+P\+TY $|$ P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+\+U\+N\+S\+ET \\\cline{1-3}
 {\ttfamily g} &match~\newline
 replace &Global. Will perform global matching or replacement if passed. Equivalent to {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c}{jpcre2\+::\+F\+I\+N\+D\+\_\+\+A\+LL}}. \\\cline{1-3}
-{\ttfamily x} &replace &Extended replacement operation. It enables some Bash like features\+:~\newline
+{\ttfamily x} &replace &Extended replacement operation. Equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+E\+X\+T\+E\+N\+D\+ED}. It enables some Bash like features\+:~\newline
 {\ttfamily \$\{$<$n$>$\+:-\/$<$string$>$\}}~\newline
 {\ttfamily \$\{$<$n$>$\+:+$<$string1$>$\+:$<$string2$>$\}}~\newline
 {\ttfamily $<$n$>$} may be a group number or a name. The first form specifies a default value. If group {\ttfamily $<$n$>$} is set, its value is inserted; if not, {\ttfamily $<$string$>$} is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group {\ttfamily $<$n$>$} is set or unset, respectively. The first form is just a convenient shorthand for {\ttfamily \$\{$<$n$>$\+:+\$\{$<$n$>$\}\+:$<$string$>$\}}. \\\cline{1-3}

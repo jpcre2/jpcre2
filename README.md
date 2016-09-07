@@ -3,7 +3,7 @@ JPCRE2
 
 C++ wrapper of PCRE2 library
 
-[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![doc image](img/doc.png)](https://neurobin.org/docs/libs/jpcre2)
+[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![doc image](https://raw.githubusercontent.com/neurobin/res/master/doc.png)](https://neurobin.org/docs/libs/jpcre2)
 
 
 PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.
@@ -93,12 +93,14 @@ Each object for each regex pattern.
 
 ```cpp
 try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
-      .setModifier("nJ")                                                    //set modifier
       .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                            //modifier goes through validation check
                         | jpcre2::JIT_COMPILE                               //perform JIT compile
                         | jpcre2::ERROR_ALL)                                //treat warnings as errors
+      .addModifier("nJ")                                                    //add modifier
       .addPcre2Option(0)                                                    //add pcre2 option
       .compile();                                                           //Finally compile it.
+      
+    //Do not use setModifier() after adding any options, it will reset them.
     
     //Another way is to use constructor to initialize and compile at the same time:
     jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
@@ -142,7 +144,6 @@ try{
     			   .setSubject(subject)                         //set subject string
                    .setModifier(ac_mod)                         //set modifier string
                    .setNumberedSubstringVector(&vec_num)        //pass VecNum vector to store maps of numbered substrings
-                   .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)  //add jpcre2 option
                    .match();                                    //Finally perform the match.
     //vec_num will be populated with maps of numbered substrings.
     //count is the total number of matches found
@@ -152,7 +153,7 @@ catch(int e){
     std::cerr<<re.getErrorMessage(e)<<std::endl;
 }
 ```
-### Access a substring
+### Access a captured group
 
 You can access a substring/captured group by specifying their index (position):
 
@@ -161,7 +162,7 @@ std::cout<<vec_num[0][0]; // group 0 in first match
 std::cout<<vec_num[0][1]; // group 1 in first match
 std::cout<<vec_num[1][0]; // group 0 in second match
 ```
-### Get named substrings
+### Get named capture group
 
 To get named substring and/or name to number mapping, pass pointer to the appropriate vectors with `jpcre2::RegexMatch::setNamedSubstringVector()` and/or `jpcre2::RegexMatch::setNameToNumberMapVector()` before doing the match.
 
@@ -177,8 +178,6 @@ try{
       .setNumberedSubstringVector(&vec_num)        //pass pointer to vector of numbered substring maps
       .setNamedSubstringVector(&vec_nas)           //pass pointer to vector of named substring maps
       .setNameToNumberMapVector(&vec_ntn)          //pass pointer to vector of name to number maps
-      .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)  //add jpcre2 option
-      .addPcre2Option(PCRE2_ANCHORED)              //add pcre2 option
       .match();                                    //Finally perform the match()
 }
 catch(int e){
@@ -187,7 +186,7 @@ catch(int e){
 }
 ```
 
-### Accesing a substring by name
+### Access a capture group by name
 
 ```cpp
 std::cout<<vec_nas[0]["name"]; // captured group by name in first match
@@ -196,7 +195,7 @@ std::cout<<vec_nas[1]["name"]; // captured group by name in second match
 
 ### Get the position of a capture group name
 
-If you need this information, you should have passed a `jpcre2::VecNtN` pointer to `jpcre2::RegexMatch::setNameToNumberMapVector()` function before doing the match ([see above](#get-named-substrings)).
+If you need this information, you should have passed a `jpcre2::VecNtN` pointer to `jpcre2::RegexMatch::setNameToNumberMapVector()` function before doing the match ([see above](#get-named-capture-group)).
 
 ```cpp
 std::cout<<vec_ntn[0]["name"]; // position of captured group 'name' in first match
@@ -249,7 +248,7 @@ std::cout<<jpcre2::Regex("\\d+").replace("I am digits 1234","5678", "g");
 //'g' modifier is for global replacement
 ```
 
-### Using method chaining
+### Using method chain
 
 ```cpp
 try{
@@ -275,7 +274,18 @@ If you pass the size of the resultant string with `jpcre2::RegexReplace::setBuff
 
 # Modifiers
 
-**JPCRE2** uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. Two types of modifiers are available: *compile modifiers* and *action modifiers*:
+**JPCRE2** uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. 
+
+> All modifier string are parsed and converted to equivalent PCRE2 and JPCRE2 options on the fly. If you don't want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of `addJpcre2Option()` and `addPcre2Option()` functions.
+
+Types of modifiers available: 
+
+1. Compile modifier
+  1. Unique modifier
+  2. Combined or mixed modifier (e.g 'n')
+2. Action modifier
+  1. Unique modifier
+  2. Combined or mixed modifier (e.g 'E')
 
 
 ## Compile modifiers
@@ -308,7 +318,7 @@ Modifier | Action | Details
 `e` | replace | Replaces unset group with empty string. Equivalent to `PCRE2_SUBSTITUTE_UNSET_EMPTY`.
 `E` | replace | Extension of `e` modifier. Sets even unknown groups to empty string. Equivalent to PCRE2_SUBSTITUTE_UNSET_EMPTY \| PCRE2_SUBSTITUTE_UNKNOWN_UNSET
 `g` | match<br>replace | Global. Will perform global matching or replacement if passed. Equivalent to `jpcre2::FIND_ALL`.
-`x` | replace | Extended replacement operation. It enables some Bash like features:<br>`${<n>:-<string>}`<br>`${<n>:+<string1>:<string2>}`<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
+`x` | replace | Extended replacement operation. Equivalent to `PCRE2_SUBSTITUTE_EXTENDED`. It enables some Bash like features:<br>`${<n>:-<string>}`<br>`${<n>:+<string1>:<string2>}`<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
 `~` | match<br>replace<br>compile | Treat warnings as errors. Equivalent to `jpcre2::ERROR_ALL`.
 `&` | match<br>replace<br>compile | Validate modifier. Throws `jpcre2::ERROR::INVALID_MODIFIER` error in case invalid modifier encountered. Equivalent to `jpcre2::VALIDATE_MODIFIER`.
 

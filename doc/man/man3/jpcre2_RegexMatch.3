@@ -41,7 +41,11 @@ jpcre2::RegexMatch \- Provides the \fBRegexMatch::match()\fP function to perform
 .br
 .RI "\fISet PCRE2 option \fBmatch_opts\fP (overwrite existing option) \fP"
 .ti -1c
-.RI "\fBRegexMatch\fP & \fBchnageModifier\fP (const \fBString\fP &mod, bool x)"
+.RI "\fBRegexMatch\fP & \fBsetFindAll\fP (bool x=true)"
+.br
+.RI "\fISet whether to perform global match\&. \fP"
+.ti -1c
+.RI "\fBRegexMatch\fP & \fBchangeModifier\fP (const \fBString\fP &mod, bool x)"
 .br
 .RI "\fIParse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. \fP"
 .ti -1c
@@ -53,9 +57,9 @@ jpcre2::RegexMatch \- Provides the \fBRegexMatch::match()\fP function to perform
 .br
 .RI "\fIAdd or remove a PCRE2 option\&. \fP"
 .ti -1c
-.RI "\fBRegexMatch\fP & \fBsetFindAll\fP (bool x=true)"
+.RI "\fBRegexMatch\fP & \fBaddModifier\fP (const \fBString\fP &mod)"
 .br
-.RI "\fISet whether to perform global match\&. \fP"
+.RI "\fIParse modifier string and add equivalent PCRE2 and JPCRE2 options\&. \fP"
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBaddJpcre2Option\fP (\fBUint\fP x)"
 .br
@@ -199,6 +203,31 @@ Add option to existing JPCRE2 options \fBjpcre2_match_opts\fP\&.
 .RE
 .PP
 
+.SS "\fBRegexMatch\fP& jpcre2::RegexMatch::addModifier (const \fBString\fP & mod)\fC [inline]\fP"
+
+.PP
+Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is just a wrapper of the original function \fBRegexMatch::changeModifier()\fP provided for convenience\&.
+.PP
+\fBNote:\fP If speed of operation is very crucial, use \fBRegexMatch::addJpcre2Option()\fP and \fBRegexMatch::addPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImod\fP Modifier string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBRegexMatch\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexReplace::addModifier()\fP 
+.PP
+\fBRegex::addModifier()\fP 
+.RE
+.PP
+
 .SS "\fBRegexMatch\fP& jpcre2::RegexMatch::addPcre2Option (\fBUint\fP x)\fC [inline]\fP"
 
 .PP
@@ -247,6 +276,35 @@ Add or remove a JPCRE2 option\&.
 .RE
 .PP
 
+.SS "\fBjpcre2::RegexMatch\fP & jpcre2::RegexMatch::changeModifier (const \fBString\fP & mod, bool x)"
+
+.PP
+Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBmatch_opts\fP and \fBjpcre2_match_opts\fP will be properly set\&. This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to their default values before calling this function\&.
+.PP
+\fBNote:\fP If speed of operation is very crucial, use \fBRegexMatch::changeJpcre2Option()\fP and \fBRegexMatch::changePcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImod\fP Modifier string 
+.br
+\fIx\fP Whether to add or remove options 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBRegexMatch\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexReplace::changeModifier()\fP 
+.PP
+\fBRegex::changeModifier()\fP 
+.RE
+.PP
+
+.PP
+References jpcre2::Regex::changeJpcre2Option(), jpcre2::Regex::changePcre2Option(), jpcre2::ERROR_ALL, jpcre2::ERROR::INVALID_MODIFIER, jpcre2::MOD::M_N, jpcre2::MOD::M_V, jpcre2::MOD::MJ_N, jpcre2::MOD::MJ_V, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
 .SS "\fBRegexMatch\fP& jpcre2::RegexMatch::changePcre2Option (\fBUint\fP opt, bool x)\fC [inline]\fP"
 
 .PP
@@ -272,33 +330,6 @@ Add or remove a PCRE2 option\&.
 .RE
 .PP
 
-.SS "\fBjpcre2::RegexMatch\fP & jpcre2::RegexMatch::chnageModifier (const \fBString\fP & mod, bool x)"
-
-.PP
-Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBmatch_opts\fP and \fBjpcre2_match_opts\fP will be properly set\&. This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to their default values before calling this function\&. 
-.PP
-\fBParameters:\fP
-.RS 4
-\fImod\fP Modifier string 
-.br
-\fIx\fP Whether to add or remove options 
-.RE
-.PP
-\fBReturns:\fP
-.RS 4
-\fBRegexMatch\fP& 
-.RE
-.PP
-\fBSee also:\fP
-.RS 4
-RegexReplace::chnageModifier() 
-.PP
-Regex::chnageModifier() 
-.RE
-.PP
-
-.PP
-References jpcre2::Regex::changeJpcre2Option(), jpcre2::Regex::changePcre2Option(), jpcre2::ERROR_ALL, jpcre2::ERROR::INVALID_MODIFIER, jpcre2::MOD::M_N, jpcre2::MOD::M_V, jpcre2::MOD::MJ_N, jpcre2::MOD::MJ_V, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
 .SS "\fBjpcre2::SIZE_T\fP jpcre2::RegexMatch::match (void)"
 
 .PP
@@ -372,7 +403,9 @@ Set JPCRE2 option \fBjpcre2_match_opts\fP (overwrite existing option)
 .SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setModifier (const \fBString\fP & s)\fC [inline]\fP"
 
 .PP
-Set the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options\&. 
+Set the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options\&.
+.PP
+\fBNote:\fP If speed of operation is very crucial, use \fBRegexMatch::setJpcre2Option()\fP and \fBRegexMatch::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
 \fBParameters:\fP
 .RS 4

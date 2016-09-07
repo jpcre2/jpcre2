@@ -8,6 +8,7 @@ var classjpcre2_1_1Regex =
     [ "Regex", "classjpcre2_1_1Regex.html#ae03bb99a5bc8f945e693ddc34706f0c0", null ],
     [ "~Regex", "classjpcre2_1_1Regex.html#a12b2bf254b59d7967681b77795c49260", null ],
     [ "addJpcre2Option", "classjpcre2_1_1Regex.html#a03974fa7ba8f7c47186cb8d6f54934de", null ],
+    [ "addModifier", "classjpcre2_1_1Regex.html#ab1af1471339602446d8221b8c97c6b55", null ],
     [ "addPcre2Option", "classjpcre2_1_1Regex.html#a2c7dcf12f26b2b046e147b013c8b5087", null ],
     [ "changeJpcre2Option", "classjpcre2_1_1Regex.html#ab8e0b1a49eeb1077ba54cf3b5292c95e", null ],
     [ "changeModifier", "classjpcre2_1_1Regex.html#abc4a13f1baa8f23a8747fb0ffd46a836", null ],

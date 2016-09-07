@@ -21,14 +21,14 @@ int main(){
     ///Compile the pattern
     try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
           .setModifier("nJ")                                                    //set modifier
-          .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                            //modifier goes through validation check
+          .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                            //validation check (won't have any effect)
                             | jpcre2::JIT_COMPILE                               //perform JIT compile (warning if JIT is not available)
                             | jpcre2::ERROR_ALL)                                //treat warnings as errors
           .addPcre2Option(0)                                                    //add pcre2 option
           .compile();}                                                          //Finally compile it.
     catch(int e){std::cerr<<re.getErrorMessage(e);}
     
-    /// The above `jpcre2::VALIDATE_MODIFIER` option won't have any effect as modifier was passe before it.
+    /// The above `jpcre2::VALIDATE_MODIFIER` option won't have any effect as modifier was passed before it.
     /// You can pass a modifier (~ or &) to turn this validation check on. In that case
     /// validation will start after ~ or & modifier is encountered,
 
@@ -43,17 +43,16 @@ int main(){
     size_t count=0;
     
     try{count = re.initMatch()                                  //Invoke the initMatch() function
-                  .setModifier("gf")                            //set various parameters (f: invalid modifier)
+                  .addModifier("gf")                             //set various parameters (f: invalid modifier)
                   .setSubject(subject)                          //...
                   .setNumberedSubstringVector(&vec_num0)        //...
                   .setNamedSubstringVector(&vec_nas0)           //...
                   .setNameToNumberMapVector(&vec_nn0)           //...
-                  .addJpcre2Option(jpcre2::VALIDATE_MODIFIER)   //...
                   .addPcre2Option(0)                            //...
                   .match();}                                    //Finally perform the match
     catch(int e){std::cerr<<"\n"<<re.getErrorMessage(e);}
     
-    std::cerr<<re.getWarningMessage(); //(f: invalid modifier) warning
+    std::cerr<<"\n"<<re.getWarningMessage(); //(f: invalid modifier) warning
     
     /// re.reset(); /// re-initialize re
     

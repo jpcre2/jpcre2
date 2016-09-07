@@ -48,6 +48,7 @@
     <member refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" kind="function"><name>changeModifier</name></member>
     <member refid="classjpcre2_1_1Regex_1ab8e0b1a49eeb1077ba54cf3b5292c95e" kind="function"><name>changeJpcre2Option</name></member>
     <member refid="classjpcre2_1_1Regex_1ae5bde8008cc5a700163ca3162dbd5823" kind="function"><name>changePcre2Option</name></member>
+    <member refid="classjpcre2_1_1Regex_1ab1af1471339602446d8221b8c97c6b55" kind="function"><name>addModifier</name></member>
     <member refid="classjpcre2_1_1Regex_1a03974fa7ba8f7c47186cb8d6f54934de" kind="function"><name>addJpcre2Option</name></member>
     <member refid="classjpcre2_1_1Regex_1a2c7dcf12f26b2b046e147b013c8b5087" kind="function"><name>addPcre2Option</name></member>
     <member refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" kind="function"><name>compile</name></member>
@@ -88,10 +89,11 @@
     <member refid="classjpcre2_1_1RegexMatch_1a9df7e92f96b61553f62720cb8f5f23e5" kind="function"><name>setModifier</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a0d76033d9c134caa9ddfc21849603920" kind="function"><name>setJpcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1ae4ab558c2bec0bc9639dbca70ab47496" kind="function"><name>setPcre2Option</name></member>
-    <member refid="classjpcre2_1_1RegexMatch_1a7f5283c0fd9b4514b37354a08562ff9e" kind="function"><name>chnageModifier</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_1a85bdec86583f800dafcb1aae27f855e7" kind="function"><name>setFindAll</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_1a1265862f04984dfde8d36e2ff409b0c9" kind="function"><name>changeModifier</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a154430c66b8794d6632be6211a3ce870" kind="function"><name>changeJpcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a6893abc21b24a9d9fca146a33c0f823c" kind="function"><name>changePcre2Option</name></member>
-    <member refid="classjpcre2_1_1RegexMatch_1a85bdec86583f800dafcb1aae27f855e7" kind="function"><name>setFindAll</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_1a08c2e481fe8b9c001e67733fb4e33972" kind="function"><name>addModifier</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a0a4cf8554a7e00f3cf2db34f60a43f60" kind="function"><name>addJpcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1aac4857cd8f5eae15b29b9afbe9023522" kind="function"><name>addPcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a5868aef3a146594ea1ebef34d122bb33" kind="function"><name>match</name></member>
@@ -117,6 +119,7 @@
     <member refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" kind="function"><name>changeModifier</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1afebf5e76bce8e312ab6dbdec3288b02b" kind="function"><name>changeJpcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1aea15c694bba7d994f048596a1f90f71f" kind="function"><name>changePcre2Option</name></member>
+    <member refid="classjpcre2_1_1RegexReplace_1a06a57430f62058822d48722a2a6425d7" kind="function"><name>addModifier</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1a3f86b1e11d08d0153a08244771e59061" kind="function"><name>addJpcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1a3cfd03568b23bebcbb530a2c120b5d33" kind="function"><name>addPcre2Option</name></member>
     <member refid="classjpcre2_1_1RegexReplace_1afd087fa7a9bfedec802d1a3dd7edbdd0" kind="function"><name>replace</name></member>

@@ -1,0 +1,5 @@
+#!/bin/sh
+./crmd
+cd doc
+./crmkf
+cd ..

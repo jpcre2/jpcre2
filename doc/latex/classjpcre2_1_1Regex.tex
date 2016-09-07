@@ -80,6 +80,8 @@ P\+C\+R\+E2\+\_\+\+S\+I\+ZE \hyperlink{classjpcre2_1_1Regex_a1c7822056cd7ac9a6be
 \begin{DoxyCompactList}\small\item\em Add or remove a J\+P\+C\+R\+E2 option. \end{DoxyCompactList}\item 
 \hyperlink{classjpcre2_1_1Regex}{Regex} \& \hyperlink{classjpcre2_1_1Regex_ae5bde8008cc5a700163ca3162dbd5823}{change\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} opt, bool x)
 \begin{DoxyCompactList}\small\item\em Add or remove a P\+C\+R\+E2 option. \end{DoxyCompactList}\item 
+\hyperlink{classjpcre2_1_1Regex}{Regex} \& \hyperlink{classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55}{add\+Modifier} (const \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{String} \&mod)
+\begin{DoxyCompactList}\small\item\em Parse modifier string and add equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
 \hyperlink{classjpcre2_1_1Regex}{Regex} \& \hyperlink{classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de}{add\+Jpcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
 \begin{DoxyCompactList}\small\item\em Add option to existing J\+P\+C\+R\+E2 options \hyperlink{classjpcre2_1_1Regex_abdd26c3bc1c3132f0aa73dde1690a7ef}{jpcre2\+\_\+compile\+\_\+opts}. \end{DoxyCompactList}\item 
 \hyperlink{classjpcre2_1_1Regex}{Regex} \& \hyperlink{classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087}{add\+Pcre2\+Option} (\hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{Uint} x)
@@ -120,7 +122,7 @@ void \hyperlink{classjpcre2_1_1Regex_adbda074677e393438452190e55a971d0}{init} (c
 \begin{DoxyCompactList}\small\item\em This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. \end{DoxyCompactList}\item 
 void \hyperlink{classjpcre2_1_1Regex_a40128e1facd915e06089eeb17e2287c2}{free\+Regex\+Memory} (void)\hypertarget{classjpcre2_1_1Regex_a40128e1facd915e06089eeb17e2287c2}{}\label{classjpcre2_1_1Regex_a40128e1facd915e06089eeb17e2287c2}
 
-\begin{DoxyCompactList}\small\item\em Free code if it\textquotesingle{}s non-\/\+N\+U\+LL. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Free \hyperlink{classjpcre2_1_1Regex_a2742264206d8976c413b474b7bac4b2e}{code} if it\textquotesingle{}s non-\/\+N\+U\+LL. \end{DoxyCompactList}\item 
 void \hyperlink{classjpcre2_1_1Regex_a24594d3bdb08b3795080c68019928f3a}{shallow\+Copy} (const \hyperlink{classjpcre2_1_1Regex}{Regex} \&r)\hypertarget{classjpcre2_1_1Regex_a24594d3bdb08b3795080c68019928f3a}{}\label{classjpcre2_1_1Regex_a24594d3bdb08b3795080c68019928f3a}
 
 \begin{DoxyCompactList}\small\item\em Do a shallow copy of class variables. \end{DoxyCompactList}\item 
@@ -333,6 +335,32 @@ Add option to existing J\+P\+C\+R\+E2 options \hyperlink{classjpcre2_1_1Regex_ab
 
 \hyperlink{classjpcre2_1_1RegexReplace_a3f86b1e11d08d0153a08244771e59061}{Regex\+Replace\+::add\+Jpcre2\+Option()} 
 \end{DoxySeeAlso}
+\index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!add\+Modifier@{add\+Modifier}}
+\index{add\+Modifier@{add\+Modifier}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
+\paragraph[{\texorpdfstring{add\+Modifier(const String \&mod)}{addModifier(const String &mod)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex}\& jpcre2\+::\+Regex\+::add\+Modifier (
+\begin{DoxyParamCaption}
+\item[{const {\bf String} \&}]{mod}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55}{}\label{classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55}
+
+
+Parse modifier string and add equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. 
+
+This is just a wrapper of the original function \hyperlink{classjpcre2_1_1Regex_abc4a13f1baa8f23a8747fb0ffd46a836}{Regex\+::change\+Modifier()} provided for convenience.
+
+{\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de}{Regex\+::add\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087}{Regex\+::add\+Pcre2\+Option()} with equivalent options. It will be faster that way. 
+\begin{DoxyParams}{Parameters}
+{\em mod} & Modifier string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classjpcre2_1_1Regex}{Regex}\& 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classjpcre2_1_1RegexMatch_a08c2e481fe8b9c001e67733fb4e33972}{Regex\+Match\+::add\+Modifier()} 
+
+\hyperlink{classjpcre2_1_1RegexReplace_a06a57430f62058822d48722a2a6425d7}{Regex\+Replace\+::add\+Modifier()} 
+\end{DoxySeeAlso}
 \index{jpcre2\+::\+Regex@{jpcre2\+::\+Regex}!add\+Pcre2\+Option@{add\+Pcre2\+Option}}
 \index{add\+Pcre2\+Option@{add\+Pcre2\+Option}!jpcre2\+::\+Regex@{jpcre2\+::\+Regex}}
 \paragraph[{\texorpdfstring{add\+Pcre2\+Option(\+Uint x)}{addPcre2Option(Uint x)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Regex}\& jpcre2\+::\+Regex\+::add\+Pcre2\+Option (
@@ -386,7 +414,7 @@ Add or remove a J\+P\+C\+R\+E2 option.
 \end{DoxySeeAlso}
 
 
-Referenced by jpcre2\+::\+Regex\+Replace\+::change\+Modifier(), change\+Modifier(), and jpcre2\+::\+Regex\+Match\+::chnage\+Modifier().
+Referenced by jpcre2\+::\+Regex\+Match\+::change\+Modifier(), jpcre2\+::\+Regex\+Replace\+::change\+Modifier(), and change\+Modifier().
 
 
 
@@ -411,7 +439,9 @@ Here is the caller graph for this function\+:\nopagebreak
 
 Parse modifier and add/remove equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options. 
 
-After a call to this function \hyperlink{classjpcre2_1_1Regex_a5954131e9085de63229ed5c11417df69}{compile\+\_\+opts} and \hyperlink{classjpcre2_1_1Regex_abdd26c3bc1c3132f0aa73dde1690a7ef}{jpcre2\+\_\+compile\+\_\+opts} will be properly set. This function does not initialize or re-\/initialize options. If you want to set options from scratch, initialize them to 0 before calling this function. 
+After a call to this function \hyperlink{classjpcre2_1_1Regex_a5954131e9085de63229ed5c11417df69}{compile\+\_\+opts} and \hyperlink{classjpcre2_1_1Regex_abdd26c3bc1c3132f0aa73dde1690a7ef}{jpcre2\+\_\+compile\+\_\+opts} will be properly set. This function does not initialize or re-\/initialize options. If you want to set options from scratch, initialize them to 0 before calling this function.
+
+{\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1Regex_ab8e0b1a49eeb1077ba54cf3b5292c95e}{Regex\+::change\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1Regex_ae5bde8008cc5a700163ca3162dbd5823}{Regex\+::change\+Pcre2\+Option()} with equivalent options. It will be faster that way. 
 \begin{DoxyParams}{Parameters}
 {\em mod} & Modifier string \\
 \hline
@@ -422,7 +452,7 @@ After a call to this function \hyperlink{classjpcre2_1_1Regex_a5954131e9085de632
 \hyperlink{classjpcre2_1_1Regex}{Regex}\& 
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-Regex\+Match\+::change\+Modifier() 
+\hyperlink{classjpcre2_1_1RegexMatch_a1265862f04984dfde8d36e2ff409b0c9}{Regex\+Match\+::change\+Modifier()} 
 
 \hyperlink{classjpcre2_1_1RegexReplace_ae58d2a44ed474568554202612d45c814}{Regex\+Replace\+::change\+Modifier()} 
 \end{DoxySeeAlso}
@@ -470,7 +500,7 @@ Add or remove a P\+C\+R\+E2 option.
 \end{DoxySeeAlso}
 
 
-Referenced by jpcre2\+::\+Regex\+Replace\+::change\+Modifier(), change\+Modifier(), and jpcre2\+::\+Regex\+Match\+::chnage\+Modifier().
+Referenced by jpcre2\+::\+Regex\+Match\+::change\+Modifier(), jpcre2\+::\+Regex\+Replace\+::change\+Modifier(), and change\+Modifier().
 
 
 
@@ -791,7 +821,9 @@ Note that, this only gives you the modifiers used for pattern compilation. There
 
 Do remember that modifiers (or P\+C\+R\+E2 and J\+P\+C\+R\+E2 options) do not change or get initialized as long as you don\textquotesingle{}t do that explicitly. Calling \hyperlink{classjpcre2_1_1Regex_aed9865b58c60945e19f36fa310f5a595}{Regex\+::set\+Modifier()} will re-\/set them.
 
-{\bfseries Mixed or combined modifier} Some modifier may include other modifiers i.\+e they have the same meaning of some modifiers combined together. For example, the \textquotesingle{}n\textquotesingle{} modifier includes the \textquotesingle{}u\textquotesingle{} modifier and together they are equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+U\+TF $\vert$ P\+C\+R\+E2\+\_\+\+U\+CP}. When you set a modifier like this, both options get set, and when you remove ({\ttfamily \hyperlink{classjpcre2_1_1Regex_abc4a13f1baa8f23a8747fb0ffd46a836}{Regex\+::change\+Modifier()})} the \textquotesingle{}n\textquotesingle{}, both will get removed \begin{DoxyReturn}{Returns}
+{\bfseries Mixed or combined modifier}.
+
+Some modifier may include other modifiers i.\+e they have the same meaning of some modifiers combined together. For example, the \textquotesingle{}n\textquotesingle{} modifier includes the \textquotesingle{}u\textquotesingle{} modifier and together they are equivalent to {\ttfamily P\+C\+R\+E2\+\_\+\+U\+TF $\vert$ P\+C\+R\+E2\+\_\+\+U\+CP}. When you set a modifier like this, both options get set, and when you remove ({\ttfamily \hyperlink{classjpcre2_1_1Regex_abc4a13f1baa8f23a8747fb0ffd46a836}{Regex\+::change\+Modifier()})} the \textquotesingle{}n\textquotesingle{}, both will get removed \begin{DoxyReturn}{Returns}
 Calculated modifier string 
 \end{DoxyReturn}
 
@@ -1245,7 +1277,9 @@ Set the locale \hyperlink{classjpcre2_1_1Regex_a92a3ad992cade62d103248302f7e2f2d
 
 Set the modifier (overwrite existing J\+P\+C\+R\+E2 and P\+C\+R\+E2 option). 
 
-Re-\/initializes the option bits for P\+C\+R\+E2 and J\+P\+C\+R\+E2 options, then parses the modifier and sets equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options 
+Re-\/initializes the option bits for P\+C\+R\+E2 and J\+P\+C\+R\+E2 options, then parses the modifier and sets equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options.
+
+{\bfseries Note\+:} If speed of operation is very crucial, use \hyperlink{classjpcre2_1_1Regex_a031617a19638ef752dcd2b29fa3464d5}{Regex\+::set\+Jpcre2\+Option()} and \hyperlink{classjpcre2_1_1Regex_acdc6f97f4030ae109c4e1a4e2310bceb}{Regex\+::set\+Pcre2\+Option()} with equivalent options. It will be faster that way. 
 \begin{DoxyParams}{Parameters}
 {\em x} & Modifier string \\
 \hline

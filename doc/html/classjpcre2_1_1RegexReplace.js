@@ -4,6 +4,7 @@ var classjpcre2_1_1RegexReplace =
     [ "RegexReplace", "classjpcre2_1_1RegexReplace.html#a257d326d57af9ccbc7a45b002c34ed0a", null ],
     [ "~RegexReplace", "classjpcre2_1_1RegexReplace.html#ab27102839e7ff0914bcd204d750097ac", null ],
     [ "addJpcre2Option", "classjpcre2_1_1RegexReplace.html#a3f86b1e11d08d0153a08244771e59061", null ],
+    [ "addModifier", "classjpcre2_1_1RegexReplace.html#a06a57430f62058822d48722a2a6425d7", null ],
     [ "addPcre2Option", "classjpcre2_1_1RegexReplace.html#a3cfd03568b23bebcbb530a2c120b5d33", null ],
     [ "changeJpcre2Option", "classjpcre2_1_1RegexReplace.html#afebf5e76bce8e312ab6dbdec3288b02b", null ],
     [ "changeModifier", "classjpcre2_1_1RegexReplace.html#ae58d2a44ed474568554202612d45c814", null ],

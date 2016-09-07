@@ -266,6 +266,9 @@ public:
 
 	/// Set the modifier (overwrites existing JPCRE2 and PCRE2 option).
 	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options.
+	///
+	/// **Note:** If speed of operation is very crucial, use RegexMatch::setJpcre2Option() and
+	/// RegexMatch::setPcre2Option() with equivalent options. It will be faster that way.
 	/// @param s Modifier string
 	/// @return RegexMatch&
 	/// @see RegexReplace::setModifier()
@@ -273,7 +276,7 @@ public:
 	RegexMatch& setModifier(const String& s) {
 		match_opts = 0;
         jpcre2_match_opts = 0;
-        chnageModifier(s, true);
+        changeModifier(s, true);
 		return *this;
 	}
 
@@ -296,17 +299,31 @@ public:
 		match_opts = x;
 		return *this;
 	}
+    
+	/// Set whether to perform global match
+	/// @param x True or False
+	/// @return RegexMatch&
+	RegexMatch& setFindAll(bool x = true) {
+		if (x)
+			jpcre2_match_opts |= FIND_ALL;
+		else
+			jpcre2_match_opts &= ~FIND_ALL;
+		return *this;
+	}
 
 	/// Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options.
 	/// After a call to this function #match_opts and #jpcre2_match_opts will be properly set.
     /// This function does not initialize or re-initialize options.
     /// If you want to set options from scratch, initialize them to their default values before calling this function.
+	///
+	/// **Note:** If speed of operation is very crucial, use RegexMatch::changeJpcre2Option() and
+	/// RegexMatch::changePcre2Option() with equivalent options. It will be faster that way.
     /// @param mod Modifier string
     /// @param x Whether to add or remove options
 	/// @return RegexMatch&
-	/// @see RegexReplace::chnageModifier()
-	/// @see Regex::chnageModifier()
-	RegexMatch& chnageModifier(const String& mod, bool x);
+	/// @see RegexReplace::changeModifier()
+	/// @see Regex::changeModifier()
+	RegexMatch& changeModifier(const String& mod, bool x);
 
     /// Add or remove a JPCRE2 option
     /// @param opt JPCRE2 option value
@@ -335,17 +352,20 @@ public:
             match_opts &= ~opt;
         return *this;
     }
-
-	/// Set whether to perform global match
-	/// @param x True or False
-	/// @return RegexMatch&
-	RegexMatch& setFindAll(bool x = true) {
-		if (x)
-			jpcre2_match_opts |= FIND_ALL;
-		else
-			jpcre2_match_opts &= ~FIND_ALL;
-		return *this;
-	}
+    
+    /// Parse modifier string and add equivalent PCRE2 and JPCRE2 options.
+    /// This is just a wrapper of the original function RegexMatch::changeModifier()
+    /// provided for convenience.
+	///
+	/// **Note:** If speed of operation is very crucial, use RegexMatch::addJpcre2Option() and RegexMatch::addPcre2Option()
+    /// with equivalent options. It will be faster that way.
+    /// @param mod Modifier string
+    /// @return RegexMatch&
+    /// @see RegexReplace::addModifier()
+    /// @see Regex::addModifier()
+    RegexMatch& addModifier(const String& mod){
+        return changeModifier(mod, true);
+    }
 
 	/// Add option to existing JPCRE2 options #jpcre2_match_opts
 	/// @param x Option value
@@ -453,6 +473,9 @@ public:
 	}
 
 	/** Set the modifier string (overwrites existing JPCRE2 and PCRE2 option).
+	 *
+	 * **Note:** If speed of operation is very crucial, use RegexReplace::setJpcre2Option() and RegexReplace::setPcre2Option()
+	 * with equivalent options. It will be faster that way.
 	 * @param s Modifier string
 	 * @return RegexReplace&
 	 * @see RegexMatch::setModifier()
@@ -499,6 +522,9 @@ public:
 	/// After a call to this function #replace_opts and #jpcre2_replace_opts will be properly set.
     /// This function does not initialize or re-initialize options.
     /// If you want to set options from scratch, initialize them to their defaults before calling this function.
+	///
+	/// **Note:** If speed of operation is very crucial, use RegexReplace::changeJpcre2Option() and
+	/// RegexReplace::changePcre2Option() with equivalent options. It will be faster that way.
     /// @param mod Modifier string
     /// @param x Whether to add or remove option
 	/// @return RegexReplace&
@@ -533,6 +559,20 @@ public:
             replace_opts &= ~opt;
             replace_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; //It's important, this option must not be removed
         return *this;
+    }
+    
+    /// Parse modifier string and add equivalent PCRE2 and JPCRE2 options.
+    /// This is just a wrapper of the original function RegexReplace::changeModifier()
+    /// provided for convenience.
+	///
+	/// **Note:** If speed of operation is very crucial, use RegexReplace::addJpcre2Option() and
+	/// RegexReplace::addPcre2Option() with equivalent options. It will be faster that way.
+    /// @param mod Modifier string
+    /// @return RegexReplace&
+    /// @see RegexMatch::addModifier()
+    /// @see Regex::addModifier()
+    RegexReplace& addModifier(const String& mod){
+        return changeModifier(mod, true);
     }
 
 	/** Add specified JPCRE2 option to existing options #jpcre2_replace_opts
@@ -632,7 +672,7 @@ private:
 		jpcre2_compile_opts = jo;
 	}
 
-	/// Free code if it's non-NULL
+	/// Free #code if it's non-NULL
 	void freeRegexMemory(void) {
 		if (code)
 			pcre2_code_free(code);
@@ -781,7 +821,8 @@ public:
      *  Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized
      *  as long as you don't do that explicitly. Calling Regex::setModifier() will re-set them.
      * 
-     *  **Mixed or combined modifier**
+     *  **Mixed or combined modifier**.
+     *
      *  Some modifier may include other modifiers i.e they have the same meaning of some modifiers
      *  combined together. For example, the 'n' modifier includes the 'u' modifier and together they
      *  are equivalent to `PCRE2_UTF | PCRE2_UCP`. When you set a modifier like this, both options
@@ -869,7 +910,11 @@ public:
 	}
 
 	/// Set the modifier (overwrite existing JPCRE2 and PCRE2 option).
-	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets equivalent PCRE2 and JPCRE2 options
+	/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets
+	/// equivalent PCRE2 and JPCRE2 options.
+	///
+	/// **Note:** If speed of operation is very crucial, use Regex::setJpcre2Option() and
+	/// Regex::setPcre2Option() with equivalent options. It will be faster that way.
 	/// @param x Modifier string
 	/// @return Regex&
 	/// @see RegexMatch::setModifier()
@@ -912,6 +957,9 @@ public:
 	/// After a call to this function #compile_opts and #jpcre2_compile_opts will be properly set.
     /// This function does not initialize or re-initialize options.
     /// If you want to set options from scratch, initialize them to 0 before calling this function.
+	///
+	/// **Note:** If speed of operation is very crucial, use Regex::changeJpcre2Option() and
+	/// Regex::changePcre2Option() with equivalent options. It will be faster that way.
     /// @param mod Modifier string
     /// @param x Whether to add or remove option
 	/// @return Regex&
@@ -945,6 +993,20 @@ public:
         else
             compile_opts &= ~opt;
         return *this;
+    }
+
+    /// Parse modifier string and add equivalent PCRE2 and JPCRE2 options.
+    /// This is just a wrapper of the original function Regex::changeModifier()
+    /// provided for convenience.
+	///
+	/// **Note:** If speed of operation is very crucial, use Regex::addJpcre2Option() and
+	/// Regex::addPcre2Option() with equivalent options. It will be faster that way.
+    /// @param mod Modifier string
+    /// @return Regex&
+    /// @see RegexMatch::addModifier()
+    /// @see RegexReplace::addModifier()
+    Regex& addModifier(const String& mod){
+        return changeModifier(mod, true);
     }
 
 	/// Add option to existing JPCRE2 options #jpcre2_compile_opts

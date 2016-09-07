@@ -125,6 +125,10 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "\fIAdd or remove a PCRE2 option\&. \fP"
 .ti -1c
+.RI "\fBRegex\fP & \fBaddModifier\fP (const \fBString\fP &mod)"
+.br
+.RI "\fIParse modifier string and add equivalent PCRE2 and JPCRE2 options\&. \fP"
+.ti -1c
 .RI "\fBRegex\fP & \fBaddJpcre2Option\fP (\fBUint\fP x)"
 .br
 .RI "\fIAdd option to existing JPCRE2 options \fBjpcre2_compile_opts\fP\&. \fP"
@@ -199,7 +203,7 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "void \fBfreeRegexMemory\fP (void)"
 .br
-.RI "\fIFree code if it's non-NULL\&. \fP"
+.RI "\fIFree \fBcode\fP if it's non-NULL\&. \fP"
 .ti -1c
 .RI "void \fBshallowCopy\fP (const \fBRegex\fP &r)"
 .br
@@ -391,6 +395,31 @@ Add option to existing JPCRE2 options \fBjpcre2_compile_opts\fP\&.
 .RE
 .PP
 
+.SS "\fBRegex\fP& jpcre2::Regex::addModifier (const \fBString\fP & mod)\fC [inline]\fP"
+
+.PP
+Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is just a wrapper of the original function \fBRegex::changeModifier()\fP provided for convenience\&.
+.PP
+\fBNote:\fP If speed of operation is very crucial, use \fBRegex::addJpcre2Option()\fP and \fBRegex::addPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImod\fP Modifier string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBRegex\fP& 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::addModifier()\fP 
+.PP
+\fBRegexReplace::addModifier()\fP 
+.RE
+.PP
+
 .SS "\fBRegex\fP& jpcre2::Regex::addPcre2Option (\fBUint\fP x)\fC [inline]\fP"
 
 .PP
@@ -440,11 +469,13 @@ Add or remove a JPCRE2 option\&.
 .PP
 
 .PP
-Referenced by jpcre2::RegexReplace::changeModifier(), changeModifier(), and jpcre2::RegexMatch::chnageModifier()\&.
+Referenced by jpcre2::RegexMatch::changeModifier(), jpcre2::RegexReplace::changeModifier(), and changeModifier()\&.
 .SS "\fBjpcre2::Regex\fP & jpcre2::Regex::changeModifier (const \fBString\fP & mod, bool x)"
 
 .PP
-Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP will be properly set\&. This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to 0 before calling this function\&. 
+Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a call to this function \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP will be properly set\&. This function does not initialize or re-initialize options\&. If you want to set options from scratch, initialize them to 0 before calling this function\&.
+.PP
+\fBNote:\fP If speed of operation is very crucial, use \fBRegex::changeJpcre2Option()\fP and \fBRegex::changePcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -460,7 +491,7 @@ Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. After a cal
 .PP
 \fBSee also:\fP
 .RS 4
-RegexMatch::changeModifier() 
+\fBRegexMatch::changeModifier()\fP 
 .PP
 \fBRegexReplace::changeModifier()\fP 
 .RE
@@ -494,7 +525,7 @@ Add or remove a PCRE2 option\&.
 .PP
 
 .PP
-Referenced by jpcre2::RegexReplace::changeModifier(), changeModifier(), and jpcre2::RegexMatch::chnageModifier()\&.
+Referenced by jpcre2::RegexMatch::changeModifier(), jpcre2::RegexReplace::changeModifier(), and changeModifier()\&.
 .SS "void jpcre2::Regex::compile (void)"
 
 .PP
@@ -698,7 +729,9 @@ Note that, this only gives you the modifiers used for pattern compilation\&. The
 .PP
 Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized as long as you don't do that explicitly\&. Calling \fBRegex::setModifier()\fP will re-set them\&.
 .PP
-\fBMixed or combined modifier\fP Some modifier may include other modifiers i\&.e they have the same meaning of some modifiers combined together\&. For example, the 'n' modifier includes the 'u' modifier and together they are equivalent to \fCPCRE2_UTF | PCRE2_UCP\fP\&. When you set a modifier like this, both options get set, and when you remove (\fC\fBRegex::changeModifier()\fP)\fP the 'n', both will get removed 
+\fBMixed or combined modifier\fP\&.
+.PP
+Some modifier may include other modifiers i\&.e they have the same meaning of some modifiers combined together\&. For example, the 'n' modifier includes the 'u' modifier and together they are equivalent to \fCPCRE2_UTF | PCRE2_UCP\fP\&. When you set a modifier like this, both options get set, and when you remove (\fC\fBRegex::changeModifier()\fP)\fP the 'n', both will get removed 
 .PP
 \fBReturns:\fP
 .RS 4
@@ -1030,7 +1063,9 @@ Set the locale \fBmylocale\fP\&.
 .SS "\fBRegex\fP& jpcre2::Regex::setModifier (const \fBString\fP & x)\fC [inline]\fP"
 
 .PP
-Set the modifier (overwrite existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets equivalent PCRE2 and JPCRE2 options 
+Set the modifier (overwrite existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets equivalent PCRE2 and JPCRE2 options\&.
+.PP
+\fBNote:\fP If speed of operation is very crucial, use \fBRegex::setJpcre2Option()\fP and \fBRegex::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
 \fBParameters:\fP
 .RS 4

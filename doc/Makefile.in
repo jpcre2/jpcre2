@@ -297,6 +297,7 @@ dist_html_DATA = \
 	html/namespacejpcre2_1_1utils.html \
 	html/globals_defs.html \
 	html/jpcre2_8hpp__dep__incl.md5 \
+	html/classjpcre2_1_1RegexMatch_a1265862f04984dfde8d36e2ff409b0c9_cgraph.map \
 	html/classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69_cgraph.md5 \
 	html/test__match2_8cpp.html \
 	html/namespacejpcre2.js \
@@ -325,6 +326,7 @@ dist_html_DATA = \
 	html/classjpcre2_1_1Regex_a92b75c438ccff871205b2175a6141fd5_cgraph.map \
 	html/dynsections.js \
 	html/classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5_cgraph.map \
+	html/classjpcre2_1_1RegexMatch_a1265862f04984dfde8d36e2ff409b0c9_cgraph.png \
 	html/classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_icgraph.md5 \
 	html/tab_b.png \
 	html/folderclosed.png \
@@ -579,6 +581,7 @@ dist_html_DATA = \
 	html/namespaces.html \
 	html/classjpcre2_1_1Regex_addd7c21abd0f4cf6c532a7602cfb5835_cgraph.map \
 	html/classjpcre2_1_1RegexReplace.js \
+	html/classjpcre2_1_1RegexMatch_a1265862f04984dfde8d36e2ff409b0c9_cgraph.md5 \
 	html/classjpcre2_1_1Regex_a8606fff8b192c94f58ca9e82aa048c61_icgraph.md5 \
 	html/customdoxygen.css \
 	html/classjpcre2_1_1Regex.js \

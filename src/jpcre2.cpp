@@ -178,9 +178,9 @@ jpcre2::String jpcre2::Regex::getModifier(){
 }
 
 jpcre2::String jpcre2::Regex::getErrorMessage(int err_num, PCRE2_SIZE err_off) {
-	if (err_num == ERROR::INVALID_MODIFIER) {
+	if (err_num == (int)ERROR::INVALID_MODIFIER) {
 		return "Invalid Modifier: " + utils::toString((char) err_off);
-	} else if (err_num == ERROR::JIT_COMPILE_FAILED) {
+	} else if (err_num == (int)ERROR::JIT_COMPILE_FAILED) {
 		return JIT_ERROR_MESSAGE_PREFIX
 				+ utils::getPcre2ErrorMessage((int) err_off);
 	} else {
@@ -202,8 +202,8 @@ void jpcre2::Regex::deepCopy(const Regex& r) {
 			int jit_ret = pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
 			if (jit_ret != 0) {
 				if ((jpcre2_compile_opts & ERROR_ALL) != 0) {
-					error_number = error_offset = ERROR::JIT_COMPILE_FAILED;
-					utils::throwException(ERROR::JIT_COMPILE_FAILED);
+					error_number = error_offset = (int)ERROR::JIT_COMPILE_FAILED;
+					utils::throwException((int)ERROR::JIT_COMPILE_FAILED);
 				} else
 					current_warning_msg = JIT_ERROR_MESSAGE_PREFIX
 							+ utils::getPcre2ErrorMessage(jit_ret);
@@ -244,10 +244,10 @@ jpcre2::Regex& jpcre2::Regex::changeModifier(const String& mod, bool x) {
         //Modifier didn't match, invalid modifier error
         if((jpcre2_compile_opts & VALIDATE_MODIFIER) != 0 || (jpcre2_compile_opts & ERROR_ALL) != 0) {
             error_number = error_offset = (int) mod[i];
-            utils::throwException(ERROR::INVALID_MODIFIER);
+            utils::throwException((int)ERROR::INVALID_MODIFIER);
         }
         //If exception wasn't thrown, add to warning message
-        current_warning_msg = getErrorMessage(ERROR::INVALID_MODIFIER, mod[i]);
+        current_warning_msg = getErrorMessage((int)ERROR::INVALID_MODIFIER, mod[i]);
         
         endfor:;
 	}
@@ -289,9 +289,9 @@ void jpcre2::Regex::compile() {
 		int jit_ret = pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
 		if (jit_ret != 0) {
 			if ((jpcre2_compile_opts & ERROR_ALL) != 0) {
-				error_number = ERROR::JIT_COMPILE_FAILED;
+				error_number = (int)ERROR::JIT_COMPILE_FAILED;
 				error_offset = jit_ret;
-				utils::throwException(ERROR::JIT_COMPILE_FAILED);
+				utils::throwException((int)ERROR::JIT_COMPILE_FAILED);
 			} else
 				current_warning_msg = "JIT compile failed: "
 						+ utils::getPcre2ErrorMessage(jit_ret);
@@ -322,10 +322,10 @@ jpcre2::RegexReplace& jpcre2::RegexReplace::changeModifier(const String& mod, bo
         //Modifier didn't match, invalid modifier error
         if((jpcre2_replace_opts & VALIDATE_MODIFIER) != 0 || (jpcre2_replace_opts & ERROR_ALL) != 0) {
             re->error_number = re->error_offset = (int) mod[i];
-            utils::throwException(ERROR::INVALID_MODIFIER);
+            utils::throwException((int)ERROR::INVALID_MODIFIER);
         }
         //If exception wasn't thrown, add to warning message
-        re->current_warning_msg = re->getErrorMessage(ERROR::INVALID_MODIFIER, mod[i]);
+        re->current_warning_msg = re->getErrorMessage((int)ERROR::INVALID_MODIFIER, mod[i]);
         
         endfor:;
 	}
@@ -392,7 +392,7 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 
 ///////// RegexMatch class
 
-jpcre2::RegexMatch& jpcre2::RegexMatch::chnageModifier(const String& mod, bool x) {
+jpcre2::RegexMatch& jpcre2::RegexMatch::changeModifier(const String& mod, bool x) {
 	//loop through mod
 	for (SIZE_T i = 0; i < mod.length(); ++i) {
         //First check for JPCRE2 mods
@@ -412,10 +412,10 @@ jpcre2::RegexMatch& jpcre2::RegexMatch::chnageModifier(const String& mod, bool x
         //Modifier didn't match, invalid modifier error
         if((jpcre2_match_opts & VALIDATE_MODIFIER) != 0 || (jpcre2_match_opts & ERROR_ALL) != 0) {
             re->error_number = re->error_offset = (int) mod[i];
-            utils::throwException(ERROR::INVALID_MODIFIER);
+            utils::throwException((int)ERROR::INVALID_MODIFIER);
         }
         //If exception wasn't thrown, add to warning message
-        re->current_warning_msg = re->getErrorMessage(ERROR::INVALID_MODIFIER, mod[i]);
+        re->current_warning_msg = re->getErrorMessage((int)ERROR::INVALID_MODIFIER, mod[i]);
         endfor:;
 	}
     return *this;

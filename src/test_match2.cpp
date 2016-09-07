@@ -55,14 +55,14 @@ int main(){
 		std::cout<<"\nEnter action (matching) modifier (Ag): "<<std::endl;
 		getLine(ac_mod);
 		if(subject=="quit")return 0;
-		try{matched=re.initMatch()                                //Invoke the initMatch() function
+		try{matched=re.initMatch()                                //invoke the initMatch() function
                       .setSubject(subject)						  //subject
-					  .addJpcre2Option(jpcre2::VALIDATE_MODIFIER) //Turn on modifier validation check
-					  .setModifier(ac_mod)                        //Set various options
-					  .setNumberedSubstringVector(&vec_num0)      //...
-					  .setNamedSubstringVector(&vec_nas0)         //...
-					  .setNameToNumberMapVector(&vec_nn0)         //...
-					  .addPcre2Option(0)                          //...
+					  .addJpcre2Option(jpcre2::VALIDATE_MODIFIER) //turn on modifier validation check
+					  .addModifier(ac_mod)                        //add modifier
+					  .setNumberedSubstringVector(&vec_num0)      //pointer to numbered substring vector
+					  .setNamedSubstringVector(&vec_nas0)         //pointer to named substring vector
+					  .setNameToNumberMapVector(&vec_nn0)         //pointer to name-to-number map vector
+					  .addPcre2Option(0)                          //add PCRE2 option
 					  .match();                                   //Finally do the match
 		}
 		catch(int e){std::cerr<<re.getErrorMessage(e);

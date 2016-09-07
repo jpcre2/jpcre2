@@ -37,9 +37,8 @@ An example of doing regex replace with J\+P\+C\+R\+E2.
 \textcolor{comment}{    ///Compile the pattern}
 \textcolor{comment}{}    \textcolor{keywordflow}{try}\{re.\hyperlink{classjpcre2_1_1Regex_a85d9a514ea86ae68533223adac6c6bd8}{setPattern}(\textcolor{stringliteral}{"(?:(?<word>[?.#@:]+)|(?<word>\(\backslash\)\(\backslash\)w+))\(\backslash\)\(\backslash\)s*(?<digit>\(\backslash\)\(\backslash\)d+)"})     \textcolor{comment}{//Set various
        parameters}
-          .\hyperlink{classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de}{addJpcre2Option}(\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2::VALIDATE\_MODIFIER})              
-                      \textcolor{comment}{//...}
-          .\hyperlink{classjpcre2_1_1Regex_aed9865b58c60945e19f36fa310f5a595}{setModifier}(\textcolor{stringliteral}{"Jin"})                                                      \textcolor{comment}{//...}
+          .\hyperlink{classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55}{addModifier}(\textcolor{stringliteral}{"&Jin"})                                                     \textcolor{comment}{//modifier &
+       == jpcre2::VALIDATE\_MODIFIER}
           .\hyperlink{classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087}{addPcre2Option}(0)                                                       \textcolor{comment}{//...}
           .\hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69}{compile}();\}                                                             \textcolor{comment}{//Finally compile
        it.}
@@ -62,9 +61,8 @@ An example of doing regex replace with J\+P\+C\+R\+E2.
           .\hyperlink{classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb}{setSubject}(s)                                                    \textcolor{comment}{//Set various
        parameters}
           .\hyperlink{classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73}{setReplaceWith}(\textcolor{stringliteral}{"(replaced:$1)(replaced:$2)(replaced:$\{word\})"})   \textcolor{comment}{//...}
-          .\hyperlink{classjpcre2_1_1RegexReplace_a3f86b1e11d08d0153a08244771e59061}{addJpcre2Option}(\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2::VALIDATE\_MODIFIER})              
-               \textcolor{comment}{//...}
-          .\hyperlink{classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910}{setModifier}(\textcolor{stringliteral}{"xE"})                                                \textcolor{comment}{//...}
+          .\hyperlink{classjpcre2_1_1RegexReplace_a06a57430f62058822d48722a2a6425d7}{addModifier}(\textcolor{stringliteral}{"~xE"})                                               \textcolor{comment}{//modifier ~ ==
+       jpcre2::ERROR\_ALL}
           .\hyperlink{classjpcre2_1_1RegexReplace_a3cfd03568b23bebcbb530a2c120b5d33}{addPcre2Option}(0)                                                \textcolor{comment}{//...}
           .\hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0}{replace}();                                                       \textcolor{comment}{//Finally perform the
        replace operation.}

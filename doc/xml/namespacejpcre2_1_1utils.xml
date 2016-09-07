@@ -114,9 +114,9 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="151" column="1" bodyfile="src/jpcre2.cpp" bodystart="121" bodyend="123"/>
+        <referencedby refid="classjpcre2_1_1RegexMatch_1a1265862f04984dfde8d36e2ff409b0c9" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::changeModifier</referencedby>
         <referencedby refid="classjpcre2_1_1RegexReplace_1ae58d2a44ed474568554202612d45c814" compoundref="jpcre2_8cpp" startline="305" endline="333">jpcre2::RegexReplace::changeModifier</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1abc4a13f1baa8f23a8747fb0ffd46a836" compoundref="jpcre2_8cpp" startline="227" endline="255">jpcre2::Regex::changeModifier</referencedby>
-        <referencedby refid="classjpcre2_1_1RegexMatch_1a7f5283c0fd9b4514b37354a08562ff9e" compoundref="jpcre2_8cpp" startline="395" endline="422">jpcre2::RegexMatch::chnageModifier</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="257" endline="300">jpcre2::Regex::compile</referencedby>
         <referencedby refid="classjpcre2_1_1Regex_1acaa5da5fc3ad903e3ecc724750214e07" compoundref="jpcre2_8cpp" startline="192" endline="224">jpcre2::Regex::deepCopy</referencedby>
         <referencedby refid="classjpcre2_1_1RegexMatch_1af159e8d080ecd74f63ec67b1d5a27772" compoundref="jpcre2_8cpp" startline="452" endline="514">jpcre2::RegexMatch::getNamedSubstrings</referencedby>
