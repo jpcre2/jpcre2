@@ -162,6 +162,8 @@ std::cout<<vec_num[0][0]; // group 0 in first match
 std::cout<<vec_num[0][1]; // group 1 in first match
 std::cout<<vec_num[1][0]; // group 0 in second match
 ```
+<a name="get-named-capture-group"></a>
+
 ### Get named capture group
 
 To get named substring and/or name to number mapping, pass pointer to the appropriate vectors with `jpcre2::RegexMatch::setNamedSubstringVector()` and/or `jpcre2::RegexMatch::setNameToNumberMapVector()` before doing the match.
@@ -343,6 +345,8 @@ Option | Details
 ## PCRE2 options
 
 While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `jpcre2::Regex::addPcre2Option()` and such functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
+
+<a name="short-examples"></a>
 
 # Short examples
 

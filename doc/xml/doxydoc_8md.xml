@@ -171,6 +171,8 @@
 <codeline><highlight class="normal">std::cout&lt;&lt;vec_num[0][1];<sp/>//<sp/>group<sp/>1<sp/>in<sp/>first<sp/>match</highlight></codeline>
 <codeline><highlight class="normal">std::cout&lt;&lt;vec_num[1][0];<sp/>//<sp/>group<sp/>0<sp/>in<sp/>second<sp/>match</highlight></codeline>
 <codeline><highlight class="normal">```</highlight></codeline>
+<codeline><highlight class="normal">&lt;a<sp/>name=&quot;get-named-capture-group&quot;&gt;&lt;/a&gt;</highlight></codeline>
+<codeline></codeline>
 <codeline><highlight class="normal">###<sp/>Get<sp/>named<sp/>capture<sp/>group<sp/>{#get-named-capture-group}</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">To<sp/>get<sp/>named<sp/>substring<sp/>and/or<sp/>name<sp/>to<sp/>number<sp/>mapping,<sp/>pass<sp/>pointer<sp/>to<sp/>the<sp/>appropriate<sp/>vectors<sp/>with<sp/>`jpcre2::RegexMatch::setNamedSubstringVector()`<sp/>and/or<sp/>`jpcre2::RegexMatch::setNameToNumberMapVector()`<sp/>before<sp/>doing<sp/>the<sp/>match.</highlight></codeline>
@@ -352,6 +354,8 @@
 <codeline><highlight class="normal">##<sp/>PCRE2<sp/>options<sp/>{#pcre2-options}</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">While<sp/>having<sp/>its<sp/>own<sp/>way<sp/>of<sp/>doing<sp/>things,<sp/>JPCRE2<sp/>also<sp/>supports<sp/>the<sp/>traditional<sp/>PCRE2<sp/>options<sp/>to<sp/>be<sp/>passed.<sp/>We<sp/>use<sp/>the<sp/>`jpcre2::Regex::addPcre2Option()`<sp/>and<sp/>such<sp/>functions<sp/>to<sp/>pass<sp/>the<sp/>PCRE2<sp/>options.<sp/>These<sp/>options<sp/>are<sp/>the<sp/>same<sp/>as<sp/>the<sp/>PCRE2<sp/>library<sp/>and<sp/>have<sp/>the<sp/>same<sp/>meaning.<sp/>For<sp/>example<sp/>instead<sp/>of<sp/>passing<sp/>the<sp/>&apos;g&apos;<sp/>modifier<sp/>to<sp/>the<sp/>replacement<sp/>operation<sp/>we<sp/>can<sp/>also<sp/>pass<sp/>its<sp/>PCRE2<sp/>equivalent<sp/>`PCRE2_SUBSTITUTE_GLOBAL`<sp/>to<sp/>have<sp/>the<sp/>same<sp/>effect.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&lt;a<sp/>name=&quot;short-examples&quot;&gt;&lt;/a&gt;</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">#<sp/>Short<sp/>examples<sp/>{#short-examples}</highlight></codeline>
 <codeline></codeline>
