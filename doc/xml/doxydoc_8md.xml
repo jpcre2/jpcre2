@@ -91,7 +91,7 @@
 <codeline></codeline>
 <codeline><highlight class="normal">(You<sp/>can<sp/>use<sp/>temporary<sp/>object<sp/>too,<sp/>see<sp/>[short<sp/>examples](#short-examples)).</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">This<sp/>object<sp/>will<sp/>hold<sp/>the<sp/>pattern,<sp/>modifiers,<sp/>compiled<sp/>pattern,<sp/>error<sp/>and<sp/>warning<sp/>codes.</highlight></codeline>
+<codeline><highlight class="normal">This<sp/>object<sp/>will<sp/>hold<sp/>the<sp/>pattern,<sp/>modifiers<sp/>(PCRE2<sp/>and<sp/>JPCRE2<sp/>options)<sp/>and<sp/>compiled<sp/>pattern.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">```cpp</highlight></codeline>
 <codeline><highlight class="normal">jpcre2::Regex<sp/>re;</highlight></codeline>
@@ -327,11 +327,11 @@
 <codeline></codeline>
 <codeline><highlight class="normal">While<sp/>having<sp/>its<sp/>own<sp/>way<sp/>of<sp/>doing<sp/>things,<sp/>JPCRE2<sp/>also<sp/>supports<sp/>the<sp/>traditional<sp/>PCRE2<sp/>options<sp/>to<sp/>be<sp/>passed.<sp/>We<sp/>use<sp/>the<sp/>`jpcre2::Regex::addPcre2Option()`<sp/>and<sp/>such<sp/>functions<sp/>to<sp/>pass<sp/>the<sp/>PCRE2<sp/>options.<sp/>These<sp/>options<sp/>are<sp/>the<sp/>same<sp/>as<sp/>the<sp/>PCRE2<sp/>library<sp/>and<sp/>have<sp/>the<sp/>same<sp/>meaning.<sp/>For<sp/>example<sp/>instead<sp/>of<sp/>passing<sp/>the<sp/>&apos;g&apos;<sp/>modifier<sp/>to<sp/>the<sp/>replacement<sp/>operation<sp/>we<sp/>can<sp/>also<sp/>pass<sp/>its<sp/>PCRE2<sp/>equivalent<sp/>`PCRE2_SUBSTITUTE_GLOBAL`<sp/>to<sp/>have<sp/>the<sp/>same<sp/>effect.</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">#<sp/>Exceptions<sp/>{#exceptions}</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Exception<sp/>handling<sp/>{#exception-handling}</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">When<sp/>a<sp/>known<sp/>error<sp/>is<sp/>occurred<sp/>during<sp/>pattern<sp/>compilation<sp/>or<sp/>match<sp/>or<sp/>replace,<sp/>an<sp/>exception<sp/>of<sp/>type<sp/>`jpcre2::Except`<sp/>is<sp/>thrown.<sp/>The<sp/>`jpcre2::Except`<sp/>class<sp/>provides<sp/>public<sp/>member<sp/>functions<sp/>to<sp/>get<sp/>the<sp/>error<sp/>number,<sp/>error<sp/>offset<sp/>and<sp/>error<sp/>message.</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">In<sp/>normal<sp/>operation,<sp/>when<sp/>working<sp/>with<sp/>a<sp/>valid<sp/>regex<sp/>with<sp/>valid<sp/>options</highlight></codeline>
+<codeline><highlight class="normal">In<sp/>normal<sp/>operation,<sp/>when<sp/>working<sp/>with<sp/>a<sp/>valid<sp/>regex<sp/>with<sp/>valid<sp/>options,</highlight></codeline>
 <codeline><highlight class="normal">no<sp/>exception<sp/>is<sp/>supposed<sp/>to<sp/>occur.<sp/>Most<sp/>of<sp/>the<sp/>time</highlight></codeline>
 <codeline><highlight class="normal">you<sp/>can<sp/>get<sp/>away<sp/>without<sp/>resorting<sp/>to<sp/>try<sp/>catch<sp/>block<sp/>just<sp/>by<sp/>being</highlight></codeline>
 <codeline><highlight class="normal">a<sp/>little<sp/>careful<sp/>about<sp/>what<sp/>you<sp/>pass<sp/>and<sp/>what<sp/>your<sp/>environment<sp/>supports.</highlight></codeline>
@@ -341,15 +341,17 @@
 <codeline><highlight class="normal">from<sp/>user<sp/>input<sp/>and<sp/>warn<sp/>them<sp/>about<sp/>bad<sp/>input,<sp/>you<sp/>will<sp/>definitely<sp/>need<sp/>try<sp/>catch.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">Note<sp/>that,<sp/>bad<sp/>input<sp/>isn&apos;t<sp/>the<sp/>only<sp/>reason<sp/>that<sp/>an<sp/>exception<sp/>can<sp/>be<sp/>thrown.</highlight></codeline>
-<codeline><highlight class="normal">As<sp/>of<sp/>original<sp/>PCRE2<sp/>specs,<sp/>you<sp/>can<sp/>get<sp/>a<sp/>load<sp/>of<sp/>errors<sp/>for<sp/>a<sp/>load<sp/>of<sp/></highlight></codeline>
-<codeline><highlight class="normal">unexpected<sp/>situations.<sp/>This<sp/>is<sp/>a<sp/>rough<sp/>list<sp/>of<sp/>causes:</highlight></codeline>
+<codeline><highlight class="normal">As<sp/>of<sp/>original<sp/>PCRE2<sp/>specs,<sp/>you<sp/>can<sp/>get<sp/>errors<sp/>for<sp/>lots<sp/>of<sp/>unfavorable<sp/>situations.<sp/>These<sp/>errors<sp/>are<sp/>well<sp/>defined<sp/>and<sp/>you<sp/>will<sp/>get<sp/>`jpcre2::Except`<sp/>exception<sp/>when<sp/>you<sp/>encounter<sp/>one<sp/>of<sp/>them.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/>This<sp/>is<sp/>a<sp/>rough<sp/>list<sp/>of<sp/>cases<sp/>that<sp/>you<sp/>need<sp/>to<sp/>consider:</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">1.<sp/>**Bad<sp/>input:**</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/>1.<sp/>Invalid<sp/>modifier<sp/>(only<sp/>if<sp/>validation<sp/>check<sp/>is<sp/>enabled,<sp/>otherwise<sp/>ignored<sp/>as<sp/>warning).</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/>2.<sp/>Incomplete<sp/>options<sp/>for<sp/>regex<sp/>pattern<sp/>(Invalid<sp/>option<sp/>isn&apos;t<sp/>an<sp/>error,<sp/>options<sp/>that<sp/>are<sp/>not<sp/>known<sp/>or<sp/>not<sp/>applicable<sp/>gets<sp/>ignored<sp/>graciously).</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/>3.<sp/>Malicious<sp/>options<sp/>(Can<sp/>produce<sp/>undefined/unexpected<sp/>behavior).</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>1.<sp/>Invalid<sp/>modifier.<sp/>It&apos;s<sp/>an<sp/>error<sp/>only<sp/>if<sp/>validation<sp/>check<sp/>is<sp/>enabled,<sp/>otherwise<sp/>ignored<sp/>as<sp/>warning<sp/>(It&apos;s<sp/>harmless<sp/>either<sp/>way).</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>2.<sp/>Incomplete<sp/>options<sp/>for<sp/>regex<sp/>pattern<sp/>may<sp/>throw<sp/>exception.<sp/>For<sp/>example,<sp/>pattern<sp/>with<sp/>duplicate<sp/>named<sp/>substrings<sp/>without<sp/>&apos;J&apos;<sp/>modifier<sp/>(or<sp/>equivalent<sp/>PCRE2<sp/>option)<sp/>will<sp/>throw<sp/>`jpcre2::Except`<sp/>exception.<sp/>Any<sp/>PCRE2<sp/>error<sp/>should<sp/>be<sp/>accounted<sp/>for,<sp/>they<sp/>mean<sp/>failure<sp/>of<sp/>operation.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>3.<sp/>Invalid<sp/>option<sp/>isn&apos;t<sp/>an<sp/>error,<sp/>options<sp/>that<sp/>are<sp/>not<sp/>known<sp/>or<sp/>not<sp/>applicable<sp/>gets<sp/>ignored<sp/>graciously.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>4.<sp/>Malicious<sp/>options<sp/>that<sp/>affect<sp/>existing<sp/>ones<sp/>can<sp/>produce<sp/>undefined/unexpected<sp/>behavior.</highlight></codeline>
 <codeline><highlight class="normal">2.<sp/>**PCRE2<sp/>errors:**<sp/>These<sp/>errors<sp/>are<sp/>well<sp/>defined<sp/>in<sp/>the<sp/>original<sp/>PCRE2<sp/>specs.</highlight></codeline>
-<codeline><highlight class="normal">3.<sp/>**Runtime<sp/>error:**<sp/>Error<sp/>that<sp/>happens<sp/>for<sp/>unknown/unexpected<sp/>reasons.<sp/>These<sp/>errors<sp/>are<sp/>not<sp/>thrown<sp/>by<sp/>Except<sp/>and<sp/>therefore<sp/>should<sp/>be<sp/>caught<sp/>with<sp/>`std::exception`</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>**Runtime<sp/>error:**<sp/>Error<sp/>that<sp/>happens<sp/>for<sp/>unknown/unexpected<sp/>reasons.<sp/>These<sp/>errors<sp/>are<sp/>not<sp/>thrown<sp/>by<sp/>`jpcre2::Except`<sp/>and<sp/>therefore<sp/>should<sp/>be<sp/>caught<sp/>with<sp/>`std::exception`.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">An<sp/>example<sp/>of<sp/>catching<sp/>all<sp/>exceptions<sp/>including<sp/>runtime<sp/>error<sp/>and<sp/>jpcre2::Except<sp/>errors:</highlight></codeline>
 <codeline></codeline>

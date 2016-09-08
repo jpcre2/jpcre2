@@ -75,7 +75,7 @@ Performing a match or replacement against regex pattern involves two steps\+:
 
 (You can use temporary object too, see \href{#short-examples}{\tt short examples}).
 
-This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
+This object will hold the pattern, modifiers (P\+C\+R\+E2 and J\+P\+C\+R\+E2 options) and compiled pattern.
 
 
 \begin{DoxyCode}
@@ -325,25 +325,28 @@ These options are meaningful only for the {\bfseries J\+P\+C\+R\+E2} library its
 {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE}} &This is same as passing the {\ttfamily S} modifier during pattern compilation. \\\cline{1-2}
 \end{longtabu}
 \hypertarget{index_pcre2-options}{}\subsubsection{P\+C\+R\+E2 options}\label{index_pcre2-options}
-While having its own way of doing things, J\+P\+C\+R\+E2 also supports the traditional P\+C\+R\+E2 options to be passed. We use the {\ttfamily \hyperlink{classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087_a2c7dcf12f26b2b046e147b013c8b5087}{jpcre2\+::\+Regex\+::add\+Pcre2\+Option()}} and such functions to pass the P\+C\+R\+E2 options. These options are the same as the P\+C\+R\+E2 library and have the same meaning. For example instead of passing the \textquotesingle{}g\textquotesingle{} modifier to the replacement operation we can also pass its P\+C\+R\+E2 equivalent {\ttfamily P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+G\+L\+O\+B\+AL} to have the same effect.\hypertarget{index_exceptions}{}\subsection{Exceptions}\label{index_exceptions}
+While having its own way of doing things, J\+P\+C\+R\+E2 also supports the traditional P\+C\+R\+E2 options to be passed. We use the {\ttfamily \hyperlink{classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087_a2c7dcf12f26b2b046e147b013c8b5087}{jpcre2\+::\+Regex\+::add\+Pcre2\+Option()}} and such functions to pass the P\+C\+R\+E2 options. These options are the same as the P\+C\+R\+E2 library and have the same meaning. For example instead of passing the \textquotesingle{}g\textquotesingle{} modifier to the replacement operation we can also pass its P\+C\+R\+E2 equivalent {\ttfamily P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+G\+L\+O\+B\+AL} to have the same effect.\hypertarget{index_exception-handling}{}\subsection{Exception handling}\label{index_exception-handling}
 When a known error is occurred during pattern compilation or match or replace, an exception of type {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} is thrown. The {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} class provides public member functions to get the error number, error offset and error message.
 
-In normal operation, when working with a valid regex with valid options no exception is supposed to occur. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports.
+In normal operation, when working with a valid regex with valid options, no exception is supposed to occur. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports.
 
 Protecting your regex operation with try..catch is not needed, but it\textquotesingle{}s something for you to decide. For example, if your implementation needs to take regex pattern from user input and warn them about bad input, you will definitely need try catch.
 
-Note that, bad input isn\textquotesingle{}t the only reason that an exception can be thrown. As of original P\+C\+R\+E2 specs, you can get a load of errors for a load of unexpected situations. This is a rough list of causes\+:
+Note that, bad input isn\textquotesingle{}t the only reason that an exception can be thrown. As of original P\+C\+R\+E2 specs, you can get errors for lots of unfavorable situations. These errors are well defined and you will get {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} exception when you encounter one of them.
+
+This is a rough list of cases that you need to consider\+:
 
 
 \begin{DoxyEnumerate}
 \item {\bfseries Bad input\+:}
 \begin{DoxyEnumerate}
-\item Invalid modifier (only if validation check is enabled, otherwise ignored as warning).
-\item Incomplete options for regex pattern (Invalid option isn\textquotesingle{}t an error, options that are not known or not applicable gets ignored graciously).
-\item Malicious options (Can produce undefined/unexpected behavior).
+\item Invalid modifier. It\textquotesingle{}s an error only if validation check is enabled, otherwise ignored as warning (It\textquotesingle{}s harmless either way).
+\item Incomplete options for regex pattern may throw exception. For example, pattern with duplicate named substrings without \textquotesingle{}J\textquotesingle{} modifier (or equivalent P\+C\+R\+E2 option) will throw {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} exception. Any P\+C\+R\+E2 error should be accounted for, they mean failure of operation.
+\item Invalid option isn\textquotesingle{}t an error, options that are not known or not applicable gets ignored graciously.
+\item Malicious options that affect existing ones can produce undefined/unexpected behavior.
 \end{DoxyEnumerate}
 \item {\bfseries P\+C\+R\+E2 errors\+:} These errors are well defined in the original P\+C\+R\+E2 specs.
-\item {\bfseries Runtime error\+:} Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with {\ttfamily std\+::exception}
+\item {\bfseries Runtime error\+:} Error that happens for unknown/unexpected reasons. These errors are not thrown by {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} and therefore should be caught with {\ttfamily std\+::exception}.
 \end{DoxyEnumerate}
 
 An example of catching all exceptions including runtime error and \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except} errors\+:

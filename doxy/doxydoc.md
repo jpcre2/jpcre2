@@ -82,7 +82,7 @@ Performing a match or replacement against regex pattern involves two steps:
 
 (You can use temporary object too, see [short examples](#short-examples)).
 
-This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
+This object will hold the pattern, modifiers (PCRE2 and JPCRE2 options) and compiled pattern.
 
 ```cpp
 jpcre2::Regex re;
@@ -318,11 +318,11 @@ Option | Details
 
 While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `jpcre2::Regex::addPcre2Option()` and such functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
 
-# Exceptions {#exceptions}
+# Exception handling {#exception-handling}
 
 When a known error is occurred during pattern compilation or match or replace, an exception of type `jpcre2::Except` is thrown. The `jpcre2::Except` class provides public member functions to get the error number, error offset and error message.
 
-In normal operation, when working with a valid regex with valid options
+In normal operation, when working with a valid regex with valid options,
 no exception is supposed to occur. Most of the time
 you can get away without resorting to try catch block just by being
 a little careful about what you pass and what your environment supports.
@@ -332,15 +332,17 @@ for you to decide. For example, if your implementation needs to take regex patte
 from user input and warn them about bad input, you will definitely need try catch.
 
 Note that, bad input isn't the only reason that an exception can be thrown.
-As of original PCRE2 specs, you can get a load of errors for a load of 
-unexpected situations. This is a rough list of causes:
+As of original PCRE2 specs, you can get errors for lots of unfavorable situations. These errors are well defined and you will get `jpcre2::Except` exception when you encounter one of them.
+
+ This is a rough list of cases that you need to consider:
 
 1. **Bad input:**
-  1. Invalid modifier (only if validation check is enabled, otherwise ignored as warning).
-  2. Incomplete options for regex pattern (Invalid option isn't an error, options that are not known or not applicable gets ignored graciously).
-  3. Malicious options (Can produce undefined/unexpected behavior).
+  1. Invalid modifier. It's an error only if validation check is enabled, otherwise ignored as warning (It's harmless either way).
+  2. Incomplete options for regex pattern may throw exception. For example, pattern with duplicate named substrings without 'J' modifier (or equivalent PCRE2 option) will throw `jpcre2::Except` exception. Any PCRE2 error should be accounted for, they mean failure of operation.
+  3. Invalid option isn't an error, options that are not known or not applicable gets ignored graciously.
+  4. Malicious options that affect existing ones can produce undefined/unexpected behavior.
 2. **PCRE2 errors:** These errors are well defined in the original PCRE2 specs.
-3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with `std::exception`
+3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by `jpcre2::Except` and therefore should be caught with `std::exception`.
 
 An example of catching all exceptions including runtime error and jpcre2::Except errors:
 
