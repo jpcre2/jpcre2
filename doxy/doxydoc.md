@@ -320,7 +320,7 @@ While having its own way of doing things, JPCRE2 also supports the traditional P
 
 # Exceptions {#exceptions}
 
-When a known error is occurred jpcre2::Except exception is thrown. The jpcre2::Except class provides public member functions to get the error number, error offset and error message.
+When a known error is occurred during pattern compilation or match or replace, an exception of type jpcre2::Except is thrown. The jpcre2::Except class provides public member functions to get the error number, error offset and error message.
 
 In normal operation, when working with a valid regex with valid options
 no exception is supposed to occur. Most of the time

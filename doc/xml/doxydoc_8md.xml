@@ -329,7 +329,7 @@
 <codeline></codeline>
 <codeline><highlight class="normal">#<sp/>Exceptions<sp/>{#exceptions}</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">When<sp/>a<sp/>known<sp/>error<sp/>is<sp/>occurred<sp/>jpcre2::Except<sp/>exception<sp/>is<sp/>thrown.<sp/>The<sp/>jpcre2::Except<sp/>class<sp/>provides<sp/>public<sp/>member<sp/>functions<sp/>to<sp/>get<sp/>the<sp/>error<sp/>number,<sp/>error<sp/>offset<sp/>and<sp/>error<sp/>message.</highlight></codeline>
+<codeline><highlight class="normal">When<sp/>a<sp/>known<sp/>error<sp/>is<sp/>occurred<sp/>during<sp/>pattern<sp/>compilation<sp/>or<sp/>match<sp/>or<sp/>replace,<sp/>an<sp/>exception<sp/>of<sp/>type<sp/>jpcre2::Except<sp/>is<sp/>thrown.<sp/>The<sp/>jpcre2::Except<sp/>class<sp/>provides<sp/>public<sp/>member<sp/>functions<sp/>to<sp/>get<sp/>the<sp/>error<sp/>number,<sp/>error<sp/>offset<sp/>and<sp/>error<sp/>message.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">In<sp/>normal<sp/>operation,<sp/>when<sp/>working<sp/>with<sp/>a<sp/>valid<sp/>regex<sp/>with<sp/>valid<sp/>options</highlight></codeline>
 <codeline><highlight class="normal">no<sp/>exception<sp/>is<sp/>supposed<sp/>to<sp/>occur.<sp/>Most<sp/>of<sp/>the<sp/>time</highlight></codeline>

@@ -5,7 +5,7 @@ JPCRE2
 
 C++ wrapper of PCRE2 library
 
-[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![doc image](https://raw.githubusercontent.com/neurobin/res/master/doc.png)](https://neurobin.org/docs/libs/jpcre2)
+[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![doc image](https://raw.githubusercontent.com/neurobin/res/master/doc.png)](http://docs.neurobin.org/jpcre2/index.html)
 
 
 PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.
@@ -179,7 +179,7 @@ To get named substring and/or name to number mapping, pass pointer to the approp
 jpcre2::VecNum vec_num;   ///Vector to store numbered substring Map.
 jpcre2::VecNas vec_nas;   ///Vector to store named substring Map.
 jpcre2::VecNtN vec_ntn;   ///Vector to store Named substring to Number Map.
-std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Options()
+std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Option()
 re.initMatch()
   .setSubject(subject)                         //set subject string
   .setModifier(ac_mod)                         //set modifier string
