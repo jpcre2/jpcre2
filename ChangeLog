@@ -4,8 +4,8 @@ Change Log for JPCRE2
 Version 10.25.03 - Wed Sep  7 23:38:58 UTC 2016
 -----------------------------------------------
 
-1. Added a class (jpcre2::Except) for exception handling, all exceptions will be of type jpcre2::Except.
-2. Removed error handling functions and variables from Regex object
+1. Added a class (`jpcre2::Except`) for exception handling, all exceptions will be of type `jpcre2::Except`.
+2. Removed error handling functions and variables from `Regex` class
 
 Version 10.25.02 - Wed Sep  7 09:12:20 UTC 2016
 -----------------------------------------------
