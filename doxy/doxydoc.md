@@ -300,7 +300,7 @@ Modifier | Action | Details
 
 # Options {#options}
 
-JPCRE2 allows both PCRE2 and native JPCRE2 options to be passed. PCRE2 options are recognized by the PCPRE2 library itself.
+JPCRE2 allows both PCRE2 and native JPCRE2 options to be passed. PCRE2 options are recognized by the PCRE2 library itself.
 
 ## JPCRE2 options {#jpcre-options}
 
@@ -320,7 +320,7 @@ While having its own way of doing things, JPCRE2 also supports the traditional P
 
 # Exceptions {#exceptions}
 
-When a known error is occurred during pattern compilation or match or replace, an exception of type jpcre2::Except is thrown. The jpcre2::Except class provides public member functions to get the error number, error offset and error message.
+When a known error is occurred during pattern compilation or match or replace, an exception of type `jpcre2::Except` is thrown. The `jpcre2::Except` class provides public member functions to get the error number, error offset and error message.
 
 In normal operation, when working with a valid regex with valid options
 no exception is supposed to occur. Most of the time
@@ -340,7 +340,7 @@ unexpected situations. This is a rough list of causes:
   2. Incomplete options for regex pattern (Invalid option isn't an error, options that are not known or not applicable gets ignored graciously).
   3. Malicious options (Can produce undefined/unexpected behavior).
 2. **PCRE2 errors:** These errors are well defined in the original PCRE2 specs.
-3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with std::exception
+3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with `std::exception`
 
 An example of catching all exceptions including runtime error and jpcre2::Except errors:
 

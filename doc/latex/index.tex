@@ -305,7 +305,7 @@ replace~\newline
 compile &Validate modifier. Throws {\ttfamily \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} error in case invalid modifier encountered. Equivalent to {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER}}. \\\cline{1-3}
 \end{longtabu}
 \hypertarget{index_options}{}\subsection{Options}\label{index_options}
-J\+P\+C\+R\+E2 allows both P\+C\+R\+E2 and native J\+P\+C\+R\+E2 options to be passed. P\+C\+R\+E2 options are recognized by the P\+C\+P\+R\+E2 library itself.\hypertarget{index_jpcre-options}{}\subsubsection{J\+P\+C\+R\+E2 options}\label{index_jpcre-options}
+J\+P\+C\+R\+E2 allows both P\+C\+R\+E2 and native J\+P\+C\+R\+E2 options to be passed. P\+C\+R\+E2 options are recognized by the P\+C\+R\+E2 library itself.\hypertarget{index_jpcre-options}{}\subsubsection{J\+P\+C\+R\+E2 options}\label{index_jpcre-options}
 These options are meaningful only for the {\bfseries J\+P\+C\+R\+E2} library itself not the original {\bfseries P\+C\+R\+E2} library. We use the {\ttfamily \hyperlink{classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de_a03974fa7ba8f7c47186cb8d6f54934de}{jpcre2\+::\+Regex\+::add\+Jpcre2\+Option()}} and such functions to pass these options.
 
 \tabulinesep=1mm
@@ -326,7 +326,7 @@ These options are meaningful only for the {\bfseries J\+P\+C\+R\+E2} library its
 \end{longtabu}
 \hypertarget{index_pcre2-options}{}\subsubsection{P\+C\+R\+E2 options}\label{index_pcre2-options}
 While having its own way of doing things, J\+P\+C\+R\+E2 also supports the traditional P\+C\+R\+E2 options to be passed. We use the {\ttfamily \hyperlink{classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087_a2c7dcf12f26b2b046e147b013c8b5087}{jpcre2\+::\+Regex\+::add\+Pcre2\+Option()}} and such functions to pass the P\+C\+R\+E2 options. These options are the same as the P\+C\+R\+E2 library and have the same meaning. For example instead of passing the \textquotesingle{}g\textquotesingle{} modifier to the replacement operation we can also pass its P\+C\+R\+E2 equivalent {\ttfamily P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+G\+L\+O\+B\+AL} to have the same effect.\hypertarget{index_exceptions}{}\subsection{Exceptions}\label{index_exceptions}
-When a known error is occurred during pattern compilation or match or replace, an exception of type \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except} is thrown. The \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except} class provides public member functions to get the error number, error offset and error message.
+When a known error is occurred during pattern compilation or match or replace, an exception of type {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} is thrown. The {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} class provides public member functions to get the error number, error offset and error message.
 
 In normal operation, when working with a valid regex with valid options no exception is supposed to occur. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports.
 
@@ -343,7 +343,7 @@ Note that, bad input isn\textquotesingle{}t the only reason that an exception ca
 \item Malicious options (Can produce undefined/unexpected behavior).
 \end{DoxyEnumerate}
 \item {\bfseries P\+C\+R\+E2 errors\+:} These errors are well defined in the original P\+C\+R\+E2 specs.
-\item {\bfseries Runtime error\+:} Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with std\+::exception
+\item {\bfseries Runtime error\+:} Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with {\ttfamily std\+::exception}
 \end{DoxyEnumerate}
 
 An example of catching all exceptions including runtime error and \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except} errors\+:

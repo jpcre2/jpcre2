@@ -243,7 +243,7 @@ compile </td><td>Validate modifier. Throws <code><a class="el" href="namespacejp
 </table>
 <div id="jpcre2-options"></div><h1><a class="anchor" id="options"></a>
 Options</h1>
-<p>JPCRE2 allows both PCRE2 and native JPCRE2 options to be passed. PCRE2 options are recognized by the PCPRE2 library itself.</p>
+<p>JPCRE2 allows both PCRE2 and native JPCRE2 options to be passed. PCRE2 options are recognized by the PCRE2 library itself.</p>
 <h2><a class="anchor" id="jpcre-options"></a>
 JPCRE2 options</h2>
 <p>These options are meaningful only for the <b>JPCRE2</b> library itself not the original <b>PCRE2</b> library. We use the <code><a class="el" href="classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de.html#a03974fa7ba8f7c47186cb8d6f54934de" title="Add option to existing JPCRE2 options jpcre2_compile_opts. ">jpcre2::Regex::addJpcre2Option()</a></code> and such functions to pass these options.</p>
@@ -266,7 +266,7 @@ PCRE2 options</h2>
 <p>While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the <code><a class="el" href="classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087.html#a2c7dcf12f26b2b046e147b013c8b5087" title="Add option to existing PCRE2 options compile_opts. ">jpcre2::Regex::addPcre2Option()</a></code> and such functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent <code>PCRE2_SUBSTITUTE_GLOBAL</code> to have the same effect.</p>
 <h1><a class="anchor" id="exceptions"></a>
 Exceptions</h1>
-<p>When a known error is occurred during pattern compilation or match or replace, an exception of type <a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a> is thrown. The <a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a> class provides public member functions to get the error number, error offset and error message.</p>
+<p>When a known error is occurred during pattern compilation or match or replace, an exception of type <code><a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a></code> is thrown. The <code><a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a></code> class provides public member functions to get the error number, error offset and error message.</p>
 <p>In normal operation, when working with a valid regex with valid options no exception is supposed to occur. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports.</p>
 <p>Protecting your regex operation with try..catch is not needed, but it's something for you to decide. For example, if your implementation needs to take regex pattern from user input and warn them about bad input, you will definitely need try catch.</p>
 <p>Note that, bad input isn't the only reason that an exception can be thrown. As of original PCRE2 specs, you can get a load of errors for a load of unexpected situations. This is a rough list of causes:</p>
@@ -278,7 +278,7 @@ Exceptions</h1>
 </ol>
 </li>
 <li><b>PCRE2 errors:</b> These errors are well defined in the original PCRE2 specs.</li>
-<li><b>Runtime error:</b> Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with std::exception</li>
+<li><b>Runtime error:</b> Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with <code>std::exception</code></li>
 </ol>
 <p>An example of catching all exceptions including runtime error and <a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a> errors:</p>
 <div class="fragment"><div class="line"><span class="keywordflow">try</span> {</div><div class="line">    <a class="code" href="classjpcre2_1_1Regex.html">jpcre2::Regex</a> re(<span class="stringliteral">&quot;pattern&quot;</span>, <span class="stringliteral">&quot;mod&quot;</span>); <span class="comment">//will not throw any exception for any sane cause.</span></div><div class="line">} <span class="keywordflow">catch</span> (std::exception&amp; e) {</div><div class="line">    std::cout&lt;&lt;e.what();</div><div class="line">}</div></div><!-- fragment --><p>An example of catching only <a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a> errors:</p>
