@@ -12,7 +12,7 @@
 <codeline></codeline>
 <codeline><highlight class="normal">C++<sp/>wrapper<sp/>of<sp/>PCRE2<sp/>library</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">[![Build<sp/>status<sp/>image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/)<sp/>[![doc<sp/>image](https://raw.githubusercontent.com/neurobin/res/master/doc.png)](https://neurobin.org/docs/libs/jpcre2)</highlight></codeline>
+<codeline><highlight class="normal">[![Build<sp/>status<sp/>image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/)<sp/>[![doc<sp/>image](https://raw.githubusercontent.com/neurobin/res/master/doc.png)](http://docs.neurobin.org/jpcre2/index.html)</highlight></codeline>
 <codeline></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">PCRE2<sp/>is<sp/>the<sp/>name<sp/>used<sp/>for<sp/>a<sp/>revised<sp/>API<sp/>for<sp/>the<sp/>PCRE<sp/>library,<sp/>which<sp/>is<sp/>a<sp/>set<sp/>of<sp/>functions,<sp/>written<sp/>in<sp/>C,<sp/>that<sp/>implement<sp/>regular<sp/>expression<sp/>pattern<sp/>matching<sp/>using<sp/>the<sp/>same<sp/>syntax<sp/>and<sp/>semantics<sp/>as<sp/>Perl,<sp/>with<sp/>just<sp/>a<sp/>few<sp/>differences.<sp/>Some<sp/>features<sp/>that<sp/>appeared<sp/>in<sp/>Python<sp/>and<sp/>the<sp/>original<sp/>PCRE<sp/>before<sp/>they<sp/>appeared<sp/>in<sp/>Perl<sp/>are<sp/>also<sp/>available<sp/>using<sp/>the<sp/>Python<sp/>syntax.</highlight></codeline>
