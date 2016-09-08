@@ -115,7 +115,7 @@
 </para>    </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">/*<sp/>*****************************************************************************</highlight></codeline>
-<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>*******************<sp/>C++<sp/>wrapper<sp/>of<sp/>PCRE2<sp/>Library<sp/>****************************</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>*******************<sp/>C++<sp/>wrapper<sp/>for<sp/>PCRE2<sp/>Library<sp/>****************************</highlight></codeline>
 <codeline lineno="3"><highlight class="comment"><sp/>*<sp/>*****************************************************************************</highlight></codeline>
 <codeline lineno="4"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Copyright<sp/>(c)<sp/>2015-2016<sp/>Md.<sp/>Jahidul<sp/>Hamid</highlight></codeline>
 <codeline lineno="5"><highlight class="comment"><sp/>*<sp/></highlight></codeline>
