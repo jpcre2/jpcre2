@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="217" column="1" bodyfile="src/jpcre2.hpp" bodystart="217" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="218" column="1" bodyfile="src/jpcre2.hpp" bodystart="218" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Except_1a12b09693ebee9b4a8b981ec1bd7506c4" prot="protected" static="no" mutable="no">
         <type>int</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="218" column="1" bodyfile="src/jpcre2.hpp" bodystart="218" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="219" column="1" bodyfile="src/jpcre2.hpp" bodystart="219" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Except_1a88590c6c8c512608c1000639d527dd55" prot="protected" static="no" mutable="no">
         <type>std::string</type>
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="219" column="1" bodyfile="src/jpcre2.hpp" bodystart="219" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="220" column="1" bodyfile="src/jpcre2.hpp" bodystart="220" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -91,7 +91,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="229" column="1" bodyfile="src/jpcre2.hpp" bodystart="229" bodyend="233"/>
+        <location file="src/jpcre2.hpp" line="230" column="1" bodyfile="src/jpcre2.hpp" bodystart="230" bodyend="234"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_a569a8058f61bb4e0b7085f18c4bd528c_1a569a8058f61bb4e0b7085f18c4bd528c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type></type>
@@ -105,7 +105,7 @@
 <para>Virtual to allow for subclassing. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="238" column="1" bodyfile="src/jpcre2.hpp" bodystart="238" bodyend="238"/>
+        <location file="src/jpcre2.hpp" line="239" column="1" bodyfile="src/jpcre2.hpp" bodystart="239" bodyend="239"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_aa16bdec8432ee950955f7ad81a9655bb_1aa16bdec8432ee950955f7ad81a9655bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>const char *</type>
@@ -120,7 +120,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="245" column="1" bodyfile="src/jpcre2.hpp" bodystart="245" bodyend="247"/>
+        <location file="src/jpcre2.hpp" line="246" column="1" bodyfile="src/jpcre2.hpp" bodystart="246" bodyend="248"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_a0f3e00116ab24b89836a2c2a66262e22_1a0f3e00116ab24b89836a2c2a66262e22" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>int</type>
@@ -135,7 +135,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="252" column="1" bodyfile="src/jpcre2.hpp" bodystart="252" bodyend="254"/>
+        <location file="src/jpcre2.hpp" line="253" column="1" bodyfile="src/jpcre2.hpp" bodystart="253" bodyend="255"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_ade3963035e250d3cbf84ddaad2056fee_1ade3963035e250d3cbf84ddaad2056fee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>int</type>
@@ -150,7 +150,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="259" column="1" bodyfile="src/jpcre2.hpp" bodystart="259" bodyend="261"/>
+        <location file="src/jpcre2.hpp" line="260" column="1" bodyfile="src/jpcre2.hpp" bodystart="260" bodyend="262"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_a6781e0804575f11d6d8bb87ec2d036c6_1a6781e0804575f11d6d8bb87ec2d036c6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>const char *</type>
@@ -165,7 +165,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="270" column="1" bodyfile="src/jpcre2.hpp" bodystart="270" bodyend="272"/>
+        <location file="src/jpcre2.hpp" line="271" column="1" bodyfile="src/jpcre2.hpp" bodystart="271" bodyend="273"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -193,7 +193,7 @@
         <link refid="classjpcre2_1_1Except"/>
       </node>
     </collaborationgraph>
-    <location file="src/jpcre2.hpp" line="213" column="1" bodyfile="src/jpcre2.hpp" bodystart="213" bodyend="274"/>
+    <location file="src/jpcre2.hpp" line="214" column="1" bodyfile="src/jpcre2.hpp" bodystart="214" bodyend="275"/>
     <listofallmembers>
       <member refid="classjpcre2_1_1Except_1a88590c6c8c512608c1000639d527dd55" prot="protected" virt="non-virtual"><scope>jpcre2::Except</scope><name>error_message</name></member>
       <member refid="classjpcre2_1_1Except_1aa72e1a71b4cdf1d4baecce57b63caafc" prot="protected" virt="non-virtual"><scope>jpcre2::Except</scope><name>error_number</name></member>

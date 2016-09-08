@@ -25,7 +25,7 @@
           <name>VALIDATE_MODIFIER</name>
           <initializer>= 0x0000001u</initializer>
           <briefdescription>
-<para>Perform validation check on modifiers and throw <ref refid="namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" kindref="member">jpcre2::ERROR::INVALID_MODIFIER</ref> if any wrong modifier was passed. </para>          </briefdescription>
+<para>Perform validation check on modifiers and throw <ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref> with <computeroutput><ref refid="namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" kindref="member">jpcre2::ERROR::INVALID_MODIFIER</ref></computeroutput> as error number if any wrong modifier was passed. </para>          </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="108" column="1" bodyfile="src/jpcre2.hpp" bodystart="108" bodyend="115"/>
+        <location file="src/jpcre2.hpp" line="108" column="1" bodyfile="src/jpcre2.hpp" bodystart="108" bodyend="116"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">

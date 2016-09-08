@@ -107,8 +107,9 @@ extern const String JIT_ERROR_MESSAGE_PREFIX;       ///< Prefix to be added to J
  */
 enum {
 	NONE                    = 0x0000000u,   ///< Option 0 (zero)
-	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw
-											///< jpcre2::ERROR::INVALID_MODIFIER if any wrong modifier was passed
+	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw jpcre2::Except
+											///< with `jpcre2::ERROR::INVALID_MODIFIER` as error number
+											///< if any wrong modifier was passed
 	FIND_ALL                = 0x0000002u,   ///< Find all during match (global match)
 	JIT_COMPILE             = 0x0000004u,   ///< Perform JIT compilation for optimization
 	ERROR_ALL               = 0x0000008u    ///< Treat warnings as error and throw exception (warnings don't throw exception)

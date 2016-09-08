@@ -1,4 +1,4 @@
-.TH "jpcre2" 3 "Thu Sep 8 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2" 3 "Fri Sep 9 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -144,7 +144,7 @@ These constants provide JPCRE2 options\&.
 Option 0 (zero) 
 .TP
 \fB\fIVALIDATE_MODIFIER \fP\fP
-Perform validation check on modifiers and throw \fBjpcre2::ERROR::INVALID_MODIFIER\fP if any wrong modifier was passed\&. 
+Perform validation check on modifiers and throw \fBjpcre2::Except\fP with \fC\fBjpcre2::ERROR::INVALID_MODIFIER\fP\fP as error number if any wrong modifier was passed\&. 
 .TP
 \fB\fIFIND_ALL \fP\fP
 Find all during match (global match) 

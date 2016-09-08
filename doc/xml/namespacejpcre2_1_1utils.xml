@@ -27,7 +27,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="158" column="1" bodyfile="src/jpcre2.cpp" bodystart="139" bodyend="147"/>
+        <location file="src/jpcre2.hpp" line="159" column="1" bodyfile="src/jpcre2.cpp" bodystart="139" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="namespacejpcre2_1_1utils_a917512161b56047d6ef240bdba2ac212_1a917512161b56047d6ef240bdba2ac212" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -53,7 +53,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="159" column="1" bodyfile="src/jpcre2.cpp" bodystart="130" bodyend="135"/>
+        <location file="src/jpcre2.hpp" line="160" column="1" bodyfile="src/jpcre2.cpp" bodystart="130" bodyend="135"/>
       </memberdef>
       <memberdef kind="function" id="namespacejpcre2_1_1utils_a4065a2a40144999cd2a94e7a7e1d5eb6_1a4065a2a40144999cd2a94e7a7e1d5eb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -79,7 +79,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="160" column="1" bodyfile="src/jpcre2.cpp" bodystart="121" bodyend="126"/>
+        <location file="src/jpcre2.hpp" line="161" column="1" bodyfile="src/jpcre2.cpp" bodystart="121" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="namespacejpcre2_1_1utils_aea66a35f467adf41730c5a3bb21be6ed_1aea66a35f467adf41730c5a3bb21be6ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -105,7 +105,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="161" column="1" bodyfile="src/jpcre2.cpp" bodystart="151" bodyend="156"/>
+        <location file="src/jpcre2.hpp" line="162" column="1" bodyfile="src/jpcre2.cpp" bodystart="151" bodyend="156"/>
       </memberdef>
       <memberdef kind="function" id="namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_1a6f28489b48095eeaacfaa43a0a8e87a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -131,7 +131,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="162" column="1" bodyfile="src/jpcre2.cpp" bodystart="160" bodyend="164"/>
+        <location file="src/jpcre2.hpp" line="163" column="1" bodyfile="src/jpcre2.cpp" bodystart="160" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_1a58db3a9ce0296d70469611445cb42209" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -168,7 +168,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="163" column="1" bodyfile="src/jpcre2.cpp" bodystart="172" bodyend="182"/>
+        <location file="src/jpcre2.hpp" line="164" column="1" bodyfile="src/jpcre2.cpp" bodystart="172" bodyend="182"/>
       </memberdef>
       <memberdef kind="function" id="namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_1a71c7842918bdcc6936266813981492dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -212,13 +212,13 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="164" column="1" bodyfile="src/jpcre2.cpp" bodystart="190" bodyend="192"/>
+        <location file="src/jpcre2.hpp" line="165" column="1" bodyfile="src/jpcre2.cpp" bodystart="190" bodyend="192"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Namespace for some utility functions. </para>    </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/jpcre2.hpp" line="155" column="1"/>
+    <location file="src/jpcre2.hpp" line="156" column="1"/>
   </compounddef>
 </doxygen>
