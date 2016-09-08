@@ -285,7 +285,7 @@
 <codeline></codeline>
 <codeline><highlight class="normal">**JPCRE2**<sp/>uses<sp/>modifiers<sp/>to<sp/>control<sp/>various<sp/>options,<sp/>type,<sp/>behavior<sp/>of<sp/>the<sp/>regex<sp/>and<sp/>its&apos;<sp/>interactions<sp/>with<sp/>different<sp/>functions<sp/>that<sp/>uses<sp/>it.<sp/></highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">&gt;<sp/>All<sp/>modifier<sp/>string<sp/>are<sp/>parsed<sp/>and<sp/>converted<sp/>to<sp/>equivalent<sp/>PCRE2<sp/>and<sp/>JPCRE2<sp/>options<sp/>on<sp/>the<sp/>fly.<sp/>If<sp/>you<sp/>don&apos;t<sp/>want<sp/>it<sp/>to<sp/>spend<sp/>any<sp/>time<sp/>parsing<sp/>modifier<sp/>then<sp/>pass<sp/>the<sp/>equivalent<sp/>option<sp/>directly<sp/>with<sp/>one<sp/>of<sp/>the<sp/>many<sp/>variants<sp/>of<sp/>`addJpcre2Option()`<sp/>and<sp/>`addPcre2Option()`<sp/>functions.</highlight></codeline>
+<codeline><highlight class="normal">&gt;<sp/>All<sp/>modifier<sp/>strings<sp/>are<sp/>parsed<sp/>and<sp/>converted<sp/>to<sp/>equivalent<sp/>PCRE2<sp/>and<sp/>JPCRE2<sp/>options<sp/>on<sp/>the<sp/>fly.<sp/>If<sp/>you<sp/>don&apos;t<sp/>want<sp/>it<sp/>to<sp/>spend<sp/>any<sp/>time<sp/>parsing<sp/>modifier<sp/>then<sp/>pass<sp/>the<sp/>equivalent<sp/>option<sp/>directly<sp/>with<sp/>one<sp/>of<sp/>the<sp/>many<sp/>variants<sp/>of<sp/>`addJpcre2Option()`<sp/>and<sp/>`addPcre2Option()`<sp/>functions.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">Types<sp/>of<sp/>modifiers<sp/>available:<sp/></highlight></codeline>
 <codeline></codeline>

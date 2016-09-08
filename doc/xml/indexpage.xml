@@ -164,7 +164,7 @@
 </sect1>
 <sect1 id="index_1modifiers">
 <title>Modifiers</title>
-<para><bold>JPCRE2</bold> uses modifiers to control various options, type, behavior of the regex and its&apos; interactions with different functions that uses it.</para><para><blockquote><para>All modifier string are parsed and converted to equivalent PCRE2 and JPCRE2 options on the fly. If you don&apos;t want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of <computeroutput>addJpcre2Option()</computeroutput> and <computeroutput>addPcre2Option()</computeroutput> functions. </para></blockquote></para><para>Types of modifiers available:</para><para><orderedlist>
+<para><bold>JPCRE2</bold> uses modifiers to control various options, type, behavior of the regex and its&apos; interactions with different functions that uses it.</para><para><blockquote><para>All modifier strings are parsed and converted to equivalent PCRE2 and JPCRE2 options on the fly. If you don&apos;t want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of <computeroutput>addJpcre2Option()</computeroutput> and <computeroutput>addPcre2Option()</computeroutput> functions. </para></blockquote></para><para>Types of modifiers available:</para><para><orderedlist>
 <listitem><para>Compile modifier<orderedlist>
 <listitem><para>Unique modifier</para></listitem><listitem><para>Combined or mixed modifier (e.g &apos;n&apos;)</para></listitem></orderedlist>
 </para></listitem><listitem><para>Action modifier<orderedlist>

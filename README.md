@@ -314,7 +314,7 @@ If you pass the size of the resultant string with `jpcre2::RegexReplace::setBuff
 
 **JPCRE2** uses modifiers to control various options, type, behavior of the regex and its' interactions with different functions that uses it. 
 
-> All modifier string are parsed and converted to equivalent PCRE2 and JPCRE2 options on the fly. If you don't want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of `addJpcre2Option()` and `addPcre2Option()` functions.
+> All modifier strings are parsed and converted to equivalent PCRE2 and JPCRE2 options on the fly. If you don't want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of `addJpcre2Option()` and `addPcre2Option()` functions.
 
 Types of modifiers available: 
 
