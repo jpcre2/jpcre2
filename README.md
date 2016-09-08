@@ -99,32 +99,24 @@ Performing a match or replacement against regex pattern involves two steps:
 This object will hold the pattern, modifiers, compiled pattern, error and warning codes.
 
 ```cpp
-jpcre2::Regex re;   //Create object, it's not supposed to throw exception
+jpcre2::Regex re;
 ```
 Each object for each regex pattern.
 
-**Compile the pattern** and catch any error exception:
+**Compile the pattern:**
 
 ```cpp
-try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
-      .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                            //modifier goes through validation check
-                        | jpcre2::JIT_COMPILE                               //perform JIT compile
-                        | jpcre2::ERROR_ALL)                                //treat warnings as errors
-      .addModifier("nJ")                                                    //add modifier
-      .addPcre2Option(0)                                                    //add pcre2 option
-      .compile();                                                           //Finally compile it.
+re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
+  .addModifier("nJS")                                                   //add modifier
+  .compile();                                                           //Finally compile it.
       
-    //Do not use setModifier() after adding any options, it will reset them.
-    
-    //Another way is to use constructor to initialize and compile at the same time:
-    jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
-    jpcre2::Regex re3("pattern3", PCRE2_ANCHORED);
-    jpcre2::Regex re4("pattern4", PCRE2_ANCHORED, jpcre2::JIT_COMPILE);
-}
-catch(jpcre2::Except& e){
-    /*Handle error*/
-    std::cerr<<e.getErrorMessage()<<std::endl;
-}
+//Do not use setModifier() after adding any options, it will reset them.
+
+//Another way is to use constructor to initialize and compile at the same time:
+jpcre2::Regex re2("pattern2","mSi");  //S is an optimization mod.
+jpcre2::Regex re3("pattern3", PCRE2_ANCHORED);
+jpcre2::Regex re4("pattern4", PCRE2_ANCHORED, jpcre2::JIT_COMPILE);
+
 ```
 
 Now you can perform match or replace against the pattern. Use the `match()` member function to perform regex match and the `replace()` member function to perform regex replace.
@@ -139,7 +131,6 @@ The `jpcre2::Regex::match(const String& s)` member function can take two argumen
 
 To get the match result (captured groups) however, you need to call the `jpcre2::RegexMatch::match()` function. Point be noted that, you can not call this function directly or create any object of the class `jpcre2::RegexMatch`. To call this function, first invoke the `jpcre2::Regex::initMatch()` function. It will give you a temporary `jpcre2::RegexMatch` object. Now you can chain function calls of `jpcre2::RegexMatch::setNumberedSubstringVector(VecNum* vec_num)` and such functions from `jpcre2::RegexMatch` class to pass various parameters. After you are done passing all the parameter that you need, the `jpcre2::RegexMatch::match()` function should be called to perform the actual match and return the match count. The match results will be stored in vectors (vectors of maps) whose pointers were passed as parameters.
 
-*You should catch any error exception that may be thrown in case error occurs.*
 
 <a name="simple-match-count"></a>
 
@@ -159,19 +150,13 @@ To get the match results, you need to pass appropriate vector pointers. This is 
 
 ```cpp
 jpcre2::VecNum vec_num;
-try{
-    size_t count=re.initMatch()									//prepare for match() call
-    			   .setSubject(subject)                         //set subject string
-                   .setModifier(ac_mod)                         //set modifier string
-                   .setNumberedSubstringVector(&vec_num)        //pass VecNum vector to store maps of numbered substrings
-                   .match();                                    //Finally perform the match.
-    //vec_num will be populated with maps of numbered substrings.
-    //count is the total number of matches found
-}
-catch(jpcre2::Except& e){
-    /*Handle error*/
-    std::cerr<<e.getErrorMessage()<<std::endl;
-}
+size_t count=re.initMatch()									//prepare for match() call
+			   .setSubject(subject)                         //set subject string
+               .setModifier(ac_mod)                         //set modifier string
+               .setNumberedSubstringVector(&vec_num)        //pass VecNum vector to store maps of numbered substrings
+               .match();                                    //Finally perform the match.
+//vec_num will be populated with maps of numbered substrings.
+//count is the total number of matches found
 ```
 <a name="access-a-capture-group"></a>
 
@@ -195,19 +180,14 @@ jpcre2::VecNum vec_num;   ///Vector to store numbered substring Map.
 jpcre2::VecNas vec_nas;   ///Vector to store named substring Map.
 jpcre2::VecNtN vec_ntn;   ///Vector to store Named substring to Number Map.
 std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Options()
-try{
-    re.initMatch()
-      .setSubject(subject)                         //set subject string
-      .setModifier(ac_mod)                         //set modifier string
-      .setNumberedSubstringVector(&vec_num)        //pass pointer to vector of numbered substring maps
-      .setNamedSubstringVector(&vec_nas)           //pass pointer to vector of named substring maps
-      .setNameToNumberMapVector(&vec_ntn)          //pass pointer to vector of name to number maps
-      .match();                                    //Finally perform the match()
-}
-catch(jpcre2::Except& e){
-    /*Handle error*/
-    std::cerr<<e.getErrorMessage()<<std::endl;
-}
+re.initMatch()
+  .setSubject(subject)                         //set subject string
+  .setModifier(ac_mod)                         //set modifier string
+  .setNumberedSubstringVector(&vec_num)        //pass pointer to vector of numbered substring maps
+  .setNamedSubstringVector(&vec_nas)           //pass pointer to vector of named substring maps
+  .setNameToNumberMapVector(&vec_ntn)          //pass pointer to vector of name to number maps
+  .match();                                    //Finally perform the match()
+
 ```
 
 <a name="access-substring-by-name"></a>
@@ -269,7 +249,6 @@ The `jpcre2::Regex::replace(const String& s, const String& r)` member function c
 
 If you want to pass more options or prefer a named parameter idiom, you will have to use the `jpcre2::RegexReplace::replace()` function instead. Point be noted that, all constructors of the `jpcre2::RegexReplace` class are private and thus you can't create any object of this class or call the mentioned function directly. In this case you need to call `jpcre2::Regex::initReplace()` function which will give you a temporary object that you can use to chain method calls to pass various options to be used by `jpcre2::RegexReplace::replace()` before calling it.
 
-*You should catch any error exception that may be thrown in case error occurs.*
 
 <a name="simple-replace"></a>
 
@@ -287,23 +266,18 @@ std::cout<<jpcre2::Regex("\\d+").replace("I am digits 1234","5678", "g");
 ### Using method chain 
 
 ```cpp
-try{
-    std::cout<<
-    re.initReplace()       //Prepare to call jpcre2::RegexReplace::replace()
-      .setSubject(s)       //Set various parameters
-      .setReplaceWith(s2)  //...
-      .setModifier("gE")   //...
-      .addJpcre2Option(0)  //...
-      .addPcre2Option(0)   //...
-      .replace();          //Finally do the replacement.
-    //gE is the modifier passed (global and unknown-unset-empty).
-    //Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
-    // or ${name} (for named substrings) in the replacement part i.e in setReplaceWith()
-}
-catch(jpcre2::Except& e){
-    /*Handle error*/
-    std::cerr<<e.getErrorMessage()<<std::endl;
-}
+std::cout<<
+re.initReplace()       //Prepare to call jpcre2::RegexReplace::replace()
+  .setSubject(s)       //Set various parameters
+  .setReplaceWith(s2)  //...
+  .setModifier("gE")   //...
+  .addJpcre2Option(0)  //...
+  .addPcre2Option(0)   //...
+  .replace();          //Finally do the replacement.
+//gE is the modifier passed (global and unknown-unset-empty).
+//Access substrings/captured groups with ${1234},$1234 (for numbered substrings)
+// or ${name} (for named substrings) in the replacement part i.e in setReplaceWith()
+
 ```
 If you pass the size of the resultant string with `jpcre2::RegexReplace::setBufferSize()` function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function (`pcre2_substitute()`) will be called *twice* to adjust the size of the buffer to hold the whole resultant string in order to avoid `PCRE2_ERROR_NOMEMORY` error.
 
@@ -392,6 +366,52 @@ Option | Details
 
 While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `jpcre2::Regex::addPcre2Option()` and such functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
 
+<a name="exceptions"></a>
+
+# Exceptions 
+
+When a known error is occurred jpcre2::Except exception is thrown. The jpcre2::Except class provides public member functions to get the error number, error offset and error message.
+
+In normal operation, when working with a valid regex with valid options
+no exception is supposed to occur. Most of the time
+you can get away without resorting to try catch block just by being
+a little careful about what you pass and what your environment supports.
+
+Protecting your regex operation with try..catch is not needed, but it's something
+for you to decide. For example, if your implementation needs to take regex pattern
+from user input and warn them about bad input, you will definitely need try catch.
+
+Note that, bad input isn't the only reason that an exception can be thrown.
+As of original PCRE2 specs, you can get a load of errors for a load of 
+unexpected situations. This is a rough list of causes:
+
+1. **Bad input:**
+  1. Invalid modifier (only if validation check is enabled, otherwise ignored as warning).
+  2. Incomplete options for regex pattern (Invalid option isn't an error, options that are not known or not applicable gets ignored graciously).
+  3. Malicious options (Can produce undefined/unexpected behavior).
+2. **PCRE2 errors:** These errors are well defined in the original PCRE2 specs.
+3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with std::exception
+
+An example of catching all exceptions including runtime error and jpcre2::Except errors:
+
+```cpp
+try {
+    jpcre2::Regex re("pattern", "mod"); //will not throw any exception for any sane cause.
+} catch (std::exception& e) {
+    std::cout<<e.what();
+}
+```
+
+An example of catching only jpcre2::Except errors:
+
+```cpp
+try {
+    jpcre2::Regex re("pattern", "mod"); //will not throw any exception for any sane cause.
+}
+catch( jpcre2::Except& e){
+    std::cout<<e.what();
+}
+```
 
 <a name="short-examples"></a>
 
@@ -399,34 +419,32 @@ While having its own way of doing things, JPCRE2 also supports the traditional P
 
 ```cpp
 size_t count;
-///Check if string matches the pattern
-/**
+//Check if string matches the pattern
+/*
  * The following uses a temporary Regex object.
- * */
+ */
 if(jpcre2::Regex("(\\d)|(\\w)").match("I am the subject")) 
     std::cout<<"\nmatched";
 else
     std::cout<<"\nno match";
-/**
- * The above is a good example of using temporary objects to perform match (or replace)
- * 
+/*
  * Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may or may not give you
  * any performance boost (depends on the complexity of the pattern). The more complex 
  * the pattern gets, the more sense the S modifier makes.
- * */
+ */
  
-///If you want to match all and get the match count, use the action modifier 'g':
+//If you want to match all and get the match count, use the action modifier 'g':
 std::cout<<"\n"<<
     jpcre2::Regex("(\\d)|(\\w)","m").match("I am the subject","g");
 
-/**
+/*
  * Modifiers passed to the Regex constructor or with compile() function are compile modifiers
  * Modifiers passed with the match() or replace() functions are action modifiers
- * */
+ */
 
-/// Substrings/Captured groups:
+// Substrings/Captured groups:
 
-/**
+/*
  * *** Getting captured groups/substring ***
  * 
  * captured groups or substrings are stored in maps for each match,
@@ -444,9 +462,9 @@ std::cout<<"\n"<<
  * Another additional vector is available to get the substring position/number
  * for a particular captured group by name. It's a vector of name to number maps
  *  * jpcre2::VecNtN (Corresponding map: jpcre2:MapNtN)
- * */
+ */
 
-/// ***** Get numbered substring ***** ///
+// ***** Get numbered substring ***** ///
 jpcre2::VecNum vec_num;
 count = 
 jpcre2::Regex("(\\w+)\\s*(\\d+)","m")
@@ -455,80 +473,83 @@ jpcre2::Regex("(\\w+)\\s*(\\d+)","m")
         .setModifier("g")
         .setNumberedSubstringVector(&vec_num)
         .match();
-/**
+/*
 * count (the return value) is guaranteed to give you the correct number of matches,
 * while vec_num.size() may give you wrong result if any match result
 * was failed to be inserted in the vector. This should not happen
 * i.e count and vec_num.size() should always be equal.
-* */
+*/
 std::cout<<"\nNumber of matches: "<<count/* or vec_num.size()*/;
 
-///Now vec_num is populated with numbered substrings for each match
-///The size of vec_num is the total match count
-///vec_num[0] is the first match
-///The type of vec_num[0] is jpcre2::MapNum
-std::cout<<"\nTotal match of first match: "<<vec_num[0][0];      ///Total match (group 0) from first match
-std::cout<<"\nCaptrued group 1 of first match: "<<vec_num[0][1]; ///captured group 1 from first match 
-std::cout<<"\nCaptrued group 2 of first match: "<<vec_num[0][2]; ///captured group 2 from first match
-std::cout<<"\nCaptrued group 3 of first match: "<<vec_num[0][3]; ///captured group 3 doesn't exist, it will give you empty string
-///Using the [] operator with jpcre2::MapNum will create new element if it doesn't exist
-/// i.e vec_num[0][3] were created in the above example.
-///This should be ok, if existence of a particular substring is not important
+//Now vec_num is populated with numbered substrings for each match
+//The size of vec_num is the total match count
+//vec_num[0] is the first match
+//The type of vec_num[0] is jpcre2::MapNum
+std::cout<<"\nTotal match of first match: "<<vec_num[0][0];      
+std::cout<<"\nCaptrued group 1 of first match: "<<vec_num[0][1]; 
+std::cout<<"\nCaptrued group 2 of first match: "<<vec_num[0][2]; 
 
-///If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
+ //captured group 3 doesn't exist, it will give you empty string
+std::cout<<"\nCaptrued group 3 of first match: "<<vec_num[0][3];
+
+//Using the [] operator with jpcre2::MapNum will create new element if it doesn't exist
+// i.e vec_num[0][3] were created in the above example.
+//This should be ok, if existence of a particular substring is not important
+
+//If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
 /* //>=C++11
 try{
-    ///This will throw exception, because substring 4 doesn't exist
+    //This will throw exception, because substring 4 doesn't exist
     std::cout<<"\nCaptrued group 4 of first match: "<<vec_num[0].at(4);
-} catch (std::logic_error e){
-    std::cout<<"\nCaptrued group 4 doesn't exist";
+} catch (std::logic_error& e){
+    std::cerr<<"\nCaptrued group 4 doesn't exist";
 }*/
 
-///There were two matches found (vec_num.size() == 2) in the above example
-std::cout<<"\nTotal match of second match: "<<vec_num[1][0];      ///Total match (group 0) from second match
-std::cout<<"\nCaptrued group 1 of second match: "<<vec_num[1][1]; ///captured group 1 from second match 
-std::cout<<"\nCaptrued group 2 of second match: "<<vec_num[1][2]; ///captured group 2 from second match
+//There were two matches found (vec_num.size() == 2) in the above example
+std::cout<<"\nTotal match of second match: "<<vec_num[1][0];      //Total match (group 0) from second match
+std::cout<<"\nCaptrued group 1 of second match: "<<vec_num[1][1]; //captured group 1 from second match 
+std::cout<<"\nCaptrued group 2 of second match: "<<vec_num[1][2]; //captured group 2 from second match
 
 
-/// ***** Get named substring ***** ///
+// ***** Get named substring ***** //
 
 jpcre2::VecNas vec_nas;
-jpcre2::VecNtN vec_ntn; /// We will get name to number map vector too
+jpcre2::VecNtN vec_ntn; // We will get name to number map vector too
 count = 
 jpcre2::Regex("(?<word>\\w+)\\s*(?<digit>\\d+)","m")
         .initMatch()
         .setSubject("I am 23, I am digits 10")
         .setModifier("g")
-        ///.setNumberedSubstringVector(vec_num) /// We don't need it in this example
+        //.setNumberedSubstringVector(vec_num) // We don't need it in this example
         .setNamedSubstringVector(&vec_nas)
-        .setNameToNumberMapVector(&vec_ntn) /// Additional (name to number maps)
+        .setNameToNumberMapVector(&vec_ntn) // Additional (name to number maps)
         .match();
 std::cout<<"\nNumber of matches: "<<vec_nas.size()/* or count */;
-///Now vec_nas is populated with named substrings for each match
-///The size of vec_nas is the total match count
-///vec_nas[0] is the first match
-///The type of vec_nas[0] is jpcre2::MapNas
+//Now vec_nas is populated with named substrings for each match
+//The size of vec_nas is the total match count
+//vec_nas[0] is the first match
+//The type of vec_nas[0] is jpcre2::MapNas
 std::cout<<"\nCaptured group (word) of first match: "<<vec_nas[0]["word"];
 std::cout<<"\nCaptured group (digit) of first match: "<<vec_nas[0]["digit"];
 
-///If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
+//If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
 /* //>=C++11
 try{
     ///This will throw exception because the substring name 'name' doesn't exist
     std::cout<<"\nCaptured group (name) of first match: "<<vec_nas[0].at("name");
-} catch(std::logic_error e){
-    std::cout<<"\nCaptured group (name) doesn't exist";
+} catch(std::logic_error& e){
+    std::cerr<<"\nCaptured group (name) doesn't exist";
 }*/
 
-///There were two matches found (vec_nas.size() == 2) in the above example
+//There were two matches found (vec_nas.size() == 2) in the above example
 std::cout<<"\nCaptured group (word) of second match: "<<vec_nas[1]["word"];
 std::cout<<"\nCaptured group (digit) of second match: "<<vec_nas[1]["digit"];
 
-///Get the position (number) of a captured group name (that was found in match)
+//Get the position (number) of a captured group name (that was found in match)
 std::cout<<"\nPosition of captured group (word) in first match: "<<vec_ntn[0]["word"];
 std::cout<<"\nPosition of captured group (digit) in first match: "<<vec_ntn[0]["digit"];
 
-/**
+/*
  * Replacement Examples
  * Replace pattern in a string with a replacement string
  * 
@@ -537,17 +558,17 @@ std::cout<<"\nPosition of captured group (digit) in first match: "<<vec_ntn[0]["
  * replacement string with setReplaceWith() function in method chain, etc ...
  * 
  * A call to replace() will return the resultant string
- * */
+ */
 
 std::cout<<"\n"<<
-///replace first occurrence of a digit with @
+//replace first occurrence of a digit with @
 jpcre2::Regex("\\d").replace("I am the subject string 44", "@");
 
 std::cout<<"\n"<<
-///replace all occurrences of a digit with @
+//replace all occurrences of a digit with @
 jpcre2::Regex("\\d").replace("I am the subject string 44", "@", "g");
 
-///swap two parts of a string
+//swap two parts of a string
 std::cout<<"\n"<<
 jpcre2::Regex("^([^\t]+)\t([^\t]+)$")
         .replace("I am the subject\tTo be swapped according to tab", "$2 $1");

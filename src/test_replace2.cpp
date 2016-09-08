@@ -21,29 +21,28 @@ int main(){
 
     std::cout<<"\nEnter compile modifiers (eijmnsuxADJSU): ";
     getLine(mod);
-    jpcre2::Regex re;     /// This is not supposed to throw any exception.
+    jpcre2::Regex re;     // This is not supposed to throw any exception.
 
 
-    /// Compile the pattern
+    // Compile the pattern
     try{re.compile(pat,mod);}
     catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
 
 
     /***************************************************************************************************************
-     * Use try catch block to catch any exception and avoid unexpected termination of the program in case of error.
      * All jpcre2 exceptions are of type jpcre2::Except
      * *************************************************************************************************************/
 
 
-    ///subject string
+    // subject string
     std::cout<<"\nEnter subject string (enter quit to quit): "<<std::endl;
     getLine(subject);
     if(subject=="quit")return 0;
-     ///replacement string
+     //replacement string
     std::cout<<"\nEnter replacement string: "<<std::endl;
     getLine(repl);
 
-    /// Continue loop as long as error occurs
+    // Continue loop as long as error occurs
     while(true){
 		std::cout<<"\nEnter action (replacement) modifiers (eEgx): ";
 		getLine(repl_mod);
@@ -62,6 +61,6 @@ int main(){
 		break;
     }
     std::cout<<"\n\n--------------------------------------------------\n";
-    //main();
+
 	return 0;
 }

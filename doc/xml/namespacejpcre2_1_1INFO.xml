@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
   <compounddef id="namespacejpcre2_1_1INFO" kind="namespace" language="C++">
     <compoundname>jpcre2::INFO</compoundname>
       <sectiondef kind="var">
-      <memberdef kind="variable" id="namespacejpcre2_1_1INFO_1a0d5716a82b496f2ccf5eee832275b4b8" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="namespacejpcre2_1_1INFO_a0d5716a82b496f2ccf5eee832275b4b8_1a0d5716a82b496f2ccf5eee832275b4b8" prot="public" static="no" mutable="no">
         <type>const std::string</type>
         <definition>const jpcre2::String jpcre2::INFO::NAME</definition>
         <argsstring></argsstring>

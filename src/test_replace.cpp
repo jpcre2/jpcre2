@@ -9,9 +9,9 @@
 
 
 int main(){
-    jpcre2::Regex re;     /// This is not supposed to throw any exception.
+    jpcre2::Regex re;     // This is not supposed to throw any exception.
 
-    ///Compile the pattern
+    //Compile the pattern
     try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")     //Set various parameters
           .addModifier("&Jin")                                                     //modifier & == jpcre2::VALIDATE_MODIFIER
           .addPcre2Option(0)                                                       //...
@@ -19,7 +19,6 @@ int main(){
     catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
         
     /******************************************************************************************************************
-     * Use try catch block to catch any exception and avoid unexpected termination of the program in case of error
      * All jpcre2 exceptions are of type jpcre2::Except
      * ****************************************************************************************************************/
     

@@ -1,163 +1,157 @@
 dist_html_DATA = \
-	html/namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_icgraph.map \
-	html/classjpcre2_1_1Regex_ab8e0b1a49eeb1077ba54cf3b5292c95e_icgraph.md5 \
+	html/namespacejpcre2_a80cb201f2e733137b22a8ed98465096a.html \
+	html/classjpcre2_1_1RegexReplace_a257d326d57af9ccbc7a45b002c34ed0a.html \
+	html/classjpcre2_1_1Regex_a56721534519e5cb436337043eee8f42d.html \
 	html/namespacemembers_func.html \
 	html/thumb0.png \
 	html/jquery.js \
 	html/functions_rela.html \
 	html/namespacemembers_eval.html \
-	html/classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69_cgraph.map \
 	html/doxygen.png \
-	html/classjpcre2_1_1RegexMatch_a82bfef9700b1c62b84e4a32ee4b0731e_cgraph.map \
-	html/classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69_cgraph.png \
-	html/namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_cgraph.map \
-	html/navtree.css \
+	html/classjpcre2_1_1Regex_a9ab3efed9819a51225456e6d8487de56.html \
 	html/inherit_graph_0.map \
-	html/annotated_dup.js \
-	html/jpcre2_8hpp_source.html \
-	html/arrowright.png \
+	html/classjpcre2_1_1Except_aa16bdec8432ee950955f7ad81a9655bb.html \
 	html/jpcre2_8hpp.html \
-	html/classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_icgraph.map \
+	html/classjpcre2_1_1RegexReplace_afebf5e76bce8e312ab6dbdec3288b02b.html \
 	html/namespacejpcre2_1_1utils.html \
+	html/classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981.html \
+	html/classjpcre2_1_1Regex_a6df564d3dec70bbeec65de125c7d4de2.html \
 	html/globals_defs.html \
 	html/jpcre2_8hpp__dep__incl.md5 \
-	html/namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_cgraph.md5 \
-	html/classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69_cgraph.md5 \
 	html/test__match2_8cpp.html \
-	html/namespacejpcre2.js \
-	html/classjpcre2_1_1RegexMatch_a82bfef9700b1c62b84e4a32ee4b0731e_cgraph.md5 \
 	html/tab_a.png \
-	html/classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981_icgraph.map \
-	html/classjpcre2_1_1RegexMatch_a877be3123d789020d259939bc79e8cfe_cgraph.map \
 	html/inherit_graph_0.md5 \
-	html/classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894_cgraph.map \
 	html/functions.html \
-	html/arrowdown.png \
-	html/classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73_icgraph.md5 \
 	html/open.png \
-	html/classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_icgraph.map \
+	html/namespacejpcre2_1_1utils_a3603a3493202e7408e18fd0a912bf725.html \
+	html/classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0.html \
+	html/classjpcre2_1_1Regex_a81687ca434654cae776c2854c3618de0.html \
 	html/test__replace_8cpp__incl.md5 \
+	html/classjpcre2_1_1RegexMatch_a9e04456a81606362a2ecdf748912e3ea.html \
 	html/classjpcre2_1_1RegexMatch.html \
 	html/namespacejpcre2_1_1MOD.html \
-	html/namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_cgraph.png \
 	html/classjpcre2_1_1Regex.html \
 	html/test__shorts_8cpp__incl.map \
-	html/classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_cgraph.png \
-	html/classjpcre2_1_1RegexMatch_ac494245673c474d518e8ae47b2ab9db9_cgraph.map \
 	html/classes.html \
+	html/namespacejpcre2_adfdd3d1fff99e685734ae4e59771e84d.html \
 	html/inherit_graph_1.md5 \
 	html/classjpcre2_1_1RegexReplace__coll__graph.png \
-	html/classjpcre2_1_1Regex_addd7c21abd0f4cf6c532a7602cfb5835_cgraph.png \
-	html/classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_cgraph.map \
+	html/classjpcre2_1_1Regex_a8f8a1eabf09292b782a6f33287e3fee4.html \
 	html/dynsections.js \
-	html/classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5_cgraph.map \
-	html/classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_icgraph.md5 \
-	html/namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_icgraph.md5 \
+	html/classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de.html \
 	html/tab_b.png \
 	html/folderclosed.png \
 	html/namespacemembers.html \
 	html/hierarchy.html \
 	html/tabs.css \
-	html/namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_cgraph.png \
-	html/files.js \
 	html/namespacejpcre2_1_1INFO.html \
 	html/test__replace2_8cpp__incl.png \
 	html/test__match_8cpp__incl.map \
 	html/classjpcre2_1_1Regex__coll__graph.png \
-	html/namespacejpcre2_1_1utils_a3603a3493202e7408e18fd0a912bf725_icgraph.png \
+	html/classjpcre2_1_1RegexMatch_ac494245673c474d518e8ae47b2ab9db9.html \
+	html/menu.js \
+	html/namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209.html \
 	html/sync_off.png \
-	html/classjpcre2_1_1Regex_addd7c21abd0f4cf6c532a7602cfb5835_cgraph.md5 \
+	html/classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8.html \
+	html/classjpcre2_1_1Regex_ae9afaf627ed922a9e4cee8074d30edfa.html \
+	html/classjpcre2_1_1Regex_a006dd17f71a2d717aa9575d72fac6d7b.html \
+	html/classjpcre2_1_1Regex_acdc6f97f4030ae109c4e1a4e2310bceb.html \
 	html/classjpcre2_1_1RegexMatch-members.html \
 	html/test__match2_8cpp__incl.md5 \
-	html/classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73_icgraph.png \
+	html/classjpcre2_1_1Regex_a58be9b4e1eaec2a43586af45c6ae5549.html \
+	html/classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb.html \
+	html/classjpcre2_1_1Except_a6781e0804575f11d6d8bb87ec2d036c6.html \
 	html/classjpcre2_1_1Except__coll__graph.md5 \
 	html/classjpcre2_1_1RegexMatch__coll__graph.md5 \
 	html/namespacejpcre2_1_1ERROR.html \
 	html/classjpcre2_1_1RegexReplace-members.html \
-	html/classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_cgraph.map \
-	html/namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_icgraph.md5 \
-	html/classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5_icgraph.png \
-	html/classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981_icgraph.png \
+	html/classjpcre2_1_1RegexMatch_ae4ab558c2bec0bc9639dbca70ab47496.html \
 	html/inherit_graph_3.md5 \
+	html/namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5.html \
+	html/classjpcre2_1_1RegexReplace_a3f86b1e11d08d0153a08244771e59061.html \
 	html/test__replace_8cpp__incl.map \
 	html/test__replace_8cpp__incl.png \
 	html/functions_vars.html \
 	html/globals.html \
 	html/classjpcre2_1_1Except.html \
 	html/namespacemembers_vars.html \
+	html/classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5.html \
 	html/classjpcre2_1_1Except__coll__graph.map \
-	html/classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981_cgraph.png \
+	html/classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33.html \
 	html/inherit_graph_3.png \
 	html/jpcre2_8hpp__incl.map \
 	html/test__replace2_8cpp__incl.map \
+	html/classjpcre2_1_1RegexReplace_ab27102839e7ff0914bcd204d750097ac.html \
+	html/classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69.html \
 	html/test__match_8cpp__incl.md5 \
-	html/namespacejpcre2_1_1utils_a3603a3493202e7408e18fd0a912bf725_icgraph.map \
-	html/namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_cgraph.map \
 	html/classjpcre2_1_1RegexReplace__coll__graph.md5 \
-	html/classjpcre2_1_1Regex_ae5bde8008cc5a700163ca3162dbd5823_icgraph.png \
+	html/classjpcre2_1_1RegexMatch_a08c2e481fe8b9c001e67733fb4e33972.html \
 	html/inherit_graph_0.png \
 	html/classjpcre2_1_1RegexMatch__coll__graph.map \
-	html/classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_icgraph.png \
+	html/classjpcre2_1_1RegexReplace_a06a57430f62058822d48722a2a6425d7.html \
+	html/classjpcre2_1_1Regex_a91f6afe257e9633cbb79a98649ab8d02.html \
+	html/classjpcre2_1_1RegexReplace_a44abce541819ceb51e342411b48e95cb.html \
 	html/classjpcre2_1_1RegexReplace__coll__graph.map \
-	html/classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910_icgraph.map \
 	html/classjpcre2_1_1Regex-members.html \
-	html/classjpcre2_1_1RegexReplace_a0a2dc39fc28e6f7fe0a5d638f5891bdb_cgraph.png \
-	html/namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_icgraph.map \
-	html/classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981_cgraph.map \
-	html/classjpcre2_1_1RegexReplace_a0a2dc39fc28e6f7fe0a5d638f5891bdb_cgraph.map \
 	html/classjpcre2_1_1Except__coll__graph.png \
+	html/classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522.html \
+	html/classjpcre2_1_1RegexMatch_a6893abc21b24a9d9fca146a33c0f823c.html \
 	html/classjpcre2_1_1Except-members.html \
 	html/index.html \
-	html/classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_icgraph.png \
-	html/classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910_icgraph.png \
-	html/jpcre2_8hpp.js \
-	html/classjpcre2_1_1Regex_ab8e0b1a49eeb1077ba54cf3b5292c95e_icgraph.png \
+	html/classjpcre2_1_1Regex_a857307fc59ba7f010b097e61c1744923.html \
+	html/classjpcre2_1_1Except_a0f3e00116ab24b89836a2c2a66262e22.html \
+	html/classjpcre2_1_1Regex_ae7235a991492fa88f1bd3fb02d59cd0a.html \
 	html/inherit_graph_2.map \
+	html/namespacejpcre2_1_1utils_aea66a35f467adf41730c5a3bb21be6ed.html \
+	html/classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5.html \
 	html/test__match_8cpp__incl.png \
-	html/classjpcre2_1_1Regex_a9ab3efed9819a51225456e6d8487de56_cgraph.map \
 	html/test__match2_8cpp__incl.map \
 	html/inherit_graph_1.png \
-	html/classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_icgraph.png \
+	html/classjpcre2_1_1Regex_acd49e856009160c622e90b81b6557d8d.html \
 	html/inherits.html \
 	html/graph_legend.html \
-	html/classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_icgraph.md5 \
+	html/classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd.html \
 	html/closed.png \
-	html/navtree.js \
-	html/svgpan.js \
+	html/classjpcre2_1_1RegexMatch_a098ddb46b2f297870ea548ef07597d94.html \
+	html/classjpcre2_1_1Regex_a5d2d04eb7c393338a4c8cce941e957ef.html \
+	html/classjpcre2_1_1RegexMatch_a0d76033d9c134caa9ddfc21849603920.html \
 	html/splitbar.png \
+	html/namespacejpcre2_1_1INFO_a0d5716a82b496f2ccf5eee832275b4b8.html \
+	html/classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894.html \
+	html/classjpcre2_1_1Regex_addd7c21abd0f4cf6c532a7602cfb5835.html \
+	html/classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910.html \
 	html/tab_s.png \
-	html/namespaces.js \
-	html/classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73_icgraph.map \
-	html/namespacejpcre2_1_1utils_a3603a3493202e7408e18fd0a912bf725_icgraph.md5 \
-	html/classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_cgraph.md5 \
-	html/classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5_icgraph.map \
-	html/classjpcre2_1_1RegexMatch_a877be3123d789020d259939bc79e8cfe_cgraph.md5 \
-	html/classjpcre2_1_1Regex_a240790a0f3d8e97af0a76ad3f882e02a_cgraph.md5 \
+	html/namespacejpcre2_1_1utils_a917512161b56047d6ef240bdba2ac212.html \
+	html/classjpcre2_1_1Regex_ab8e0b1a49eeb1077ba54cf3b5292c95e.html \
+	html/classjpcre2_1_1Except_ade3963035e250d3cbf84ddaad2056fee.html \
+	html/classjpcre2_1_1Except_a569a8058f61bb4e0b7085f18c4bd528c.html \
+	html/classjpcre2_1_1RegexReplace_aec36272d351fdc3a8cb02a4a3efea5a2.html \
+	html/classjpcre2_1_1RegexReplace_a0a2dc39fc28e6f7fe0a5d638f5891bdb.html \
+	html/classjpcre2_1_1Regex_a031617a19638ef752dcd2b29fa3464d5.html \
+	html/classjpcre2_1_1RegexMatch_a40127e5057e2343848d8c8a6d4c32bcd.html \
+	html/classjpcre2_1_1RegexMatch_ae586d43ec197c57c66086eeb4f8d83a1.html \
+	html/classjpcre2_1_1Regex_a01394dcb222c4d442cabbffb4bcf570a.html \
+	html/classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087.html \
 	html/tab_h.png \
-	html/classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_icgraph.md5 \
 	html/dir_68267d1309a1af8e8297ef4c3efbcdba.html \
-	html/classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_cgraph.md5 \
+	html/classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55.html \
+	html/classjpcre2_1_1RegexMatch_a82bfef9700b1c62b84e4a32ee4b0731e.html \
 	html/files.html \
 	html/classjpcre2_1_1RegexReplace.html \
-	html/namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_icgraph.map \
 	html/classjpcre2_1_1RegexMatch__coll__graph.png \
 	html/jpcre2_8hpp__incl.md5 \
-	html/navtreedata.js \
-	html/namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_icgraph.png \
+	html/classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c.html \
 	html/sync_on.png \
-	html/classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981_icgraph.md5 \
+	html/classjpcre2_1_1Regex_a0ac4e063f00128b96cd94c33609dc559.html \
 	html/inherit_graph_2.md5 \
-	html/classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894_cgraph.md5 \
+	html/classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab.html \
 	html/test__match_8cpp.html \
+	html/classjpcre2_1_1RegexReplace_a745ab0b979035214a83ed0a04686ef6a.html \
 	html/nav_h.png \
-	html/classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_icgraph.png \
-	html/classjpcre2_1_1RegexMatch_ac494245673c474d518e8ae47b2ab9db9_cgraph.md5 \
-	html/classjpcre2_1_1RegexMatch.js \
-	html/namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_icgraph.md5 \
-	html/classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_icgraph.md5 \
+	html/classjpcre2_1_1RegexReplace_aea15c694bba7d994f048596a1f90f71f.html \
+	html/classjpcre2_1_1RegexMatch_a877be3123d789020d259939bc79e8cfe.html \
 	html/doc.png \
 	html/nav_f.png \
-	html/classjpcre2_1_1Except.js \
 	html/search/enumvalues_4.js \
 	html/search/all_10.html \
 	html/search/classes_0.js \
@@ -299,66 +293,63 @@ dist_html_DATA = \
 	html/search/typedefs_2.js \
 	html/search/functions_8.html \
 	html/search/functions_e.html \
-	html/resize.js \
+	html/classjpcre2_1_1Regex_a4640915bc907aa3b80da543f1eb7e74f.html \
 	html/test__replace2_8cpp__incl.md5 \
-	html/classjpcre2_1_1RegexMatch_a877be3123d789020d259939bc79e8cfe_cgraph.png \
+	html/classjpcre2_1_1RegexReplace_ac50687b874800c827a6fa623b9b35753.html \
 	html/jpcre2_8hpp__dep__incl.png \
+	html/classjpcre2_1_1Regex_adbda074677e393438452190e55a971d0.html \
+	html/classjpcre2_1_1Regex_ab43a14b4b6e75b7fa3221bc18a1d4121.html \
+	html/namespacejpcre2_a85c143271501e383843f45b9999c2f00.html \
 	html/test__shorts_8cpp.html \
-	html/classjpcre2_1_1Regex_ae5bde8008cc5a700163ca3162dbd5823_icgraph.map \
 	html/bdwn.png \
-	html/classjpcre2_1_1RegexMatch_ac494245673c474d518e8ae47b2ab9db9_cgraph.png \
 	html/test__match2_8cpp__incl.png \
 	html/doxygen.css \
 	html/test__replace2_8cpp.html \
-	html/classjpcre2_1_1RegexMatch_a82bfef9700b1c62b84e4a32ee4b0731e_cgraph.png \
+	html/classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0.html \
+	html/classjpcre2_1_1Regex_a85d9a514ea86ae68533223adac6c6bd8.html \
 	html/classjpcre2_1_1Regex__coll__graph.map \
-	html/classjpcre2_1_1Regex_a9ab3efed9819a51225456e6d8487de56_cgraph.png \
-	html/classjpcre2_1_1Regex_a240790a0f3d8e97af0a76ad3f882e02a_cgraph.map \
-	html/classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5_cgraph.png \
-	html/classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5_icgraph.md5 \
-	html/navtreeindex0.js \
+	html/classjpcre2_1_1Except_a302b67f0fbc5f906bac67a4572ff29ec.html \
+	html/namespacejpcre2_1_1utils_a4065a2a40144999cd2a94e7a7e1d5eb6.html \
+	html/namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6.html \
+	html/classjpcre2_1_1RegexReplace_a3cfd03568b23bebcbb530a2c120b5d33.html \
 	html/test__replace_8cpp.html \
-	html/classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5_cgraph.md5 \
-	html/namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_cgraph.md5 \
-	html/classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_cgraph.png \
+	html/classjpcre2_1_1Regex_a4d959fdc32791bee6d819abfc44af51a.html \
+	html/classjpcre2_1_1RegexMatch_ab6a9f9b8404852e46edd08a5b8712847.html \
+	html/classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73.html \
 	html/annotated.html \
 	html/test__shorts_8cpp__incl.md5 \
+	html/classjpcre2_1_1RegexMatch_a0a4cf8554a7e00f3cf2db34f60a43f60.html \
 	html/classjpcre2_1_1Regex__coll__graph.md5 \
-	html/hierarchy.js \
 	html/nav_g.png \
-	html/namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_cgraph.map \
+	html/classjpcre2_1_1Regex_a302f65cd5747c5d34570ca76516ab715.html \
+	html/namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc.html \
+	html/classjpcre2_1_1Regex_aedc5f414e5fa401e1a91614cfab0b033.html \
 	html/folderopen.png \
 	html/inherit_graph_1.map \
-	html/classjpcre2_1_1Regex_a240790a0f3d8e97af0a76ad3f882e02a_cgraph.png \
+	html/classjpcre2_1_1RegexMatch_a154430c66b8794d6632be6211a3ce870.html \
+	html/classjpcre2_1_1RegexReplace_a452dd2632031a13b39c13b792f18a491.html \
+	html/namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2.html \
 	html/graph_legend.md5 \
-	html/classjpcre2_1_1Regex_ab8e0b1a49eeb1077ba54cf3b5292c95e_icgraph.map \
 	html/inherit_graph_3.map \
 	html/namespaces.html \
-	html/classjpcre2_1_1Regex_addd7c21abd0f4cf6c532a7602cfb5835_cgraph.map \
-	html/classjpcre2_1_1RegexReplace.js \
-	html/namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_icgraph.png \
-	html/namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_cgraph.md5 \
-	html/namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_icgraph.png \
-	html/classjpcre2_1_1RegexReplace_a0a2dc39fc28e6f7fe0a5d638f5891bdb_cgraph.md5 \
+	html/classjpcre2_1_1Regex_a1a639ae4090b88609c03e9268faf02d8.html \
 	html/customdoxygen.css \
-	html/classjpcre2_1_1Regex.js \
-	html/classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_icgraph.map \
+	html/classjpcre2_1_1Regex_aed9865b58c60945e19f36fa310f5a595.html \
 	html/jpcre2_8hpp__dep__incl.map \
-	html/namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_cgraph.png \
-	html/classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894_cgraph.png \
 	html/inherit_graph_2.png \
 	html/graph_legend.png \
 	html/namespacejpcre2.html \
-	html/classjpcre2_1_1Regex_a9ab3efed9819a51225456e6d8487de56_cgraph.md5 \
-	html/classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981_cgraph.md5 \
-	html/classjpcre2_1_1Regex_ae5bde8008cc5a700163ca3162dbd5823_icgraph.md5 \
-	html/classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910_icgraph.md5 \
-	html/classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_icgraph.map \
+	html/menudata.js \
+	html/classjpcre2_1_1Regex_ae5bde8008cc5a700163ca3162dbd5823.html \
 	html/functions_func.html \
+	html/classjpcre2_1_1Regex_abe210e2ca6cfcef11760875930cf069d.html \
 	html/test__shorts_8cpp__incl.png \
+	html/classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99.html \
 	html/jpcre2_8hpp__incl.png \
 	html/namespacemembers_type.html \
-	html/bc_s.png 
+	html/bc_s.png \
+	html/classjpcre2_1_1Regex_ae03bb99a5bc8f945e693ddc34706f0c0.html \
+	html/classjpcre2_1_1Regex_a240790a0f3d8e97af0a76ad3f882e02a.html 
 dist_man_MANS = \
 	man/man3/test_replace2.cpp.3 \
 	man/man3/jpcre2_Except.3 \

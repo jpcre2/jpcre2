@@ -1164,6 +1164,8 @@ dl.section dd {
 	padding: 0px;
 	margin: 0px;
 	width: 100%;
+	height: 58px;
+	background: white;
 	border-bottom: 1px solid #5373B4;
 }
 
@@ -1476,4 +1478,3 @@ tr.heading h2 {
     display:inline;
   }
 }
-

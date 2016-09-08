@@ -1,4 +1,4 @@
-.TH "jpcre2::RegexMatch" 3 "Thu Sep 8 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::RegexMatch" 3 "Thu Sep 8 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -15,69 +15,69 @@ jpcre2::RegexMatch \- Provides the \fBRegexMatch::match()\fP function to perform
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBsetNumberedSubstringVector\fP (\fBVecNum\fP *v)"
 .br
-.RI "\fISet a pointer to the numbered substring vector of type \fBjpcre2::VecNum\fP\&. \fP"
+.RI "Set a pointer to the numbered substring vector of type \fBjpcre2::VecNum\fP\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBsetNamedSubstringVector\fP (\fBVecNas\fP *v)"
 .br
-.RI "\fISet a pointer to the named substring vector of type \fBjpcre2::VecNas\fP\&. \fP"
+.RI "Set a pointer to the named substring vector of type \fBjpcre2::VecNas\fP\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBsetNameToNumberMapVector\fP (\fBVecNtN\fP *v)"
 .br
-.RI "\fISet a pointer to the name to number map vector of type \fBjpcre2::VecNtN\fP\&. \fP"
+.RI "Set a pointer to the name to number map vector of type \fBjpcre2::VecNtN\fP\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBsetSubject\fP (const \fBString\fP &s)"
 .br
-.RI "\fISet the subject string \fBm_subject\fP\&. \fP"
+.RI "Set the subject string \fBm_subject\fP\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBsetModifier\fP (const \fBString\fP &s)"
 .br
-.RI "\fISet the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. \fP"
+.RI "Set the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBsetJpcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fISet JPCRE2 option \fBjpcre2_match_opts\fP (overwrite existing option) \fP"
+.RI "Set JPCRE2 option \fBjpcre2_match_opts\fP (overwrite existing option) "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBsetPcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fISet PCRE2 option \fBmatch_opts\fP (overwrite existing option) \fP"
+.RI "Set PCRE2 option \fBmatch_opts\fP (overwrite existing option) "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBsetFindAll\fP (bool x)"
 .br
-.RI "\fISet whether to perform global match\&. \fP"
+.RI "Set whether to perform global match\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBsetFindAll\fP ()"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&.
 .PP
-This function just calls \fBRegexMatch::setFindAll(bool x)\fP with \fCtrue\fP as the parameter\&. \fP"
+This function just calls \fBRegexMatch::setFindAll(bool x)\fP with \fCtrue\fP as the parameter\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBchangeModifier\fP (const \fBString\fP &, bool)"
 .br
-.RI "\fIParse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. \fP"
+.RI "Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBchangeJpcre2Option\fP (\fBUint\fP opt, bool x)"
 .br
-.RI "\fIAdd or remove a JPCRE2 option\&. \fP"
+.RI "Add or remove a JPCRE2 option\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBchangePcre2Option\fP (\fBUint\fP opt, bool x)"
 .br
-.RI "\fIAdd or remove a PCRE2 option\&. \fP"
+.RI "Add or remove a PCRE2 option\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBaddModifier\fP (const \fBString\fP &mod)"
 .br
-.RI "\fIParse modifier string and add equivalent PCRE2 and JPCRE2 options\&. \fP"
+.RI "Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBaddJpcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fIAdd option to existing JPCRE2 options \fBjpcre2_match_opts\fP\&. \fP"
+.RI "Add option to existing JPCRE2 options \fBjpcre2_match_opts\fP\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBaddPcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fIAdd option to existing PCRE2 options \fBmatch_opts\fP\&. \fP"
+.RI "Add option to existing PCRE2 options \fBmatch_opts\fP\&. "
 .ti -1c
 .RI "\fBSIZE_T\fP \fBmatch\fP (void)"
 .br
-.RI "\fIStore match result in vectors and return the number of matches\&. \fP"
+.RI "Store match result in vectors and return the number of matches\&. "
 .in -1c
 .SS "Private Member Functions"
 
@@ -85,31 +85,31 @@ This function just calls \fBRegexMatch::setFindAll(bool x)\fP with \fCtrue\fP as
 .ti -1c
 .RI "void \fBgetNumberedSubstrings\fP (int, pcre2_match_data *)"
 .br
-.RI "\fIPopulate \fBnum_map0\fP with numbered substrings\&. \fP"
+.RI "Populate \fBnum_map0\fP with numbered substrings\&. "
 .ti -1c
 .RI "void \fBgetNamedSubstrings\fP (int, int, PCRE2_SPTR, pcre2_match_data *)"
 .br
-.RI "\fIPopulate \fBnas_map0\fP and/or \fBntn_map0\fP with named substring and/or name to number mapping\&. \fP"
+.RI "Populate \fBnas_map0\fP and/or \fBntn_map0\fP with named substring and/or name to number mapping\&. "
 .ti -1c
 .RI "void \fBpushMapsIntoVectors\fP (void)"
 .br
-.RI "\fIPush maps into the vectors pointed by \fBvec_num\fP, \fBvec_nas\fP and \fBvec_ntn\fP and thus store match results in them\&. \fP"
+.RI "Push maps into the vectors pointed by \fBvec_num\fP, \fBvec_nas\fP and \fBvec_ntn\fP and thus store match results in them\&. "
 .ti -1c
 .RI "void \fBinit_vars\fP ()"
 .br
-.RI "\fIInitialize class variables\&. \fP"
+.RI "Initialize class variables\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP ()"
 .br
-.RI "\fIDefault constructor\&. \fP"
+.RI "Default constructor\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP (const \fBRegexMatch\fP &)"
 .br
-.RI "\fIThis is a copy constructor which is only used to prevent public object creation\&. \fP"
+.RI "This is a copy constructor which is only used to prevent public object creation\&. "
 .ti -1c
 .RI "\fB~RegexMatch\fP ()"
 .br
-.RI "\fIDestructor\&. \fP"
+.RI "Destructor\&. "
 .in -1c
 .SS "Private Attributes"
 
@@ -117,43 +117,43 @@ This function just calls \fBRegexMatch::setFindAll(bool x)\fP with \fCtrue\fP as
 .ti -1c
 .RI "\fBRegex\fP * \fBre\fP"
 .br
-.RI "\fIThis is used to access private members in \fBRegex\fP\&. \fP"
+.RI "This is used to access private members in \fBRegex\fP\&. "
 .ti -1c
 .RI "\fBString\fP \fBm_subject\fP"
 .br
-.RI "\fISubject string for match\&. \fP"
+.RI "Subject string for match\&. "
 .ti -1c
 .RI "\fBUint\fP \fBmatch_opts\fP"
 .br
-.RI "\fIPCRE2 options for pcre2_match() (PCRE2 internal function) \fP"
+.RI "PCRE2 options for pcre2_match() (PCRE2 internal function) "
 .ti -1c
 .RI "\fBUint\fP \fBjpcre2_match_opts\fP"
 .br
-.RI "\fIJPCRE2 options for match\&. \fP"
+.RI "JPCRE2 options for match\&. "
 .ti -1c
 .RI "\fBVecNum\fP * \fBvec_num\fP"
 .br
-.RI "\fIPointer to vector that will store the numbered substring maps\&. \fP"
+.RI "Pointer to vector that will store the numbered substring maps\&. "
 .ti -1c
 .RI "\fBVecNas\fP * \fBvec_nas\fP"
 .br
-.RI "\fIPointer to vector that will store the named substring maps\&. \fP"
+.RI "Pointer to vector that will store the named substring maps\&. "
 .ti -1c
 .RI "\fBVecNtN\fP * \fBvec_ntn\fP"
 .br
-.RI "\fIPointer to vector that will store the name to number maps\&. \fP"
+.RI "Pointer to vector that will store the name to number maps\&. "
 .ti -1c
 .RI "\fBMapNum\fP * \fBnum_map0\fP"
 .br
-.RI "\fIPointer to map that will store numbered substrings temporarily\&. \fP"
+.RI "Pointer to map that will store numbered substrings temporarily\&. "
 .ti -1c
 .RI "\fBMapNas\fP * \fBnas_map0\fP"
 .br
-.RI "\fIPointer to map that will store named substrings temporarily\&. \fP"
+.RI "Pointer to map that will store named substrings temporarily\&. "
 .ti -1c
 .RI "\fBMapNtN\fP * \fBntn_map0\fP"
 .br
-.RI "\fIPointer to map that will store name to number mapping temporarily\&. \fP"
+.RI "Pointer to map that will store name to number mapping temporarily\&. "
 .in -1c
 .SS "Friends"
 
@@ -161,7 +161,7 @@ This function just calls \fBRegexMatch::setFindAll(bool x)\fP with \fCtrue\fP as
 .ti -1c
 .RI "class \fBRegex\fP"
 .br
-.RI "\fIDefine class \fBRegex\fP as friend and thus allow \fBRegex\fP to create object of this class\&. \fP"
+.RI "Define class \fBRegex\fP as friend and thus allow \fBRegex\fP to create object of this class\&. "
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -321,8 +321,6 @@ This function does not initialize or re-initialize options\&. If you want to set
 .RE
 .PP
 
-.PP
-References jpcre2::Regex::changeJpcre2Option(), jpcre2::Regex::changePcre2Option(), jpcre2::ERROR_ALL, jpcre2::utils::getErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2::MOD::M_N, jpcre2::MOD::M_V, jpcre2::MOD::MJ_N, jpcre2::MOD::MJ_V, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
 .SS "\fBRegexMatch\fP& jpcre2::RegexMatch::changePcre2Option (\fBUint\fP opt, bool x)\fC [inline]\fP"
 
 .PP
@@ -370,8 +368,6 @@ Populate \fBnas_map0\fP and/or \fBntn_map0\fP with named substring and/or name t
 .RE
 .PP
 
-.PP
-References jpcre2::utils::throwException(), and jpcre2::utils::toString()\&.
 .SS "void jpcre2::RegexMatch::getNumberedSubstrings (int rc, pcre2_match_data * match_data)\fC [private]\fP"
 
 .PP
@@ -390,8 +386,6 @@ Populate \fBnum_map0\fP with numbered substrings\&.
 .RE
 .PP
 
-.PP
-References jpcre2::utils::throwException(), and jpcre2::utils::toString()\&.
 .SS "void jpcre2::RegexMatch::init_vars ()\fC [inline]\fP, \fC [private]\fP"
 
 .PP
@@ -421,10 +415,6 @@ Number of matches found
 .RE
 .PP
 
-.PP
-References jpcre2::FIND_ALL, and jpcre2::utils::throwException()\&.
-.PP
-Referenced by jpcre2::Regex::match()\&.
 .SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setFindAll (bool x)\fC [inline]\fP"
 
 .PP
@@ -441,8 +431,6 @@ Set whether to perform global match\&.
 .RE
 .PP
 
-.PP
-References jpcre2::FIND_ALL\&.
 .SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setFindAll ()\fC [inline]\fP"
 
 .PP
@@ -509,8 +497,6 @@ Set the modifier (overwrites existing JPCRE2 and PCRE2 option)\&. Re-initializes
 .RE
 .PP
 
-.PP
-Referenced by jpcre2::Regex::match()\&.
 .SS "\fBRegexMatch\fP& jpcre2::RegexMatch::setNamedSubstringVector (\fBVecNas\fP * v)\fC [inline]\fP"
 
 .PP
@@ -603,8 +589,6 @@ Set the subject string \fBm_subject\fP\&.
 .RE
 .PP
 
-.PP
-Referenced by jpcre2::Regex::match()\&.
 
 .SH "Author"
 .PP 

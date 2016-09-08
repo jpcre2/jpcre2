@@ -1,4 +1,4 @@
-.TH "jpcre2" 3 "Thu Sep 8 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2" 3 "Thu Sep 8 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,19 +13,19 @@ jpcre2 \- Top level namespace of JPCRE2\&.
 .ti -1c
 .RI " \fBERROR\fP"
 .br
-.RI "\fINamespace for error codes\&. \fP"
+.RI "Namespace for error codes\&. "
 .ti -1c
 .RI " \fBINFO\fP"
 .br
-.RI "\fINamespace to provide information about JPCRE2 library itself\&. \fP"
+.RI "Namespace to provide information about JPCRE2 library itself\&. "
 .ti -1c
 .RI " \fBMOD\fP"
 .br
-.RI "\fINamespace for modifier constants\&. \fP"
+.RI "Namespace for modifier constants\&. "
 .ti -1c
 .RI " \fButils\fP"
 .br
-.RI "\fINamespace for some utility functions\&. \fP"
+.RI "Namespace for some utility functions\&. "
 .in -1c
 .SS "Classes"
 
@@ -33,19 +33,19 @@ jpcre2 \- Top level namespace of JPCRE2\&.
 .ti -1c
 .RI "class \fBExcept\fP"
 .br
-.RI "\fIClass to handle exception\&. \fP"
+.RI "Class to handle exception\&. "
 .ti -1c
 .RI "class \fBRegex\fP"
 .br
-.RI "\fIImplements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern\&. \fP"
+.RI "Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern\&. "
 .ti -1c
 .RI "class \fBRegexMatch\fP"
 .br
-.RI "\fIProvides the \fBRegexMatch::match()\fP function to perform regex matching\&. \fP"
+.RI "Provides the \fBRegexMatch::match()\fP function to perform regex matching\&. "
 .ti -1c
 .RI "class \fBRegexReplace\fP"
 .br
-.RI "\fIProvides the \fBRegexReplace::replace()\fP function to perform regex replace on a string\&. \fP"
+.RI "Provides the \fBRegexReplace::replace()\fP function to perform regex replace on a string\&. "
 .in -1c
 .SS "Typedefs"
 
@@ -53,68 +53,75 @@ jpcre2 \- Top level namespace of JPCRE2\&.
 .ti -1c
 .RI "typedef std::size_t \fBSIZE_T\fP"
 .br
-.RI "\fIUsed for match count and vector size\&. \fP"
+.RI "Used for match count and vector size\&. "
 .ti -1c
 .RI "typedef uint32_t \fBUint\fP"
 .br
-.RI "\fIUsed for options (bitwise operation) \fP"
+.RI "Used for options (bitwise operation) "
 .ti -1c
 .RI "typedef std::string \fBString\fP"
 .br
-.RI "\fIUsed as std::string\&. \fP"
+.RI "Used as std::string\&. "
 .ti -1c
 .RI "typedef std::map< \fBString\fP, \fBString\fP > \fBMapNas\fP"
 .br
-.RI "\fIMap for Named substrings\&. \fP"
+.RI "Map for Named substrings\&. "
 .ti -1c
 .RI "typedef std::map< \fBSIZE_T\fP, \fBString\fP > \fBMapNum\fP"
 .br
-.RI "\fIMap for Numbered substrings\&. \fP"
+.RI "Map for Numbered substrings\&. "
 .ti -1c
 .RI "typedef std::map< \fBString\fP, \fBSIZE_T\fP > \fBMapNtN\fP"
 .br
-.RI "\fISubstring name to Substring number map\&. \fP"
+.RI "Substring name to Substring number map\&. "
 .ti -1c
 .RI "typedef \fBMapNtN\fP \fBMapNtn\fP"
 .br
-.RI "\fIAllow spelling mistake of MapNtN as MapNtn\&. \fP"
+.RI "Allow spelling mistake of MapNtN as MapNtn\&. "
 .ti -1c
 .RI "typedef std::vector< \fBMapNas\fP > \fBVecNas\fP"
 .br
-.RI "\fIVector of matches with named substrings\&. \fP"
+.RI "Vector of matches with named substrings\&. "
 .ti -1c
 .RI "typedef std::vector< \fBMapNtN\fP > \fBVecNtN\fP"
 .br
-.RI "\fIVector of substring name to Substring number map\&. \fP"
+.RI "Vector of substring name to Substring number map\&. "
 .ti -1c
 .RI "typedef \fBVecNtN\fP \fBVecNtn\fP"
 .br
-.RI "\fIAllow spelling mistake of VecNtN as VecNtn\&. \fP"
+.RI "Allow spelling mistake of VecNtN as VecNtn\&. "
 .ti -1c
 .RI "typedef std::vector< \fBMapNum\fP > \fBVecNum\fP"
 .br
-.RI "\fIVector of matches with numbered substrings\&. \fP"
+.RI "Vector of matches with numbered substrings\&. "
 .in -1c
 .SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum { \fBNONE\fP = 0x0000000u, \fBVALIDATE_MODIFIER\fP = 0x0000001u, \fBFIND_ALL\fP = 0x0000002u, \fBJIT_COMPILE\fP = 0x0000004u, \fBERROR_ALL\fP = 0x0000008u }
+.RI "These constants provide JPCRE2 options\&. ""
+.br
+.in -1c
 .SS "Variables"
 
 .in +1c
 .ti -1c
 .RI "const \fBSIZE_T\fP \fBSUBSTITUTE_RESULT_INIT_SIZE\fP = std::numeric_limits<int>::max()"
 .br
-.RI "\fIUsed by default to provide big enough initial buffer for replaced string\&. \fP"
+.RI "Used by default to provide big enough initial buffer for replaced string\&. "
 .ti -1c
 .RI "const \fBString\fP \fBLOCALE_NONE\fP = 'JPCRE2_NONE'"
 .br
-.RI "\fIDon't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. \fP"
+.RI "Don't do anything about locale if it is set to \fBjpcre2::LOCALE_NONE\fP\&. "
 .ti -1c
 .RI "const \fBString\fP \fBLOCALE_DEFAULT\fP = \fBLOCALE_NONE\fP"
 .br
-.RI "\fIDefault locale\&. \fP"
+.RI "Default locale\&. "
 .ti -1c
 .RI "const \fBString\fP \fBJIT_ERROR_MESSAGE_PREFIX\fP = 'JIT compilation failed! '"
 .br
-.RI "\fIPrefix to be added to JIT error message\&. \fP"
+.RI "Prefix to be added to JIT error message\&. "
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -137,7 +144,7 @@ These constants provide JPCRE2 options\&.
 Option 0 (zero) 
 .TP
 \fB\fIVALIDATE_MODIFIER \fP\fP
-Perform validation check on modifiers and throw \fBjpcre2::ERROR::INVALID_MODIFIER\fP if any wrong modifier is passed\&. 
+Perform validation check on modifiers and throw \fBjpcre2::ERROR::INVALID_MODIFIER\fP if any wrong modifier was passed\&. 
 .TP
 \fB\fIFIND_ALL \fP\fP
 Find all during match (global match) 
@@ -153,20 +160,14 @@ Treat warnings as error and throw exception (warnings don't throw exception)
 
 .PP
 Default locale\&. Default local to be used\&. 
-.PP
-Referenced by jpcre2::Regex::init_vars()\&.
 .SS "const \fBjpcre2::String\fP jpcre2::LOCALE_NONE = 'JPCRE2_NONE'"
 
 .PP
-Don't do anything about locale if it is set to \fBLOCALE_NONE\fP\&. Nothing to be done on locale\&. 
-.PP
-Referenced by jpcre2::Regex::compile()\&.
+Don't do anything about locale if it is set to \fBjpcre2::LOCALE_NONE\fP\&. Nothing to be done on locale\&. 
 .SS "const \fBjpcre2::SIZE_T\fP jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max()"
 
 .PP
-Used by default to provide big enough initial buffer for replaced string\&. Use max of int as the initial size of replaced string\&. 
-.PP
-Referenced by jpcre2::RegexReplace::init_vars()\&.
+Used by default to provide big enough initial buffer for replaced string\&. Max of \fCint\fP is used as the initial size of replaced string by default\&. 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for JPCRE2 from the source code\&.

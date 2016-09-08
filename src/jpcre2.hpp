@@ -98,7 +98,7 @@ typedef std::vector<MapNum> VecNum;             ///< Vector of matches with numb
 
 
 extern const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE;    ///< Used by default to provide big enough initial buffer for replaced string
-extern const String LOCALE_NONE;                    ///< Don't do anything about locale if it is set to #LOCALE_NONE
+extern const String LOCALE_NONE;                    ///< Don't do anything about locale if it is set to jpcre2::LOCALE_NONE
 extern const String LOCALE_DEFAULT;                 ///< Default locale
 extern const String JIT_ERROR_MESSAGE_PREFIX;       ///< Prefix to be added to JIT error message
 
@@ -108,7 +108,7 @@ extern const String JIT_ERROR_MESSAGE_PREFIX;       ///< Prefix to be added to J
 enum {
 	NONE                    = 0x0000000u,   ///< Option 0 (zero)
 	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw
-											///< jpcre2::ERROR::INVALID_MODIFIER if any wrong modifier is passed
+											///< jpcre2::ERROR::INVALID_MODIFIER if any wrong modifier was passed
 	FIND_ALL                = 0x0000002u,   ///< Find all during match (global match)
 	JIT_COMPILE             = 0x0000004u,   ///< Perform JIT compilation for optimization
 	ERROR_ALL               = 0x0000008u    ///< Treat warnings as error and throw exception (warnings don't throw exception)
@@ -161,26 +161,56 @@ namespace utils {
 	extern String toString(PCRE2_UCHAR*);             ///< Converts a PCRE2_UCHAR* to String
 	extern std::string getPcre2ErrorMessage(int);     ///< Get PCRE2 error message for an error number
 	extern std::string getErrorMessage(int, int);     ///< Get error message from error number and error offset
-	extern void throwException(int, int);			  /// Used throughout JPCRE2 to throw exceptions
+	extern void throwException(int, int);			  ///< Used throughout JPCRE2 to throw exceptions
 }
 
 
-/** @class Except
- * Class to handle exception.
+/** Class to handle exception.
  *  Provides public functions to get the error number,
  *  error offset and error message.
  * 
- *  Any exception should be caught by reference, e.g
+ *  In normal operation, when working with a valid regex with valid options
+ *  no exception is supposed to occur. Most of the time
+ *  you can get away without resorting to try catch block just by being
+ *  a little careful about what you pass and what your environment supports.
+ *  
+ *  Protecting your regex operation with try..catch is not needed, but it's something
+ *  for you to decide. For example, if your implementation needs to take regex pattern
+ *  from user input and warn them about bad input, you will definitely need try catch.
+ * 
+ *  Note that, bad input isn't the only reason that an exception can be thrown.
+ *  As of original PCRE2 specs, you can get a load of errors for a load of 
+ *  unexpected situations. This is a rough list of causes:
+ * 
+ *  1. **Bad input:**
+ *    1. Invalid modifier (only if validation check is enabled, otherwise ignored as warning).
+ *    2. Incomplete options for regex pattern (Invalid option isn't an error, options that are not known or not applicable gets ignored graciously).
+ *    3. Malicious options (Can produce undefined/unexpected behavior).
+ *  2. **PCRE2 errors:** These errors are well defined in the original PCRE2 specs.
+ *  3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with std::exception
+ * 
+ *  An example of catching all exceptions including runtime error and Except errors:
+ * 
  *  ```
  *  try {
- *      throw Except("Error", 1, 2);
+ *      jpcre2::Regex re("pattern", "mod"); //will not throw any exception for any sane cause.
+ *  } catch (std::exception& e) {
+ *      std::cout<<e.what();
  *  }
- *  catch( Except& e){
+ *  ```
+ * 
+ *  An example of catching only jpcre2::Except errors:
+ * 
+ *  ```
+ *  try {
+ *      jpcre2::Regex re("pattern", "mod"); //will not throw any exception for any sane cause.
+ *  }
+ *  catch( jpcre2::Except& e){
  *      std::cout<<e.what();
  *  }
  *  ```
  */
-class Except: public std::exception {
+class Except: virtual public std::exception {
     
 protected:
 
@@ -190,7 +220,7 @@ protected:
     
 public:
 
-    /** Constructor (C++ STL strings).
+    /** Constructor (C++ STL string, int, int).
      *  @param msg The error message
      *  @param err_num Error number
      *  @param err_off Error offset
@@ -234,7 +264,7 @@ public:
     /** Just another name for what() for convenience.
      *  Returns a pointer to the (constant) error description.
      *  @return A pointer to a const char*. The underlying memory
-     *  is in possession of the Exception object. Callers must
+     *  is in possession of the Except object. Callers must
      *  not attempt to free the memory.
      */
     virtual const char* getErrorMessage() const throw() {
@@ -745,7 +775,7 @@ private:
 
 	/// Free #code if it's non-NULL
 	void freeRegexMemory(void) {
-		if (code)
+		if (code) // We don't need to free code if it's null
 			pcre2_code_free(code);
 	}
 
@@ -860,8 +890,8 @@ public:
 	/// Deletes memory used by #rm an #rr
 	~Regex() {
 		freeRegexMemory();
-		delete rm;
-		delete rr;
+		delete rm; //Deleting null pointer is perfectly safe, no check needed.
+		delete rr; //Deleting null pointer is perfectly safe, no check needed.
 	}
 
 	/** Reset all class variables to its default (initial) state.
@@ -907,7 +937,8 @@ public:
 	}
 
 
-	/// Get current warning message
+	/// Get current warning message.
+    /// If multiple warning occurs in a single operation, only the last one will be returned.
 	/// @return #current_warning_msg
 	String getWarningMessage() {
 		return current_warning_msg;

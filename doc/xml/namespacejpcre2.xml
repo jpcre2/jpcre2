@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
   <compounddef id="namespacejpcre2" kind="namespace" language="C++">
     <compoundname>jpcre2</compoundname>
     <innerclass refid="classjpcre2_1_1Except" prot="public">jpcre2::Except</innerclass>
@@ -11,9 +11,9 @@
     <innernamespace refid="namespacejpcre2_1_1MOD">jpcre2::MOD</innernamespace>
     <innernamespace refid="namespacejpcre2_1_1utils">jpcre2::utils</innernamespace>
       <sectiondef kind="enum">
-      <memberdef kind="enum" id="namespacejpcre2_1a85c143271501e383843f45b9999c2f00" prot="public" static="no">
+      <memberdef kind="enum" id="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00" prot="public" static="no">
         <name>@0</name>
-        <enumvalue id="namespacejpcre2_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9" prot="public">
+        <enumvalue id="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9" prot="public">
           <name>NONE</name>
           <initializer>= 0x0000000u</initializer>
           <briefdescription>
@@ -21,15 +21,15 @@
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" prot="public">
+        <enumvalue id="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" prot="public">
           <name>VALIDATE_MODIFIER</name>
           <initializer>= 0x0000001u</initializer>
           <briefdescription>
-<para>Perform validation check on modifiers and throw <ref refid="namespacejpcre2_1_1ERROR_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" kindref="member">jpcre2::ERROR::INVALID_MODIFIER</ref> if any wrong modifier is passed. </para>          </briefdescription>
+<para>Perform validation check on modifiers and throw <ref refid="namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2_1a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" kindref="member">jpcre2::ERROR::INVALID_MODIFIER</ref> if any wrong modifier was passed. </para>          </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="namespacejpcre2_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c" prot="public">
+        <enumvalue id="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c" prot="public">
           <name>FIND_ALL</name>
           <initializer>= 0x0000002u</initializer>
           <briefdescription>
@@ -37,7 +37,7 @@
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" prot="public">
+        <enumvalue id="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" prot="public">
           <name>JIT_COMPILE</name>
           <initializer>= 0x0000004u</initializer>
           <briefdescription>
@@ -45,7 +45,7 @@
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="namespacejpcre2_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" prot="public">
+        <enumvalue id="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" prot="public">
           <name>ERROR_ALL</name>
           <initializer>= 0x0000008u</initializer>
           <briefdescription>
@@ -208,7 +208,7 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
-      <memberdef kind="variable" id="namespacejpcre2_1a80cb201f2e733137b22a8ed98465096a" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="namespacejpcre2_a80cb201f2e733137b22a8ed98465096a_1a80cb201f2e733137b22a8ed98465096a" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c" kindref="member">SIZE_T</ref></type>
         <definition>const jpcre2::SIZE_T jpcre2::SUBSTITUTE_RESULT_INIT_SIZE</definition>
         <argsstring></argsstring>
@@ -217,33 +217,31 @@
         <briefdescription>
 <para>Used by default to provide big enough initial buffer for replaced string. </para>        </briefdescription>
         <detaileddescription>
-<para>Use max of int as the initial size of replaced string. </para>        </detaileddescription>
+<para>Max of <computeroutput>int</computeroutput> is used as the initial size of replaced string by default. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="100" column="1" bodyfile="src/jpcre2.cpp" bodystart="57" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1RegexReplace_1a462810e8fc902f09e475a164e81cc5f5" compoundref="jpcre2_8hpp" startline="512" endline="519">jpcre2::RegexReplace::init_vars</referencedby>
       </memberdef>
-      <memberdef kind="variable" id="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5_1ad2236dcdcc14d580724b256ce7f168e5" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
         <definition>const jpcre2::String jpcre2::LOCALE_NONE</definition>
         <argsstring></argsstring>
         <name>LOCALE_NONE</name>
         <initializer>= &quot;JPCRE2_NONE&quot;</initializer>
         <briefdescription>
-<para>Don&apos;t do anything about locale if it is set to <ref refid="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5" kindref="member">LOCALE_NONE</ref>. </para>        </briefdescription>
+<para>Don&apos;t do anything about locale if it is set to <ref refid="namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5_1ad2236dcdcc14d580724b256ce7f168e5" kindref="member">jpcre2::LOCALE_NONE</ref>. </para>        </briefdescription>
         <detaileddescription>
 <para>Nothing to be done on locale. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="101" column="1" bodyfile="src/jpcre2.cpp" bodystart="58" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1aad1d5ef1e87f762f68a587eec4022e69" compoundref="jpcre2_8cpp" startline="334" endline="377">jpcre2::Regex::compile</referencedby>
       </memberdef>
-      <memberdef kind="variable" id="namespacejpcre2_1adfdd3d1fff99e685734ae4e59771e84d" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="namespacejpcre2_adfdd3d1fff99e685734ae4e59771e84d_1adfdd3d1fff99e685734ae4e59771e84d" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
         <definition>const jpcre2::String jpcre2::LOCALE_DEFAULT</definition>
         <argsstring></argsstring>
         <name>LOCALE_DEFAULT</name>
-        <initializer>= <ref refid="namespacejpcre2_1ad2236dcdcc14d580724b256ce7f168e5" kindref="member">LOCALE_NONE</ref></initializer>
+        <initializer>= <ref refid="namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5_1ad2236dcdcc14d580724b256ce7f168e5" kindref="member">LOCALE_NONE</ref></initializer>
         <briefdescription>
 <para>Default locale. </para>        </briefdescription>
         <detaileddescription>
@@ -251,7 +249,6 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="102" column="1" bodyfile="src/jpcre2.cpp" bodystart="59" bodyend="-1"/>
-        <referencedby refid="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" compoundref="jpcre2_8hpp" startline="708" endline="715">jpcre2::Regex::init_vars</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1abf6c3bff9268a572c299958d334ff26e" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -266,8 +263,6 @@
         <inbodydescription>
         </inbodydescription>
         <location file="src/jpcre2.hpp" line="103" column="1" bodyfile="src/jpcre2.cpp" bodystart="60" bodyend="-1"/>
-        <referencedby refid="namespacejpcre2_1_1utils_1a58db3a9ce0296d70469611445cb42209" compoundref="jpcre2_8cpp" startline="172" endline="182">jpcre2::utils::getErrorMessage</referencedby>
-        <referencedby refid="classjpcre2_1_1Regex_1a240790a0f3d8e97af0a76ad3f882e02a" compoundref="jpcre2_8cpp" startline="240" endline="272">jpcre2::Regex::deepCopy</referencedby>
       </memberdef>
       </sectiondef>
     <briefdescription>

@@ -5,12 +5,12 @@
 Main header file for J\+P\+C\+R\+E2 library to be included by programs that uses its functionalities.  
 
 
-{\ttfamily \#include $<$pcre2.\+h$>$}\\*
-{\ttfamily \#include $<$cstddef$>$}\\*
-{\ttfamily \#include $<$string$>$}\\*
-{\ttfamily \#include $<$vector$>$}\\*
-{\ttfamily \#include $<$map$>$}\\*
-{\ttfamily \#include $<$exception$>$}\\*
+{\ttfamily \#include $<$pcre2.\+h$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$exception$>$}\newline
 Include dependency graph for jpcre2.\+hpp\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -31,9 +31,9 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 class \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}
 \begin{DoxyCompactList}\small\item\em Class to handle exception. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}
-\begin{DoxyCompactList}\small\item\em Provides the \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33}{Regex\+Match\+::match()} function to perform regex matching. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Provides the \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{Regex\+Match\+::match()} function to perform regex matching. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexReplace}{jpcre2\+::\+Regex\+Replace}
-\begin{DoxyCompactList}\small\item\em Provides the \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0}{Regex\+Replace\+::replace()} function to perform regex replace on a string. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Provides the \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_afd087fa7a9bfedec802d1a3dd7edbdd0}{Regex\+Replace\+::replace()} function to perform regex replace on a string. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1Regex}{jpcre2\+::\+Regex}
 \begin{DoxyCompactList}\small\item\em Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match and replace against a compiled pattern. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Namespaces}
@@ -52,127 +52,147 @@ class \hyperlink{classjpcre2_1_1Regex}{jpcre2\+::\+Regex}
 \subsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \hyperlink{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH}~8\hypertarget{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{}\label{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}
-
+\hypertarget{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{}\label{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d} 
+\#define \hyperlink{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH}~8
 \begin{DoxyCompactList}\small\item\em Code unit width 8 is used by default. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-typedef std\+::size\+\_\+t \hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{jpcre2\+::\+S\+I\+Z\+E\+\_\+T}\hypertarget{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{}\label{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}
-
+\hypertarget{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{}\label{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c} 
+typedef std\+::size\+\_\+t \hyperlink{namespacejpcre2_a2aac465ddcb123560c7c8215dd69246c}{jpcre2\+::\+S\+I\+Z\+E\+\_\+T}
 \begin{DoxyCompactList}\small\item\em Used for match count and vector size. \end{DoxyCompactList}\item 
-typedef uint32\+\_\+t \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{jpcre2\+::\+Uint}\hypertarget{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{}\label{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}
-
+\hypertarget{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{}\label{namespacejpcre2_a078242d38221a13fb3543b9edd78c099} 
+typedef uint32\+\_\+t \hyperlink{namespacejpcre2_a078242d38221a13fb3543b9edd78c099}{jpcre2\+::\+Uint}
 \begin{DoxyCompactList}\small\item\em Used for options (bitwise operation) \end{DoxyCompactList}\item 
-typedef std\+::string \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{jpcre2\+::\+String}\hypertarget{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{}\label{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}
-
+\hypertarget{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{}\label{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16} 
+typedef std\+::string \hyperlink{namespacejpcre2_a91f03070152fb228bc116c5a737f1d16}{jpcre2\+::\+String}
 \begin{DoxyCompactList}\small\item\em Used as std\+::string. \end{DoxyCompactList}\item 
-typedef std\+::map$<$ String, String $>$ \hyperlink{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf}{jpcre2\+::\+Map\+Nas}\hypertarget{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf}{}\label{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf}
-
+\hypertarget{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf}{}\label{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf} 
+typedef std\+::map$<$ String, String $>$ \hyperlink{namespacejpcre2_a20bd901c9ca3c949806aa6b9e324f6cf}{jpcre2\+::\+Map\+Nas}
 \begin{DoxyCompactList}\small\item\em Map for Named substrings. \end{DoxyCompactList}\item 
-typedef std\+::map$<$ S\+I\+Z\+E\+\_\+T, String $>$ \hyperlink{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82}{jpcre2\+::\+Map\+Num}\hypertarget{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82}{}\label{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82}
-
+\hypertarget{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82}{}\label{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82} 
+typedef std\+::map$<$ S\+I\+Z\+E\+\_\+T, String $>$ \hyperlink{namespacejpcre2_a947e37f0e4a1678157e7f1f855638e82}{jpcre2\+::\+Map\+Num}
 \begin{DoxyCompactList}\small\item\em Map for Numbered substrings. \end{DoxyCompactList}\item 
-typedef std\+::map$<$ String, S\+I\+Z\+E\+\_\+T $>$ \hyperlink{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656}{jpcre2\+::\+Map\+NtN}\hypertarget{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656}{}\label{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656}
-
+\hypertarget{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656}{}\label{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656} 
+typedef std\+::map$<$ String, S\+I\+Z\+E\+\_\+T $>$ \hyperlink{namespacejpcre2_a753ebedfb8caf4a16ffbf47d8d705656}{jpcre2\+::\+Map\+NtN}
 \begin{DoxyCompactList}\small\item\em Substring name to Substring number map. \end{DoxyCompactList}\item 
-typedef Map\+NtN \hyperlink{namespacejpcre2_a09243236543ef477ff7f284c52656ef9}{jpcre2\+::\+Map\+Ntn}\hypertarget{namespacejpcre2_a09243236543ef477ff7f284c52656ef9}{}\label{namespacejpcre2_a09243236543ef477ff7f284c52656ef9}
-
+\hypertarget{namespacejpcre2_a09243236543ef477ff7f284c52656ef9}{}\label{namespacejpcre2_a09243236543ef477ff7f284c52656ef9} 
+typedef Map\+NtN \hyperlink{namespacejpcre2_a09243236543ef477ff7f284c52656ef9}{jpcre2\+::\+Map\+Ntn}
 \begin{DoxyCompactList}\small\item\em Allow spelling mistake of Map\+NtN as Map\+Ntn. \end{DoxyCompactList}\item 
-typedef std\+::vector$<$ Map\+Nas $>$ \hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{jpcre2\+::\+Vec\+Nas}\hypertarget{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{}\label{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}
-
+\hypertarget{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{}\label{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b} 
+typedef std\+::vector$<$ Map\+Nas $>$ \hyperlink{namespacejpcre2_a2b121ae776ea5b2913839f418a7d856b}{jpcre2\+::\+Vec\+Nas}
 \begin{DoxyCompactList}\small\item\em Vector of matches with named substrings. \end{DoxyCompactList}\item 
-typedef std\+::vector$<$ Map\+NtN $>$ \hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2\+::\+Vec\+NtN}\hypertarget{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{}\label{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}
-
+\hypertarget{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{}\label{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb} 
+typedef std\+::vector$<$ Map\+NtN $>$ \hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2\+::\+Vec\+NtN}
 \begin{DoxyCompactList}\small\item\em Vector of substring name to Substring number map. \end{DoxyCompactList}\item 
-typedef Vec\+NtN \hyperlink{namespacejpcre2_a8d6b7b4c873bc7cb4626f950d2b40f9d}{jpcre2\+::\+Vec\+Ntn}\hypertarget{namespacejpcre2_a8d6b7b4c873bc7cb4626f950d2b40f9d}{}\label{namespacejpcre2_a8d6b7b4c873bc7cb4626f950d2b40f9d}
-
+\hypertarget{namespacejpcre2_a8d6b7b4c873bc7cb4626f950d2b40f9d}{}\label{namespacejpcre2_a8d6b7b4c873bc7cb4626f950d2b40f9d} 
+typedef Vec\+NtN \hyperlink{namespacejpcre2_a8d6b7b4c873bc7cb4626f950d2b40f9d}{jpcre2\+::\+Vec\+Ntn}
 \begin{DoxyCompactList}\small\item\em Allow spelling mistake of Vec\+NtN as Vec\+Ntn. \end{DoxyCompactList}\item 
-typedef std\+::vector$<$ Map\+Num $>$ \hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{jpcre2\+::\+Vec\+Num}\hypertarget{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{}\label{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}
-
+\hypertarget{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{}\label{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3} 
+typedef std\+::vector$<$ Map\+Num $>$ \hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{jpcre2\+::\+Vec\+Num}
 \begin{DoxyCompactList}\small\item\em Vector of matches with numbered substrings. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9}{jpcre2\+::\+N\+O\+NE} = 0x0000000u, 
+\newline
+\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER} = 0x0000001u, 
+\newline
+\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c}{jpcre2\+::\+F\+I\+N\+D\+\_\+\+A\+LL} = 0x0000002u, 
+\newline
+\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE} = 0x0000004u, 
+\newline
+\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL} = 0x0000008u
+ \}\begin{DoxyCompactList}\small\item\em These constants provide J\+P\+C\+R\+E2 options. \end{DoxyCompactList}
+\item 
+enum \{ \newline
+\hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER} = 2, 
+\newline
+\hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2_a4b2998984439438fa9da8d7043909bc2aa116db5c7b638480ccad3ae938d33c3e}{jpcre2\+::\+E\+R\+R\+O\+R\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+L\+E\+\_\+\+F\+A\+I\+L\+ED} = 3
+ \}\begin{DoxyCompactList}\small\item\em E\+R\+R\+OR numbers. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
 \subsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-String \hyperlink{namespacejpcre2_1_1utils_a3603a3493202e7408e18fd0a912bf725}{jpcre2\+::utils\+::to\+String} (int)
+String \hyperlink{namespacejpcre2_1_1utils_a3603a3493202e7408e18fd0a912bf725_a3603a3493202e7408e18fd0a912bf725}{jpcre2\+::utils\+::to\+String} (int)
 \begin{DoxyCompactList}\small\item\em Converts an integer to String. \end{DoxyCompactList}\item 
-String \hyperlink{namespacejpcre2_1_1utils_a917512161b56047d6ef240bdba2ac212}{jpcre2\+::utils\+::to\+String} (char)
+String \hyperlink{namespacejpcre2_1_1utils_a917512161b56047d6ef240bdba2ac212_a917512161b56047d6ef240bdba2ac212}{jpcre2\+::utils\+::to\+String} (char)
 \begin{DoxyCompactList}\small\item\em Converts a char to String. \end{DoxyCompactList}\item 
-String \hyperlink{namespacejpcre2_1_1utils_a4065a2a40144999cd2a94e7a7e1d5eb6}{jpcre2\+::utils\+::to\+String} (const char $\ast$)
+String \hyperlink{namespacejpcre2_1_1utils_a4065a2a40144999cd2a94e7a7e1d5eb6_a4065a2a40144999cd2a94e7a7e1d5eb6}{jpcre2\+::utils\+::to\+String} (const char $\ast$)
 \begin{DoxyCompactList}\small\item\em Converts const char$\ast$ to String. \end{DoxyCompactList}\item 
-String \hyperlink{namespacejpcre2_1_1utils_aea66a35f467adf41730c5a3bb21be6ed}{jpcre2\+::utils\+::to\+String} (P\+C\+R\+E2\+\_\+\+U\+C\+H\+AR $\ast$)
+String \hyperlink{namespacejpcre2_1_1utils_aea66a35f467adf41730c5a3bb21be6ed_aea66a35f467adf41730c5a3bb21be6ed}{jpcre2\+::utils\+::to\+String} (P\+C\+R\+E2\+\_\+\+U\+C\+H\+AR $\ast$)
 \begin{DoxyCompactList}\small\item\em Converts a P\+C\+R\+E2\+\_\+\+U\+C\+H\+A\+R$\ast$ to String. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6}{jpcre2\+::utils\+::get\+Pcre2\+Error\+Message} (int)
+std\+::string \hyperlink{namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_a6f28489b48095eeaacfaa43a0a8e87a6}{jpcre2\+::utils\+::get\+Pcre2\+Error\+Message} (int)
 \begin{DoxyCompactList}\small\item\em Get P\+C\+R\+E2 error message for an error number. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209}{jpcre2\+::utils\+::get\+Error\+Message} (int, int)
+std\+::string \hyperlink{namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_a58db3a9ce0296d70469611445cb42209}{jpcre2\+::utils\+::get\+Error\+Message} (int, int)
 \begin{DoxyCompactList}\small\item\em Get error message from error number and error offset. \end{DoxyCompactList}\item 
-void \hyperlink{namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc}{jpcre2\+::utils\+::throw\+Exception} (int, int)
+void \hyperlink{namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_a71c7842918bdcc6936266813981492dc}{jpcre2\+::utils\+::throw\+Exception} (int, int)
 \begin{DoxyCompactList}\small\item\em Used throughout J\+P\+C\+R\+E2 to throw exceptions. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a0d5716a82b496f2ccf5eee832275b4b8}{jpcre2\+::\+I\+N\+F\+O\+::\+N\+A\+ME}
+const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a0d5716a82b496f2ccf5eee832275b4b8_a0d5716a82b496f2ccf5eee832275b4b8}{jpcre2\+::\+I\+N\+F\+O\+::\+N\+A\+ME}
 \begin{DoxyCompactList}\small\item\em Name of the project. \end{DoxyCompactList}\item 
-const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a315fc58da1463f4d1cc417677bd31ca1}{jpcre2\+::\+I\+N\+F\+O\+::\+F\+U\+L\+L\+\_\+\+V\+E\+R\+S\+I\+ON}\hypertarget{namespacejpcre2_1_1INFO_a315fc58da1463f4d1cc417677bd31ca1}{}\label{namespacejpcre2_1_1INFO_a315fc58da1463f4d1cc417677bd31ca1}
-
+\hypertarget{namespacejpcre2_1_1INFO_a315fc58da1463f4d1cc417677bd31ca1}{}\label{namespacejpcre2_1_1INFO_a315fc58da1463f4d1cc417677bd31ca1} 
+const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a315fc58da1463f4d1cc417677bd31ca1}{jpcre2\+::\+I\+N\+F\+O\+::\+F\+U\+L\+L\+\_\+\+V\+E\+R\+S\+I\+ON}
 \begin{DoxyCompactList}\small\item\em Full version string. \end{DoxyCompactList}\item 
-const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a9d046526610d624eaaa04b5fb000e48f}{jpcre2\+::\+I\+N\+F\+O\+::\+V\+E\+R\+S\+I\+O\+N\+\_\+\+G\+E\+N\+RE}\hypertarget{namespacejpcre2_1_1INFO_a9d046526610d624eaaa04b5fb000e48f}{}\label{namespacejpcre2_1_1INFO_a9d046526610d624eaaa04b5fb000e48f}
-
+\hypertarget{namespacejpcre2_1_1INFO_a9d046526610d624eaaa04b5fb000e48f}{}\label{namespacejpcre2_1_1INFO_a9d046526610d624eaaa04b5fb000e48f} 
+const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a9d046526610d624eaaa04b5fb000e48f}{jpcre2\+::\+I\+N\+F\+O\+::\+V\+E\+R\+S\+I\+O\+N\+\_\+\+G\+E\+N\+RE}
 \begin{DoxyCompactList}\small\item\em Generation, depends on original P\+C\+R\+E2 version. \end{DoxyCompactList}\item 
-const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a5deb805502c30063a5a68d91bf034d86}{jpcre2\+::\+I\+N\+F\+O\+::\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR}\hypertarget{namespacejpcre2_1_1INFO_a5deb805502c30063a5a68d91bf034d86}{}\label{namespacejpcre2_1_1INFO_a5deb805502c30063a5a68d91bf034d86}
-
+\hypertarget{namespacejpcre2_1_1INFO_a5deb805502c30063a5a68d91bf034d86}{}\label{namespacejpcre2_1_1INFO_a5deb805502c30063a5a68d91bf034d86} 
+const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a5deb805502c30063a5a68d91bf034d86}{jpcre2\+::\+I\+N\+F\+O\+::\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+A\+J\+OR}
 \begin{DoxyCompactList}\small\item\em Major version, updated when A\+PI change is made. \end{DoxyCompactList}\item 
-const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a0644b3b2680e99fc88c0a98f6a0d25d1}{jpcre2\+::\+I\+N\+F\+O\+::\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR}\hypertarget{namespacejpcre2_1_1INFO_a0644b3b2680e99fc88c0a98f6a0d25d1}{}\label{namespacejpcre2_1_1INFO_a0644b3b2680e99fc88c0a98f6a0d25d1}
-
+\hypertarget{namespacejpcre2_1_1INFO_a0644b3b2680e99fc88c0a98f6a0d25d1}{}\label{namespacejpcre2_1_1INFO_a0644b3b2680e99fc88c0a98f6a0d25d1} 
+const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a0644b3b2680e99fc88c0a98f6a0d25d1}{jpcre2\+::\+I\+N\+F\+O\+::\+V\+E\+R\+S\+I\+O\+N\+\_\+\+M\+I\+N\+OR}
 \begin{DoxyCompactList}\small\item\em Minor version, includes bug fix or minor feature upgrade. \end{DoxyCompactList}\item 
-const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a85fb46b46141271d426f53b2c2ba6b15}{jpcre2\+::\+I\+N\+F\+O\+::\+V\+E\+R\+S\+I\+O\+N\+\_\+\+P\+R\+E\+\_\+\+R\+E\+L\+E\+A\+SE}\hypertarget{namespacejpcre2_1_1INFO_a85fb46b46141271d426f53b2c2ba6b15}{}\label{namespacejpcre2_1_1INFO_a85fb46b46141271d426f53b2c2ba6b15}
-
+\hypertarget{namespacejpcre2_1_1INFO_a85fb46b46141271d426f53b2c2ba6b15}{}\label{namespacejpcre2_1_1INFO_a85fb46b46141271d426f53b2c2ba6b15} 
+const std\+::string \hyperlink{namespacejpcre2_1_1INFO_a85fb46b46141271d426f53b2c2ba6b15}{jpcre2\+::\+I\+N\+F\+O\+::\+V\+E\+R\+S\+I\+O\+N\+\_\+\+P\+R\+E\+\_\+\+R\+E\+L\+E\+A\+SE}
 \begin{DoxyCompactList}\small\item\em Alpha or beta (testing) release version. \end{DoxyCompactList}\item 
-const S\+I\+Z\+E\+\_\+T \hyperlink{namespacejpcre2_a80cb201f2e733137b22a8ed98465096a}{jpcre2\+::\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+R\+E\+S\+U\+L\+T\+\_\+\+I\+N\+I\+T\+\_\+\+S\+I\+ZE} = std\+::numeric\+\_\+limits$<$int$>$\+::max()
+const S\+I\+Z\+E\+\_\+T \hyperlink{namespacejpcre2_a80cb201f2e733137b22a8ed98465096a_a80cb201f2e733137b22a8ed98465096a}{jpcre2\+::\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+R\+E\+S\+U\+L\+T\+\_\+\+I\+N\+I\+T\+\_\+\+S\+I\+ZE} = std\+::numeric\+\_\+limits$<$int$>$\+::max()
 \begin{DoxyCompactList}\small\item\em Used by default to provide big enough initial buffer for replaced string. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE} = \char`\"{}J\+P\+C\+R\+E2\+\_\+\+N\+O\+NE\char`\"{}
-\begin{DoxyCompactList}\small\item\em Don\textquotesingle{}t do anything about locale if it is set to \hyperlink{namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5}{L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE}. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_adfdd3d1fff99e685734ae4e59771e84d}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+LT} = L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE
+const String \hyperlink{namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5_ad2236dcdcc14d580724b256ce7f168e5}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE} = \char`\"{}J\+P\+C\+R\+E2\+\_\+\+N\+O\+NE\char`\"{}
+\begin{DoxyCompactList}\small\item\em Don\textquotesingle{}t do anything about locale if it is set to \hyperlink{namespacejpcre2_ad2236dcdcc14d580724b256ce7f168e5_ad2236dcdcc14d580724b256ce7f168e5}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE}. \end{DoxyCompactList}\item 
+const String \hyperlink{namespacejpcre2_adfdd3d1fff99e685734ae4e59771e84d_adfdd3d1fff99e685734ae4e59771e84d}{jpcre2\+::\+L\+O\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+LT} = L\+O\+C\+A\+L\+E\+\_\+\+N\+O\+NE
 \begin{DoxyCompactList}\small\item\em Default locale. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{jpcre2\+::\+J\+I\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+P\+R\+E\+F\+IX} = \char`\"{}J\+IT compilation failed! \char`\"{}\hypertarget{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{}\label{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}
-
+\hypertarget{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{}\label{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e} 
+const String \hyperlink{namespacejpcre2_abf6c3bff9268a572c299958d334ff26e}{jpcre2\+::\+J\+I\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+P\+R\+E\+F\+IX} = \char`\"{}J\+IT compilation failed! \char`\"{}
 \begin{DoxyCompactList}\small\item\em Prefix to be added to J\+IT error message. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_1_1MOD_a3b72b258386dc5ea4a23504e89908247}{jpcre2\+::\+M\+O\+D\+::\+C\+\_\+N}\hypertarget{namespacejpcre2_1_1MOD_a3b72b258386dc5ea4a23504e89908247}{}\label{namespacejpcre2_1_1MOD_a3b72b258386dc5ea4a23504e89908247}
-
+\hypertarget{namespacejpcre2_1_1MOD_a3b72b258386dc5ea4a23504e89908247}{}\label{namespacejpcre2_1_1MOD_a3b72b258386dc5ea4a23504e89908247} 
+const String \hyperlink{namespacejpcre2_1_1MOD_a3b72b258386dc5ea4a23504e89908247}{jpcre2\+::\+M\+O\+D\+::\+C\+\_\+N}
 \begin{DoxyCompactList}\small\item\em String of compile modifier characters for P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const Uint \hyperlink{namespacejpcre2_1_1MOD_a78025b5470499fcedb9f9bcb7cc0060b}{jpcre2\+::\+M\+O\+D\+::\+C\+\_\+V} \mbox{[}$\,$\mbox{]}\hypertarget{namespacejpcre2_1_1MOD_a78025b5470499fcedb9f9bcb7cc0060b}{}\label{namespacejpcre2_1_1MOD_a78025b5470499fcedb9f9bcb7cc0060b}
-
+\hypertarget{namespacejpcre2_1_1MOD_a78025b5470499fcedb9f9bcb7cc0060b}{}\label{namespacejpcre2_1_1MOD_a78025b5470499fcedb9f9bcb7cc0060b} 
+const Uint \hyperlink{namespacejpcre2_1_1MOD_a78025b5470499fcedb9f9bcb7cc0060b}{jpcre2\+::\+M\+O\+D\+::\+C\+\_\+V} \mbox{[}$\,$\mbox{]}
 \begin{DoxyCompactList}\small\item\em Array of compile modifier values for P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_1_1MOD_aa17f8c8525a87009846a6b9d9e3d1336}{jpcre2\+::\+M\+O\+D\+::\+C\+J\+\_\+N}\hypertarget{namespacejpcre2_1_1MOD_aa17f8c8525a87009846a6b9d9e3d1336}{}\label{namespacejpcre2_1_1MOD_aa17f8c8525a87009846a6b9d9e3d1336}
-
+\hypertarget{namespacejpcre2_1_1MOD_aa17f8c8525a87009846a6b9d9e3d1336}{}\label{namespacejpcre2_1_1MOD_aa17f8c8525a87009846a6b9d9e3d1336} 
+const String \hyperlink{namespacejpcre2_1_1MOD_aa17f8c8525a87009846a6b9d9e3d1336}{jpcre2\+::\+M\+O\+D\+::\+C\+J\+\_\+N}
 \begin{DoxyCompactList}\small\item\em String of compile modifier characters for J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const Uint \hyperlink{namespacejpcre2_1_1MOD_a455f33361efc25e03e5a8613de8a0fa0}{jpcre2\+::\+M\+O\+D\+::\+C\+J\+\_\+V} \mbox{[}$\,$\mbox{]}\hypertarget{namespacejpcre2_1_1MOD_a455f33361efc25e03e5a8613de8a0fa0}{}\label{namespacejpcre2_1_1MOD_a455f33361efc25e03e5a8613de8a0fa0}
-
+\hypertarget{namespacejpcre2_1_1MOD_a455f33361efc25e03e5a8613de8a0fa0}{}\label{namespacejpcre2_1_1MOD_a455f33361efc25e03e5a8613de8a0fa0} 
+const Uint \hyperlink{namespacejpcre2_1_1MOD_a455f33361efc25e03e5a8613de8a0fa0}{jpcre2\+::\+M\+O\+D\+::\+C\+J\+\_\+V} \mbox{[}$\,$\mbox{]}
 \begin{DoxyCompactList}\small\item\em Array of compile modifier values for J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_1_1MOD_ae9029cd8600f49ba50ae0c7e42804a91}{jpcre2\+::\+M\+O\+D\+::\+M\+\_\+N}\hypertarget{namespacejpcre2_1_1MOD_ae9029cd8600f49ba50ae0c7e42804a91}{}\label{namespacejpcre2_1_1MOD_ae9029cd8600f49ba50ae0c7e42804a91}
-
+\hypertarget{namespacejpcre2_1_1MOD_ae9029cd8600f49ba50ae0c7e42804a91}{}\label{namespacejpcre2_1_1MOD_ae9029cd8600f49ba50ae0c7e42804a91} 
+const String \hyperlink{namespacejpcre2_1_1MOD_ae9029cd8600f49ba50ae0c7e42804a91}{jpcre2\+::\+M\+O\+D\+::\+M\+\_\+N}
 \begin{DoxyCompactList}\small\item\em String of action (match) modifier characters for P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const Uint \hyperlink{namespacejpcre2_1_1MOD_a7dd2150647fee002204e7005aa126289}{jpcre2\+::\+M\+O\+D\+::\+M\+\_\+V} \mbox{[}$\,$\mbox{]}\hypertarget{namespacejpcre2_1_1MOD_a7dd2150647fee002204e7005aa126289}{}\label{namespacejpcre2_1_1MOD_a7dd2150647fee002204e7005aa126289}
-
+\hypertarget{namespacejpcre2_1_1MOD_a7dd2150647fee002204e7005aa126289}{}\label{namespacejpcre2_1_1MOD_a7dd2150647fee002204e7005aa126289} 
+const Uint \hyperlink{namespacejpcre2_1_1MOD_a7dd2150647fee002204e7005aa126289}{jpcre2\+::\+M\+O\+D\+::\+M\+\_\+V} \mbox{[}$\,$\mbox{]}
 \begin{DoxyCompactList}\small\item\em Array of action (match) modifier values for P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_1_1MOD_a079cc9fcb1e7eeab134b2146d4d67fe8}{jpcre2\+::\+M\+O\+D\+::\+M\+J\+\_\+N}\hypertarget{namespacejpcre2_1_1MOD_a079cc9fcb1e7eeab134b2146d4d67fe8}{}\label{namespacejpcre2_1_1MOD_a079cc9fcb1e7eeab134b2146d4d67fe8}
-
+\hypertarget{namespacejpcre2_1_1MOD_a079cc9fcb1e7eeab134b2146d4d67fe8}{}\label{namespacejpcre2_1_1MOD_a079cc9fcb1e7eeab134b2146d4d67fe8} 
+const String \hyperlink{namespacejpcre2_1_1MOD_a079cc9fcb1e7eeab134b2146d4d67fe8}{jpcre2\+::\+M\+O\+D\+::\+M\+J\+\_\+N}
 \begin{DoxyCompactList}\small\item\em String of action (match) modifier characters for J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const Uint \hyperlink{namespacejpcre2_1_1MOD_a02e60618af8087b9a99ae8fbed0b887c}{jpcre2\+::\+M\+O\+D\+::\+M\+J\+\_\+V} \mbox{[}$\,$\mbox{]}\hypertarget{namespacejpcre2_1_1MOD_a02e60618af8087b9a99ae8fbed0b887c}{}\label{namespacejpcre2_1_1MOD_a02e60618af8087b9a99ae8fbed0b887c}
-
+\hypertarget{namespacejpcre2_1_1MOD_a02e60618af8087b9a99ae8fbed0b887c}{}\label{namespacejpcre2_1_1MOD_a02e60618af8087b9a99ae8fbed0b887c} 
+const Uint \hyperlink{namespacejpcre2_1_1MOD_a02e60618af8087b9a99ae8fbed0b887c}{jpcre2\+::\+M\+O\+D\+::\+M\+J\+\_\+V} \mbox{[}$\,$\mbox{]}
 \begin{DoxyCompactList}\small\item\em Array of action (match) modifier values for J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_1_1MOD_a122c288202e5ffc105b93fac5a7335bf}{jpcre2\+::\+M\+O\+D\+::\+R\+\_\+N}\hypertarget{namespacejpcre2_1_1MOD_a122c288202e5ffc105b93fac5a7335bf}{}\label{namespacejpcre2_1_1MOD_a122c288202e5ffc105b93fac5a7335bf}
-
+\hypertarget{namespacejpcre2_1_1MOD_a122c288202e5ffc105b93fac5a7335bf}{}\label{namespacejpcre2_1_1MOD_a122c288202e5ffc105b93fac5a7335bf} 
+const String \hyperlink{namespacejpcre2_1_1MOD_a122c288202e5ffc105b93fac5a7335bf}{jpcre2\+::\+M\+O\+D\+::\+R\+\_\+N}
 \begin{DoxyCompactList}\small\item\em String of action (replace) modifier characters for P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const Uint \hyperlink{namespacejpcre2_1_1MOD_adde7332e9b90d54c907c30dfa9fbc4d6}{jpcre2\+::\+M\+O\+D\+::\+R\+\_\+V} \mbox{[}$\,$\mbox{]}\hypertarget{namespacejpcre2_1_1MOD_adde7332e9b90d54c907c30dfa9fbc4d6}{}\label{namespacejpcre2_1_1MOD_adde7332e9b90d54c907c30dfa9fbc4d6}
-
+\hypertarget{namespacejpcre2_1_1MOD_adde7332e9b90d54c907c30dfa9fbc4d6}{}\label{namespacejpcre2_1_1MOD_adde7332e9b90d54c907c30dfa9fbc4d6} 
+const Uint \hyperlink{namespacejpcre2_1_1MOD_adde7332e9b90d54c907c30dfa9fbc4d6}{jpcre2\+::\+M\+O\+D\+::\+R\+\_\+V} \mbox{[}$\,$\mbox{]}
 \begin{DoxyCompactList}\small\item\em Array of action (replace) modifier values for P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const String \hyperlink{namespacejpcre2_1_1MOD_a8d13695c0e0355460cef4f7b96076210}{jpcre2\+::\+M\+O\+D\+::\+R\+J\+\_\+N}\hypertarget{namespacejpcre2_1_1MOD_a8d13695c0e0355460cef4f7b96076210}{}\label{namespacejpcre2_1_1MOD_a8d13695c0e0355460cef4f7b96076210}
-
+\hypertarget{namespacejpcre2_1_1MOD_a8d13695c0e0355460cef4f7b96076210}{}\label{namespacejpcre2_1_1MOD_a8d13695c0e0355460cef4f7b96076210} 
+const String \hyperlink{namespacejpcre2_1_1MOD_a8d13695c0e0355460cef4f7b96076210}{jpcre2\+::\+M\+O\+D\+::\+R\+J\+\_\+N}
 \begin{DoxyCompactList}\small\item\em String of action (replace) modifier characters for J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\item 
-const Uint \hyperlink{namespacejpcre2_1_1MOD_a30011385a69e77d8681517c621c2a140}{jpcre2\+::\+M\+O\+D\+::\+R\+J\+\_\+V} \mbox{[}$\,$\mbox{]}\hypertarget{namespacejpcre2_1_1MOD_a30011385a69e77d8681517c621c2a140}{}\label{namespacejpcre2_1_1MOD_a30011385a69e77d8681517c621c2a140}
-
+\hypertarget{namespacejpcre2_1_1MOD_a30011385a69e77d8681517c621c2a140}{}\label{namespacejpcre2_1_1MOD_a30011385a69e77d8681517c621c2a140} 
+const Uint \hyperlink{namespacejpcre2_1_1MOD_a30011385a69e77d8681517c621c2a140}{jpcre2\+::\+M\+O\+D\+::\+R\+J\+\_\+V} \mbox{[}$\,$\mbox{]}
 \begin{DoxyCompactList}\small\item\em Array of action (replace) modifier values for J\+P\+C\+R\+E2 options. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 

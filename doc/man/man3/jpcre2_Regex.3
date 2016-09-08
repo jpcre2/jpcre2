@@ -1,4 +1,4 @@
-.TH "jpcre2::Regex" 3 "Thu Sep 8 2016" "Version 10.25.03" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::Regex" 3 "Thu Sep 8 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -15,151 +15,151 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "\fBRegex\fP ()"
 .br
-.RI "\fIDefault Constructor\&. \fP"
+.RI "Default Constructor\&. "
 .ti -1c
 .RI "\fBRegex\fP (const \fBString\fP &re)"
 .br
-.RI "\fICompile pattern with initialization\&. \fP"
+.RI "Compile pattern with initialization\&. "
 .ti -1c
 .RI "\fBRegex\fP (const \fBString\fP &re, const \fBString\fP &mod)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "\fBRegex\fP (const \fBString\fP &re, \fBUint\fP pcre2_opts)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "\fBRegex\fP (const \fBString\fP &re, \fBUint\fP pcre2_opts, \fBUint\fP opt_bits)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "\fBRegex\fP (const \fBRegex\fP &r)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Copy constructor. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Copy constructor. "
 .ti -1c
 .RI "\fBRegex\fP & \fBoperator=\fP (const \fBRegex\fP &r)"
 .br
-.RI "\fIOverloaded assignment operator\&. \fP"
+.RI "Overloaded assignment operator\&. "
 .ti -1c
 .RI "\fB~Regex\fP ()"
 .br
-.RI "\fIDestructor Deletes memory used by \fBrm\fP an \fBrr\fP\&. \fP"
+.RI "Destructor Deletes memory used by \fBrm\fP an \fBrr\fP\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBreset\fP ()"
 .br
-.RI "\fIReset all class variables to its default (initial) state\&. \fP"
+.RI "Reset all class variables to its default (initial) state\&. "
 .ti -1c
 .RI "\fBString\fP \fBgetModifier\fP ()"
 .br
-.RI "\fIGet modifier string calculated from JPCRE2 and PCRE2 options\&. \fP"
+.RI "Get modifier string calculated from JPCRE2 and PCRE2 options\&. "
 .ti -1c
 .RI "\fBString\fP \fBgetPattern\fP ()"
 .br
-.RI "\fIGet pattern string\&. \fP"
+.RI "Get pattern string\&. "
 .ti -1c
 .RI "\fBString\fP \fBgetLocale\fP ()"
 .br
-.RI "\fIGet locale as a string\&. \fP"
+.RI "Get locale as a string\&. "
 .ti -1c
 .RI "\fBUint\fP \fBgetPcre2Option\fP ()"
 .br
-.RI "\fIGet PCRE2 option\&. \fP"
+.RI "Get PCRE2 option\&. "
 .ti -1c
 .RI "\fBUint\fP \fBgetJpcre2Option\fP ()"
 .br
-.RI "\fIGet JPCRE2 option\&. \fP"
+.RI "Get JPCRE2 option\&. "
 .ti -1c
 .RI "\fBString\fP \fBgetWarningMessage\fP ()"
 .br
-.RI "\fIGet current warning message\&. \fP"
+.RI "Get current warning message\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBsetPattern\fP (const \fBString\fP &re)"
 .br
-.RI "\fISet the Pattern string \fBpat_str\fP\&. \fP"
+.RI "Set the Pattern string \fBpat_str\fP\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBsetModifier\fP (const \fBString\fP &x)"
 .br
-.RI "\fISet the modifier (overwrite existing JPCRE2 and PCRE2 option)\&. \fP"
+.RI "Set the modifier (overwrite existing JPCRE2 and PCRE2 option)\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBsetLocale\fP (const \fBString\fP &x)"
 .br
-.RI "\fISet the locale \fBmylocale\fP\&. \fP"
+.RI "Set the locale \fBmylocale\fP\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBsetJpcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fISet JPCRE2 option \fBjpcre2_compile_opts\fP (overwrites existing option) \fP"
+.RI "Set JPCRE2 option \fBjpcre2_compile_opts\fP (overwrites existing option) "
 .ti -1c
 .RI "\fBRegex\fP & \fBsetPcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fISet PCRE2 option \fBcompile_opts\fP (overwrites existing option) \fP"
+.RI "Set PCRE2 option \fBcompile_opts\fP (overwrites existing option) "
 .ti -1c
 .RI "\fBRegex\fP & \fBchangeModifier\fP (const \fBString\fP &, bool)"
 .br
-.RI "\fIParse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. \fP"
+.RI "Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBchangeJpcre2Option\fP (\fBUint\fP opt, bool x)"
 .br
-.RI "\fIAdd or remove a JPCRE2 option\&. \fP"
+.RI "Add or remove a JPCRE2 option\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBchangePcre2Option\fP (\fBUint\fP opt, bool x)"
 .br
-.RI "\fIAdd or remove a PCRE2 option\&. \fP"
+.RI "Add or remove a PCRE2 option\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBaddModifier\fP (const \fBString\fP &mod)"
 .br
-.RI "\fIParse modifier string and add equivalent PCRE2 and JPCRE2 options\&. \fP"
+.RI "Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBaddJpcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fIAdd option to existing JPCRE2 options \fBjpcre2_compile_opts\fP\&. \fP"
+.RI "Add option to existing JPCRE2 options \fBjpcre2_compile_opts\fP\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBaddPcre2Option\fP (\fBUint\fP x)"
 .br
-.RI "\fIAdd option to existing PCRE2 options \fBcompile_opts\fP\&. \fP"
+.RI "Add option to existing PCRE2 options \fBcompile_opts\fP\&. "
 .ti -1c
 .RI "void \fBcompile\fP (void)"
 .br
-.RI "\fICompile the regex pattern from class variable \fBpat_str\fP\&. \fP"
+.RI "Compile the regex pattern from class variable \fBpat_str\fP\&. "
 .ti -1c
 .RI "void \fBcompile\fP (const \fBString\fP &re, \fBUint\fP po, \fBUint\fP jo)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "void \fBcompile\fP (const \fBString\fP &re, \fBUint\fP po)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "void \fBcompile\fP (const \fBString\fP &re, const \fBString\fP &mod)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "void \fBcompile\fP (const \fBString\fP &re)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s, const \fBString\fP &mod)"
 .br
-.RI "\fIPerform regex match and return match count\&. \fP"
+.RI "Perform regex match and return match count\&. "
 .ti -1c
 .RI "\fBSIZE_T\fP \fBmatch\fP (const \fBString\fP &s)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "\fBRegexMatch\fP & \fBinitMatch\fP ()"
 .br
-.RI "\fIPrepare to call \fBRegexMatch::match()\fP\&. \fP"
+.RI "Prepare to call \fBRegexMatch::match()\fP\&. "
 .ti -1c
 .RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains, const \fBString\fP &repl, const \fBString\fP &mod)"
 .br
-.RI "\fIPerform regex replace and return the replaced string\&. \fP"
+.RI "Perform regex replace and return the replaced string\&. "
 .ti -1c
 .RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains, const \fBString\fP &repl)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBinitReplace\fP ()"
 .br
-.RI "\fIPrepare to call \fBRegexReplace::replace()\fP\&. \fP"
+.RI "Prepare to call \fBRegexReplace::replace()\fP\&. "
 .in -1c
 .SS "Private Member Functions"
 
@@ -167,31 +167,31 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "void \fBinit_vars\fP ()"
 .br
-.RI "\fIInitialize class variables\&. \fP"
+.RI "Initialize class variables\&. "
 .ti -1c
 .RI "void \fBinit\fP ()"
 .br
-.RI "\fICall \fBRegex::init_vars()\fP and initialize class variables\&. \fP"
+.RI "Call \fBRegex::init_vars()\fP and initialize class variables\&. "
 .ti -1c
 .RI "void \fBinit\fP (const \fBString\fP &re, const \fBString\fP &mod)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "void \fBinit\fP (const \fBString\fP &re, \fBUint\fP po, \fBUint\fP jo)"
 .br
-.RI "\fIThis is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. \fP"
+.RI "This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. "
 .ti -1c
 .RI "void \fBfreeRegexMemory\fP (void)"
 .br
-.RI "\fIFree \fBcode\fP if it's non-NULL\&. \fP"
+.RI "Free \fBcode\fP if it's non-NULL\&. "
 .ti -1c
 .RI "void \fBshallowCopy\fP (const \fBRegex\fP &r)"
 .br
-.RI "\fIDo a shallow copy of class variables\&. \fP"
+.RI "Do a shallow copy of class variables\&. "
 .ti -1c
 .RI "void \fBdeepCopy\fP (const \fBRegex\fP &)"
 .br
-.RI "\fIDo a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. \fP"
+.RI "Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. "
 .in -1c
 .SS "Private Attributes"
 
@@ -199,35 +199,35 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "\fBRegexMatch\fP * \fBrm\fP"
 .br
-.RI "\fIPointer to \fBRegexMatch\fP object\&. \fP"
+.RI "Pointer to \fBRegexMatch\fP object\&. "
 .ti -1c
 .RI "\fBRegexReplace\fP * \fBrr\fP"
 .br
-.RI "\fIPointer to \fBRegexReplace\fP object\&. \fP"
+.RI "Pointer to \fBRegexReplace\fP object\&. "
 .ti -1c
 .RI "\fBString\fP \fBpat_str\fP"
 .br
-.RI "\fIPattern string\&. \fP"
+.RI "Pattern string\&. "
 .ti -1c
 .RI "pcre2_code * \fBcode\fP"
 .br
-.RI "\fIPointer to compiled pattern\&. \fP"
+.RI "Pointer to compiled pattern\&. "
 .ti -1c
 .RI "\fBUint\fP \fBcompile_opts\fP"
 .br
-.RI "\fICompile options for PCRE2 (used by PCRE2 internal function pcre2_compile()) \fP"
+.RI "Compile options for PCRE2 (used by PCRE2 internal function pcre2_compile()) "
 .ti -1c
 .RI "\fBUint\fP \fBjpcre2_compile_opts\fP"
 .br
-.RI "\fICompile options specific to JPCRE2\&. \fP"
+.RI "Compile options specific to JPCRE2\&. "
 .ti -1c
 .RI "\fBString\fP \fBmylocale\fP"
 .br
-.RI "\fILocale as a string\&. \fP"
+.RI "Locale as a string\&. "
 .ti -1c
 .RI "\fBString\fP \fBcurrent_warning_msg\fP"
 .br
-.RI "\fICurrent warning message\&. \fP"
+.RI "Current warning message\&. "
 .in -1c
 .SS "Friends"
 
@@ -235,11 +235,11 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .ti -1c
 .RI "class \fBRegexMatch\fP"
 .br
-.RI "\fIDefine \fBRegexMatch\fP as friends\&. It needs to access the compiled pattern which is a private property of this class\&. \fP"
+.RI "Define \fBRegexMatch\fP as friends\&. It needs to access the compiled pattern which is a private property of this class\&. "
 .ti -1c
 .RI "class \fBRegexReplace\fP"
 .br
-.RI "\fIDefine \fBRegexReplace\fP as friends\&. It needs to access the compiled pattern which is a private property of this class\&. \fP"
+.RI "Define \fBRegexReplace\fP as friends\&. It needs to access the compiled pattern which is a private property of this class\&. "
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -445,8 +445,6 @@ Add or remove a JPCRE2 option\&.
 .RE
 .PP
 
-.PP
-Referenced by jpcre2::RegexMatch::changeModifier(), jpcre2::RegexReplace::changeModifier(), and changeModifier()\&.
 .SS "\fBjpcre2::Regex\fP & jpcre2::Regex::changeModifier (const \fBString\fP & mod, bool x)"
 
 .PP
@@ -481,8 +479,6 @@ This function does not initialize or re-initialize options\&. If you want to set
 .RE
 .PP
 
-.PP
-References jpcre2::MOD::C_N, jpcre2::MOD::C_V, changeJpcre2Option(), changePcre2Option(), jpcre2::MOD::CJ_N, jpcre2::MOD::CJ_V, current_warning_msg, jpcre2::ERROR_ALL, jpcre2::utils::getErrorMessage(), jpcre2::ERROR::INVALID_MODIFIER, jpcre2_compile_opts, jpcre2::utils::throwException(), and jpcre2::VALIDATE_MODIFIER\&.
 .SS "\fBRegex\fP& jpcre2::Regex::changePcre2Option (\fBUint\fP opt, bool x)\fC [inline]\fP"
 
 .PP
@@ -508,8 +504,6 @@ Add or remove a PCRE2 option\&.
 .RE
 .PP
 
-.PP
-Referenced by jpcre2::RegexMatch::changeModifier(), jpcre2::RegexReplace::changeModifier(), and changeModifier()\&.
 .SS "void jpcre2::Regex::compile (void)"
 
 .PP
@@ -541,8 +535,6 @@ void \fBcompile(const String& re)\fP
 .RE
 .PP
 
-.PP
-References code, compile_opts, current_warning_msg, jpcre2::ERROR_ALL, jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2_compile_opts, jpcre2::LOCALE_NONE, mylocale, pat_str, jpcre2::utils::throwException(), and jpcre2::utils::toString()\&.
 .SS "void jpcre2::Regex::compile (const \fBString\fP & re, \fBUint\fP po, \fBUint\fP jo)\fC [inline]\fP"
 
 .PP
@@ -631,8 +623,6 @@ Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. Copy compiled pattern to 
 .RE
 .PP
 
-.PP
-References code, current_warning_msg, jpcre2::ERROR_ALL, freeRegexMemory(), jpcre2::utils::getPcre2ErrorMessage(), jpcre2::JIT_COMPILE, jpcre2::ERROR::JIT_COMPILE_FAILED, jpcre2::JIT_ERROR_MESSAGE_PREFIX, jpcre2_compile_opts, rm, rr, and jpcre2::utils::throwException()\&.
 .SS "\fBUint\fP jpcre2::Regex::getJpcre2Option ()\fC [inline]\fP"
 
 .PP
@@ -674,8 +664,6 @@ Calculated modifier string
 .RE
 .PP
 
-.PP
-References jpcre2::MOD::C_N, jpcre2::MOD::C_V, jpcre2::MOD::CJ_N, jpcre2::MOD::CJ_V, compile_opts, and jpcre2_compile_opts\&.
 .SS "\fBString\fP jpcre2::Regex::getPattern ()\fC [inline]\fP"
 
 .PP
@@ -701,7 +689,7 @@ Get PCRE2 option\&.
 .SS "\fBString\fP jpcre2::Regex::getWarningMessage ()\fC [inline]\fP"
 
 .PP
-Get current warning message\&. 
+Get current warning message\&. If multiple warning occurs in a single operation, only the last one will be returned\&. 
 .PP
 \fBReturns:\fP
 .RS 4
@@ -767,8 +755,6 @@ Prepare to call \fBRegexMatch::match()\fP\&. Other options can be set with the s
 .RE
 .PP
 
-.PP
-References jpcre2::RegexMatch::re\&.
 .SS "\fBRegexReplace\fP& jpcre2::Regex::initReplace ()\fC [inline]\fP"
 
 .PP
@@ -793,8 +779,6 @@ Prepare to call \fBRegexReplace::replace()\fP\&. Other options can be set with t
 .RE
 .PP
 
-.PP
-References jpcre2::RegexReplace::re\&.
 .SS "\fBSIZE_T\fP jpcre2::Regex::match (const \fBString\fP & s, const \fBString\fP & mod)\fC [inline]\fP"
 
 .PP
@@ -823,8 +807,6 @@ Match count
 .RE
 .PP
 
-.PP
-References jpcre2::RegexMatch::match(), jpcre2::RegexMatch::re, jpcre2::RegexMatch::setModifier(), and jpcre2::RegexMatch::setSubject()\&.
 .SS "\fBSIZE_T\fP jpcre2::Regex::match (const \fBString\fP & s)\fC [inline]\fP"
 
 .PP
@@ -846,8 +828,6 @@ Match count
 .RE
 .PP
 
-.PP
-References jpcre2::RegexMatch::match(), jpcre2::RegexMatch::re, and jpcre2::RegexMatch::setSubject()\&.
 .SS "\fBRegex\fP& jpcre2::Regex::operator= (const \fBRegex\fP & r)\fC [inline]\fP"
 
 .PP
@@ -911,10 +891,6 @@ Resultant string after regex replace
 .RE
 .PP
 
-.PP
-References jpcre2::RegexReplace::re, jpcre2::RegexReplace::replace(), jpcre2::RegexReplace::setModifier(), jpcre2::RegexReplace::setReplaceWith(), and jpcre2::RegexReplace::setSubject()\&.
-.PP
-Referenced by jpcre2::RegexReplace::replace()\&.
 .SS "\fBString\fP jpcre2::Regex::replace (const \fBString\fP & mains, const \fBString\fP & repl)\fC [inline]\fP"
 
 .PP
@@ -943,8 +919,6 @@ Resultant string after regex replace
 .RE
 .PP
 
-.PP
-References jpcre2::RegexReplace::re, jpcre2::RegexReplace::replace(), jpcre2::RegexReplace::setReplaceWith(), and jpcre2::RegexReplace::setSubject()\&.
 .SS "\fBRegex\fP& jpcre2::Regex::reset ()\fC [inline]\fP"
 
 .PP

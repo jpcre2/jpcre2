@@ -12,13 +12,13 @@
 
 int main(){
 
-    jpcre2::VecNum vec_num0;   ///Vector to store numbered substring Maps.
-    jpcre2::VecNas vec_nas0;   ///Vector to store named substring Maps.
-    jpcre2::VecNtN vec_nn0;    ///Vector to store Named substring to Number Maps.
+    jpcre2::VecNum vec_num0;   //Vector to store numbered substring Maps.
+    jpcre2::VecNas vec_nas0;   //Vector to store named substring Maps.
+    jpcre2::VecNtN vec_nn0;    //Vector to store Named substring to Number Maps.
     
-    jpcre2::Regex re;     ///It's not supposed to throw any exception.
+    jpcre2::Regex re;          //It's not supposed to throw any exception.
     
-    ///Compile the pattern
+    //Compile the pattern
     try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
           .setModifier("nJ")                                                    //set modifier
           .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                            //validation check (won't have any effect)
@@ -28,22 +28,27 @@ int main(){
           .compile();}                                                          //Finally compile it.
     catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
     
-    /// The above `jpcre2::VALIDATE_MODIFIER` option won't have any effect as modifier was passed before it.
-    /// You can pass a modifier (~ or &) to turn this validation check on. In that case
-    /// validation will start after ~ or & modifier is encountered,
+    // The above `jpcre2::VALIDATE_MODIFIER` option won't have any effect as modifier was passed before it.
+    // You can pass a modifier (~ or &) to turn this validation check on. In that case
+    // validation will start after ~ or & modifier is encountered,
+    
+    // In above, JIT compiler warning will be treated as error and you will get an exception.
+    // JIT compile error is treated as warning by default, because it poses no problem doing match
+    // or replace. It's just an optimization. It will do it's job (optimize the compiled regex for faster operation)
+    // whenever available and do nothing if not.
+    
 
     /***************************************************************************************************************
-     * Always use try catch to catch any exception and avoid unexpected termination of the program.
      * All jpcre2 exceptions are of type jpcre2::Except
      * *************************************************************************************************************/
     
-    ///subject string
+    //subject string
     std::string subject = "(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56)";
     
     size_t count=0;
     
     try{count = re.initMatch()                                  //Invoke the initMatch() function
-                  .addModifier("~gf")                             //set various parameters (f: invalid modifier)
+                  .addModifier("~g")                            //set various parameters (~: jpcre2::ERROR_ALL)
                   .setSubject(subject)                          //...
                   .setNumberedSubstringVector(&vec_num0)        //...
                   .setNamedSubstringVector(&vec_nas0)           //...
@@ -52,21 +57,18 @@ int main(){
                   .match();}                                    //Finally perform the match
     catch(jpcre2::Except& e){std::cerr<<"\n"<<e.getErrorMessage();}
     
-    std::cerr<<"\n"<<re.getWarningMessage(); //(f: invalid modifier) warning
     
-    //std::cout<<jpcre2::utils::getErrorMessage(2,2);
-    
-    /// re.reset(); /// re-initialize re
+    // re.reset(); // re-initialize re
     
     
     std::cout<<"\nTotal number of mathces: "<<count<<std::endl;
-    ///Now let's access the matched data
+    //Now let's access the matched data
     
-    ///Each of these vectors contains maps.
-    ///Each element in the vector specifies a particular match
-    ///First match is the vector element 0, second is at index 1 and so forth
-    ///A map for a vector element, i.e for a match contains all of its substrings/capture groups
-    ///The first element of the map is capture group 0 i.e total match
+    //Each of these vectors contains maps.
+    //Each element in the vector specifies a particular match
+    //First match is the vector element 0, second is at index 1 and so forth
+    //A map for a vector element, i.e for a match contains all of its substrings/capture groups
+    //The first element of the map is capture group 0 i.e total match
     
     
     for(size_t i=0;i<vec_num0.size();++i){
@@ -76,7 +78,7 @@ int main(){
         
         
         
-        ///This vector contains maps with number as the key and the corresponding substring as the value
+        //This vector contains maps with number as the key and the corresponding substring as the value
         std::cout<<"\n-------------------------------------------------------------------------";
         std::cout<< "\n--- Numbered Substrings (number: substring) for match "<<i+1<<" ---\n";
         for(jpcre2::MapNum::iterator ent=vec_num0[i].begin();ent!=vec_num0[i].end();++ent){
@@ -85,7 +87,7 @@ int main(){
         
         
         
-        ///This vector contains maps with name as the key and the corresponding substring as the value
+        //This vector contains maps with name as the key and the corresponding substring as the value
         std::cout<<"\n-------------------------------------------------------------------------";
         std::cout<< "\n--- Named Substrings (name: substring) for match "<<i+1<<" ---\n";
         for(jpcre2::MapNas::iterator ent=vec_nas0[i].begin();ent!=vec_nas0[i].end();++ent){
@@ -94,8 +96,8 @@ int main(){
         
         
         
-        ///This vector contains maps with name as the key and number as the value
-        ///i.e the number (of substring) can be accessed with the name for named substring.
+        //This vector contains maps with name as the key and number as the value
+        //i.e the number (of substring) can be accessed with the name for named substring.
         std::cout<<"\n-------------------------------------------------------------------------";
         std::cout<< "\n--- Name to number mapping (name: number/position) for match "<<i+1<<" ---\n";
         for(jpcre2::MapNtN::iterator ent=vec_nn0[i].begin();ent!=vec_nn0[i].end();++ent){

@@ -3,3 +3,4 @@
 cd doc
 ./crmkf
 cd ..
+./autogen.sh
