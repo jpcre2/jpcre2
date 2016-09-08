@@ -164,7 +164,7 @@
 <codeline><highlight class="normal">jpcre2::VecNum<sp/>vec_num;<sp/><sp/><sp/>///Vector<sp/>to<sp/>store<sp/>numbered<sp/>substring<sp/>Map.</highlight></codeline>
 <codeline><highlight class="normal">jpcre2::VecNas<sp/>vec_nas;<sp/><sp/><sp/>///Vector<sp/>to<sp/>store<sp/>named<sp/>substring<sp/>Map.</highlight></codeline>
 <codeline><highlight class="normal">jpcre2::VecNtN<sp/>vec_ntn;<sp/><sp/><sp/>///Vector<sp/>to<sp/>store<sp/>Named<sp/>substring<sp/>to<sp/>Number<sp/>Map.</highlight></codeline>
-<codeline><highlight class="normal">std::string<sp/>ac_mod=&quot;g&quot;;<sp/><sp/><sp/>//<sp/>g<sp/>is<sp/>for<sp/>global<sp/>match.<sp/>Equivalent<sp/>to<sp/>using<sp/>setFindAll()<sp/>or<sp/>FIND_ALL<sp/>in<sp/>addJpcre2Options()</highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>ac_mod=&quot;g&quot;;<sp/><sp/><sp/>//<sp/>g<sp/>is<sp/>for<sp/>global<sp/>match.<sp/>Equivalent<sp/>to<sp/>using<sp/>setFindAll()<sp/>or<sp/>FIND_ALL<sp/>in<sp/>addJpcre2Option()</highlight></codeline>
 <codeline><highlight class="normal">re.initMatch()</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/>.setSubject(subject)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//set<sp/>subject<sp/>string</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/>.setModifier(ac_mod)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//set<sp/>modifier<sp/>string</highlight></codeline>

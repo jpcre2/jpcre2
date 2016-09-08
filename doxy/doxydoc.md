@@ -155,7 +155,7 @@ To get named substring and/or name to number mapping, pass pointer to the approp
 jpcre2::VecNum vec_num;   ///Vector to store numbered substring Map.
 jpcre2::VecNas vec_nas;   ///Vector to store named substring Map.
 jpcre2::VecNtN vec_ntn;   ///Vector to store Named substring to Number Map.
-std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Options()
+std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Option()
 re.initMatch()
   .setSubject(subject)                         //set subject string
   .setModifier(ac_mod)                         //set modifier string
