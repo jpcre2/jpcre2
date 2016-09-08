@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="218" column="1" bodyfile="src/jpcre2.hpp" bodystart="218" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="224" column="1" bodyfile="src/jpcre2.hpp" bodystart="224" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Except_1a12b09693ebee9b4a8b981ec1bd7506c4" prot="protected" static="no" mutable="no">
         <type>int</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="219" column="1" bodyfile="src/jpcre2.hpp" bodystart="219" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="225" column="1" bodyfile="src/jpcre2.hpp" bodystart="225" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classjpcre2_1_1Except_1a88590c6c8c512608c1000639d527dd55" prot="protected" static="no" mutable="no">
         <type>std::string</type>
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="220" column="1" bodyfile="src/jpcre2.hpp" bodystart="220" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="226" column="1" bodyfile="src/jpcre2.hpp" bodystart="226" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -91,7 +91,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="230" column="1" bodyfile="src/jpcre2.hpp" bodystart="230" bodyend="234"/>
+        <location file="src/jpcre2.hpp" line="236" column="1" bodyfile="src/jpcre2.hpp" bodystart="236" bodyend="240"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_a569a8058f61bb4e0b7085f18c4bd528c_1a569a8058f61bb4e0b7085f18c4bd528c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type></type>
@@ -105,7 +105,7 @@
 <para>Virtual to allow for subclassing. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="239" column="1" bodyfile="src/jpcre2.hpp" bodystart="239" bodyend="239"/>
+        <location file="src/jpcre2.hpp" line="245" column="1" bodyfile="src/jpcre2.hpp" bodystart="245" bodyend="245"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_aa16bdec8432ee950955f7ad81a9655bb_1aa16bdec8432ee950955f7ad81a9655bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>const char *</type>
@@ -120,7 +120,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="246" column="1" bodyfile="src/jpcre2.hpp" bodystart="246" bodyend="248"/>
+        <location file="src/jpcre2.hpp" line="252" column="1" bodyfile="src/jpcre2.hpp" bodystart="252" bodyend="254"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_a0f3e00116ab24b89836a2c2a66262e22_1a0f3e00116ab24b89836a2c2a66262e22" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>int</type>
@@ -135,7 +135,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="253" column="1" bodyfile="src/jpcre2.hpp" bodystart="253" bodyend="255"/>
+        <location file="src/jpcre2.hpp" line="259" column="1" bodyfile="src/jpcre2.hpp" bodystart="259" bodyend="261"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_ade3963035e250d3cbf84ddaad2056fee_1ade3963035e250d3cbf84ddaad2056fee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>int</type>
@@ -150,7 +150,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="260" column="1" bodyfile="src/jpcre2.hpp" bodystart="260" bodyend="262"/>
+        <location file="src/jpcre2.hpp" line="266" column="1" bodyfile="src/jpcre2.hpp" bodystart="266" bodyend="268"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Except_a6781e0804575f11d6d8bb87ec2d036c6_1a6781e0804575f11d6d8bb87ec2d036c6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>const char *</type>
@@ -165,16 +165,16 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="271" column="1" bodyfile="src/jpcre2.hpp" bodystart="271" bodyend="273"/>
+        <location file="src/jpcre2.hpp" line="277" column="1" bodyfile="src/jpcre2.hpp" bodystart="277" bodyend="279"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Class to handle exception. </para>    </briefdescription>
     <detaileddescription>
-<para>Provides public functions to get the error number, error offset and error message.</para><para>In normal operation, when working with a valid regex with valid options no exception is supposed to occur. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports.</para><para>Protecting your regex operation with try..catch is not needed, but it&apos;s something for you to decide. For example, if your implementation needs to take regex pattern from user input and warn them about bad input, you will definitely need try catch.</para><para>Note that, bad input isn&apos;t the only reason that an exception can be thrown. As of original PCRE2 specs, you can get a load of errors for a load of unexpected situations. This is a rough list of causes:</para><para><orderedlist>
+<para>Provides public functions to get the error number, error offset and error message.</para><para>When a known error is occurred during pattern compilation or match or replace, an exception of type <computeroutput><ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref></computeroutput> is thrown.</para><para>In normal operation, when working with a valid regex with valid options no exception is supposed to occur. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports.</para><para>Protecting your regex operation with try..catch is not needed, but it&apos;s something for you to decide. For example, if your implementation needs to take regex pattern from user input and warn them about bad input, you will definitely need try catch.</para><para>Note that, bad input isn&apos;t the only reason that an exception can be thrown. As of original PCRE2 specs, you can get errors for lots of unfavorable situations. These errors are well defined and you will get <computeroutput><ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref></computeroutput> exception when you encounter one of them.</para><para>This is a rough list of cases that you need to consider:</para><para><orderedlist>
 <listitem><para><bold>Bad input:</bold><orderedlist>
-<listitem><para>Invalid modifier (only if validation check is enabled, otherwise ignored as warning).</para></listitem><listitem><para>Incomplete options for regex pattern (Invalid option isn&apos;t an error, options that are not known or not applicable gets ignored graciously).</para></listitem><listitem><para>Malicious options (Can produce undefined/unexpected behavior).</para></listitem></orderedlist>
-</para></listitem><listitem><para><bold>PCRE2 errors:</bold> These errors are well defined in the original PCRE2 specs.</para></listitem><listitem><para><bold>Runtime error:</bold> Error that happens for unknown/unexpected reasons. These errors are not thrown by <ref refid="classjpcre2_1_1Except" kindref="compound">Except</ref> and therefore should be caught with std::exception</para></listitem></orderedlist>
+<listitem><para>Invalid modifier. It&apos;s an error only if validation check is enabled, otherwise ignored as warning (It&apos;s harmless either way).</para></listitem><listitem><para>Incomplete options for regex pattern may throw exception. For example, pattern with duplicate named substrings without &apos;J&apos; modifier (or equivalent PCRE2 option) will throw <computeroutput><ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref></computeroutput> exception. Any PCRE2 error should be accounted for. They mean failure of operation.</para></listitem><listitem><para>Invalid option isn&apos;t an error, options that are not known or not applicable gets ignored graciously.</para></listitem><listitem><para>Malicious options that affect existing ones can produce undefined/unexpected behavior.</para></listitem></orderedlist>
+</para></listitem><listitem><para><bold>PCRE2 errors:</bold> These errors are well defined in the original PCRE2 specs. For these <computeroutput><ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref></computeroutput> exception is thrown.</para></listitem><listitem><para><bold>Runtime error:</bold> Error that happens for unknown/unexpected reasons. These errors are not thrown by <computeroutput><ref refid="classjpcre2_1_1Except" kindref="compound">jpcre2::Except</ref></computeroutput> and therefore should be caught with <computeroutput>std::exception</computeroutput></para></listitem></orderedlist>
 </para><para>An example of catching all exceptions including runtime error and <ref refid="classjpcre2_1_1Except" kindref="compound">Except</ref> errors:</para><para><programlisting><codeline><highlight class="normal">try<sp/>{</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>jpcre2::Regex<sp/>re(&quot;pattern&quot;,<sp/>&quot;mod&quot;);<sp/>//will<sp/>not<sp/>throw<sp/>any<sp/>exception<sp/>for<sp/>any<sp/>sane<sp/>cause.</highlight></codeline>
 <codeline><highlight class="normal">}<sp/>catch<sp/>(std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
@@ -193,7 +193,7 @@
         <link refid="classjpcre2_1_1Except"/>
       </node>
     </collaborationgraph>
-    <location file="src/jpcre2.hpp" line="214" column="1" bodyfile="src/jpcre2.hpp" bodystart="214" bodyend="275"/>
+    <location file="src/jpcre2.hpp" line="220" column="1" bodyfile="src/jpcre2.hpp" bodystart="220" bodyend="281"/>
     <listofallmembers>
       <member refid="classjpcre2_1_1Except_1a88590c6c8c512608c1000639d527dd55" prot="protected" virt="non-virtual"><scope>jpcre2::Except</scope><name>error_message</name></member>
       <member refid="classjpcre2_1_1Except_1aa72e1a71b4cdf1d4baecce57b63caafc" prot="protected" virt="non-virtual"><scope>jpcre2::Except</scope><name>error_number</name></member>

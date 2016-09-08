@@ -56,22 +56,27 @@ Class to handle exception.
 
 Provides public functions to get the error number, error offset and error message.
 
+When a known error is occurred during pattern compilation or match or replace, an exception of type {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} is thrown.
+
 In normal operation, when working with a valid regex with valid options no exception is supposed to occur. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports.
 
 Protecting your regex operation with try..catch is not needed, but it\textquotesingle{}s something for you to decide. For example, if your implementation needs to take regex pattern from user input and warn them about bad input, you will definitely need try catch.
 
-Note that, bad input isn\textquotesingle{}t the only reason that an exception can be thrown. As of original P\+C\+R\+E2 specs, you can get a load of errors for a load of unexpected situations. This is a rough list of causes\+:
+Note that, bad input isn\textquotesingle{}t the only reason that an exception can be thrown. As of original P\+C\+R\+E2 specs, you can get errors for lots of unfavorable situations. These errors are well defined and you will get {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} exception when you encounter one of them.
+
+This is a rough list of cases that you need to consider\+:
 
 
 \begin{DoxyEnumerate}
 \item {\bfseries Bad input\+:}
 \begin{DoxyEnumerate}
-\item Invalid modifier (only if validation check is enabled, otherwise ignored as warning).
-\item Incomplete options for regex pattern (Invalid option isn\textquotesingle{}t an error, options that are not known or not applicable gets ignored graciously).
-\item Malicious options (Can produce undefined/unexpected behavior).
+\item Invalid modifier. It\textquotesingle{}s an error only if validation check is enabled, otherwise ignored as warning (It\textquotesingle{}s harmless either way).
+\item Incomplete options for regex pattern may throw exception. For example, pattern with duplicate named substrings without \textquotesingle{}J\textquotesingle{} modifier (or equivalent P\+C\+R\+E2 option) will throw {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} exception. Any P\+C\+R\+E2 error should be accounted for. They mean failure of operation.
+\item Invalid option isn\textquotesingle{}t an error, options that are not known or not applicable gets ignored graciously.
+\item Malicious options that affect existing ones can produce undefined/unexpected behavior.
 \end{DoxyEnumerate}
-\item {\bfseries P\+C\+R\+E2 errors\+:} These errors are well defined in the original P\+C\+R\+E2 specs.
-\item {\bfseries Runtime error\+:} Error that happens for unknown/unexpected reasons. These errors are not thrown by \hyperlink{classjpcre2_1_1Except}{Except} and therefore should be caught with std\+::exception
+\item {\bfseries P\+C\+R\+E2 errors\+:} These errors are well defined in the original P\+C\+R\+E2 specs. For these {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} exception is thrown.
+\item {\bfseries Runtime error\+:} Error that happens for unknown/unexpected reasons. These errors are not thrown by {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} and therefore should be caught with {\ttfamily std\+::exception}
 \end{DoxyEnumerate}
 
 An example of catching all exceptions including runtime error and \hyperlink{classjpcre2_1_1Except}{Except} errors\+:

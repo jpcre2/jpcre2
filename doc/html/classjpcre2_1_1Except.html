@@ -129,18 +129,21 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class to handle exception. </p>
 <p>Provides public functions to get the error number, error offset and error message.</p>
+<p>When a known error is occurred during pattern compilation or match or replace, an exception of type <code><a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a></code> is thrown.</p>
 <p>In normal operation, when working with a valid regex with valid options no exception is supposed to occur. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports.</p>
 <p>Protecting your regex operation with try..catch is not needed, but it's something for you to decide. For example, if your implementation needs to take regex pattern from user input and warn them about bad input, you will definitely need try catch.</p>
-<p>Note that, bad input isn't the only reason that an exception can be thrown. As of original PCRE2 specs, you can get a load of errors for a load of unexpected situations. This is a rough list of causes:</p>
+<p>Note that, bad input isn't the only reason that an exception can be thrown. As of original PCRE2 specs, you can get errors for lots of unfavorable situations. These errors are well defined and you will get <code><a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a></code> exception when you encounter one of them.</p>
+<p>This is a rough list of cases that you need to consider:</p>
 <ol type="1">
 <li><b>Bad input:</b><ol type="a">
-<li>Invalid modifier (only if validation check is enabled, otherwise ignored as warning).</li>
-<li>Incomplete options for regex pattern (Invalid option isn't an error, options that are not known or not applicable gets ignored graciously).</li>
-<li>Malicious options (Can produce undefined/unexpected behavior).</li>
+<li>Invalid modifier. It's an error only if validation check is enabled, otherwise ignored as warning (It's harmless either way).</li>
+<li>Incomplete options for regex pattern may throw exception. For example, pattern with duplicate named substrings without 'J' modifier (or equivalent PCRE2 option) will throw <code><a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a></code> exception. Any PCRE2 error should be accounted for. They mean failure of operation.</li>
+<li>Invalid option isn't an error, options that are not known or not applicable gets ignored graciously.</li>
+<li>Malicious options that affect existing ones can produce undefined/unexpected behavior.</li>
 </ol>
 </li>
-<li><b>PCRE2 errors:</b> These errors are well defined in the original PCRE2 specs.</li>
-<li><b>Runtime error:</b> Error that happens for unknown/unexpected reasons. These errors are not thrown by <a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">Except</a> and therefore should be caught with std::exception</li>
+<li><b>PCRE2 errors:</b> These errors are well defined in the original PCRE2 specs. For these <code><a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a></code> exception is thrown.</li>
+<li><b>Runtime error:</b> Error that happens for unknown/unexpected reasons. These errors are not thrown by <code><a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a></code> and therefore should be caught with <code>std::exception</code></li>
 </ol>
 <p>An example of catching all exceptions including runtime error and <a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">Except</a> errors:</p>
 <div class="fragment"><div class="line"><span class="keywordflow">try</span> {</div><div class="line">    <a class="code" href="classjpcre2_1_1Regex.html">jpcre2::Regex</a> re(<span class="stringliteral">&quot;pattern&quot;</span>, <span class="stringliteral">&quot;mod&quot;</span>); <span class="comment">//will not throw any exception for any sane cause.</span></div><div class="line">} <span class="keywordflow">catch</span> (std::exception&amp; e) {</div><div class="line">    std::cout&lt;&lt;e.what();</div><div class="line">}</div></div><!-- fragment --><p>An example of catching only <a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a> errors:</p>

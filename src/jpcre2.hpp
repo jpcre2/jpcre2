@@ -170,6 +170,9 @@ namespace utils {
  *  Provides public functions to get the error number,
  *  error offset and error message.
  * 
+ *  When a known error is occurred during pattern compilation or match or replace,
+ *  an exception of type `jpcre2::Except` is thrown.
+ *
  *  In normal operation, when working with a valid regex with valid options
  *  no exception is supposed to occur. Most of the time
  *  you can get away without resorting to try catch block just by being
@@ -180,15 +183,18 @@ namespace utils {
  *  from user input and warn them about bad input, you will definitely need try catch.
  * 
  *  Note that, bad input isn't the only reason that an exception can be thrown.
- *  As of original PCRE2 specs, you can get a load of errors for a load of 
- *  unexpected situations. This is a rough list of causes:
+ *  As of original PCRE2 specs, you can get errors for lots of unfavorable situations.
+ *  These errors are well defined and you will get `jpcre2::Except` exception when you encounter one of them.
  * 
+ *  This is a rough list of cases that you need to consider:
+ *
  *  1. **Bad input:**
- *    1. Invalid modifier (only if validation check is enabled, otherwise ignored as warning).
- *    2. Incomplete options for regex pattern (Invalid option isn't an error, options that are not known or not applicable gets ignored graciously).
- *    3. Malicious options (Can produce undefined/unexpected behavior).
- *  2. **PCRE2 errors:** These errors are well defined in the original PCRE2 specs.
- *  3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by Except and therefore should be caught with std::exception
+ *    1. Invalid modifier. It's an error only if validation check is enabled, otherwise ignored as warning (It's harmless either way).
+ *    2. Incomplete options for regex pattern may throw exception. For example, pattern with duplicate named substrings without 'J' modifier (or equivalent PCRE2 option) will throw `jpcre2::Except` exception. Any PCRE2 error should be accounted for. They mean failure of operation.
+ *    3. Invalid option isn't an error, options that are not known or not applicable gets ignored graciously.
+ *    4. Malicious options that affect existing ones can produce undefined/unexpected behavior.
+ *  2. **PCRE2 errors:** These errors are well defined in the original PCRE2 specs. For these `jpcre2::Except` exception is thrown.
+ *  3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by `jpcre2::Except` and therefore should be caught with `std::exception`
  * 
  *  An example of catching all exceptions including runtime error and Except errors:
  * 

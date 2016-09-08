@@ -61,26 +61,32 @@ Class to handle exception\&.
 
 Provides public functions to get the error number, error offset and error message\&.
 .PP
+When a known error is occurred during pattern compilation or match or replace, an exception of type \fC\fBjpcre2::Except\fP\fP is thrown\&.
+.PP
 In normal operation, when working with a valid regex with valid options no exception is supposed to occur\&. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports\&.
 .PP
 Protecting your regex operation with try\&.\&.catch is not needed, but it's something for you to decide\&. For example, if your implementation needs to take regex pattern from user input and warn them about bad input, you will definitely need try catch\&.
 .PP
-Note that, bad input isn't the only reason that an exception can be thrown\&. As of original PCRE2 specs, you can get a load of errors for a load of unexpected situations\&. This is a rough list of causes:
+Note that, bad input isn't the only reason that an exception can be thrown\&. As of original PCRE2 specs, you can get errors for lots of unfavorable situations\&. These errors are well defined and you will get \fC\fBjpcre2::Except\fP\fP exception when you encounter one of them\&.
+.PP
+This is a rough list of cases that you need to consider:
 .PP
 .IP "1." 4
 \fBBad input:\fP
 .IP "  1." 6
-Invalid modifier (only if validation check is enabled, otherwise ignored as warning)\&.
+Invalid modifier\&. It's an error only if validation check is enabled, otherwise ignored as warning (It's harmless either way)\&.
 .IP "  2." 6
-Incomplete options for regex pattern (Invalid option isn't an error, options that are not known or not applicable gets ignored graciously)\&.
+Incomplete options for regex pattern may throw exception\&. For example, pattern with duplicate named substrings without 'J' modifier (or equivalent PCRE2 option) will throw \fC\fBjpcre2::Except\fP\fP exception\&. Any PCRE2 error should be accounted for\&. They mean failure of operation\&.
 .IP "  3." 6
-Malicious options (Can produce undefined/unexpected behavior)\&.
+Invalid option isn't an error, options that are not known or not applicable gets ignored graciously\&.
+.IP "  4." 6
+Malicious options that affect existing ones can produce undefined/unexpected behavior\&.
 .PP
 
 .IP "2." 4
-\fBPCRE2 errors:\fP These errors are well defined in the original PCRE2 specs\&.
+\fBPCRE2 errors:\fP These errors are well defined in the original PCRE2 specs\&. For these \fC\fBjpcre2::Except\fP\fP exception is thrown\&.
 .IP "3." 4
-\fBRuntime error:\fP Error that happens for unknown/unexpected reasons\&. These errors are not thrown by \fBExcept\fP and therefore should be caught with std::exception
+\fBRuntime error:\fP Error that happens for unknown/unexpected reasons\&. These errors are not thrown by \fC\fBjpcre2::Except\fP\fP and therefore should be caught with \fCstd::exception\fP
 .PP
 .PP
 An example of catching all exceptions including runtime error and \fBExcept\fP errors:
