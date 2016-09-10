@@ -7,7 +7,7 @@
 
 
 #include <iostream>
-#include "jpcre2.cpp"
+#include "jpcre2.hpp"
 
 
 #define getLine(a) std::getline(std::cin,a,'\n')
@@ -23,18 +23,27 @@ int main(){
     getLine(mod);
     jpcre2::Regex re;   
 
-
     // Compile the pattern
     re.compile(pat,mod);
     
     //check if it was a success
-    if(!re){std::cerr<<re.getErrorMessage();} //if(re) is only available for >=C++11, use if(!!re) as an alternative
-
+    if(!re){std::cerr<<re.getErrorMessage();} 
+    
+    //if(re) is only available for >=C++11, use if(!!re) as an alternative
+    
+    /* // >= C++11
+    if(re) std::cout<<"\n Success";
+    else std::cout<<"\n Failure";
+    */
+    
+    if(!!re) std::cout<<"\n Compile Success";
+    else std::cout<<"\n Compile Failure";
 
     // subject string
     std::cout<<"\nEnter subject string (enter quit to quit): "<<std::endl;
     getLine(subject);
     if(subject=="quit")return 0;
+    
      //replacement string
     std::cout<<"\nEnter replacement string: "<<std::endl;
     getLine(repl);
@@ -50,8 +59,6 @@ int main(){
           .setReplaceWith(repl)
           .addModifier(repl_mod)
           .replace();
-
-    std::cout<<"\n\n--------------------------------------------------\n";
 
 	return 0;
 }

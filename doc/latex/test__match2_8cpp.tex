@@ -5,6 +5,15 @@
 Contains an example to take subject string, pattern and modifier from user input and perform regex match using J\+P\+C\+R\+E2.  
 
 
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}jpcre2.\+hpp\char`\"{}}\newline
+Include dependency graph for test\+\_\+match2.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__match2_8cpp__incl}
+\end{center}
+\end{figure}
 
 
 \subsubsection{Detailed Description}
@@ -14,7 +23,7 @@ Contains an example to take subject string, pattern and modifier from user input
 \begin{DoxyCodeInclude}
 
 \textcolor{preprocessor}{#include <iostream>}
-\textcolor{preprocessor}{#include "jpcre2.cpp"}
+\textcolor{preprocessor}{#include "\hyperlink{jpcre2_8hpp}{jpcre2.hpp}"}
 
 
 \textcolor{preprocessor}{#define getLine(a) std::getline(std::cin,a,'\(\backslash\)n')}
@@ -34,6 +43,7 @@ Contains an example to take subject string, pattern and modifier from user input
 
     std::cout<<\textcolor{stringliteral}{"Enter pattern: "};
     getLine(pat);
+    
     \textcolor{keywordflow}{while}(\textcolor{keyword}{true})\{
         std::cout<<\textcolor{stringliteral}{"Enter compile modifiers (eijmnsuxADJSU): "};
         getLine(mod);
@@ -50,18 +60,18 @@ Contains an example to take subject string, pattern and modifier from user input
 
     \textcolor{keywordtype}{size\_t} matched = 0;
     
-        re.\hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{initMatch}()                                \textcolor{comment}{//invoke the initMatch() function}
-          .\hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{setNumberedSubstringVector}(&vec\_num0)      \textcolor{comment}{//pointer to numbered
-       substring vector}
-          .\hyperlink{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c_ae495431f57cae54363331237ab21b56c}{setNamedSubstringVector}(&vec\_nas0)         \textcolor{comment}{//pointer to named substring
+    re.\hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{initMatch}()                                \textcolor{comment}{//invoke the initMatch() function}
+      .\hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{setNumberedSubstringVector}(&vec\_num0)      \textcolor{comment}{//pointer to numbered substring
        vector}
-          .\hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8_a04926e61d8b5f1d8bdf344efecd567d8}{setNameToNumberMapVector}(&vec\_nn0)         \textcolor{comment}{//pointer to name-to-number
-       map vector}
-          \textcolor{comment}{//.match()                                  //Let's do the match later}
-          ;
+      .\hyperlink{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c_ae495431f57cae54363331237ab21b56c}{setNamedSubstringVector}(&vec\_nas0)         \textcolor{comment}{//pointer to named substring
+       vector}
+      .\hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8_a04926e61d8b5f1d8bdf344efecd567d8}{setNameToNumberMapVector}(&vec\_nn0)         \textcolor{comment}{//pointer to name-to-number map
+       vector}
+      \textcolor{comment}{//.match()                                  //Let's do the match later}
+      ;
         
         
-    \textcolor{keywordflow}{for}(;;)\{ \textcolor{comment}{//forever loop}
+    \textcolor{keywordflow}{for}(;;) \{ \textcolor{comment}{//forever loop}
         
         std::cout<<\textcolor{stringliteral}{"\(\backslash\)nEnter subject string (enter quit to quit): "}<<std::endl;
         getLine(subject);

@@ -53,8 +53,10 @@
 #endif
 
 
-/// Allows debug message for assert
+/// Enable JPCRE2 debugging
 #ifndef JPCRE2_ENABLE_DEBUG_MODE
+#define JPCRE2_ENABLE_DEBUG_MODE
+/// Enable debug message from assert()
 #define NDEBUG
 #endif
 
@@ -64,7 +66,6 @@
 #include <string>  		// std::string
 #include <vector>   	// std::vector
 #include <map>      	// std::map
-#include <exception>    // std::exception
 
 /** @namespace jpcre2
  *  Top level namespace of JPCRE2.

@@ -7,6 +7,17 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <pcre2\&.h>\fP
+.br
+\fC#include <cstddef>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <map>\fP
+.br
+
 .SS "Classes"
 
 .in +1c
@@ -46,6 +57,22 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .RI " \fBjpcre2::utils\fP"
 .br
 .RI "Namespace for some utility functions\&. "
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBPCRE2_CODE_UNIT_WIDTH\fP   8"
+.br
+.RI "Code unit width 8 is used by default\&. "
+.ti -1c
+.RI "#define \fBJPCRE2_ENABLE_DEBUG_MODE\fP"
+.br
+.RI "Enable JPCRE2 debugging\&. "
+.ti -1c
+.RI "#define \fBNDEBUG\fP"
+.br
+.RI "Enable debug message from assert() "
 .in -1c
 .SS "Typedefs"
 

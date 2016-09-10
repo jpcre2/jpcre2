@@ -2,6 +2,43 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
   <compounddef id="pcre2__match_8cpp" kind="file" language="C++">
     <compoundname>pcre2_match.cpp</compoundname>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="no">pcre2.h</includes>
+    <incdepgraph>
+      <node id="29">
+        <label>pcre2.h</label>
+      </node>
+      <node id="26">
+        <label>pcre2_match.cpp</label>
+        <link refid="pcre2__match_8cpp"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>string.h</label>
+      </node>
+      <node id="27">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="pcre2__match_8cpp_1acff91275abcc225454675d6dfc39a58d" prot="public" static="no">
+        <name>PCRE2_CODE_UNIT_WIDTH</name>
+        <initializer>8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pcre2_match.cpp" line="46" column="9" bodyfile="src/pcre2_match.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
       <sectiondef kind="func">
       <memberdef kind="function" id="pcre2__match_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>

@@ -9,7 +9,8 @@ var indexSectionsWithContent =
   6: "msuv",
   7: "fijn",
   8: "r",
-  9: "j"
+  9: "jnp",
+  10: "j"
 };
 
 var indexSectionNames =
@@ -23,7 +24,8 @@ var indexSectionNames =
   6: "typedefs",
   7: "enumvalues",
   8: "related",
-  9: "pages"
+  9: "defines",
+  10: "pages"
 };
 
 var indexSectionLabels =
@@ -37,6 +39,7 @@ var indexSectionLabels =
   6: "Typedefs",
   7: "Enumerator",
   8: "Friends",
-  9: "Pages"
+  9: "Macros",
+  10: "Pages"
 };
 

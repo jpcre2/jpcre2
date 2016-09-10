@@ -6,7 +6,7 @@
  * */
 
 #include <iostream>
-#include "jpcre2.cpp"
+#include "jpcre2.hpp"
 
 
 #define getLine(a) std::getline(std::cin,a,'\n')
@@ -26,6 +26,7 @@ int main(){
 
     std::cout<<"Enter pattern: ";
     getLine(pat);
+    
     while(true){
         std::cout<<"Enter compile modifiers (eijmnsuxADJSU): ";
         getLine(mod);
@@ -42,15 +43,15 @@ int main(){
 
     size_t matched = 0;
     
-		re.initMatch()                                //invoke the initMatch() function
-          .setNumberedSubstringVector(&vec_num0)      //pointer to numbered substring vector
-          .setNamedSubstringVector(&vec_nas0)         //pointer to named substring vector
-          .setNameToNumberMapVector(&vec_nn0)         //pointer to name-to-number map vector
-          //.match()                                  //Let's do the match later
-          ;
+    re.initMatch()                                //invoke the initMatch() function
+      .setNumberedSubstringVector(&vec_num0)      //pointer to numbered substring vector
+      .setNamedSubstringVector(&vec_nas0)         //pointer to named substring vector
+      .setNameToNumberMapVector(&vec_nn0)         //pointer to name-to-number map vector
+      //.match()                                  //Let's do the match later
+      ;
 		
         
-    for(;;){ //forever loop
+    for(;;) { //forever loop
         
         std::cout<<"\nEnter subject string (enter quit to quit): "<<std::endl;
         getLine(subject);

@@ -7,6 +7,11 @@ test_match.cpp \- An example of performing regex match against a pattern with JP
 .SH SYNOPSIS
 .br
 .PP
+\fC#include <iostream>\fP
+.br
+\fC#include 'jpcre2\&.hpp'\fP
+.br
+
 .SH "Detailed Description"
 .PP 
 An example of performing regex match against a pattern with JPCRE2 and getting the match count and match results\&. 
@@ -16,7 +21,7 @@ Shows how to iterate over the match results to get the captured groups/substring
 .nf
 
 #include <iostream>
-#include "jpcre2\&.cpp"
+#include "jpcre2\&.hpp"
 
 
 int main(){
@@ -41,10 +46,10 @@ int main(){
     //subject string
     std::string subject = "(I am a string with words and digits 45 and specials chars: ?\&.#@ 443 অ আ ক খ গ ঘ  56)";
     
-    size_t count=0;
+    size_t count = 0;
     
     count = re\&.initMatch()                                      //Invoke the initMatch() function
-                  \&.addModifier("gf~")                           //set various parameters
+                  \&.addModifier("gf")                           //set various parameters
                   \&.setSubject(subject)                          //\&.\&.\&.
                   \&.setNumberedSubstringVector(&vec_num0)        //\&.\&.\&.
                   \&.setNamedSubstringVector(&vec_nas0)           //\&.\&.\&.

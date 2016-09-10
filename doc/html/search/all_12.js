@@ -4,7 +4,7 @@ var searchData=
   ['vec_5fntn',['vec_ntn',['../classjpcre2_1_1RegexMatch.html#a86ef413ab6d237972af858be26ff77f7',1,'jpcre2::RegexMatch']]],
   ['vec_5fnum',['vec_num',['../classjpcre2_1_1RegexMatch.html#a836705e0444568c78abaab4c8e351335',1,'jpcre2::RegexMatch']]],
   ['vecnas',['VecNas',['../namespacejpcre2.html#a2b121ae776ea5b2913839f418a7d856b',1,'jpcre2']]],
-  ['vecntn',['VecNtN',['../namespacejpcre2.html#a88a7aaf84cad627d34c8152e726168eb',1,'jpcre2::VecNtN()'],['../namespacejpcre2.html#a8d6b7b4c873bc7cb4626f950d2b40f9d',1,'jpcre2::VecNtn()']]],
+  ['vecntn',['VecNtn',['../namespacejpcre2.html#a8d6b7b4c873bc7cb4626f950d2b40f9d',1,'jpcre2::VecNtn()'],['../namespacejpcre2.html#a88a7aaf84cad627d34c8152e726168eb',1,'jpcre2::VecNtN()']]],
   ['vecnum',['VecNum',['../namespacejpcre2.html#ac1cf752c8fbb0be78020be3b80e77ce3',1,'jpcre2']]],
   ['version_5fgenre',['VERSION_GENRE',['../namespacejpcre2_1_1INFO.html#a9d046526610d624eaaa04b5fb000e48f',1,'jpcre2::INFO']]],
   ['version_5fmajor',['VERSION_MAJOR',['../namespacejpcre2_1_1INFO.html#a5deb805502c30063a5a68d91bf034d86',1,'jpcre2::INFO']]],

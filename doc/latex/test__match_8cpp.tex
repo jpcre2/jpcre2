@@ -5,6 +5,15 @@
 An example of performing regex match against a pattern with J\+P\+C\+R\+E2 and getting the match count and match results.  
 
 
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}jpcre2.\+hpp\char`\"{}}\newline
+Include dependency graph for test\+\_\+match.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__match_8cpp__incl}
+\end{center}
+\end{figure}
 
 
 \subsubsection{Detailed Description}
@@ -14,7 +23,7 @@ Shows how to iterate over the match results to get the captured groups/substring
 \begin{DoxyCodeInclude}
 
 \textcolor{preprocessor}{#include <iostream>}
-\textcolor{preprocessor}{#include "jpcre2.cpp"}
+\textcolor{preprocessor}{#include "\hyperlink{jpcre2_8hpp}{jpcre2.hpp}"}
 
 
 \textcolor{keywordtype}{int} main()\{
@@ -42,10 +51,10 @@ Shows how to iterate over the match results to get the captured groups/substring
     std::string subject = \textcolor{stringliteral}{"(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ
         56)"};
     
-    \textcolor{keywordtype}{size\_t} count=0;
+    \textcolor{keywordtype}{size\_t} count = 0;
     
     count = re.\hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{initMatch}()                                      \textcolor{comment}{//Invoke the initMatch() function}
-                  .\hyperlink{classjpcre2_1_1RegexMatch_a08c2e481fe8b9c001e67733fb4e33972_a08c2e481fe8b9c001e67733fb4e33972}{addModifier}(\textcolor{stringliteral}{"gf~"})                           \textcolor{comment}{//set various parameters}
+                  .\hyperlink{classjpcre2_1_1RegexMatch_a08c2e481fe8b9c001e67733fb4e33972_a08c2e481fe8b9c001e67733fb4e33972}{addModifier}(\textcolor{stringliteral}{"gf"})                           \textcolor{comment}{//set various parameters}
                   .\hyperlink{classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_a635c652195deaa8ebb9e107c4f972aab}{setSubject}(subject)                          \textcolor{comment}{//...}
                   .\hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{setNumberedSubstringVector}(&vec\_num0)        \textcolor{comment}{//...}
                   .\hyperlink{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c_ae495431f57cae54363331237ab21b56c}{setNamedSubstringVector}(&vec\_nas0)           \textcolor{comment}{//...}

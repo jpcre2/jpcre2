@@ -27,13 +27,13 @@
 <para>JPCRE2 error numbers are positive integers while PCRE2 error numbers are negative integers. </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="130" column="1" bodyfile="src/jpcre2.hpp" bodystart="130" bodyend="133"/>
+        <location file="src/jpcre2.hpp" line="131" column="1" bodyfile="src/jpcre2.hpp" bodystart="131" bodyend="134"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Namespace for error codes. </para>    </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/jpcre2.hpp" line="123" column="1"/>
+    <location file="src/jpcre2.hpp" line="124" column="1"/>
   </compounddef>
 </doxygen>
