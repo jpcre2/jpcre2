@@ -244,13 +244,13 @@
 <para><simplesect kind="return"><para>A reference to the <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> object </para></simplesect>
 <simplesect kind="see"><para><ref refid="classjpcre2_1_1Regex_aff12a6e75ecd3e623875d12df49b3b89_1aff12a6e75ecd3e623875d12df49b3b89" kindref="member">Regex::resetErrors()</ref> </para></simplesect>
 <simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexMatch_aa19512638f2f5389384d6b9ad01c70c0_1aa19512638f2f5389384d6b9ad01c70c0" kindref="member">RegexMatch::resetErrors()</ref></para></simplesect>
-This function is callable from everywhere in a method chain, i.e other copy of this function for other classes are available and they do the exactly same thing. <simplesect kind="return"><para>A reference to the <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> object </para></simplesect>
+If you wanna examine the error status of a function call in the method chain, add this function just before your target function so that the error is set to zero before that target function is called, and leave everything out after the target function so that there will be no additional errors from other functions.</para><para>This function is callable from everywhere in a method chain, i.e other copy of this function for other classes are available and they do the exactly same thing. <simplesect kind="return"><para>A reference to the <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> object </para></simplesect>
 <simplesect kind="see"><para><ref refid="classjpcre2_1_1Regex_aff12a6e75ecd3e623875d12df49b3b89_1aff12a6e75ecd3e623875d12df49b3b89" kindref="member">Regex::resetErrors()</ref> </para></simplesect>
 <simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexMatch_aa19512638f2f5389384d6b9ad01c70c0_1aa19512638f2f5389384d6b9ad01c70c0" kindref="member">RegexMatch::resetErrors()</ref> </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="536" column="1" bodyfile="src/jpcre2.cpp" bodystart="411" bodyend="417"/>
+        <location file="src/jpcre2.hpp" line="536" column="1" bodyfile="src/jpcre2.cpp" bodystart="416" bodyend="422"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_1a46eefdb105827920bebc8436721fa4cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
@@ -452,7 +452,7 @@ This function is callable from everywhere in a method chain, i.e other copy of t
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="604" column="1" bodyfile="src/jpcre2.cpp" bodystart="431" bodyend="456"/>
+        <location file="src/jpcre2.hpp" line="604" column="1" bodyfile="src/jpcre2.cpp" bodystart="436" bodyend="461"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1RegexReplace_afebf5e76bce8e312ab6dbdec3288b02b_1afebf5e76bce8e312ab6dbdec3288b02b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
@@ -631,7 +631,7 @@ This function is callable from everywhere in a method chain, i.e other copy of t
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="673" column="1" bodyfile="src/jpcre2.cpp" bodystart="462" bodyend="516"/>
+        <location file="src/jpcre2.hpp" line="673" column="1" bodyfile="src/jpcre2.cpp" bodystart="467" bodyend="521"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

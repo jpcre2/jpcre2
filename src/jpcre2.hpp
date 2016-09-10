@@ -936,6 +936,11 @@ public:
 	}
 
     ///Reset errors to zero.
+	///If you wanna examine the error status of a function call in the method chain,
+	///add this function just before your target function so that the error is set to zero
+	///before that target function is called, and leave everything out after the target
+	///function so that there will be no additional errors from other functions.
+	///
     ///Callable from every where in a method chain.
     ///@return A reference to the Regex object
     ///@see RegexMatch::resetErrors()

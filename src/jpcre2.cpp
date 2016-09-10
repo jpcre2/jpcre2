@@ -402,6 +402,11 @@ void jpcre2::Regex::compile() {
 
 
 ///Reset errors to zero.
+///If you wanna examine the error status of a function call in the method chain,
+///add this function just before your target function so that the error is set to zero
+///before that target function is called, and leave everything out after the target
+///function so that there will be no additional errors from other functions.
+///
 ///This function is callable from everywhere in a method chain,
 ///i.e other copy of this function for other classes are available
 ///and they do the exactly same thing.
@@ -521,7 +526,12 @@ jpcre2::String jpcre2::RegexReplace::replace() {
 
 
 
-///Reset errors to zero
+///Reset errors to zero.
+///If you wanna examine the error status of a function call in the method chain,
+///add this function just before your target function so that the error is set to zero
+///before that target function is called, and leave everything out after the target
+///function so that there will be no additional errors from other functions.
+///
 ///This function is callable from everywhere in a method chain.
 ///i.e other copy of this function for other classes are available
 ///and they do the exactly same thing.

@@ -129,6 +129,8 @@ Now you can perform match or replace against the pattern. Use the `match()` memb
 
 ### Check if regex compiled successfully 
 
+You can check if the regex was compiled successfully or not, but it's not required at all. Any error will be handled automatically and you will always get the right answer, e.g a match against a non-compiled regex will give you 0 match and for replace you will be returned the exact subject string that you passed.
+
 ```cpp
 if(!re) std::cout<<"Failed";
 else std::cout<<"successfull";
@@ -317,6 +319,7 @@ If you want to pass more options or prefer method chaining, you will have to use
 //Using a temporary regex object
 std::cout<<jpcre2::Regex("\\d+").replace("I am digits 1234","5678", "g");
 //'g' modifier is for global replacement
+//1234 gets replaced with 5678
 ```
 
 <a name="using-method-chain"></a>

@@ -1058,7 +1058,9 @@ Reset all class variables to its default (initial) state\&. Release any memory u
 .SS "\fBRegex\fP& jpcre2::Regex::resetErrors ()\fC [inline]\fP"
 
 .PP
-Reset errors to zero\&. Callable from every where in a method chain\&. 
+Reset errors to zero\&. If you wanna examine the error status of a function call in the method chain, add this function just before your target function so that the error is set to zero before that target function is called, and leave everything out after the target function so that there will be no additional errors from other functions\&.
+.PP
+Callable from every where in a method chain\&. 
 .PP
 \fBReturns:\fP
 .RS 4

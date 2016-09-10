@@ -186,7 +186,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="201" column="1" bodyfile="src/jpcre2.cpp" bodystart="581" bodyend="609"/>
+        <location file="src/jpcre2.hpp" line="201" column="1" bodyfile="src/jpcre2.cpp" bodystart="591" bodyend="619"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1RegexMatch_ab5eec3f2e862236626043c84570f000b_1ab5eec3f2e862236626043c84570f000b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -245,7 +245,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="203" column="1" bodyfile="src/jpcre2.cpp" bodystart="617" bodyend="680"/>
+        <location file="src/jpcre2.hpp" line="203" column="1" bodyfile="src/jpcre2.cpp" bodystart="627" bodyend="690"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1RegexMatch_1aeeffc8edc43a8e5d1d24ae4055213730" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -391,13 +391,13 @@
         <briefdescription>
 <para>Reset errors to zero. </para>        </briefdescription>
         <detaileddescription>
-<para>Reset errors to zero This function is callable from everywhere in a method chain.</para><para>i.e other copy of this function for other classes are available and they do the exactly same thing. <simplesect kind="return"><para>A reference to the <ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> object </para></simplesect>
+<para>If you wanna examine the error status of a function call in the method chain, add this function just before your target function so that the error is set to zero before that target function is called, and leave everything out after the target function so that there will be no additional errors from other functions.</para><para>This function is callable from everywhere in a method chain. i.e other copy of this function for other classes are available and they do the exactly same thing. <simplesect kind="return"><para>A reference to the <ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> object </para></simplesect>
 <simplesect kind="see"><para><ref refid="classjpcre2_1_1Regex_aff12a6e75ecd3e623875d12df49b3b89_1aff12a6e75ecd3e623875d12df49b3b89" kindref="member">Regex::resetErrors()</ref> </para></simplesect>
 <simplesect kind="see"><para><ref refid="classjpcre2_1_1RegexReplace_a1d708fe8f948d260a8e033cff7898f9c_1a1d708fe8f948d260a8e033cff7898f9c" kindref="member">RegexReplace::resetErrors()</ref> </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="285" column="1" bodyfile="src/jpcre2.cpp" bodystart="531" bodyend="537"/>
+        <location file="src/jpcre2.hpp" line="285" column="1" bodyfile="src/jpcre2.cpp" bodystart="541" bodyend="547"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_1a2c7efe1ec2e13827f670db4ecedcd0a0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> &amp;</type>
@@ -665,7 +665,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="376" column="1" bodyfile="src/jpcre2.cpp" bodystart="550" bodyend="575"/>
+        <location file="src/jpcre2.hpp" line="376" column="1" bodyfile="src/jpcre2.cpp" bodystart="560" bodyend="585"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1RegexMatch_a154430c66b8794d6632be6211a3ce870_1a154430c66b8794d6632be6211a3ce870" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> &amp;</type>
@@ -846,7 +846,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="441" column="1" bodyfile="src/jpcre2.cpp" bodystart="692" bodyend="996"/>
+        <location file="src/jpcre2.hpp" line="441" column="1" bodyfile="src/jpcre2.cpp" bodystart="702" bodyend="1006"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
