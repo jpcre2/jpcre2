@@ -8,7 +8,7 @@ C++ wrapper for PCRE2 library
 
 > PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.
 
-This provides some C++ wrapper functions to provide some useful utilities like regex match and regex replace.
+This provides some C++ wrapper functions to perform regex operations such as regex match and regex replace.
 
 
 # Dependency {#dependency}
@@ -16,7 +16,7 @@ This provides some C++ wrapper functions to provide some useful utilities like r
 1. PCRE2 library (`version >=10.21`).
 
 
-If the required PCRE2 version is not available in the official channel, download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a>.
+If the required PCRE2 version is not available in the official channel, you can download <a href="https://github.com/jpcre2/pcre2">my fork of the library</a>.
 
 
 # Install or Include {#install-or-include}
@@ -76,9 +76,9 @@ Performing a match or replacement against regex pattern involves two steps:
 1. Compiling the pattern
 2. Performing the match or replacement operation
 
-## Compile a pattern {#compile-a-pattern}
+## Compile a regex pattern {#compile-a-regex-pattern}
 
-**First create a `jpcre2::Regex` object**
+### A jpcre2::Regex object {#a-regex-object}
 
 (You can use temporary object too, see [short examples](#short-examples)).
 
@@ -89,11 +89,11 @@ jpcre2::Regex re;
 ```
 Each object for each regex pattern.
 
-**Compile the pattern:**
+### Compile the regex {#compile-the-regex}
 
 ```cpp
 re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
-  .addModifier("nJS")                                                   //add modifier
+  .addModifier("iJ")                                                    //add modifier (J for PCRE2_DUPNAMES)
   .compile();                                                           //Finally compile it.
       
 //Do not use setModifier() after adding any options, it will reset them.
@@ -107,20 +107,46 @@ jpcre2::Regex re4("pattern4", PCRE2_ANCHORED, jpcre2::JIT_COMPILE);
 
 Now you can perform match or replace against the pattern. Use the `match()` member function to perform regex match and the `replace()` member function to perform regex replace.
 
+### Check if regex compiled successfully {#check-regex}
+
+```cpp
+if(!re) std::cout<<"Failed";
+else std::cout<<"successfull";
+```
+The `if(re)` conditional is only available for `>= C++11`:
+
+```cpp
+if(re) std::cout<<"Success";
+else std::cout<<"Failure";
+```
+For `< C++11`, you can use the double bang trick as an alternative to `if(re)`:
+
+```cpp
+if(!!re) std::cout<<"Success";
+else std::cout<<"Failure";
+```
 
 ## Match {#match}
 
 The `jpcre2::Regex::match(const String& s)` member function can take two arguments (subject & modifier) and returns the number of matches found against the compiled pattern.
 
 
-To get the match result (captured groups) however, you need to call the `jpcre2::RegexMatch::match()` function. Point be noted that, you can not call this function directly or create any object of the class `jpcre2::RegexMatch`. To call this function, first invoke the `jpcre2::Regex::initMatch()` function. It will give you a temporary `jpcre2::RegexMatch` object. Now you can chain function calls of `jpcre2::RegexMatch::setNumberedSubstringVector(VecNum* vec_num)` and such functions from `jpcre2::RegexMatch` class to pass various parameters. After you are done passing all the parameter that you need, the `jpcre2::RegexMatch::match()` function should be called to perform the actual match and return the match count. The match results will be stored in vectors (vectors of maps) whose pointers were passed as parameters.
+To get the match result (captured groups) however, you need to call the `jpcre2::RegexMatch::match()` function. Point be noted that, you can not call this function directly or create any object of the class `jpcre2::RegexMatch`. To call this function, first invoke the `jpcre2::Regex::initMatch()` (or `jpcre2::Regex::getMatchObject()`) function. It will give you a reference to a `jpcre2::RegexMatch` object. Now you can chain method calls of `jpcre2::RegexMatch::setNumberedSubstringVector(VecNum* vec_num)` and such functions from `jpcre2::RegexMatch` class to pass various parameters. After you are done passing all the parameter that you need, the `jpcre2::RegexMatch::match()` function should be called to perform the actual match and return the match count. The match results will be stored in vectors (vectors of maps) whose pointers were passed as parameters.
 
+### Check if a string matches a regex {#check-if-a-string-matches-a-regex}
+
+```cpp
+if(re.match("I am the subject")) std::cout<<"matched (case sensitive)";
+else std::cout<<"Didn't match";
+
+if(re.match("I am the subject","i")) std::cout<<"matched (case insensitive)";
+else std::cout<<"Didn't match";
+```
 
 ### Get match count {#simple-match-count}
 
 ```cpp
-//If you want to match all and get the match count, use the action modifier 'g':
-size_t count = jpcre2::Regex("(\\d)|(\\w)","m").match("I am the subject","g");
+size_t count = jpcre2::Regex("(\\d)|(\\w)","i").match("I am the subject","g");
 ```
 
 ### Get match result {#do-match}
@@ -130,10 +156,10 @@ To get the match results, you need to pass appropriate vector pointers. This is 
 
 ```cpp
 jpcre2::VecNum vec_num;
-size_t count=re.initMatch()									//prepare for match() call
+size_t count=re.initMatch()									//Initialize match object
 			   .setSubject(subject)                         //set subject string
                .setModifier(ac_mod)                         //set modifier string
-               .setNumberedSubstringVector(&vec_num)        //pass VecNum vector to store maps of numbered substrings
+               .setNumberedSubstringVector(&vec_num)        //pass pointer to VecNum vector to store maps of numbered substrings
                .match();                                    //Finally perform the match.
 //vec_num will be populated with maps of numbered substrings.
 //count is the total number of matches found
@@ -211,11 +237,33 @@ for(size_t i=0;i<vec_num.size();++i){
 
 *The process of iterating through the vectors and associated maps are the same for all three. The size of those vectors are the same and can be accessed in the same way.*
 
+### Re-use a match object {#re-use-a-match-object}
+
+Match object is a private property of `jpcre2::Regex` class. You either have to use `jpcre2::Regex::initMatch()` or `jpcre2::Regex::getMatchObject()` function to get a reference to it. The only difference between these two is: `initMatch()` always creates a new match object deleting the previous one, while `getMatchObject()` gives you a reference to the existing match object if available, otherwise creates it.
+
+This is an example where we will perform a match in two steps:
+
+```cpp
+re.initMatch()                                //invoke the initMatch() function
+  .setNumberedSubstringVector(&vec_num)       //pointer to numbered substring vector
+  .setNamedSubstringVector(&vec_nas)          //pointer to named substring vector
+  .setNameToNumberMapVector(&vec_ntn)         //pointer to name-to-number map vector
+```
+In the first step, we just set the vectors that we want our results in. This is pretty convenient when we are going to reuse the same vectors for multiple matches against the same regex.
+
+```cpp
+size_t count = re.getMatchObject()
+                 .setSubject("I am the subject")
+                 .setModifier("i")
+                 .match()
+```
+We can perform this kind of matches as many times as we want. The vectors always get re-initialized and thus contain new data.
+
 ##Replace or Substitute {#replace}
 
 The `jpcre2::Regex::replace(const String& s, const String& r)` member function can take up-to three arguments (subject, replacement string, modifier) and returns the resultant replaced string.
 
-If you want to pass more options or prefer a named parameter idiom, you will have to use the `jpcre2::RegexReplace::replace()` function instead. Point be noted that, all constructors of the `jpcre2::RegexReplace` class are private and thus you can't create any object of this class or call the mentioned function directly. In this case you need to call `jpcre2::Regex::initReplace()` function which will give you a temporary object that you can use to chain method calls to pass various options to be used by `jpcre2::RegexReplace::replace()` before calling it.
+If you want to pass more options or prefer method chaining, you will have to use the `jpcre2::RegexReplace::replace()` function instead. Point be noted that, all constructors of the `jpcre2::RegexReplace` class are private and thus you can't create any object of this class or call the mentioned function directly. In this case you need to call `jpcre2::Regex::initReplace()` (or `jpcre2::Regex::getReplaceObject()`) function which will give you a reference to the replace object that you can use to chain method calls to pass various options to be used by `jpcre2::RegexReplace::replace()` before calling it.
 
 
 ### Simple replacement {#simple-replace}
@@ -227,7 +275,7 @@ std::cout<<jpcre2::Regex("\\d+").replace("I am digits 1234","5678", "g");
 //'g' modifier is for global replacement
 ```
 
-### Using method chain {#using-method-chaining}
+### Using method chain {#using-method-chain}
 
 ```cpp
 std::cout<<
@@ -252,7 +300,7 @@ If you pass the size of the resultant string with `jpcre2::RegexReplace::setBuff
 
 > All modifier strings are parsed and converted to equivalent PCRE2 and JPCRE2 options on the fly. If you don't want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of `addJpcre2Option()` and `addPcre2Option()` functions.
 
-Types of modifiers available: 
+Types of modifiers: 
 
 1. Compile modifier
   1. Unique modifier
@@ -264,7 +312,7 @@ Types of modifiers available:
 
 ## Compile modifiers {#compile-modifier}
 
-These modifiers define the behavior of a regex pattern. They have more or less the same meaning as the [PHP regex modifiers](https://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>\*</sup>). 
+These modifiers define the behavior of a regex pattern (they are integrated in the compiled regex). They have more or less the same meaning as the [PHP regex modifiers](https://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>\*</sup>). 
 
 Modifier | Details
 -------- | -------
@@ -293,10 +341,7 @@ Modifier | Action | Details
 `E` | replace | Extension of `e` modifier. Sets even unknown groups to empty string. Equivalent to PCRE2_SUBSTITUTE_UNSET_EMPTY \| PCRE2_SUBSTITUTE_UNKNOWN_UNSET
 `g` | match<br>replace | Global. Will perform global matching or replacement if passed. Equivalent to `jpcre2::FIND_ALL`.
 `x` | replace | Extended replacement operation. Equivalent to `PCRE2_SUBSTITUTE_EXTENDED`. It enables some Bash like features:<br>`${<n>:-<string>}`<br>`${<n>:+<string1>:<string2>}`<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
-`~` | match<br>replace<br>compile | Treat warnings as errors. Equivalent to `jpcre2::ERROR_ALL`.
-`&` | match<br>replace<br>compile | Validate modifier. Throws `jpcre2::ERROR::INVALID_MODIFIER` error in case invalid modifier encountered. Equivalent to `jpcre2::VALIDATE_MODIFIER`.
 
-<div id="jpcre2-options"></div>
 
 # Options {#options}
 
@@ -304,66 +349,30 @@ JPCRE2 allows both PCRE2 and native JPCRE2 options to be passed. PCRE2 options a
 
 ## JPCRE2 options {#jpcre-options}
 
-These options are meaningful only for the **JPCRE2** library itself not the original **PCRE2** library. We use the `jpcre2::Regex::addJpcre2Option()` and such functions to pass these options.
+These options are meaningful only for the **JPCRE2** library, not the original **PCRE2** library. We use the `addJpcre2Option()` family of functions to pass these options.
 
 Option | Details
 ------ | ------
 `jpcre2::NONE` | This is the default option. Equivalent to 0 (zero).
-`jpcre2::VALIDATE_MODIFIER` | If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a `jpcre2::ERROR::INVALID_MODIFIER` error exception will be thrown.
 `jpcre2::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `jpcre2::RegexMatch::setModifier()` function.
-`jpcre2::ERROR_ALL` | Treat warnings as errors and throw exception.
 `jpcre2::JIT_COMPILE` | This is same as passing the `S` modifier during pattern compilation.
 
 ## PCRE2 options {#pcre2-options}
 
-While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed. We use the `jpcre2::Regex::addPcre2Option()` and such functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
+While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed (and it's faster than passing modifier). We use the `addPcre2Option()` family of functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
 
-# Exception handling {#exception-handling}
+# Error handling {#exception-handling}
 
-When a known error is occurred during pattern compilation or match or replace, an exception of type `jpcre2::Except` is thrown. The `jpcre2::Except` class provides public member functions to get the error number, error offset and error message.
+When a known error is occurred during pattern compilation or match or replace, the error number and error offsets are set to corresponding variables of `jpcre2::Regex` class. You can get the error number, error offset and error message with `jpcre2::Regex::getErrorNumber()`, `jpcre2::Regex::getErrorOffset()` and `jpcre2::Regex::getErrorMessage()` functions respectively.
 
-In normal operation, when working with a valid regex with valid options,
-no exception is supposed to occur. Most of the time
-you can get away without resorting to try catch block just by being
-a little careful about what you pass and what your environment supports.
+**Note** that, these errors always gets overwritten by previous error, so you only get the last error that occurred.
 
-Protecting your regex operation with try..catch is not needed, but it's something
-for you to decide. For example, if your implementation needs to take regex pattern
-from user input and warn them about bad input, you will definitely need try catch.
+**Also note** that, these errors never get re-initialized (se to zero), they are always there even when everything else worked great (except some previous error). But these are harmless. **You never need to worry about errors unless you want to experiment/debug**
 
-Note that, bad input isn't the only reason that an exception can be thrown.
-As of original PCRE2 specs, you can get errors for lots of unfavorable situations. These errors are well defined and you will get `jpcre2::Except` exception when you encounter one of them.
+If you do experiment with various erroneous situations, make use of the `resetErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is defined for all three classes and do the same thing.
 
- This is a rough list of cases that you need to consider:
+If you want to debug, you should also use `#define JPCRE2_ENABLE_DEBUG_MODE` before including `jpcre2.hpp`
 
-1. **Bad input:**
-  1. Invalid modifier. It's an error only if validation check is enabled, otherwise ignored as warning (It's harmless either way).
-  2. Incomplete options for regex pattern may throw exception. For example, pattern with duplicate named substrings without 'J' modifier (or equivalent PCRE2 option) will throw `jpcre2::Except` exception. Any PCRE2 error should be accounted for, they mean failure of operation.
-  3. Invalid option isn't an error, options that are not known or not applicable gets ignored graciously.
-  4. Malicious options that affect existing ones can produce undefined/unexpected behavior.
-2. **PCRE2 errors:** These errors are well defined in the original PCRE2 specs.
-3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by `jpcre2::Except` and therefore should be caught with `std::exception`.
-
-An example of catching all exceptions including runtime error and jpcre2::Except errors:
-
-```cpp
-try {
-    jpcre2::Regex re("pattern", "mod"); //will not throw any exception for any sane cause.
-} catch (std::exception& e) {
-    std::cout<<e.what();
-}
-```
-
-An example of catching only jpcre2::Except errors:
-
-```cpp
-try {
-    jpcre2::Regex re("pattern", "mod"); //will not throw any exception for any sane cause.
-}
-catch( jpcre2::Except& e){
-    std::cout<<e.what();
-}
-```
 
 # Short examples {#short-examples}
 

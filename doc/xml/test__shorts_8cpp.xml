@@ -2,55 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
   <compounddef id="test__shorts_8cpp" kind="file" language="C++">
     <compoundname>test_shorts.cpp</compoundname>
-    <includes local="no">iostream</includes>
-    <includes refid="jpcre2_8hpp" local="yes">jpcre2.hpp</includes>
-    <incdepgraph>
-      <node id="76">
-        <label>pcre2.h</label>
-      </node>
-      <node id="73">
-        <label>test_shorts.cpp</label>
-        <link refid="test__shorts_8cpp"/>
-        <childnode refid="74" relation="include">
-        </childnode>
-        <childnode refid="75" relation="include">
-        </childnode>
-      </node>
-      <node id="78">
-        <label>string</label>
-      </node>
-      <node id="75">
-        <label>jpcre2.hpp</label>
-        <link refid="jpcre2_8hpp"/>
-        <childnode refid="76" relation="include">
-        </childnode>
-        <childnode refid="77" relation="include">
-        </childnode>
-        <childnode refid="78" relation="include">
-        </childnode>
-        <childnode refid="79" relation="include">
-        </childnode>
-        <childnode refid="80" relation="include">
-        </childnode>
-        <childnode refid="81" relation="include">
-        </childnode>
-      </node>
-      <node id="80">
-        <label>map</label>
-      </node>
-      <node id="81">
-        <label>exception</label>
-      </node>
-      <node id="79">
-        <label>vector</label>
-      </node>
-      <node id="74">
-        <label>iostream</label>
-      </node>
-      <node id="77">
-        <label>cstddef</label>
-      </node>
-    </incdepgraph>
       <sectiondef kind="func">
       <memberdef kind="function" id="test__shorts_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -71,7 +22,7 @@
     <detaileddescription>
 <para><programlisting><codeline></codeline>
 <codeline><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="jpcre2_8hpp" kindref="compound">jpcre2.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;jpcre2.cpp&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main(){</highlight></codeline>
@@ -237,7 +188,7 @@
     <programlisting>
 <codeline lineno="1"></codeline>
 <codeline lineno="7"><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="jpcre2_8hpp" kindref="compound">jpcre2.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;jpcre2.cpp&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main(){</highlight></codeline>

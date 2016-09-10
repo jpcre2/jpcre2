@@ -5,15 +5,6 @@
 Contains an example to take subject string, pattern and modifier from user input and perform regex match using J\+P\+C\+R\+E2.  
 
 
-{\ttfamily \#include $<$iostream$>$}\newline
-{\ttfamily \#include \char`\"{}jpcre2.\+hpp\char`\"{}}\newline
-Include dependency graph for test\+\_\+match2.\+cpp\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{test__match2_8cpp__incl}
-\end{center}
-\end{figure}
 
 
 \subsubsection{Detailed Description}
@@ -23,7 +14,7 @@ Contains an example to take subject string, pattern and modifier from user input
 \begin{DoxyCodeInclude}
 
 \textcolor{preprocessor}{#include <iostream>}
-\textcolor{preprocessor}{#include "\hyperlink{jpcre2_8hpp}{jpcre2.hpp}"}
+\textcolor{preprocessor}{#include "jpcre2.cpp"}
 
 
 \textcolor{preprocessor}{#define getLine(a) std::getline(std::cin,a,'\(\backslash\)n')}
@@ -36,10 +27,10 @@ Contains an example to take subject string, pattern and modifier from user input
     \hyperlink{namespacejpcre2_a88a7aaf84cad627d34c8152e726168eb}{jpcre2::VecNtN} vec\_nn0;    \textcolor{comment}{//Vector to store Named substring to Number Map.}
     
    
-    std::string pat,mod,subject;
+    std::string pat, mod, subject, ac\_mod;
     
     \textcolor{comment}{//create an object}
-    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re;     \textcolor{comment}{// This should not throw any exception}
+    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re;
 
     std::cout<<\textcolor{stringliteral}{"Enter pattern: "};
     getLine(pat);
@@ -48,98 +39,92 @@ Contains an example to take subject string, pattern and modifier from user input
         getLine(mod);
         
         \textcolor{comment}{//Compile pattern}
-        \textcolor{keywordflow}{try}\{re.\hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69_aad1d5ef1e87f762f68a587eec4022e69}{compile}(pat,mod);\}
-        \textcolor{keywordflow}{catch}(\hyperlink{classjpcre2_1_1Except}{jpcre2::Except}& e)\{std::cerr<<e.\hyperlink{classjpcre2_1_1Except_a6781e0804575f11d6d8bb87ec2d036c6_a6781e0804575f11d6d8bb87ec2d036c6}{getErrorMessage}()<<std::endl;\textcolor{keywordflow}{
-      continue};\}
+        re.\hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69_aad1d5ef1e87f762f68a587eec4022e69}{compile}(pat, mod);
+        
+        \textcolor{comment}{//Check if the pattern was compiled successfully, continue the loop otherwise}
+        \textcolor{keywordflow}{if}(!re)\{std::cerr<<re.\hyperlink{classjpcre2_1_1Regex_a8606fff8b192c94f58ca9e82aa048c61_a8606fff8b192c94f58ca9e82aa048c61}{getErrorMessage}()<<std::endl;\textcolor{keywordflow}{continue};\}
         \textcolor{keywordflow}{break};
     \}
     
     std::cout<<\textcolor{stringliteral}{"\(\backslash\)nPattern compiled with modifiers: "}<<re.\hyperlink{classjpcre2_1_1Regex_a0ac4e063f00128b96cd94c33609dc559_a0ac4e063f00128b96cd94c33609dc559}{getModifier}();
-    
-    \textcolor{comment}{/******************************************************************************************************
-      *********}
-\textcolor{comment}{     * All jpcre2 exceptions are of type jpcre2::Except}
-\textcolor{comment}{     * ****************************************************************************************************
-      *********/}
-    
-
-    \textcolor{comment}{//subject string}
-    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nEnter subject string (enter quit to quit): "}<<std::endl;
-    getLine(subject);
-    std::string ac\_mod;
 
     \textcolor{keywordtype}{size\_t} matched = 0;
-    \textcolor{comment}{// Continue loop as long as error occurs}
-    \textcolor{keywordflow}{while}(\textcolor{keyword}{true})\{
+    
+        re.\hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{initMatch}()                                \textcolor{comment}{//invoke the initMatch() function}
+          .\hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{setNumberedSubstringVector}(&vec\_num0)      \textcolor{comment}{//pointer to numbered
+       substring vector}
+          .\hyperlink{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c_ae495431f57cae54363331237ab21b56c}{setNamedSubstringVector}(&vec\_nas0)         \textcolor{comment}{//pointer to named substring
+       vector}
+          .\hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8_a04926e61d8b5f1d8bdf344efecd567d8}{setNameToNumberMapVector}(&vec\_nn0)         \textcolor{comment}{//pointer to name-to-number
+       map vector}
+          \textcolor{comment}{//.match()                                  //Let's do the match later}
+          ;
+        
+        
+    \textcolor{keywordflow}{for}(;;)\{ \textcolor{comment}{//forever loop}
+        
+        std::cout<<\textcolor{stringliteral}{"\(\backslash\)nEnter subject string (enter quit to quit): "}<<std::endl;
+        getLine(subject);
+        \textcolor{keywordflow}{if}(subject == \textcolor{stringliteral}{"quit"}) \textcolor{keywordflow}{break};
+        
         std::cout<<\textcolor{stringliteral}{"\(\backslash\)nEnter action (matching) modifier (Ag): "}<<std::endl;
         getLine(ac\_mod);
-        \textcolor{keywordflow}{if}(subject==\textcolor{stringliteral}{"quit"})\textcolor{keywordflow}{return} 0;
-        \textcolor{keywordflow}{try}\{matched=re.\hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{initMatch}()                                \textcolor{comment}{//invoke the initMatch()
-       function}
-                      .\hyperlink{classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_a635c652195deaa8ebb9e107c4f972aab}{setSubject}(subject)                          \textcolor{comment}{//subject}
-                      .\hyperlink{classjpcre2_1_1RegexMatch_a0a4cf8554a7e00f3cf2db34f60a43f60_a0a4cf8554a7e00f3cf2db34f60a43f60}{addJpcre2Option}(\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2::VALIDATE\_MODIFIER}) \textcolor{comment}{
-      //turn on modifier validation check}
-                      .\hyperlink{classjpcre2_1_1RegexMatch_a08c2e481fe8b9c001e67733fb4e33972_a08c2e481fe8b9c001e67733fb4e33972}{addModifier}(ac\_mod)                        \textcolor{comment}{//add modifier}
-                      .\hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{setNumberedSubstringVector}(&vec\_num0)      \textcolor{comment}{//pointer to
-       numbered substring vector}
-                      .\hyperlink{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c_ae495431f57cae54363331237ab21b56c}{setNamedSubstringVector}(&vec\_nas0)         \textcolor{comment}{//pointer to named
-       substring vector}
-                      .\hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8_a04926e61d8b5f1d8bdf344efecd567d8}{setNameToNumberMapVector}(&vec\_nn0)         \textcolor{comment}{//pointer to
-       name-to-number map vector}
-                      .\hyperlink{classjpcre2_1_1RegexMatch_aac4857cd8f5eae15b29b9afbe9023522_aac4857cd8f5eae15b29b9afbe9023522}{addPcre2Option}(0)                          \textcolor{comment}{//add PCRE2 option}
-                      .\hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{match}();                                   \textcolor{comment}{//Finally do the match}
-        \}
-        \textcolor{keywordflow}{catch}(\hyperlink{classjpcre2_1_1Except}{jpcre2::Except}& e)\{std::cerr<<e.\hyperlink{classjpcre2_1_1Except_a6781e0804575f11d6d8bb87ec2d036c6_a6781e0804575f11d6d8bb87ec2d036c6}{getErrorMessage}();
-            \textcolor{keywordflow}{if}(e.\hyperlink{classjpcre2_1_1Except_a0f3e00116ab24b89836a2c2a66262e22_a0f3e00116ab24b89836a2c2a66262e22}{getErrorNumber}()==\hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2::ERROR::INVALID\_MODIFIER}
-      ) \textcolor{keywordflow}{continue};
-        \}
-        \textcolor{keywordflow}{break};
-    \}
-    \textcolor{comment}{//Now let's access the matched data}
+        
+        \textcolor{comment}{//Now let's do the match}
+        matched = re.\hyperlink{classjpcre2_1_1Regex_abb007e99d7e2188ec80b741e7b40668f_abb007e99d7e2188ec80b741e7b40668f}{getMatchObject}()                           \textcolor{comment}{//returns a reference to the
+       previously initialized match object}
+                    .\hyperlink{classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_a635c652195deaa8ebb9e107c4f972aab}{setSubject}(subject)                      \textcolor{comment}{//subject}
+                    .\hyperlink{classjpcre2_1_1RegexMatch_a08c2e481fe8b9c001e67733fb4e33972_a08c2e481fe8b9c001e67733fb4e33972}{addModifier}(ac\_mod)                        \textcolor{comment}{//add modifier}
+                    .\hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{match}();                                   \textcolor{comment}{//Now perform the match}
+          
+        \textcolor{comment}{//Now let's access the matched data}
 
-    \textcolor{comment}{//Each of these vectors contains maps.}
-    \textcolor{comment}{//Each element in the vector specifies a particular match}
-    \textcolor{comment}{//First match is the vector element 0, second is at index 1 and so forth}
-    \textcolor{comment}{//A map for a vector element, i.e for a match contains all of its substrings/capture groups}
-    \textcolor{comment}{//The first element of the map is capture group 0 i.e total match}
-    std::cout<<\textcolor{stringliteral}{"\(\backslash\)nTotal number of matches: "}<<matched<<std::endl;
-    \textcolor{keywordflow}{if}(matched)\{
-        \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i=0;i<vec\_num0.size();++i)\{
-            
-            
-            std::cout<< \textcolor{stringliteral}{"\(\backslash\)n################## Match no: "}<<i+1<<\textcolor{stringliteral}{" ####################\(\backslash\)n"};
-            
-            
-            
-            \textcolor{comment}{//This vector contains maps with number as the key and the corresponding substring as the value}
-            std::cout<<\textcolor{stringliteral}{"\(\backslash\)n-------------------------------------------------------------------------"};
-            std::cout<< \textcolor{stringliteral}{"\(\backslash\)n--- Numbered Substrings (number: substring) for match "}<<i+1<<\textcolor{stringliteral}{" ---\(\backslash\)n"};
-            \textcolor{keywordflow}{for}(jpcre2::MapNum::iterator ent=vec\_num0[i].begin();ent!=vec\_num0[i].end();++ent)\{
-                std::cout<<\textcolor{stringliteral}{"\(\backslash\)n\(\backslash\)t"}<<ent->first<<\textcolor{stringliteral}{": "}<<ent->second<<\textcolor{stringliteral}{"\(\backslash\)n"};
-            \}
-            
-            
-            
-            \textcolor{comment}{//This vector contains maps with name as the key and the corresponding substring as the value}
-            std::cout<<\textcolor{stringliteral}{"\(\backslash\)n-------------------------------------------------------------------------"};
-            std::cout<< \textcolor{stringliteral}{"\(\backslash\)n--- Named Substrings (name: substring) for match "}<<i+1<<\textcolor{stringliteral}{" ---\(\backslash\)n"};
-            \textcolor{keywordflow}{for}(jpcre2::MapNas::iterator ent=vec\_nas0[i].begin();ent!=vec\_nas0[i].end();++ent)\{
-                std::cout<<\textcolor{stringliteral}{"\(\backslash\)n\(\backslash\)t"}<<ent->first<<\textcolor{stringliteral}{": "}<<ent->second<<\textcolor{stringliteral}{"\(\backslash\)n"};
-            \}
-            
-            
-            
-            \textcolor{comment}{//This vector contains maps with name as the key and number as the value}
-            \textcolor{comment}{//i.e the number (of substring) can be accessed with the name for named substring.}
-            std::cout<<\textcolor{stringliteral}{"\(\backslash\)n-------------------------------------------------------------------------"};
-            std::cout<< \textcolor{stringliteral}{"\(\backslash\)n--- Name to number mapping (name: number/position) for match "}<<i+1<<\textcolor{stringliteral}{" ---\(\backslash\)n"};
-            \textcolor{keywordflow}{for}(jpcre2::MapNtN::iterator ent=vec\_nn0[i].begin();ent!=vec\_nn0[i].end();++ent)\{
-                std::cout<<\textcolor{stringliteral}{"\(\backslash\)n\(\backslash\)t"}<<ent->first<<\textcolor{stringliteral}{": "}<<ent->second<<\textcolor{stringliteral}{"\(\backslash\)n"};
+        \textcolor{comment}{//Each of these vectors contains maps.}
+        \textcolor{comment}{//Each element in the vector specifies a particular match}
+        \textcolor{comment}{//First match is the vector element 0, second is at index 1 and so forth}
+        \textcolor{comment}{//A map for a vector element, i.e for a match contains all of its substrings/capture groups}
+        \textcolor{comment}{//The first element of the map is capture group 0 i.e total match}
+        std::cout<<\textcolor{stringliteral}{"\(\backslash\)nTotal number of matches: "}<<matched<<std::endl;
+        \textcolor{keywordflow}{if}(matched)\{
+            \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t} i=0;i<vec\_num0.size();++i)\{
+                
+                
+                std::cout<< \textcolor{stringliteral}{"\(\backslash\)n################## Match no: "}<<i+1<<\textcolor{stringliteral}{" ####################\(\backslash\)n"};
+                
+                
+                
+                \textcolor{comment}{//This vector contains maps with number as the key and the corresponding substring as the
+       value}
+                std::cout<<\textcolor{stringliteral}{"\(\backslash\)n-------------------------------------------------------------------------"};
+                std::cout<< \textcolor{stringliteral}{"\(\backslash\)n--- Numbered Substrings (number: substring) for match "}<<i+1<<\textcolor{stringliteral}{" ---\(\backslash\)n"};
+                \textcolor{keywordflow}{for}(jpcre2::MapNum::iterator ent=vec\_num0[i].begin();ent!=vec\_num0[i].end();++ent)\{
+                    std::cout<<\textcolor{stringliteral}{"\(\backslash\)n\(\backslash\)t"}<<ent->first<<\textcolor{stringliteral}{": "}<<ent->second<<\textcolor{stringliteral}{"\(\backslash\)n"};
+                \}
+                
+                
+                
+                \textcolor{comment}{//This vector contains maps with name as the key and the corresponding substring as the
+       value}
+                std::cout<<\textcolor{stringliteral}{"\(\backslash\)n-------------------------------------------------------------------------"};
+                std::cout<< \textcolor{stringliteral}{"\(\backslash\)n--- Named Substrings (name: substring) for match "}<<i+1<<\textcolor{stringliteral}{" ---\(\backslash\)n"};
+                \textcolor{keywordflow}{for}(jpcre2::MapNas::iterator ent=vec\_nas0[i].begin();ent!=vec\_nas0[i].end();++ent)\{
+                    std::cout<<\textcolor{stringliteral}{"\(\backslash\)n\(\backslash\)t"}<<ent->first<<\textcolor{stringliteral}{": "}<<ent->second<<\textcolor{stringliteral}{"\(\backslash\)n"};
+                \}
+                
+                
+                
+                \textcolor{comment}{//This vector contains maps with name as the key and number as the value}
+                \textcolor{comment}{//i.e the number (of substring) can be accessed with the name for named substring.}
+                std::cout<<\textcolor{stringliteral}{"\(\backslash\)n-------------------------------------------------------------------------"};
+                std::cout<< \textcolor{stringliteral}{"\(\backslash\)n--- Name to number mapping (name: number/position) for match "}<<i+1<<\textcolor{stringliteral}{" ---\(\backslash\)n
+      "};
+                \textcolor{keywordflow}{for}(jpcre2::MapNtN::iterator ent=vec\_nn0[i].begin();ent!=vec\_nn0[i].end();++ent)\{
+                    std::cout<<\textcolor{stringliteral}{"\(\backslash\)n\(\backslash\)t"}<<ent->first<<\textcolor{stringliteral}{": "}<<ent->second<<\textcolor{stringliteral}{"\(\backslash\)n"};
+                \}
             \}
         \}
+        \textcolor{keywordflow}{else} std::cout<<\textcolor{stringliteral}{"\(\backslash\)nNo match found\(\backslash\)n"};
     \}
-    \textcolor{keywordflow}{else} std::cout<<\textcolor{stringliteral}{"\(\backslash\)nNo match found\(\backslash\)n"};
-    
     \textcolor{keywordflow}{return} 0;
 \}
 \end{DoxyCodeInclude}

@@ -1,16 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.13">
-  <compound refid="classjpcre2_1_1Except" kind="class"><name>jpcre2::Except</name>
-    <member refid="classjpcre2_1_1Except_1aa72e1a71b4cdf1d4baecce57b63caafc" kind="variable"><name>error_number</name></member>
-    <member refid="classjpcre2_1_1Except_1a12b09693ebee9b4a8b981ec1bd7506c4" kind="variable"><name>error_offset</name></member>
-    <member refid="classjpcre2_1_1Except_1a88590c6c8c512608c1000639d527dd55" kind="variable"><name>error_message</name></member>
-    <member refid="classjpcre2_1_1Except_a302b67f0fbc5f906bac67a4572ff29ec_1a302b67f0fbc5f906bac67a4572ff29ec" kind="function"><name>Except</name></member>
-    <member refid="classjpcre2_1_1Except_a569a8058f61bb4e0b7085f18c4bd528c_1a569a8058f61bb4e0b7085f18c4bd528c" kind="function"><name>~Except</name></member>
-    <member refid="classjpcre2_1_1Except_aa16bdec8432ee950955f7ad81a9655bb_1aa16bdec8432ee950955f7ad81a9655bb" kind="function"><name>what</name></member>
-    <member refid="classjpcre2_1_1Except_a0f3e00116ab24b89836a2c2a66262e22_1a0f3e00116ab24b89836a2c2a66262e22" kind="function"><name>getErrorNumber</name></member>
-    <member refid="classjpcre2_1_1Except_ade3963035e250d3cbf84ddaad2056fee_1ade3963035e250d3cbf84ddaad2056fee" kind="function"><name>getErrorOffset</name></member>
-    <member refid="classjpcre2_1_1Except_a6781e0804575f11d6d8bb87ec2d036c6_1a6781e0804575f11d6d8bb87ec2d036c6" kind="function"><name>getErrorMessage</name></member>
-  </compound>
   <compound refid="classjpcre2_1_1Regex" kind="class"><name>jpcre2::Regex</name>
     <member refid="classjpcre2_1_1Regex_1a447925705d222dbbd8c7d60b98cc65f0" kind="variable"><name>rm</name></member>
     <member refid="classjpcre2_1_1Regex_1a5a7ac6c6288988079b8933b4b6637fab" kind="variable"><name>rr</name></member>
@@ -19,7 +8,10 @@
     <member refid="classjpcre2_1_1Regex_1a5954131e9085de63229ed5c11417df69" kind="variable"><name>compile_opts</name></member>
     <member refid="classjpcre2_1_1Regex_1abdd26c3bc1c3132f0aa73dde1690a7ef" kind="variable"><name>jpcre2_compile_opts</name></member>
     <member refid="classjpcre2_1_1Regex_1a92a3ad992cade62d103248302f7e2f2d" kind="variable"><name>mylocale</name></member>
-    <member refid="classjpcre2_1_1Regex_1a1cfacd49c8bceaae1e2a66efd4082ea8" kind="variable"><name>current_warning_msg</name></member>
+    <member refid="classjpcre2_1_1Regex_1a91b7b795c9efe76ef4e015325ff33f1c" kind="variable"><name>error_number</name></member>
+    <member refid="classjpcre2_1_1Regex_1a0b9613704582b9c6b0175a21a2a421e0" kind="variable"><name>error_offset</name></member>
+    <member refid="classjpcre2_1_1Regex_1a24f70c6c8e7984b3f8c5ae9eb2d2c5ae" kind="variable"><name>warning_number</name></member>
+    <member refid="classjpcre2_1_1Regex_1ad19f84b5120ddcfc0776c0a8e8aa5351" kind="variable"><name>warning_offset</name></member>
     <member refid="classjpcre2_1_1Regex_1aaa8d9b93cf5a8b9ebbb78923a1494445" kind="friend"><name>RegexMatch</name></member>
     <member refid="classjpcre2_1_1Regex_1a2547cb5380cbe0374ac0d44d34018dbb" kind="friend"><name>RegexReplace</name></member>
     <member refid="classjpcre2_1_1Regex_1aff1f5cd95b6ac227014e7a5265a50cc0" kind="function"><name>init_vars</name></member>
@@ -36,13 +28,21 @@
     <member refid="classjpcre2_1_1Regex_abe210e2ca6cfcef11760875930cf069d_1abe210e2ca6cfcef11760875930cf069d" kind="function"><name>Regex</name></member>
     <member refid="classjpcre2_1_1Regex_ae03bb99a5bc8f945e693ddc34706f0c0_1ae03bb99a5bc8f945e693ddc34706f0c0" kind="function"><name>Regex</name></member>
     <member refid="classjpcre2_1_1Regex_ab43a14b4b6e75b7fa3221bc18a1d4121_1ab43a14b4b6e75b7fa3221bc18a1d4121" kind="function"><name>operator=</name></member>
+    <member refid="classjpcre2_1_1Regex_a9070a9f3adcaebccca5d15b247b93fda_1a9070a9f3adcaebccca5d15b247b93fda" kind="function"><name>operator bool</name></member>
+    <member refid="classjpcre2_1_1Regex_afe102e21a96f5cfe12621746f899fa25_1afe102e21a96f5cfe12621746f899fa25" kind="function"><name>operator!</name></member>
     <member refid="classjpcre2_1_1Regex_1a12b2bf254b59d7967681b77795c49260" kind="function"><name>~Regex</name></member>
     <member refid="classjpcre2_1_1Regex_a91f6afe257e9633cbb79a98649ab8d02_1a91f6afe257e9633cbb79a98649ab8d02" kind="function"><name>reset</name></member>
-    <member refid="classjpcre2_1_1Regex_a0ac4e063f00128b96cd94c33609dc559_1a0ac4e063f00128b96cd94c33609dc559" kind="function"><name>getModifier</name></member>
+    <member refid="classjpcre2_1_1Regex_aff12a6e75ecd3e623875d12df49b3b89_1aff12a6e75ecd3e623875d12df49b3b89" kind="function"><name>resetErrors</name></member>
     <member refid="classjpcre2_1_1Regex_a006dd17f71a2d717aa9575d72fac6d7b_1a006dd17f71a2d717aa9575d72fac6d7b" kind="function"><name>getPattern</name></member>
     <member refid="classjpcre2_1_1Regex_ae9afaf627ed922a9e4cee8074d30edfa_1ae9afaf627ed922a9e4cee8074d30edfa" kind="function"><name>getLocale</name></member>
+    <member refid="classjpcre2_1_1Regex_a0ac4e063f00128b96cd94c33609dc559_1a0ac4e063f00128b96cd94c33609dc559" kind="function"><name>getModifier</name></member>
     <member refid="classjpcre2_1_1Regex_a857307fc59ba7f010b097e61c1744923_1a857307fc59ba7f010b097e61c1744923" kind="function"><name>getPcre2Option</name></member>
     <member refid="classjpcre2_1_1Regex_a5d2d04eb7c393338a4c8cce941e957ef_1a5d2d04eb7c393338a4c8cce941e957ef" kind="function"><name>getJpcre2Option</name></member>
+    <member refid="classjpcre2_1_1Regex_a7294273e7d11907a749f2db40da9ed15_1a7294273e7d11907a749f2db40da9ed15" kind="function"><name>getErrorNumber</name></member>
+    <member refid="classjpcre2_1_1Regex_ae8c6c8f728c58d9b171c68b4b166e195_1ae8c6c8f728c58d9b171c68b4b166e195" kind="function"><name>getErrorOffset</name></member>
+    <member refid="classjpcre2_1_1Regex_a6aa5722e52a154a1594ee6ea46e5d888_1a6aa5722e52a154a1594ee6ea46e5d888" kind="function"><name>getWarningNumber</name></member>
+    <member refid="classjpcre2_1_1Regex_a18dddb3eeedf5c61e0169770ffc9ab8f_1a18dddb3eeedf5c61e0169770ffc9ab8f" kind="function"><name>getWarningoffset</name></member>
+    <member refid="classjpcre2_1_1Regex_a8606fff8b192c94f58ca9e82aa048c61_1a8606fff8b192c94f58ca9e82aa048c61" kind="function"><name>getErrorMessage</name></member>
     <member refid="classjpcre2_1_1Regex_a1a639ae4090b88609c03e9268faf02d8_1a1a639ae4090b88609c03e9268faf02d8" kind="function"><name>getWarningMessage</name></member>
     <member refid="classjpcre2_1_1Regex_a85d9a514ea86ae68533223adac6c6bd8_1a85d9a514ea86ae68533223adac6c6bd8" kind="function"><name>setPattern</name></member>
     <member refid="classjpcre2_1_1Regex_aed9865b58c60945e19f36fa310f5a595_1aed9865b58c60945e19f36fa310f5a595" kind="function"><name>setModifier</name></member>
@@ -63,9 +63,11 @@
     <member refid="classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894_1ab93775a93a0a537d09b9e9ab4a5a3894" kind="function"><name>match</name></member>
     <member refid="classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5_1a9ffbb6aa54cb97125f1b4211bc1d09a5" kind="function"><name>match</name></member>
     <member refid="classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_1a519b0915bf1163c6ce6a4d674b30cfcd" kind="function"><name>initMatch</name></member>
+    <member refid="classjpcre2_1_1Regex_abb007e99d7e2188ec80b741e7b40668f_1abb007e99d7e2188ec80b741e7b40668f" kind="function"><name>getMatchObject</name></member>
     <member refid="classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981_1ac592ce7a5e4210ed5f90a0105b1f2981" kind="function"><name>replace</name></member>
     <member refid="classjpcre2_1_1Regex_addd7c21abd0f4cf6c532a7602cfb5835_1addd7c21abd0f4cf6c532a7602cfb5835" kind="function"><name>replace</name></member>
     <member refid="classjpcre2_1_1Regex_ae7235a991492fa88f1bd3fb02d59cd0a_1ae7235a991492fa88f1bd3fb02d59cd0a" kind="function"><name>initReplace</name></member>
+    <member refid="classjpcre2_1_1Regex_ad0b5e492eae75ef13b3d80f4fb1e3486_1ad0b5e492eae75ef13b3d80f4fb1e3486" kind="function"><name>getReplaceObject</name></member>
   </compound>
   <compound refid="classjpcre2_1_1RegexMatch" kind="class"><name>jpcre2::RegexMatch</name>
     <member refid="classjpcre2_1_1RegexMatch_1a7743b27db00c1e13d8fee51b70d5a133" kind="variable"><name>re</name></member>
@@ -79,13 +81,18 @@
     <member refid="classjpcre2_1_1RegexMatch_1a36749947847f266de03c3991ac88a694" kind="variable"><name>nas_map0</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a1c790683d023313967ce80db6045419f" kind="variable"><name>ntn_map0</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1a1f6f7620b7d2218c6c2a6a47f432ea6a" kind="friend"><name>Regex</name></member>
-    <member refid="classjpcre2_1_1RegexMatch_a82bfef9700b1c62b84e4a32ee4b0731e_1a82bfef9700b1c62b84e4a32ee4b0731e" kind="function"><name>getNumberedSubstrings</name></member>
-    <member refid="classjpcre2_1_1RegexMatch_ac494245673c474d518e8ae47b2ab9db9_1ac494245673c474d518e8ae47b2ab9db9" kind="function"><name>getNamedSubstrings</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_a5a54fd563812c091b9567569cebe175c_1a5a54fd563812c091b9567569cebe175c" kind="function"><name>getNumberedSubstrings</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_ab5eec3f2e862236626043c84570f000b_1ab5eec3f2e862236626043c84570f000b" kind="function"><name>getNamedSubstrings</name></member>
     <member refid="classjpcre2_1_1RegexMatch_1aeeffc8edc43a8e5d1d24ae4055213730" kind="function"><name>pushMapsIntoVectors</name></member>
     <member refid="classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99_1a3da6a2319cd577d7f2f10c66dcf59a99" kind="function"><name>init_vars</name></member>
     <member refid="classjpcre2_1_1RegexMatch_a40127e5057e2343848d8c8a6d4c32bcd_1a40127e5057e2343848d8c8a6d4c32bcd" kind="function"><name>RegexMatch</name></member>
     <member refid="classjpcre2_1_1RegexMatch_a098ddb46b2f297870ea548ef07597d94_1a098ddb46b2f297870ea548ef07597d94" kind="function"><name>RegexMatch</name></member>
     <member refid="classjpcre2_1_1RegexMatch_ab6a9f9b8404852e46edd08a5b8712847_1ab6a9f9b8404852e46edd08a5b8712847" kind="function"><name>~RegexMatch</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_a6ebe41305bcc7262bec814e9e737d056_1a6ebe41305bcc7262bec814e9e737d056" kind="function"><name>getSubject</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_a909abcce3c02b07cfcd1173a9d0be9ba_1a909abcce3c02b07cfcd1173a9d0be9ba" kind="function"><name>getModifier</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_a3e6e04f48cd5ee3fb9705214f746f343_1a3e6e04f48cd5ee3fb9705214f746f343" kind="function"><name>getPcre2Option</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_a4ea72774ae5e9a93d649dcb0840efd7f_1a4ea72774ae5e9a93d649dcb0840efd7f" kind="function"><name>getJpcre2Option</name></member>
+    <member refid="classjpcre2_1_1RegexMatch_aa19512638f2f5389384d6b9ad01c70c0_1aa19512638f2f5389384d6b9ad01c70c0" kind="function"><name>resetErrors</name></member>
     <member refid="classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_1a2c7efe1ec2e13827f670db4ecedcd0a0" kind="function"><name>setNumberedSubstringVector</name></member>
     <member refid="classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c_1ae495431f57cae54363331237ab21b56c" kind="function"><name>setNamedSubstringVector</name></member>
     <member refid="classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8_1a04926e61d8b5f1d8bdf344efecd567d8" kind="function"><name>setNameToNumberMapVector</name></member>
@@ -115,6 +122,12 @@
     <member refid="classjpcre2_1_1RegexReplace_ac50687b874800c827a6fa623b9b35753_1ac50687b874800c827a6fa623b9b35753" kind="function"><name>RegexReplace</name></member>
     <member refid="classjpcre2_1_1RegexReplace_a257d326d57af9ccbc7a45b002c34ed0a_1a257d326d57af9ccbc7a45b002c34ed0a" kind="function"><name>RegexReplace</name></member>
     <member refid="classjpcre2_1_1RegexReplace_ab27102839e7ff0914bcd204d750097ac_1ab27102839e7ff0914bcd204d750097ac" kind="function"><name>~RegexReplace</name></member>
+    <member refid="classjpcre2_1_1RegexReplace_a7376993ef78e78950a44780417987640_1a7376993ef78e78950a44780417987640" kind="function"><name>getReplaceWith</name></member>
+    <member refid="classjpcre2_1_1RegexReplace_a747ec0bd529b8dd49d2db30c75786026_1a747ec0bd529b8dd49d2db30c75786026" kind="function"><name>getSubject</name></member>
+    <member refid="classjpcre2_1_1RegexReplace_a4c325837716be3a48e2f92a80790d49f_1a4c325837716be3a48e2f92a80790d49f" kind="function"><name>getModifier</name></member>
+    <member refid="classjpcre2_1_1RegexReplace_ac9e158fa5dc0c4d8b27e2dd694e7bc84_1ac9e158fa5dc0c4d8b27e2dd694e7bc84" kind="function"><name>getPcre2Option</name></member>
+    <member refid="classjpcre2_1_1RegexReplace_addc36e1c991b639d549a32d1151c04df_1addc36e1c991b639d549a32d1151c04df" kind="function"><name>getJpcre2Option</name></member>
+    <member refid="classjpcre2_1_1RegexReplace_a1d708fe8f948d260a8e033cff7898f9c_1a1d708fe8f948d260a8e033cff7898f9c" kind="function"><name>resetErrors</name></member>
     <member refid="classjpcre2_1_1RegexReplace_a46eefdb105827920bebc8436721fa4cb_1a46eefdb105827920bebc8436721fa4cb" kind="function"><name>setSubject</name></member>
     <member refid="classjpcre2_1_1RegexReplace_af1069f489de9b343493da2dc77b04c73_1af1069f489de9b343493da2dc77b04c73" kind="function"><name>setReplaceWith</name></member>
     <member refid="classjpcre2_1_1RegexReplace_ae2abe2994b0fbe54950f88e63000c910_1ae2abe2994b0fbe54950f88e63000c910" kind="function"><name>setModifier</name></member>
@@ -132,10 +145,8 @@
   <compound refid="namespacejpcre2" kind="namespace"><name>jpcre2</name>
     <member refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00" kind="enum"><name>@0</name></member>
     <member refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9" kind="enumvalue"><name>NONE</name></member>
-    <member refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kind="enumvalue"><name>VALIDATE_MODIFIER</name></member>
     <member refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c" kind="enumvalue"><name>FIND_ALL</name></member>
     <member refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" kind="enumvalue"><name>JIT_COMPILE</name></member>
-    <member refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" kind="enumvalue"><name>ERROR_ALL</name></member>
     <member refid="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c" kind="typedef"><name>SIZE_T</name></member>
     <member refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kind="typedef"><name>Uint</name></member>
     <member refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kind="typedef"><name>String</name></member>
@@ -186,7 +197,7 @@
     <member refid="namespacejpcre2_1_1utils_aea66a35f467adf41730c5a3bb21be6ed_1aea66a35f467adf41730c5a3bb21be6ed" kind="function"><name>toString</name></member>
     <member refid="namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e87a6_1a6f28489b48095eeaacfaa43a0a8e87a6" kind="function"><name>getPcre2ErrorMessage</name></member>
     <member refid="namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_1a58db3a9ce0296d70469611445cb42209" kind="function"><name>getErrorMessage</name></member>
-    <member refid="namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_1a71c7842918bdcc6936266813981492dc" kind="function"><name>throwException</name></member>
+    <member refid="namespacejpcre2_1_1utils_1a0eaae87bf8d0c58046461d4d20a7eaba" kind="function"><name>getWarningMessage</name></member>
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
   </compound>
@@ -195,24 +206,20 @@
   <compound refid="jpcre2_8cpp" kind="file"><name>jpcre2.cpp</name>
   </compound>
   <compound refid="jpcre2_8hpp" kind="file"><name>jpcre2.hpp</name>
-    <member refid="jpcre2_8hpp_1acff91275abcc225454675d6dfc39a58d" kind="define"><name>PCRE2_CODE_UNIT_WIDTH</name></member>
   </compound>
   <compound refid="pcre2__match_8cpp" kind="file"><name>pcre2_match.cpp</name>
-    <member refid="pcre2__match_8cpp_1acff91275abcc225454675d6dfc39a58d" kind="define"><name>PCRE2_CODE_UNIT_WIDTH</name></member>
     <member refid="pcre2__match_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kind="function"><name>main</name></member>
   </compound>
   <compound refid="test__match_8cpp" kind="file"><name>test_match.cpp</name>
     <member refid="test__match_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
   </compound>
   <compound refid="test__match2_8cpp" kind="file"><name>test_match2.cpp</name>
-    <member refid="test__match2_8cpp_1a0efdcb15269092623bd8d80b8d129239" kind="define"><name>getLine</name></member>
     <member refid="test__match2_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
   </compound>
   <compound refid="test__replace_8cpp" kind="file"><name>test_replace.cpp</name>
     <member refid="test__replace_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
   </compound>
   <compound refid="test__replace2_8cpp" kind="file"><name>test_replace2.cpp</name>
-    <member refid="test__replace2_8cpp_1a0efdcb15269092623bd8d80b8d129239" kind="define"><name>getLine</name></member>
     <member refid="test__replace2_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
   </compound>
   <compound refid="test__shorts_8cpp" kind="file"><name>test_shorts.cpp</name>

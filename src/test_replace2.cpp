@@ -7,7 +7,7 @@
 
 
 #include <iostream>
-#include "jpcre2.hpp"
+#include "jpcre2.cpp"
 
 
 #define getLine(a) std::getline(std::cin,a,'\n')
@@ -21,17 +21,14 @@ int main(){
 
     std::cout<<"\nEnter compile modifiers (eijmnsuxADJSU): ";
     getLine(mod);
-    jpcre2::Regex re;     // This is not supposed to throw any exception.
+    jpcre2::Regex re;   
 
 
     // Compile the pattern
-    try{re.compile(pat,mod);}
-    catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
-
-
-    /***************************************************************************************************************
-     * All jpcre2 exceptions are of type jpcre2::Except
-     * *************************************************************************************************************/
+    re.compile(pat,mod);
+    
+    //check if it was a success
+    if(!re){std::cerr<<re.getErrorMessage();} //if(re) is only available for >=C++11, use if(!!re) as an alternative
 
 
     // subject string
@@ -42,24 +39,18 @@ int main(){
     std::cout<<"\nEnter replacement string: "<<std::endl;
     getLine(repl);
 
-    // Continue loop as long as error occurs
-    while(true){
-		std::cout<<"\nEnter action (replacement) modifiers (eEgx): ";
-		getLine(repl_mod);
+    std::cout<<"\nEnter action (replacement) modifiers (eEgx): ";
+    getLine(repl_mod);
 
-		//perform replace
+    //perform replace
 
-		try{std::cout<<"\nreplaced string: "<<re.initReplace()
-												.setSubject(subject)
-												.setReplaceWith(repl)
-												.addJpcre2Option(jpcre2::VALIDATE_MODIFIER)
-												.addModifier(repl_mod)
-												.replace();}
-		catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();
-			if(e.getErrorNumber()==jpcre2::ERROR::INVALID_MODIFIER) continue;
-		}
-		break;
-    }
+    std::cout<<"\nreplaced string: "<<
+        re.initReplace()
+          .setSubject(subject)
+          .setReplaceWith(repl)
+          .addModifier(repl_mod)
+          .replace();
+
     std::cout<<"\n\n--------------------------------------------------\n";
 
 	return 0;

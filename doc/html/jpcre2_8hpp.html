@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="thumb0.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">JPCRE2
-   &#160;<span id="projectnumber">10.25.04</span>
+   &#160;<span id="projectnumber">10.26.01</span>
    </div>
    <div id="projectbrief">C++ wrapper of PCRE2 library</div>
   </td>
@@ -70,7 +70,6 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
@@ -82,41 +81,11 @@ $(function() {
 
 <p>Main header file for JPCRE2 library to be included by programs that uses its functionalities.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;pcre2.h&gt;</code><br />
-<code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;map&gt;</code><br />
-<code>#include &lt;exception&gt;</code><br />
-</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for jpcre2.hpp:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="jpcre2_8hpp__incl.png" border="0" usemap="#jpcre2_8hpp" alt=""/></div>
-</div>
-</div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> This graph shows which files directly or indirectly include this file:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="jpcre2_8hpp__dep__incl.png" border="0" usemap="#jpcre2_8hppdep" alt=""/></div>
-<map name="jpcre2_8hppdep" id="jpcre2_8hppdep">
-<area shape="rect" id="node2" href="test__match_8cpp.html" title="An example of performing regex match against a pattern with JPCRE2 and getting the match count and ma..." alt="" coords="5,80,117,107"/>
-<area shape="rect" id="node3" href="test__match2_8cpp.html" title="Contains an example to take subject string, pattern and modifier from user input and perform regex ma..." alt="" coords="141,80,259,107"/>
-<area shape="rect" id="node4" href="test__replace_8cpp.html" title="An example of doing regex replace with JPCRE2. " alt="" coords="283,80,402,107"/>
-<area shape="rect" id="node5" href="test__replace2_8cpp.html" title="Contains an example to take subject string, replacement string, modifier and pattern from user input ..." alt="" coords="427,80,552,107"/>
-<area shape="rect" id="node6" href="test__shorts_8cpp.html" title="Contains some short examples of performing regex match and regex replace with JPCRE2. " alt="" coords="576,80,688,107"/>
-</map>
-</div>
-</div>
+
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1Except.html">jpcre2::Except</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class to handle exception.  <a href="classjpcre2_1_1Except.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjpcre2_1_1RegexMatch.html">jpcre2::RegexMatch</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the <a class="el" href="classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33.html#a5868aef3a146594ea1ebef34d122bb33" title="Store match result in vectors and return the number of matches. ">RegexMatch::match()</a> function to perform regex matching.  <a href="classjpcre2_1_1RegexMatch.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,13 +113,6 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacejpcre2_1_1utils"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html">jpcre2::utils</a></td></tr>
 <tr class="memdesc:namespacejpcre2_1_1utils"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for some utility functions. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:acff91275abcc225454675d6dfc39a58d"><td class="memItemLeft" align="right" valign="top"><a id="acff91275abcc225454675d6dfc39a58d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="jpcre2_8hpp.html#acff91275abcc225454675d6dfc39a58d">PCRE2_CODE_UNIT_WIDTH</a>&#160;&#160;&#160;8</td></tr>
-<tr class="memdesc:acff91275abcc225454675d6dfc39a58d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Code unit width 8 is used by default. <br /></td></tr>
-<tr class="separator:acff91275abcc225454675d6dfc39a58d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -204,13 +166,9 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a85c143271501e383843f45b9999c2f00"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<a class="el" href="namespacejpcre2_a85c143271501e383843f45b9999c2f00.html#a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9">jpcre2::NONE</a> = 0x0000000u, 
 <br />
-&#160;&#160;<a class="el" href="namespacejpcre2_a85c143271501e383843f45b9999c2f00.html#a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387">jpcre2::VALIDATE_MODIFIER</a> = 0x0000001u, 
-<br />
 &#160;&#160;<a class="el" href="namespacejpcre2_a85c143271501e383843f45b9999c2f00.html#a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c">jpcre2::FIND_ALL</a> = 0x0000002u, 
 <br />
-&#160;&#160;<a class="el" href="namespacejpcre2_a85c143271501e383843f45b9999c2f00.html#a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e">jpcre2::JIT_COMPILE</a> = 0x0000004u, 
-<br />
-&#160;&#160;<a class="el" href="namespacejpcre2_a85c143271501e383843f45b9999c2f00.html#a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552">jpcre2::ERROR_ALL</a> = 0x0000008u
+&#160;&#160;<a class="el" href="namespacejpcre2_a85c143271501e383843f45b9999c2f00.html#a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e">jpcre2::JIT_COMPILE</a> = 0x0000004u
 <br />
  }<tr class="memdesc:a85c143271501e383843f45b9999c2f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">These constants provide JPCRE2 options.  <a href="namespacejpcre2_a85c143271501e383843f45b9999c2f00.html#a85c143271501e383843f45b9999c2f00">More...</a><br /></td></tr>
 </td></tr>
@@ -244,9 +202,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a58db3a9ce0296d70469611445cb42209"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209.html#a58db3a9ce0296d70469611445cb42209">jpcre2::utils::getErrorMessage</a> (int, int)</td></tr>
 <tr class="memdesc:a58db3a9ce0296d70469611445cb42209"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get error message from error number and error offset.  <a href="namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209.html#a58db3a9ce0296d70469611445cb42209">More...</a><br /></td></tr>
 <tr class="separator:a58db3a9ce0296d70469611445cb42209"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71c7842918bdcc6936266813981492dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc.html#a71c7842918bdcc6936266813981492dc">jpcre2::utils::throwException</a> (int, int)</td></tr>
-<tr class="memdesc:a71c7842918bdcc6936266813981492dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used throughout JPCRE2 to throw exceptions.  <a href="namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc.html#a71c7842918bdcc6936266813981492dc">More...</a><br /></td></tr>
-<tr class="separator:a71c7842918bdcc6936266813981492dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eaae87bf8d0c58046461d4d20a7eaba"><td class="memItemLeft" align="right" valign="top"><a id="a0eaae87bf8d0c58046461d4d20a7eaba"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejpcre2_1_1utils.html#a0eaae87bf8d0c58046461d4d20a7eaba">jpcre2::utils::getWarningMessage</a> (int, int)</td></tr>
+<tr class="memdesc:a0eaae87bf8d0c58046461d4d20a7eaba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get warning message from warning number and offset. <br /></td></tr>
+<tr class="separator:a0eaae87bf8d0c58046461d4d20a7eaba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>

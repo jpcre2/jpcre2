@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['init',['init',['../classjpcre2_1_1Regex_a6df564d3dec70bbeec65de125c7d4de2.html#a6df564d3dec70bbeec65de125c7d4de2',1,'jpcre2::Regex::init()'],['../classjpcre2_1_1Regex_aedc5f414e5fa401e1a91614cfab0b033.html#aedc5f414e5fa401e1a91614cfab0b033',1,'jpcre2::Regex::init(const String &amp;re, const String &amp;mod)'],['../classjpcre2_1_1Regex_adbda074677e393438452190e55a971d0.html#adbda074677e393438452190e55a971d0',1,'jpcre2::Regex::init(const String &amp;re, Uint po, Uint jo)']]],
-  ['init_5fvars',['init_vars',['../classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99.html#a3da6a2319cd577d7f2f10c66dcf59a99',1,'jpcre2::RegexMatch::init_vars()'],['../classjpcre2_1_1RegexReplace.html#a462810e8fc902f09e475a164e81cc5f5',1,'jpcre2::RegexReplace::init_vars()'],['../classjpcre2_1_1Regex.html#aff1f5cd95b6ac227014e7a5265a50cc0',1,'jpcre2::Regex::init_vars()']]],
-  ['initmatch',['initMatch',['../classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd.html#a519b0915bf1163c6ce6a4d674b30cfcd',1,'jpcre2::Regex']]],
-  ['initreplace',['initReplace',['../classjpcre2_1_1Regex_ae7235a991492fa88f1bd3fb02d59cd0a.html#ae7235a991492fa88f1bd3fb02d59cd0a',1,'jpcre2::Regex']]]
+  ['match',['match',['../classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33.html#a5868aef3a146594ea1ebef34d122bb33',1,'jpcre2::RegexMatch::match()'],['../classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894.html#ab93775a93a0a537d09b9e9ab4a5a3894',1,'jpcre2::Regex::match(const String &amp;s, const String &amp;mod)'],['../classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5.html#a9ffbb6aa54cb97125f1b4211bc1d09a5',1,'jpcre2::Regex::match(const String &amp;s)']]]
 ];

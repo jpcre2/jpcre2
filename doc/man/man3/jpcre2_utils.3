@@ -1,4 +1,4 @@
-.TH "jpcre2::utils" 3 "Fri Sep 9 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::utils" 3 "Sun Sep 11 2016" "Version 10.26.01" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -35,9 +35,9 @@ jpcre2::utils \- Namespace for some utility functions\&.
 .br
 .RI "Get error message from error number and error offset\&. "
 .ti -1c
-.RI "void \fBthrowException\fP (int, int)"
+.RI "std::string \fBgetWarningMessage\fP (int, int)"
 .br
-.RI "Used throughout JPCRE2 to throw exceptions\&. "
+.RI "Get warning message from warning number and offset\&. "
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -75,24 +75,6 @@ Get PCRE2 error message for an error number\&.
 \fBReturns:\fP
 .RS 4
 Error message as \fBjpcre2::String\fP 
-.RE
-.PP
-
-.SS "void jpcre2::utils::throwException (int err_num, int err_off)"
-
-.PP
-Used throughout JPCRE2 to throw exceptions\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception\&. Should be caught by reference\&. See \fBjpcre2::Except\fP for details\&. 
-.RE
-.PP
-\fBParameters:\fP
-.RS 4
-\fIerr_num\fP Error number 
-.br
-\fIerr_off\fP Error offset 
 .RE
 .PP
 

@@ -1,4 +1,4 @@
 <map id="jpcre2::RegexMatch" name="jpcre2::RegexMatch">
-<area shape="rect" id="node2" href="$classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a..." alt="" coords="37,512,192,912"/>
-<area shape="rect" id="node3" href="$classjpcre2_1_1RegexReplace.html" title="Provides the RegexReplace::replace() function to perform regex replace on a string. " alt="" coords="34,975,195,1345"/>
+<area shape="rect" id="node2" href="$classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a..." alt="" coords="40,512,189,956"/>
+<area shape="rect" id="node3" href="$classjpcre2_1_1RegexReplace.html" title="Provides the RegexReplace::replace() function to perform regex replace on a string. " alt="" coords="39,1019,190,1360"/>
 </map>

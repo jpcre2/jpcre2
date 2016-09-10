@@ -46,9 +46,16 @@
 #ifndef JPCRE2_HPP
 #define JPCRE2_HPP
 
-#ifndef PCRE2_CODE_UNIT_WIDTH
+
 /// Code unit width 8 is used by default
+#ifndef PCRE2_CODE_UNIT_WIDTH
 #define PCRE2_CODE_UNIT_WIDTH 8
+#endif
+
+
+/// Allows debug message for assert
+#ifndef JPCRE2_ENABLE_DEBUG_MODE
+#define NDEBUG
 #endif
 
 #include <pcre2.h> 
@@ -107,12 +114,8 @@ extern const String JIT_ERROR_MESSAGE_PREFIX;       ///< Prefix to be added to J
  */
 enum {
 	NONE                    = 0x0000000u,   ///< Option 0 (zero)
-	VALIDATE_MODIFIER       = 0x0000001u,   ///< Perform validation check on modifiers and throw jpcre2::Except
-											///< with `jpcre2::ERROR::INVALID_MODIFIER` as error number
-											///< if any wrong modifier was passed
 	FIND_ALL                = 0x0000002u,   ///< Find all during match (global match)
-	JIT_COMPILE             = 0x0000004u,   ///< Perform JIT compilation for optimization
-	ERROR_ALL               = 0x0000008u    ///< Treat warnings as error and throw exception (warnings don't throw exception)
+	JIT_COMPILE             = 0x0000004u    ///< Perform JIT compilation for optimization
 };
 
 
@@ -162,123 +165,8 @@ namespace utils {
 	extern String toString(PCRE2_UCHAR*);             ///< Converts a PCRE2_UCHAR* to String
 	extern std::string getPcre2ErrorMessage(int);     ///< Get PCRE2 error message for an error number
 	extern std::string getErrorMessage(int, int);     ///< Get error message from error number and error offset
-	extern void throwException(int, int);			  ///< Used throughout JPCRE2 to throw exceptions
+    extern std::string getWarningMessage(int, int);   ///< Get warning message from warning number and offset
 }
-
-
-/** Class to handle exception.
- *  Provides public functions to get the error number,
- *  error offset and error message.
- * 
- *  When a known error is occurred during pattern compilation or match or replace,
- *  an exception of type `jpcre2::Except` is thrown.
- *
- *  In normal operation, when working with a valid regex with valid options
- *  no exception is supposed to occur. Most of the time
- *  you can get away without resorting to try catch block just by being
- *  a little careful about what you pass and what your environment supports.
- *  
- *  Protecting your regex operation with try..catch is not needed, but it's something
- *  for you to decide. For example, if your implementation needs to take regex pattern
- *  from user input and warn them about bad input, you will definitely need try catch.
- * 
- *  Note that, bad input isn't the only reason that an exception can be thrown.
- *  As of original PCRE2 specs, you can get errors for lots of unfavorable situations.
- *  These errors are well defined and you will get `jpcre2::Except` exception when you encounter one of them.
- * 
- *  This is a rough list of cases that you need to consider:
- *
- *  1. **Bad input:**
- *    1. Invalid modifier. It's an error only if validation check is enabled, otherwise ignored as warning (It's harmless either way).
- *    2. Incomplete options for regex pattern may throw exception. For example, pattern with duplicate named substrings without 'J' modifier (or equivalent PCRE2 option) will throw `jpcre2::Except` exception. Any PCRE2 error should be accounted for. They mean failure of operation.
- *    3. Invalid option isn't an error, options that are not known or not applicable gets ignored graciously.
- *    4. Malicious options that affect existing ones can produce undefined/unexpected behavior.
- *  2. **PCRE2 errors:** These errors are well defined in the original PCRE2 specs. For these `jpcre2::Except` exception is thrown.
- *  3. **Runtime error:** Error that happens for unknown/unexpected reasons. These errors are not thrown by `jpcre2::Except` and therefore should be caught with `std::exception`
- * 
- *  An example of catching all exceptions including runtime error and Except errors:
- * 
- *  ```
- *  try {
- *      jpcre2::Regex re("pattern", "mod"); //will not throw any exception for any sane cause.
- *  } catch (std::exception& e) {
- *      std::cout<<e.what();
- *  }
- *  ```
- * 
- *  An example of catching only jpcre2::Except errors:
- * 
- *  ```
- *  try {
- *      jpcre2::Regex re("pattern", "mod"); //will not throw any exception for any sane cause.
- *  }
- *  catch( jpcre2::Except& e){
- *      std::cout<<e.what();
- *  }
- *  ```
- */
-class Except: virtual public std::exception {
-    
-protected:
-
-    int error_number;               ///< Error number
-    int error_offset;               ///< Error offset
-    std::string error_message;      ///< Error message
-    
-public:
-
-    /** Constructor (C++ STL string, int, int).
-     *  @param msg The error message
-     *  @param err_num Error number
-     *  @param err_off Error offset
-     */
-    explicit 
-    Except(const std::string& msg, int err_num, int err_off):
-        error_number(err_num),
-        error_offset(err_off),
-        error_message(msg)
-        {}
-
-    /** Destructor.
-     *  Virtual to allow for subclassing.
-     */
-    virtual ~Except() throw () {}
-
-    /** Returns a pointer to the (constant) error description.
-     *  @return A pointer to a const char*. The underlying memory
-     *  is in possession of the Except object. Callers must
-     *  not attempt to free the memory.
-     */
-    virtual const char* what() const throw () {
-       return error_message.c_str();
-    }
-    
-    /** Returns error number.
-     *  @return #error_number
-     */
-    virtual int getErrorNumber() const throw() {
-        return error_number;
-    }
-    
-    /**Returns error offset.
-     * @return #error_offset
-     */
-    virtual int getErrorOffset() const throw() {
-        return error_offset;
-    }
-    
-
-    /** Just another name for what() for convenience.
-     *  Returns a pointer to the (constant) error description.
-     *  @return A pointer to a const char*. The underlying memory
-     *  is in possession of the Except object. Callers must
-     *  not attempt to free the memory.
-     */
-    virtual const char* getErrorMessage() const throw() {
-        return error_message.c_str();
-    }
-
-};
 
 
 // Forward declaration of Regex class
@@ -309,9 +197,9 @@ private:
 	MapNas* nas_map0;       ///< Pointer to map that will store named substrings temporarily
 	MapNtN* ntn_map0;       ///< Pointer to map that will store name to number mapping temporarily
 
-	void getNumberedSubstrings(int, pcre2_match_data *);   ///< Populate #num_map0 with numbered substrings
+	bool getNumberedSubstrings(int, pcre2_match_data *);   ///< Populate #num_map0 with numbered substrings
 
-	void getNamedSubstrings(int, int, PCRE2_SPTR, pcre2_match_data *);   ///< Populate #nas_map0 and/or #ntn_map0
+	bool getNamedSubstrings(int, int, PCRE2_SPTR, pcre2_match_data *);   ///< Populate #nas_map0 and/or #ntn_map0
                                                                          ///< with named substring and/or name to number mapping
     
     /// Push maps into the vectors pointed by #vec_num, #vec_nas and #vec_ntn and thus store match results in them.
@@ -362,6 +250,39 @@ private:
 
 public:
 
+
+    ///Get subject string.
+    ///@return subject string
+    ///@see RegexReplace::getSubject()
+    String getSubject() {
+        return m_subject;
+    }
+
+	/** Get modifier string calculated from JPCRE2 and PCRE2 options.
+	 **/
+	String getModifier();
+    
+	/** Get PCRE2 option
+	 *  @return #match_opts
+     * @see Regex::getPcre2Option()
+     * @see RegexReplace::getPcre2Option()
+	 * */
+	Uint getPcre2Option() {
+		return match_opts;
+	}
+
+	/** Get JPCRE2 option
+	 *  @return #jpcre2_match_opts
+     * @see Regex::getJpcre2Option()
+     * @see RegexReplace::getJpcre2Option()
+	 * */
+	Uint getJpcre2Option() {
+		return jpcre2_match_opts;
+	}
+
+    ///Reset errors to zero
+    RegexMatch& resetErrors();
+
 	/// Set a pointer to the numbered substring vector of type jpcre2::VecNum
 	/// @param v #vec_num
 	/// @return RegexMatch&
@@ -400,8 +321,6 @@ public:
 	///
 	/// **Note:** If speed of operation is very crucial, use RegexMatch::setJpcre2Option() and
 	/// RegexMatch::setPcre2Option() with equivalent options. It will be faster that way.
-	/// @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER as error number
-    ///        if jpcre2::VALIDATE_MODIFIER or jpcre2::ERROR_ALL is set and a wrong modifier was encountered.
 	/// @param s Modifier string
 	/// @return RegexMatch&
 	/// @see RegexReplace::setModifier()
@@ -489,8 +408,6 @@ public:
 	///
 	/// **Note:** If speed of operation is very crucial, use RegexMatch::addJpcre2Option() and RegexMatch::addPcre2Option()
     /// with equivalent options. It will be faster that way.
-	/// @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER as error number
-    ///        if jpcre2::VALIDATE_MODIFIER or jpcre2::ERROR_ALL is set and a wrong modifier was encountered.
     /// @param mod Modifier string
     /// @return RegexMatch&
     /// @see RegexReplace::addModifier()
@@ -576,6 +493,47 @@ private:
 
 public:
 
+    ///Get replacement string
+    ///@return replacement string set with RegexReplace::setReplaceWith()
+    String getReplaceWith() {
+        return r_replw;
+    }
+
+    ///Get subject string
+    ///@return subject string
+    ///@see RegexMatch::getSubject()
+    String getSubject() {
+        return r_subject;
+    }
+
+	/** Get modifier string calculated from JPCRE2 and PCRE2 options.
+	 **/
+	String getModifier();
+    
+	/** Get PCRE2 option
+	 *  @return #replace_opts
+     * @see Regex::getPcre2Option()
+     * @see RegexMatch::getPcre2Option()
+	 * */
+	Uint getPcre2Option() {
+		return replace_opts;
+	}
+
+	/** Get JPCRE2 option
+	 *  @return #jpcre2_replace_opts
+     * @see Regex::getJpcre2Option()
+     * @see RegexMatch::getJpcre2Option()
+	 * */
+	Uint getJpcre2Option() {
+		return jpcre2_replace_opts;
+	}
+
+    ///Reset errors to zero
+    ///@return A reference to the RegexReplace object
+    ///@see Regex::resetErrors()
+    ///@see RegexMatch::resetErrors()
+    RegexReplace& resetErrors();
+
 	/** Set the subject string #r_subject
 	 * @param s Subject string
 	 * @return RegexReplace&
@@ -599,8 +557,6 @@ public:
 	 *
 	 * **Note:** If speed of operation is very crucial, use RegexReplace::setJpcre2Option() and RegexReplace::setPcre2Option()
 	 * with equivalent options. It will be faster that way.
-	 * @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER as error number
-     *        if jpcre2::VALIDATE_MODIFIER or jpcre2::ERROR_ALL is set and a wrong modifier was encountered.
 	 * @param s Modifier string
 	 * @return RegexReplace&
 	 * @see RegexMatch::setModifier()
@@ -681,8 +637,6 @@ public:
 	///
 	/// **Note:** If speed of operation is very crucial, use RegexReplace::addJpcre2Option() and
 	/// RegexReplace::addPcre2Option() with equivalent options. It will be faster that way.
-	/// @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER as error number
-    ///        if jpcre2::VALIDATE_MODIFIER or jpcre2::ERROR_ALL is set and a wrong modifier was encountered.
     /// @param mod Modifier string
     /// @return RegexReplace&
     /// @see RegexMatch::addModifier()
@@ -739,17 +693,25 @@ private:
 	Uint compile_opts;          ///< Compile options for PCRE2 (used by PCRE2 internal function pcre2_compile())
 	Uint jpcre2_compile_opts;	///< Compile options specific to JPCRE2
 	String mylocale;	        ///< Locale as a string
-	String current_warning_msg;	///< Current warning message
+    int error_number;           ///< Last error number
+    PCRE2_SIZE error_offset;    ///< Last error offset
+    int warning_number;         ///< Last warning number
+    int warning_offset;         ///< Last warning offset
 
 	/// Initialize class variables
 	void init_vars() {
 		mylocale = LOCALE_DEFAULT;
 		jpcre2_compile_opts = 0;
 		compile_opts = 0;
+        error_number = 0;
+        error_offset = 0;
+        warning_number = 0;
+        warning_offset = 0;
 		code = 0;
 		rr = 0;
 		rm = 0;
 	}
+    
 
 	/// Call Regex::init_vars() and initialize class variables.
 	/// This function should not be attempted to call after creating object.
@@ -797,23 +759,26 @@ private:
 		mylocale = r.mylocale;
 		compile_opts = r.compile_opts;
 		jpcre2_compile_opts = r.jpcre2_compile_opts;
-		current_warning_msg = r.current_warning_msg;
+		error_number = r.error_number;
+        error_offset = r.error_offset;
+        warning_number = r.warning_number;
+        warning_offset = r.warning_offset;
 	}
 
 	/// Do a deep copy of #rm, #rr and #code
 	void deepCopy(const Regex&);
+    
 
 public:
 
 	/// Default Constructor.
 	/// Initializes all class variables to defaults.
-	/// Does not perform any compilation, and thus not expected to throw any exception.
+	/// Does not perform any compilation.
 	Regex() {
 		init();
 	}
 
 	/** Compile pattern with initialization.
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param re Pattern string
 	 * */
 	Regex(const String& re) {
@@ -824,7 +789,6 @@ public:
 	 *
 	 *
 	 *  Compile pattern.
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param re Pattern string
 	 *  @param mod Modifier string
 	 * */
@@ -836,7 +800,6 @@ public:
 	 *
 	 *
 	 *  Compile pattern.
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param re Pattern string
 	 *  @param pcre2_opts PCRE2 option value
 	 * */
@@ -848,7 +811,6 @@ public:
 	 *
 	 *
 	 *  Compiles pattern.
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param re Pattern string
 	 *  @param pcre2_opts	PCRE2 option value
 	 *  @param opt_bits		JPCRE2 option value
@@ -859,7 +821,6 @@ public:
 
 	/// @overload
 	/// Copy constructor\. Performs a deep copy.
-    /// @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	/// @param r const Regex&
 	Regex(const Regex& r) {
 		///shallow copy must be performed **before** deep copy
@@ -881,7 +842,6 @@ public:
 	/// JIT memory was not copied by pcre2_code_copy().
 	///
 	/// **Memory management:** Old JIT memory will be released along with the old compiled code.
-    /// @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	/// @param r const Regex&
 	/// @return *this
 	Regex& operator=(const Regex& r) {
@@ -892,6 +852,66 @@ public:
 		deepCopy(r);
 		return *this;
 	}
+    
+
+	#if __cplusplus >= 201103L
+    /**
+     *  Provides boolean check for the status of the object.
+     *  This overlaoded boolean operator needs to be declared
+     *  explicit to prevent implicit conversion and overloading issues.
+     * 
+     *  We will only enable it if >=C++11 is being used, as the explicit keyword
+     *  for a function other than constructor is not supported in older compilers.
+     * 
+     *  If you are dealing with legacy code/compilers use the Double bang trick mentioned
+     *  in Regex::operator!().
+     * 
+     *  This helps us to check the status of the compiled regex like this:
+     * 
+     *  ```
+     *  jpcre2::Regex re("pat", "mod");
+     *  if(re) {
+     *      std::cout<<"Compile success";
+     *  } else {
+     *      std::cout<<"Compile failed";
+     *  }
+     *  ```
+     * @return Status of the compiled regex
+     * */
+    explicit operator bool() const {
+        return (code != 0);
+    }
+    #endif
+    
+    /** Provides boolean check for the status of the object.
+     *  This is a safe boolean approach (no implicit conversion  or overloading).
+     *  We don't need the explicit keyword here and thus it's the preferable method
+     *  to check for object status that will work well with older compilers.
+     *  e.g:
+     * 
+     *  ```
+     *  Regex re("pat","mod");
+     *  if(!re) {
+     *      std::cout<<"Compile failed";
+     *  } else {
+     *      std::cout<<"Compiled successfully";
+     *  }
+     *  ```
+     *  Double bang trick:
+     * 
+     *  ```
+     *  Regex re("pat","mod");
+     *  if(!!re) {
+     *      std::cout<<"Compiled successfully";
+     *  } else {
+     *      std::cout<<"Compile failed";
+     *  }
+     *  ```
+     *  @return Status of the compiled regex inverted
+     * */
+    bool operator!() const {
+        return (code == 0);
+    }
 
 	/// Destructor
 	/// Deletes memory used by #rm an #rr
@@ -902,18 +922,30 @@ public:
 	}
 
 	/** Reset all class variables to its default (initial) state.
-     * Release any memory used by existing compiled pattern.
+     * Release any memory used by existing compiled pattern, RegexMatch, RegexReplace objects.
 	 * @return *this
 	 * */
 	Regex& reset() {
 		freeRegexMemory();
 		init();
+        //deleting null pointer is safe.
+        delete rm; rm = 0;
+        delete rr; rr = 0;
 		return *this;
 	}
 
-	/** Get modifier string calculated from JPCRE2 and PCRE2 options.
-	 **/
-	String getModifier();
+    ///Reset errors to zero.
+    ///Callable from every where in a method chain.
+    ///@return A reference to the Regex object
+    ///@see RegexMatch::resetErrors()
+    ///@see RegexReplace::resetErrors()
+    Regex& resetErrors() {
+        error_number = 0;
+        error_offset = 0;
+        warning_number = 0;
+        warning_offset = 0;
+        return *this;
+    }
 
 	/** Get pattern string
 	 *  @return #pat_str
@@ -929,8 +961,14 @@ public:
 		return mylocale;
 	}
 
+	/** Get modifier string calculated from JPCRE2 and PCRE2 options.
+	 **/
+	String getModifier();
+    
 	/** Get PCRE2 option
 	 *  @return #compile_opts
+     * @see RegexReplace::getPcre2Option()
+     * @see RegexMatch::getPcre2Option()
 	 * */
 	Uint getPcre2Option() {
 		return compile_opts;
@@ -938,17 +976,47 @@ public:
 
 	/** Get JPCRE2 option
 	 *  @return #jpcre2_compile_opts
+     * @see RegexReplace::getJpcre2Option()
+     * @see RegexMatch::getJpcre2Option()
 	 * */
 	Uint getJpcre2Option() {
 		return jpcre2_compile_opts;
 	}
 
+    ///Returns the last error number
+    ///@return Last error number
+    int getErrorNumber(){
+        return error_number;
+    }
+    
+    ///Returns the last error offset
+    ///@return Last error offset
+    int getErrorOffset() {
+        return (int)error_offset;
+    }
+    
+    ///Returns the last warning number
+    ///@return Last warning number
+    int getWarningNumber() {
+        return warning_number;
+    }
+    
+    ///Returns the last warning offset
+    ///@return Last warning offset
+    int getWarningoffset() {
+        return warning_offset;
+    }
 
-	/// Get current warning message.
-    /// If multiple warning occurs in a single operation, only the last one will be returned.
-	/// @return #current_warning_msg
+    ///Returns the last error message
+    ///@return Last error message
+    String getErrorMessage() {
+        return utils::getErrorMessage(error_number, error_offset);
+    }
+
+	/// Returns the last warning message
+	/// @return Last warning message
 	String getWarningMessage() {
-		return current_warning_msg;
+		return utils::getWarningMessage(warning_number, warning_offset);
 	}
 
 	/// Set the Pattern string #pat_str
@@ -965,8 +1033,6 @@ public:
 	///
 	/// **Note:** If speed of operation is very crucial, use Regex::setJpcre2Option() and
 	/// Regex::setPcre2Option() with equivalent options. It will be faster that way.
-	/// @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER as error number
-    ///        if jpcre2::VALIDATE_MODIFIER or jpcre2::ERROR_ALL is set and a wrong modifier was encountered.
 	/// @param x Modifier string
 	/// @return Regex&
 	/// @see RegexMatch::setModifier()
@@ -1042,8 +1108,6 @@ public:
 	///
 	/// **Note:** If speed of operation is very crucial, use Regex::addJpcre2Option() and
 	/// Regex::addPcre2Option() with equivalent options. It will be faster that way.
-	/// @throw jpcre2::Except Throws exception with ERROR::INVALID_MODIFIER as error number
-    ///        if jpcre2::VALIDATE_MODIFIER or jpcre2::ERROR_ALL is set and a wrong modifier was encountered.
 	/// is set and a wrong modifier was encountered.
     /// @param mod Modifier string
     /// @return Regex&
@@ -1081,7 +1145,6 @@ public:
 	 *
 	 *
 	 *  Set the specified parameters, then compile the pattern using information from class variables.
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param re Pattern string
 	 *  @param po PCRE2 option
 	 *  @param jo JPCRE2 option
@@ -1095,7 +1158,6 @@ public:
 	 *
 	 *
 	 *  Set the specified parameters, then compile the pattern using options from class variables.
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param re Pattern string
 	 *  @param po PCRE2 option
 	 * */
@@ -1108,7 +1170,6 @@ public:
 	 *
 	 *
 	 *  Set the specified parameters, then compile the pattern using options from class variables.
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param re Pattern string
 	 *  @param mod Modifier string
 	 * */
@@ -1121,7 +1182,6 @@ public:
 	 *
 	 *
 	 *  Set the specified parameters, then compile the pattern using options from class variables.
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param re Pattern string
 	 * */
 	void compile(const String& re) {
@@ -1132,7 +1192,6 @@ public:
 	/** Perform regex match and return match count.
 	 *  This function takes the parameters, then sets the parameters to RegexMatch class and calls
 	 *  RegexMatch::match() which returns the result
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param s Subject string
 	 *  @param mod Modifier string
 	 *  @return Match count
@@ -1147,7 +1206,6 @@ public:
 	}
 
 	/** @overload
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param s Subject string
 	 *  @return Match count
 	 * */
@@ -1160,9 +1218,12 @@ public:
 	}
 
 	/** Prepare to call RegexMatch::match().
-	 * Other options can be set with the setter functions of RegexMatch class
+	 * Creates a new RegexMatch object and returns it.
+     * 
+     * Options can be set with the setter functions of RegexMatch class
 	 * in-between the Regex::initMatch() and RegexMatch::match() call.
-	 * @return RegexMatch&
+     * 
+	 * @return reference to a RegexMatch object
 	 * @see RegexMatch::match()
 	 * @see RegexMatch::setSubject(const String& s)
 	 * @see RegexMatch::setModifier(const String& mod)
@@ -1177,11 +1238,19 @@ public:
 		rm->re = this;
 		return *rm;
 	}
+    
+    /// returns a reference to existing match object.
+    /// Can be used to set different options and rerun the match.
+    /// If there was no Mach object, it will create a new and act similarly to RegexMatch::initMatch()
+    /// @return reference to a RegexMatch object
+    RegexMatch& getMatchObject(){
+        if(code != 0) return *rm;
+        else return initMatch();
+    }
 
 	/** Perform regex replace and return the replaced string.
 	 *  This function takes the parameters, then sets the parameters to RegexReplace class and calls
 	 *  RegexReplace::replace() which returns the result.
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param mains Subject string
 	 *  @param repl String to replace with
 	 *  @param mod Modifier string
@@ -1197,7 +1266,6 @@ public:
 	}
 
 	/** @overload
-     *  @throw jpcre2::Except Throws exception with PCRE2 error number and error offset
 	 *  @param mains Subject string
 	 *  @param repl String to replace with
 	 *  @return Resultant string after regex replace
@@ -1212,7 +1280,8 @@ public:
 	}
 
 	/** Prepare to call RegexReplace::replace().
-	 * Other options can be set with the setter functions of RegexReplace class
+     * Creates a new RegexReplace object and returns it reference.
+	 * Options can be set with the setter functions of RegexReplace class
 	 * in-between the Regex::initReplace() and RegexReplace::replace() call.
 	 * @return RegexReplace&
 	 * @see RegexReplace::replace()
@@ -1228,6 +1297,16 @@ public:
 		rr->re = this;
 		return *rr;
 	}
+    
+    
+    ///returns a reference to the existing RegexReplace object.
+    ///If there was no RegexReplace object, it will create a new one
+    /// and act similarly to RegexReplace::initReplace().
+    ///@return reference to a RegexReplace object
+    RegexReplace& getReplaceObject() {
+        if(rr != 0) return *rr;
+        else return initReplace();
+    }
 };
 
 }// jpcre2 namespace

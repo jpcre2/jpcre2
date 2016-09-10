@@ -5,7 +5,7 @@
  *  */
 
 #include <iostream>
-#include "jpcre2.hpp"
+#include "jpcre2.cpp"
 
 
 int main(){

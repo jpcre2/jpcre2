@@ -1,4 +1,4 @@
-.TH "jpcre2" 3 "Fri Sep 9 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2" 3 "Sun Sep 11 2016" "Version 10.26.01" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -30,10 +30,6 @@ jpcre2 \- Top level namespace of JPCRE2\&.
 .SS "Classes"
 
 .in +1c
-.ti -1c
-.RI "class \fBExcept\fP"
-.br
-.RI "Class to handle exception\&. "
 .ti -1c
 .RI "class \fBRegex\fP"
 .br
@@ -99,7 +95,7 @@ jpcre2 \- Top level namespace of JPCRE2\&.
 
 .in +1c
 .ti -1c
-.RI "enum { \fBNONE\fP = 0x0000000u, \fBVALIDATE_MODIFIER\fP = 0x0000001u, \fBFIND_ALL\fP = 0x0000002u, \fBJIT_COMPILE\fP = 0x0000004u, \fBERROR_ALL\fP = 0x0000008u }
+.RI "enum { \fBNONE\fP = 0x0000000u, \fBFIND_ALL\fP = 0x0000002u, \fBJIT_COMPILE\fP = 0x0000004u }
 .RI "These constants provide JPCRE2 options\&. ""
 .br
 .in -1c
@@ -143,17 +139,11 @@ These constants provide JPCRE2 options\&.
 \fB\fINONE \fP\fP
 Option 0 (zero) 
 .TP
-\fB\fIVALIDATE_MODIFIER \fP\fP
-Perform validation check on modifiers and throw \fBjpcre2::Except\fP with \fC\fBjpcre2::ERROR::INVALID_MODIFIER\fP\fP as error number if any wrong modifier was passed\&. 
-.TP
 \fB\fIFIND_ALL \fP\fP
 Find all during match (global match) 
 .TP
 \fB\fIJIT_COMPILE \fP\fP
 Perform JIT compilation for optimization\&. 
-.TP
-\fB\fIERROR_ALL \fP\fP
-Treat warnings as error and throw exception (warnings don't throw exception) 
 .SH "Variable Documentation"
 .PP 
 .SS "const \fBjpcre2::String\fP jpcre2::LOCALE_DEFAULT = \fBLOCALE_NONE\fP"

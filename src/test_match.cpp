@@ -7,7 +7,7 @@
  * */
 
 #include <iostream>
-#include "jpcre2.hpp"
+#include "jpcre2.cpp"
 
 
 int main(){
@@ -19,43 +19,32 @@ int main(){
     jpcre2::Regex re;          //It's not supposed to throw any exception.
     
     //Compile the pattern
-    try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
-          .setModifier("nJ")                                                    //set modifier
-          .addJpcre2Option(jpcre2::VALIDATE_MODIFIER                            //validation check (won't have any effect)
-                            | jpcre2::JIT_COMPILE                               //perform JIT compile (warning if JIT is not available)
-                            | jpcre2::ERROR_ALL)                                //treat warnings as errors
-          .addPcre2Option(0)                                                    //add pcre2 option
-          .compile();}                                                          //Finally compile it.
-    catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
+    re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
+          .setModifier("mi")                                                //set modifier
+          .addJpcre2Option(jpcre2::JIT_COMPILE)                             //perform JIT compile
+          .addPcre2Option(PCRE2_DUPNAMES)                                                //add pcre2 option
+          .compile();                                                       //Finally compile it.
     
-    // The above `jpcre2::VALIDATE_MODIFIER` option won't have any effect as modifier was passed before it.
-    // You can pass a modifier (~ or &) to turn this validation check on. In that case
-    // validation will start after ~ or & modifier is encountered,
+    std::cerr<<re.getErrorMessage();
     
-    // In above, JIT compiler warning will be treated as error and you will get an exception.
-    // JIT compile error is treated as warning by default, because it poses no problem doing match
-    // or replace. It's just an optimization. It will do it's job (optimize the compiled regex for faster operation)
-    // whenever available and do nothing if not.
-    
-
-    /***************************************************************************************************************
-     * All jpcre2 exceptions are of type jpcre2::Except
-     * *************************************************************************************************************/
+    // JIT error is a harmless error, it just means that an optimization failed.
     
     //subject string
     std::string subject = "(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56)";
     
-    size_t count=0;
+    size_t count = 0;
     
-    try{count = re.initMatch()                                  //Invoke the initMatch() function
-                  .addModifier("~g")                            //set various parameters (~: jpcre2::ERROR_ALL)
+    count = re.initMatch()                                      //Invoke the initMatch() function
+                  .addModifier("gf")                           //set various parameters
                   .setSubject(subject)                          //...
                   .setNumberedSubstringVector(&vec_num0)        //...
                   .setNamedSubstringVector(&vec_nas0)           //...
                   .setNameToNumberMapVector(&vec_nn0)           //...
                   .addPcre2Option(0)                            //...
-                  .match();}                                    //Finally perform the match
-    catch(jpcre2::Except& e){std::cerr<<"\n"<<e.getErrorMessage();}
+                  .match();                                     //Finally perform the match
+    
+    std::cerr<<"\n"<<re.getErrorMessage();
+    std::cerr<<"\n"<<re.getWarningMessage(); //Invalid modifier: f
     
     
     // re.reset(); // re-initialize re

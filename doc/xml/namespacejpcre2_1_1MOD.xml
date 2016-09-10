@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="141" column="1"/>
+        <location file="src/jpcre2.hpp" line="144" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a78025b5470499fcedb9f9bcb7cc0060b" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="142" column="1" bodyfile="src/jpcre2.cpp" bodystart="66" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="145" column="1" bodyfile="src/jpcre2.cpp" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1aa17f8c8525a87009846a6b9d9e3d1336" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -53,7 +53,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="143" column="1"/>
+        <location file="src/jpcre2.hpp" line="146" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a455f33361efc25e03e5a8613de8a0fa0" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -61,8 +61,6 @@
         <argsstring>[]</argsstring>
         <name>CJ_V</name>
         <initializer>= { <ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e" kindref="member">JIT_COMPILE</ref>,                                
-                                            <ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" kindref="member">ERROR_ALL</ref>,                                  
-                                            <ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">VALIDATE_MODIFIER</ref>                           
                                           }</initializer>
         <briefdescription>
 <para>Array of compile modifier values for JPCRE2 options. </para>        </briefdescription>
@@ -70,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="144" column="1" bodyfile="src/jpcre2.cpp" bodystart="82" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="147" column="1" bodyfile="src/jpcre2.cpp" bodystart="82" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1ae9029cd8600f49ba50ae0c7e42804a91" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -83,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="145" column="1"/>
+        <location file="src/jpcre2.hpp" line="148" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a7dd2150647fee002204e7005aa126289" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -98,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="146" column="1" bodyfile="src/jpcre2.cpp" bodystart="108" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="149" column="1" bodyfile="src/jpcre2.cpp" bodystart="105" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a079cc9fcb1e7eeab134b2146d4d67fe8" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -111,7 +109,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="147" column="1"/>
+        <location file="src/jpcre2.hpp" line="150" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a02e60618af8087b9a99ae8fbed0b887c" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -119,8 +117,6 @@
         <argsstring>[]</argsstring>
         <name>MJ_V</name>
         <initializer>= { <ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c" kindref="member">FIND_ALL</ref>,                                   
-                                            <ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" kindref="member">ERROR_ALL</ref>,                                  
-                                            <ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">VALIDATE_MODIFIER</ref>                           
                                           }</initializer>
         <briefdescription>
 <para>Array of action (match) modifier values for JPCRE2 options. </para>        </briefdescription>
@@ -128,7 +124,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="148" column="1" bodyfile="src/jpcre2.cpp" bodystart="112" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="151" column="1" bodyfile="src/jpcre2.cpp" bodystart="109" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a122c288202e5ffc105b93fac5a7335bf" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -141,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="149" column="1"/>
+        <location file="src/jpcre2.hpp" line="152" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1adde7332e9b90d54c907c30dfa9fbc4d6" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
@@ -159,7 +155,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="150" column="1" bodyfile="src/jpcre2.cpp" bodystart="92" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="153" column="1" bodyfile="src/jpcre2.cpp" bodystart="90" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a8d13695c0e0355460cef4f7b96076210" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -172,15 +168,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="151" column="1"/>
+        <location file="src/jpcre2.hpp" line="154" column="1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacejpcre2_1_1MOD_1a30011385a69e77d8681517c621c2a140" prot="public" static="no" mutable="no">
         <type>const <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">Uint</ref></type>
         <definition>const jpcre2::Uint jpcre2::MOD::RJ_V</definition>
         <argsstring>[]</argsstring>
         <name>RJ_V</name>
-        <initializer>= { <ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" kindref="member">ERROR_ALL</ref>,                                  
-                                            <ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" kindref="member">VALIDATE_MODIFIER</ref>                           
+        <initializer>= { <ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9" kindref="member">NONE</ref>
                                           }</initializer>
         <briefdescription>
 <para>Array of action (replace) modifier values for JPCRE2 options. </para>        </briefdescription>
@@ -188,13 +183,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="152" column="1" bodyfile="src/jpcre2.cpp" bodystart="100" bodyend="-1"/>
+        <location file="src/jpcre2.hpp" line="155" column="1" bodyfile="src/jpcre2.cpp" bodystart="98" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Namespace for modifier constants. </para>    </briefdescription>
     <detaileddescription>
 <para>For each modifier constant there is a <ref refid="namespacejpcre2_1a078242d38221a13fb3543b9edd78c099" kindref="member">jpcre2::Uint</ref> option value. Some modifiers may have multiple values set together (ORed in bitwise operation) and thus they may include other modifiers. Such an example is the &apos;n&apos; modifier. It is combined together with &apos;u&apos;. </para>    </detaileddescription>
-    <location file="src/jpcre2.hpp" line="134" column="1"/>
+    <location file="src/jpcre2.hpp" line="137" column="1"/>
   </compounddef>
 </doxygen>

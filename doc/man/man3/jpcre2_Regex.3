@@ -1,4 +1,4 @@
-.TH "jpcre2::Regex" 3 "Fri Sep 9 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::Regex" 3 "Sun Sep 11 2016" "Version 10.26.01" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -41,6 +41,14 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "Overloaded assignment operator\&. "
 .ti -1c
+.RI "\fBoperator bool\fP () const"
+.br
+.RI "Provides boolean check for the status of the object\&. "
+.ti -1c
+.RI "bool \fBoperator!\fP () const"
+.br
+.RI "Provides boolean check for the status of the object\&. "
+.ti -1c
 .RI "\fB~Regex\fP ()"
 .br
 .RI "Destructor Deletes memory used by \fBrm\fP an \fBrr\fP\&. "
@@ -49,9 +57,9 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "Reset all class variables to its default (initial) state\&. "
 .ti -1c
-.RI "\fBString\fP \fBgetModifier\fP ()"
+.RI "\fBRegex\fP & \fBresetErrors\fP ()"
 .br
-.RI "Get modifier string calculated from JPCRE2 and PCRE2 options\&. "
+.RI "Reset errors to zero\&. "
 .ti -1c
 .RI "\fBString\fP \fBgetPattern\fP ()"
 .br
@@ -61,6 +69,10 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "Get locale as a string\&. "
 .ti -1c
+.RI "\fBString\fP \fBgetModifier\fP ()"
+.br
+.RI "Get modifier string calculated from JPCRE2 and PCRE2 options\&. "
+.ti -1c
 .RI "\fBUint\fP \fBgetPcre2Option\fP ()"
 .br
 .RI "Get PCRE2 option\&. "
@@ -69,9 +81,29 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "Get JPCRE2 option\&. "
 .ti -1c
+.RI "int \fBgetErrorNumber\fP ()"
+.br
+.RI "Returns the last error number\&. "
+.ti -1c
+.RI "int \fBgetErrorOffset\fP ()"
+.br
+.RI "Returns the last error offset\&. "
+.ti -1c
+.RI "int \fBgetWarningNumber\fP ()"
+.br
+.RI "Returns the last warning number\&. "
+.ti -1c
+.RI "int \fBgetWarningoffset\fP ()"
+.br
+.RI "Returns the last warning offset\&. "
+.ti -1c
+.RI "\fBString\fP \fBgetErrorMessage\fP ()"
+.br
+.RI "Returns the last error message\&. "
+.ti -1c
 .RI "\fBString\fP \fBgetWarningMessage\fP ()"
 .br
-.RI "Get current warning message\&. "
+.RI "Returns the last warning message\&. "
 .ti -1c
 .RI "\fBRegex\fP & \fBsetPattern\fP (const \fBString\fP &re)"
 .br
@@ -149,6 +181,10 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "Prepare to call \fBRegexMatch::match()\fP\&. "
 .ti -1c
+.RI "\fBRegexMatch\fP & \fBgetMatchObject\fP ()"
+.br
+.RI "returns a reference to existing match object\&. "
+.ti -1c
 .RI "\fBString\fP \fBreplace\fP (const \fBString\fP &mains, const \fBString\fP &repl, const \fBString\fP &mod)"
 .br
 .RI "Perform regex replace and return the replaced string\&. "
@@ -160,6 +196,10 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .RI "\fBRegexReplace\fP & \fBinitReplace\fP ()"
 .br
 .RI "Prepare to call \fBRegexReplace::replace()\fP\&. "
+.ti -1c
+.RI "\fBRegexReplace\fP & \fBgetReplaceObject\fP ()"
+.br
+.RI "returns a reference to the existing \fBRegexReplace\fP object\&. "
 .in -1c
 .SS "Private Member Functions"
 
@@ -225,9 +265,21 @@ jpcre2::Regex \- Implements public overloaded and copy constructors, provides fu
 .br
 .RI "Locale as a string\&. "
 .ti -1c
-.RI "\fBString\fP \fBcurrent_warning_msg\fP"
+.RI "int \fBerror_number\fP"
 .br
-.RI "Current warning message\&. "
+.RI "Last error number\&. "
+.ti -1c
+.RI "PCRE2_SIZE \fBerror_offset\fP"
+.br
+.RI "Last error offset\&. "
+.ti -1c
+.RI "int \fBwarning_number\fP"
+.br
+.RI "Last warning number\&. "
+.ti -1c
+.RI "int \fBwarning_offset\fP"
+.br
+.RI "Last warning offset\&. "
 .in -1c
 .SS "Friends"
 
@@ -253,16 +305,11 @@ A pattern must be compiled either by explicitly calling the compile function or 
 .SS "jpcre2::Regex::Regex ()\fC [inline]\fP"
 
 .PP
-Default Constructor\&. Initializes all class variables to defaults\&. Does not perform any compilation, and thus not expected to throw any exception\&. 
+Default Constructor\&. Initializes all class variables to defaults\&. Does not perform any compilation\&. 
 .SS "jpcre2::Regex::Regex (const \fBString\fP & re)\fC [inline]\fP"
 
 .PP
 Compile pattern with initialization\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -274,11 +321,6 @@ Compile pattern with initialization\&.
 
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compile pattern\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -293,11 +335,6 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compile pattern\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fIre\fP Pattern string 
@@ -310,11 +347,6 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Compiles pattern\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -330,11 +362,6 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Copy constructor. Performs a deep copy\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -372,12 +399,7 @@ Add option to existing JPCRE2 options \fBjpcre2_compile_opts\fP\&.
 .PP
 Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is just a wrapper of the original function \fBRegex::changeModifier()\fP provided for convenience\&.
 .PP
-\fBNote:\fP If speed of operation is very crucial, use \fBRegex::addJpcre2Option()\fP and \fBRegex::addPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. is set and a wrong modifier was encountered\&. 
-.RE
+\fBNote:\fP If speed of operation is very crucial, use \fBRegex::addJpcre2Option()\fP and \fBRegex::addPcre2Option()\fP with equivalent options\&. It will be faster that way\&. is set and a wrong modifier was encountered\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -454,11 +476,6 @@ This function does not initialize or re-initialize options\&. If you want to set
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegex::changeJpcre2Option()\fP and \fBRegex::changePcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP was set and a wrong modifier was encountered\&. 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fImod\fP Modifier string 
@@ -468,7 +485,7 @@ This function does not initialize or re-initialize options\&. If you want to set
 .PP
 \fBReturns:\fP
 .RS 4
-\fBRegex\fP& 
+Reference to the regex object 
 .RE
 .PP
 \fBSee also:\fP
@@ -512,16 +529,12 @@ Compile the regex pattern from class variable \fBpat_str\fP\&. Use options from 
 Prefer using one of its variants when compiling pattern for an already declared \fBRegex\fP object\&. A use of 
 .PP
 .nf
-re = Regex("pattern");
+jpcre2::Regex re;
+re = jpcre2::Regex("pattern");
 
 .fi
 .PP
  (or such) is discouraged\&. see \fC\fBRegex::operator=(const Regex& r)\fP\fP for details\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset\&. 
-.RE
 .PP
 \fBSee also:\fP
 .RS 4
@@ -540,11 +553,6 @@ void \fBcompile(const String& re)\fP
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Set the specified parameters, then compile the pattern using information from class variables\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fIre\fP Pattern string 
@@ -560,11 +568,6 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Set the specified parameters, then compile the pattern using options from class variables\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fIre\fP Pattern string 
@@ -577,11 +580,6 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Set the specified parameters, then compile the pattern using options from class variables\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -596,11 +594,6 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. Set the specified parameters, then compile the pattern using options from class variables\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fIre\fP Pattern string 
@@ -612,14 +605,42 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .PP
 Do a deep copy of \fBrm\fP, \fBrr\fP and \fBcode\fP\&. Copy compiled pattern to a new location, free the old memory and set the new pointer to \fBcode\fP\&.
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset\&. 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fIr\fP \fBRegex\fP& 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::Regex::getErrorMessage ()\fC [inline]\fP"
+
+.PP
+Returns the last error message\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Last error message 
+.RE
+.PP
+
+.SS "int jpcre2::Regex::getErrorNumber ()\fC [inline]\fP"
+
+.PP
+Returns the last error number\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Last error number 
+.RE
+.PP
+
+.SS "int jpcre2::Regex::getErrorOffset ()\fC [inline]\fP"
+
+.PP
+Returns the last error offset\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Last error offset 
 .RE
 .PP
 
@@ -631,6 +652,13 @@ Get JPCRE2 option\&.
 \fBReturns:\fP
 .RS 4
 \fBjpcre2_compile_opts\fP 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexReplace::getJpcre2Option()\fP 
+.PP
+\fBRegexMatch::getJpcre2Option()\fP 
 .RE
 .PP
 
@@ -645,12 +673,21 @@ Get locale as a string\&.
 .RE
 .PP
 
+.SS "\fBRegexMatch\fP& jpcre2::Regex::getMatchObject ()\fC [inline]\fP"
+
+.PP
+returns a reference to existing match object\&. Can be used to set different options and rerun the match\&. If there was no Mach object, it will create a new and act similarly to RegexMatch::initMatch() 
+.PP
+\fBReturns:\fP
+.RS 4
+reference to a \fBRegexMatch\fP object 
+.RE
+.PP
+
 .SS "\fBjpcre2::String\fP jpcre2::Regex::getModifier ()"
 
 .PP
 Get modifier string calculated from JPCRE2 and PCRE2 options\&. Calculate modifier string from \fBcompile_opts\fP and \fBjpcre2_compile_opts\fP and return it\&.
-.PP
-Note that, this only gives you the modifiers used for pattern compilation\&. There is no such function to get the action modifiers and neither there's any need for it as action modifiers are required to be passed anew with every action\&. On the other hand, you may set some modifiers to the \fBRegex\fP object and forget about it later or you may want to get the existing modifier and compile the regex again by modifying the existing ones\&.
 .PP
 Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized as long as you don't do that explicitly\&. Calling \fBRegex::setModifier()\fP will re-set them\&.
 .PP
@@ -661,6 +698,13 @@ Some modifier may include other modifiers i\&.e they have the same meaning of so
 \fBReturns:\fP
 .RS 4
 Calculated modifier string 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::getModifier()\fP 
+.PP
+\fBRegexReplace::getModifier()\fP 
 .RE
 .PP
 
@@ -685,15 +729,55 @@ Get PCRE2 option\&.
 \fBcompile_opts\fP 
 .RE
 .PP
+\fBSee also:\fP
+.RS 4
+\fBRegexReplace::getPcre2Option()\fP 
+.PP
+\fBRegexMatch::getPcre2Option()\fP 
+.RE
+.PP
+
+.SS "\fBRegexReplace\fP& jpcre2::Regex::getReplaceObject ()\fC [inline]\fP"
+
+.PP
+returns a reference to the existing \fBRegexReplace\fP object\&. If there was no \fBRegexReplace\fP object, it will create a new one and act similarly to RegexReplace::initReplace()\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+reference to a \fBRegexReplace\fP object 
+.RE
+.PP
 
 .SS "\fBString\fP jpcre2::Regex::getWarningMessage ()\fC [inline]\fP"
 
 .PP
-Get current warning message\&. If multiple warning occurs in a single operation, only the last one will be returned\&. 
+Returns the last warning message\&. 
 .PP
 \fBReturns:\fP
 .RS 4
-\fBcurrent_warning_msg\fP 
+Last warning message 
+.RE
+.PP
+
+.SS "int jpcre2::Regex::getWarningNumber ()\fC [inline]\fP"
+
+.PP
+Returns the last warning number\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Last warning number 
+.RE
+.PP
+
+.SS "int jpcre2::Regex::getWarningoffset ()\fC [inline]\fP"
+
+.PP
+Returns the last warning offset\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Last warning offset 
 .RE
 .PP
 
@@ -732,11 +816,13 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 .SS "\fBRegexMatch\fP& jpcre2::Regex::initMatch ()\fC [inline]\fP"
 
 .PP
-Prepare to call \fBRegexMatch::match()\fP\&. Other options can be set with the setter functions of \fBRegexMatch\fP class in-between the \fBRegex::initMatch()\fP and \fBRegexMatch::match()\fP call\&. 
+Prepare to call \fBRegexMatch::match()\fP\&. Creates a new \fBRegexMatch\fP object and returns it\&.
+.PP
+Options can be set with the setter functions of \fBRegexMatch\fP class in-between the \fBRegex::initMatch()\fP and \fBRegexMatch::match()\fP call\&.
 .PP
 \fBReturns:\fP
 .RS 4
-\fBRegexMatch\fP& 
+reference to a \fBRegexMatch\fP object 
 .RE
 .PP
 \fBSee also:\fP
@@ -758,7 +844,7 @@ Prepare to call \fBRegexMatch::match()\fP\&. Other options can be set with the s
 .SS "\fBRegexReplace\fP& jpcre2::Regex::initReplace ()\fC [inline]\fP"
 
 .PP
-Prepare to call \fBRegexReplace::replace()\fP\&. Other options can be set with the setter functions of \fBRegexReplace\fP class in-between the \fBRegex::initReplace()\fP and \fBRegexReplace::replace()\fP call\&. 
+Prepare to call \fBRegexReplace::replace()\fP\&. Creates a new \fBRegexReplace\fP object and returns it reference\&. Options can be set with the setter functions of \fBRegexReplace\fP class in-between the \fBRegex::initReplace()\fP and \fBRegexReplace::replace()\fP call\&. 
 .PP
 \fBReturns:\fP
 .RS 4
@@ -784,11 +870,6 @@ Prepare to call \fBRegexReplace::replace()\fP\&. Other options can be set with t
 .PP
 Perform regex match and return match count\&. This function takes the parameters, then sets the parameters to \fBRegexMatch\fP class and calls \fBRegexMatch::match()\fP which returns the result 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fIs\fP Subject string 
@@ -812,11 +893,6 @@ Match count
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fIs\fP Subject string 
@@ -825,6 +901,70 @@ This is an overloaded member function, provided for convenience\&. It differs fr
 \fBReturns:\fP
 .RS 4
 Match count 
+.RE
+.PP
+
+.SS "jpcre2::Regex::operator bool () const\fC [inline]\fP, \fC [explicit]\fP"
+
+.PP
+Provides boolean check for the status of the object\&. This overlaoded boolean operator needs to be declared explicit to prevent implicit conversion and overloading issues\&.
+.PP
+We will only enable it if >=C++11 is being used, as the explicit keyword for a function other than constructor is not supported in older compilers\&.
+.PP
+If you are dealing with legacy code/compilers use the Double bang trick mentioned in \fBRegex::operator!()\fP\&.
+.PP
+This helps us to check the status of the compiled regex like this:
+.PP
+.PP
+.nf
+jpcre2::Regex re("pat", "mod");
+if(re) {
+    std::cout<<"Compile success";
+} else {
+    std::cout<<"Compile failed";
+}
+.fi
+.PP
+ 
+.PP
+\fBReturns:\fP
+.RS 4
+Status of the compiled regex 
+.RE
+.PP
+
+.SS "bool jpcre2::Regex::operator! () const\fC [inline]\fP"
+
+.PP
+Provides boolean check for the status of the object\&. This is a safe boolean approach (no implicit conversion or overloading)\&. We don't need the explicit keyword here and thus it's the preferable method to check for object status that will work well with older compilers\&. e\&.g:
+.PP
+.PP
+.nf
+Regex re("pat","mod");
+if(!re) {
+    std::cout<<"Compile failed";
+} else {
+    std::cout<<"Compiled successfully";
+}
+.fi
+.PP
+ Double bang trick:
+.PP
+.PP
+.nf
+Regex re("pat","mod");
+if(!!re) {
+    std::cout<<"Compiled successfully";
+} else {
+    std::cout<<"Compile failed";
+}
+.fi
+.PP
+ 
+.PP
+\fBReturns:\fP
+.RS 4
+Status of the compiled regex inverted 
 .RE
 .PP
 
@@ -845,11 +985,6 @@ re = Regex("new pattern");
 .PP
 \fBMemory management:\fP Old JIT memory will be released along with the old compiled code\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fIr\fP const \fBRegex\fP& 
@@ -865,11 +1000,6 @@ re = Regex("new pattern");
 
 .PP
 Perform regex replace and return the replaced string\&. This function takes the parameters, then sets the parameters to \fBRegexReplace\fP class and calls \fBRegexReplace::replace()\fP which returns the result\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
 .PP
 \fBParameters:\fP
 .RS 4
@@ -896,11 +1026,6 @@ Resultant string after regex replace
 .PP
 This is an overloaded member function, provided for convenience\&. It differs from the above function only in what argument(s) it accepts\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fImains\fP Subject string 
@@ -922,11 +1047,29 @@ Resultant string after regex replace
 .SS "\fBRegex\fP& jpcre2::Regex::reset ()\fC [inline]\fP"
 
 .PP
-Reset all class variables to its default (initial) state\&. Release any memory used by existing compiled pattern\&. 
+Reset all class variables to its default (initial) state\&. Release any memory used by existing compiled pattern, \fBRegexMatch\fP, \fBRegexReplace\fP objects\&. 
 .PP
 \fBReturns:\fP
 .RS 4
 *this 
+.RE
+.PP
+
+.SS "\fBRegex\fP& jpcre2::Regex::resetErrors ()\fC [inline]\fP"
+
+.PP
+Reset errors to zero\&. Callable from every where in a method chain\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+A reference to the \fBRegex\fP object 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::resetErrors()\fP 
+.PP
+\fBRegexReplace::resetErrors()\fP 
 .RE
 .PP
 
@@ -975,11 +1118,6 @@ Set the locale \fBmylocale\fP\&.
 Set the modifier (overwrite existing JPCRE2 and PCRE2 option)\&. Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets equivalent PCRE2 and JPCRE2 options\&.
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegex::setJpcre2Option()\fP and \fBRegex::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
-.RE
 .PP
 \fBParameters:\fP
 .RS 4

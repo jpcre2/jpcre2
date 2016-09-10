@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['match',['match',['../classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33.html#a5868aef3a146594ea1ebef34d122bb33',1,'jpcre2::RegexMatch::match()'],['../classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894.html#ab93775a93a0a537d09b9e9ab4a5a3894',1,'jpcre2::Regex::match(const String &amp;s, const String &amp;mod)'],['../classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5.html#a9ffbb6aa54cb97125f1b4211bc1d09a5',1,'jpcre2::Regex::match(const String &amp;s)']]]
+  ['operator_20bool',['operator bool',['../classjpcre2_1_1Regex_a9070a9f3adcaebccca5d15b247b93fda.html#a9070a9f3adcaebccca5d15b247b93fda',1,'jpcre2::Regex']]],
+  ['operator_21',['operator!',['../classjpcre2_1_1Regex_afe102e21a96f5cfe12621746f899fa25.html#afe102e21a96f5cfe12621746f899fa25',1,'jpcre2::Regex']]],
+  ['operator_3d',['operator=',['../classjpcre2_1_1Regex_ab43a14b4b6e75b7fa3221bc18a1d4121.html#ab43a14b4b6e75b7fa3221bc18a1d4121',1,'jpcre2::Regex']]]
 ];

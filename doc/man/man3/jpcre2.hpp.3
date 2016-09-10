@@ -1,4 +1,4 @@
-.TH "jpcre2.hpp" 3 "Fri Sep 9 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2.hpp" 3 "Sun Sep 11 2016" "Version 10.26.01" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,26 +7,9 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .SH SYNOPSIS
 .br
 .PP
-\fC#include <pcre2\&.h>\fP
-.br
-\fC#include <cstddef>\fP
-.br
-\fC#include <string>\fP
-.br
-\fC#include <vector>\fP
-.br
-\fC#include <map>\fP
-.br
-\fC#include <exception>\fP
-.br
-
 .SS "Classes"
 
 .in +1c
-.ti -1c
-.RI "class \fBjpcre2::Except\fP"
-.br
-.RI "Class to handle exception\&. "
 .ti -1c
 .RI "class \fBjpcre2::RegexMatch\fP"
 .br
@@ -63,14 +46,6 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .RI " \fBjpcre2::utils\fP"
 .br
 .RI "Namespace for some utility functions\&. "
-.in -1c
-.SS "Macros"
-
-.in +1c
-.ti -1c
-.RI "#define \fBPCRE2_CODE_UNIT_WIDTH\fP   8"
-.br
-.RI "Code unit width 8 is used by default\&. "
 .in -1c
 .SS "Typedefs"
 
@@ -124,7 +99,7 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 
 .in +1c
 .ti -1c
-.RI "enum { \fBjpcre2::NONE\fP = 0x0000000u, \fBjpcre2::VALIDATE_MODIFIER\fP = 0x0000001u, \fBjpcre2::FIND_ALL\fP = 0x0000002u, \fBjpcre2::JIT_COMPILE\fP = 0x0000004u, \fBjpcre2::ERROR_ALL\fP = 0x0000008u }
+.RI "enum { \fBjpcre2::NONE\fP = 0x0000000u, \fBjpcre2::FIND_ALL\fP = 0x0000002u, \fBjpcre2::JIT_COMPILE\fP = 0x0000004u }
 .RI "These constants provide JPCRE2 options\&. ""
 .br
 .ti -1c
@@ -160,9 +135,9 @@ jpcre2.hpp \- Main header file for JPCRE2 library to be included by programs tha
 .br
 .RI "Get error message from error number and error offset\&. "
 .ti -1c
-.RI "void \fBjpcre2::utils::throwException\fP (int, int)"
+.RI "std::string \fBjpcre2::utils::getWarningMessage\fP (int, int)"
 .br
-.RI "Used throughout JPCRE2 to throw exceptions\&. "
+.RI "Get warning message from warning number and offset\&. "
 .in -1c
 .SS "Variables"
 

@@ -6,13 +6,13 @@ C++ wrapper for P\+C\+R\+E2 library
 P\+C\+R\+E2 is the name used for a revised A\+PI for the P\+C\+RE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original P\+C\+RE before they appeared in Perl are also available using the Python syntax. \end{quote}
 
 
-This provides some C++ wrapper functions to provide some useful utilities like regex match and regex replace.\hypertarget{index_dependency}{}\subsection{Dependency}\label{index_dependency}
+This provides some C++ wrapper functions to perform regex operations such as regex match and regex replace.\hypertarget{index_dependency}{}\subsection{Dependency}\label{index_dependency}
 
 \begin{DoxyEnumerate}
 \item P\+C\+R\+E2 library ({\ttfamily version $>$=10.\+21}).
 \end{DoxyEnumerate}
 
-If the required P\+C\+R\+E2 version is not available in the official channel, download \href{https://github.com/jpcre2/pcre2}{\tt my fork of the library}.\hypertarget{index_install-or-include}{}\subsection{Install or Include}\label{index_install-or-include}
+If the required P\+C\+R\+E2 version is not available in the official channel, you can download \href{https://github.com/jpcre2/pcre2}{\tt my fork of the library}.\hypertarget{index_install-or-include}{}\subsection{Install or Include}\label{index_install-or-include}
 The {\ttfamily \hyperlink{jpcre2_8hpp}{jpcre2.\+hpp}} header should be included in the source file that uses J\+P\+C\+R\+E2 functionalities.\hypertarget{index_use-with-sources}{}\subsubsection{Use with sources}\label{index_use-with-sources}
 After including the header you can compile your source either by installing and linking with J\+P\+C\+R\+E2 library or providing the following sources to your compiler\+:
 
@@ -72,9 +72,8 @@ Performing a match or replacement against regex pattern involves two steps\+:
 \begin{DoxyEnumerate}
 \item Compiling the pattern
 \item Performing the match or replacement operation
-\end{DoxyEnumerate}\hypertarget{index_compile-a-pattern}{}\subsubsection{Compile a pattern}\label{index_compile-a-pattern}
-{\bfseries First create a {\ttfamily \hyperlink{classjpcre2_1_1Regex}{jpcre2\+::\+Regex}} object}
-
+\end{DoxyEnumerate}\hypertarget{index_compile-a-regex-pattern}{}\subsubsection{Compile a regex pattern}\label{index_compile-a-regex-pattern}
+\hypertarget{index_a-regex-object}{}\paragraph{A jpcre2\+::\+Regex object}\label{index_a-regex-object}
 (You can use temporary object too, see \href{#short-examples}{\tt short examples}).
 
 This object will hold the pattern, modifiers (P\+C\+R\+E2 and J\+P\+C\+R\+E2 options) and compiled pattern.
@@ -83,14 +82,12 @@ This object will hold the pattern, modifiers (P\+C\+R\+E2 and J\+P\+C\+R\+E2 opt
 \begin{DoxyCode}
 \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re;
 \end{DoxyCode}
- Each object for each regex pattern.
-
-{\bfseries Compile the pattern\+:}
-
+ Each object for each regex pattern.\hypertarget{index_compile-the-regex}{}\paragraph{Compile the regex}\label{index_compile-the-regex}
 
 \begin{DoxyCode}
 re.\hyperlink{classjpcre2_1_1Regex_a85d9a514ea86ae68533223adac6c6bd8_a85d9a514ea86ae68533223adac6c6bd8}{setPattern}(\textcolor{stringliteral}{"(?:(?<word>[?.#@:]+)|(?<word>\(\backslash\)\(\backslash\)w+))\(\backslash\)\(\backslash\)s*(?<digit>\(\backslash\)\(\backslash\)d+)"})  \textcolor{comment}{//set pattern}
-  .\hyperlink{classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55_ab1af1471339602446d8221b8c97c6b55}{addModifier}(\textcolor{stringliteral}{"nJS"})                                                   \textcolor{comment}{//add modifier}
+  .\hyperlink{classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55_ab1af1471339602446d8221b8c97c6b55}{addModifier}(\textcolor{stringliteral}{"iJ"})                                                    \textcolor{comment}{//add modifier (J for
+       PCRE2\_DUPNAMES)}
   .\hyperlink{classjpcre2_1_1Regex_aad1d5ef1e87f762f68a587eec4022e69_aad1d5ef1e87f762f68a587eec4022e69}{compile}();                                                           \textcolor{comment}{//Finally compile it.}
 
 \textcolor{comment}{//Do not use setModifier() after adding any options, it will reset them.}
@@ -102,14 +99,42 @@ re.\hyperlink{classjpcre2_1_1Regex_a85d9a514ea86ae68533223adac6c6bd8_a85d9a514ea
 \end{DoxyCode}
 
 
-Now you can perform match or replace against the pattern. Use the {\ttfamily match()} member function to perform regex match and the {\ttfamily replace()} member function to perform regex replace.\hypertarget{index_match}{}\subsubsection{Match}\label{index_match}
-The {\ttfamily \hyperlink{classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5_a9ffbb6aa54cb97125f1b4211bc1d09a5}{jpcre2\+::\+Regex\+::match(const String\& s)}} member function can take two arguments (subject \& modifier) and returns the number of matches found against the compiled pattern.
-
-To get the match result (captured groups) however, you need to call the {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{jpcre2\+::\+Regex\+Match\+::match()}} function. Point be noted that, you can not call this function directly or create any object of the class {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}}. To call this function, first invoke the {\ttfamily \hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{jpcre2\+::\+Regex\+::init\+Match()}} function. It will give you a temporary {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}} object. Now you can chain function calls of {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{jpcre2\+::\+Regex\+Match\+::set\+Numbered\+Substring\+Vector(\+Vec\+Num$\ast$ vec\+\_\+num)}} and such functions from {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}} class to pass various parameters. After you are done passing all the parameter that you need, the {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{jpcre2\+::\+Regex\+Match\+::match()}} function should be called to perform the actual match and return the match count. The match results will be stored in vectors (vectors of maps) whose pointers were passed as parameters.\hypertarget{index_simple-match-count}{}\paragraph{Get match count}\label{index_simple-match-count}
+Now you can perform match or replace against the pattern. Use the {\ttfamily match()} member function to perform regex match and the {\ttfamily replace()} member function to perform regex replace.\hypertarget{index_check-regex}{}\paragraph{Check if regex compiled successfully}\label{index_check-regex}
 
 \begin{DoxyCode}
-\textcolor{comment}{//If you want to match all and get the match count, use the action modifier 'g':}
-\textcolor{keywordtype}{size\_t} count = \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"(\(\backslash\)\(\backslash\)d)|(\(\backslash\)\(\backslash\)w)"},\textcolor{stringliteral}{"m"}).\hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894_ab93775a93a0a537d09b9e9ab4a5a3894}{match}(\textcolor{stringliteral}{"I am the subject"},\textcolor{stringliteral}{"g"});
+\textcolor{keywordflow}{if}(!re) std::cout<<\textcolor{stringliteral}{"Failed"};
+\textcolor{keywordflow}{else} std::cout<<\textcolor{stringliteral}{"successfull"};
+\end{DoxyCode}
+ The {\ttfamily if(re)} conditional is only available for {\ttfamily $>$= C++11}\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{if}(re) std::cout<<\textcolor{stringliteral}{"Success"};
+\textcolor{keywordflow}{else} std::cout<<\textcolor{stringliteral}{"Failure"};
+\end{DoxyCode}
+ For {\ttfamily $<$ C++11}, you can use the double bang trick as an alternative to {\ttfamily if(re)}\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{if}(!!re) std::cout<<\textcolor{stringliteral}{"Success"};
+\textcolor{keywordflow}{else} std::cout<<\textcolor{stringliteral}{"Failure"};
+\end{DoxyCode}
+\hypertarget{index_match}{}\subsubsection{Match}\label{index_match}
+The {\ttfamily \hyperlink{classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5_a9ffbb6aa54cb97125f1b4211bc1d09a5}{jpcre2\+::\+Regex\+::match(const String\& s)}} member function can take two arguments (subject \& modifier) and returns the number of matches found against the compiled pattern.
+
+To get the match result (captured groups) however, you need to call the {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{jpcre2\+::\+Regex\+Match\+::match()}} function. Point be noted that, you can not call this function directly or create any object of the class {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}}. To call this function, first invoke the {\ttfamily \hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{jpcre2\+::\+Regex\+::init\+Match()}} (or {\ttfamily \hyperlink{classjpcre2_1_1Regex_abb007e99d7e2188ec80b741e7b40668f_abb007e99d7e2188ec80b741e7b40668f}{jpcre2\+::\+Regex\+::get\+Match\+Object()}}) function. It will give you a reference to a {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}} object. Now you can chain method calls of {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{jpcre2\+::\+Regex\+Match\+::set\+Numbered\+Substring\+Vector(\+Vec\+Num$\ast$ vec\+\_\+num)}} and such functions from {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}} class to pass various parameters. After you are done passing all the parameter that you need, the {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{jpcre2\+::\+Regex\+Match\+::match()}} function should be called to perform the actual match and return the match count. The match results will be stored in vectors (vectors of maps) whose pointers were passed as parameters.\hypertarget{index_check-if-a-string-matches-a-regex}{}\paragraph{Check if a string matches a regex}\label{index_check-if-a-string-matches-a-regex}
+
+\begin{DoxyCode}
+\textcolor{keywordflow}{if}(re.\hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894_ab93775a93a0a537d09b9e9ab4a5a3894}{match}(\textcolor{stringliteral}{"I am the subject"})) std::cout<<\textcolor{stringliteral}{"matched (case sensitive)"};
+\textcolor{keywordflow}{else} std::cout<<\textcolor{stringliteral}{"Didn't match"};
+
+\textcolor{keywordflow}{if}(re.\hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894_ab93775a93a0a537d09b9e9ab4a5a3894}{match}(\textcolor{stringliteral}{"I am the subject"},\textcolor{stringliteral}{"i"})) std::cout<<\textcolor{stringliteral}{"matched (case insensitive)"};
+\textcolor{keywordflow}{else} std::cout<<\textcolor{stringliteral}{"Didn't match"};
+\end{DoxyCode}
+\hypertarget{index_simple-match-count}{}\paragraph{Get match count}\label{index_simple-match-count}
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{size\_t} count = \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"(\(\backslash\)\(\backslash\)d)|(\(\backslash\)\(\backslash\)w)"},\textcolor{stringliteral}{"i"}).\hyperlink{classjpcre2_1_1Regex_ab93775a93a0a537d09b9e9ab4a5a3894_ab93775a93a0a537d09b9e9ab4a5a3894}{match}(\textcolor{stringliteral}{"I am the subject"},\textcolor{stringliteral}{"g"});
 \end{DoxyCode}
 \hypertarget{index_do-match}{}\paragraph{Get match result}\label{index_do-match}
 To get the match results, you need to pass appropriate vector pointers. This is an example of how you can get the numbered substrings/captured groups from a match\+:
@@ -117,11 +142,11 @@ To get the match results, you need to pass appropriate vector pointers. This is 
 
 \begin{DoxyCode}
 \hyperlink{namespacejpcre2_ac1cf752c8fbb0be78020be3b80e77ce3}{jpcre2::VecNum} vec\_num;
-\textcolor{keywordtype}{size\_t} count=re.\hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{initMatch}()                                 \textcolor{comment}{//prepare for match() call}
+\textcolor{keywordtype}{size\_t} count=re.\hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{initMatch}()                                 \textcolor{comment}{//Initialize match object}
                .\hyperlink{classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_a635c652195deaa8ebb9e107c4f972aab}{setSubject}(subject)                         \textcolor{comment}{//set subject string}
                .\hyperlink{classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5_a9df7e92f96b61553f62720cb8f5f23e5}{setModifier}(ac\_mod)                         \textcolor{comment}{//set modifier string}
-               .\hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{setNumberedSubstringVector}(&vec\_num)        \textcolor{comment}{//pass VecNum vector
-       to store maps of numbered substrings}
+               .\hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{setNumberedSubstringVector}(&vec\_num)        \textcolor{comment}{//pass pointer to
+       VecNum vector to store maps of numbered substrings}
                .\hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{match}();                                    \textcolor{comment}{//Finally perform the match.}
 \textcolor{comment}{//vec\_num will be populated with maps of numbered substrings.}
 \textcolor{comment}{//count is the total number of matches found}
@@ -198,17 +223,40 @@ If you are using {\ttfamily $>$=C++11}, you can make the loop a lot simpler\+:
 \end{DoxyCode}
 
 
-{\itshape The process of iterating through the vectors and associated maps are the same for all three. The size of those vectors are the same and can be accessed in the same way.}\hypertarget{index_replace}{}\subsubsection{Replace or Substitute}\label{index_replace}
+{\itshape The process of iterating through the vectors and associated maps are the same for all three. The size of those vectors are the same and can be accessed in the same way.}\hypertarget{index_re-use-a-match-object}{}\paragraph{Re-\/use a match object}\label{index_re-use-a-match-object}
+Match object is a private property of {\ttfamily \hyperlink{classjpcre2_1_1Regex}{jpcre2\+::\+Regex}} class. You either have to use {\ttfamily \hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{jpcre2\+::\+Regex\+::init\+Match()}} or {\ttfamily \hyperlink{classjpcre2_1_1Regex_abb007e99d7e2188ec80b741e7b40668f_abb007e99d7e2188ec80b741e7b40668f}{jpcre2\+::\+Regex\+::get\+Match\+Object()}} function to get a reference to it. The only difference between these two is\+: {\ttfamily init\+Match()} always creates a new match object deleting the previous one, while {\ttfamily get\+Match\+Object()} gives you a reference to the existing match object if available, otherwise creates it.
+
+This is an example where we will perform a match in two steps\+:
+
+
+\begin{DoxyCode}
+re.\hyperlink{classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_a519b0915bf1163c6ce6a4d674b30cfcd}{initMatch}()                                \textcolor{comment}{//invoke the initMatch() function}
+  .\hyperlink{classjpcre2_1_1RegexMatch_a2c7efe1ec2e13827f670db4ecedcd0a0_a2c7efe1ec2e13827f670db4ecedcd0a0}{setNumberedSubstringVector}(&vec\_num)       \textcolor{comment}{//pointer to numbered substring
+       vector}
+  .\hyperlink{classjpcre2_1_1RegexMatch_ae495431f57cae54363331237ab21b56c_ae495431f57cae54363331237ab21b56c}{setNamedSubstringVector}(&vec\_nas)          \textcolor{comment}{//pointer to named substring vector}
+  .\hyperlink{classjpcre2_1_1RegexMatch_a04926e61d8b5f1d8bdf344efecd567d8_a04926e61d8b5f1d8bdf344efecd567d8}{setNameToNumberMapVector}(&vec\_ntn)         \textcolor{comment}{//pointer to name-to-number map
+       vector}
+\end{DoxyCode}
+ In the first step, we just set the vectors that we want our results in. This is pretty convenient when we are going to reuse the same vectors for multiple matches against the same regex.
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{size\_t} count = re.\hyperlink{classjpcre2_1_1Regex_abb007e99d7e2188ec80b741e7b40668f_abb007e99d7e2188ec80b741e7b40668f}{getMatchObject}()
+                 .\hyperlink{classjpcre2_1_1RegexMatch_a635c652195deaa8ebb9e107c4f972aab_a635c652195deaa8ebb9e107c4f972aab}{setSubject}(\textcolor{stringliteral}{"I am the subject"})
+                 .\hyperlink{classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5_a9df7e92f96b61553f62720cb8f5f23e5}{setModifier}(\textcolor{stringliteral}{"i"})
+                 .\hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{match}()
+\end{DoxyCode}
+ We can perform this kind of matches as many times as we want. The vectors always get re-\/initialized and thus contain new data.\hypertarget{index_replace}{}\subsubsection{Replace or Substitute}\label{index_replace}
 The {\ttfamily \hyperlink{classjpcre2_1_1Regex_addd7c21abd0f4cf6c532a7602cfb5835_addd7c21abd0f4cf6c532a7602cfb5835}{jpcre2\+::\+Regex\+::replace(const String\& s, const String\& r)}} member function can take up-\/to three arguments (subject, replacement string, modifier) and returns the resultant replaced string.
 
-If you want to pass more options or prefer a named parameter idiom, you will have to use the {\ttfamily \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_afd087fa7a9bfedec802d1a3dd7edbdd0}{jpcre2\+::\+Regex\+Replace\+::replace()}} function instead. Point be noted that, all constructors of the {\ttfamily \hyperlink{classjpcre2_1_1RegexReplace}{jpcre2\+::\+Regex\+Replace}} class are private and thus you can\textquotesingle{}t create any object of this class or call the mentioned function directly. In this case you need to call {\ttfamily \hyperlink{classjpcre2_1_1Regex_ae7235a991492fa88f1bd3fb02d59cd0a_ae7235a991492fa88f1bd3fb02d59cd0a}{jpcre2\+::\+Regex\+::init\+Replace()}} function which will give you a temporary object that you can use to chain method calls to pass various options to be used by {\ttfamily \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_afd087fa7a9bfedec802d1a3dd7edbdd0}{jpcre2\+::\+Regex\+Replace\+::replace()}} before calling it.\hypertarget{index_simple-replace}{}\paragraph{Simple replacement}\label{index_simple-replace}
+If you want to pass more options or prefer method chaining, you will have to use the {\ttfamily \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_afd087fa7a9bfedec802d1a3dd7edbdd0}{jpcre2\+::\+Regex\+Replace\+::replace()}} function instead. Point be noted that, all constructors of the {\ttfamily \hyperlink{classjpcre2_1_1RegexReplace}{jpcre2\+::\+Regex\+Replace}} class are private and thus you can\textquotesingle{}t create any object of this class or call the mentioned function directly. In this case you need to call {\ttfamily \hyperlink{classjpcre2_1_1Regex_ae7235a991492fa88f1bd3fb02d59cd0a_ae7235a991492fa88f1bd3fb02d59cd0a}{jpcre2\+::\+Regex\+::init\+Replace()}} (or {\ttfamily \hyperlink{classjpcre2_1_1Regex_ad0b5e492eae75ef13b3d80f4fb1e3486_ad0b5e492eae75ef13b3d80f4fb1e3486}{jpcre2\+::\+Regex\+::get\+Replace\+Object()}}) function which will give you a reference to the replace object that you can use to chain method calls to pass various options to be used by {\ttfamily \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_afd087fa7a9bfedec802d1a3dd7edbdd0}{jpcre2\+::\+Regex\+Replace\+::replace()}} before calling it.\hypertarget{index_simple-replace}{}\paragraph{Simple replacement}\label{index_simple-replace}
 
 \begin{DoxyCode}
 \textcolor{comment}{//Using a temporary regex object}
 std::cout<<\hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex}(\textcolor{stringliteral}{"\(\backslash\)\(\backslash\)d+"}).\hyperlink{classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981_ac592ce7a5e4210ed5f90a0105b1f2981}{replace}(\textcolor{stringliteral}{"I am digits 1234"},\textcolor{stringliteral}{"5678"}, \textcolor{stringliteral}{"g"});
 \textcolor{comment}{//'g' modifier is for global replacement}
 \end{DoxyCode}
-\hypertarget{index_using-method-chaining}{}\paragraph{Using method chain}\label{index_using-method-chaining}
+\hypertarget{index_using-method-chain}{}\paragraph{Using method chain}\label{index_using-method-chain}
 
 \begin{DoxyCode}
 std::cout<<
@@ -230,7 +278,7 @@ re.\hyperlink{classjpcre2_1_1Regex_ae7235a991492fa88f1bd3fb02d59cd0a_ae7235a9914
 All modifier strings are parsed and converted to equivalent P\+C\+R\+E2 and J\+P\+C\+R\+E2 options on the fly. If you don\textquotesingle{}t want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of {\ttfamily add\+Jpcre2\+Option()} and {\ttfamily add\+Pcre2\+Option()} functions. \end{quote}
 
 
-Types of modifiers available\+:
+Types of modifiers\+:
 
 
 \begin{DoxyEnumerate}
@@ -245,7 +293,7 @@ Types of modifiers available\+:
 \item Combined or mixed modifier (e.\+g \textquotesingle{}E\textquotesingle{})
 \end{DoxyEnumerate}
 \end{DoxyEnumerate}\hypertarget{index_compile-modifier}{}\subsubsection{Compile modifiers}\label{index_compile-modifier}
-These modifiers define the behavior of a regex pattern. They have more or less the same meaning as the \href{https://php.net/manual/en/reference.pcre.pattern.modifiers.php}{\tt P\+HP regex modifiers} except for {\ttfamily e, j and n} (marked with \textsuperscript{$\ast$}).
+These modifiers define the behavior of a regex pattern (they are integrated in the compiled regex). They have more or less the same meaning as the \href{https://php.net/manual/en/reference.pcre.pattern.modifiers.php}{\tt P\+HP regex modifiers} except for {\ttfamily e, j and n} (marked with \textsuperscript{$\ast$}).
 
 \tabulinesep=1mm
 \begin{longtabu} spread 0pt [c]{*{2}{|X[-1]}|}
@@ -299,16 +347,10 @@ replace &Global. Will perform global matching or replacement if passed. Equivale
 {\ttfamily \$\{$<$n$>$\+:-\/$<$string$>$\}}~\newline
 {\ttfamily \$\{$<$n$>$\+:+$<$string1$>$\+:$<$string2$>$\}}~\newline
 {\ttfamily $<$n$>$} may be a group number or a name. The first form specifies a default value. If group {\ttfamily $<$n$>$} is set, its value is inserted; if not, {\ttfamily $<$string$>$} is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group {\ttfamily $<$n$>$} is set or unset, respectively. The first form is just a convenient shorthand for {\ttfamily \$\{$<$n$>$\+:+\$\{$<$n$>$\}\+:$<$string$>$\}}. \\\cline{1-3}
-{\ttfamily $\sim$} &match~\newline
-replace~\newline
-compile &Treat warnings as errors. Equivalent to {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL}}. \\\cline{1-3}
-{\ttfamily \&} &match~\newline
-replace~\newline
-compile &Validate modifier. Throws {\ttfamily \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} error in case invalid modifier encountered. Equivalent to {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER}}. \\\cline{1-3}
 \end{longtabu}
 \hypertarget{index_options}{}\subsection{Options}\label{index_options}
 J\+P\+C\+R\+E2 allows both P\+C\+R\+E2 and native J\+P\+C\+R\+E2 options to be passed. P\+C\+R\+E2 options are recognized by the P\+C\+R\+E2 library itself.\hypertarget{index_jpcre-options}{}\subsubsection{J\+P\+C\+R\+E2 options}\label{index_jpcre-options}
-These options are meaningful only for the {\bfseries J\+P\+C\+R\+E2} library itself not the original {\bfseries P\+C\+R\+E2} library. We use the {\ttfamily \hyperlink{classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de_a03974fa7ba8f7c47186cb8d6f54934de}{jpcre2\+::\+Regex\+::add\+Jpcre2\+Option()}} and such functions to pass these options.
+These options are meaningful only for the {\bfseries J\+P\+C\+R\+E2} library, not the original {\bfseries P\+C\+R\+E2} library. We use the {\ttfamily add\+Jpcre2\+Option()} family of functions to pass these options.
 
 \tabulinesep=1mm
 \begin{longtabu} spread 0pt [c]{*{2}{|X[-1]}|}
@@ -321,60 +363,20 @@ These options are meaningful only for the {\bfseries J\+P\+C\+R\+E2} library its
 \rowcolor{\tableheadbgcolor}{\bf Option }&{\bf Details  }\\\cline{1-2}
 \endhead
 {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9}{jpcre2\+::\+N\+O\+NE}} &This is the default option. Equivalent to 0 (zero). \\\cline{1-2}
-{\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} &If this option is passed, modifiers will be subject to validation check. If any of them is invalid, a {\ttfamily \hyperlink{namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2_a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff}{jpcre2\+::\+E\+R\+R\+O\+R\+::\+I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+I\+F\+I\+ER}} error exception will be thrown. \\\cline{1-2}
 {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c}{jpcre2\+::\+F\+I\+N\+D\+\_\+\+A\+LL}} &This option will do a global matching if passed during matching. The same can be achieved by passing the \textquotesingle{}g\textquotesingle{} modifier with {\ttfamily \hyperlink{classjpcre2_1_1RegexMatch_a9df7e92f96b61553f62720cb8f5f23e5_a9df7e92f96b61553f62720cb8f5f23e5}{jpcre2\+::\+Regex\+Match\+::set\+Modifier()}} function. \\\cline{1-2}
-{\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL}} &Treat warnings as errors and throw exception. \\\cline{1-2}
 {\ttfamily \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE}} &This is same as passing the {\ttfamily S} modifier during pattern compilation. \\\cline{1-2}
 \end{longtabu}
 \hypertarget{index_pcre2-options}{}\subsubsection{P\+C\+R\+E2 options}\label{index_pcre2-options}
-While having its own way of doing things, J\+P\+C\+R\+E2 also supports the traditional P\+C\+R\+E2 options to be passed. We use the {\ttfamily \hyperlink{classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087_a2c7dcf12f26b2b046e147b013c8b5087}{jpcre2\+::\+Regex\+::add\+Pcre2\+Option()}} and such functions to pass the P\+C\+R\+E2 options. These options are the same as the P\+C\+R\+E2 library and have the same meaning. For example instead of passing the \textquotesingle{}g\textquotesingle{} modifier to the replacement operation we can also pass its P\+C\+R\+E2 equivalent {\ttfamily P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+G\+L\+O\+B\+AL} to have the same effect.\hypertarget{index_exception-handling}{}\subsection{Exception handling}\label{index_exception-handling}
-When a known error is occurred during pattern compilation or match or replace, an exception of type {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} is thrown. The {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} class provides public member functions to get the error number, error offset and error message.
+While having its own way of doing things, J\+P\+C\+R\+E2 also supports the traditional P\+C\+R\+E2 options to be passed (and it\textquotesingle{}s faster than passing modifier). We use the {\ttfamily add\+Pcre2\+Option()} family of functions to pass the P\+C\+R\+E2 options. These options are the same as the P\+C\+R\+E2 library and have the same meaning. For example instead of passing the \textquotesingle{}g\textquotesingle{} modifier to the replacement operation we can also pass its P\+C\+R\+E2 equivalent {\ttfamily P\+C\+R\+E2\+\_\+\+S\+U\+B\+S\+T\+I\+T\+U\+T\+E\+\_\+\+G\+L\+O\+B\+AL} to have the same effect.\hypertarget{index_exception-handling}{}\subsection{Error handling}\label{index_exception-handling}
+When a known error is occurred during pattern compilation or match or replace, the error number and error offsets are set to corresponding variables of {\ttfamily \hyperlink{classjpcre2_1_1Regex}{jpcre2\+::\+Regex}} class. You can get the error number, error offset and error message with {\ttfamily \hyperlink{classjpcre2_1_1Regex_a7294273e7d11907a749f2db40da9ed15_a7294273e7d11907a749f2db40da9ed15}{jpcre2\+::\+Regex\+::get\+Error\+Number()}}, {\ttfamily \hyperlink{classjpcre2_1_1Regex_ae8c6c8f728c58d9b171c68b4b166e195_ae8c6c8f728c58d9b171c68b4b166e195}{jpcre2\+::\+Regex\+::get\+Error\+Offset()}} and {\ttfamily \hyperlink{classjpcre2_1_1Regex_a8606fff8b192c94f58ca9e82aa048c61_a8606fff8b192c94f58ca9e82aa048c61}{jpcre2\+::\+Regex\+::get\+Error\+Message()}} functions respectively.
 
-In normal operation, when working with a valid regex with valid options, no exception is supposed to occur. Most of the time you can get away without resorting to try catch block just by being a little careful about what you pass and what your environment supports.
+{\bfseries Note} that, these errors always gets overwritten by previous error, so you only get the last error that occurred.
 
-Protecting your regex operation with try..catch is not needed, but it\textquotesingle{}s something for you to decide. For example, if your implementation needs to take regex pattern from user input and warn them about bad input, you will definitely need try catch.
+{\bfseries Also note} that, these errors never get re-\/initialized (se to zero), they are always there even when everything else worked great (except some previous error). But these are harmless. {\bfseries You never need to worry about errors unless you want to experiment/debug}
 
-Note that, bad input isn\textquotesingle{}t the only reason that an exception can be thrown. As of original P\+C\+R\+E2 specs, you can get errors for lots of unfavorable situations. These errors are well defined and you will get {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} exception when you encounter one of them.
+If you do experiment with various erroneous situations, make use of the {\ttfamily reset\+Errors()} function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is defined for all three classes and do the same thing.
 
-This is a rough list of cases that you need to consider\+:
-
-
-\begin{DoxyEnumerate}
-\item {\bfseries Bad input\+:}
-\begin{DoxyEnumerate}
-\item Invalid modifier. It\textquotesingle{}s an error only if validation check is enabled, otherwise ignored as warning (It\textquotesingle{}s harmless either way).
-\item Incomplete options for regex pattern may throw exception. For example, pattern with duplicate named substrings without \textquotesingle{}J\textquotesingle{} modifier (or equivalent P\+C\+R\+E2 option) will throw {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} exception. Any P\+C\+R\+E2 error should be accounted for, they mean failure of operation.
-\item Invalid option isn\textquotesingle{}t an error, options that are not known or not applicable gets ignored graciously.
-\item Malicious options that affect existing ones can produce undefined/unexpected behavior.
-\end{DoxyEnumerate}
-\item {\bfseries P\+C\+R\+E2 errors\+:} These errors are well defined in the original P\+C\+R\+E2 specs.
-\item {\bfseries Runtime error\+:} Error that happens for unknown/unexpected reasons. These errors are not thrown by {\ttfamily \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}} and therefore should be caught with {\ttfamily std\+::exception}.
-\end{DoxyEnumerate}
-
-An example of catching all exceptions including runtime error and \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except} errors\+:
-
-
-\begin{DoxyCode}
-\textcolor{keywordflow}{try} \{
-    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re(\textcolor{stringliteral}{"pattern"}, \textcolor{stringliteral}{"mod"}); \textcolor{comment}{//will not throw any exception for any sane cause.}
-\} \textcolor{keywordflow}{catch} (std::exception& e) \{
-    std::cout<<e.what();
-\}
-\end{DoxyCode}
-
-
-An example of catching only \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except} errors\+:
-
-
-\begin{DoxyCode}
-\textcolor{keywordflow}{try} \{
-    \hyperlink{classjpcre2_1_1Regex}{jpcre2::Regex} re(\textcolor{stringliteral}{"pattern"}, \textcolor{stringliteral}{"mod"}); \textcolor{comment}{//will not throw any exception for any sane cause.}
-\}
-\textcolor{keywordflow}{catch}( \hyperlink{classjpcre2_1_1Except}{jpcre2::Except}& e)\{
-    std::cout<<e.\hyperlink{classjpcre2_1_1Except_aa16bdec8432ee950955f7ad81a9655bb_aa16bdec8432ee950955f7ad81a9655bb}{what}();
-\}
-\end{DoxyCode}
-\hypertarget{index_short-examples}{}\subsection{Short examples}\label{index_short-examples}
+If you want to debug, you should also use {\ttfamily \#define J\+P\+C\+R\+E2\+\_\+\+E\+N\+A\+B\+L\+E\+\_\+\+D\+E\+B\+U\+G\+\_\+\+M\+O\+DE} before including {\ttfamily \hyperlink{jpcre2_8hpp}{jpcre2.\+hpp}}\hypertarget{index_short-examples}{}\subsection{Short examples}\label{index_short-examples}
 
 \begin{DoxyCode}
 \textcolor{keywordtype}{size\_t} count;

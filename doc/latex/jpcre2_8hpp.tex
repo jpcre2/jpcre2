@@ -5,31 +5,9 @@
 Main header file for J\+P\+C\+R\+E2 library to be included by programs that uses its functionalities.  
 
 
-{\ttfamily \#include $<$pcre2.\+h$>$}\newline
-{\ttfamily \#include $<$cstddef$>$}\newline
-{\ttfamily \#include $<$string$>$}\newline
-{\ttfamily \#include $<$vector$>$}\newline
-{\ttfamily \#include $<$map$>$}\newline
-{\ttfamily \#include $<$exception$>$}\newline
-Include dependency graph for jpcre2.\+hpp\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{jpcre2_8hpp__incl}
-\end{center}
-\end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{jpcre2_8hpp__dep__incl}
-\end{center}
-\end{figure}
 \subsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \hyperlink{classjpcre2_1_1Except}{jpcre2\+::\+Except}
-\begin{DoxyCompactList}\small\item\em Class to handle exception. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexMatch}{jpcre2\+::\+Regex\+Match}
 \begin{DoxyCompactList}\small\item\em Provides the \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{Regex\+Match\+::match()} function to perform regex matching. \end{DoxyCompactList}\item 
 class \hyperlink{classjpcre2_1_1RegexReplace}{jpcre2\+::\+Regex\+Replace}
@@ -49,12 +27,6 @@ class \hyperlink{classjpcre2_1_1Regex}{jpcre2\+::\+Regex}
 \begin{DoxyCompactList}\small\item\em Namespace for modifier constants. \end{DoxyCompactList}\item 
  \hyperlink{namespacejpcre2_1_1utils}{jpcre2\+::utils}
 \begin{DoxyCompactList}\small\item\em Namespace for some utility functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsubsection*{Macros}
-\begin{DoxyCompactItemize}
-\item 
-\hypertarget{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{}\label{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d} 
-\#define \hyperlink{jpcre2_8hpp_acff91275abcc225454675d6dfc39a58d}{P\+C\+R\+E2\+\_\+\+C\+O\+D\+E\+\_\+\+U\+N\+I\+T\+\_\+\+W\+I\+D\+TH}~8
-\begin{DoxyCompactList}\small\item\em Code unit width 8 is used by default. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -97,13 +69,9 @@ typedef std\+::vector$<$ Map\+Num $>$ \hyperlink{namespacejpcre2_ac1cf752c8fbb0b
 enum \{ \newline
 \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9}{jpcre2\+::\+N\+O\+NE} = 0x0000000u, 
 \newline
-\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387}{jpcre2\+::\+V\+A\+L\+I\+D\+A\+T\+E\+\_\+\+M\+O\+D\+I\+F\+I\+ER} = 0x0000001u, 
-\newline
 \hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00af29fccdb263520155e9c25a826a7200c}{jpcre2\+::\+F\+I\+N\+D\+\_\+\+A\+LL} = 0x0000002u, 
 \newline
-\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE} = 0x0000004u, 
-\newline
-\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552}{jpcre2\+::\+E\+R\+R\+O\+R\+\_\+\+A\+LL} = 0x0000008u
+\hyperlink{namespacejpcre2_a85c143271501e383843f45b9999c2f00_a85c143271501e383843f45b9999c2f00a5e8bab7c478015b19baf3e84ed00876e}{jpcre2\+::\+J\+I\+T\+\_\+\+C\+O\+M\+P\+I\+LE} = 0x0000004u
  \}\begin{DoxyCompactList}\small\item\em These constants provide J\+P\+C\+R\+E2 options. \end{DoxyCompactList}
 \item 
 enum \{ \newline
@@ -127,8 +95,9 @@ std\+::string \hyperlink{namespacejpcre2_1_1utils_a6f28489b48095eeaacfaa43a0a8e8
 \begin{DoxyCompactList}\small\item\em Get P\+C\+R\+E2 error message for an error number. \end{DoxyCompactList}\item 
 std\+::string \hyperlink{namespacejpcre2_1_1utils_a58db3a9ce0296d70469611445cb42209_a58db3a9ce0296d70469611445cb42209}{jpcre2\+::utils\+::get\+Error\+Message} (int, int)
 \begin{DoxyCompactList}\small\item\em Get error message from error number and error offset. \end{DoxyCompactList}\item 
-void \hyperlink{namespacejpcre2_1_1utils_a71c7842918bdcc6936266813981492dc_a71c7842918bdcc6936266813981492dc}{jpcre2\+::utils\+::throw\+Exception} (int, int)
-\begin{DoxyCompactList}\small\item\em Used throughout J\+P\+C\+R\+E2 to throw exceptions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\hypertarget{namespacejpcre2_1_1utils_a0eaae87bf8d0c58046461d4d20a7eaba}{}\label{namespacejpcre2_1_1utils_a0eaae87bf8d0c58046461d4d20a7eaba} 
+std\+::string \hyperlink{namespacejpcre2_1_1utils_a0eaae87bf8d0c58046461d4d20a7eaba}{jpcre2\+::utils\+::get\+Warning\+Message} (int, int)
+\begin{DoxyCompactList}\small\item\em Get warning message from warning number and offset. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 

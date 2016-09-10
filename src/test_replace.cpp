@@ -5,35 +5,33 @@
  * */
 
 #include <iostream>
-#include "jpcre2.hpp"
+#include "jpcre2.cpp"
 
 
 int main(){
-    jpcre2::Regex re;     // This is not supposed to throw any exception.
+    jpcre2::Regex re; 
 
     //Compile the pattern
-    try{re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")     //Set various parameters
-          .addModifier("&Jin")                                                     //modifier & == jpcre2::VALIDATE_MODIFIER
-          .addPcre2Option(0)                                                       //...
-          .compile();}                                                             //Finally compile it.
-    catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
+    re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")     //Set various parameters
+      .addModifier("&Jin")                                                     //modifier & == jpcre2::VALIDATE_MODIFIER
+      .addPcre2Option(0)                                                       //...
+      .compile();                                                              //Finally compile it.
+          
+    if(!re){std::cerr<<re.getErrorMessage();}
         
-    /******************************************************************************************************************
-     * All jpcre2 exceptions are of type jpcre2::Except
-     * ****************************************************************************************************************/
     
     //subject string
     std::string s="I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56";
     
-    try{std::cout<<"\nreplaced string: \n"<<
-        re.initReplace()                                                    //Invoke the initReplace() function
-          .setSubject(s)                                                    //Set various parameters
-          .setReplaceWith("(replaced:$1)(replaced:$2)(replaced:${word})")   //...
-          .addModifier("~xE")                                               //modifier ~ == jpcre2::ERROR_ALL
-          .addPcre2Option(0)                                                //...
-          .replace();                                                       //Finally perform the replace operation.
-    }
-    catch(jpcre2::Except& e){std::cerr<<e.getErrorMessage();}
+    std::cout<<"\nreplaced string: \n"<<
+    re.initReplace()                                                    //Invoke the initReplace() function
+      .setSubject(s)                                                    //Set various parameters
+      .setReplaceWith("(replaced:$1)(replaced:$2)(replaced:${word})")   //...
+      .addModifier("~xE")                                               //modifier ~ == jpcre2::ERROR_ALL
+      .addPcre2Option(0)                                                //...
+      .replace();                                                       //Finally perform the replace operation.
+    
+    if(!re){std::cerr<<re.getErrorMessage();}
     
 	return 0;
 }

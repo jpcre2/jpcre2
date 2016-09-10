@@ -1,4 +1,4 @@
-.TH "jpcre2::RegexReplace" 3 "Fri Sep 9 2016" "Version 10.25.04" "JPCRE2" \" -*- nroff -*-
+.TH "jpcre2::RegexReplace" 3 "Sun Sep 11 2016" "Version 10.26.01" "JPCRE2" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,6 +12,30 @@ jpcre2::RegexReplace \- Provides the \fBRegexReplace::replace()\fP function to p
 .SS "Public Member Functions"
 
 .in +1c
+.ti -1c
+.RI "\fBString\fP \fBgetReplaceWith\fP ()"
+.br
+.RI "Get replacement string\&. "
+.ti -1c
+.RI "\fBString\fP \fBgetSubject\fP ()"
+.br
+.RI "Get subject string\&. "
+.ti -1c
+.RI "\fBString\fP \fBgetModifier\fP ()"
+.br
+.RI "Get modifier string calculated from JPCRE2 and PCRE2 options\&. "
+.ti -1c
+.RI "\fBUint\fP \fBgetPcre2Option\fP ()"
+.br
+.RI "Get PCRE2 option\&. "
+.ti -1c
+.RI "\fBUint\fP \fBgetJpcre2Option\fP ()"
+.br
+.RI "Get JPCRE2 option\&. "
+.ti -1c
+.RI "\fBRegexReplace\fP & \fBresetErrors\fP ()"
+.br
+.RI "Reset errors to zero\&. "
 .ti -1c
 .RI "\fBRegexReplace\fP & \fBsetSubject\fP (const \fBString\fP &s)"
 .br
@@ -174,11 +198,6 @@ Parse modifier string and add equivalent PCRE2 and JPCRE2 options\&. This is jus
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegexReplace::addJpcre2Option()\fP and \fBRegexReplace::addPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fImod\fP Modifier string 
@@ -254,11 +273,6 @@ This function does not initialize or re-initialize options\&. If you want to set
 .PP
 \fBNote:\fP If speed of operation is very crucial, use \fBRegexReplace::changeJpcre2Option()\fP and \fBRegexReplace::changePcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
 .PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP was set and a wrong modifier was encountered\&. 
-.RE
-.PP
 \fBParameters:\fP
 .RS 4
 \fImod\fP Modifier string 
@@ -304,19 +318,127 @@ Add or remove a PCRE2 option\&.
 .RE
 .PP
 
+.SS "\fBUint\fP jpcre2::RegexReplace::getJpcre2Option ()\fC [inline]\fP"
+
+.PP
+Get JPCRE2 option\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBjpcre2_replace_opts\fP 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegex::getJpcre2Option()\fP 
+.PP
+\fBRegexMatch::getJpcre2Option()\fP 
+.RE
+.PP
+
+.SS "\fBjpcre2::String\fP jpcre2::RegexReplace::getModifier ()"
+
+.PP
+Get modifier string calculated from JPCRE2 and PCRE2 options\&. Calculate modifier string from \fBreplace_opts\fP and \fBjpcre2_replace_opts\fP and return it\&.
+.PP
+\fBReturns:\fP
+.RS 4
+Modifier string 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegex::getModifier()\fP 
+.PP
+\fBRegexMatch::getModifier()\fP 
+.RE
+.PP
+
+.SS "\fBUint\fP jpcre2::RegexReplace::getPcre2Option ()\fC [inline]\fP"
+
+.PP
+Get PCRE2 option\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+\fBreplace_opts\fP 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegex::getPcre2Option()\fP 
+.PP
+\fBRegexMatch::getPcre2Option()\fP 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::RegexReplace::getReplaceWith ()\fC [inline]\fP"
+
+.PP
+Get replacement string\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+replacement string set with \fBRegexReplace::setReplaceWith()\fP 
+.RE
+.PP
+
+.SS "\fBString\fP jpcre2::RegexReplace::getSubject ()\fC [inline]\fP"
+
+.PP
+Get subject string\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+subject string 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegexMatch::getSubject()\fP 
+.RE
+.PP
+
 .SS "\fBjpcre2::String\fP jpcre2::RegexReplace::replace (void)"
 
 .PP
-Returns the resultant string after performing regex replace\&. Retrieves subject string, replacement string, modifier and other options from class variables\&.
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with PCRE2 error number and error offset\&. 
-.RE
+Returns the resultant string after performing regex replace\&. Perform regex replace by retrieving subject string, replacement string, modifier and other options from class variables\&.
 .PP
 \fBReturns:\fP
 .RS 4
 Replaced string 
+.RE
+.PP
+
+.SS "\fBjpcre2::RegexReplace\fP & jpcre2::RegexReplace::resetErrors ()"
+
+.PP
+Reset errors to zero\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+A reference to the \fBRegexReplace\fP object 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegex::resetErrors()\fP 
+.PP
+\fBRegexMatch::resetErrors()\fP
+.RE
+.PP
+This function is callable from everywhere in a method chain, i\&.e other copy of this function for other classes are available and they do the exactly same thing\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+A reference to the \fBRegexReplace\fP object 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBRegex::resetErrors()\fP 
+.PP
+\fBRegexMatch::resetErrors()\fP 
 .RE
 .PP
 
@@ -363,11 +485,6 @@ Set JPCRE2 option \fBjpcre2_replace_opts\fP (overwrite existing option)
 
 .PP
 Set the modifier string (overwrites existing JPCRE2 and PCRE2 option)\&. \fBNote:\fP If speed of operation is very crucial, use \fBRegexReplace::setJpcre2Option()\fP and \fBRegexReplace::setPcre2Option()\fP with equivalent options\&. It will be faster that way\&. 
-.PP
-\fBExceptions:\fP
-.RS 4
-\fI\fBjpcre2::Except\fP\fP Throws exception with \fBERROR::INVALID_MODIFIER\fP as error number if \fBjpcre2::VALIDATE_MODIFIER\fP or \fBjpcre2::ERROR_ALL\fP is set and a wrong modifier was encountered\&. 
-.RE
 .PP
 \fBParameters:\fP
 .RS 4

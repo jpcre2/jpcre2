@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="thumb0.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">JPCRE2
-   &#160;<span id="projectnumber">10.25.04</span>
+   &#160;<span id="projectnumber">10.26.01</span>
    </div>
    <div id="projectbrief">C++ wrapper of PCRE2 library</div>
   </td>
@@ -78,8 +78,12 @@ $(function() {
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a154430c66b8794d6632be6211a3ce870.html#a154430c66b8794d6632be6211a3ce870">changeJpcre2Option</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a877be3123d789020d259939bc79e8cfe.html#a877be3123d789020d259939bc79e8cfe">changeModifier</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a6893abc21b24a9d9fca146a33c0f823c.html#a6893abc21b24a9d9fca146a33c0f823c">changePcre2Option</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_ac494245673c474d518e8ae47b2ab9db9.html#ac494245673c474d518e8ae47b2ab9db9">getNamedSubstrings</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a82bfef9700b1c62b84e4a32ee4b0731e.html#a82bfef9700b1c62b84e4a32ee4b0731e">getNumberedSubstrings</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a4ea72774ae5e9a93d649dcb0840efd7f.html#a4ea72774ae5e9a93d649dcb0840efd7f">getJpcre2Option</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a909abcce3c02b07cfcd1173a9d0be9ba.html#a909abcce3c02b07cfcd1173a9d0be9ba">getModifier</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_ab5eec3f2e862236626043c84570f000b.html#ab5eec3f2e862236626043c84570f000b">getNamedSubstrings</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a5a54fd563812c091b9567569cebe175c.html#a5a54fd563812c091b9567569cebe175c">getNumberedSubstrings</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a3e6e04f48cd5ee3fb9705214f746f343.html#a3e6e04f48cd5ee3fb9705214f746f343">getPcre2Option</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a6ebe41305bcc7262bec814e9e737d056.html#a6ebe41305bcc7262bec814e9e737d056">getSubject</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a3da6a2319cd577d7f2f10c66dcf59a99.html#a3da6a2319cd577d7f2f10c66dcf59a99">init_vars</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch.html#a70d62df887eeed237724f64fbc378700">jpcre2_match_opts</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch.html#a9df4f1897e7fa33e05a9f6f938992ca7">m_subject</a></td></tr>
@@ -93,6 +97,7 @@ $(function() {
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch.html#a1f6f7620b7d2218c6c2a6a47f432ea6a">Regex</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a40127e5057e2343848d8c8a6d4c32bcd.html#a40127e5057e2343848d8c8a6d4c32bcd">RegexMatch</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a098ddb46b2f297870ea548ef07597d94.html#a098ddb46b2f297870ea548ef07597d94">RegexMatch</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_aa19512638f2f5389384d6b9ad01c70c0.html#aa19512638f2f5389384d6b9ad01c70c0">resetErrors</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_ae586d43ec197c57c66086eeb4f8d83a1.html#ae586d43ec197c57c66086eeb4f8d83a1">setFindAll</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a9e04456a81606362a2ecdf748912e3ea.html#a9e04456a81606362a2ecdf748912e3ea">setFindAll</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classjpcre2_1_1RegexMatch_a0d76033d9c134caa9ddfc21849603920.html#a0d76033d9c134caa9ddfc21849603920">setJpcre2Option</a></td></tr>
@@ -136,13 +141,7 @@ $(function() {
 
 <p>Set the modifier (overwrites existing JPCRE2 and PCRE2 option). </p>
 <p>Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options.</p>
-<p><b>Note:</b> If speed of operation is very crucial, use <a class="el" href="classjpcre2_1_1RegexMatch_a0d76033d9c134caa9ddfc21849603920.html#a0d76033d9c134caa9ddfc21849603920" title="Set JPCRE2 option jpcre2_match_opts (overwrite existing option) ">RegexMatch::setJpcre2Option()</a> and <a class="el" href="classjpcre2_1_1RegexMatch_ae4ab558c2bec0bc9639dbca70ab47496.html#ae4ab558c2bec0bc9639dbca70ab47496" title="Set PCRE2 option match_opts (overwrite existing option) ">RegexMatch::setPcre2Option()</a> with equivalent options. It will be faster that way. </p><dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classjpcre2_1_1Except.html" title="Class to handle exception. ">jpcre2::Except</a></td><td>Throws exception with <a class="el" href="namespacejpcre2_1_1ERROR_a4b2998984439438fa9da8d7043909bc2.html#a4b2998984439438fa9da8d7043909bc2a4115340549b623f4e2da285bf0aa9bff" title="Error number implying that invalid modifier was detected. ">ERROR::INVALID_MODIFIER</a> as error number if <a class="el" href="namespacejpcre2_a85c143271501e383843f45b9999c2f00.html#a85c143271501e383843f45b9999c2f00a9124b768bcae4d51430aa7f26126f387" title="Perform validation check on modifiers and throw jpcre2::Except with jpcre2::ERROR::INVALID_MODIFIER a...">jpcre2::VALIDATE_MODIFIER</a> or <a class="el" href="namespacejpcre2_a85c143271501e383843f45b9999c2f00.html#a85c143271501e383843f45b9999c2f00a6fec35fc9fdd8a606bed430c1816c552" title="Treat warnings as error and throw exception (warnings don&#39;t throw exception) ">jpcre2::ERROR_ALL</a> is set and a wrong modifier was encountered. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
+<p><b>Note:</b> If speed of operation is very crucial, use <a class="el" href="classjpcre2_1_1RegexMatch_a0d76033d9c134caa9ddfc21849603920.html#a0d76033d9c134caa9ddfc21849603920" title="Set JPCRE2 option jpcre2_match_opts (overwrite existing option) ">RegexMatch::setJpcre2Option()</a> and <a class="el" href="classjpcre2_1_1RegexMatch_ae4ab558c2bec0bc9639dbca70ab47496.html#ae4ab558c2bec0bc9639dbca70ab47496" title="Set PCRE2 option match_opts (overwrite existing option) ">RegexMatch::setPcre2Option()</a> with equivalent options. It will be faster that way. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>Modifier string </td></tr>
   </table>
