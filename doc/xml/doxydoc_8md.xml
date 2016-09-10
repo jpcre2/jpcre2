@@ -118,7 +118,7 @@
 <codeline></codeline>
 <codeline><highlight class="normal">###<sp/>Check<sp/>if<sp/>regex<sp/>compiled<sp/>successfully<sp/>{#check-regex}</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">You<sp/>can<sp/>check<sp/>if<sp/>the<sp/>regex<sp/>was<sp/>compiled<sp/>successfully<sp/>or<sp/>not,<sp/>but<sp/>it&apos;s<sp/>not<sp/>required<sp/>at<sp/>all.<sp/>Any<sp/>error<sp/>will<sp/>be<sp/>handled<sp/>automatically<sp/>and<sp/>you<sp/>will<sp/>always<sp/>get<sp/>the<sp/>right<sp/>answer,<sp/>e.g<sp/>a<sp/>match<sp/>against<sp/>a<sp/>non-compiled<sp/>regex<sp/>will<sp/>give<sp/>you<sp/>0<sp/>match<sp/>and<sp/>for<sp/>replace<sp/>you<sp/>will<sp/>be<sp/>returned<sp/>the<sp/>exact<sp/>subject<sp/>string<sp/>that<sp/>you<sp/>passed.</highlight></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>check<sp/>if<sp/>the<sp/>regex<sp/>was<sp/>compiled<sp/>successfully<sp/>or<sp/>not,<sp/>but<sp/>**it&apos;s<sp/>not<sp/>required<sp/>at<sp/>all**.<sp/>Any<sp/>error<sp/>will<sp/>be<sp/>handled<sp/>automatically<sp/>and<sp/>you<sp/>will<sp/>always<sp/>get<sp/>the<sp/>right<sp/>answer,<sp/>e.g<sp/>a<sp/>match<sp/>against<sp/>a<sp/>non-compiled<sp/>regex<sp/>will<sp/>give<sp/>you<sp/>0<sp/>match<sp/>and<sp/>for<sp/>replace<sp/>you<sp/>will<sp/>be<sp/>returned<sp/>the<sp/>exact<sp/>subject<sp/>string<sp/>that<sp/>you<sp/>passed.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">```cpp</highlight></codeline>
 <codeline><highlight class="normal">if(!re)<sp/>std::cout&lt;&lt;&quot;Failed&quot;;</highlight></codeline>

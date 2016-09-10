@@ -109,7 +109,7 @@ Now you can perform match or replace against the pattern. Use the `match()` memb
 
 ### Check if regex compiled successfully {#check-regex}
 
-You can check if the regex was compiled successfully or not, but it's not required at all. Any error will be handled automatically and you will always get the right answer, e.g a match against a non-compiled regex will give you 0 match and for replace you will be returned the exact subject string that you passed.
+You can check if the regex was compiled successfully or not, but **it's not required at all**. Any error will be handled automatically and you will always get the right answer, e.g a match against a non-compiled regex will give you 0 match and for replace you will be returned the exact subject string that you passed.
 
 ```cpp
 if(!re) std::cout<<"Failed";
