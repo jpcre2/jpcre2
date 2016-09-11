@@ -1,15 +1,20 @@
-sudo: required
-dist: trusty
 language: cpp
+dist: trusty
+sudo: required
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -q
-  - sudo apt-get install g++ -y
-  - export CXX="g++"
-  - git clone --branch=release https://github.com/jpcre2/pcre2
+  - git clone --branch=release --depth=1 https://github.com/jpcre2/pcre2
   - cd pcre2
-  - chmod +x ./autogen.sh
-  - ./autogen.sh && ./configure && make
+  - autoreconf -v -i
+  - make
   - sudo make install
   - cd -
-script: ./autogen.sh && ./configure && make && make check
+script:
+  - autoreconf -v -i
+  - make
+  - make check
