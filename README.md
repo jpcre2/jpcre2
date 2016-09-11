@@ -408,7 +408,7 @@ JPCRE2 allows both PCRE2 and native JPCRE2 options to be passed. PCRE2 options a
 
 ## JPCRE2 options 
 
-These options are meaningful only for the **JPCRE2** library, not the original **PCRE2** library. We use the `addJpcre2Option()` family of functions to pass these options.
+These options are meaningful only for the **JPCRE2** library, not the original **PCRE2** library. We use the `jpcre2::Regex::addJpcre2Option()` family of functions to pass these options.
 
 Option | Details
 ------ | ------
@@ -420,7 +420,7 @@ Option | Details
 
 ## PCRE2 options 
 
-While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed (and it's faster than passing modifier). We use the `addPcre2Option()` family of functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
+While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed (and it's faster than passing modifier). We use the `jpcre2::Regex::addPcre2Option()` family of functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
 
 <a name="exception-handling"></a>
 
