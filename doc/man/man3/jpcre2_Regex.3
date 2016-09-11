@@ -868,7 +868,9 @@ Prepare to call \fBRegexReplace::replace()\fP\&. Creates a new \fBRegexReplace\f
 .SS "\fBSIZE_T\fP jpcre2::Regex::match (const \fBString\fP & s, const \fBString\fP & mod)\fC [inline]\fP"
 
 .PP
-Perform regex match and return match count\&. This function takes the parameters, then sets the parameters to \fBRegexMatch\fP class and calls \fBRegexMatch::match()\fP which returns the result 
+Perform regex match and return match count\&. This function takes the parameters, then sets the parameters to \fBRegexMatch\fP class and calls \fBRegexMatch::match()\fP which returns the result\&.
+.PP
+It makes use of any previously initialized match object i\&.e it uses \fBgetMatchObject()\fP function to get a reference to the match object\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -999,7 +1001,9 @@ re = Regex("new pattern");
 .SS "\fBString\fP jpcre2::Regex::replace (const \fBString\fP & mains, const \fBString\fP & repl, const \fBString\fP & mod)\fC [inline]\fP"
 
 .PP
-Perform regex replace and return the replaced string\&. This function takes the parameters, then sets the parameters to \fBRegexReplace\fP class and calls \fBRegexReplace::replace()\fP which returns the result\&. 
+Perform regex replace and return the replaced string\&. This function takes the parameters, then sets the parameters to \fBRegexReplace\fP class and calls \fBRegexReplace::replace()\fP which returns the result\&.
+.PP
+It makes use of any previously initialized replace object i\&.e it uses \fBgetReplaceObject()\fP function to get a reference to the replace object\&. 
 .PP
 \fBParameters:\fP
 .RS 4

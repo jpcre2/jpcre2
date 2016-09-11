@@ -848,7 +848,9 @@ Creates a new \hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} object and
 
 Perform regex match and return match count. 
 
-This function takes the parameters, then sets the parameters to \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} class and calls \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{Regex\+Match\+::match()} which returns the result 
+This function takes the parameters, then sets the parameters to \hyperlink{classjpcre2_1_1RegexMatch}{Regex\+Match} class and calls \hyperlink{classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_a5868aef3a146594ea1ebef34d122bb33}{Regex\+Match\+::match()} which returns the result.
+
+It makes use of any previously initialized match object i.\+e it uses \hyperlink{classjpcre2_1_1Regex_abb007e99d7e2188ec80b741e7b40668f_abb007e99d7e2188ec80b741e7b40668f}{get\+Match\+Object()} function to get a reference to the match object. 
 \begin{DoxyParams}{Parameters}
 {\em s} & Subject string \\
 \hline
@@ -981,7 +983,9 @@ $\ast$this
 
 Perform regex replace and return the replaced string. 
 
-This function takes the parameters, then sets the parameters to \hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} class and calls \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_afd087fa7a9bfedec802d1a3dd7edbdd0}{Regex\+Replace\+::replace()} which returns the result. 
+This function takes the parameters, then sets the parameters to \hyperlink{classjpcre2_1_1RegexReplace}{Regex\+Replace} class and calls \hyperlink{classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_afd087fa7a9bfedec802d1a3dd7edbdd0}{Regex\+Replace\+::replace()} which returns the result.
+
+It makes use of any previously initialized replace object i.\+e it uses \hyperlink{classjpcre2_1_1Regex_ad0b5e492eae75ef13b3d80f4fb1e3486_ad0b5e492eae75ef13b3d80f4fb1e3486}{get\+Replace\+Object()} function to get a reference to the replace object. 
 \begin{DoxyParams}{Parameters}
 {\em mains} & Subject string \\
 \hline

@@ -1324,7 +1324,7 @@
         <briefdescription>
 <para>Perform regex match and return match count. </para>        </briefdescription>
         <detaileddescription>
-<para>This function takes the parameters, then sets the parameters to <ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> class and calls <ref refid="classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">RegexMatch::match()</ref> which returns the result <parameterlist kind="param"><parameteritem>
+<para>This function takes the parameters, then sets the parameters to <ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> class and calls <ref refid="classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33_1a5868aef3a146594ea1ebef34d122bb33" kindref="member">RegexMatch::match()</ref> which returns the result.</para><para>It makes use of any previously initialized match object i.e it uses <ref refid="classjpcre2_1_1Regex_abb007e99d7e2188ec80b741e7b40668f_1abb007e99d7e2188ec80b741e7b40668f" kindref="member">getMatchObject()</ref> function to get a reference to the match object. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>s</parametername>
 </parameternamelist>
@@ -1344,7 +1344,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="1206" column="1" bodyfile="src/jpcre2.hpp" bodystart="1206" bodyend="1212"/>
+        <location file="src/jpcre2.hpp" line="1209" column="1" bodyfile="src/jpcre2.hpp" bodystart="1209" bodyend="1211"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_a9ffbb6aa54cb97125f1b4211bc1d09a5_1a9ffbb6aa54cb97125f1b4211bc1d09a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="namespacejpcre2_1a2aac465ddcb123560c7c8215dd69246c" kindref="member">SIZE_T</ref></type>
@@ -1370,7 +1370,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="1218" column="1" bodyfile="src/jpcre2.hpp" bodystart="1218" bodyend="1224"/>
+        <location file="src/jpcre2.hpp" line="1217" column="1" bodyfile="src/jpcre2.hpp" bodystart="1217" bodyend="1219"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_a519b0915bf1163c6ce6a4d674b30cfcd_1a519b0915bf1163c6ce6a4d674b30cfcd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> &amp;</type>
@@ -1390,7 +1390,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="1240" column="1" bodyfile="src/jpcre2.hpp" bodystart="1240" bodyend="1246"/>
+        <location file="src/jpcre2.hpp" line="1235" column="1" bodyfile="src/jpcre2.hpp" bodystart="1235" bodyend="1241"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_abb007e99d7e2188ec80b741e7b40668f_1abb007e99d7e2188ec80b741e7b40668f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classjpcre2_1_1RegexMatch" kindref="compound">RegexMatch</ref> &amp;</type>
@@ -1404,7 +1404,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="1252" column="1" bodyfile="src/jpcre2.hpp" bodystart="1252" bodyend="1255"/>
+        <location file="src/jpcre2.hpp" line="1247" column="1" bodyfile="src/jpcre2.hpp" bodystart="1247" bodyend="1250"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_ac592ce7a5e4210ed5f90a0105b1f2981_1ac592ce7a5e4210ed5f90a0105b1f2981" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -1426,7 +1426,7 @@
         <briefdescription>
 <para>Perform regex replace and return the replaced string. </para>        </briefdescription>
         <detaileddescription>
-<para>This function takes the parameters, then sets the parameters to <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> class and calls <ref refid="classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">RegexReplace::replace()</ref> which returns the result. <parameterlist kind="param"><parameteritem>
+<para>This function takes the parameters, then sets the parameters to <ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> class and calls <ref refid="classjpcre2_1_1RegexReplace_afd087fa7a9bfedec802d1a3dd7edbdd0_1afd087fa7a9bfedec802d1a3dd7edbdd0" kindref="member">RegexReplace::replace()</ref> which returns the result.</para><para>It makes use of any previously initialized replace object i.e it uses <ref refid="classjpcre2_1_1Regex_ad0b5e492eae75ef13b3d80f4fb1e3486_1ad0b5e492eae75ef13b3d80f4fb1e3486" kindref="member">getReplaceObject()</ref> function to get a reference to the replace object. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>mains</parametername>
 </parameternamelist>
@@ -1453,7 +1453,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="1266" column="1" bodyfile="src/jpcre2.hpp" bodystart="1266" bodyend="1272"/>
+        <location file="src/jpcre2.hpp" line="1264" column="1" bodyfile="src/jpcre2.hpp" bodystart="1264" bodyend="1266"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_addd7c21abd0f4cf6c532a7602cfb5835_1addd7c21abd0f4cf6c532a7602cfb5835" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="namespacejpcre2_1a91f03070152fb228bc116c5a737f1d16" kindref="member">String</ref></type>
@@ -1491,7 +1491,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="1280" column="1" bodyfile="src/jpcre2.hpp" bodystart="1280" bodyend="1286"/>
+        <location file="src/jpcre2.hpp" line="1274" column="1" bodyfile="src/jpcre2.hpp" bodystart="1274" bodyend="1276"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_ae7235a991492fa88f1bd3fb02d59cd0a_1ae7235a991492fa88f1bd3fb02d59cd0a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
@@ -1510,7 +1510,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="1299" column="1" bodyfile="src/jpcre2.hpp" bodystart="1299" bodyend="1305"/>
+        <location file="src/jpcre2.hpp" line="1289" column="1" bodyfile="src/jpcre2.hpp" bodystart="1289" bodyend="1295"/>
       </memberdef>
       <memberdef kind="function" id="classjpcre2_1_1Regex_ad0b5e492eae75ef13b3d80f4fb1e3486_1ad0b5e492eae75ef13b3d80f4fb1e3486" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classjpcre2_1_1RegexReplace" kindref="compound">RegexReplace</ref> &amp;</type>
@@ -1524,7 +1524,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/jpcre2.hpp" line="1312" column="1" bodyfile="src/jpcre2.hpp" bodystart="1312" bodyend="1315"/>
+        <location file="src/jpcre2.hpp" line="1302" column="1" bodyfile="src/jpcre2.hpp" bodystart="1302" bodyend="1305"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1557,7 +1557,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="src/jpcre2.hpp" line="685" column="1" bodyfile="src/jpcre2.hpp" bodystart="685" bodyend="1316"/>
+    <location file="src/jpcre2.hpp" line="685" column="1" bodyfile="src/jpcre2.hpp" bodystart="685" bodyend="1306"/>
     <listofallmembers>
       <member refid="classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de_1a03974fa7ba8f7c47186cb8d6f54934de" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>addJpcre2Option</name></member>
       <member refid="classjpcre2_1_1Regex_ab1af1471339602446d8221b8c97c6b55_1ab1af1471339602446d8221b8c97c6b55" prot="public" virt="non-virtual"><scope>jpcre2::Regex</scope><name>addModifier</name></member>

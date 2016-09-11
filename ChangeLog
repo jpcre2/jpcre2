@@ -4,6 +4,12 @@ Change Log for JPCRE2
 Version 10.25.04 - Thu Sep  8 16:20:12 UTC 2016
 -----------------------------------------------
 
+* `Regex::match()` and its overloads will call `getMatchObject()` instead of `initMatch()`
+
+
+Version 10.25.04 - Thu Sep  8 16:20:12 UTC 2016
+-----------------------------------------------
+
 1. Remove all exception, no exception handling will be needed any more.
 2. Added `Regex::getMatchObject()` and `Regex::getReplaceObject()`
 

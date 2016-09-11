@@ -1197,18 +1197,17 @@ public:
 
 	/** Perform regex match and return match count.
 	 *  This function takes the parameters, then sets the parameters to RegexMatch class and calls
-	 *  RegexMatch::match() which returns the result
+	 *  RegexMatch::match() which returns the result.
+     * 
+     *  It makes use of any previously initialized match object i.e it uses
+     *  getMatchObject() function to get a reference to the match object.
 	 *  @param s Subject string
 	 *  @param mod Modifier string
 	 *  @return Match count
 	 *  @see RegexMatch::match()
 	 * */
 	SIZE_T match(const String& s, const String& mod) {
-        //rm is either occupied or NULL, double deletion won't happen
-		delete rm;
-		rm = new RegexMatch();
-		rm->re = this;
-		return rm->setSubject(s).setModifier(mod).match();
+		return getMatchObject().setSubject(s).setModifier(mod).match();
 	}
 
 	/** @overload
@@ -1216,11 +1215,7 @@ public:
 	 *  @return Match count
 	 * */
 	SIZE_T match(const String& s) {
-        //rm is either occupied or NULL, double deletion won't happen
-		delete rm;
-		rm = new RegexMatch();
-		rm->re = this;
-		return rm->setSubject(s).match();
+		return getMatchObject().setSubject(s).match();
 	}
 
 	/** Prepare to call RegexMatch::match().
@@ -1257,6 +1252,9 @@ public:
 	/** Perform regex replace and return the replaced string.
 	 *  This function takes the parameters, then sets the parameters to RegexReplace class and calls
 	 *  RegexReplace::replace() which returns the result.
+     * 
+     *  It makes use of any previously initialized replace object i.e it uses
+     *  getReplaceObject() function to get a reference to the replace object.
 	 *  @param mains Subject string
 	 *  @param repl String to replace with
 	 *  @param mod Modifier string
@@ -1264,11 +1262,7 @@ public:
 	 *  @see RegexReplace::replace()
 	 * */
 	String replace(const String& mains, const String& repl, const String& mod) {
-        //rr is either occupied or NULL, double deletion won't happen
-		delete rr;
-		rr = new RegexReplace();
-		rr->re = this;
-		return rr->setSubject(mains).setReplaceWith(repl).setModifier(mod).replace();
+		return getReplaceObject().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace();
 	}
 
 	/** @overload
@@ -1278,11 +1272,7 @@ public:
 	 *  @see RegexReplace::replace()
 	 * */
 	String replace(const String& mains, const String& repl) {
-        //rr is either occupied or NULL, double deletion won't happen
-		delete rr;
-		rr = new RegexReplace();
-		rr->re = this;
-		return rr->setSubject(mains).setReplaceWith(repl).replace();
+		return getReplaceObject().setSubject(mains).setReplaceWith(repl).replace();
 	}
 
 	/** Prepare to call RegexReplace::replace().

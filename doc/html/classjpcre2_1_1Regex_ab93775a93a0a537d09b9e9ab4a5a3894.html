@@ -178,7 +178,8 @@ $(function() {
 </div><div class="memdoc">
 
 <p>Perform regex match and return match count. </p>
-<p>This function takes the parameters, then sets the parameters to <a class="el" href="classjpcre2_1_1RegexMatch.html" title="Provides the RegexMatch::match() function to perform regex matching. ">RegexMatch</a> class and calls <a class="el" href="classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33.html#a5868aef3a146594ea1ebef34d122bb33" title="Store match result in vectors and return the number of matches. ">RegexMatch::match()</a> which returns the result </p><dl class="params"><dt>Parameters</dt><dd>
+<p>This function takes the parameters, then sets the parameters to <a class="el" href="classjpcre2_1_1RegexMatch.html" title="Provides the RegexMatch::match() function to perform regex matching. ">RegexMatch</a> class and calls <a class="el" href="classjpcre2_1_1RegexMatch_a5868aef3a146594ea1ebef34d122bb33.html#a5868aef3a146594ea1ebef34d122bb33" title="Store match result in vectors and return the number of matches. ">RegexMatch::match()</a> which returns the result.</p>
+<p>It makes use of any previously initialized match object i.e it uses <a class="el" href="classjpcre2_1_1Regex_abb007e99d7e2188ec80b741e7b40668f.html#abb007e99d7e2188ec80b741e7b40668f" title="returns a reference to existing match object. ">getMatchObject()</a> function to get a reference to the match object. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>Subject string </td></tr>
     <tr><td class="paramname">mod</td><td>Modifier string </td></tr>
