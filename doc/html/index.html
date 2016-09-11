@@ -255,7 +255,7 @@ Options</h1>
 <p>JPCRE2 allows both PCRE2 and native JPCRE2 options to be passed. PCRE2 options are recognized by the PCRE2 library itself.</p>
 <h2><a class="anchor" id="jpcre-options"></a>
 JPCRE2 options</h2>
-<p>These options are meaningful only for the <b>JPCRE2</b> library, not the original <b>PCRE2</b> library. We use the <code>addJpcre2Option()</code> family of functions to pass these options.</p>
+<p>These options are meaningful only for the <b>JPCRE2</b> library, not the original <b>PCRE2</b> library. We use the <code><a class="el" href="classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de.html#a03974fa7ba8f7c47186cb8d6f54934de" title="Add option to existing JPCRE2 options jpcre2_compile_opts. ">jpcre2::Regex::addJpcre2Option()</a></code> family of functions to pass these options.</p>
 <table class="doxtable">
 <tr>
 <th>Option </th><th>Details  </th></tr>
@@ -268,7 +268,7 @@ JPCRE2 options</h2>
 </table>
 <h2><a class="anchor" id="pcre2-options"></a>
 PCRE2 options</h2>
-<p>While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed (and it's faster than passing modifier). We use the <code>addPcre2Option()</code> family of functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent <code>PCRE2_SUBSTITUTE_GLOBAL</code> to have the same effect.</p>
+<p>While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed (and it's faster than passing modifier). We use the <code><a class="el" href="classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087.html#a2c7dcf12f26b2b046e147b013c8b5087" title="Add option to existing PCRE2 options compile_opts. ">jpcre2::Regex::addPcre2Option()</a></code> family of functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent <code>PCRE2_SUBSTITUTE_GLOBAL</code> to have the same effect.</p>
 <h1><a class="anchor" id="exception-handling"></a>
 Error handling</h1>
 <p>When a known error is occurred during pattern compilation or match or replace, the error number and error offsets are set to corresponding variables of <code><a class="el" href="classjpcre2_1_1Regex.html" title="Implements public overloaded and copy constructors, provides functions to set/unset various options a...">jpcre2::Regex</a></code> class. You can get the error number, error offset and error message with <code><a class="el" href="classjpcre2_1_1Regex_a7294273e7d11907a749f2db40da9ed15.html#a7294273e7d11907a749f2db40da9ed15" title="Returns the last error number. ">jpcre2::Regex::getErrorNumber()</a></code>, <code><a class="el" href="classjpcre2_1_1Regex_ae8c6c8f728c58d9b171c68b4b166e195.html#ae8c6c8f728c58d9b171c68b4b166e195" title="Returns the last error offset. ">jpcre2::Regex::getErrorOffset()</a></code> and <code><a class="el" href="classjpcre2_1_1Regex_a8606fff8b192c94f58ca9e82aa048c61.html#a8606fff8b192c94f58ca9e82aa048c61" title="Returns the last error message. ">jpcre2::Regex::getErrorMessage()</a></code> functions respectively.</p>

@@ -244,7 +244,7 @@ replace </para></entry><entry thead="no"><para>Global. Will perform global match
 <title>Options</title>
 <para>JPCRE2 allows both PCRE2 and native JPCRE2 options to be passed. PCRE2 options are recognized by the PCRE2 library itself.</para><sect2 id="index_1jpcre-options">
 <title>JPCRE2 options</title>
-<para>These options are meaningful only for the <bold>JPCRE2</bold> library, not the original <bold>PCRE2</bold> library. We use the <computeroutput>addJpcre2Option()</computeroutput> family of functions to pass these options.</para><para><table rows="4" cols="2"><row>
+<para>These options are meaningful only for the <bold>JPCRE2</bold> library, not the original <bold>PCRE2</bold> library. We use the <computeroutput><ref refid="classjpcre2_1_1Regex_a03974fa7ba8f7c47186cb8d6f54934de_1a03974fa7ba8f7c47186cb8d6f54934de" kindref="member">jpcre2::Regex::addJpcre2Option()</ref></computeroutput> family of functions to pass these options.</para><para><table rows="4" cols="2"><row>
 <entry thead="yes"><para>Option </para></entry><entry thead="yes"><para>Details  </para></entry></row>
 <row>
 <entry thead="no"><para><computeroutput><ref refid="namespacejpcre2_a85c143271501e383843f45b9999c2f00_1a85c143271501e383843f45b9999c2f00aecf4a781b081ff541006fbe84e143fb9" kindref="member">jpcre2::NONE</ref></computeroutput> </para></entry><entry thead="no"><para>This is the default option. Equivalent to 0 (zero). </para></entry></row>
@@ -256,7 +256,7 @@ replace </para></entry><entry thead="no"><para>Global. Will perform global match
 </para></sect2>
 <sect2 id="index_1pcre2-options">
 <title>PCRE2 options</title>
-<para>While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed (and it&apos;s faster than passing modifier). We use the <computeroutput>addPcre2Option()</computeroutput> family of functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the &apos;g&apos; modifier to the replacement operation we can also pass its PCRE2 equivalent <computeroutput>PCRE2_SUBSTITUTE_GLOBAL</computeroutput> to have the same effect.</para></sect2>
+<para>While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed (and it&apos;s faster than passing modifier). We use the <computeroutput><ref refid="classjpcre2_1_1Regex_a2c7dcf12f26b2b046e147b013c8b5087_1a2c7dcf12f26b2b046e147b013c8b5087" kindref="member">jpcre2::Regex::addPcre2Option()</ref></computeroutput> family of functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the &apos;g&apos; modifier to the replacement operation we can also pass its PCRE2 equivalent <computeroutput>PCRE2_SUBSTITUTE_GLOBAL</computeroutput> to have the same effect.</para></sect2>
 </sect1>
 <sect1 id="index_1exception-handling">
 <title>Error handling</title>

@@ -361,7 +361,7 @@
 <codeline></codeline>
 <codeline><highlight class="normal">##<sp/>JPCRE2<sp/>options<sp/>{#jpcre-options}</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">These<sp/>options<sp/>are<sp/>meaningful<sp/>only<sp/>for<sp/>the<sp/>**JPCRE2**<sp/>library,<sp/>not<sp/>the<sp/>original<sp/>**PCRE2**<sp/>library.<sp/>We<sp/>use<sp/>the<sp/>`addJpcre2Option()`<sp/>family<sp/>of<sp/>functions<sp/>to<sp/>pass<sp/>these<sp/>options.</highlight></codeline>
+<codeline><highlight class="normal">These<sp/>options<sp/>are<sp/>meaningful<sp/>only<sp/>for<sp/>the<sp/>**JPCRE2**<sp/>library,<sp/>not<sp/>the<sp/>original<sp/>**PCRE2**<sp/>library.<sp/>We<sp/>use<sp/>the<sp/>`jpcre2::Regex::addJpcre2Option()`<sp/>family<sp/>of<sp/>functions<sp/>to<sp/>pass<sp/>these<sp/>options.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">Option<sp/>|<sp/>Details</highlight></codeline>
 <codeline><highlight class="normal">------<sp/>|<sp/>------</highlight></codeline>
@@ -371,7 +371,7 @@
 <codeline></codeline>
 <codeline><highlight class="normal">##<sp/>PCRE2<sp/>options<sp/>{#pcre2-options}</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">While<sp/>having<sp/>its<sp/>own<sp/>way<sp/>of<sp/>doing<sp/>things,<sp/>JPCRE2<sp/>also<sp/>supports<sp/>the<sp/>traditional<sp/>PCRE2<sp/>options<sp/>to<sp/>be<sp/>passed<sp/>(and<sp/>it&apos;s<sp/>faster<sp/>than<sp/>passing<sp/>modifier).<sp/>We<sp/>use<sp/>the<sp/>`addPcre2Option()`<sp/>family<sp/>of<sp/>functions<sp/>to<sp/>pass<sp/>the<sp/>PCRE2<sp/>options.<sp/>These<sp/>options<sp/>are<sp/>the<sp/>same<sp/>as<sp/>the<sp/>PCRE2<sp/>library<sp/>and<sp/>have<sp/>the<sp/>same<sp/>meaning.<sp/>For<sp/>example<sp/>instead<sp/>of<sp/>passing<sp/>the<sp/>&apos;g&apos;<sp/>modifier<sp/>to<sp/>the<sp/>replacement<sp/>operation<sp/>we<sp/>can<sp/>also<sp/>pass<sp/>its<sp/>PCRE2<sp/>equivalent<sp/>`PCRE2_SUBSTITUTE_GLOBAL`<sp/>to<sp/>have<sp/>the<sp/>same<sp/>effect.</highlight></codeline>
+<codeline><highlight class="normal">While<sp/>having<sp/>its<sp/>own<sp/>way<sp/>of<sp/>doing<sp/>things,<sp/>JPCRE2<sp/>also<sp/>supports<sp/>the<sp/>traditional<sp/>PCRE2<sp/>options<sp/>to<sp/>be<sp/>passed<sp/>(and<sp/>it&apos;s<sp/>faster<sp/>than<sp/>passing<sp/>modifier).<sp/>We<sp/>use<sp/>the<sp/>`jpcre2::Regex::addPcre2Option()`<sp/>family<sp/>of<sp/>functions<sp/>to<sp/>pass<sp/>the<sp/>PCRE2<sp/>options.<sp/>These<sp/>options<sp/>are<sp/>the<sp/>same<sp/>as<sp/>the<sp/>PCRE2<sp/>library<sp/>and<sp/>have<sp/>the<sp/>same<sp/>meaning.<sp/>For<sp/>example<sp/>instead<sp/>of<sp/>passing<sp/>the<sp/>&apos;g&apos;<sp/>modifier<sp/>to<sp/>the<sp/>replacement<sp/>operation<sp/>we<sp/>can<sp/>also<sp/>pass<sp/>its<sp/>PCRE2<sp/>equivalent<sp/>`PCRE2_SUBSTITUTE_GLOBAL`<sp/>to<sp/>have<sp/>the<sp/>same<sp/>effect.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">#<sp/>Error<sp/>handling<sp/>{#exception-handling}</highlight></codeline>
 <codeline></codeline>
