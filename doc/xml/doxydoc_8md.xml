@@ -379,7 +379,7 @@
 <codeline></codeline>
 <codeline><highlight class="normal">**Note**<sp/>that,<sp/>these<sp/>errors<sp/>always<sp/>gets<sp/>overwritten<sp/>by<sp/>previous<sp/>error,<sp/>so<sp/>you<sp/>only<sp/>get<sp/>the<sp/>last<sp/>error<sp/>that<sp/>occurred.</highlight></codeline>
 <codeline></codeline>
-<codeline><highlight class="normal">**Also<sp/>note**<sp/>that,<sp/>these<sp/>errors<sp/>never<sp/>get<sp/>re-initialized<sp/>(se<sp/>to<sp/>zero),<sp/>they<sp/>are<sp/>always<sp/>there<sp/>even<sp/>when<sp/>everything<sp/>else<sp/>worked<sp/>great<sp/>(except<sp/>some<sp/>previous<sp/>error).<sp/>But<sp/>these<sp/>are<sp/>harmless.<sp/>**You<sp/>never<sp/>need<sp/>to<sp/>worry<sp/>about<sp/>errors<sp/>unless<sp/>you<sp/>want<sp/>to<sp/>experiment/debug**</highlight></codeline>
+<codeline><highlight class="normal">**Also<sp/>note**<sp/>that,<sp/>these<sp/>errors<sp/>never<sp/>get<sp/>re-initialized<sp/>(se<sp/>to<sp/>zero),<sp/>they<sp/>are<sp/>always<sp/>there<sp/>even<sp/>when<sp/>everything<sp/>else<sp/>worked<sp/>great<sp/>(except<sp/>some<sp/>previous<sp/>error).<sp/>But<sp/>these<sp/>are<sp/>harmless.</highlight></codeline>
 <codeline></codeline>
 <codeline><highlight class="normal">If<sp/>you<sp/>do<sp/>experiment<sp/>with<sp/>various<sp/>erroneous<sp/>situations,<sp/>make<sp/>use<sp/>of<sp/>the<sp/>`resetErrors()`<sp/>function.<sp/>You<sp/>can<sp/>call<sp/>it<sp/>from<sp/>anywhere<sp/>in<sp/>your<sp/>method<sp/>chain<sp/>and<sp/>immediately<sp/>set<sp/>the<sp/>errors<sp/>to<sp/>zero.<sp/>This<sp/>function<sp/>is<sp/>defined<sp/>for<sp/>all<sp/>three<sp/>classes<sp/>and<sp/>do<sp/>the<sp/>same<sp/>thing.</highlight></codeline>
 <codeline></codeline>

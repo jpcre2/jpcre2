@@ -370,7 +370,7 @@ When a known error is occurred during pattern compilation or match or replace, t
 
 **Note** that, these errors always gets overwritten by previous error, so you only get the last error that occurred.
 
-**Also note** that, these errors never get re-initialized (se to zero), they are always there even when everything else worked great (except some previous error). But these are harmless. **You never need to worry about errors unless you want to experiment/debug**
+**Also note** that, these errors never get re-initialized (se to zero), they are always there even when everything else worked great (except some previous error). But these are harmless.
 
 If you do experiment with various erroneous situations, make use of the `resetErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is defined for all three classes and do the same thing.
 
