@@ -9,3 +9,4 @@ aclocal.m4
 /.settings
 *.png
 *.jpg
+*.log
