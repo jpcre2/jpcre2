@@ -2,7 +2,6 @@
 /autom4te.cache
 *.scan
 /img
-aclocal.m4
 /doc
 *.bak
 /.project
