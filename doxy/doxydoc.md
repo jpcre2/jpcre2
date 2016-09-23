@@ -10,7 +10,7 @@ C++ wrapper for PCRE2 library
 
 This provides some C++ wrapper functions to perform regex operations such as regex match and regex replace.
 
-The following is an overview of the usage of the library. You can read the complete documentation [here](http://docs.neurobin.org/jpcre2/index.html) or download it from [jpcre2-doc repository](https://github.com/jpcre2/jpcre2-doc).
+You can read the complete documentation [here](http://docs.neurobin.org/jpcre2/index.html) or download it from [jpcre2-doc repository](https://github.com/jpcre2/jpcre2-doc).
 
 
 # Dependency {#dependency}

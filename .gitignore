@@ -1,7 +1,6 @@
-build/
-autom4te.cache/
+/build
+/autom4te.cache
 *.scan
-img/
+/img
 aclocal.m4
-l*.m4
-doc/
+/doc

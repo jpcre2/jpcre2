@@ -1,0 +1,5 @@
+#!/bin/sh
+printf "// Documentation for jpcre2-16\n// DO NOT MODIFY.\n// It's auto generated from jpcre2-8.dox\n\n" > jpcre2-16.dox
+sed -e 's/::select8/::select16/g' jpcre2-8.dox >> jpcre2-16.dox
+printf "// Documentation for jpcre2-32\n// DO NOT MODIFY.\n// It's auto generated from jpcre2-8.dox\n\n" > jpcre2-32.dox
+sed -e 's/::select8/::select32/g' jpcre2-8.dox >> jpcre2-32.dox

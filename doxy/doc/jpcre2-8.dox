@@ -1,0 +1,986 @@
+// Documentation for 8 bit jpcre2
+
+///@typedef jpcre2::select8<Char_T>::Char
+///Typedef for character (either one of `char`, `wchar_t`, `char16_t`, `char32_t` that was passed with `jpcre2::select8<Char_T>`).
+
+///@typedef jpcre2::select8<Char_T>::String
+///Typedef for string (either one of `std::string`, `std::wstring`, `std::u16string`, `std::u32string`).
+///Defined as `std::basic_string<Char_T>`.
+///May be this list will make more sense:
+///Character  | String
+///---------  | -------
+///char | std::string
+///wchar_t | std::wstring
+///char16_t | std::u16string (>=C++11)
+///char32_t | std::u32string (>=C++11) 
+
+
+///@typedef jpcre2::select8<Char_T>::MapNas
+///Map for Named substrings.
+///@typedef jpcre2::select8<Char_T>::MapNum
+///Map for Numbered substrings.
+///@typedef jpcre2::select8<Char_T>::MapNtN
+///Substring name to Substring number map.
+///@typedef jpcre2::select8<Char_T>::MapNtn
+///Allow spelling mistake of MapNtN as MapNtn.
+///@typedef jpcre2::select8<Char_T>::VecNas
+///Vector of matches with named substrings.
+///@typedef jpcre2::select8<Char_T>::VecNum
+///Vector of matches with numbered substrings.
+///@typedef jpcre2::select8<Char_T>::VecNtN
+///Vector of substring name to substring number map.
+///@typedef jpcre2::select8<Char_T>::VecNtn
+///Allow spelling mistake of VecNtN as VecNtn.
+
+
+
+///@fn jpcre2::select8<Char_T>::String jpcre2::select8<Char_T>::toString(int x)
+///Converts an integer to jpcre2::select8<Char_T>::String.
+///@tparam Char_T Character type
+///@param x Integer to be converted
+///@return jpcre2::select8<Char_T>::String
+
+
+///@fn jpcre2::select8<Char_T>::toString(const Char_T* a)
+///Converts an const Char_T* to jpcre2::select8<Char_T>::String
+///@tparam Char_T Character type
+///@param a Character pointer
+///@return jpcre2::select8<Char_T>::String
+
+
+///@fn jpcre2::select8<Char_T>::toString(Char_T a)
+///Converts a Char_T to jpcre2::select8<Char_T>::String
+///@tparam Char_T Character type
+///@param a Character to be converted
+///@return jpcre2::select8<Char_T>::String
+
+
+
+///@fn jpcre2::select8<Char_T>::toString(PCRE2_UCHAR* a)
+///Converts a PCRE2_UCHAR* to jpcre2::select8<Char_T>::String
+///@tparam Char_T Character type
+///@param a PCRE2_UCHAR pointer
+///@return jpcre2::select8<Char_T>::String
+
+
+///@fn jpcre2::select8<Char_T>::getPcre2ErrorMessage(int err_num)
+///Return PCRE2 error message by error number
+///@tparam Char_T Character type
+///@param err_num PCRE2 error number
+///@return Error message as jpcre2::select8<Char_T>::String
+
+
+
+///@fn jpcre2::select8<Char_T>::getErrorMessage(int err_num, int err_off)
+///Return error message according to error number and error offset
+///@tparam Char_T Character type
+///@param err_num Error number
+///@param err_off Error offset
+///@return Error message as a string (jpcre2::select8<Char_T>::String)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**@class jpcre2::select8::RegexMatch
+ * Provides the RegexMatch::match() function to perform regex matching.
+ *
+ *  Provides chained methods to set various options.
+ *
+ *  All constructors of this class are private.
+ */
+
+
+
+/**@fn jpcre2::select8<Char_T>::RegexMatch::getModifier()
+ *  Calculate modifier string from PCRE2 and JPCRE2 options and return it.
+ *
+ *  Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized
+ *  as long as you don't do that explicitly. Calling RegexMatch::setModifier() will re-set them.
+ *
+ *  **Mixed or combined modifier**.
+ *
+ *  Some modifier may include other modifiers i.e they have the same meaning of some modifiers
+ *  combined together. For example, the 'n' modifier includes the 'u' modifier and together they
+ *  are equivalent to `PCRE2_UTF | PCRE2_UCP`. When you set a modifier like this, both options
+ *  get set, and when you remove the 'n' modifier RegexMatch::changeModifier(), both will get removed
+ * @tparam Char_T Character type
+ *  @return Calculated modifier string (std::string)
+ * @see jpcre2::select8<Char_T>::Regex::getModifier()
+ * @see jpcre2::select8<Char_T>::RegexMatchReplace::getModifier()
+ * */
+
+
+	
+/**@fn jpcre2::select8<char>::RegexMatch::reset()
+ * Reset all class variables to its default (initial) state.
+ * Data in the vectors will retain.
+ * You will need to pass vector pointers again after calling this function to get match results.
+ * @return Reference to the calling RegexMatch object.
+ * */	 
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::resetErrors()
+///Reset errors to zero.
+///If you want to examine the error status of a function call in the method chain,
+///add this function just before your target function so that the error is set to zero
+///before that target function is called, and leave everything out after the target
+///function so that there will be no additional errors from other function calls.
+///
+///This function is callable from everywhere in a method chain,
+///i.e other copy of this function for other classes are available
+///and they do the exactly same thing.
+///@tparam Char_T Character type.
+///@return A reference to the RegexMatch object
+///@see jpcre2::select8<Char_T>::Regex::resetErrors()
+///@see jpcre2::select8<Char_T>::RegexReplace::resetErrors()
+
+
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::getSubject()
+///Get subject string.
+///@return subject string
+///@see jpcre2::select8<Char_T>::RegexReplace::getSubject()
+
+
+
+
+/**@fn jpcre2::select8<Char_T>::RegexMatch::getPcre2Option()
+ * Get PCRE2 option
+ * @return PCRE2 option for match operation
+ * @see jpcre2::select8<Char_T>::Regex::getPcre2Option()
+ * @see jpcre2::select8<Char_T>::RegexReplace::getPcre2Option()
+ * */
+
+/**@fn jpcre2::select8<Char_T>::RegexMatch::getJpcre2Option()
+ * Get JPCRE2 option
+ * @return JPCRE2 options for math operation
+ * @see jpcre2::select8<Char_T>::Regex::getJpcre2Option()
+ * @see jpcre2::select8<Char_T>::RegexReplace::getJpcre2Option()
+ * */
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::setNumberedSubstringVector(VecNum* v)
+/// Set a pointer to the numbered substring vector.
+/// This vector will be filled with numbered (indexed) captured groups.
+/// @param v pointer to the numbered substring vector
+/// @return Reference to the calling RegexMatch object
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::setNamedSubstringVector(VecNum* v)
+/// Set a pointer to the named substring vector.
+/// This vector will be populated with named captured groups.
+/// @param v pointer to the named substring vector
+/// @return Reference to the calling RegexMatch object
+
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::setNameToNumberMapVector(VecNum* v)
+/// Set a pointer to the name to number map vector.
+/// This vector will be populated with name to number map for captured groups.
+/// @param v pointer to the name to number map vector
+/// @return Reference to the calling RegexMatch object
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::setSubject(const String& s)
+/// Set the subject string for match
+/// @param s Subject string
+/// @return Reference to the calling RegexMatch object
+/// @see jpcre2::select8<Char_T>::RegexReplace::setSubject()
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::setModifier(const String& s)
+/// Set the modifier (overwrites existing JPCRE2 and PCRE2 option).
+/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options.
+///
+/// **Note:** If speed of operation is very crucial, use RegexMatch::setJpcre2Option() and
+/// RegexMatch::setPcre2Option() with equivalent options. It will be faster that way.
+/// @param s Modifier string
+/// @return Reference to the calling RegexMatch object
+/// @see jpcre2::select8<Char_T>::RegexReplace::setModifier()
+/// @see jpcre2::select8<Char_T>::Regex::setModifier()
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::setJpcre2Option(Uint x)
+/// Set JPCRE2 option for match (overwrite existing option)
+/// @param x Option value
+/// @return Reference to the calling RegexMatch object
+/// @see jpcre2::select8<Char_T>::RegexReplace::setJpcre2Option()
+/// @see jpcre2::select8<Char_T>::Regex::setJpcre2Option()
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::setPcre2Option(Uint x)
+/// Set PCRE2 option match (overwrite existing option)
+/// @param x Option value
+/// @return Reference to the calling RegexMatch object
+/// @see jpcre2::select8<Char_T>::RegexReplace::setPcre2Option()
+/// @see jpcre2::select8<Char_T>::Regex::setPcre2Option()
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::setFindAll(bool x)
+/// Set whether to perform global match
+/// @param x True or False
+/// @return Reference to the calling RegexMatch object
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::setFindAll()
+///@overload
+///
+///This function just calls RegexMatch::setFindAll(bool x) with `true` as the parameter
+///@return Reference to the calling RegexMatch object
+
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::changeModifier(const std::string& mod, bool x)
+/// After a call to this function PCRE2 and JPCRE2 options will be properly set.
+/// This function does not initialize or re-initialize options.
+/// If you want to set options from scratch, initialize them to 0 before calling this function.
+///
+/// **Note:** If speed of operation is very crucial, use RegexMatch::changeJpcre2Option() and
+/// RegexMatch::changePcre2Option() with equivalent options. It will be faster that way.
+///
+/// If JPCRE2_ASSERT_INVALID_MODIFIER macro is defined, invalid modifier will give you runtime error and yield to immediate termination
+/// of the program.
+///@tparam Char_T Character type
+/// @param mod Modifier string
+/// @param x Whether to add or remove option
+/// @return Reference to the RegexMatch object
+/// @see jpcre2::select8<Char_T>::Regex::changeModifier()
+/// @see jpcre2::select8<Char_T>::RegexReplace::changeModifier()
+
+	
+///@fn jpcre2::select8<Char_T>::RegexMatch::changeJpcre2Option(Uint opt, bool x)
+/// Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options.
+/// Add or remove a JPCRE2 option
+/// @param opt JPCRE2 option value
+/// @param x Add the option if it's true, remove otherwise.
+/// @return Reference to the calling RegexMatch object
+/// @see RegexReplace::changeJpcre2Option()
+/// @see Regex::changeJpcre2Option()
+	
+///@fn jpcre2::select8<Char_T>::RegexMatch::changePcre2Option(Uint opt, bool x)
+/// Add or remove a PCRE2 option
+/// @param opt PCRE2 option value
+/// @param x Add the option if it's true, remove otherwise.
+/// @return Reference to the calling RegexMatch object
+/// @see RegexReplace::changePcre2Option()
+/// @see Regex::changePcre2Option()
+
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::addModifier(const std::string& mod)
+/// Parse modifier string and add equivalent PCRE2 and JPCRE2 options.
+/// This is just a wrapper of the original function RegexMatch::changeModifier()
+/// provided for convenience.
+///
+/// **Note:** If speed of operation is very crucial, use RegexMatch::addJpcre2Option() and RegexMatch::addPcre2Option()
+/// with equivalent options. It will be faster that way.
+/// @param mod Modifier string
+/// @return Reference to the calling RegexMatch object
+/// @see RegexReplace::addModifier()
+/// @see Regex::addModifier()
+    
+    
+///@fn jpcre2::select8<Char_T>::RegexMatch::addJpcre2Option(Uint x)
+/// Add option to existing JPCRE2 options for match
+/// @param x Option value
+/// @return Reference to the calling RegexMatch object
+/// @see RegexReplace::addJpcre2Option()
+/// @see Regex::addJpcre2Option()
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::addPcre2Option(Uint x)
+/// Add option to existing PCRE2 options for match
+/// @param x Option value
+/// @return Reference to the calling RegexMatch object
+/// @see RegexReplace::addPcre2Option()
+/// @see Regex::addPcre2Option()
+
+///@fn jpcre2::select8<Char_T>::RegexMatch::match()
+///Perfor match operaton using info from class variables and return the match count
+///@return Match count
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**@class jpcre2::select8::RegexReplace
+ * Provides the RegexReplace::replace() function to perform regex replace on a string.
+ *
+ *  Provides chained methods to set various options.
+ *
+ *  All constructors of this class are private.
+ */
+
+
+
+///@fn jpcre2::select8<Char_T>::RegexReplace::getReplaceWith()
+///Get replacement string
+///@return replacement string
+
+///@fn jpcre2::select8<Char_T>::RegexReplace::getSubject()
+///Get subject string
+///@return subject string
+///@see RegexMatch::getSubject()
+    
+    
+ 
+ /**@fn jpcre2::select8<Char_T>::RegexReplace::getModifier()
+ *  Calculate modifier string from PCRE2 and JPCRE2 options and return it.
+ *
+ *  Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized
+ *  as long as you don't do that explicitly. Calling RegexReplace::setModifier() will re-set them.
+ *
+ *  **Mixed or combined modifier**.
+ *
+ *  Some modifier may include other modifiers i.e they have the same meaning of some modifiers
+ *  combined together. For example, the 'n' modifier includes the 'u' modifier and together they
+ *  are equivalent to `PCRE2_UTF | PCRE2_UCP`. When you set a modifier like this, both options
+ *  get set, and when you remove the 'n' modifier RegexReplace::changeModifier(), both will get removed
+ * @tparam Char_T Character type
+ *  @return Calculated modifier string (std::string)
+ * @see jpcre2::select8<Char_T>::RegexMatch::getModifier()
+ * @see jpcre2::select8<Char_T>::Regex::getModifier()
+ * */
+
+    
+/**@fn  jpcre2::select8<Char_T>::RegexReplace::getPcre2Option()
+ * Get PCRE2 option
+ * @return PCRE2 option for replace
+ * @see Regex::getPcre2Option()
+ * @see RegexMatch::getPcre2Option()
+ * */
+
+/**@fn jpcre2::select8<Char_T>::RegexReplace::getJpcre2Option()
+ * Get JPCRE2 option
+ * @return JPCRE2 option  for replace
+ * @see Regex::getJpcre2Option()
+ * @see RegexMatch::getJpcre2Option()
+ * */
+
+	
+/**@fn jpcre2::select8<char>::RegexReplace::reset()
+ * Reset all class variables to its default (initial) state.
+ * @return Reference to the calling RegexReplace object.
+ * */	 
+
+///@fn jpcre2::select8<Char_T>::RegexReplace::resetErrors()
+///Reset errors to zero.
+///If you want to examine the error status of a function call in the method chain,
+///add this function just before your target function so that the error is set to zero
+///before that target function is called, and leave everything out after the target
+///function so that there will be no additional errors from other function calls.
+///
+///This function is callable from everywhere in a method chain,
+///i.e other copy of this function for other classes are available
+///and they do the exactly same thing.
+///@tparam Char_T Character type.
+///@return Reference to the calling RegexReplace object
+///@see Regex::resetErrors()
+///@see RegexMatch::resetErrors()
+
+    
+/**@fn jpcre2::select8<Char_T>::RegexReplace::setSubject(const String& s)
+ * Set the subject string for replace
+ * @param s Subject string
+ * @return Reference to the calling RegexReplace object
+ * @see RegexMatch::setSubject()
+ * */
+ 
+/**@fn jpcre2::select8<Char_T>::RegexReplace::setReplaceWith(const String& s)
+ * Set the replacement string
+ * @param s String to replace with
+ * @return Reference to the calling RegexReplace object
+ * */
+	 
+/**@fn jpcre2::select8<Char_T>::RegexReplace::setModifier(const std::string& s)
+ * Set the modifier string (overwrites existing JPCRE2 and PCRE2 option).
+ *
+ * **Note:** If speed of operation is very crucial, use RegexReplace::setJpcre2Option() and RegexReplace::setPcre2Option()
+ * with equivalent options. It will be faster that way.
+ * @param s Modifier string
+ * @return Reference to the calling RegexReplace object
+ * @see RegexMatch::setModifier()
+ * @see Regex::setModifier()
+ */
+	 
+/**@fn jpcre2::select8<Char_T>::RegexReplace::setBufferSize(PCRE2_SIZE x)
+ * Set the initial buffer size to be allocated for replaced string (used by PCRE2)
+ * @param x Buffer size
+ * @return Reference to the calling RegexReplace object
+ */
+ 
+/**@fn jpcre2::select8<Char_T>::RegexReplace::setJpcre2Option(Uint x)
+ * Set JPCRE2 option for replace (overwrite existing option)
+ * @param x Option value
+ * @return Reference to the calling RegexReplace object
+ * @see RegexMatch::setJpcre2Option()
+ * @see Regex::setJpcre2Option()
+ */
+	 
+	 
+/**@fn jpcre2::select8<Char_T>::RegexReplace::setPcre2Option(Uint x)
+ * Set PCRE2 option replace (overwrite existing option)
+ * @param x Option value
+ * @return Reference to the calling RegexReplace object
+ * @see RegexMatch::setPcre2Option()
+ * @see Regex::setPcre2Option()
+ */
+
+
+///@fn jpcre2::select8<Char_T>::RegexReplace::changeModifier(const std::string& mod, bool x)
+/// After a call to this function PCRE2 and JPCRE2 options will be properly set.
+/// This function does not initialize or re-initialize options.
+/// If you want to set options from scratch, initialize them to 0 before calling this function.
+///
+/// **Note:** If speed of operation is very crucial, use RegexReplace::changeJpcre2Option() and
+/// jpcre2::select8<Char_T>::RegexReplace::changePcre2Option() with equivalent options. It will be faster that way.
+///
+/// If JPCRE2_ASSERT_INVALID_MODIFIER macro is defined, invalid modifier will give you runtime error and yield to immediate termination
+/// of the program.
+///@tparam Char_T Character type
+/// @param mod Modifier string
+/// @param x Whether to add or remove option
+/// @return Reference to the RegexReplace object
+/// @see jpcre2::select8<Char_T>::Regex::changeModifier()
+/// @see jpcre2::select8<Char_T>::RegexMatch::changeModifier()
+
+	 
+///@fn jpcre2::select8<Char_T>::RegexReplace::changeJpcre2Option(Uint opt, bool x)
+/// Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options.
+/// Add or remove a JPCRE2 option
+/// @param opt JPCRE2 option value
+/// @param x Add the option if it's true, remove otherwise.
+/// @return Reference to the calling RegexReplace object
+/// @see RegexMatch::changeJpcre2Option()
+/// @see Regex::changeJpcre2Option()
+	
+///@fn jpcre2::select8<Char_T>::RegexReplace::changePcre2Option(Uint opt, bool x)
+/// Add or remove a PCRE2 option
+/// @param opt PCRE2 option value
+/// @param x Add the option if it's true, remove otherwise.
+/// @return Reference to the calling RegexReplace object
+/// @see RegexMatch::changePcre2Option()
+/// @see Regex::changePcre2Option()
+	
+///@fn jpcre2::select8<Char_T>::RegexReplace::addModifier(const std::string& mod)
+/// Parse modifier string and add equivalent PCRE2 and JPCRE2 options.
+/// This is just a wrapper of the original function RegexReplace::changeModifier()
+/// provided for convenience.
+///
+/// **Note:** If speed of operation is very crucial, use RegexReplace::addJpcre2Option() and
+/// RegexReplace::addPcre2Option() with equivalent options. It will be faster that way.
+/// @param mod Modifier string
+/// @return Reference to the calling RegexReplace object
+/// @see RegexMatch::addModifier()
+/// @see Regex::addModifier()
+    
+    
+/**@fn jpcre2::select8<Char_T>::RegexReplace::addJpcre2Option(Uint x)
+ * Add specified JPCRE2 option to existing options for replace.
+ * @param x Option value
+ * @return Reference to the calling RegexReplace object
+ * @see RegexMatch::addJpcre2Option()
+ * @see Regex::addJpcre2Option()
+ * */
+	 
+	 
+/**@fn jpcre2::select8<Char_T>::RegexReplace::addPcre2Option(Uint x)
+ * Add specified PCRE2 option to existing options for replace
+ * @param x Option value
+ * @return Reference to the calling RegexReplace object
+ * @see RegexMatch::addPcre2Option()
+ * @see Regex::addPcre2Option()
+ * */
+
+
+
+///@fn jpcre2::select8<Char_T>::RegexReplace::replace()
+///Perform regex replace by retrieving subject string, replacement string, modifier and other options from class variables.
+///@tparam Char_T Character type.
+///@return Replaced string
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+/**@class jpcre2::select8::Regex
+ * Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match
+ *  and replace against a compiled pattern.
+ *
+ *  Each regex pattern needs an object of this class.
+ *
+ *  A pattern must be compiled either by explicitly calling the compile function or using one of the parameterized constructors.
+ *
+ */
+
+
+
+/**@fn jpcre2::select8<Char_T>::Regex::compile()
+ *
+ * Compile pattern using info from class variables.
+ *
+ * Prefer using one of its variants when compiling pattern for an already declared Regex object.
+ * A use of
+ * ```cpp
+ * jpcre2::select8<char>::Regex re;
+ * re = jpcre2::select8<char>::Regex("pattern");
+ * ```
+ * (or such) is discouraged. see `Regex::operator=(const Regex& r)` for details.
+ * @see void jpcre2::select8<Char_T>::Regex::compile(const String& re, Uint po, Uint jo)
+ * @see void jpcre2::select8<Char_T>::Regex::compile(const String& re, Uint po)
+ * @see void jpcre2::select8<Char_T>::Regex::compile(const String& re, const std::string& mod)
+ * @see void jpcre2::select8<Char_T>::Regex::compile(const String& re)
+ * */
+
+/**@fn  jpcre2::select8<Char_T>::Regex::compile(const String& re, Uint po, Uint jo)
+ * @overload
+ *
+ *
+ *  Set the specified parameters, then compile the pattern using information from class variables.
+ *  @param re Pattern string
+ *  @param po PCRE2 option
+ *  @param jo JPCRE2 option
+ * */
+/**@fn  jpcre2::select8<Char_T>::Regex::compile(const String& re, Uint po)
+ * @overload
+ *
+ *
+ *  Set the specified parameters, then compile the pattern using options from class variables.
+ *  @param re Pattern string
+ *  @param po PCRE2 option
+ * */
+/**@fn jpcre2::select8<Char_T>::Regex::compile(const String& re, const std::string& mod)
+ * @overload
+ *
+ *
+ *  Set the specified parameters, then compile the pattern using options from class variables.
+ *  @param re Pattern string
+ *  @param mod Modifier string
+ * */
+/**@fn jpcre2::select8<Char_T>::Regex::compile(const String& re)
+ * @overload
+ *
+ *
+ *  Set the specified parameters, then compile the pattern using options from class variables.
+ *  @param re Pattern string
+ * */
+ 
+
+///@fn jpcre2::select8<Char_T>::Regex::Regex()
+/// Default Constructor.
+/// Initializes all class variables to defaults.
+/// Does not perform any compilation.
+	
+/**@fn jpcre2::select8<Char_T>::Regex::Regex(const String& re)
+ * Compile pattern with initialization.
+ *  @param re Pattern string
+ * */
+
+/**@fn jpcre2::select8<Char_T>::Regex::Regex(const String& re, const std::string& mod)
+ * @overload
+ *
+ *
+ *  Compile pattern with initialization.
+ *  @param re Pattern string
+ *  @param mod Modifier string
+ * */
+ 
+/**@fn jpcre2::select8<Char_T>::Regex::Regex(const String& re, Uint pcre2_opts)
+ * @overload
+ *
+ *
+ *  Compile pattern with initialization.
+ *  @param re Pattern string
+ *  @param pcre2_opts PCRE2 option value
+ * */
+ 
+/**@fn jpcre2::select8<Char_T>::Regex::Regex(const String& re, Uint pcre2_opts, Uint opt_bits)
+ *  @overload
+ *
+ *
+ *  Compile pattern with initialization.
+ *  @param re Pattern string
+ *  @param pcre2_opts	PCRE2 option value
+ *  @param opt_bits		JPCRE2 option value
+ * */
+
+///@fn jpcre2::select8<Char_T>::Regex::Regex(const Regex& r)
+/// @overload
+///
+/// Copy constructor\. Performs a deep copy.
+
+///@fn jpcre2::select8<Char_T>::Regex::operator=(const Regex& r)
+/// Overloaded assignment operator.
+/// Performs a deep copy.
+///
+/// Allows assigning objects like this:
+/// ```cpp
+/// Regex re;
+/// re = Regex("new pattern");
+/// ```
+/// However, use of this method is discouraged (Use Regex::compile() instead), because a call to this function
+/// requires an additional call to PCRE2 internal function pcre2_code_copy().
+/// If the pattern was JIT compiled, it requires another additional JIT compilation because
+/// JIT memory was not copied by pcre2_code_copy().
+///
+/// **Memory management:** Old JIT memory will be released along with the old compiled code.
+/// @param r const Regex&
+/// @return *this
+	
+	
+/**@fn jpcre2::select8<Char_T>::Regex::operator bool()
+ *  Provides boolean check for the status of the object.
+ *  This overlaoded boolean operator needs to be declared
+ *  explicit to prevent implicit conversion and overloading issues.
+ *
+ *  We will only enable it if >=C++11 is being used, as the explicit keyword
+ *  for a function other than constructor is not supported in older compilers.
+ *
+ *  If you are dealing with legacy code/compilers use the Double bang trick mentioned
+ *  in Regex::operator!().
+ *
+ *  This helps us to check the status of the compiled regex like this:
+ *
+ *  ```
+ *  jpcre2::select8<char>::Regex re("pat", "mod");
+ *  if(re) {
+ *      std::cout<<"Compile success";
+ *  } else {
+ *      std::cout<<"Compile failed";
+ *  }
+ *  ```
+ * @return true if regex compiled successfully, false otherwise.
+ * */
+ 
+/**@fn jpcre2::select8<Char_T>::Regex::operator!()
+ * Provides boolean check for the status of the object.
+ *  This is a safe boolean approach (no implicit conversion  or overloading).
+ *  We don't need the explicit keyword here and thus it's the preferable method
+ *  to check for object status that will work well with older compilers.
+ *  e.g:
+ *
+ *  ```
+ *  jpcre2::select8<char>::Regex re("pat","mod");
+ *  if(!re) {
+ *      std::cout<<"Compile failed";
+ *  } else {
+ *      std::cout<<"Compiled successfully";
+ *  }
+ *  ```
+ *  Double bang trick:
+ *
+ *  ```
+ *  jpcre2::select8<char>::Regex re("pat","mod");
+ *  if(!!re) {
+ *      std::cout<<"Compiled successfully";
+ *  } else {
+ *      std::cout<<"Compile failed";
+ *  }
+ *  ```
+ *  @return true if regex compiled successfully, false otherwise.
+ * */
+     
+///@fn jpcre2::select8<char>::Regex::~Regex()
+/// Destructor.
+/// Deletes all memory used by Regex, RegexMatch and RegexReplace object including compiled code and JIT memory.
+///There should be no memory leak when an object is destroyed.
+	
+	
+/**@fn jpcre2::select8<char>::Regex::reset()
+ *  Reset all class variables to its default (initial) state.
+ * Release any memory used by existing compiled pattern, RegexMatch, RegexReplace objects.
+ * @return Reference to the calling Regex object.
+ * */
+	 
+
+
+///@fn jpcre2::select8<Char_T>::Regex::resetErrors()
+///Reset errors to zero.
+///If you want to examine the error status of a function call in the method chain,
+///add this function just before your target function so that the error is set to zero
+///before that target function is called, and leave everything out after the target
+///function so that there will be no additional errors from other function calls.
+///
+///This function is callable from everywhere in a method chain,
+///i.e other copy of this function for other classes are available
+///and they do the exactly same thing.
+///@tparam Char_T Character type.
+///@return A reference to the Regex object
+///@see jpcre2::select8<Char_T>::RegexReplace::resetErrors()
+///@see jpcre2::select8<Char_T>::RegexMatch::resetErrors()
+
+
+
+/**@fn jpcre2::select8<char>::Regex::getPattern()
+ * Get pattern string
+ * @return pattern string of type jpcre2::select8<char>::String
+ * */
+	 
+/**@fn jpcre2::select8<char>::Regex::getLocale()
+ * Get locale as a string
+ *  @return LC_CTYPE as std::string
+ * */
+
+
+
+/**@fn jpcre2::select8<Char_T>::Regex::getModifier()
+ *  Calculate modifier string from PCRE2 and JPCRE2 options and return it.
+ *
+ *  Do remember that modifiers (or PCRE2 and JPCRE2 options) do not change or get initialized
+ *  as long as you don't do that explicitly. Calling Regex::setModifier() will re-set them.
+ *
+ *  **Mixed or combined modifier**.
+ *
+ *  Some modifier may include other modifiers i.e they have the same meaning of some modifiers
+ *  combined together. For example, the 'n' modifier includes the 'u' modifier and together they
+ *  are equivalent to `PCRE2_UTF | PCRE2_UCP`. When you set a modifier like this, both options
+ *  get set, and when you remove the 'n' modifier Regex::changeModifier(), both will get removed
+ * @tparam Char_T Character type
+ *  @return Calculated modifier string (std::string)
+ * @see RegexMatch::getModifier()
+ * @see RegexReplace::getModifier()
+ * */
+
+	 
+/**@fn jpcre2::select8<Char_T>::Regex::getPcre2Option()
+ * Get PCRE2 option
+ *  @return Compile time PCRE2 option value
+ * @see RegexReplace::getPcre2Option()
+ * @see RegexMatch::getPcre2Option()
+ * */
+	 
+	 
+/**@fn jpcre2::select8<Char_T>::Regex::getJpcre2Option()
+ * Get JPCRE2 option
+ *  @return Compile time JPCRE2 option value
+ * @see RegexReplace::getJpcre2Option()
+ * @see RegexMatch::getJpcre2Option()
+ * */
+	 
+///@fn jpcre2::select8<Char_T>::Regex::getErrorNumber()
+///Returns the last error number
+///@return Last error number
+    
+///@fn jpcre2::select8<Char_T>::Regex::getErrorOffset()
+///Returns the last error offset
+///@return Last error offset
+    
+///@fn jpcre2::select8<Char_T>::Regex::getErrorMessage()
+///Returns the last error message
+///@return Last error message
+    
+///@fn jpcre2::select8<Char_T>::Regex::setPattern(const String& re)
+/// Set the Pattern string to compile
+/// @param re Pattern string
+/// @return Reference to the calling Regex object.
+
+///@fn jpcre2::select8<Char_T>::Regex::setModifier(const std::string& x)
+/// Set the modifier (overwrite existing JPCRE2 and PCRE2 option).
+/// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets
+/// equivalent PCRE2 and JPCRE2 options.
+///
+/// **Note:** If speed of operation is very crucial, use Regex::setJpcre2Option() and
+/// Regex::setPcre2Option() with equivalent options. It will be faster that way.
+/// @param x Modifier string
+/// @return Reference to the calling Regex object.
+/// @see RegexMatch::setModifier()
+/// @see RegexReplace::setModifier()
+	
+/// @fn jpcre2::select8<Char_T>::Regex::setLocale(const std::string& x)
+/// Set the locale (LC_CTYPE)
+/// @param x Locale string
+/// @return Reference to the calling Regex object.
+	
+///@fn jpcre2::select8<Char_T>::Regex::setJpcre2Option()
+/// Set JPCRE2 option for compile (overwrites existing option)
+/// @param x Option value
+/// @return Reference to the calling Regex object.
+/// @see RegexMatch::setJpcre2Option()
+/// @see RegexReplace::setJpcre2Option()
+	
+/// @fn jpcre2::select8<Char_T>::Regex::setPcre2Option()
+/// Set PCRE2 option for compile (overwrites existing option)
+/// @param x Option value
+/// @return Reference to the calling Regex object.
+/// @see RegexMatch::setPcre2Option()
+/// @see RegexReplace::setPcre2Option()
+	
+	
+
+
+///@fn jpcre2::select8<Char_T>::Regex::changeModifier(const std::string& mod, bool x)
+/// Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options.
+/// This function does not initialize or re-initialize options.
+/// If you want to set options from scratch, initialize them to 0 before calling this function.
+///
+/// **Note:** If speed of operation is very crucial, use Regex::changeJpcre2Option() and
+/// Regex::changePcre2Option() with equivalent options. It will be faster that way.
+///
+/// If JPCRE2_ASSERT_INVALID_MODIFIER macro is defined, invalid modifier will give you runtime error and yield to immediate termination
+/// of the program.
+///@tparam Char_T Character type
+/// @param mod Modifier string
+/// @param x Whether to add or remove option
+/// @return Reference to the calling Regex object
+/// @see RegexMatch::changeModifier()
+/// @see RegexReplace::changeModifier()
+
+
+/// @fn jpcre2::select8<Char_T>::Regex::changeJpcre2Option(Uint opt, bool x)
+/// Add or remove a JPCRE2 option
+/// @param opt JPCRE2 option value
+/// @param x Add the option if it's true, remove otherwise.
+/// @return Reference to the calling Regex object
+/// @see RegexMatch::changeJpcre2Option()
+/// @see RegexReplace::changeJpcre2Option()
+	
+/// @fn jpcre2::select8<Char_T>::Regex::changePcre2Option(Uint opt, bool x)
+/// Add or remove a PCRE2 option
+/// @param opt PCRE2 option value
+/// @param x Add the option if it's true, remove otherwise.
+/// @return Reference to the calling Regex object
+/// @see RegexMatch::changePcre2Option()
+/// @see RegexReplace::changePcre2Option()
+	
+/// @fn jpcre2::select8<Char_T>::Regex::addModifier(const std::string& mod)
+/// Parse modifier string and add equivalent PCRE2 and JPCRE2 options.
+/// This is just a wrapper of the original function Regex::changeModifier()
+/// provided for convenience.
+///
+/// **Note:** If speed of operation is very crucial, use Regex::addJpcre2Option() and
+/// Regex::addPcre2Option() with equivalent options. It will be faster that way.
+/// is set and a wrong modifier was encountered.
+/// @param mod Modifier string
+/// @return Reference to the calling Regex object
+/// @see RegexMatch::addModifier()
+/// @see RegexReplace::addModifier()
+    
+/// @fn jpcre2::select8<Char_T>::Regex::addJpcre2Option(Uint x)
+/// Add option to existing JPCRE2 options for compile
+/// @param x Option value
+/// @return Reference to the calling Regex object
+/// @see RegexMatch::addJpcre2Option()
+/// @see RegexReplace::addJpcre2Option()
+
+/// @fn jpcre2::select8<Char_T>::Regex::addPcre2Option(Uint x)
+/// Add option to existing PCRE2 options for compile
+/// @param x Option value
+/// @return Reference to the calling Regex object
+/// @see RegexMatch::addPcre2Option()
+/// @see RegexReplace::addPcre2Option()
+	
+
+/**@fn jpcre2::select8<Char_T>::Regex::match(const String& s, const std::string& mod)
+ * Perform regex match and return match count.
+ *  This function takes the parameters, then sets the parameters to RegexMatch class and calls
+ *  RegexMatch::match() which returns the result.
+ *
+ *  It makes use of any previously initialized match object i.e it uses
+ *  Regex::getMatchObject() function to get a reference to the match object.
+ *  @param s Subject string
+ *  @param mod Modifier string
+ *  @return Match count
+ *  @see RegexMatch::match()
+ * */
+
+/**@fn jpcre2::select8<Char_T>::Regex::match(const String& s)
+ * @overload
+ *  @param s Subject string
+ *  @return Match count
+ * */
+	 
+/**@fn jpcre2::select8<Char_T>::Regex::initMatch()
+ * Create and initialize a new match object and return a reference to it
+ *
+ * Options can be set with the setter functions of RegexMatch class
+ * in-between the Regex::initMatch() and RegexMatch::match() call.
+ *
+ * @return Reference to a new RegexMatch object
+ * @see Regex::getMatchObject()
+ * */
+
+///@fn jpcre2::select8<Char_T>::Regex::getMatchObject()
+/// Returns a reference to existing match object.
+/// If there was no match object, it will create a new and act similarly to Regex::initMatch()
+/// @return Reference to a RegexMatch object
+///@see Regex::initMatch()
+    
+/**@fn jpcre2::select8<Char_T>::Regex::replace(const String& mains, const String& repl, const std::string& mod)
+ * Perform regex replace and return the replaced string.
+ *  This function takes the parameters, then sets the parameters to RegexReplace class and calls
+ *  RegexReplace::replace() which returns the result.
+ *
+ *  It makes use of any previously initialized replace object i.e it uses
+ *  Regex::getReplaceObject() function to get a reference to the replace object.
+ *  @param mains Subject string
+ *  @param repl String to replace with
+ *  @param mod Modifier string (std::string)
+ *  @return Resultant string after regex replace
+ *  @see RegexReplace::replace()
+ * */
+	 
+/**@fn jpcre2::select8<Char_T>::Regex::replace(const String& mains, const String& repl)
+ *  @overload
+ *  @param mains Subject string
+ *  @param repl String to replace with
+ *  @return Resultant string after regex replace
+ *  @see RegexReplace::replace()
+ * */
+	 
+	 
+/**@fn jpcre2::select8<Char_T>::Regex::initReplace()
+ * Creates a new RegexReplace object and returns its reference.
+ * Options can be set with the setter functions of RegexReplace class
+ * in-between the Regex::initReplace() and RegexReplace::replace() call.
+ * @return Reference to a new RegexReplace object.
+ * @see Regex::getReplaceObject()
+ * */
+	 
+///@fn  jpcre2::select8<Char_T>::Regex::getReplaceObject()
+///returns a reference to the existing RegexReplace object.
+///If there was no replace object, it will create a new one
+/// and act similarly to Regex::initReplace().
+///@return reference to a RegexReplace object
+///@see Regex::initReplace()
