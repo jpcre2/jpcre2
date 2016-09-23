@@ -1,0 +1,16 @@
+dist: trusty
+sudo: required
+language: cpp
+before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -q
+  - sudo apt-get install gcc-5 g++-5 -y
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
+  - git clone --branch=release --depth=1 https://github.com/jpcre2/pcre2
+  - cd pcre2
+  - autoreconf --force --install
+  - ./configure --enable-pcre2-16 --enable-pcre2-32
+  - make
+  - sudo make install
+  - cd -
+script: ./autogen.sh; ./configure --enable-jpcre2-16 --enable-jpcre2-32 --enable-jpcre2-test-compile-cpp11 && make && make check

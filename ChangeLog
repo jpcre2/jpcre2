@@ -1,0 +1,41 @@
+Change Log for JPCRE2
+--------------------
+
+Version 10.27.01 - Fri Sep 23 09:01:10 UTC 2016
+-----------------------------------------------
+
+* New API with 8 bit, 16 bit and 32 bit support
+* Add templated struct `jpcre2::select8` to select 8 bit code unit width
+* Add templated struct `jpcre2::select16` to select 16 bit code unit width
+* Add templated struct `jpcre2::select32` to select 32 bit code unit width
+* When using a single code unit width, corresponding struct can be used with `jpcre2::select` (without the suffix)
+* Support `char` (`std::string`), `wchar_t` (`std::wstring`), `char16_t` (`std::u16string`), `char32_t` (`std::u32string`)
+* `reset()` and `resetErrors()` can be called from anywhere in the method chain.
+
+
+Version 10.26.02 - Sun Sep 11 15:37:00 UTC 2016
+-----------------------------------------------
+
+* `Regex::match()` and its overloads will call `getMatchObject()` instead of `initMatch()`
+* `Regex::replace()` and its overloads will call `getReplaceObject()` instead of `initReplace()` 
+
+
+Version 10.26.01 - Sat Sep 11 15:37:00 UTC 2016Thu Sep  8 16:20:12 UTC 2016
+-----------------------------------------------
+
+1. Remove all exception, no exception handling will be needed any more.
+2. Added `Regex::getMatchObject()` and `Regex::getReplaceObject()`
+
+
+Version 10.25.04 - Thu Sep  8 16:20:12 UTC 2016
+-----------------------------------------------
+
+1. Code review and update documentation.
+2. Dump correct version.
+
+Version 10.25.03 - Wed Sep  7 23:38:58 UTC 2016
+-----------------------------------------------
+
+1. Added a class (`jpcre2::Except`) for exception handling, all exceptions will be of type `jpcre2::Except`.
+2. Removed error handling functions and variables from `Regex` class
+

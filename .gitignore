@@ -1,0 +1,7 @@
+build/
+autom4te.cache/
+*.scan
+img/
+aclocal.m4
+l*.m4
+doc/
