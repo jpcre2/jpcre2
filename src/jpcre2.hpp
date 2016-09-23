@@ -75,14 +75,15 @@
 
 
 #include <pcre2.h> 
-//#include <stdint.h> 	// uint32_t		//pcre2 itself includes this
-//#include <cstddef>  	// std::size_t
-#include <string>  		// std::string, std::wstring
-#include <vector>   	// std::vector
-#include <map>      	// std::map
-#include <cassert>  // assert
-#include <climits>  // CHAR_BIT
+//#include <stdint.h>   // uint32_t		//pcre2 itself includes this
+//#include <cstddef>    // std::size_t
+#include <string>       // std::string, std::wstring
+#include <vector>       // std::vector
+#include <map>          // std::map
+#include <cassert>      // assert
+#include <climits>      // CHAR_BIT
 #if __cplusplus >= 201103L
+    //These will be included if >=C++11 is used
 	#include <codecvt>
 	#include <locale>  // std::wstring_convert
 #endif
@@ -101,8 +102,8 @@
 namespace jpcre2 {
 
 
-typedef PCRE2_SIZE SIZE_T;                      ///< Used for match count and vector size
-typedef uint32_t Uint;                          ///< Used for options (bitwise operation)
+typedef PCRE2_SIZE SIZE_T;                          ///< Used for match count and vector size
+typedef uint32_t Uint;                              ///< Used for options (bitwise operation)
 
 /// @namespace jpcre2::ERROR
 /// Namespace for error codes.
@@ -112,8 +113,8 @@ namespace ERROR {
 	 *  PCRE2 error numbers are negative integers.
 	 */
 	enum {
-		INVALID_MODIFIER        = 2,        ///< Error number implying that invalid modifier was detected
-		JIT_COMPILE_FAILED      = 3         ///< Error number implying that JIT compile failed
+		INVALID_MODIFIER        = 2,                ///< Error number implying that invalid modifier was detected
+		JIT_COMPILE_FAILED      = 3                 ///< Error number implying that JIT compile failed
 	};
 }
 
@@ -126,9 +127,9 @@ extern const std::string LOCALE_DEFAULT;            ///< Default locale
 /** These constants provide JPCRE2 options.
  */
 enum {
-	NONE                    = 0x0000000u,   ///< Option 0 (zero)
-	FIND_ALL                = 0x0000002u,   ///< Find all during match (global match)
-	JIT_COMPILE             = 0x0000004u    ///< Perform JIT compilation for optimization
+	NONE                    = 0x0000000u,           ///< Option 0 (zero)
+	FIND_ALL                = 0x0000002u,           ///< Find all during match (global match)
+	JIT_COMPILE             = 0x0000004u            ///< Perform JIT compilation for optimization
 };
 
 /** @namespace jpcre2::INFO
@@ -136,12 +137,12 @@ enum {
  *  Contains constant Strings with version info.
  */
 namespace INFO {
-	extern const std::string NAME;					///< Name of the project
-	extern const std::string FULL_VERSION;			///< Full version string
-	extern const std::string VERSION_GENRE;			///< Generation, depends on original PCRE2 version
-	extern const std::string VERSION_MAJOR;			///< Major version, updated when API change is made
-	extern const std::string VERSION_MINOR;			///< Minor version, includes bug fix or minor feature upgrade
-	extern const std::string VERSION_PRE_RELEASE;	///< Alpha or beta (testing) release version
+	extern const std::string NAME;                  ///< Name of the project
+	extern const std::string FULL_VERSION;          ///< Full version string
+	extern const std::string VERSION_GENRE;         ///< Generation, depends on original PCRE2 version
+	extern const std::string VERSION_MAJOR;         ///< Major version, updated when API change is made
+	extern const std::string VERSION_MINOR;         ///< Minor version, includes bug fix or minor feature upgrade
+	extern const std::string VERSION_PRE_RELEASE;   ///< Alpha or beta (testing) release version
 }
 
 /** @namespace jpcre2::MOD
@@ -151,11 +152,11 @@ namespace INFO {
  *  thus they may include other modifiers. Such an example is the 'n' modifier. It is combined together with 'u'.
  */
 namespace MOD {
-    extern const std::string C_N; 	///< String of compile modifier characters for PCRE2 options
-    extern const Uint C_V[]; 		///< Array of compile modifier values for PCRE2 options
-    extern const std::string CJ_N; 	///< String of compile modifier characters for JPCRE2 options
-    extern const Uint CJ_V[]; 		///< Array of compile modifier values for JPCRE2 options
-    extern const std::string M_N; 	///< String of action (match) modifier characters for PCRE2 options
+    extern const std::string C_N;   ///< String of compile modifier characters for PCRE2 options
+    extern const Uint C_V[];        ///< Array of compile modifier values for PCRE2 options
+    extern const std::string CJ_N;  ///< String of compile modifier characters for JPCRE2 options
+    extern const Uint CJ_V[];       ///< Array of compile modifier values for JPCRE2 options
+    extern const std::string M_N;   ///< String of action (match) modifier characters for PCRE2 options
     extern const Uint M_V[];        ///< Array of action (match) modifier values for PCRE2 options
     extern const std::string MJ_N;  ///< String of action (match) modifier characters for JPCRE2 options
     extern const Uint MJ_V[];       ///< Array of action (match) modifier values for JPCRE2 options
@@ -602,15 +603,12 @@ public: \
 		return *this; \
 	}
     
-    /*
-	#if __cplusplus >= 201103L
-    explicit operator bool() const {
-        return (code != 0);
+#define JPCRE2_SELECT_MIDDLE \
+    explicit operator bool() const { \
+        return (code != 0); \
     }
-    #endif
-    */
     
-    #define JPCRE2_SELECT_LAST \
+#define JPCRE2_SELECT_LAST \
     bool operator!() const { \
         return (code == 0); \
     } \
@@ -806,50 +804,39 @@ public: \
 
 
 #define JPCRE2_LOCAL_WIDTH 8
-// Expand
-JPCRE2_SELECT_FIRST
 
-	#if __cplusplus >= 201103L
-    explicit operator bool() const {
-        return (code != 0);
-    }
-    #endif
+JPCRE2_SELECT_FIRST
+#if __cplusplus >= 201103L
+JPCRE2_SELECT_MIDDLE
+#endif
 JPCRE2_SELECT_LAST
+
 #undef JPCRE2_LOCAL_WIDTH
 
 
 
 #define JPCRE2_LOCAL_WIDTH 16
-// Expand
-JPCRE2_SELECT_FIRST
 
-	#if __cplusplus >= 201103L
-    explicit operator bool() const {
-        return (code != 0);
-    }
-    #endif
+JPCRE2_SELECT_FIRST
+#if __cplusplus >= 201103L
+JPCRE2_SELECT_MIDDLE
+#endif
 JPCRE2_SELECT_LAST
+
 #undef JPCRE2_LOCAL_WIDTH
+
 
 
 #define JPCRE2_LOCAL_WIDTH 32
-// Expand
-JPCRE2_SELECT_FIRST
 
-	#if __cplusplus >= 201103L
-    explicit operator bool() const {
-        return (code != 0);
-    }
-    #endif
+JPCRE2_SELECT_FIRST
+#if __cplusplus >= 201103L
+JPCRE2_SELECT_MIDDLE
+#endif
 JPCRE2_SELECT_LAST
+
 #undef JPCRE2_LOCAL_WIDTH
 #undef select
-
-#ifdef JPCRE2_SELECT_BKP
-#define select JPCRE2_SELECT_BKP
-#undef JPCRE2_SELECT_BKP
-#endif
-
 
 #if PCRE2_CODE_UNIT_WIDTH == 8
     template<class Char_T>
@@ -869,8 +856,15 @@ JPCRE2_SELECT_LAST
 #undef JPCRE2_JOIN
 #undef JPCRE2_SUFFIX
 #undef JPCRE2_SELECT_FIRST
+#undef JPCRE2_SELECT_MIDDLE
 #undef JPCRE2_SELECT_LAST
 #undef JPCRE2_CODE_UNIT_ASSERT
+
+#ifdef JPCRE2_SELECT_BKP
+#define select JPCRE2_SELECT_BKP
+#undef JPCRE2_SELECT_BKP
+#endif
+
 
 
 #endif
