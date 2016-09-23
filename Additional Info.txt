@@ -1,3 +1,7 @@
-* In a Windows environment, if you want to statically link an application program against a non-dll PCRE2 library, you must define PCRE2_STATIC before including jpcre2.hp.
+Some additional info
+=====================
+
+
+* In a Windows environment, if you want to statically link an application program against a non-dll PCRE2 library, you must define PCRE2_STATIC before including jpcre2.hpp.
 
 
