@@ -39,6 +39,12 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([setlocale])
 
+# handle --disable-silent-rules (enabled by default)
+AC_ARG_ENABLE(silent-rules,
+              AS_HELP_STRING([--disable-silent-rules],
+                             [Disable silent rules and run in verbose mode]),
+              , enable_silent_rules=unset)
+AC_SUBST(enable_silent_rules)
 
 AC_ARG_ENABLE(jpcre2-test-compile,
               AS_HELP_STRING([--disable-jpcre2-test-compile],
@@ -88,6 +94,11 @@ then
   enable_jpcre2_test_compile_cpp11=no
 fi
 
+# Set the default value silent-rules
+if test "x$enable_silent_rules" = "xunset"
+then
+  enable_silent_rules=yes
+fi
 
 # Set the default value for jpcre2-8
 if test "x$enable_jpcre2_8" = "xunset"
@@ -121,6 +132,11 @@ AM_CONDITIONAL(WITH_JPCRE2_32, test "x$enable_jpcre2_32" = "xyes")
 
 
 # Here is where JPCRE2-specific defines are handled
+if test "$enable_silent_rules" = "yes"; then
+  AM_SILENT_RULES([yes])
+  AC_DEFINE([SUPPORT_SILENT_RULES], [], [
+    Define to any value to enable compiling the test examples])
+fi
 
 if test "$enable_jpcre2_test_compile" = "yes"; then
   AC_DEFINE([SUPPORT_JPCRE2_TEST_COMPILE], [], [
@@ -181,5 +197,6 @@ configuration summary:
     Build 32-bit jpcre2 library ....... : ${enable_jpcre2_32}
     Build examples .................... : ${enable_jpcre2_test_compile}
     Build >= C++11 examples ........... : ${enable_jpcre2_test_compile_cpp11}
+    Enable Silent Rules ............... : ${enable_silent_rules}
 
 EOF

@@ -185,12 +185,20 @@ static thread_local std::wstring_convert<Codecvt<char16_t,char,std::mbstate_t>,c
 ///`convert32.from_bytes(utf8string)` will convert UTF-8 to UTF-32.
 static thread_local std::wstring_convert<Codecvt<char32_t,char,std::mbstate_t>,char32_t> convert32;
 
+
+#define JPCRE2_REGEX_OPERATOR_BOOL \
+    explicit operator bool() const { \
+        return (code != 0); \
+    }
+
+#else
+
+#define JPCRE2_REGEX_OPERATOR_BOOL
+
 #endif
 
 
-
-
-#define JPCRE2_SELECT_FIRST \
+#define JPCRE2_SELECT \
 template<class Char_T> \
 struct select { \
 virtual ~select(){}	\
@@ -601,14 +609,10 @@ public: \
 		shallowCopy(r); /* shallow copy must be performed before deep copy */ \
 		deepCopy(r); \
 		return *this; \
-	}
-    
-#define JPCRE2_SELECT_MIDDLE \
-    explicit operator bool() const { \
-        return (code != 0); \
-    }
-    
-#define JPCRE2_SELECT_LAST \
+	} \
+    \
+    JPCRE2_REGEX_OPERATOR_BOOL \
+    \
     bool operator!() const { \
         return (code == 0); \
     } \
@@ -804,38 +808,22 @@ public: \
 
 
 #define JPCRE2_LOCAL_WIDTH 8
-
-JPCRE2_SELECT_FIRST
-#if __cplusplus >= 201103L
-JPCRE2_SELECT_MIDDLE
-#endif
-JPCRE2_SELECT_LAST
-
+JPCRE2_SELECT
 #undef JPCRE2_LOCAL_WIDTH
 
 
 
 #define JPCRE2_LOCAL_WIDTH 16
-
-JPCRE2_SELECT_FIRST
-#if __cplusplus >= 201103L
-JPCRE2_SELECT_MIDDLE
-#endif
-JPCRE2_SELECT_LAST
-
+JPCRE2_SELECT
 #undef JPCRE2_LOCAL_WIDTH
 
 
 
 #define JPCRE2_LOCAL_WIDTH 32
-
-JPCRE2_SELECT_FIRST
-#if __cplusplus >= 201103L
-JPCRE2_SELECT_MIDDLE
-#endif
-JPCRE2_SELECT_LAST
-
+JPCRE2_SELECT
 #undef JPCRE2_LOCAL_WIDTH
+
+
 #undef select
 
 #if PCRE2_CODE_UNIT_WIDTH == 8
@@ -855,9 +843,7 @@ JPCRE2_SELECT_LAST
 #undef JPCRE2_GLUE
 #undef JPCRE2_JOIN
 #undef JPCRE2_SUFFIX
-#undef JPCRE2_SELECT_FIRST
-#undef JPCRE2_SELECT_MIDDLE
-#undef JPCRE2_SELECT_LAST
+#undef JPCRE2_SELECT
 #undef JPCRE2_CODE_UNIT_ASSERT
 
 #ifdef JPCRE2_SELECT_BKP

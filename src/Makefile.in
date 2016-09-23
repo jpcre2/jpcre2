@@ -436,6 +436,7 @@ enable_jpcre2_32 = @enable_jpcre2_32@
 enable_jpcre2_8 = @enable_jpcre2_8@
 enable_jpcre2_test_compile = @enable_jpcre2_test_compile@
 enable_jpcre2_test_compile_cpp11 = @enable_jpcre2_test_compile_cpp11@
+enable_silent_rules = @enable_silent_rules@
 exec_prefix = @exec_prefix@
 host = @host@
 host_alias = @host_alias@
