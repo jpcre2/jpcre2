@@ -202,7 +202,7 @@ size_t count=re.initMatch()									//Initialize match object
                .setModifier(ac_mod)                         //set modifier string
                .setNumberedSubstringVector(&vec_num)        //pass pointer to VecNum vector to store maps of numbered substrings
                .match();                                    //Finally perform the match.
-//vec_num will be populated with maps of numbered substrings.
+//vec_num will be populated with vectors of numbered substrings.
 //count is the total number of matches found
 ```
 ### Access a captured group {#access-a-capture-group}
