@@ -144,11 +144,11 @@ int main(){
      * Replacement Examples
      * Replace pattern in a string with a replacement string
      *
-     * The replace() function can take a subject and replacement string as argument.
+     * The Regex::replace() function can take a subject and replacement string as argument.
      * 
      * You can also pass the subject with setSubject() function in method chain,
      * replacement string with setReplaceWith() function in method chain, etc ...
-     * A call to replace() in the method chain will return the resultant string
+     * A call to RegexReplace::replace() in the method chain will return the resultant string
      */
 
     std::cout<<"\n"<<
