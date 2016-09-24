@@ -22,7 +22,7 @@ int main(){
     
     //Compile the pattern
     re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
-      .setModifier("mi")                                                    //set modifier
+      .setModifier("min")                                                    //set modifier
       .addJpcre2Option(jpcre2::JIT_COMPILE)                                 //perform JIT compile
       .addPcre2Option(PCRE2_DUPNAMES)                                       //add pcre2 option
       .compile();                                                           //Finally compile it.
