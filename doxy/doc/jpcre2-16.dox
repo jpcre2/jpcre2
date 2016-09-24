@@ -21,7 +21,7 @@
 
 ///@typedef jpcre2::select16<Char_T>::MapNas
 ///Map for Named substrings.
-///@typedef jpcre2::select16<Char_T>::SubNum
+///@typedef jpcre2::select16<Char_T>::NumSub
 ///Vector for Numbered substrings (Sub container).
 ///@typedef jpcre2::select16<Char_T>::MapNtN
 ///Substring name to Substring number map.
