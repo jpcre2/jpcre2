@@ -16,9 +16,9 @@ typedef jpcre2::select<char> jp;
 
 int main(){
 
-    jp::VecNum vec_num0;   //Vector to store numbered substring Map.
-    jp::VecNas vec_nas0;   //Vector to store named substring Map.
-    jp::VecNtN vec_nn0;    //Vector to store Named substring to Number Map.
+    jp::VecNum vec_num;   //Vector to store numbered substring vectors.
+    jp::VecNas vec_nas;   //Vector to store named substring Map.
+    jp::VecNtN vec_ntn;   //Vector to store Named substring to Number Map.
     
    
     std::string pat, mod, subject, ac_mod;
@@ -46,9 +46,9 @@ int main(){
     size_t matched = 0;
     
     re.initMatch()                                //invoke the initMatch() function
-      .setNumberedSubstringVector(&vec_num0)      //pointer to numbered substring vector
-      .setNamedSubstringVector(&vec_nas0)         //pointer to named substring vector
-      .setNameToNumberMapVector(&vec_nn0)         //pointer to name-to-number map vector
+      .setNumberedSubstringVector(&vec_num)       //pointer to numbered substring vector
+      .setNamedSubstringVector(&vec_nas)          //pointer to named substring vector
+      .setNameToNumberMapVector(&vec_ntn)         //pointer to name-to-number map vector
       //.match()                                  //Let's do the match later
       ;
 		
@@ -70,25 +70,25 @@ int main(){
           
         //Now let's access the matched data
 
-        //Each of these vectors contains maps.
+        //Each of these vectors contains maps, except the VecNum which contains vectors.
         //Each element in the vector specifies a particular match
         //First match is the vector element 0, second is at index 1 and so forth
-        //A map for a vector element, i.e for a match contains all of its substrings/capture groups
-        //The first element of the map is capture group 0 i.e total match
+        //A map or sub vector for a vector element, i.e for a match, contains all of its substrings/captured groups
+        //The first element of the map or sub vector is capture group 0 i.e total match
         std::cout<<"\nTotal number of matches: "<<matched<<std::endl;
         if(matched){
-            for(size_t i=0;i<vec_num0.size();++i){
+            for(size_t i=0;i<vec_num.size();++i){
                 
                 
                 std::cout<< "\n################## Match no: "<<i+1<<" ####################\n";
                 
                 
                 
-                //This vector contains maps with number as the key and the corresponding substring as the value
+                //This vector contains vectors of substrings or captured group index by index.
                 std::cout<<"\n-------------------------------------------------------------------------";
                 std::cout<< "\n--- Numbered Substrings (number: substring) for match "<<i+1<<" ---\n";
-                for(jp::MapNum::iterator ent=vec_num0[i].begin();ent!=vec_num0[i].end();++ent){
-                    std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
+                for(size_t j=0;j<vec_num[i].size();++j){
+                    std::cout<<"\n\t"<<j<<": "<<vec_num[i][j]<<"\n";
                 }
                 
                 
@@ -96,7 +96,7 @@ int main(){
                 //This vector contains maps with name as the key and the corresponding substring as the value
                 std::cout<<"\n-------------------------------------------------------------------------";
                 std::cout<< "\n--- Named Substrings (name: substring) for match "<<i+1<<" ---\n";
-                for(jp::MapNas::iterator ent=vec_nas0[i].begin();ent!=vec_nas0[i].end();++ent){
+                for(jp::MapNas::iterator ent=vec_nas[i].begin();ent!=vec_nas[i].end();++ent){
                     std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
                 }
                 
@@ -106,7 +106,7 @@ int main(){
                 //i.e the number (of substring) can be accessed with the name for named substring.
                 std::cout<<"\n-------------------------------------------------------------------------";
                 std::cout<< "\n--- Name to number mapping (name: number/position) for match "<<i+1<<" ---\n";
-                for(jp::MapNtN::iterator ent=vec_nn0[i].begin();ent!=vec_nn0[i].end();++ent){
+                for(jp::MapNtN::iterator ent=vec_ntn[i].begin();ent!=vec_ntn[i].end();++ent){
                     std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
                 }
             }

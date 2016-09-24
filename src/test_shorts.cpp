@@ -41,16 +41,16 @@ int main(){
     /*
      * *** Getting captured groups/substring ***
      *
-     * captured groups or substrings are stored in maps for each match,
+     * captured groups or substrings are stored in maps/vectors for each match,
      * and each match is stored in a vector.
-     * Thus captured groups are in a vector of maps.
+     * Thus captured groups are in a vector of maps/vectors.
      *
      * PCRE2 provides two types of substrings:
-     *  1. numbered (index) substring
+     *  1. numbered (indexed) substring
      *  2. named substring
      *
      * For the above two, we have two vectors respectively:
-     *  1. jp::VecNum (Corresponding map: jp::MapNum)
+     *  1. jp::VecNum (Corresponding vector: jp::NumSub)
      *  2. jp::VecNas (Corresponding map: jp::MapNas)
      *
      * Another additional vector is available to get the substring position/number
@@ -78,31 +78,26 @@ int main(){
     //Now vec_num is populated with numbered substrings for each match
     //The size of vec_num is the total match count
     //vec_num[0] is the first match
-    //The type of vec_num[0] is jp::MapNum
+    //The type of vec_num[0] is jp::NumSub
     std::cout<<"\nTotal match of first match: "<<vec_num[0][0];
-    std::cout<<"\nCaptrued group 1 of first match: "<<vec_num[0][1];
-    std::cout<<"\nCaptrued group 2 of first match: "<<vec_num[0][2];
+    std::cout<<"\nCaptured group 1 of first match: "<<vec_num[0][1];
+    std::cout<<"\nCaptured group 2 of first match: "<<vec_num[0][2];
 
-     //captured group 3 doesn't exist, it will give you empty string
-    std::cout<<"\nCaptrued group 3 of first match: "<<vec_num[0][3];
+    //captured group 3 doesn't exist, (with operator [] it's a segfault)
+    //std::cout<<"\nCaptured group 3 of first match: "<<vec_num[0][3];
+    
+    //Using at() will throw std::out_of_range exception
+    //~ try {
+        //~ std::cout<<"\nCaptured group 3 of first match: "<<vec_num[0].at(3);
+    //~ } catch (const std::out_of_range& e) {
+        //~ std::cout<<"\n"<<e.what();
+    //~ }
 
-    //Using the [] operator with jp::MapNum will create new element if it doesn't exist
-    // i.e vec_num[0][3] were created in the above example.
-    //This should be ok, if existence of a particular substring is not important
-
-    //If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
-    /* //>=C++11
-    try{
-        //This will throw exception, because substring 4 doesn't exist
-        std::cout<<"\nCaptrued group 4 of first match: "<<vec_num[0].at(4);
-    } catch (std::logic_error& e){
-        std::cerr<<"\nCaptrued group 4 doesn't exist";
-    }*/
 
     //There were two matches found (vec_num.size() == 2) in the above example
     std::cout<<"\nTotal match of second match: "<<vec_num[1][0];      //Total match (group 0) from second match
-    std::cout<<"\nCaptrued group 1 of second match: "<<vec_num[1][1]; //captured group 1 from second match
-    std::cout<<"\nCaptrued group 2 of second match: "<<vec_num[1][2]; //captured group 2 from second match
+    std::cout<<"\nCaptured group 1 of second match: "<<vec_num[1][1]; //captured group 1 from second match
+    std::cout<<"\nCaptured group 2 of second match: "<<vec_num[1][2]; //captured group 2 from second match
 
 
     // ***** Get named substring ***** //
@@ -126,12 +121,14 @@ int main(){
     std::cout<<"\nCaptured group (word) of first match: "<<vec_nas[0]["word"];
     std::cout<<"\nCaptured group (digit) of first match: "<<vec_nas[0]["digit"];
 
-    //If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
+    //Trying to access a non-existence named substirng with [] operator will give you empty string
+    //If the existence of a substring is important, use the std::map::find() or std::map::at() 
+    //(>=C++11) function to access map elements.
     /* //>=C++11
     try{
         ///This will throw exception because the substring name 'name' doesn't exist
         std::cout<<"\nCaptured group (name) of first match: "<<vec_nas[0].at("name");
-    } catch(std::logic_error& e){
+    } catch(const std::logic_error& e){
         std::cerr<<"\nCaptured group (name) doesn't exist";
     }*/
 
@@ -147,11 +144,11 @@ int main(){
      * Replacement Examples
      * Replace pattern in a string with a replacement string
      *
-     * The initReplace() function can take a subject and replacement string as argument.
+     * The replace() function can take a subject and replacement string as argument.
+     * 
      * You can also pass the subject with setSubject() function in method chain,
      * replacement string with setReplaceWith() function in method chain, etc ...
-     *
-     * A call to replace() will return the resultant string
+     * A call to replace() in the method chain will return the resultant string
      */
 
     std::cout<<"\n"<<
@@ -166,6 +163,13 @@ int main(){
     std::cout<<"\n"<<
     jp::Regex("^([^\t]+)\t([^\t]+)$")
         .replace("I am the subject\tTo be swapped according to tab", "$2 $1");
+        
+    //Doing the above with method chain:
+    jp::Regex("^([^\t]+)\t([^\t]+)$")
+        .initReplace()
+        .setSubject("I am the subject\tTo be swapped according to tab")
+        .setReplaceWith("$2 $1")
+        .replace();
 
 
     return 0;

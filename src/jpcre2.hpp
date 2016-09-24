@@ -54,12 +54,16 @@
     //#else
     //    #define PCRE2_CODE_UNIT_WIDTH 8 ///< 8 bit code by default (for testing)
 	#else
-	#error PCRE2_CODE_UNIT_WIDTH must be defined before including jpcre2.hpp
+        #error PCRE2_CODE_UNIT_WIDTH must be defined before including jpcre2.hpp
     #endif
 #endif
 
 #if PCRE2_CODE_UNIT_WIDTH == 0
-	#define JPCRE2_DISABLE_CODE_UNIT_VALIDATION //when code unit is 0, this validation method becomes invalid
+	//when code unit is 0, this validation method becomes invalid:
+	#ifdef JPCRE2_ENABLE_CODE_UNIT_VALIDATION
+		//Disable naive implementation of code unit validation
+    	#undef JPCRE2_ENABLE_CODE_UNIT_VALIDATION
+	#endif
 #endif
 
 /// Disable all assertions
@@ -74,19 +78,28 @@
 
 
 
-#include <pcre2.h> 
-//#include <stdint.h>   // uint32_t		//pcre2 itself includes this
-//#include <cstddef>    // std::size_t
+#include <pcre2.h>
 #include <string>       // std::string, std::wstring
 #include <vector>       // std::vector
 #include <map>          // std::map
-#include <cassert>      // assert
-#include <climits>      // CHAR_BIT
+
+
 #if __cplusplus >= 201103L
     //These will be included if >=C++11 is used
 	#include <codecvt>
 	#include <locale>  // std::wstring_convert
 #endif
+
+///Enable a naive validation check on Code unit width and the selected character type
+#ifdef JPCRE2_ENABLE_CODE_UNIT_VALIDATION
+    #include <cassert>      // assert
+    #include <climits>      // CHAR_BIT
+	#define JPCRE2_CODE_UNIT_ASSERT \
+	assert(PCRE2_CODE_UNIT_WIDTH == sizeof(Char)*CHAR_BIT);
+#else
+	#define JPCRE2_CODE_UNIT_ASSERT
+#endif
+
 
 
 /** @namespace jpcre2
@@ -207,13 +220,13 @@ typedef Char_T Char; \
 typedef typename std::basic_string<Char_T> String; \
 \
 typedef typename std::map<String, String> MapNas; \
-typedef typename std::map<SIZE_T, String> MapNum; \
+typedef typename std::vector<String> NumSub;      \
 typedef typename std::map<String, SIZE_T> MapNtN; \
 typedef MapNtN MapNtn; \
 typedef typename std::vector<MapNas> VecNas;             \
 typedef typename std::vector<MapNtN> VecNtN;             \
 typedef VecNtN VecNtn; \
-typedef typename std::vector<MapNum> VecNum;             \
+typedef typename std::vector<NumSub> VecNum;             \
 \
 static const String JPCRE2_EMPTY_STRING; \
 \
@@ -242,9 +255,9 @@ private: \
 	VecNas* vec_nas;        \
 	VecNtN* vec_ntn;        \
 \
-	MapNum* num_map0;       \
-	MapNas* nas_map0;       \
-	MapNtN* ntn_map0;       \
+	NumSub* num_sub;       \
+	MapNas* nas_map;       \
+	MapNtN* ntn_map;       \
 \
 	bool getNumberedSubstrings(int, pcre2_match_data *);   \
 \
@@ -252,20 +265,20 @@ private: \
     \
     void pushMapsIntoVectors(void){ \
         if (vec_num) \
-            vec_num->push_back(*num_map0); \
+            vec_num->push_back(*num_sub); \
         if (vec_nas) \
-            vec_nas->push_back(*nas_map0); \
+            vec_nas->push_back(*nas_map); \
         if (vec_ntn) \
-            vec_ntn->push_back(*ntn_map0); \
+            vec_ntn->push_back(*ntn_map); \
     } \
     \
 	void init_vars() { \
 		vec_num = 0; \
 		vec_nas = 0; \
 		vec_ntn = 0; \
-		num_map0 = 0; \
-		nas_map0 = 0; \
-		ntn_map0 = 0; \
+		num_sub = 0; \
+		nas_map = 0; \
+		ntn_map = 0; \
 		match_opts = 0; \
 		jpcre2_match_opts = 0; \
 	} \
@@ -277,9 +290,9 @@ private: \
 		init_vars(); \
 	} \
 	~RegexMatch() { \
-		delete num_map0; \
-		delete nas_map0; \
-		delete ntn_map0; \
+		delete num_sub; \
+		delete nas_map; \
+		delete ntn_map; \
 	} \
 \
 	friend class Regex; \
@@ -287,9 +300,9 @@ private: \
 public: \
 \
 	RegexMatch& reset() { \
-		delete num_map0; \
-		delete nas_map0; \
-		delete ntn_map0; \
+		delete num_sub; \
+		delete nas_map; \
+		delete ntn_map; \
 		init_vars(); \
 		m_subject = JPCRE2_EMPTY_STRING; \
 		return *this; \
@@ -786,15 +799,6 @@ public: \
 #define JPCRE2_JOIN(a,b) a ## b
 #define JPCRE2_GLUE(a,b) JPCRE2_JOIN(a,b)
 #define JPCRE2_SUFFIX(a) JPCRE2_GLUE(a,JPCRE2_LOCAL_WIDTH)
-
-///Enable a naive validation check on Code unit width and the selected character type
-#ifdef JPCRE2_ENABLE_CODE_UNIT_VALIDATION
-	#define JPCRE2_CODE_UNIT_ASSERT \
-	assert(PCRE2_CODE_UNIT_WIDTH == sizeof(Char)*CHAR_BIT);
-#else
-	#define JPCRE2_CODE_UNIT_ASSERT
-#endif
-
 
 
 #ifdef select

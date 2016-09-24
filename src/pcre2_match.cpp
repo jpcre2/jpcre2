@@ -45,9 +45,11 @@ such as pcre2_compile(). */
 
 #define PCRE2_CODE_UNIT_WIDTH 8
 
+#include <iostream>
 #include <stdio.h>
 #include <string.h>
 #include <pcre2.h>
+#include <string>
 
 
 /**************************************************************************
@@ -61,8 +63,8 @@ such as pcre2_compile(). */
 int main(int argc, char **argv)
 {
 pcre2_code *re;
-PCRE2_SPTR pattern;     /* PCRE2_SPTR is a pointer to unsigned code units of */
-PCRE2_SPTR subject;     /* the appropriate width (8, 16, or 32 bits). */
+PCRE2_SPTR pattern = (PCRE2_SPTR) "(?:(?<word>[\\w\\s]+)|(?<word>\\w+))\\s*(?<digit>\\d+)";     /* PCRE2_SPTR is a pointer to unsigned code units of */
+PCRE2_SPTR subject = (PCRE2_SPTR) "(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56)";     /* the appropriate width (8, 16, or 32 bits). */
 PCRE2_SPTR name_table;
 
 int crlf_is_newline;
@@ -73,8 +75,9 @@ int namecount;
 int name_entry_size;
 int rc;
 int utf8;
+std::string key, value;
 
-uint32_t option_bits;
+uint32_t option_bits = PCRE2_DUPNAMES | PCRE2_UTF | PCRE2_UCP;
 uint32_t newline;
 
 PCRE2_SIZE erroroffset;
@@ -93,27 +96,27 @@ pcre2_match_data *match_data;
 * arguments.                                                              *
 **************************************************************************/
 
-find_all = 0;
-for (i = 1; i < argc; i++)
-  {
-  if (strcmp(argv[i], "-g") == 0) find_all = 1;
-    else break;
-  }
+find_all = 1;
+//~ for (i = 1; i < argc; i++)
+  //~ {
+  //~ if (strcmp(argv[i], "-g") == 0) find_all = 1;
+    //~ else break;
+  //~ }
 
-/* After the options, we require exactly two arguments, which are the pattern,
-and the subject string. */
+//~ /* After the options, we require exactly two arguments, which are the pattern,
+//~ and the subject string. */
 
-if (argc - i != 2)
-  {
-  printf("Two arguments required: a regex and a subject string\n");
-  return 1;
-  }
+//~ if (argc - i != 2)
+  //~ {
+  //~ printf("Two arguments required: a regex and a subject string\n");
+  //~ return 1;
+  //~ }
 
 /* As pattern and subject are char arguments, they can be straightforwardly
 cast to PCRE2_SPTR as we are working in 8-bit code units. */
 
-pattern = (PCRE2_SPTR)argv[i];
-subject = (PCRE2_SPTR)argv[i+1];
+//pattern = (PCRE2_SPTR)argv[i];
+//subject = (PCRE2_SPTR)argv[i+1];
 #if PCRE2_CODE_UNIT_WIDTH == 8
 subject_length = strlen((char *)subject);
 #elif PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 32
@@ -128,7 +131,7 @@ subject_length = wcslen((wchar_t*)subject);
 re = pcre2_compile(
   pattern,               /* the pattern */
   PCRE2_ZERO_TERMINATED, /* indicates pattern is zero-terminated */
-  0,                     /* default options */
+  option_bits,                     /* default options */
   &errornumber,          /* for error number */
   &erroroffset,          /* for error offset */
   NULL);                 /* use default compile context */
@@ -214,6 +217,9 @@ for (i = 0; i < rc; i++)
   size_t substring_length = ovector[2*i+1] - ovector[2*i];
   #if PCRE2_CODE_UNIT_WIDTH == 8
   printf("%2d: %.*s\n", i, (int)substring_length, (char *)substring_start);
+  std::string tmps1 = std::string((char*)substring_start);
+  value = tmps1.substr(0,substring_length);
+  std::cout<<"value: "<<value<<std::endl;
   #elif PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 32
   wprintf(L"%2d: %.*ls\n", i, (int)substring_length, (char *)substring_start);
   #endif
@@ -264,6 +270,10 @@ if (namecount <= 0) printf("No named substrings\n"); else
     int n = (tabptr[0] << 8) | tabptr[1];
     printf("(%d) %*s: %.*s\n", n, name_entry_size - 3, tabptr + 2,
       (int)(ovector[2*n+1] - ovector[2*n]), subject + ovector[2*n]);
+    key = std::string((char*)tabptr + 2);
+    std::string tmps2 = std::string((char*)(subject + ovector[2*n]));
+    value = tmps2.substr(0, ovector[2*n+1] - ovector[2*n]);
+    std::cout<<"key: "<<key<<"\tvalue: "<<value<<std::endl;
     #elif PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 32
     int n = tabptr[0];
     printf(L"(%d) %*ls: %.*ls\n", n, name_entry_size - 3, tabptr + 1,
@@ -420,6 +430,9 @@ for (;;)
     size_t substring_length = ovector[2*i+1] - ovector[2*i];
     #if PCRE2_CODE_UNIT_WIDTH == 8
     printf("%2d: %.*s\n", i, (int)substring_length, (char *)substring_start);
+  std::string tmps1 = std::string((char*)substring_start);
+  value = tmps1.substr(0,substring_length);
+  std::cout<<"value: "<<value<<std::endl;
     #elif PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 32
     printf(L"%2d: %.*ls\n", i, (int)substring_length, (char *)substring_start);
     #endif
@@ -435,6 +448,10 @@ for (;;)
       int n = (tabptr[0] << 8) | tabptr[1];
       printf("(%d) %*s: %.*s\n", n, name_entry_size - 3, tabptr + 2,
         (int)(ovector[2*n+1] - ovector[2*n]), subject + ovector[2*n]);
+    key = std::string((char*)tabptr + 2);
+    std::string tmps2 = std::string((char*)(subject + ovector[2*n]));
+    value = tmps2.substr(0, ovector[2*n+1] - ovector[2*n]);
+    std::cout<<"key: "<<key<<"\tvalue: "<<value<<std::endl;
       #elif PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 32
       int n = tabptr[0];
       printf(L"(%d) %*ls: %.*ls\n", n, name_entry_size - 3, tabptr + 2,

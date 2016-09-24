@@ -148,7 +148,7 @@ Now you can perform match or replace against the pattern. Use the `match()` memb
 
 ### Check if regex compiled successfully {#check-regex}
 
-You can check if the regex was compiled successfully or not, but **it's not required at all**. Any error will be handled automatically and you will always get the right answer, e.g a match against a non-compiled regex will give you 0 match and for replace you will be returned the exact subject string that you passed.
+You can check if the regex was compiled successfully or not, but it's not necessary. A match against a non-compiled regex will give you 0 match and for replace you will be returned the exact same subject string that you passed.
 
 ```cpp
 if(!re) std::cout<<"Failed";
@@ -226,7 +226,7 @@ std::string ac_mod="g";   // g is for global match. Equivalent to using setFindA
 re.initMatch()
   .setSubject(subject)                         //set subject string
   .setModifier(ac_mod)                         //set modifier string
-  .setNumberedSubstringVector(&vec_num)        //pass pointer to vector of numbered substring maps
+  .setNumberedSubstringVector(&vec_num)        //pass pointer to vector of numbered substring vectors
   .setNamedSubstringVector(&vec_nas)           //pass pointer to vector of named substring maps
   .setNameToNumberMapVector(&vec_ntn)          //pass pointer to vector of name to number maps
   .match();                                    //Finally perform the match()
@@ -250,14 +250,27 @@ std::cout<<vec_ntn[0]["name"]; // position of captured group 'name' in first mat
 
 ### Iterate through match result {#iterate}
 
-You can iterate through the matches and their substrings like this:
+You can iterate through the matches for numbered substrings (`jp::VecNum`) like this:
 
 ```cpp
 for(size_t i=0;i<vec_num.size();++i){
     //i=0 is the first match found, i=1 is the second and so forth
-    for(jp::MapNum::iterator ent=vec_num[i].begin();ent!=vec_num[i].end();++ent){
-	    //ent.first is the number/position of substring found
-	    //ent.second is the substring itself
+    for(size_t j=0;j<vec_num[i].size();++j){
+    	//j=0 is the capture group 0 i.e the total match
+    	//j=1 is the capture group 1 and so forth.
+    	std::cout<<"\n\t"<<j<<": "<<vec_num[i][j]<<"\n";
+    }
+}
+```
+
+You can iterate through named substrings (`jp::VecNas`) like this:
+
+```cpp
+for(size_t i=0;i<vec_nas.size();++i){
+    //i=0 is the first match found, i=1 is the second and so forth
+    for(jp::MapNas::iterator ent=vec_nas[i].begin();ent!=vec_nas[i].end();++ent){
+	    //ent->first is the number/position of substring found
+	    //ent->second is the substring itself
 	    //when ent->first is 0, ent->second is the total match.
         std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
     }
@@ -268,15 +281,15 @@ If you are using `>=C++11`, you can make the loop a lot simpler:
 
 <!-- if version [gte C++11] -->
 ```cpp
-for(size_t i=0;i<vec_num.size();++i){
-	for(auto const& ent : vec_num[i]){
+for(size_t i=0;i<vec_nas.size();++i){
+	for(auto const& ent : vec_nas[i]){
 	    std::cout<<"\n\t"<<ent.first<<": "<<ent.second<<"\n";
 	}
 }
 ```
 <!-- end version if -->
 
-*The process of iterating through the vectors and associated maps are the same for all three. The size of those vectors are the same and can be accessed in the same way.*
+`jp::VecNtN` can be iterated through the same way as `jp::VecNas`.
 
 ### Re-use a match object {#re-use-a-match-object}
 
@@ -395,9 +408,9 @@ These options are meaningful only for the **JPCRE2** library, not the original *
 
 Option | Details
 ------ | ------
-`jp::NONE` | This is the default option. Equivalent to 0 (zero).
-`jp::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `jp::RegexMatch::setModifier()` function.
-`jp::JIT_COMPILE` | This is same as passing the `S` modifier during pattern compilation.
+`jpcre2::NONE` | This is the default option. Equivalent to 0 (zero).
+`jpcre2::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `jpcre2::RegexMatch::setModifier()` function.
+`jpcre2::JIT_COMPILE` | This is same as passing the `S` modifier during pattern compilation.
 
 ## PCRE2 options {#pcre2-options}
 
@@ -405,17 +418,25 @@ While having its own way of doing things, JPCRE2 also supports the traditional P
 
 ## Code unit width & character type {#code-unit-and-character-type}
 
-The bit size of character type must match with `PCRE2_CODE_UNIT_WIDTH`. That is, if you are compiling in a machine where `char` is 32 bit, you need to use the 32-libraries. The bit size of `char` can be 8 bit, 16 bit, 32 bit, 64 bit (not supported ) etc... depending on the system. Same goes for `wchar_t`. In Linux `wchar_t` is 32 bit where in Windows, it's 16 bit. A system which only have 8 bit support will define `wchar_t` as 8 bit. So a definition like this may be preferable:
+The bit size of character type must match with `PCRE2_CODE_UNIT_WIDTH`. That is, if you are compiling in a machine where `char` is 32 bit, you need to use the 32-libraries. The bit size of `char` can be 8 bit, 16 bit, 32 bit, 64 bit (not supported ) etc... depending on the system. Same goes for `wchar_t`. In Linux `wchar_t` is 32 bit where in Windows, it's 16 bit. A system which only have 8 bit support will define `wchar_t` as 8 bit. 
+
+When working with a single code unit width, you can enable a code unit validation check (do it only in debug mode) by defining `JPCRE2_ENABLE_CODE_UNIT_VALIDATION` before including jpcre2.hpp:
+
+```cpp
+#define JPCRE2_ENABLE_CODE_UNIT_VALIDATION
+#define PCRE2_CODE_UNIT_WIDTH 16
+#include <jpcre2.hpp>
+```
+This will give you assertion failure if code unit mismatch occurs.
+
+You can also get a compile time error when mismatch occurs if you define code unit width like this:
 
 ```cpp
 #include <climits> //CHAR_BIT
 #define PCRE2_CODE_UNIT_WIDTH sizeof(char)*CHAR_BIT
-//#define PCRE2_CODE_UNIT_WIDTH sizeof(wchar_t)*CHAR_BIT //when you will use wchar_t
-#include <jpcre2.hpp>
 ```
-Now if the code unit width is not supported you will get clear compiling error, and when there is no error, you can safely assume that you are using the right library for the character type you are going to use.
 
-The types `char16_t` and `char32_t` are >= C++11 additions. To use them you need to compile the libraries with C++11 enabled. In such cases, use updated compiler versions as old compilers might not have the `codecvt` header that is required for these types.
+The types `char16_t` and `char32_t` are >= C++11 additions. To use them you need to compile the libraries with C++11 enabled. In such cases, use updated compiler versions as old compilers might not have the `codecvt` header that is required with these types.
 
 # Error handling {#exception-handling}
 
@@ -462,16 +483,16 @@ std::cout<<"\n"<<
 /*
  * *** Getting captured groups/substring ***
  *
- * captured groups or substrings are stored in maps for each match,
+ * captured groups or substrings are stored in maps/vectors for each match,
  * and each match is stored in a vector.
- * Thus captured groups are in a vector of maps.
+ * Thus captured groups are in a vector of maps/vectors.
  *
  * PCRE2 provides two types of substrings:
- *  1. numbered (index) substring
+ *  1. numbered (indexed) substring
  *  2. named substring
  *
  * For the above two, we have two vectors respectively:
- *  1. jp::VecNum (Corresponding map: jp::MapNum)
+ *  1. jp::VecNum (Corresponding vector: jp::NumSub)
  *  2. jp::VecNas (Corresponding map: jp::MapNas)
  *
  * Another additional vector is available to get the substring position/number
@@ -499,31 +520,26 @@ std::cout<<"\nNumber of matches: "<<count/* or vec_num.size()*/;
 //Now vec_num is populated with numbered substrings for each match
 //The size of vec_num is the total match count
 //vec_num[0] is the first match
-//The type of vec_num[0] is jp::MapNum
+//The type of vec_num[0] is jp::NumSub
 std::cout<<"\nTotal match of first match: "<<vec_num[0][0];
-std::cout<<"\nCaptrued group 1 of first match: "<<vec_num[0][1];
-std::cout<<"\nCaptrued group 2 of first match: "<<vec_num[0][2];
+std::cout<<"\nCaptured group 1 of first match: "<<vec_num[0][1];
+std::cout<<"\nCaptured group 2 of first match: "<<vec_num[0][2];
 
- //captured group 3 doesn't exist, it will give you empty string
-std::cout<<"\nCaptrued group 3 of first match: "<<vec_num[0][3];
+//captured group 3 doesn't exist, (with operator [] it's a segfault)
+//std::cout<<"\nCaptured group 3 of first match: "<<vec_num[0][3];
 
-//Using the [] operator with jp::MapNum will create new element if it doesn't exist
-// i.e vec_num[0][3] were created in the above example.
-//This should be ok, if existence of a particular substring is not important
+//Using at() will throw std::out_of_range exception
+//~ try {
+    //~ std::cout<<"\nCaptured group 3 of first match: "<<vec_num[0].at(3);
+//~ } catch (const std::out_of_range& e) {
+    //~ std::cout<<"\n"<<e.what();
+//~ }
 
-//If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
-/* //>=C++11
-try{
-    //This will throw exception, because substring 4 doesn't exist
-    std::cout<<"\nCaptrued group 4 of first match: "<<vec_num[0].at(4);
-} catch (std::logic_error& e){
-    std::cerr<<"\nCaptrued group 4 doesn't exist";
-}*/
 
 //There were two matches found (vec_num.size() == 2) in the above example
 std::cout<<"\nTotal match of second match: "<<vec_num[1][0];      //Total match (group 0) from second match
-std::cout<<"\nCaptrued group 1 of second match: "<<vec_num[1][1]; //captured group 1 from second match
-std::cout<<"\nCaptrued group 2 of second match: "<<vec_num[1][2]; //captured group 2 from second match
+std::cout<<"\nCaptured group 1 of second match: "<<vec_num[1][1]; //captured group 1 from second match
+std::cout<<"\nCaptured group 2 of second match: "<<vec_num[1][2]; //captured group 2 from second match
 
 
 // ***** Get named substring ***** //
@@ -547,12 +563,14 @@ std::cout<<"\nNumber of matches: "<<vec_nas.size()/* or count */;
 std::cout<<"\nCaptured group (word) of first match: "<<vec_nas[0]["word"];
 std::cout<<"\nCaptured group (digit) of first match: "<<vec_nas[0]["digit"];
 
-//If the existence of a substring is important, use the std::map::find() or std::map::at() (>=C++11) function to access map elements
+//Trying to access a non-existence named substirng with [] operator will give you empty string
+//If the existence of a substring is important, use the std::map::find() or std::map::at() 
+//(>=C++11) function to access map elements.
 /* //>=C++11
 try{
     ///This will throw exception because the substring name 'name' doesn't exist
     std::cout<<"\nCaptured group (name) of first match: "<<vec_nas[0].at("name");
-} catch(std::logic_error& e){
+} catch(const std::logic_error& e){
     std::cerr<<"\nCaptured group (name) doesn't exist";
 }*/
 
@@ -568,11 +586,11 @@ std::cout<<"\nPosition of captured group (digit) in first match: "<<vec_ntn[0]["
  * Replacement Examples
  * Replace pattern in a string with a replacement string
  *
- * The initReplace() function can take a subject and replacement string as argument.
+ * The Regex::replace() function can take a subject and replacement string as argument.
+ * 
  * You can also pass the subject with setSubject() function in method chain,
  * replacement string with setReplaceWith() function in method chain, etc ...
- *
- * A call to replace() will return the resultant string
+ * A call to RegexReplace::replace() in the method chain will return the resultant string
  */
 
 std::cout<<"\n"<<
@@ -587,7 +605,13 @@ jp::Regex("\\d").replace("I am the subject string 44", "@", "g");
 std::cout<<"\n"<<
 jp::Regex("^([^\t]+)\t([^\t]+)$")
     .replace("I am the subject\tTo be swapped according to tab", "$2 $1");
-
+    
+//Doing the above with method chain:
+jp::Regex("^([^\t]+)\t([^\t]+)$")
+    .initReplace()
+    .setSubject("I am the subject\tTo be swapped according to tab")
+    .setReplaceWith("$2 $1")
+    .replace();
 ```
 
 # The configure script {#the-configure-script}

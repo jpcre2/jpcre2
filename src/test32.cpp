@@ -38,7 +38,7 @@ int main() {
     
     //Replace
     std::cout<<"\n"<<
-    jpcre2::convert32.to_bytes(jpu::Regex(U"subject").replace(U"I am a subject",U"string")); //print by converting it to utf-8
+    jpcre2::convert32.to_bytes(jpu::Regex(U"subject").replace(U"I am a subject",U"string")); //printing by converting it to utf-8
     
     
     return 0;

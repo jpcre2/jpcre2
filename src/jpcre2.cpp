@@ -44,6 +44,7 @@
 #include <cwchar>   // wcslen, std::mbstate_t
 #include <cstring>  // strlen
 #include <clocale>  // std::setlocale
+#include <cassert>  // assert
 
 #if PCRE2_CODE_UNIT_WIDTH != 8 && PCRE2_CODE_UNIT_WIDTH != 16 && PCRE2_CODE_UNIT_WIDTH !=32
 #error This cpp file needs PCRE2_CODE_UNIT_WIDTH to be defined either 8 or 16 or 32. if you want 0, link with libraries instead.
@@ -56,10 +57,10 @@
 
 
 const std::string jpcre2::INFO::NAME("JPCRE2");
-const std::string jpcre2::INFO::FULL_VERSION("10.27.01");
+const std::string jpcre2::INFO::FULL_VERSION("10.27.02");
 const std::string jpcre2::INFO::VERSION_GENRE("10");
 const std::string jpcre2::INFO::VERSION_MAJOR("27");
-const std::string jpcre2::INFO::VERSION_MINOR("01");
+const std::string jpcre2::INFO::VERSION_MINOR("02");
 const std::string jpcre2::INFO::VERSION_PRE_RELEASE("");
 
 
@@ -172,18 +173,6 @@ template<>
 void select<wchar_t>::Sprintf(wchar_t * buf, int length, int x) {
     swprintf(buf, length + 1, L"%d", x);
 }
-/*
-template<>
-SIZE_T jpcre2::select<char>::Strlen(const char* a){
-    return strlen(a);
-}
-
-template<>
-SIZE_T jpcre2::select<wchar_t>::Strlen(const wchar_t* a){
-    return wcslen(a);
-}
-*/
-
 
 template<class Char_T>
 typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::toString(int x) {
@@ -666,15 +655,15 @@ template jpcre2::select<char32_t>::RegexMatch& jpcre2::select<char32_t>::RegexMa
 
 template<class Char_T>
 bool jpcre2::select<Char_T>::RegexMatch::getNumberedSubstrings(int rc, pcre2_match_data *match_data) {
+    String value;
+    PCRE2_SIZE bufflen = 0;
+    PCRE2_UCHAR *buffer = 0;
+    int ret = 0;
+    
 	for (int i = 0; i < rc; i++) {
-		String value;
 		//If we use pcre2_substring_get_bynumber(),
 		//we will have to deal with returned error codes and memory
-		PCRE2_UCHAR **bufferptr;
-		PCRE2_SIZE bufflen;
-		pcre2_substring_length_bynumber(match_data, (Uint) i, &bufflen);
-		bufferptr = (PCRE2_UCHAR**) malloc(bufflen * sizeof(PCRE2_UCHAR));
-		int ret = pcre2_substring_get_bynumber(match_data, (Uint) i, bufferptr,
+		ret = pcre2_substring_get_bynumber(match_data, (Uint) i, &buffer,
 				&bufflen);
 		if (ret < 0) {
 			switch (ret) {
@@ -685,11 +674,12 @@ bool jpcre2::select<Char_T>::RegexMatch::getNumberedSubstrings(int rc, pcre2_mat
 				break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
 			}
 		}
-		value = toString((Char*) *bufferptr);
-		//pcre2_substring_free(*bufferptr);
-		::free(bufferptr);                  //must free memory
-		if (num_map0)
-			(*num_map0)[i] = value; //This null check is paranoid, this function shouldn't be called if this map is null
+		value = toString((Char*) buffer);
+		pcre2_substring_free(buffer);     //must free memory
+        //::free(buffer);
+        buffer = 0; //we are going to use it again.
+		//if (num_sub)   //This null check is paranoid, this function shouldn't be called if this vector is null
+        num_sub->push_back(value); 
 	}
     return true;
 }
@@ -703,25 +693,28 @@ template bool jpcre2::select<char32_t>::RegexMatch::getNumberedSubstrings(int rc
 
 
 template<class Char_T>
-bool jpcre2::select<Char_T>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size, PCRE2_SPTR tabptr, pcre2_match_data *match_data) {
+bool jpcre2::select<Char_T>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
+                                                            PCRE2_SPTR tabptr, pcre2_match_data *match_data) {
 
+    String key, value, value1;
+    PCRE2_SIZE bufflen = 0;
+    PCRE2_UCHAR *buffer = 0;
+    int ret = 0;
+    
 	for (int i = 0; i < namecount; i++) {
-		String key, value, value1;
         #if PCRE2_CODE_UNIT_WIDTH == 8
+            //declaration should be here so that it can generate error in case of invalid code unit width
             int n = (int)((tabptr[0] << 8) | tabptr[1]);
             key = toString((Char*) (tabptr + 2));
         #elif PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 32
             int n = (int)tabptr[0];
             key = toString((Char*) (tabptr + 1));
         #endif
-		PCRE2_UCHAR **bufferptr;
-		PCRE2_SIZE bufflen;
-		pcre2_substring_length_byname(match_data, (PCRE2_SPTR) key.c_str(),
-				&bufflen);
-		bufferptr = (PCRE2_UCHAR **) malloc(
-				(bufflen + 1) * sizeof(PCRE2_UCHAR));
-		int ret = pcre2_substring_get_byname(match_data,
-				(PCRE2_SPTR) key.c_str(), bufferptr, &bufflen);
+        //Use of tabptr is finished for this iteration, let's increment it now.
+        tabptr += name_entry_size;
+        
+		ret = pcre2_substring_get_byname(match_data,
+				(PCRE2_SPTR) key.c_str(), &buffer, &bufflen);
 		if (ret < 0) {
 			switch (ret) {
 			case PCRE2_ERROR_NOMEMORY:
@@ -731,42 +724,48 @@ bool jpcre2::select<Char_T>::RegexMatch::getNamedSubstrings(int namecount, int n
 				break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
 			}
 		}
-		value = toString((Char *) *bufferptr);
+		value = toString((Char *) buffer);
+		pcre2_substring_free(buffer);     //must free memory
+        //::free(buffer);
+        buffer = 0; //we may use this pointer again, better initialize it.
+        
 
-		//Let's get the value again, this time with number
-		//We will match this value with the previous one.
-		//If they match, we got the right one.
-		//Otherwise the number is not valid for the corresponding name and
-		//we will skip this iteration.
-		//Don't use pcre2_substring_number_from_name() to get the number for the name (It's messy with dupnames).
-		::free(bufferptr);
-		pcre2_substring_length_bynumber(match_data, (Uint) n, &bufflen);
-		bufferptr = (PCRE2_UCHAR **) malloc(bufflen * sizeof(PCRE2_UCHAR));
-		ret = pcre2_substring_get_bynumber(match_data, (Uint) n, bufferptr,
-				&bufflen);
-		if (ret < 0) {
-			switch (ret) {
-			case PCRE2_ERROR_NOMEMORY:
-				re->error_number = re->error_offset = ret;
-                return false;
-			default:
-				break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
-			}
-		}
-		value1 = toString((Char *) *bufferptr);
-
-		//pcre2_substring_free(*bufferptr);
-		//Instead use free() to free the memory
-		::free(bufferptr);                  //must free memory
-		if (value != value1) {
-			tabptr += name_entry_size;
-			continue;
-		}
-		if (nas_map0)
-			(*nas_map0)[key] = value;  //must check for null
-		if (ntn_map0)
-			(*ntn_map0)[key] = n;      //must check for null
-		tabptr += name_entry_size;
+        if(ntn_map) {
+            //Let's get the value again, this time with number
+            //We will match this value with the previous one.
+            //If they match, we got the right one.
+            //Otherwise the number is not valid for the corresponding name and
+            //we will skip this iteration.
+            
+            //Don't use pcre2_substring_number_from_name() to get the number for the name (It's messy with dupnames).
+            ret = pcre2_substring_get_bynumber(match_data, (Uint) n, &buffer,
+                    &bufflen);
+            if (ret < 0) {
+                switch (ret) {
+                case PCRE2_ERROR_NOMEMORY:
+                    re->error_number = re->error_offset = ret;
+                    return false;
+                default:
+                    break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
+                }
+            }
+            value1 = toString((Char *) buffer);
+            pcre2_substring_free(buffer);     //must free memory
+            //::free(buffer);
+            buffer = 0;
+            
+            if (value != value1) continue;
+            
+            (*ntn_map)[key] = n; //this is inside ntn_map null check
+        }
+        
+        if (nas_map)
+            (*nas_map)[key] = value;  //must check for null
+            //The above assignment will execute multiple times for same value with same key when there are dupnames and
+            //ntn_map is null, therefore keeping it below ntn_map will be more efficient.
+            //In this way, when ntn_map is non-Null, it will execute only once for all dupnames.
+            
+            
 	}
     return true;
 }
@@ -799,22 +798,25 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 	PCRE2_SIZE *ovector;
 	SIZE_T subject_length;
 	pcre2_match_data *match_data;
-	subject_length = m_subject.length()/* Strlen((Char *) subject) */;
+	subject_length = m_subject.length();
     
 
 	/// Clear all (passed) vectors and initialize associated maps
     /// No memory will be allocated for a map if its associated vector is't passed.
 	if (vec_num) {
 		vec_num->clear();
-		num_map0 = new MapNum();
+        delete num_sub;
+		num_sub = new NumSub();
 	}
 	if (vec_nas) {
 		vec_nas->clear();
-		nas_map0 = new MapNas();
+        delete nas_map;
+		nas_map = new MapNas();
 	}
 	if (vec_ntn) {
 		vec_ntn->clear();
-		ntn_map0 = new MapNtN();
+        delete ntn_map;
+		ntn_map = new MapNtN();
 	}
 
 	/* Using this function ensures that the block is exactly the right size for
@@ -867,8 +869,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 
 	}
 
-	/// Get numbered substrings if #num_map0 isn't null
-	if (num_map0) {
+	/// Get numbered substrings if #num_sub isn't null
+	if (num_sub) { //must do null check
 		if(!getNumberedSubstrings(rc, match_data))
             return count;
     }
@@ -910,9 +912,9 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 
 		tabptr = name_table;
 
-		/// Get named substrings if #nas_map0 isn't null.
-        /// Get name to number map if #ntn_map0 isn't null.
-		if (nas_map0 || ntn_map0) {
+		/// Get named substrings if #nas_map isn't null.
+        /// Get name to number map if #ntn_map isn't null.
+		if (nas_map || ntn_map) {
 			if(!getNamedSubstrings(namecount, name_entry_size, tabptr, match_data))
                 return count;
         }
@@ -976,12 +978,12 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 
 	for (;;) {
 		/// Clear maps before filling it with new values
-		if (num_map0)
-			num_map0->clear();
-		if (nas_map0)
-			nas_map0->clear();
-		if (ntn_map0)
-			ntn_map0->clear();
+		if (num_sub)
+			num_sub->clear();
+		if (nas_map)
+			nas_map->clear();
+		if (ntn_map)
+			ntn_map->clear();
 
 		Uint options = match_opts; /* Normally no options */
 		PCRE2_SIZE start_offset = ovector[1]; /* Start at end of previous match */
@@ -1063,8 +1065,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 		/* As before, get substrings stored in the output vector by number, and then
 		 also any named substrings. */
 
-		/// Get numbered substrings if #num_map0 isn't null
-		if (num_map0) {
+		/// Get numbered substrings if #num_sub isn't null
+		if (num_sub) { //must do null check
 			if(!getNumberedSubstrings(rc, match_data))
                 return count;
         }
@@ -1074,9 +1076,9 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 		else {
 			PCRE2_SPTR tabptr = name_table;
 
-            /// Get named substrings if #nas_map0 isn't null.
-            /// Get name to number map if #ntn_map0 isn't null.
-			if (nas_map0 || ntn_map0) {
+            /// Get named substrings if #nas_map isn't null.
+            /// Get name to number map if #ntn_map isn't null.
+			if (nas_map || ntn_map) {
 				if(!getNamedSubstrings(namecount, name_entry_size, tabptr, match_data))
                     return count;
             }
@@ -1091,7 +1093,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 	// Must not free pcre2_code* code. This function has no right to modify regex.
 	return count;
 }
-//Explicit
+//Explicit inst...
 template jpcre2::SIZE_T jpcre2::select<char>::RegexMatch::match();
 template jpcre2::SIZE_T jpcre2::select<wchar_t>::RegexMatch::match();
 #if __cplusplus >= 201103L

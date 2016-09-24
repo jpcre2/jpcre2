@@ -1,13 +1,14 @@
-#include <iostream>
-
 
 #define PCRE2_CODE_UNIT_WIDTH 8
-#define JPCRE2_DISABLE_CODE_UNIT_VALIDATION
-#include "jpcre2.cpp"
+
+#include <iostream>
+#include <string.h>
+#include <pcre2.h>
 
 int main(){
+   char * a = 0;
+   std::cout<<&a;
+   free(a);
    
-   jpcre2::select<char>::Regex("\\d");
-    
-    
-    }
+   return 0;
+   }
