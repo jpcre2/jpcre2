@@ -409,7 +409,7 @@ These options are meaningful only for the **JPCRE2** library, not the original *
 Option | Details
 ------ | ------
 `jpcre2::NONE` | This is the default option. Equivalent to 0 (zero).
-`jpcre2::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `jpcre2::RegexMatch::setModifier()` function.
+`jpcre2::FIND_ALL` | This option will do a global matching if passed during matching. The same can be achieved by passing the 'g' modifier with `jp::RegexMatch::setModifier()` function.
 `jpcre2::JIT_COMPILE` | This is same as passing the `S` modifier during pattern compilation.
 
 ## PCRE2 options {#pcre2-options}
