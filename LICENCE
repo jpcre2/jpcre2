@@ -5,9 +5,10 @@ JPCRE2 is a wrapper for PCRE2 library which supports regular expressions whose s
 and semantics are as close as possible to those of the Perl 5 language.
 
 JPCRE2 is distributed under the terms of the "BSD" licence, as
-specified below. The test source files are not copyrighted and are in the public domain.
+specified below. The test source files (prefixed 'test' in their name)
+are not copyrighted and are in the public domain.
 
-The basic library functions are written in C++ and are depended upon the
+The basic library functions are written in C++ and are dependent upon the
 original PCRE2 library.
 
 THE BASIC LIBRARY FUNCTIONS

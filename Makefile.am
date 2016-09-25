@@ -12,6 +12,5 @@ dist_doc_DATA = \
   AUTHORS \
   COPYING \
   ChangeLog \
-  LICENCE \
   NEWS \
   README.md
