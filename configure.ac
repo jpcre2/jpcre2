@@ -80,6 +80,13 @@ AC_ARG_ENABLE(jpcre2-32,
               , enable_jpcre2_32=unset)
 AC_SUBST(enable_jpcre2_32)
 
+# Handle --enable-jpcre2-cpp11 (disabled by default)
+AC_ARG_ENABLE(jpcre2-cpp11,
+              AS_HELP_STRING([--enable-jpcre2-cpp11],
+                             [enable compiling for cpp11]),
+              , enable_jpcre2_cpp11=unset)
+AC_SUBST(enable_jpcre2_cpp11)
+
 
 
 if test "x$enable_jpcre2_test_compile" = "xunset"
@@ -92,6 +99,8 @@ fi
 if test "x$enable_jpcre2_test_compile_cpp11" = "xunset"
 then
   enable_jpcre2_test_compile_cpp11=no
+else
+  enable_jpcre2_cpp11=yes
 fi
 
 # Set the default value silent-rules
@@ -122,12 +131,19 @@ then
   enable_jpcre2_test_compile_cpp11=no
 fi
 
+# Set the default value for jpcre2-cpp11
+if test "x$enable_jpcre2_cpp11" = "xunset"
+then
+  enable_jpcre2_cpp11=no
+fi
+
 # Conditional compilation
 AM_CONDITIONAL(WITH_JPCRE2_TEST_COMPILE, test "x$enable_jpcre2_test_compile" = "xyes")
 AM_CONDITIONAL(WITH_JPCRE2_TEST_COMPILE_CPP11, test "x$enable_jpcre2_test_compile_cpp11" = "xyes")
 AM_CONDITIONAL(WITH_JPCRE2_8, test "x$enable_jpcre2_8" = "xyes")
 AM_CONDITIONAL(WITH_JPCRE2_16, test "x$enable_jpcre2_16" = "xyes")
 AM_CONDITIONAL(WITH_JPCRE2_32, test "x$enable_jpcre2_32" = "xyes")
+AM_CONDITIONAL(WITH_JPCRE2_CPP11, test "x$enable_jpcre2_cpp11" = "xyes")
 
 
 
@@ -174,6 +190,14 @@ if test "$enable_jpcre2_32" = "yes"; then
   AC_CHECK_LIB([pcre2-32], [pcre2_code_free_32], [], [AC_MSG_WARN([unable to find pcre2-32 library])])
 fi
 
+if test "$enable_jpcre2_cpp11" = "yes"; then
+  AC_DEFINE([SUPPORT_JPCRE2_cpp11], [], [
+    Define to any value to enable C++ 11] compilation)
+  #check for c++11 support and add flags
+  AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
+  AC_CHECK_HEADERS([codecvt],[AC_MSG_ERROR([Unable to find codecvt header])])
+fi
+
 
 
 AC_OUTPUT(Makefile src/Makefile)
@@ -190,6 +214,7 @@ configuration summary:
     C++ compiler flags ................ : ${CXXFLAGS}
     Linker flags ...................... : ${LDFLAGS}
     Extra libraries ................... : ${LIBS}
+    Build with C++ 11 ................. : ${enable_jpcre2_cpp11}
     Build shared library .............. : ${enable_shared}
     Build static library .............. : ${enable_static}
     Build 8-bit jpcre2 library ........ : ${enable_jpcre2_8}
