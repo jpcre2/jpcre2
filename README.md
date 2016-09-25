@@ -689,7 +689,7 @@ Option | Details
 `--[enable/disable]-jpcre2-8` | Enable/Disable building JPCRE2 8 bit library (enabled by default)
 `--[enable/disable]-jpcre2-16` | Enable/Disable building JPCRE2 16 bit library
 `--[enable/disable]-jpcre2-32` | Enable/Disable building JPCRE2 32 bit library
-`--[enable/disable]-jpcre2-cpp11` | Enable/Disable building with C++11 support
+`--[enable/disable]-jpcre2-cpp11` | Enable/Disable building with C++11 features (`char16_t` and `char32_t`)
 `--[enable/disable]-jpcre2-test-compile` | Enable/Disable building the test cpp files (enabled by default). This will be disabled automatically if 8 bit library is not selected to be built.
 `--[enable/disable]-jpcre2-test-compile-cpp11` | Enable/Disable building the test cpp files that require >=C++11 (disabled by default). No effect if 16 bit and 32 bit libraries weren't selected to be built.
 `--[enable/disable]-silent-rules` | Enable/Disable silent rules (enabled by default). You will get prettified `make` output if enabled.
