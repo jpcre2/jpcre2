@@ -695,7 +695,7 @@ Option | Details
 `--[enable/disable]-silent-rules` | Enable/Disable silent rules (enabled by default). You will get prettified `make` output if enabled.
 
 
-<a name="#licence"></a>
+<a name="licence"></a>
 
 # LICENCE 
 This project comes with a BSD LICENCE, see the LICENCE file for more details.
