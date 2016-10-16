@@ -418,7 +418,7 @@ While having its own way of doing things, JPCRE2 also supports the traditional P
 
 ## Code unit width & character type {#code-unit-and-character-type}
 
-The bit size of character type must match with `PCRE2_CODE_UNIT_WIDTH`. That is, if you are compiling in a machine where `char` is 32 bit, you need to use the 32-libraries. The bit size of `char` can be 8 bit, 16 bit, 32 bit, 64 bit (not supported ) etc... depending on the system. Same goes for `wchar_t`. In Linux `wchar_t` is 32 bit where in Windows, it's 16 bit. A system which only have 8 bit support will define `wchar_t` as 8 bit. 
+The bit size of character type must match with `PCRE2_CODE_UNIT_WIDTH`. That is, if you are compiling in a machine where `char` is 32 bit, you need to use the 32-bit libraries. The bit size of `char` can be 8 bit, 16 bit, 32 bit, 64 bit (not supported ) etc... depending on the system. Same goes for `wchar_t`. In Linux `wchar_t` is 32 bit where in Windows, it's 16 bit. A system which only have 8 bit support will define `wchar_t` as 8 bit. 
 
 When working with a single code unit width, you can enable a code unit validation check (do it only in debug mode) by defining `JPCRE2_ENABLE_CODE_UNIT_VALIDATION` before including jpcre2.hpp:
 
