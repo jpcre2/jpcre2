@@ -629,5 +629,8 @@ Option | Details
 `--[enable/disable]-silent-rules` | Enable/Disable silent rules (enabled by default). You will get prettified `make` output if enabled.
 
 
+# LICENCE {##licence}
+This project comes with a BSD LICENCE, see the LICENCE file for more details.
 
+It is not necessary to let me know which project you are using this library on, but an optional choice. I would very much appreciate it, if you let me know about the name (and short description if applicable) of the project. So if you have the time for that please send me an [email](https://neurobin.org/about/contact/?s=Using+jpcre2+in+a+project&m=I+am+using+jpcre2+in+the+following+project%3A%0A%0AProject+Name%3A+%0AShort+description%3A%0A%0AYou+can+share+the+project+name+publicly%3A+%5Byes%2Fno%5D%0AYou+can+share+the+project+description+publicly%3A+%5Byes%2Fno%5D%0AYou+can+share+the+project+author+name+publicly%3A+%5Byes%2Fno%5D%0AEmail+will+be+private+and+not+shared%3A+yes%0A).
 
