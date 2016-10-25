@@ -17,4 +17,4 @@ before_install:
   - sudo make install
 script:
   - make check
-  - g++ src/test0.cpp -ljpcre2-8 -ljpcre2-16 -ljpcre2-32 -lpcre2-8 -lpcre2-16 -lpcre2-32
+  - g++ src/test0.cpp -o tes0 -ljpcre2-8 -ljpcre2-16 -ljpcre2-32 -lpcre2-8 -lpcre2-16 -lpcre2-32
