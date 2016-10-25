@@ -13,4 +13,8 @@ before_install:
   - make
   - sudo make install
   - cd -
-script: ./autogen.sh; ./configure --enable-jpcre2-16 --enable-jpcre2-32 --enable-jpcre2-test-compile-cpp11 && make && make check
+  - ./autogen.sh; ./configure --enable-jpcre2-16 --enable-jpcre2-32 --enable-jpcre2-test-compile-cpp11 && make
+  - sudo make install
+script:
+  - make check
+  - cpp src/test0.cpp -ljpcre2-8 -ljpcre2-16 -ljpcre2-32 -lpcre2-8 -lpcre2-16 -lpcre2-32
