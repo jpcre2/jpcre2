@@ -40,7 +40,6 @@
 #include "jpcre2.hpp"
 
 #include <cstdio>   // snprintf
-#include <limits>   // std::numeric_limits
 #include <cwchar>   // wcslen, std::mbstate_t
 #include <cstring>  // strlen
 #include <clocale>  // std::setlocale
@@ -56,81 +55,16 @@
 #define select JPCRE2_SUFFIX(select)
 
 
-const std::string jpcre2::INFO::NAME("JPCRE2");
-const std::string jpcre2::INFO::FULL_VERSION("10.27.02");
-const std::string jpcre2::INFO::VERSION_GENRE("10");
-const std::string jpcre2::INFO::VERSION_MAJOR("27");
-const std::string jpcre2::INFO::VERSION_MINOR("02");
-const std::string jpcre2::INFO::VERSION_PRE_RELEASE("");
-
-
-const std::string jpcre2::LOCALE_NONE = "JPCRE2_NONE";                           ///< Nothing to be done on locale
-const std::string jpcre2::LOCALE_DEFAULT = LOCALE_NONE;                          ///< Default local to be used
-/// Max of int is used as the initial size of replaced string by default
-const jpcre2::SIZE_T jpcre2::SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max();
-
-
 template<>
-const typename jpcre2::select<char>::String jpcre2::select<char>::JPCRE2_EMPTY_STRING("");
+const typename jpcre2::select<char>::String jpcre2::select<char>::INVALID_MODIFIER_MSG("Invalid modifier: ");
 template<>
-const typename jpcre2::select<wchar_t>::String jpcre2::select<wchar_t>::JPCRE2_EMPTY_STRING(L"");
+const typename jpcre2::select<wchar_t>::String jpcre2::select<wchar_t>::INVALID_MODIFIER_MSG(L"Invalid modifier: ");
 #if __cplusplus >= 201103L
 template<>
-const typename jpcre2::select<char16_t>::String jpcre2::select<char16_t>::JPCRE2_EMPTY_STRING(u"");
+const typename jpcre2::select<char16_t>::String jpcre2::select<char16_t>::INVALID_MODIFIER_MSG(u"Invalid modifier: ");
 template<>
-const typename jpcre2::select<char32_t>::String jpcre2::select<char32_t>::JPCRE2_EMPTY_STRING(U"");
+const typename jpcre2::select<char32_t>::String jpcre2::select<char32_t>::INVALID_MODIFIER_MSG(U"Invalid modifier: ");
 #endif
-
-// Define modifiers for compile
-// Every modifier needs to be unique in this block
-const std::string jpcre2::MOD::C_N("eijmnsuxADJU");
-const jpcre2::Uint jpcre2::MOD::C_V[12] = { PCRE2_MATCH_UNSET_BACKREF,                  // Modifier e
-                                            PCRE2_CASELESS,                             // Modifier i
-                                            PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, // Modifier j
-                                            PCRE2_MULTILINE,                            // Modifier m
-                                            PCRE2_UTF | PCRE2_UCP,                      // Modifier n (includes u)
-                                            PCRE2_DOTALL,                               // Modifier s
-                                            PCRE2_UTF,                                  // Modifier u
-                                            PCRE2_EXTENDED,                             // Modifier x
-                                            PCRE2_ANCHORED,                             // Modifier A
-                                            PCRE2_DOLLAR_ENDONLY,                       // Modifier D
-                                            PCRE2_DUPNAMES,                             // Modifier J
-                                            PCRE2_UNGREEDY                              // Modifier U
-                                          };
-                                          
-
-const std::string jpcre2::MOD::CJ_N("S");
-const jpcre2::Uint jpcre2::MOD::CJ_V[1] = { JIT_COMPILE,                                // Modifier S
-                                          };
-
-
-// Define modifiers for replace
-// Every modifier needs to be unique in this block
-const std::string jpcre2::MOD::R_N("eEgx");
-const jpcre2::Uint jpcre2::MOD::R_V[4] = { PCRE2_SUBSTITUTE_UNSET_EMPTY,                // Modifier  e
-                                           PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   // Modifier E (includes e)
-                                           PCRE2_SUBSTITUTE_GLOBAL,                     // Modifier g
-                                           PCRE2_SUBSTITUTE_EXTENDED                    // Modifier x
-                                         };
-
-
-const std::string jpcre2::MOD::RJ_N("");
-const jpcre2::Uint jpcre2::MOD::RJ_V[1] = { NONE
-                                          };
-//Explicit
-
-// Define modifiers for match
-// Every modifier needs to be unique in this block
-
-const std::string jpcre2::MOD::M_N("A");
-const jpcre2::Uint jpcre2::MOD::M_V[1] = { PCRE2_ANCHORED                               // Modifier  A
-                                         };
-
-
-const std::string jpcre2::MOD::MJ_N("g");
-const jpcre2::Uint jpcre2::MOD::MJ_V[1] = { FIND_ALL,                                   // Modifier  g
-                                          };
-
 
 
 template<class Char_T>
@@ -138,7 +72,7 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::toString(const C
 	if (a)
 		return String(a);
 	else
-		return JPCRE2_EMPTY_STRING;
+		return String();
 }
 //Explicit instantiation
 template jpcre2::select<char>::String jpcre2::select<char>::toString(const char* a);
@@ -154,7 +88,7 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::toString(Char_T 
 	if (a)
 		return String(1, a);
 	else
-		return JPCRE2_EMPTY_STRING;
+		return String();
 }
 //Explicit inst...
 template jpcre2::select<char>::String jpcre2::select<char>::toString(char a);
@@ -211,7 +145,7 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::toString(PCRE2_U
 	if (a)
 		return String((Char*) a);
 	else
-		return JPCRE2_EMPTY_STRING;
+		return String();
 }
 //Explicit
 template jpcre2::select<char>::String jpcre2::select<char>::toString(PCRE2_UCHAR* a);
@@ -242,10 +176,12 @@ template<class Char_T>
 typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::getErrorMessage(int err_num, int err_off) {
 	if (err_num == (int)ERROR::JIT_COMPILE_FAILED) {
 		return getPcre2ErrorMessage((int) err_off);
-	} else if(err_num != 0) {
+	} else if(err_num == (int)ERROR::INVALID_MODIFIER){
+        return INVALID_MODIFIER_MSG + toString((Char)err_off);
+    } else if(err_num != 0) {
 		return getPcre2ErrorMessage((int) err_num) + toString((int) err_off);
 	}
-    else return JPCRE2_EMPTY_STRING;
+    else return String();
 }
 //Explicit inst...
 template jpcre2::select<char>::String jpcre2::select<char>::getErrorMessage(int err_num, int err_off);
@@ -380,7 +316,6 @@ template void jpcre2::select<char16_t>::Regex::deepCopy(const Regex& r);
 template void jpcre2::select<char32_t>::Regex::deepCopy(const Regex& r);
 #endif
 
-
 template<class Char_T>
 typename jpcre2::select<Char_T>::Regex& jpcre2::select<Char_T>::Regex::changeModifier(const std::string& mod, bool x) {
 	//loop through mod
@@ -400,10 +335,10 @@ typename jpcre2::select<Char_T>::Regex& jpcre2::select<Char_T>::Regex::changeMod
             }
         }
         
+        
         //Modifier didn't match, invalid modifier
-        #ifdef JPCRE2_ASSERT_INVALID_MODIFIER
-        assert(std::string("Invalid modifier") == std::string(1,mod[i]));
-        #endif
+        error_number = (int)ERROR::INVALID_MODIFIER;
+        error_offset = (int)mod[i];
         
         endfor:;
 	}
@@ -511,10 +446,8 @@ typename jpcre2::select<Char_T>::RegexReplace& jpcre2::select<Char_T>::RegexRepl
         }
         
         //Modifier didn't match, invalid modifier
-        ///If this macro is defined, invalid modifier will terminate the program immediately with a failed assertion
-        #ifdef JPCRE2_ASSERT_INVALID_MODIFIER
-        assert(std::string("Invalid modifier") == std::string(1,mod[i]));
-        #endif
+        re->error_number = (int)ERROR::INVALID_MODIFIER;
+        re->error_offset = (int)mod[i];
         
         endfor:;
 	}
@@ -636,9 +569,8 @@ typename jpcre2::select<Char_T>::RegexMatch& jpcre2::select<Char_T>::RegexMatch:
         }
         
         //Modifier didn't match, invalid modifier
-        #ifdef JPCRE2_ASSERT_INVALID_MODIFIER
-        assert(std::string("Invalid modifier") == std::string(1,mod[i]));
-        #endif
+        re->error_number = (int)ERROR::INVALID_MODIFIER;
+        re->error_offset = (int)mod[i];
         
         endfor:;
 	}

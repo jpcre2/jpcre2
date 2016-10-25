@@ -203,7 +203,7 @@
 /// @see jpcre2::select32<Char_T>::RegexReplace::setSubject()
 
 ///@fn jpcre2::select32<Char_T>::RegexMatch::setModifier(const String& s)
-/// Set the modifier (overwrites existing JPCRE2 and PCRE2 option).
+/// Set the modifier (overwrites existing JPCRE2 and PCRE2 option) by calling RegexMatch::changeModifier().
 /// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options.
 ///
 /// **Note:** If speed of operation is very crucial, use RegexMatch::setJpcre2Option() and
@@ -247,9 +247,10 @@
 /// **Note:** If speed of operation is very crucial, use RegexMatch::changeJpcre2Option() and
 /// RegexMatch::changePcre2Option() with equivalent options. It will be faster that way.
 ///
-/// If JPCRE2_ASSERT_INVALID_MODIFIER macro is defined, invalid modifier will give you runtime error and yield to immediate termination
-/// of the program.
-///@tparam Char_T Character type
+/// If invalid modifier is detected, then the error number for the jpcre2::select32<Char_T>::Regex
+/// object will be jpcre2::ERROR::INVALID_MODIFIER and error offset will be the modifier character.
+/// You can get the message with jpcre2::select32<Char_T>::Regex::getErrorMessage() function.
+/// @tparam Char_T Character type
 /// @param mod Modifier string
 /// @param x Whether to add or remove option
 /// @return Reference to the RegexMatch object
@@ -418,7 +419,7 @@
  * */
 	 
 /**@fn jpcre2::select32<Char_T>::RegexReplace::setModifier(const std::string& s)
- * Set the modifier string (overwrites existing JPCRE2 and PCRE2 option).
+ * Set the modifier string (overwrites existing JPCRE2 and PCRE2 option) by calling RegexReplace::changeModifier().
  *
  * **Note:** If speed of operation is very crucial, use RegexReplace::setJpcre2Option() and RegexReplace::setPcre2Option()
  * with equivalent options. It will be faster that way.
@@ -460,8 +461,9 @@
 /// **Note:** If speed of operation is very crucial, use RegexReplace::changeJpcre2Option() and
 /// jpcre2::select32<Char_T>::RegexReplace::changePcre2Option() with equivalent options. It will be faster that way.
 ///
-/// If JPCRE2_ASSERT_INVALID_MODIFIER macro is defined, invalid modifier will give you runtime error and yield to immediate termination
-/// of the program.
+/// If invalid modifier is detected, then the error number for the jpcre2::select32<Char_T>::Regex
+/// object will be jpcre2::ERROR::INVALID_MODIFIER and error offset will be the modifier character.
+/// You can get the message with jpcre2::select32<Char_T>::Regex::getErrorMessage() function.
 ///@tparam Char_T Character type
 /// @param mod Modifier string
 /// @param x Whether to add or remove option
@@ -821,7 +823,7 @@
 /// @return Reference to the calling Regex object.
 
 ///@fn jpcre2::select32<Char_T>::Regex::setModifier(const std::string& x)
-/// Set the modifier (overwrite existing JPCRE2 and PCRE2 option).
+/// Set the modifier (overwrite existing JPCRE2 and PCRE2 option) by calling Regex::changeModifier().
 /// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets
 /// equivalent PCRE2 and JPCRE2 options.
 ///
@@ -862,9 +864,10 @@
 /// **Note:** If speed of operation is very crucial, use Regex::changeJpcre2Option() and
 /// Regex::changePcre2Option() with equivalent options. It will be faster that way.
 ///
-/// If JPCRE2_ASSERT_INVALID_MODIFIER macro is defined, invalid modifier will give you runtime error and yield to immediate termination
-/// of the program.
-///@tparam Char_T Character type
+/// If invalid modifier is detected, then the error number for the jpcre2::select32<Char_T>::Regex
+/// object will be jpcre2::ERROR::INVALID_MODIFIER and error offset will be the modifier character.
+/// You can get the message with jpcre2::select32<Char_T>::Regex::getErrorMessage() function.
+/// @tparam Char_T Character type
 /// @param mod Modifier string
 /// @param x Whether to add or remove option
 /// @return Reference to the calling Regex object

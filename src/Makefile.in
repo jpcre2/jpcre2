@@ -470,7 +470,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = jpcre2.cpp jpcre2.hpp test_match.cpp test_replace.cpp \
 	test_match2.cpp test_replace2.cpp test_shorts.cpp test16.cpp \
-	test32.cpp
+	test32.cpp test0.cpp
 include_HEADERS = \
   jpcre2.hpp
 
@@ -479,7 +479,7 @@ JPCRE2_SOURCES = \
   jpcre2.hpp
 
 
-#Building match
+#Building test_match2
 @WITH_JPCRE2_TEST_COMPILE_TRUE@test_match2_SOURCES = \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  test_match2.cpp \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  $(JPCRE2_SOURCES)
@@ -490,7 +490,7 @@ JPCRE2_SOURCES = \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  $(AM_LDFLAGS)
 
 
-#Building match0
+#Building test_match
 @WITH_JPCRE2_TEST_COMPILE_TRUE@test_match_SOURCES = \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  test_match.cpp \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  $(JPCRE2_SOURCES)
@@ -501,7 +501,7 @@ JPCRE2_SOURCES = \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  $(AM_LDFLAGS)
 
 
-#Building replace
+#Building test_replace
 @WITH_JPCRE2_TEST_COMPILE_TRUE@test_replace2_SOURCES = \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  test_replace2.cpp \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  $(JPCRE2_SOURCES)
@@ -512,7 +512,7 @@ JPCRE2_SOURCES = \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  $(AM_LDFLAGS)
 
 
-#Building replace0
+#Building test_replace2
 @WITH_JPCRE2_TEST_COMPILE_TRUE@test_replace_SOURCES = \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  test_replace.cpp \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  $(JPCRE2_SOURCES)
@@ -523,7 +523,7 @@ JPCRE2_SOURCES = \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  $(AM_LDFLAGS)
 
 
-#Building shorts
+#Building test_shorts
 @WITH_JPCRE2_TEST_COMPILE_TRUE@test_shorts_SOURCES = \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  test_shorts.cpp \
 @WITH_JPCRE2_TEST_COMPILE_TRUE@  $(JPCRE2_SOURCES)

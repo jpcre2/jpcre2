@@ -9,7 +9,8 @@ EXTRA_DIST += \
   test_replace2.cpp \
   test_shorts.cpp \
   test16.cpp \
-  test32.cpp 
+  test32.cpp \
+  test0.cpp
 
 include_HEADERS = \
   jpcre2.hpp
@@ -26,7 +27,7 @@ if WITH_JPCRE2_TEST_COMPILE
 
 noinst_PROGRAMS += test_match2 test_replace2 test_match test_replace test_shorts
 
-#Building match
+#Building test_match2
 test_match2_SOURCES = \
   test_match2.cpp \
   $(JPCRE2_SOURCES)
@@ -35,7 +36,7 @@ test_match2_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-#Building match0
+#Building test_match
 test_match_SOURCES = \
   test_match.cpp \
   $(JPCRE2_SOURCES)
@@ -44,7 +45,7 @@ test_match_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-#Building replace
+#Building test_replace
 test_replace2_SOURCES = \
   test_replace2.cpp \
   $(JPCRE2_SOURCES)
@@ -53,7 +54,7 @@ test_replace2_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-#Building replace0
+#Building test_replace2
 test_replace_SOURCES = \
   test_replace.cpp \
   $(JPCRE2_SOURCES)
@@ -62,7 +63,7 @@ test_replace_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-#Building shorts
+#Building test_shorts
 test_shorts_SOURCES = \
   test_shorts.cpp \
   $(JPCRE2_SOURCES)

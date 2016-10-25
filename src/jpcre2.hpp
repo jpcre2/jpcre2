@@ -46,8 +46,6 @@
 #ifndef JPCRE2_HPP
 #define JPCRE2_HPP
 
-
-
 #ifndef PCRE2_CODE_UNIT_WIDTH
     #ifdef JPCRE2_CODE_UNIT_WIDTH //JPCRE2_CODE_UNIT_WIDTH should not be used, it's provided just for convenience
         #define PCRE2_CODE_UNIT_WIDTH JPCRE2_CODE_UNIT_WIDTH
@@ -66,9 +64,7 @@
 	#endif
 #endif
 
-/// Disable all assertions
 #ifdef JPCRE2_DISABLE_ERROR
-    /// Disable assert() to prevent terminating program in case error/undefined behavior occurs
 	#ifdef JPCRE2_ENABLE_CODE_UNIT_VALIDATION
 		//Disable naive implementation of code unit validation
     	#undef JPCRE2_ENABLE_CODE_UNIT_VALIDATION
@@ -82,6 +78,7 @@
 #include <string>       // std::string, std::wstring
 #include <vector>       // std::vector
 #include <map>          // std::map
+#include <limits>       // std::numeric_limits
 
 
 #if __cplusplus >= 201103L
@@ -90,7 +87,6 @@
 	#include <locale>  // std::wstring_convert
 #endif
 
-///Enable a naive validation check on Code unit width and the selected character type
 #ifdef JPCRE2_ENABLE_CODE_UNIT_VALIDATION
     #include <cassert>      // assert
     #include <climits>      // CHAR_BIT
@@ -132,11 +128,6 @@ namespace ERROR {
 }
 
 
-extern const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE;    ///< Used by default to provide big enough initial buffer for replaced string
-extern const std::string LOCALE_NONE;               ///< Don't do anything about locale if it is set to jpcre2::LOCALE_NONE
-extern const std::string LOCALE_DEFAULT;            ///< Default locale
-
-
 /** These constants provide JPCRE2 options.
  */
 enum {
@@ -145,57 +136,48 @@ enum {
 	JIT_COMPILE             = 0x0000004u            ///< Perform JIT compilation for optimization
 };
 
-/** @namespace jpcre2::INFO
- *  Namespace to provide information about JPCRE2 library itself.
- *  Contains constant Strings with version info.
- */
-namespace INFO {
-	extern const std::string NAME;                  ///< Name of the project
-	extern const std::string FULL_VERSION;          ///< Full version string
-	extern const std::string VERSION_GENRE;         ///< Generation, depends on original PCRE2 version
-	extern const std::string VERSION_MAJOR;         ///< Major version, updated when API change is made
-	extern const std::string VERSION_MINOR;         ///< Minor version, includes bug fix or minor feature upgrade
-	extern const std::string VERSION_PRE_RELEASE;   ///< Alpha or beta (testing) release version
-}
 
-/** @namespace jpcre2::MOD
- *  Namespace for modifier constants.
- *  For each modifier constant there is a jpcre2::Uint option value.
- *  Some modifiers may have multiple values set together (ORed in bitwise operation) and
- *  thus they may include other modifiers. Such an example is the 'n' modifier. It is combined together with 'u'.
- */
-namespace MOD {
-    extern const std::string C_N;   ///< String of compile modifier characters for PCRE2 options
-    extern const Uint C_V[];        ///< Array of compile modifier values for PCRE2 options
-    extern const std::string CJ_N;  ///< String of compile modifier characters for JPCRE2 options
-    extern const Uint CJ_V[];       ///< Array of compile modifier values for JPCRE2 options
-    extern const std::string M_N;   ///< String of action (match) modifier characters for PCRE2 options
-    extern const Uint M_V[];        ///< Array of action (match) modifier values for PCRE2 options
-    extern const std::string MJ_N;  ///< String of action (match) modifier characters for JPCRE2 options
-    extern const Uint MJ_V[];       ///< Array of action (match) modifier values for JPCRE2 options
-    extern const std::string R_N;   ///< String of action (replace) modifier characters for PCRE2 options
-    extern const Uint R_V[];        ///< Array of action (replace) modifier values for PCRE2 options
-    extern const std::string RJ_N;  ///< String of action (replace) modifier characters for JPCRE2 options
-    extern const Uint RJ_V[];       ///< Array of action (replace) modifier values for JPCRE2 options
-}
+//define some constants, we can't put these in the cpp file, 
+//because a program may use multiple libraries which will end up in
+//multiple definitions.
+
+/// Used by default to provide big enough initial buffer for replaced string
+const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE = std::numeric_limits<int>::max();
+/// Don't do anything about locale if it is set to jpcre2::LOCALE_NONE
+const std::string LOCALE_NONE = "JPCRE2_NONE";
+/// Default locale
+const std::string LOCALE_DEFAULT = LOCALE_NONE;   
 
 
 #if __cplusplus >= 201103L
 ///@struct Codecvt
-///Convenience wrapper of `std::codecvt`
+///Convenience wrapper of `std::codecvt`.
+///Only available for >=C++11.
 template <class internT, class externT, class stateT>
 struct Codecvt : std::codecvt<internT,externT,stateT>
 { ~Codecvt(){} };
 
 ///@var convert16
-///This is a convenience object to convert between UTF-8 <> UTF-16.
-///`convert16.to_bytes(utf16string)` will convert UTF-16 to UTF-8.
-///`convert16.from_bytes(utf8string)` will convert UTF-8 to UTF-16.
+///This is a convenience object (>=C++11) to convert between UTF-8 <> UTF-16.
+///Convert UTF-16 to UTF-8
+///```cpp
+///convert16.to_bytes(utf16string)
+///```
+///Convert UTF-8 to UTF-16
+///```cpp
+///convert16.from_bytes(utf8string)
+///```
 static thread_local std::wstring_convert<Codecvt<char16_t,char,std::mbstate_t>,char16_t> convert16;
 ///@var convert32
-///This is a convenience object to convert between UTF-8 <> UTF-32.
-///`convert32.to_bytes(utf32string)` will convert UTF-32 to UTF-8.
-///`convert32.from_bytes(utf8string)` will convert UTF-8 to UTF-32.
+///This is a convenience object (>=C++11) to convert between UTF-8 <> UTF-32.
+///Convert UTF-32 to UTF-8:
+///```cpp
+///convert32.to_bytes(utf32string)
+///```
+///Convert UTF-8 to UTF-32..
+///```cpp
+///convert32.from_bytes(utf8string)
+///```
 static thread_local std::wstring_convert<Codecvt<char32_t,char,std::mbstate_t>,char32_t> convert32;
 
 
@@ -228,12 +210,12 @@ typedef typename std::vector<MapNtN> VecNtN;             \
 typedef VecNtN VecNtn; \
 typedef typename std::vector<NumSub> VecNum;             \
 \
-static const String JPCRE2_EMPTY_STRING; \
+static const String INVALID_MODIFIER_MSG; \
 \
 static String toString(int);    \
 static String toString(Char);                     \
 static String toString(const Char*);              \
-static String toString(PCRE2_UCHAR*);             \
+static String toString(JPCRE2_UCHAR*);             \
 static String getPcre2ErrorMessage(int);          \
 static String getErrorMessage(int, int);          \
 static void Sprintf(Char*, int, int); \
@@ -259,9 +241,9 @@ private: \
 	MapNas* nas_map;       \
 	MapNtN* ntn_map;       \
 \
-	bool getNumberedSubstrings(int, pcre2_match_data *);   \
+	bool getNumberedSubstrings(int, jpcre2_match_data *);   \
 \
-	bool getNamedSubstrings(int, int, PCRE2_SPTR, pcre2_match_data *);   \
+	bool getNamedSubstrings(int, int, JPCRE2_SPTR, jpcre2_match_data *);   \
     \
     void pushMapsIntoVectors(void){ \
         if (vec_num) \
@@ -304,7 +286,7 @@ public: \
 		delete nas_map; \
 		delete ntn_map; \
 		init_vars(); \
-		m_subject = JPCRE2_EMPTY_STRING; \
+		m_subject.clear(); \
 		return *this; \
 	} \
     String getSubject() { \
@@ -440,8 +422,8 @@ public: \
 \
 	RegexReplace& reset() { \
 		init_vars(); \
-		r_subject = JPCRE2_EMPTY_STRING; \
-		r_replw = JPCRE2_EMPTY_STRING; \
+		r_subject.clear(); \
+		r_replw.clear(); \
 		return *this; \
 	} \
     String getReplaceWith() { \
@@ -536,7 +518,7 @@ private: \
 	RegexReplace *rr;	        \
 \
 	String pat_str;		        \
-	pcre2_code *code;	        \
+	jpcre2_code *code;	        \
 	Uint compile_opts;         \
 	Uint jpcre2_compile_opts;	\
 	std::string mylocale;	        \
@@ -574,7 +556,7 @@ private: \
 \
 	void freeRegexMemory(void) { \
 		if (code) /* We don't need to free code if it's null */ \
-			pcre2_code_free(code); \
+			jpcre2_code_free(code); \
 	}\
 \
 	friend class RegexMatch;	\
@@ -808,6 +790,20 @@ public: \
 
 #define select JPCRE2_SUFFIX(select)
 
+#if PCRE2_CODE_UNIT_WIDTH == 0
+    #define jpcre2_code JPCRE2_SUFFIX(pcre2_code_)
+    #define JPCRE2_SPTR JPCRE2_SUFFIX(PCRE2_SPTR)
+    #define JPCRE2_UCHAR JPCRE2_SUFFIX(PCRE2_UCHAR)
+    #define jpcre2_code_free JPCRE2_SUFFIX(pcre2_code_free_)
+    #define jpcre2_match_data JPCRE2_SUFFIX(pcre2_match_data_)
+#else
+    #define jpcre2_code pcre2_code
+    #define JPCRE2_SPTR PCRE2_SPTR
+    #define JPCRE2_UCHAR PCRE2_UCHAR
+    #define jpcre2_code_free pcre2_code_free
+    #define jpcre2_match_data pcre2_match_data
+#endif
+
 //Create three sets of declaration for select8, select16 and select32
 
 
@@ -829,6 +825,12 @@ JPCRE2_SELECT
 
 
 #undef select
+#undef jpcre2_code
+#undef JPCRE2_SPTR
+#undef JPCRE2_UCHAR
+#undef jpcre2_code_free
+#undef jpcre2_match_data
+#undef JPCRE2_REGEX_OPERATOR_BOOL
 
 #if PCRE2_CODE_UNIT_WIDTH == 8
     template<class Char_T>
@@ -840,6 +842,96 @@ JPCRE2_SELECT
     template<class Char_T>
     struct select: virtual public select32<Char_T> { virtual ~select(); };
 #endif
+
+//define some constants, we can't put these in the cpp file, 
+//because a program may use multiple libraries which will end up in
+//multiple definition.
+
+
+/** @namespace jpcre2::INFO
+ *  Namespace to provide information about JPCRE2 library itself.
+ *  Contains constant Strings with version info.
+ */
+namespace INFO {
+	const std::string NAME = "JPCRE2";               ///< Name of the project
+	const std::string FULL_VERSION = "10.27.03";     ///< Full version string
+	const std::string VERSION_GENRE = "10";          ///< Generation, depends on original PCRE2 version
+	const std::string VERSION_MAJOR = "27";          ///< Major version, updated when API change is made
+	const std::string VERSION_MINOR = "03";          ///< Minor version, includes bug fix or minor feature upgrade
+	const std::string VERSION_PRE_RELEASE = "";      ///< Alpha or beta (testing) release version
+}
+
+
+
+// Namespace for modifier constants.
+// For each modifier constant there is a jpcre2::Uint option value.
+// Some modifiers may have multiple values set together (ORed in bitwise operation) and
+// thus they may include other modifiers. Such an example is the 'n' modifier. It is combined together with 'u'.
+namespace MOD {
+
+    // Define modifiers for compile
+    // Every modifier needs to be unique in this block
+    // String of compile modifier characters for PCRE2 options
+    const std::string C_N("eijmnsuxADJU");
+    // Array of compile modifier values for PCRE2 options
+    const jpcre2::Uint C_V[12] = { PCRE2_MATCH_UNSET_BACKREF,                  // Modifier e
+                                                PCRE2_CASELESS,                             // Modifier i
+                                                PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, // Modifier j
+                                                PCRE2_MULTILINE,                            // Modifier m
+                                                PCRE2_UTF | PCRE2_UCP,                      // Modifier n (includes u)
+                                                PCRE2_DOTALL,                               // Modifier s
+                                                PCRE2_UTF,                                  // Modifier u
+                                                PCRE2_EXTENDED,                             // Modifier x
+                                                PCRE2_ANCHORED,                             // Modifier A
+                                                PCRE2_DOLLAR_ENDONLY,                       // Modifier D
+                                                PCRE2_DUPNAMES,                             // Modifier J
+                                                PCRE2_UNGREEDY                              // Modifier U
+                                              };
+                                              
+
+    // String of compile modifier characters for JPCRE2 options
+    const std::string CJ_N("S");
+    // Array of compile modifier values for JPCRE2 options
+    const jpcre2::Uint CJ_V[1] = { JIT_COMPILE,                                // Modifier S
+                                              };
+
+
+    // Define modifiers for replace
+    // Every modifier needs to be unique in this block
+    // String of action (replace) modifier characters for PCRE2 options
+    const std::string R_N("eEgx");
+    // Array of action (replace) modifier values for PCRE2 options
+    const jpcre2::Uint R_V[4] = { PCRE2_SUBSTITUTE_UNSET_EMPTY,                // Modifier  e
+                                               PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   // Modifier E (includes e)
+                                               PCRE2_SUBSTITUTE_GLOBAL,                     // Modifier g
+                                               PCRE2_SUBSTITUTE_EXTENDED                    // Modifier x
+                                             };
+
+
+    // String of action (replace) modifier characters for JPCRE2 options
+    const std::string RJ_N("");
+    // Array of action (replace) modifier values for JPCRE2 options
+    const jpcre2::Uint RJ_V[1] = { NONE
+                                              };
+    //Explicit
+
+    // Define modifiers for match
+    // Every modifier needs to be unique in this block
+
+    // String of action (match) modifier characters for PCRE2 options
+    const std::string M_N("A");
+    // Array of action (match) modifier values for PCRE2 options
+    const jpcre2::Uint M_V[1] = { PCRE2_ANCHORED                               // Modifier  A
+                                             };
+
+
+    // String of action (match) modifier characters for JPCRE2 options
+    const std::string MJ_N("g");
+    // Array of action (match) modifier values for JPCRE2 options
+    const jpcre2::Uint MJ_V[1] = { FIND_ALL,                                   // Modifier  g
+                                              };
+
+}
 
 
 } // jpcre2 namespace
@@ -856,5 +948,37 @@ JPCRE2_SELECT
 #endif
 
 
+
+//some macro documentation for doxygen
+
+#ifdef __DOXYGEN__
+/**@def PCRE2_CODE_UNIT_WIDTH
+ * This macro must be defined to either 0, 8, 16 or 32 before including jpcre2.hpp.
+ * 0 means you will be using multiple code unit width in your program.
+ * 
+ * The code unit width must match with the bit size of the character type you are going to use.
+ */
+ #define PCRE2_CODE_UNIT_WIDTH
+ 
+/**@def JPCRE2_CODE_UNIT_WIDTH
+ * Alias of #PCRE2_CODE_UNIT_WIDTH
+ */
+ #define JPCRE2_CODE_UNIT_WIDTH
+ 
+ 
+/**@def JPCRE2_ENABLE_CODE_UNIT_VALIDATION
+ * Enable a naive validation check of code unit width if defined before including jpcre2.hpp.
+ * This gives a runtime assertion failure if code unit width mismatch occurs.
+ */
+ #define JPCRE2_ENABLE_CODE_UNIT_VALIDATION
+ 
+ #endif
+
+
+/**@def JPCRE2_DISABLE_ERROR
+ * Disable all assertions if defined before including jpcre2.hpp.
+ * Disable assert() to prevent terminating program in case error/undefined behavior occurs.
+ */
+ #define JPCRE2_DISABLE_ERROR
 
 #endif
