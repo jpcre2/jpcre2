@@ -971,14 +971,14 @@ namespace MOD {
  * This gives a runtime assertion failure if code unit width mismatch occurs.
  */
  #define JPCRE2_ENABLE_CODE_UNIT_VALIDATION
- 
- #endif
-
 
 /**@def JPCRE2_DISABLE_ERROR
  * Disable all assertions if defined before including jpcre2.hpp.
  * Disable assert() to prevent terminating program in case error/undefined behavior occurs.
  */
  #define JPCRE2_DISABLE_ERROR
+ 
+#endif
+
 
 #endif
