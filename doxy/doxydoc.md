@@ -25,6 +25,10 @@ If the required PCRE2 version is not available in the official channel, you can 
 
 The `jpcre2.hpp` header should be included in the source file that uses JPCRE2 functionalities.
 
+**You must define `PCRE2_CODE_UNIT_WIDTH` as 0 or 8 or 16 or 32 before including jpcre2.hpp**. 0 means you are going to use all of the libraries. See [Code unit width and character type](#code-unit-and-character-type) for details.
+
+On windows you must define `#define PCRE2_STATIC` before including `jpcre2.hpp` if you link against static library.
+
 ## Use as library {#use-as-library}
 
 To build and install it as library in a Unix based system, run:
@@ -53,7 +57,6 @@ make install # or sudo make install
 
 Now `#include <jpcre2.hpp>` in your code and build/compile by linking with both JPCRE2 and PCRE2 library.
 
-**You must define `PCRE2_CODE_UNIT_WIDTH` as 0 or 8 or 16 or 32 before including jpcre2.hpp**. 0 means you are going to use all of the libraries. See [Code unit width and character type](#code-unit-and-character-type) for details.
 
 An example command to compile your code with GCC would be:
 
