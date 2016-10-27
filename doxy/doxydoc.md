@@ -77,7 +77,6 @@ If you are in a non-Unix system (e.g Windows), build a library from the JPCRE2 s
 
 1. When compiling with GCC you must put the JPCRE2 library before the PCRE2 library because JPCRE2 depends on PCRE2.
 2. Building 8-bit jpcre2 requires 8-bit pcre2 and so on. Building all at once requires all of 8, 16 and 32 bit PCRE2 libraries.
-3. To use the `PCRE2 POSIX` compatible library, add the `-lpcre2-posix` along with the others.
 
 
 
