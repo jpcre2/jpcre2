@@ -400,7 +400,7 @@ int main(){
     return 0;
 }
 ```
-This is what will happen if the code is compiled in different systems:
+This is what will happen when you compile:
 
 1. In a system where `char` is 8 bit, it will use 8-bit library and UTF-8 in UTF-mode.
 2. In a system where `char` is 16 bit, it will use 16-bit library and UTF-16 in UTF-mode.
@@ -409,7 +409,7 @@ This is what will happen if the code is compiled in different systems:
 
 So, if you don't know or do not care to know about the code unit width of the character type/s you are using, just link your program against all PCRE2 libraries. The code unit width will be handled automatically (unless you use explicit code unit width like `jpcre2::select<char, 8>`) and if anything unsupported is encountered, you will get compile time error.
 
-The most common example in this regard can be the use of `wchar_t`:
+A common example in this regard can be the use of `wchar_t`:
 
 ```cpp
 jpcre2::select<wchar_t>::Regex re;
