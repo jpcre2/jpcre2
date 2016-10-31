@@ -26,7 +26,7 @@ int main(){
     std::string s="I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56";
     
     std::cout<<"\nreplaced string: \n"<<
-    re.initReplace()                                                    //Invoke the initReplace() function
+    re.initReplace()                                                    //create replace object
       .setSubject(s)                                                    //Set various parameters
       .setReplaceWith("(replaced:$1)(replaced:$2)(replaced:${word})")   //...
       .addModifier("xE")                                                //
