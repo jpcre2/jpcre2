@@ -32,8 +32,9 @@ int main() {
     jpu::Regex(u"[\\w]+").match(u"I am a subject with 7 matches", "g"); //modifier is always std::string
     
     //Replace
+    jpcre2::Convert16 conv;
     std::cout<<"\n"<<
-    jpcre2::convert16.to_bytes(jpu::Regex(u"subject").replace(u"I am a subject",u"string")); //print by converting it to utf-8
+    conv.to_bytes(jpu::Regex(u"subject").replace(u"I am a subject",u"string")); //print by converting it to utf-8
     
     
     return 0;

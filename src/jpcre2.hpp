@@ -97,6 +97,7 @@ namespace jpcre2 {
 
 typedef PCRE2_SIZE SIZE_T;                          ///< Used for match count and vector size
 typedef uint32_t Uint;                              ///< Used for options (bitwise operation)
+typedef uint8_t Ush;                                ///< 8 bit unsigned integer.
 
 /// @namespace jpcre2::ERROR
 /// Namespace for error codes.
@@ -139,28 +140,29 @@ template <class internT, class externT, class stateT>
 struct Codecvt : std::codecvt<internT,externT,stateT>
 { ~Codecvt(){} };
 
-
-///This is a convenience object (>=C++11) to convert between UTF-8 <> UTF-16.
+///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-16.
 ///Convert UTF-16 to UTF-8
 ///```cpp
-///convert16.to_bytes(utf16string)
+///Convert16 conv;
+///std::string s = conv.to_bytes(utf16string);
 ///```
 ///Convert UTF-8 to UTF-16
 ///```cpp
-///convert16.from_bytes(utf8string)
+///std::u16string us = conv.from_bytes(utf8string);
 ///```
-static thread_local std::wstring_convert<Codecvt<char16_t,char,std::mbstate_t>,char16_t> convert16;
+typedef std::wstring_convert<Codecvt<char16_t, char, std::mbstate_t>,char16_t> Convert16;
 
-///This is a convenience object (>=C++11) to convert between UTF-8 <> UTF-32.
-///Convert UTF-32 to UTF-8:
+///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-32.
+///Convert UTF-32 to UTF-8
 ///```cpp
-///convert32.to_bytes(utf32string)
+///Convert32 conv;
+///std::string s = conv.to_bytes(utf32string);
 ///```
-///Convert UTF-8 to UTF-32..
+///Convert UTF-8 to UTF-32
 ///```cpp
-///convert32.from_bytes(utf8string)
+///std::u32string us = conv.from_bytes(utf8string);
 ///```
-static thread_local std::wstring_convert<Codecvt<char32_t,char,std::mbstate_t>,char32_t> convert32;
+typedef std::wstring_convert<Codecvt<char32_t, char, std::mbstate_t>,char32_t> Convert32;
 
 #endif
 
@@ -169,13 +171,13 @@ static thread_local std::wstring_convert<Codecvt<char32_t,char,std::mbstate_t>,c
 
 //forward decalration
 
-template<int BS> struct Pcre2Type;
-template<int BS> struct Pcre2FuncPtr;
-template<int BS> struct Pcre2Func;
+template<Ush BS> struct Pcre2Type;
+template<Ush BS> struct Pcre2FuncPtr;
+template<Ush BS> struct Pcre2Func;
 
 //PCRE2 types
 //These templated types will be used in place of actual types
-template<int BS> struct Pcre2Type {};
+template<Ush BS> struct Pcre2Type {};
 
 template<> struct Pcre2Type<8>{
     //typedefs used
@@ -211,7 +213,7 @@ template<> struct Pcre2Type<32>{
 };
 
 //wrappers for PCRE2 functions
-template<int BS> struct Pcre2Func{};
+template<Ush BS> struct Pcre2Func{};
 
 //8-bit version
 template<> struct Pcre2Func<8> {
@@ -485,10 +487,10 @@ template<> struct Pcre2Func<32> {
  */
 namespace INFO {
 	const std::string NAME = "JPCRE2";               ///< Name of the project
-	const std::string FULL_VERSION = "10.28.02";     ///< Full version string
+	const std::string FULL_VERSION = "10.28.03";     ///< Full version string
 	const std::string VERSION_GENRE = "10";          ///< Generation, depends on original PCRE2 version
 	const std::string VERSION_MAJOR = "28";          ///< Major version, updated when API change is made
-	const std::string VERSION_MINOR = "02";          ///< Minor version, includes bug fix or minor feature upgrade
+	const std::string VERSION_MINOR = "03";          ///< Minor version, includes bug fix or minor feature upgrade
 	const std::string VERSION_PRE_RELEASE = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -620,7 +622,8 @@ template<> std::wstring ParseInt<wchar_t>::toString(int x){
 ///@return std::u16string from the integer
 template<> std::u16string ParseInt<char16_t>::toString(int x) {
     std::string s = std::to_string(x);
-    std::u16string us = convert16.from_bytes(s);
+    Convert16 conv;
+    std::u16string us = conv.from_bytes(s);
     return us;
 }
 
@@ -632,7 +635,8 @@ template<> std::u16string ParseInt<char16_t>::toString(int x) {
 ///@return std::u32string from the integer
 template<> std::u32string ParseInt<char32_t>::toString(int x) {
     std::string s = std::to_string(x);
-    std::u32string us = convert32.from_bytes(s);
+    Convert32 conv;
+    std::u32string us = conv.from_bytes(s);
     return us;
 }
 #endif
@@ -662,7 +666,7 @@ template<> std::u32string ParseInt<char32_t>::toString(int x) {
 ///```cpp
 ///jpcre2::select<char, 8>::Regex re;
 ///```
-template<typename Char_T, int BS = sizeof( Char_T ) * CHAR_BIT> 
+template<typename Char_T, Ush BS = sizeof( Char_T ) * CHAR_BIT> 
 struct select{
     virtual ~select(){}	//allow subclassing
 
@@ -1954,7 +1958,7 @@ struct select{
 }//jpcre2 namespace
 
     
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 std::string jpcre2::select<Char_T, BS>::Regex::getModifier(){
     //Calculate PCRE2 mod
     std::string temp("");
@@ -1974,7 +1978,7 @@ std::string jpcre2::select<Char_T, BS>::Regex::getModifier(){
 
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 std::string jpcre2::select<Char_T, BS>::RegexMatch::getModifier(){
     //Calculate PCRE2 mod
     std::string temp("");
@@ -1992,7 +1996,7 @@ std::string jpcre2::select<Char_T, BS>::RegexMatch::getModifier(){
     return temp;
 }
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 std::string jpcre2::select<Char_T, BS>::RegexReplace::getModifier(){
     //Calculate PCRE2 mod
     std::string temp("");
@@ -2012,7 +2016,7 @@ std::string jpcre2::select<Char_T, BS>::RegexReplace::getModifier(){
 
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 void jpcre2::select<Char_T, BS>::Regex::deepCopy(const Regex& r) {
 	//Copy #code if it is non-null
 	if (r.code) {
@@ -2044,7 +2048,7 @@ void jpcre2::select<Char_T, BS>::Regex::deepCopy(const Regex& r) {
 	delete r.rr;
 }
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::Regex& 
             jpcre2::select<Char_T, BS>::Regex::
                 changeModifier(const std::string& mod, bool x) {
@@ -2078,7 +2082,7 @@ typename jpcre2::select<Char_T, BS>::Regex&
 
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 void jpcre2::select<Char_T, BS>::Regex::compile() {
 	//Get c_str of pattern
 	Pcre2Sptr c_pattern = (Pcre2Sptr) pat_str.c_str();
@@ -2129,7 +2133,7 @@ void jpcre2::select<Char_T, BS>::Regex::compile() {
 // RegexReplace class
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::RegexReplace& jpcre2::select<Char_T, BS>::RegexReplace::resetErrors() {
     re->error_number = 0;
     re->error_offset = 0;
@@ -2138,7 +2142,7 @@ typename jpcre2::select<Char_T, BS>::RegexReplace& jpcre2::select<Char_T, BS>::R
 
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::RegexReplace&
             jpcre2::select<Char_T, BS>::RegexReplace::
                 changeModifier(const std::string& mod, bool x) {
@@ -2170,7 +2174,7 @@ typename jpcre2::select<Char_T, BS>::RegexReplace&
 
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexReplace::replace() {
 
 	// If code is null, return the subject string unmodified.
@@ -2236,7 +2240,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
 
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::RegexMatch& jpcre2::select<Char_T, BS>::RegexMatch::resetErrors() {
     re->error_number = 0;
     re->error_offset = 0;
@@ -2245,7 +2249,7 @@ typename jpcre2::select<Char_T, BS>::RegexMatch& jpcre2::select<Char_T, BS>::Reg
 
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::RegexMatch& jpcre2::select<Char_T, BS>::RegexMatch::changeModifier(const std::string& mod, bool x) {
 	//loop through mod
 	for (SIZE_T i = 0; i < mod.length(); ++i) {
@@ -2274,7 +2278,7 @@ typename jpcre2::select<Char_T, BS>::RegexMatch& jpcre2::select<Char_T, BS>::Reg
 }
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, MatchData *match_data) {
     String value;
     PCRE2_SIZE bufflen = 0;
@@ -2307,7 +2311,7 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, Match
 
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
                                                             Pcre2Sptr tabptr, MatchData *match_data) {
 
@@ -2388,7 +2392,7 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
 
 
 
-template<typename Char_T, int BS>
+template<typename Char_T, jpcre2::Ush BS>
 jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
 	/// If Regex::code is null, return 0 as the match count
