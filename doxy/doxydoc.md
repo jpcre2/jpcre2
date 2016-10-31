@@ -132,10 +132,7 @@ else std::cout<<"Failure";
 
 ## Match {#match}
 
-The `jp::Regex::match(const String& s)` family of member functions can take two arguments (subject & modifier) and returns the number of matches found against the compiled pattern.
-
-
-To get the match result (captured groups) however, you need to call the `jp::RegexMatch::match()` function. Point be noted that, you can not call this function directly or create any object of the class `RegexMatch`. To call this function, first invoke the `jp::Regex::initMatch()` (or `jp::Regex::getMatchObject()`) function. It will give you a reference to a `RegexMatch` object. Now you can chain method calls of `jp::RegexMatch::setNumberedSubstringVector(VecNum* vec_num)` and such functions from `RegexMatch` class to pass various parameters. After you are done passing all the parameter that you need, the `jp::RegexMatch::match()` function should be called to perform the actual match and return the match count. The match results will be stored in vectors (vectors of maps) whose pointers were passed as parameters.
+The `jp::Regex::match(const String& s)` family of member functions can take two arguments (subject & modifier) and returns the number of matches found against the compiled pattern. What it actually does is create a `RegexMatch` object and forward all options to it, then finally call `jp::RegexMatch::match()` to perform the match. To get match results, you will need to pass vector pointers that will be filled with match data.
 
 ### Check if a string matches a regex {#check-if-a-string-matches-a-regex}
 
@@ -278,9 +275,7 @@ We can perform this kind of matches as many times as we want. The vectors always
 
 ##Replace or Substitute {#replace}
 
-The `jp::Regex::replace(const String& s, const String& r)` member function can take up-to three arguments (subject, replacement string, modifier) and returns the resultant replaced string.
-
-If you want to pass more options or prefer method chaining, you will have to use the `jp::RegexReplace::replace()` function instead. Point be noted that, all constructors of the `RegexReplace` class are private and thus you can't create any object of this class or call the mentioned function directly. In this case you need to call `jp::Regex::initReplace()` (or `jp::Regex::getReplaceObject()`) function which will give you a reference to the replace object that you can use to chain method calls to pass various options to be used by `jp::RegexReplace::replace()` before calling it.
+The `jp::Regex::replace(const String& s, const String& r)` member function can take up-to three arguments (subject, replacement string, modifier) and returns the resultant replaced string. What it actually does is create a `RegexReplace` object and forward all options to it and finally call `jp::RegexReplace::replace()` function to perform the replacement.
 
 
 ### Simple replacement {#simple-replace}
