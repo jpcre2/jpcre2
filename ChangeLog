@@ -1,6 +1,14 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.28.02 - Mon Oct 31 21:00:32 UTC 2016
+-----------------------------------------------
+
+1. Remove PCRE2_CODE_UNIT_WIDTH quirks.
+2. Provide portable coding approach.
+3. Converted to header only library.
+
+
 Version 10.27.03 - Tue Oct 25 19:12:07 UTC 2016
 -----------------------------------------------
 
