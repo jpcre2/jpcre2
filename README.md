@@ -87,7 +87,6 @@ Let's use a typedef to shorten the code:
 ```cpp
 typedef jpcre2::select<char> jp;
 // You have to select the basic data type (char, wchar_t, char16_t or char32_t)
-// And this data type must be of the same bit size as code unit wdith to be used
 ```
 
 <a name="a-regex-object"></a>
