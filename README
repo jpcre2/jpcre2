@@ -35,7 +35,11 @@ This is a **header only** library. All you need to do is include the header `jpc
 #include "jpcre2.hpp"
 ```
 
-**Note:** On windows, if you are working with a static PCRE2 library, you must define `PCRE2_STATIC` before including jpcre2.hpp.
+**Notes:** 
+
+* `jpcre2.hpp` \#includes `pcre2.h`, thus you should not include `pcre2.h` manually in your program.
+* There's no need to define `PCRE2_CODE_UNIT_WIDTH` before including `jpcre2.hpp`.
+* On windows, if you are working with a static PCRE2 library, you must define `PCRE2_STATIC` before including `jpcre2.hpp`.
 
 **Install:**
 
