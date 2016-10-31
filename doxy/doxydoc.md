@@ -403,7 +403,7 @@ By default a code unit width validation check is turned on. It will give you com
 
 # Portable coding {#portable-coding}
 
-It is possible to write portable code with JPCRE2 that can be compiled across multiple systems without any modifications in the source. In this case, code will get compiled according to the system environment. Consider the following example, where you do :
+It is possible to write portable code with JPCRE2 that can be compiled across multiple systems. In this case, code will get compiled according to the system environment. Consider the following example, where you do :
 
 ```cpp
 #define PCRE2_CODE_UNIT_WIDTH 0
@@ -447,6 +447,10 @@ jpcre2::select<wchar_t>::Regex re;
 2. In Linux, the above code will be compiled with 32-bit library and UTF-32 in UTF mode.
 
 > When `PCRE2_CODE_UNIT_WIDTH` is defined as `0`, this macro loses its significance in JPCRE2 context, i.e the quirk introduced by the macro `PCRE2_CODE_UNIT_WIDTH` can be suppressed by defining it as `0`.
+
+
+> With this portable coding approach, you can have single code unit width as well as multi-code unit width in a single program. To be precise you won't need to worry about code unit width and you can use whatever character type (Char_T) you want, as long as its' code unit width is supported. If the code unit width of a character type you used is not supported, you will get compile time error.
+
 
 > If you do care about the consistency of the code unit width among multiple systems, use the selector with an explicit bit size `jpcre2::select<Char_T, BS>`), but in this case, your code will not be portable, and you will get compile time error (if not suppressed) when code unit width mismatch occurs.
 
