@@ -11,8 +11,8 @@ are not copyrighted and are in the public domain.
 The basic library functions are written in C++ and are dependent upon the
 original PCRE2 library.
 
-THE BASIC LIBRARY FUNCTIONS
----------------------------
+THE BASIC LIBRARY FUNCTIONS/CLASSES
+-----------------------------------
 
 Written by:       Md Jahidul Hamid
 Email local part: jahidulhamid

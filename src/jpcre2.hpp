@@ -43,18 +43,7 @@
 #ifndef JPCRE2_HPP
 #define JPCRE2_HPP
 
-#ifndef PCRE2_CODE_UNIT_WIDTH
-
-/**@def PCRE2_CODE_UNIT_WIDTH
- * This macro has no significance in JPCRE2 context.
- * There's no need to define it explicitly, but if done, the default value (0)
- * will be overridden, again it has no signifance whether it's defined as 0, 8, 16 or 32.
- * If you define an invalid value, you will get compile time error.
- */
-#define PCRE2_CODE_UNIT_WIDTH 0
-#endif
-
-#include <pcre2.h>
+#include <pcre2.h>      // pcre2 header
 #include <string>       // std::string, std::wstring
 #include <vector>       // std::vector
 #include <map>          // std::map
@@ -62,6 +51,7 @@
 #include <cwchar>       // wcslen, std::mbstate_t
 #include <cstring>      // strlen
 #include <clocale>      // std::setlocale
+#include <climits>      // CHAR_BIT
 
 
 #if __cplusplus >= 201103L
@@ -72,23 +62,15 @@
 
 #ifdef JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
     template<bool B, class T = void>
-    struct validate_code_unit_width { typedef T ValidChar; };
+    struct Validate_Code_Unit_Width { typedef T ValidChar; };
 #else
-    #include <climits>
     template<bool B, class T=void>
-    struct validate_code_unit_width {};
+    struct Validate_Code_Unit_Width {};
      
     template<class T>
-    struct validate_code_unit_width<true, T> { typedef T ValidChar; };
+    struct Validate_Code_Unit_Width<true, T> { typedef T ValidChar; };
 #endif
 
-///@def JPCRE2_CHAR_BIT
-///This is an alias for CHAR_BIT if it is defined, otherwise defined as 0.
-#ifdef CHAR_BIT
-    #define JPCRE2_CHAR_BIT CHAR_BIT
-#else
-    #define JPCRE2_CHAR_BIT 0
-#endif
 
 /** @namespace jpcre2
  *  Top level namespace of JPCRE2.
@@ -128,11 +110,6 @@ enum {
 	JIT_COMPILE             = 0x0000004u            ///< Perform JIT compilation for optimization
 };
 
-
-//define some constants, we can't put these in the cpp file, 
-//because a program may use multiple libraries which will end up in
-//multiple definitions.
-
 /// Used by default to provide big enough initial buffer for replaced string.
 /// 0 or insufficient values will force a second call to pcre2_substitute(),
 /// If that is not desirable, pass a big enough buffer size with
@@ -152,7 +129,7 @@ template <class internT, class externT, class stateT>
 struct Codecvt : std::codecvt<internT,externT,stateT>
 { ~Codecvt(){} };
 
-///@var convert16
+
 ///This is a convenience object (>=C++11) to convert between UTF-8 <> UTF-16.
 ///Convert UTF-16 to UTF-8
 ///```cpp
@@ -163,7 +140,7 @@ struct Codecvt : std::codecvt<internT,externT,stateT>
 ///convert16.from_bytes(utf8string)
 ///```
 static thread_local std::wstring_convert<Codecvt<char16_t,char,std::mbstate_t>,char16_t> convert16;
-///@var convert32
+
 ///This is a convenience object (>=C++11) to convert between UTF-8 <> UTF-32.
 ///Convert UTF-32 to UTF-8:
 ///```cpp
@@ -182,14 +159,15 @@ static thread_local std::wstring_convert<Codecvt<char32_t,char,std::mbstate_t>,c
 
 //forward decalration
 
-template<int S> struct Pcre2Type;
-template<int S> struct Pcre2FuncPtr;
-template<int S> struct Pcre2Func;
+template<int BS> struct Pcre2Type;
+template<int BS> struct Pcre2FuncPtr;
+template<int BS> struct Pcre2Func;
 
 //PCRE2 types
 //These templated types will be used in place of actual types
-template<int S> struct Pcre2Type {};
+template<int BS> struct Pcre2Type {};
 
+#if PCRE2_CODE_UNIT_WIDTH == 8 || PCRE2_CODE_UNIT_WIDTH == 0
 template<> struct Pcre2Type<8>{
     //typedefs used
     typedef PCRE2_UCHAR8 Pcre2Uchar;
@@ -200,6 +178,9 @@ template<> struct Pcre2Type<8>{
     typedef pcre2_general_context_8 GeneralContext;
     typedef pcre2_match_context_8 MatchContext;
 };
+#endif
+
+#if PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 0
 template<> struct Pcre2Type<16>{
     //typedefs used
     typedef PCRE2_UCHAR16 Pcre2Uchar;
@@ -210,6 +191,9 @@ template<> struct Pcre2Type<16>{
     typedef pcre2_general_context_16 GeneralContext;
     typedef pcre2_match_context_16 MatchContext;
 };
+#endif
+
+#if PCRE2_CODE_UNIT_WIDTH == 32 || PCRE2_CODE_UNIT_WIDTH == 0
 template<> struct Pcre2Type<32>{
     //typedefs used
     typedef PCRE2_UCHAR32 Pcre2Uchar;
@@ -220,82 +204,84 @@ template<> struct Pcre2Type<32>{
     typedef pcre2_general_context_32 GeneralContext;
     typedef pcre2_match_context_32 MatchContext;
 };
+#endif
 
-
-//Function pointers for pcre2 functions
-template<int S> struct Pcre2FuncPtr {
-    typedef typename Pcre2Type<S>::CompileContext* (*Compile_context_create)(typename Pcre2Type<S>::GeneralContext*);
-    typedef const unsigned char * (*Maketables)(typename Pcre2Type<S>::GeneralContext*);
-    typedef int (*Set_character_tables)(typename Pcre2Type<S>::CompileContext *, const unsigned char *);
-    typedef  typename Pcre2Type<S>::Pcre2Code * (*Compile)( typename Pcre2Type<S>::Pcre2Sptr pattern,
+//Function pointer typedefs for pcre2 functions
+template<int BS> struct Pcre2FuncPtr {
+    typedef typename Pcre2Type<BS>::CompileContext* (*Compile_context_create)(typename Pcre2Type<BS>::GeneralContext*);
+    typedef const unsigned char * (*Maketables)(typename Pcre2Type<BS>::GeneralContext*);
+    typedef int (*Set_character_tables)(typename Pcre2Type<BS>::CompileContext *, const unsigned char *);
+    typedef  typename Pcre2Type<BS>::Pcre2Code * (*Compile)( typename Pcre2Type<BS>::Pcre2Sptr pattern,
                                      PCRE2_SIZE length,
                                      uint32_t options,
                                      int *errorcode,
                                      PCRE2_SIZE *erroroffset,
-                                     typename Pcre2Type<S>::CompileContext *ccontext);
-    typedef int (*Jit_compile)(typename Pcre2Type<S>::Pcre2Code *, uint32_t);
-    typedef int (*Substitute)(  const typename Pcre2Type<S>::Pcre2Code *code,
-                                typename Pcre2Type<S>::Pcre2Sptr subject, 
+                                     typename Pcre2Type<BS>::CompileContext *ccontext);
+    typedef int (*Jit_compile)(typename Pcre2Type<BS>::Pcre2Code *, uint32_t);
+    typedef int (*Substitute)(  const typename Pcre2Type<BS>::Pcre2Code *code,
+                                typename Pcre2Type<BS>::Pcre2Sptr subject, 
                                 PCRE2_SIZE length, 
                                 PCRE2_SIZE startoffset, 
                                 uint32_t options, 
-                                typename Pcre2Type<S>::MatchData *match_data, 
-                                typename Pcre2Type<S>::MatchContext *mcontext, 
-                                typename Pcre2Type<S>::Pcre2Sptr replacement, 
+                                typename Pcre2Type<BS>::MatchData *match_data, 
+                                typename Pcre2Type<BS>::MatchContext *mcontext, 
+                                typename Pcre2Type<BS>::Pcre2Sptr replacement, 
                                 PCRE2_SIZE rlength, 
-                                typename Pcre2Type<S>::Pcre2Uchar *outputbuffer, 
+                                typename Pcre2Type<BS>::Pcre2Uchar *outputbuffer, 
                                 PCRE2_SIZE *outlengthptr); 
-    typedef int (*Substring_get_bynumber)(typename Pcre2Type<S>::MatchData *match_data,
+    typedef int (*Substring_get_bynumber)(typename Pcre2Type<BS>::MatchData *match_data,
                                         uint32_t number, 
-                                        typename Pcre2Type<S>::Pcre2Uchar **bufferptr, 
+                                        typename Pcre2Type<BS>::Pcre2Uchar **bufferptr, 
                                         PCRE2_SIZE *bufflen);
-    typedef void (*Substring_free)(typename Pcre2Type<S>::Pcre2Uchar *buffer);
-    typedef typename Pcre2Type<S>::Pcre2Code * (*Code_copy)(const typename Pcre2Type<S>::Pcre2Code *code);
-    typedef void (*Code_free)(typename Pcre2Type<S>::Pcre2Code *code);
+    typedef void (*Substring_free)(typename Pcre2Type<BS>::Pcre2Uchar *buffer);
+    typedef typename Pcre2Type<BS>::Pcre2Code * (*Code_copy)(const typename Pcre2Type<BS>::Pcre2Code *code);
+    typedef void (*Code_free)(typename Pcre2Type<BS>::Pcre2Code *code);
     typedef int (*Get_error_message)(  int errorcode,
-                                        typename Pcre2Type<S>::Pcre2Uchar *buffer,
+                                        typename Pcre2Type<BS>::Pcre2Uchar *buffer,
                                         PCRE2_SIZE bufflen);
-    typedef int (*Substring_get_byname)(typename Pcre2Type<S>::MatchData *match_data,
-                                        typename Pcre2Type<S>::Pcre2Sptr name, 
-                                        typename Pcre2Type<S>::Pcre2Uchar **bufferptr, 
+    typedef int (*Substring_get_byname)(typename Pcre2Type<BS>::MatchData *match_data,
+                                        typename Pcre2Type<BS>::Pcre2Sptr name, 
+                                        typename Pcre2Type<BS>::Pcre2Uchar **bufferptr, 
                                         PCRE2_SIZE *bufflen); 
-    typedef typename Pcre2Type<S>::MatchData * (*Match_data_create_from_pattern)(const typename Pcre2Type<S>::Pcre2Code *code,
-                                                          typename Pcre2Type<S>::GeneralContext *gcontext); 
-    typedef int (*Match)(  const typename Pcre2Type<S>::Pcre2Code *code, 
-                            typename Pcre2Type<S>::Pcre2Sptr subject, 
+    typedef typename Pcre2Type<BS>::MatchData * (*Match_data_create_from_pattern)(
+                                                          const typename Pcre2Type<BS>::Pcre2Code *code,
+                                                          typename Pcre2Type<BS>::GeneralContext *gcontext); 
+    typedef int (*Match)(  const typename Pcre2Type<BS>::Pcre2Code *code, 
+                            typename Pcre2Type<BS>::Pcre2Sptr subject, 
                             PCRE2_SIZE length, 
                             PCRE2_SIZE startoffset, 
                             uint32_t options, 
-                            typename Pcre2Type<S>::MatchData *match_data, 
-                            typename Pcre2Type<S>::MatchContext *mcontext);
-    typedef void (*Match_data_free)(typename Pcre2Type<S>::MatchData *match_data);
-    typedef PCRE2_SIZE * (*Get_ovector_pointer)(typename Pcre2Type<S>::MatchData *match_data);
-    typedef int (*Pattern_info)(const typename Pcre2Type<S>::Pcre2Code *code, uint32_t what, void *where);
+                            typename Pcre2Type<BS>::MatchData *match_data, 
+                            typename Pcre2Type<BS>::MatchContext *mcontext);
+    typedef void (*Match_data_free)(typename Pcre2Type<BS>::MatchData *match_data);
+    typedef PCRE2_SIZE * (*Get_ovector_pointer)(typename Pcre2Type<BS>::MatchData *match_data);
+    typedef int (*Pattern_info)(const typename Pcre2Type<BS>::Pcre2Code *code, uint32_t what, void *where);
 };
 
 
-//Function pointer typedefs of PCRE2 functions
-template<int S> struct Pcre2Func {
-    static typename Pcre2FuncPtr<S>::Compile_context_create compile_context_create;
-    static typename Pcre2FuncPtr<S>::Maketables maketables;
-    static typename Pcre2FuncPtr<S>::Set_character_tables set_character_tables;
-    static typename Pcre2FuncPtr<S>::Compile compile;
-    static typename Pcre2FuncPtr<S>::Jit_compile jit_compile;
-    static typename Pcre2FuncPtr<S>::Substitute substitute;
-    static typename Pcre2FuncPtr<S>::Substring_get_bynumber substring_get_bynumber;
-    static typename Pcre2FuncPtr<S>::Substring_free substring_free;
-    static typename Pcre2FuncPtr<S>::Code_copy code_copy;
-    static typename Pcre2FuncPtr<S>::Code_free code_free;
-    static typename Pcre2FuncPtr<S>::Get_error_message get_error_message;
-    static typename Pcre2FuncPtr<S>::Substring_get_byname substring_get_byname;
-    static typename Pcre2FuncPtr<S>::Match_data_create_from_pattern match_data_create_from_pattern;
-    static typename Pcre2FuncPtr<S>::Match match;
-    static typename Pcre2FuncPtr<S>::Match_data_free match_data_free;
-    static typename Pcre2FuncPtr<S>::Get_ovector_pointer get_ovector_pointer;
-    static typename Pcre2FuncPtr<S>::Pattern_info pattern_info;
+//Function pointers of PCRE2 functions
+template<int BS> struct Pcre2Func {
+    static typename Pcre2FuncPtr<BS>::Compile_context_create compile_context_create;
+    static typename Pcre2FuncPtr<BS>::Maketables maketables;
+    static typename Pcre2FuncPtr<BS>::Set_character_tables set_character_tables;
+    static typename Pcre2FuncPtr<BS>::Compile compile;
+    static typename Pcre2FuncPtr<BS>::Jit_compile jit_compile;
+    static typename Pcre2FuncPtr<BS>::Substitute substitute;
+    static typename Pcre2FuncPtr<BS>::Substring_get_bynumber substring_get_bynumber;
+    static typename Pcre2FuncPtr<BS>::Substring_free substring_free;
+    static typename Pcre2FuncPtr<BS>::Code_copy code_copy;
+    static typename Pcre2FuncPtr<BS>::Code_free code_free;
+    static typename Pcre2FuncPtr<BS>::Get_error_message get_error_message;
+    static typename Pcre2FuncPtr<BS>::Substring_get_byname substring_get_byname;
+    static typename Pcre2FuncPtr<BS>::Match_data_create_from_pattern match_data_create_from_pattern;
+    static typename Pcre2FuncPtr<BS>::Match match;
+    static typename Pcre2FuncPtr<BS>::Match_data_free match_data_free;
+    static typename Pcre2FuncPtr<BS>::Get_ovector_pointer get_ovector_pointer;
+    static typename Pcre2FuncPtr<BS>::Pattern_info pattern_info;
  };
 
 //8-bit versions
+#if PCRE2_CODE_UNIT_WIDTH == 8 || PCRE2_CODE_UNIT_WIDTH == 0
 template<> typename Pcre2FuncPtr<8>::Compile_context_create Pcre2Func<8>::compile_context_create = &pcre2_compile_context_create_8;
 template<> typename Pcre2FuncPtr<8>::Maketables Pcre2Func<8>::maketables = &pcre2_maketables_8;
 template<> typename Pcre2FuncPtr<8>::Set_character_tables Pcre2Func<8>::set_character_tables = &pcre2_set_character_tables_8;
@@ -314,8 +300,10 @@ template<> typename Pcre2FuncPtr<8>::Match Pcre2Func<8>::match = &pcre2_match_8;
 template<> typename Pcre2FuncPtr<8>::Match_data_free Pcre2Func<8>::match_data_free = &pcre2_match_data_free_8;
 template<> typename Pcre2FuncPtr<8>::Get_ovector_pointer Pcre2Func<8>::get_ovector_pointer = &pcre2_get_ovector_pointer_8;
 template<> typename Pcre2FuncPtr<8>::Pattern_info Pcre2Func<8>::pattern_info = &pcre2_pattern_info_8;
+#endif
 
 //16-bit versions
+#if PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 0
 template<> typename Pcre2FuncPtr<16>::Compile_context_create Pcre2Func<16>::compile_context_create = &pcre2_compile_context_create_16;
 template<> typename Pcre2FuncPtr<16>::Maketables Pcre2Func<16>::maketables = &pcre2_maketables_16;
 template<> typename Pcre2FuncPtr<16>::Set_character_tables Pcre2Func<16>::set_character_tables = &pcre2_set_character_tables_16;
@@ -334,8 +322,10 @@ template<> typename Pcre2FuncPtr<16>::Match Pcre2Func<16>::match = &pcre2_match_
 template<> typename Pcre2FuncPtr<16>::Match_data_free Pcre2Func<16>::match_data_free = &pcre2_match_data_free_16;
 template<> typename Pcre2FuncPtr<16>::Get_ovector_pointer Pcre2Func<16>::get_ovector_pointer = &pcre2_get_ovector_pointer_16;
 template<> typename Pcre2FuncPtr<16>::Pattern_info Pcre2Func<16>::pattern_info = &pcre2_pattern_info_16;
+#endif
 
 //32-bit versions
+#if PCRE2_CODE_UNIT_WIDTH == 32 || PCRE2_CODE_UNIT_WIDTH == 0
 template<> typename Pcre2FuncPtr<32>::Compile_context_create Pcre2Func<32>::compile_context_create = &pcre2_compile_context_create_32;
 template<> typename Pcre2FuncPtr<32>::Maketables Pcre2Func<32>::maketables = &pcre2_maketables_32; 
 template<> typename Pcre2FuncPtr<32>::Set_character_tables Pcre2Func<32>::set_character_tables = &pcre2_set_character_tables_32;
@@ -354,7 +344,7 @@ template<> typename Pcre2FuncPtr<32>::Match Pcre2Func<32>::match = &pcre2_match_
 template<> typename Pcre2FuncPtr<32>::Match_data_free Pcre2Func<32>::match_data_free = &pcre2_match_data_free_32;
 template<> typename Pcre2FuncPtr<32>::Get_ovector_pointer Pcre2Func<32>::get_ovector_pointer = &pcre2_get_ovector_pointer_32;
 template<> typename Pcre2FuncPtr<32>::Pattern_info Pcre2Func<32>::pattern_info = &pcre2_pattern_info_32;
-
+#endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /** @namespace jpcre2::INFO
@@ -442,9 +432,7 @@ namespace MOD {
 
 }
 
-
-///@struct MSG
-///JPCRE2 messages as String.
+//These message strings are used for error/warning message construction.
 template<typename Char_T> struct MSG{
     static const std::basic_string<Char_T> INVALID_MODIFIER;
 };
@@ -468,7 +456,6 @@ template<typename Char_T> struct ParseInt{
 ///@param x the integer to convert
 ///@return std::string from the integer
 template<> std::string ParseInt<char>::toString(int x){
-    //this function can only convert to std::string and std::wstring
     int length = snprintf(0, 0, "%d", x);
     //assert(length >= 0);
     char* buf = new char[length + 1];
@@ -484,7 +471,6 @@ template<> std::string ParseInt<char>::toString(int x){
 ///@param x the integer to convert
 ///@return std::wstring from the integer
 template<> std::wstring ParseInt<wchar_t>::toString(int x){
-    //this function can only convert to std::string and std::wstring
     int length = swprintf(0, 0, L"%d", x);
     //assert(length >= 0);
     wchar_t* buf = new wchar_t[length + 1];
@@ -525,19 +511,27 @@ template<> std::u32string ParseInt<char32_t>::toString(int x) {
 
 ///struct to select code unit width and the character type. 
 ///
-///Usage: `jpcre2::select<Code_unit_width, Char_T>`.
+///Usage: `jpcre2::select<Char_T, BS>`.
 ///
-///The character type (`Char_T`) must be in accordance with PCRE2_CODE_UNIT_WIDTH.
-///If it doesn't match with the character type, then a compile time error will be thrown if not suppressed by
+///The character type (`Char_T`) must be in accordance with PCRE2_CODE_UNIT_WIDTH (BS).
+///If it doesn't match with the character type, compile time error will be produced if not suppressed by
 ///defining the macro `JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION`.
-///@tparam S Code unit width (8, 16 or 32)
+///@tparam BS Code unit width (8, 16 or 32)
 ///@tparam Char_T Character type (`char`, `wchar_t`, `char16_t`, `char32_t`)
-template<int S, typename Char_T> 
+///If BS is not given, i.e it is called like
+///```cpp
+///jpcre2::select<Char_T>
+///```
+///then `sizeof(Char_T)*CHAR_BIT` will be taken as the value for BS.
+///It may come in handy in many situation but it will somewhat degrade the readability of
+///your code. Passing the code unit width as a template parameter with jpcre2::select will
+///keep things clear.
+template<typename Char_T, int BS = sizeof( Char_T ) * CHAR_BIT> 
 struct select{
     virtual ~select(){}	//allow subclassing
 
     ///Typedef for character (either one of `char`, `wchar_t`, `char16_t`, `char32_t`)
-    typedef typename validate_code_unit_width<S == sizeof( Char_T ) * JPCRE2_CHAR_BIT, Char_T>::ValidChar Char;
+    typedef typename Validate_Code_Unit_Width<BS == sizeof( Char_T ) * CHAR_BIT, Char_T>::ValidChar Char;
     
     //typedef Char_T Char;
     ///Typedef for string (either one of `std::string`, `std::wstring`, `std::u16string`, `std::u32string`).
@@ -569,19 +563,19 @@ struct select{
     typedef typename std::vector<NumSub> VecNum;         
     
     //This is to shorten the code
-    typedef typename Pcre2Type<S>::Pcre2Uchar Pcre2Uchar;
-    typedef typename Pcre2Type<S>::Pcre2Sptr Pcre2Sptr;
-    typedef typename Pcre2Type<S>::Pcre2Code Pcre2Code;
-    typedef typename Pcre2Type<S>::CompileContext CompileContext;
-    typedef typename Pcre2Type<S>::MatchData MatchData;
-    typedef typename Pcre2Type<S>::GeneralContext GeneralContext;
-    typedef typename Pcre2Type<S>::MatchContext MatchContext; 
+    typedef typename Pcre2Type<BS>::Pcre2Uchar Pcre2Uchar;
+    typedef typename Pcre2Type<BS>::Pcre2Sptr Pcre2Sptr;
+    typedef typename Pcre2Type<BS>::Pcre2Code Pcre2Code;
+    typedef typename Pcre2Type<BS>::CompileContext CompileContext;
+    typedef typename Pcre2Type<BS>::MatchData MatchData;
+    typedef typename Pcre2Type<BS>::GeneralContext GeneralContext;
+    typedef typename Pcre2Type<BS>::MatchContext MatchContext; 
     
     ///@overload
     ///
-    ///Converts a Char_T (char, wchar_t, char16_t, char32_t) to String
+    ///Converts a Char_T (char, wchar_t, char16_t, char32_t) to jpcre2::select::String
     ///@tparam a Char_T
-    ///@return String
+    ///@return jpcre2::select::String
     static String toString(Char a){
         if (a) return String(1, a);
         else return String();
@@ -589,9 +583,9 @@ struct select{
     
     ///@overload
     ///
-    ///Converts a Char_T* (char*, wchar_t*, char16_t*, char32_t*) to String
+    ///Converts a Char_T* (char*, wchar_t*, char16_t*, char32_t*) to jpcre2::select::String
     ///@tparam a const Char_T*
-    ///@return String
+    ///@return jpcre2::select::String
     static String toString(const Char* a){
         if (a) return String(a);
         else return String();
@@ -601,7 +595,7 @@ struct select{
     ///
     ///Converts a PCRE2_UCHAR to String
     ///@param a PCRE2_UCHAR
-    ///@return String
+    ///@return jpcre2::select::String
     static String toString(Pcre2Uchar* a) {
         if (a) return String((Char*) a);
         else return String();
@@ -609,17 +603,17 @@ struct select{
     
     ///Retruns error message from PCRE2 error number
     ///@param err_num error number (negative)
-    ///@return message as String.
+    ///@return message as jpcre2::select::String.
     static String getPcre2ErrorMessage(int err_num){
         Pcre2Uchar buffer[8048];
-        Pcre2Func<S>::get_error_message(err_num, buffer, sizeof(buffer));
+        Pcre2Func<BS>::get_error_message(err_num, buffer, sizeof(buffer));
         return toString((Pcre2Uchar*) buffer);
     }          
     
     ///Retruns error message (either JPCRE2 or PCRE2) from error number and error offset
     ///@param err_num error number (negative for PCRE2, positive for JPCRE2)
     ///@param err_off error offset
-    ///@return message as String.
+    ///@return message as jpcre2::select::String.
     static String getErrorMessage(int err_num, int err_off) {
         if (err_num == (int)ERROR::JIT_COMPILE_FAILED) {
             return getPcre2ErrorMessage((int) err_off);
@@ -1265,7 +1259,7 @@ struct select{
 
         void freeRegexMemory(void) { 
             if (code) /* We don't need to free code if it's null */ 
-                Pcre2Func<S>::code_free(code); 
+                Pcre2Func<BS>::code_free(code); 
         }
 
         friend class RegexMatch;	
@@ -1462,7 +1456,7 @@ struct select{
         } 
 
         /** Get pattern string
-         * @return pattern string of type String
+         * @return pattern string of type jpcre2::select::String
          * */
         String getPattern() { 
             return pat_str; 
@@ -1526,7 +1520,7 @@ struct select{
         /// Returns the last error message
         ///@return Last error message
         String getErrorMessage() { 
-            return select<S,Char>::getErrorMessage(error_number, error_offset); 
+            return select<Char, BS>::getErrorMessage(error_number, error_offset); 
         } 
         
         /// Set the Pattern string to compile
@@ -1632,7 +1626,6 @@ struct select{
         ///
         /// **Note:** If speed of operation is very crucial, use Regex::addJpcre2Option() and
         /// Regex::addPcre2Option() with equivalent options. It will be faster that way.
-        /// is set and a wrong modifier was encountered.
         /// @param mod Modifier string
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::addModifier()
@@ -1822,17 +1815,11 @@ struct select{
     };
     
 };//struct select
-
-    
-    ////////////////////////// Definitions //////////////////////////////////
-    
-
-
 }//jpcre2 namespace
 
     
-template<int S, typename Char_T>
-std::string jpcre2::select<S, Char_T>::Regex::getModifier(){
+template<typename Char_T, int BS>
+std::string jpcre2::select<Char_T, BS>::Regex::getModifier(){
     //Calculate PCRE2 mod
     std::string temp("");
     for(SIZE_T i = 0; i < MOD::C_N.length(); ++i){
@@ -1851,8 +1838,8 @@ std::string jpcre2::select<S, Char_T>::Regex::getModifier(){
 
 
 
-template<int S, typename Char_T>
-std::string jpcre2::select<S, Char_T>::RegexMatch::getModifier(){
+template<typename Char_T, int BS>
+std::string jpcre2::select<Char_T, BS>::RegexMatch::getModifier(){
     //Calculate PCRE2 mod
     std::string temp("");
     for(SIZE_T i = 0; i < MOD::M_N.length(); ++i){
@@ -1869,8 +1856,8 @@ std::string jpcre2::select<S, Char_T>::RegexMatch::getModifier(){
     return temp;
 }
 
-template<int S, typename Char_T>
-std::string jpcre2::select<S, Char_T>::RegexReplace::getModifier(){
+template<typename Char_T, int BS>
+std::string jpcre2::select<Char_T, BS>::RegexReplace::getModifier(){
     //Calculate PCRE2 mod
     std::string temp("");
     for(SIZE_T i = 0; i < MOD::R_N.length(); ++i){
@@ -1889,18 +1876,18 @@ std::string jpcre2::select<S, Char_T>::RegexReplace::getModifier(){
 
 
 
-template<int S, typename Char_T>
-void jpcre2::select<S, Char_T>::Regex::deepCopy(const Regex& r) {
+template<typename Char_T, int BS>
+void jpcre2::select<Char_T, BS>::Regex::deepCopy(const Regex& r) {
 	//Copy #code if it is non-null
 	if (r.code) {
         ///First release memory of #code from current object if it is non-NULL
 		freeRegexMemory();
 		/// Copy compiled memory of #code to #code of current object using pcre2_code_copy() 
-		code = Pcre2Func<S>::code_copy(r.code);
+		code = Pcre2Func<BS>::code_copy(r.code);
 		/// Perform JIT compilation (if enabled) as pcre2_code_copy() doesn't copy JIT memory
 		if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
 			//Perform JIT compilation:
-			int jit_ret = Pcre2Func<S>::jit_compile(code, PCRE2_JIT_COMPLETE);
+			int jit_ret = Pcre2Func<BS>::jit_compile(code, PCRE2_JIT_COMPLETE);
 			if (jit_ret != 0) {
 				error_number = (int)ERROR::JIT_COMPILE_FAILED;
                 error_offset = jit_ret;
@@ -1921,9 +1908,9 @@ void jpcre2::select<S, Char_T>::Regex::deepCopy(const Regex& r) {
 	delete r.rr;
 }
 
-template<int S, typename Char_T>
-typename jpcre2::select<S, Char_T>::Regex& 
-            jpcre2::select<S, Char_T>::Regex::
+template<typename Char_T, int BS>
+typename jpcre2::select<Char_T, BS>::Regex& 
+            jpcre2::select<Char_T, BS>::Regex::
                 changeModifier(const std::string& mod, bool x) {
 	//loop through mod
 	for (SIZE_T i = 0; i < mod.length(); ++i) {
@@ -1955,8 +1942,8 @@ typename jpcre2::select<S, Char_T>::Regex&
 
 
 
-template<int S, typename Char_T>
-void jpcre2::select<S, Char_T>::Regex::compile() {
+template<typename Char_T, int BS>
+void jpcre2::select<Char_T, BS>::Regex::compile() {
 	//Get c_str of pattern
 	Pcre2Sptr c_pattern = (Pcre2Sptr) pat_str.c_str();
 
@@ -1965,17 +1952,17 @@ void jpcre2::select<S, Char_T>::Regex::compile() {
 	 * any errors that are detected.                                          
 	 *************************************************************************/
 
-	CompileContext *ccontext = Pcre2Func<S>::compile_context_create(0);
+	CompileContext *ccontext = Pcre2Func<BS>::compile_context_create(0);
 
 	if (mylocale != LOCALE_NONE) {
 		std::string loc_old;
 		loc_old = std::setlocale(LC_CTYPE, mylocale.c_str());//mylocal needs to be std::string
-		const unsigned char *tables = Pcre2Func<S>::maketables(0);
-		Pcre2Func<S>::set_character_tables(ccontext, tables);
+		const unsigned char *tables = Pcre2Func<BS>::maketables(0);
+		Pcre2Func<BS>::set_character_tables(ccontext, tables);
 		std::setlocale(LC_CTYPE, (char*)loc_old.c_str());
 	}
 
-	code = Pcre2Func<S>::compile(c_pattern,     /* the pattern */
+	code = Pcre2Func<BS>::compile(c_pattern,     /* the pattern */
                 PCRE2_ZERO_TERMINATED,  /* indicates pattern is zero-terminated */
                 compile_opts,           /* default options */
                 &error_number,          /* for error number */
@@ -1988,7 +1975,7 @@ void jpcre2::select<S, Char_T>::Regex::compile() {
         return;
 	} else if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
 		///perform JIT compilation it it's enabled
-		int jit_ret = Pcre2Func<S>::jit_compile(code, PCRE2_JIT_COMPLETE);
+		int jit_ret = Pcre2Func<BS>::jit_compile(code, PCRE2_JIT_COMPLETE);
 		if (jit_ret != 0) {
             error_number = (int)ERROR::JIT_COMPILE_FAILED;
             error_offset = jit_ret;
@@ -2006,8 +1993,8 @@ void jpcre2::select<S, Char_T>::Regex::compile() {
 // RegexReplace class
 
 
-template<int S, typename Char_T>
-typename jpcre2::select<S, Char_T>::RegexReplace& jpcre2::select<S, Char_T>::RegexReplace::resetErrors() {
+template<typename Char_T, int BS>
+typename jpcre2::select<Char_T, BS>::RegexReplace& jpcre2::select<Char_T, BS>::RegexReplace::resetErrors() {
     re->error_number = 0;
     re->error_offset = 0;
     return *this;
@@ -2015,9 +2002,9 @@ typename jpcre2::select<S, Char_T>::RegexReplace& jpcre2::select<S, Char_T>::Reg
 
 
 
-template<int S, typename Char_T>
-typename jpcre2::select<S, Char_T>::RegexReplace&
-            jpcre2::select<S, Char_T>::RegexReplace::
+template<typename Char_T, int BS>
+typename jpcre2::select<Char_T, BS>::RegexReplace&
+            jpcre2::select<Char_T, BS>::RegexReplace::
                 changeModifier(const std::string& mod, bool x) {
 	//loop through mod
 	for (SIZE_T i = 0; i < mod.length(); ++i) {
@@ -2047,8 +2034,8 @@ typename jpcre2::select<S, Char_T>::RegexReplace&
 
 
 
-template<int S, typename Char_T>
-typename jpcre2::select<S, Char_T>::String jpcre2::select<S, Char_T>::RegexReplace::replace() {
+template<typename Char_T, int BS>
+typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexReplace::replace() {
 
 	// If code is null, return the subject string unmodified.
 	if (re->code == 0)
@@ -2065,7 +2052,7 @@ typename jpcre2::select<S, Char_T>::String jpcre2::select<S, Char_T>::RegexRepla
 	output_buffer = (Pcre2Uchar*) malloc(outlengthptr * sizeof(Pcre2Uchar));
 
 	while (true) {
-		ret = Pcre2Func<S>::substitute(re->code,    /*Points to the compiled pattern*/
+		ret = Pcre2Func<BS>::substitute(re->code,    /*Points to the compiled pattern*/
                     subject,                /*Points to the subject string*/
                     subject_length,         /*Length of the subject string*/
                     0,                      /*Offset in the subject at which to start matching*/
@@ -2113,8 +2100,8 @@ typename jpcre2::select<S, Char_T>::String jpcre2::select<S, Char_T>::RegexRepla
 
 
 
-template<int S, typename Char_T>
-typename jpcre2::select<S, Char_T>::RegexMatch& jpcre2::select<S, Char_T>::RegexMatch::resetErrors() {
+template<typename Char_T, int BS>
+typename jpcre2::select<Char_T, BS>::RegexMatch& jpcre2::select<Char_T, BS>::RegexMatch::resetErrors() {
     re->error_number = 0;
     re->error_offset = 0;
     return *this;
@@ -2122,8 +2109,8 @@ typename jpcre2::select<S, Char_T>::RegexMatch& jpcre2::select<S, Char_T>::Regex
 
 
 
-template<int S, typename Char_T>
-typename jpcre2::select<S, Char_T>::RegexMatch& jpcre2::select<S, Char_T>::RegexMatch::changeModifier(const std::string& mod, bool x) {
+template<typename Char_T, int BS>
+typename jpcre2::select<Char_T, BS>::RegexMatch& jpcre2::select<Char_T, BS>::RegexMatch::changeModifier(const std::string& mod, bool x) {
 	//loop through mod
 	for (SIZE_T i = 0; i < mod.length(); ++i) {
         //First check for JPCRE2 mods
@@ -2151,8 +2138,8 @@ typename jpcre2::select<S, Char_T>::RegexMatch& jpcre2::select<S, Char_T>::Regex
 }
 
 
-template<int S, typename Char_T>
-bool jpcre2::select<S, Char_T>::RegexMatch::getNumberedSubstrings(int rc, MatchData *match_data) {
+template<typename Char_T, int BS>
+bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, MatchData *match_data) {
     String value;
     PCRE2_SIZE bufflen = 0;
     Pcre2Uchar *buffer = 0;
@@ -2161,7 +2148,7 @@ bool jpcre2::select<S, Char_T>::RegexMatch::getNumberedSubstrings(int rc, MatchD
 	for (int i = 0; i < rc; i++) {
 		//If we use pcre2_substring_get_bynumber(),
 		//we will have to deal with returned error codes and memory
-		ret = Pcre2Func<S>::substring_get_bynumber(match_data, (Uint) i, &buffer,
+		ret = Pcre2Func<BS>::substring_get_bynumber(match_data, (Uint) i, &buffer,
 				&bufflen);
 		if (ret < 0) {
 			switch (ret) {
@@ -2173,7 +2160,7 @@ bool jpcre2::select<S, Char_T>::RegexMatch::getNumberedSubstrings(int rc, MatchD
 			}
 		}
 		value = toString((Char*) buffer);
-		Pcre2Func<S>::substring_free(buffer);     //must free memory
+		Pcre2Func<BS>::substring_free(buffer);     //must free memory
         //::free(buffer);
         buffer = 0; //we are going to use it again.
 		//if (num_sub)   //This null check is paranoid, this function shouldn't be called if this vector is null
@@ -2184,8 +2171,8 @@ bool jpcre2::select<S, Char_T>::RegexMatch::getNumberedSubstrings(int rc, MatchD
 
 
 
-template<int S, typename Char_T>
-bool jpcre2::select<S, Char_T>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
+template<typename Char_T, int BS>
+bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
                                                             Pcre2Sptr tabptr, MatchData *match_data) {
 
     String key, value, value1;
@@ -2195,7 +2182,7 @@ bool jpcre2::select<S, Char_T>::RegexMatch::getNamedSubstrings(int namecount, in
     
 	for (int i = 0; i < namecount; i++) {
         int n;
-        if(S==8){
+        if(BS==8){
             n = (int)((tabptr[0] << 8) | tabptr[1]);
             key = toString((Char*) (tabptr + 2));
         }
@@ -2206,7 +2193,7 @@ bool jpcre2::select<S, Char_T>::RegexMatch::getNamedSubstrings(int namecount, in
         //Use of tabptr is finished for this iteration, let's increment it now.
         tabptr += name_entry_size;
         
-		ret = Pcre2Func<S>::substring_get_byname(match_data,
+		ret = Pcre2Func<BS>::substring_get_byname(match_data,
 				(Pcre2Sptr) key.c_str(), &buffer, &bufflen);
 		if (ret < 0) {
 			switch (ret) {
@@ -2218,7 +2205,7 @@ bool jpcre2::select<S, Char_T>::RegexMatch::getNamedSubstrings(int namecount, in
 			}
 		}
 		value = toString((Char *) buffer);
-		Pcre2Func<S>::substring_free(buffer);     //must free memory
+		Pcre2Func<BS>::substring_free(buffer);     //must free memory
         //::free(buffer);
         buffer = 0; //we may use this pointer again, better initialize it.
         
@@ -2231,7 +2218,7 @@ bool jpcre2::select<S, Char_T>::RegexMatch::getNamedSubstrings(int namecount, in
             //we will skip this iteration.
             
             //Don't use pcre2_substring_number_from_name() to get the number for the name (It's messy with dupnames).
-            ret = Pcre2Func<S>::substring_get_bynumber(match_data, (Uint) n, &buffer,
+            ret = Pcre2Func<BS>::substring_get_bynumber(match_data, (Uint) n, &buffer,
                     &bufflen);
             if (ret < 0) {
                 switch (ret) {
@@ -2243,7 +2230,7 @@ bool jpcre2::select<S, Char_T>::RegexMatch::getNamedSubstrings(int namecount, in
                 }
             }
             value1 = toString((Char *) buffer);
-            Pcre2Func<S>::substring_free(buffer);     //must free memory
+            Pcre2Func<BS>::substring_free(buffer);     //must free memory
             //::free(buffer);
             buffer = 0;
             
@@ -2265,8 +2252,8 @@ bool jpcre2::select<S, Char_T>::RegexMatch::getNamedSubstrings(int namecount, in
 
 
 
-template<int S, typename Char_T>
-jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
+template<typename Char_T, int BS>
+jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
 	/// If Regex::code is null, return 0 as the match count
 	if (re->code == 0)
@@ -2309,9 +2296,9 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 	/* Using this function ensures that the block is exactly the right size for
 	 the number of capturing parentheses in the pattern. */
 
-	match_data = Pcre2Func<S>::match_data_create_from_pattern(re->code, 0);
+	match_data = Pcre2Func<BS>::match_data_create_from_pattern(re->code, 0);
 
-	rc = Pcre2Func<S>::match(re->code,  /* the compiled pattern */
+	rc = Pcre2Func<BS>::match(re->code,  /* the compiled pattern */
                 subject,        /* the subject string */
                 subject_length, /* the length of the subject */
                 0,              /* start at offset 0 in the subject */
@@ -2322,7 +2309,7 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 	/* Matching failed: handle error cases */
 
 	if (rc < 0) {
-		Pcre2Func<S>::match_data_free(match_data); /* Release memory used for the match */
+		Pcre2Func<BS>::match_data_free(match_data); /* Release memory used for the match */
 		//must not free code. This function has no right to modify regex
 		switch (rc) {
             case PCRE2_ERROR_NOMATCH:
@@ -2339,7 +2326,7 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 	++count; //Increment the counter
 	/* Match succeded. Get a pointer to the output vector, where string offsets are
 	 stored. */
-	ovector = Pcre2Func<S>::get_ovector_pointer(match_data);
+	ovector = Pcre2Func<BS>::get_ovector_pointer(match_data);
 
 	/************************************************************************//*
 	 * We have found the first match within the subject string. If the output *
@@ -2356,7 +2343,7 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 
 	}
 
-	/// Get numbered substrings if #num_sub isn't null
+	// Get numbered substrings if #num_sub isn't null
 	if (num_sub) { //must do null check
 		if(!getNumberedSubstrings(rc, match_data))
             return count;
@@ -2372,7 +2359,7 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 	/* See if there are any named substrings, and if so, show them by name. First
 	 we have to extract the count of named parentheses from the pattern. */
 
-	(void) Pcre2Func<S>::pattern_info(re->code, /* the compiled pattern */
+	(void) Pcre2Func<BS>::pattern_info(re->code, /* the compiled pattern */
 	PCRE2_INFO_NAMECOUNT, /* get the number of named substrings */
 	&namecount); /* where to put the answer */
 
@@ -2385,11 +2372,11 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 		/* Before we can access the substrings, we must extract the table for
 		 translating names to numbers, and the size of each entry in the table. */
 
-		(void) Pcre2Func<S>::pattern_info(re->code, /* the compiled pattern */
+		(void) Pcre2Func<BS>::pattern_info(re->code, /* the compiled pattern */
 		PCRE2_INFO_NAMETABLE, /* address of the table */
 		&name_table); /* where to put the answer */
 
-		(void) Pcre2Func<S>::pattern_info(re->code, /* the compiled pattern */
+		(void) Pcre2Func<BS>::pattern_info(re->code, /* the compiled pattern */
 		PCRE2_INFO_NAMEENTRYSIZE, /* size of each entry in the table */
 		&name_entry_size); /* where to put the answer */
 
@@ -2399,8 +2386,8 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 
 		tabptr = name_table;
 
-		/// Get named substrings if #nas_map isn't null.
-        /// Get name to number map if #ntn_map isn't null.
+		// Get named substrings if #nas_map isn't null.
+        // Get name to number map if #ntn_map isn't null.
 		if (nas_map || ntn_map) {
 			if(!getNamedSubstrings(namecount, name_entry_size, tabptr, match_data))
                 return count;
@@ -2408,7 +2395,7 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 
 	}
 
-	/// Populate vectors with their associated maps.
+	// Populate vectors with their associated maps.
 	pushMapsIntoVectors();
 
 	/************************************************************************//*
@@ -2441,8 +2428,8 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 	 *************************************************************************/
 
 	if ((jpcre2_match_opts & FIND_ALL) == 0) {
-		Pcre2Func<S>::match_data_free(match_data); /* Release the memory that was used */
-		//Pcre2Func<S>::code_free(re);                  /// Don't do this. This function has no right to modify regex.
+		Pcre2Func<BS>::match_data_free(match_data); /* Release the memory that was used */
+		//Pcre2Func<BS>::code_free(re);                  /// Don't do this. This function has no right to modify regex.
 		return count; /* Exit the program. */
 	}
 
@@ -2450,13 +2437,13 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 	 sequence. First, find the options with which the regex was compiled and extract
 	 the UTF state. */
 
-	(void) Pcre2Func<S>::pattern_info(re->code, PCRE2_INFO_ALLOPTIONS, &option_bits);
+	(void) Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_ALLOPTIONS, &option_bits);
 	utf = (option_bits & PCRE2_UTF) != 0;
 
 	/* Now find the newline convention and see whether CRLF is a valid newline
 	 sequence. */
 
-	(void) Pcre2Func<S>::pattern_info(re->code, PCRE2_INFO_NEWLINE, &newline);
+	(void) Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_NEWLINE, &newline);
 	crlf_is_newline = newline == PCRE2_NEWLINE_ANY
 			|| newline == PCRE2_NEWLINE_CRLF
 			|| newline == PCRE2_NEWLINE_ANYCRLF;
@@ -2487,7 +2474,7 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 
 		/** Run the next matching operation */
 
-		rc = Pcre2Func<S>::match(re->code,  /* the compiled pattern */
+		rc = Pcre2Func<BS>::match(re->code,  /* the compiled pattern */
                     subject,        /* the subject string */
                     subject_length, /* the length of the subject */
                     start_offset,   /* starting offset in the subject */
@@ -2518,9 +2505,9 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 				ovector[1] += 1; /* Advance by one more. */
 			else if (utf) { /* advance a whole UTF (8 or 16), for UTF-32, it's not needed */
 				while (ovector[1] < subject_length) {
-                    if(S == 8 && (subject[ovector[1]] & 0xc0) != 0x80) break;
-                    else if(S == 16 && (subject[ovector[1]] & 0xfc00) != 0xdc00) break;
-                    else if(S == 32) break;
+                    if(BS == 8 && (subject[ovector[1]] & 0xc0) != 0x80) break;
+                    else if(BS == 16 && (subject[ovector[1]] & 0xfc00) != 0xdc00) break;
+                    else if(BS == 32) break; //must be else if
 					ovector[1] += 1;
 				}
 			}
@@ -2530,8 +2517,8 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 		/* Other matching errors are not recoverable. */
 
 		if (rc < 0) {
-			Pcre2Func<S>::match_data_free(match_data);
-			//Pcre2Func<S>::code_free(code);           //must not do this. This function has no right to modify regex.
+			Pcre2Func<BS>::match_data_free(match_data);
+			//Pcre2Func<BS>::code_free(code);           //must not do this. This function has no right to modify regex.
             re->error_number = re->error_offset = rc;
 			return count;
 		}
@@ -2572,7 +2559,7 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 
 	} /* End of loop to find second and subsequent matches */
 
-	Pcre2Func<S>::match_data_free(match_data);
+	Pcre2Func<BS>::match_data_free(match_data);
 	// Must not free code. This function has no right to modify regex.
 	return count;
 }
@@ -2581,19 +2568,26 @@ jpcre2::SIZE_T jpcre2::select<S, Char_T>::RegexMatch::match() {
 #undef JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
 #endif
 
-#ifdef JPCRE2_CHAR_BIT
-#undef JPCRE2_CHAR_BIT
-#endif
-
 //some macro documentation for doxygen
 
 #ifdef __DOXYGEN__
 
 ///@def JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
 ///By default JPCRE2 checks if the code unit width equals to
-///sizeof(Char_T)*CHAR_BIT, if not compile time errors are made. This 
-///check can be disabled by defining this macro.
+///sizeof(Char_T)*CHAR_BIT, if not,it will produce compile time error.
+///This check can be disabled by defining this macro.
 #define JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
+
+///@def PCRE2_CODE_UNIT_WIDTH
+///The macro PCRE2_CODE_UNIT_WIDTH must be defined before including jpcre2.hpp.
+///The valid values for this macro are:
+///Value | Library to be linked | Remarks
+///----- | -------------------- | -------
+///0 | All( 8, 16 , 32 bit) | Multi code unit width support
+///8 | Only 8-bit | Single code unit width
+///16 | Only 16-bit | Single code unit width
+///32 | Only 32-bit | Single code unit width
+#define PCRE2_CODE_UNIT_WIDTH 0
 
 #endif
 
