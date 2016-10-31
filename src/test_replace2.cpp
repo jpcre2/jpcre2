@@ -11,7 +11,7 @@
 
 typedef jpcre2::select<char> jp;
 
-#define getLine(a) std::getline(std::cin,a,'\n')
+void getLine(std::string& a) { std::getline(std::cin,a,'\n'); }
 
 
 int main(){
