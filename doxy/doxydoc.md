@@ -86,7 +86,7 @@ Select a character type according to `PCRE2_CODE_UNIT_WIDTH`. In this doc we are
 Let's use a typedef to shorten the code:
 
 ```cpp
-typedef jpcre2::select<char, 8> jp; //explicit 8 makes it clear that it's 8-bit
+typedef jpcre2::select<char> jp;
 // You have to select the basic data type (char, wchar_t, char16_t or char32_t)
 // And this data type must be of the same bit size as code unit wdith to be used
 ```
