@@ -33,7 +33,7 @@ int main(){
     
     size_t count = 0;
     
-    count = re.initMatch()                                  //Invoke the initMatch() function
+    count = re.initMatch()                                  //create a match object
               .addModifier("g")                             //set various parameters
               .setSubject(subject)                          //...
               .setNumberedSubstringVector(&vec_num)         //...

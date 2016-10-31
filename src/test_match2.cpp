@@ -44,7 +44,7 @@ int main(){
 
     size_t matched = 0;
     
-    re.initMatch()                                //invoke the initMatch() function
+    re.initMatch()                                //create a match object
       .setNumberedSubstringVector(&vec_num)       //pointer to numbered substring vector
       .setNamedSubstringVector(&vec_nas)          //pointer to named substring vector
       .setNameToNumberMapVector(&vec_ntn)         //pointer to name-to-number map vector
@@ -62,7 +62,7 @@ int main(){
 		getLine(ac_mod);
         
         //Now let's do the match
-        matched = re.getMatchObject()                           //returns a reference to the previously initialized match object
+        matched = re.getMatchObject()                           //get reference to the match object
                     .setSubject(subject)						//subject
                     .addModifier(ac_mod)                        //add modifier
                     .match();                                   //Now perform the match
