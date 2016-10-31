@@ -1,7 +1,4 @@
 #!/bin/sh
-cd doxy/doc/
-./cr1632
-cd -
 doxygen Doxyfile
 ./crmd
 ./autogen.sh

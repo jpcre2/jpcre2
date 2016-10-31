@@ -6,11 +6,11 @@
 
 #include <iostream>
 
-#define PCRE2_CODE_UNIT_WIDTH 0
-#include <jpcre2.hpp>
+#define JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
+#include "jpcre2.hpp"
 
-typedef jpcre2::select8<char> jp8;
-typedef jpcre2::select32<wchar_t> jp32;
+typedef jpcre2::select<8, char> jp8;
+typedef jpcre2::select<32, wchar_t> jp32;
 
 int main(){
    jp8::Regex   re8 ( "\\d+");

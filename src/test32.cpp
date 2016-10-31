@@ -6,12 +6,11 @@
  * */
 
 #include <iostream>
-#define JPCRE2_ENABLE_CODE_UNIT_VALIDATION
 #define PCRE2_CODE_UNIT_WIDTH 32
 #include "jpcre2.hpp"
 
-typedef jpcre2::select<wchar_t> jpw;
-typedef jpcre2::select<char32_t> jpu;
+typedef jpcre2::select<32, wchar_t> jpw;
+typedef jpcre2::select<32, char32_t> jpu;
 
 int main() {
     

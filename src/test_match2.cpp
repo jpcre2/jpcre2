@@ -12,7 +12,7 @@
 
 #define getLine(a) std::getline(std::cin,a,'\n')
 
-typedef jpcre2::select<char> jp;
+typedef jpcre2::select<8, char> jp;
 
 int main(){
 

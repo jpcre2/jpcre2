@@ -11,7 +11,7 @@
 #include "jpcre2.hpp"
 
 
-typedef jpcre2::select<char> jp;
+typedef jpcre2::select<8, char> jp;
 
 int main(){
     jp::VecNum vec_num;   //Vector to store numbered substring vectors.
