@@ -6,7 +6,6 @@
  * */
 
 #include <iostream>
-#define PCRE2_CODE_UNIT_WIDTH 32
 #include "jpcre2.hpp"
 
 typedef jpcre2::select<wchar_t> jpw;
@@ -15,8 +14,7 @@ typedef jpcre2::select<char32_t> jpu;
 int main() {
     
     //Working with wchar_t i.e std::wstring
-    
-    //In Windows this will give compile time errors because wchar_t in Windows is 16 bit but 32 bit code unit is defined
+    //In Windows this will require 16-bit library to be linked, because wchar_t in windows is 16-bit
     //Match:
     std::cout<<"\n"<<
     jpw::Regex(L"[\\w]+").match(L"I am a subject with 7 matches", "g"); //modifier is always std::string

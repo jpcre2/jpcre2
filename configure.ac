@@ -2,7 +2,7 @@ AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIR([m4])
 include([ax_cxx_compile_stdcxx.m4])
 
-AC_INIT([jpcre2], [10.28.01], [https://github.com/jpcre2/jpcre2/issues])
+AC_INIT([jpcre2], [10.28.02], [https://github.com/jpcre2/jpcre2/issues])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.hpp])
 #AC_CONFIG_HEADERS([config.h])

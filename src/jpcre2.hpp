@@ -43,6 +43,17 @@
 #ifndef JPCRE2_HPP
 #define JPCRE2_HPP
 
+#ifndef PCRE2_CODE_UNIT_WIDTH
+
+///@def PCRE2_CODE_UNIT_WIDTH
+///This macro does not have any significance in JPCRE2 context.
+///It is defined as 0 by default. Defining it before including jpcre2.hpp
+///will override the default (0), but still it will have no effect in a 
+///JPCRE2 perspective.
+///Defining it with an invalid value will yield to compile error.
+#define PCRE2_CODE_UNIT_WIDTH 0
+#endif
+
 #include <pcre2.h>      // pcre2 header
 #include <string>       // std::string, std::wstring
 #include <vector>       // std::vector
@@ -167,7 +178,7 @@ template<int BS> struct Pcre2Func;
 //These templated types will be used in place of actual types
 template<int BS> struct Pcre2Type {};
 
-#if PCRE2_CODE_UNIT_WIDTH == 8 || PCRE2_CODE_UNIT_WIDTH == 0
+
 template<> struct Pcre2Type<8>{
     //typedefs used
     typedef PCRE2_UCHAR8 Pcre2Uchar;
@@ -178,9 +189,7 @@ template<> struct Pcre2Type<8>{
     typedef pcre2_general_context_8 GeneralContext;
     typedef pcre2_match_context_8 MatchContext;
 };
-#endif
 
-#if PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 0
 template<> struct Pcre2Type<16>{
     //typedefs used
     typedef PCRE2_UCHAR16 Pcre2Uchar;
@@ -191,9 +200,7 @@ template<> struct Pcre2Type<16>{
     typedef pcre2_general_context_16 GeneralContext;
     typedef pcre2_match_context_16 MatchContext;
 };
-#endif
 
-#if PCRE2_CODE_UNIT_WIDTH == 32 || PCRE2_CODE_UNIT_WIDTH == 0
 template<> struct Pcre2Type<32>{
     //typedefs used
     typedef PCRE2_UCHAR32 Pcre2Uchar;
@@ -204,147 +211,274 @@ template<> struct Pcre2Type<32>{
     typedef pcre2_general_context_32 GeneralContext;
     typedef pcre2_match_context_32 MatchContext;
 };
-#endif
 
-//Function pointer typedefs for pcre2 functions
-template<int BS> struct Pcre2FuncPtr {
-    typedef typename Pcre2Type<BS>::CompileContext* (*Compile_context_create)(typename Pcre2Type<BS>::GeneralContext*);
-    typedef const unsigned char * (*Maketables)(typename Pcre2Type<BS>::GeneralContext*);
-    typedef int (*Set_character_tables)(typename Pcre2Type<BS>::CompileContext *, const unsigned char *);
-    typedef  typename Pcre2Type<BS>::Pcre2Code * (*Compile)( typename Pcre2Type<BS>::Pcre2Sptr pattern,
+//wrappers for PCRE2 functions
+template<int BS> struct Pcre2Func{};
+
+//8-bit version
+template<> struct Pcre2Func<8> {
+    static Pcre2Type<8>::CompileContext* compile_context_create(typename Pcre2Type<8>::GeneralContext* ccontext){
+        return pcre2_compile_context_create_8(ccontext);
+    }
+    static const unsigned char * maketables(typename Pcre2Type<8>::GeneralContext* gcontext){
+        return pcre2_maketables_8(gcontext);
+    }
+    static int set_character_tables(typename Pcre2Type<8>::CompileContext * ccontext, const unsigned char * table){
+        return pcre2_set_character_tables_8(ccontext, table);
+    }
+    static typename Pcre2Type<8>::Pcre2Code * compile( typename Pcre2Type<8>::Pcre2Sptr pattern,
                                      PCRE2_SIZE length,
                                      uint32_t options,
                                      int *errorcode,
                                      PCRE2_SIZE *erroroffset,
-                                     typename Pcre2Type<BS>::CompileContext *ccontext);
-    typedef int (*Jit_compile)(typename Pcre2Type<BS>::Pcre2Code *, uint32_t);
-    typedef int (*Substitute)(  const typename Pcre2Type<BS>::Pcre2Code *code,
-                                typename Pcre2Type<BS>::Pcre2Sptr subject, 
-                                PCRE2_SIZE length, 
-                                PCRE2_SIZE startoffset, 
-                                uint32_t options, 
-                                typename Pcre2Type<BS>::MatchData *match_data, 
-                                typename Pcre2Type<BS>::MatchContext *mcontext, 
-                                typename Pcre2Type<BS>::Pcre2Sptr replacement, 
-                                PCRE2_SIZE rlength, 
-                                typename Pcre2Type<BS>::Pcre2Uchar *outputbuffer, 
-                                PCRE2_SIZE *outlengthptr); 
-    typedef int (*Substring_get_bynumber)(typename Pcre2Type<BS>::MatchData *match_data,
+                                     typename Pcre2Type<8>::CompileContext *ccontext){
+        return pcre2_compile_8(pattern, length, options, errorcode, erroroffset, ccontext);
+    }
+    static int jit_compile(typename Pcre2Type<8>::Pcre2Code *code, uint32_t options){
+        return pcre2_jit_compile_8(code, options);
+    }
+    static int substitute( const typename Pcre2Type<8>::Pcre2Code *code,
+                    typename Pcre2Type<8>::Pcre2Sptr subject, 
+                    PCRE2_SIZE length, 
+                    PCRE2_SIZE startoffset, 
+                    uint32_t options, 
+                    typename Pcre2Type<8>::MatchData *match_data, 
+                    typename Pcre2Type<8>::MatchContext *mcontext, 
+                    typename Pcre2Type<8>::Pcre2Sptr replacement, 
+                    PCRE2_SIZE rlength, 
+                    typename Pcre2Type<8>::Pcre2Uchar *outputbuffer, 
+                    PCRE2_SIZE *outlengthptr){
+        return pcre2_substitute_8( code, subject, length, startoffset, options, match_data,
+                                   mcontext, replacement, rlength, outputbuffer, outlengthptr);
+    } 
+    static int substring_get_bynumber(typename Pcre2Type<8>::MatchData *match_data,
                                         uint32_t number, 
-                                        typename Pcre2Type<BS>::Pcre2Uchar **bufferptr, 
-                                        PCRE2_SIZE *bufflen);
-    typedef void (*Substring_free)(typename Pcre2Type<BS>::Pcre2Uchar *buffer);
-    typedef typename Pcre2Type<BS>::Pcre2Code * (*Code_copy)(const typename Pcre2Type<BS>::Pcre2Code *code);
-    typedef void (*Code_free)(typename Pcre2Type<BS>::Pcre2Code *code);
-    typedef int (*Get_error_message)(  int errorcode,
-                                        typename Pcre2Type<BS>::Pcre2Uchar *buffer,
-                                        PCRE2_SIZE bufflen);
-    typedef int (*Substring_get_byname)(typename Pcre2Type<BS>::MatchData *match_data,
-                                        typename Pcre2Type<BS>::Pcre2Sptr name, 
-                                        typename Pcre2Type<BS>::Pcre2Uchar **bufferptr, 
-                                        PCRE2_SIZE *bufflen); 
-    typedef typename Pcre2Type<BS>::MatchData * (*Match_data_create_from_pattern)(
-                                                          const typename Pcre2Type<BS>::Pcre2Code *code,
-                                                          typename Pcre2Type<BS>::GeneralContext *gcontext); 
-    typedef int (*Match)(  const typename Pcre2Type<BS>::Pcre2Code *code, 
-                            typename Pcre2Type<BS>::Pcre2Sptr subject, 
+                                        typename Pcre2Type<8>::Pcre2Uchar **bufferptr, 
+                                        PCRE2_SIZE *bufflen){
+        return pcre2_substring_get_bynumber_8(match_data, number, bufferptr, bufflen);
+    }
+    static void substring_free(typename Pcre2Type<8>::Pcre2Uchar *buffer){
+        pcre2_substring_free_8(buffer);
+    }
+    static typename Pcre2Type<8>::Pcre2Code * code_copy(const typename Pcre2Type<8>::Pcre2Code *code){
+        return pcre2_code_copy_8(code);
+    }
+    static void code_free(typename Pcre2Type<8>::Pcre2Code *code){
+        pcre2_code_free_8(code);
+    }
+    static int get_error_message(  int errorcode,
+                            typename Pcre2Type<8>::Pcre2Uchar *buffer,
+                            PCRE2_SIZE bufflen){
+        return pcre2_get_error_message_8(errorcode, buffer, bufflen);
+    }
+    static int substring_get_byname(typename Pcre2Type<8>::MatchData *match_data,
+                                        typename Pcre2Type<8>::Pcre2Sptr name, 
+                                        typename Pcre2Type<8>::Pcre2Uchar **bufferptr, 
+                                        PCRE2_SIZE *bufflen){
+        return pcre2_substring_get_byname_8(match_data, name, bufferptr, bufflen);
+    }
+    static typename Pcre2Type<8>::MatchData * match_data_create_from_pattern(
+                              const typename Pcre2Type<8>::Pcre2Code *code,
+                              typename Pcre2Type<8>::GeneralContext *gcontext){
+        return pcre2_match_data_create_from_pattern_8(code, gcontext);
+                                
+    }
+    static int match(  const typename Pcre2Type<8>::Pcre2Code *code, 
+                            typename Pcre2Type<8>::Pcre2Sptr subject, 
                             PCRE2_SIZE length, 
                             PCRE2_SIZE startoffset, 
                             uint32_t options, 
-                            typename Pcre2Type<BS>::MatchData *match_data, 
-                            typename Pcre2Type<BS>::MatchContext *mcontext);
-    typedef void (*Match_data_free)(typename Pcre2Type<BS>::MatchData *match_data);
-    typedef PCRE2_SIZE * (*Get_ovector_pointer)(typename Pcre2Type<BS>::MatchData *match_data);
-    typedef int (*Pattern_info)(const typename Pcre2Type<BS>::Pcre2Code *code, uint32_t what, void *where);
+                            typename Pcre2Type<8>::MatchData *match_data, 
+                            typename Pcre2Type<8>::MatchContext *mcontext){
+        return pcre2_match_8(code, subject, length, startoffset, options, match_data, mcontext);
+    }
+    static void match_data_free(typename Pcre2Type<8>::MatchData *match_data){
+        pcre2_match_data_free_8(match_data);
+    }
+    static PCRE2_SIZE * get_ovector_pointer(typename Pcre2Type<8>::MatchData *match_data){
+        return pcre2_get_ovector_pointer_8(match_data);
+    }
+    static int pattern_info(const typename Pcre2Type<8>::Pcre2Code *code, uint32_t what, void *where){
+        return pcre2_pattern_info_8(code, what, where);
+    }
 };
 
+//16-bit version
+template<> struct Pcre2Func<16> {
+    static Pcre2Type<16>::CompileContext* compile_context_create(typename Pcre2Type<16>::GeneralContext* ccontext){
+        return pcre2_compile_context_create_16(ccontext);
+    }
+    static const unsigned char * maketables(typename Pcre2Type<16>::GeneralContext* gcontext){
+        return pcre2_maketables_16(gcontext);
+    }
+    static int set_character_tables(typename Pcre2Type<16>::CompileContext * ccontext, const unsigned char * table){
+        return pcre2_set_character_tables_16(ccontext, table);
+    }
+    static typename Pcre2Type<16>::Pcre2Code * compile( typename Pcre2Type<16>::Pcre2Sptr pattern,
+                                     PCRE2_SIZE length,
+                                     uint32_t options,
+                                     int *errorcode,
+                                     PCRE2_SIZE *erroroffset,
+                                     typename Pcre2Type<16>::CompileContext *ccontext){
+        return pcre2_compile_16(pattern, length, options, errorcode, erroroffset, ccontext);
+    }
+    static int jit_compile(typename Pcre2Type<16>::Pcre2Code *code, uint32_t options){
+        return pcre2_jit_compile_16(code, options);
+    }
+    static int substitute( const typename Pcre2Type<16>::Pcre2Code *code,
+                    typename Pcre2Type<16>::Pcre2Sptr subject, 
+                    PCRE2_SIZE length, 
+                    PCRE2_SIZE startoffset, 
+                    uint32_t options, 
+                    typename Pcre2Type<16>::MatchData *match_data, 
+                    typename Pcre2Type<16>::MatchContext *mcontext, 
+                    typename Pcre2Type<16>::Pcre2Sptr replacement, 
+                    PCRE2_SIZE rlength, 
+                    typename Pcre2Type<16>::Pcre2Uchar *outputbuffer, 
+                    PCRE2_SIZE *outlengthptr){
+        return pcre2_substitute_16( code, subject, length, startoffset, options, match_data,
+                                   mcontext, replacement, rlength, outputbuffer, outlengthptr);
+    } 
+    static int substring_get_bynumber(typename Pcre2Type<16>::MatchData *match_data,
+                                        uint32_t number, 
+                                        typename Pcre2Type<16>::Pcre2Uchar **bufferptr, 
+                                        PCRE2_SIZE *bufflen){
+        return pcre2_substring_get_bynumber_16(match_data, number, bufferptr, bufflen);
+    }
+    static void substring_free(typename Pcre2Type<16>::Pcre2Uchar *buffer){
+        pcre2_substring_free_16(buffer);
+    }
+    static typename Pcre2Type<16>::Pcre2Code * code_copy(const typename Pcre2Type<16>::Pcre2Code *code){
+        return pcre2_code_copy_16(code);
+    }
+    static void code_free(typename Pcre2Type<16>::Pcre2Code *code){
+        pcre2_code_free_16(code);
+    }
+    static int get_error_message(  int errorcode,
+                            typename Pcre2Type<16>::Pcre2Uchar *buffer,
+                            PCRE2_SIZE bufflen){
+        return pcre2_get_error_message_16(errorcode, buffer, bufflen);
+    }
+    static int substring_get_byname(typename Pcre2Type<16>::MatchData *match_data,
+                                        typename Pcre2Type<16>::Pcre2Sptr name, 
+                                        typename Pcre2Type<16>::Pcre2Uchar **bufferptr, 
+                                        PCRE2_SIZE *bufflen){
+        return pcre2_substring_get_byname_16(match_data, name, bufferptr, bufflen);
+    }
+    static typename Pcre2Type<16>::MatchData * match_data_create_from_pattern(
+                              const typename Pcre2Type<16>::Pcre2Code *code,
+                              typename Pcre2Type<16>::GeneralContext *gcontext){
+        return pcre2_match_data_create_from_pattern_16(code, gcontext);
+                                
+    }
+    static int match(  const typename Pcre2Type<16>::Pcre2Code *code, 
+                            typename Pcre2Type<16>::Pcre2Sptr subject, 
+                            PCRE2_SIZE length, 
+                            PCRE2_SIZE startoffset, 
+                            uint32_t options, 
+                            typename Pcre2Type<16>::MatchData *match_data, 
+                            typename Pcre2Type<16>::MatchContext *mcontext){
+        return pcre2_match_16(code, subject, length, startoffset, options, match_data, mcontext);
+    }
+    static void match_data_free(typename Pcre2Type<16>::MatchData *match_data){
+        pcre2_match_data_free_16(match_data);
+    }
+    static PCRE2_SIZE * get_ovector_pointer(typename Pcre2Type<16>::MatchData *match_data){
+        return pcre2_get_ovector_pointer_16(match_data);
+    }
+    static int pattern_info(const typename Pcre2Type<16>::Pcre2Code *code, uint32_t what, void *where){
+        return pcre2_pattern_info_16(code, what, where);
+    }
+};
 
-//Function pointers of PCRE2 functions
-template<int BS> struct Pcre2Func {
-    static typename Pcre2FuncPtr<BS>::Compile_context_create compile_context_create;
-    static typename Pcre2FuncPtr<BS>::Maketables maketables;
-    static typename Pcre2FuncPtr<BS>::Set_character_tables set_character_tables;
-    static typename Pcre2FuncPtr<BS>::Compile compile;
-    static typename Pcre2FuncPtr<BS>::Jit_compile jit_compile;
-    static typename Pcre2FuncPtr<BS>::Substitute substitute;
-    static typename Pcre2FuncPtr<BS>::Substring_get_bynumber substring_get_bynumber;
-    static typename Pcre2FuncPtr<BS>::Substring_free substring_free;
-    static typename Pcre2FuncPtr<BS>::Code_copy code_copy;
-    static typename Pcre2FuncPtr<BS>::Code_free code_free;
-    static typename Pcre2FuncPtr<BS>::Get_error_message get_error_message;
-    static typename Pcre2FuncPtr<BS>::Substring_get_byname substring_get_byname;
-    static typename Pcre2FuncPtr<BS>::Match_data_create_from_pattern match_data_create_from_pattern;
-    static typename Pcre2FuncPtr<BS>::Match match;
-    static typename Pcre2FuncPtr<BS>::Match_data_free match_data_free;
-    static typename Pcre2FuncPtr<BS>::Get_ovector_pointer get_ovector_pointer;
-    static typename Pcre2FuncPtr<BS>::Pattern_info pattern_info;
- };
+//32-bit version
+template<> struct Pcre2Func<32> {
+    static Pcre2Type<32>::CompileContext* compile_context_create(typename Pcre2Type<32>::GeneralContext* ccontext){
+        return pcre2_compile_context_create_32(ccontext);
+    }
+    static const unsigned char * maketables(typename Pcre2Type<32>::GeneralContext* gcontext){
+        return pcre2_maketables_32(gcontext);
+    }
+    static int set_character_tables(typename Pcre2Type<32>::CompileContext * ccontext, const unsigned char * table){
+        return pcre2_set_character_tables_32(ccontext, table);
+    }
+    static typename Pcre2Type<32>::Pcre2Code * compile( typename Pcre2Type<32>::Pcre2Sptr pattern,
+                                     PCRE2_SIZE length,
+                                     uint32_t options,
+                                     int *errorcode,
+                                     PCRE2_SIZE *erroroffset,
+                                     typename Pcre2Type<32>::CompileContext *ccontext){
+        return pcre2_compile_32(pattern, length, options, errorcode, erroroffset, ccontext);
+    }
+    static int jit_compile(typename Pcre2Type<32>::Pcre2Code *code, uint32_t options){
+        return pcre2_jit_compile_32(code, options);
+    }
+    static int substitute( const typename Pcre2Type<32>::Pcre2Code *code,
+                    typename Pcre2Type<32>::Pcre2Sptr subject, 
+                    PCRE2_SIZE length, 
+                    PCRE2_SIZE startoffset, 
+                    uint32_t options, 
+                    typename Pcre2Type<32>::MatchData *match_data, 
+                    typename Pcre2Type<32>::MatchContext *mcontext, 
+                    typename Pcre2Type<32>::Pcre2Sptr replacement, 
+                    PCRE2_SIZE rlength, 
+                    typename Pcre2Type<32>::Pcre2Uchar *outputbuffer, 
+                    PCRE2_SIZE *outlengthptr){
+        return pcre2_substitute_32( code, subject, length, startoffset, options, match_data,
+                                   mcontext, replacement, rlength, outputbuffer, outlengthptr);
+    } 
+    static int substring_get_bynumber(typename Pcre2Type<32>::MatchData *match_data,
+                                        uint32_t number, 
+                                        typename Pcre2Type<32>::Pcre2Uchar **bufferptr, 
+                                        PCRE2_SIZE *bufflen){
+        return pcre2_substring_get_bynumber_32(match_data, number, bufferptr, bufflen);
+    }
+    static void substring_free(typename Pcre2Type<32>::Pcre2Uchar *buffer){
+        pcre2_substring_free_32(buffer);
+    }
+    static typename Pcre2Type<32>::Pcre2Code * code_copy(const typename Pcre2Type<32>::Pcre2Code *code){
+        return pcre2_code_copy_32(code);
+    }
+    static void code_free(typename Pcre2Type<32>::Pcre2Code *code){
+        pcre2_code_free_32(code);
+    }
+    static int get_error_message(  int errorcode,
+                            typename Pcre2Type<32>::Pcre2Uchar *buffer,
+                            PCRE2_SIZE bufflen){
+        return pcre2_get_error_message_32(errorcode, buffer, bufflen);
+    }
+    static int substring_get_byname(typename Pcre2Type<32>::MatchData *match_data,
+                                        typename Pcre2Type<32>::Pcre2Sptr name, 
+                                        typename Pcre2Type<32>::Pcre2Uchar **bufferptr, 
+                                        PCRE2_SIZE *bufflen){
+        return pcre2_substring_get_byname_32(match_data, name, bufferptr, bufflen);
+    }
+    static typename Pcre2Type<32>::MatchData * match_data_create_from_pattern(
+                              const typename Pcre2Type<32>::Pcre2Code *code,
+                              typename Pcre2Type<32>::GeneralContext *gcontext){
+        return pcre2_match_data_create_from_pattern_32(code, gcontext);
+                                
+    }
+    static int match(  const typename Pcre2Type<32>::Pcre2Code *code, 
+                            typename Pcre2Type<32>::Pcre2Sptr subject, 
+                            PCRE2_SIZE length, 
+                            PCRE2_SIZE startoffset, 
+                            uint32_t options, 
+                            typename Pcre2Type<32>::MatchData *match_data, 
+                            typename Pcre2Type<32>::MatchContext *mcontext){
+        return pcre2_match_32(code, subject, length, startoffset, options, match_data, mcontext);
+    }
+    static void match_data_free(typename Pcre2Type<32>::MatchData *match_data){
+        pcre2_match_data_free_32(match_data);
+    }
+    static PCRE2_SIZE * get_ovector_pointer(typename Pcre2Type<32>::MatchData *match_data){
+        return pcre2_get_ovector_pointer_32(match_data);
+    }
+    static int pattern_info(const typename Pcre2Type<32>::Pcre2Code *code, uint32_t what, void *where){
+        return pcre2_pattern_info_32(code, what, where);
+    }
+};
 
-//8-bit versions
-#if PCRE2_CODE_UNIT_WIDTH == 8 || PCRE2_CODE_UNIT_WIDTH == 0
-template<> typename Pcre2FuncPtr<8>::Compile_context_create Pcre2Func<8>::compile_context_create = &pcre2_compile_context_create_8;
-template<> typename Pcre2FuncPtr<8>::Maketables Pcre2Func<8>::maketables = &pcre2_maketables_8;
-template<> typename Pcre2FuncPtr<8>::Set_character_tables Pcre2Func<8>::set_character_tables = &pcre2_set_character_tables_8;
-template<> typename Pcre2FuncPtr<8>::Compile Pcre2Func<8>::compile = &pcre2_compile_8;
-template<> typename Pcre2FuncPtr<8>::Jit_compile Pcre2Func<8>::jit_compile = pcre2_jit_compile_8;
-template<> typename Pcre2FuncPtr<8>::Substitute Pcre2Func<8>::substitute = &pcre2_substitute_8;
-template<> typename Pcre2FuncPtr<8>::Substring_get_bynumber Pcre2Func<8>::substring_get_bynumber = &pcre2_substring_get_bynumber_8;
-template<> typename Pcre2FuncPtr<8>::Substring_free Pcre2Func<8>::substring_free = &pcre2_substring_free_8;
-template<> typename Pcre2FuncPtr<8>::Code_copy Pcre2Func<8>::code_copy = &pcre2_code_copy_8;
-template<> typename Pcre2FuncPtr<8>::Code_free Pcre2Func<8>::code_free = &pcre2_code_free_8;
-template<> typename Pcre2FuncPtr<8>::Get_error_message Pcre2Func<8>::get_error_message = &pcre2_get_error_message_8;
-template<> typename Pcre2FuncPtr<8>::Substring_get_byname Pcre2Func<8>::substring_get_byname = &pcre2_substring_get_byname_8;
-template<> typename Pcre2FuncPtr<8>::Match_data_create_from_pattern Pcre2Func<8>::match_data_create_from_pattern =  
-                                        &pcre2_match_data_create_from_pattern_8;
-template<> typename Pcre2FuncPtr<8>::Match Pcre2Func<8>::match = &pcre2_match_8;
-template<> typename Pcre2FuncPtr<8>::Match_data_free Pcre2Func<8>::match_data_free = &pcre2_match_data_free_8;
-template<> typename Pcre2FuncPtr<8>::Get_ovector_pointer Pcre2Func<8>::get_ovector_pointer = &pcre2_get_ovector_pointer_8;
-template<> typename Pcre2FuncPtr<8>::Pattern_info Pcre2Func<8>::pattern_info = &pcre2_pattern_info_8;
-#endif
-
-//16-bit versions
-#if PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 0
-template<> typename Pcre2FuncPtr<16>::Compile_context_create Pcre2Func<16>::compile_context_create = &pcre2_compile_context_create_16;
-template<> typename Pcre2FuncPtr<16>::Maketables Pcre2Func<16>::maketables = &pcre2_maketables_16;
-template<> typename Pcre2FuncPtr<16>::Set_character_tables Pcre2Func<16>::set_character_tables = &pcre2_set_character_tables_16;
-template<> typename Pcre2FuncPtr<16>::Compile Pcre2Func<16>::compile = &pcre2_compile_16;
-template<> typename Pcre2FuncPtr<16>::Jit_compile Pcre2Func<16>::jit_compile = pcre2_jit_compile_16;
-template<> typename Pcre2FuncPtr<16>::Substitute Pcre2Func<16>::substitute = &pcre2_substitute_16;
-template<> typename Pcre2FuncPtr<16>::Substring_get_bynumber Pcre2Func<16>::substring_get_bynumber = &pcre2_substring_get_bynumber_16;
-template<> typename Pcre2FuncPtr<16>::Substring_free Pcre2Func<16>::substring_free = &pcre2_substring_free_16;
-template<> typename Pcre2FuncPtr<16>::Code_copy Pcre2Func<16>::code_copy = &pcre2_code_copy_16;
-template<> typename Pcre2FuncPtr<16>::Code_free Pcre2Func<16>::code_free = &pcre2_code_free_16;
-template<> typename Pcre2FuncPtr<16>::Get_error_message Pcre2Func<16>::get_error_message = &pcre2_get_error_message_16;
-template<> typename Pcre2FuncPtr<16>::Substring_get_byname Pcre2Func<16>::substring_get_byname = &pcre2_substring_get_byname_16;
-template<> typename Pcre2FuncPtr<16>::Match_data_create_from_pattern Pcre2Func<16>::match_data_create_from_pattern =  
-                                        &pcre2_match_data_create_from_pattern_16;
-template<> typename Pcre2FuncPtr<16>::Match Pcre2Func<16>::match = &pcre2_match_16;
-template<> typename Pcre2FuncPtr<16>::Match_data_free Pcre2Func<16>::match_data_free = &pcre2_match_data_free_16;
-template<> typename Pcre2FuncPtr<16>::Get_ovector_pointer Pcre2Func<16>::get_ovector_pointer = &pcre2_get_ovector_pointer_16;
-template<> typename Pcre2FuncPtr<16>::Pattern_info Pcre2Func<16>::pattern_info = &pcre2_pattern_info_16;
-#endif
-
-//32-bit versions
-#if PCRE2_CODE_UNIT_WIDTH == 32 || PCRE2_CODE_UNIT_WIDTH == 0
-template<> typename Pcre2FuncPtr<32>::Compile_context_create Pcre2Func<32>::compile_context_create = &pcre2_compile_context_create_32;
-template<> typename Pcre2FuncPtr<32>::Maketables Pcre2Func<32>::maketables = &pcre2_maketables_32; 
-template<> typename Pcre2FuncPtr<32>::Set_character_tables Pcre2Func<32>::set_character_tables = &pcre2_set_character_tables_32;
-template<> typename Pcre2FuncPtr<32>::Compile Pcre2Func<32>::compile = &pcre2_compile_32;
-template<> typename Pcre2FuncPtr<32>::Jit_compile Pcre2Func<32>::jit_compile = pcre2_jit_compile_32;
-template<> typename Pcre2FuncPtr<32>::Substitute Pcre2Func<32>::substitute = &pcre2_substitute_32;
-template<> typename Pcre2FuncPtr<32>::Substring_get_bynumber Pcre2Func<32>::substring_get_bynumber = &pcre2_substring_get_bynumber_32;
-template<> typename Pcre2FuncPtr<32>::Substring_free Pcre2Func<32>::substring_free = &pcre2_substring_free_32;
-template<> typename Pcre2FuncPtr<32>::Code_copy Pcre2Func<32>::code_copy = &pcre2_code_copy_32;
-template<> typename Pcre2FuncPtr<32>::Code_free Pcre2Func<32>::code_free = &pcre2_code_free_32;
-template<> typename Pcre2FuncPtr<32>::Get_error_message Pcre2Func<32>::get_error_message = &pcre2_get_error_message_32;
-template<> typename Pcre2FuncPtr<32>::Substring_get_byname Pcre2Func<32>::substring_get_byname = &pcre2_substring_get_byname_32;
-template<> typename Pcre2FuncPtr<32>::Match_data_create_from_pattern Pcre2Func<32>::match_data_create_from_pattern =  
-                                        &pcre2_match_data_create_from_pattern_32;
-template<> typename Pcre2FuncPtr<32>::Match Pcre2Func<32>::match = &pcre2_match_32;
-template<> typename Pcre2FuncPtr<32>::Match_data_free Pcre2Func<32>::match_data_free = &pcre2_match_data_free_32;
-template<> typename Pcre2FuncPtr<32>::Get_ovector_pointer Pcre2Func<32>::get_ovector_pointer = &pcre2_get_ovector_pointer_32;
-template<> typename Pcre2FuncPtr<32>::Pattern_info Pcre2Func<32>::pattern_info = &pcre2_pattern_info_32;
-#endif
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /** @namespace jpcre2::INFO
@@ -353,10 +487,10 @@ template<> typename Pcre2FuncPtr<32>::Pattern_info Pcre2Func<32>::pattern_info =
  */
 namespace INFO {
 	const std::string NAME = "JPCRE2";               ///< Name of the project
-	const std::string FULL_VERSION = "10.28.01";     ///< Full version string
+	const std::string FULL_VERSION = "10.28.02";     ///< Full version string
 	const std::string VERSION_GENRE = "10";          ///< Generation, depends on original PCRE2 version
 	const std::string VERSION_MAJOR = "28";          ///< Major version, updated when API change is made
-	const std::string VERSION_MINOR = "01";          ///< Minor version, includes bug fix or minor feature upgrade
+	const std::string VERSION_MINOR = "02";          ///< Minor version, includes bug fix or minor feature upgrade
 	const std::string VERSION_PRE_RELEASE = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -513,22 +647,26 @@ template<> std::u32string ParseInt<char32_t>::toString(int x) {
 ///
 ///Usage: `jpcre2::select<Char_T, BS>`.
 ///
-///The character type (`Char_T`) must be in accordance with PCRE2_CODE_UNIT_WIDTH (BS).
-///If it doesn't match with the character type, compile time error will be produced if not suppressed by
+///The character type (`Char_T`) must be in accordance with its' code unit width (BS).
+///If it doesn't match with the character type, compile error will be produced if not suppressed by
 ///defining the macro `JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION`.
 ///@tparam BS Code unit width (8, 16 or 32)
 ///@tparam Char_T Character type (`char`, `wchar_t`, `char16_t`, `char32_t`)
+///
 ///If BS is not given, i.e it is called like
 ///```cpp
 ///jpcre2::select<Char_T>
 ///```
 ///then `sizeof(Char_T)*CHAR_BIT` will be taken as the value for BS.
 ///
-///It may be possible to write portable code by using jpcre2::select<Char_T>
+///It is possible to write portable code by using `jpcre2::select<Char_T>`
 ///i.e by not defining the bit size explicitly.
 ///
-///But, when you define a single code unit width, explicity pass the bit size
-///with the selctor, it will improve readability of code.
+///If you want to fix the code unit width for a character type, pass
+///the value as the second templated parameter for the selector. e.g:
+///```cpp
+///jpcre2::select<char, 8>::Regex re;
+///```
 template<typename Char_T, int BS = sizeof( Char_T ) * CHAR_BIT> 
 struct select{
     virtual ~select(){}	//allow subclassing
@@ -2577,20 +2715,9 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
 ///@def JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
 ///By default JPCRE2 checks if the code unit width equals to
-///sizeof(Char_T)*CHAR_BIT, if not,it will produce compile time error.
+///sizeof(Char_T)*CHAR_BIT, if not,it will produce compile error.
 ///This check can be disabled by defining this macro.
 #define JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
-
-///@def PCRE2_CODE_UNIT_WIDTH
-///The macro PCRE2_CODE_UNIT_WIDTH must be defined before including jpcre2.hpp.
-///The valid values for this macro are:
-///Value | Library to be linked | Remarks
-///----- | -------------------- | -------
-///0 | All( 8, 16 , 32 bit) | Multi code unit width support
-///8 | Only 8-bit | Single code unit width
-///16 | Only 16-bit | Single code unit width
-///32 | Only 32-bit | Single code unit width
-#define PCRE2_CODE_UNIT_WIDTH 0
 
 #endif
 
