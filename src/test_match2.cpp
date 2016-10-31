@@ -6,13 +6,12 @@
  * */
 
 #include <iostream>
-#define PCRE2_CODE_UNIT_WIDTH 8
 #include "jpcre2.hpp"
 
 
 #define getLine(a) std::getline(std::cin,a,'\n')
 
-typedef jpcre2::select<char, 8> jp;
+typedef jpcre2::select<char> jp;
 
 int main(){
 

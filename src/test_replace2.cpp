@@ -7,7 +7,6 @@
 
 
 #include <iostream>
-#define PCRE2_CODE_UNIT_WIDTH 8
 #include "jpcre2.hpp"
 
 typedef jpcre2::select<char> jp;

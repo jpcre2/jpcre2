@@ -29,21 +29,9 @@ If the required PCRE2 version is not available in the official channel, you can 
 
 # Getting started 
 
-This is a header only library. All you need to do is include the header `jpcre2.hpp` in your program.
-
-Define `PCRE2_CODE_UNIT_WIDTH` before including this header. Valid values for this macro are:
-
-Value | Library to be linked | Remarks
------ | -------------------- | -------
-0 | All( 8, 16 , 32 bit) | Multi code unit width support
-8 | Only 8-bit | Single code unit width
-16 | Only 16-bit | Single code unit width
-32 | Only 32-bit | Single code unit width
-
-Example:
+This is a **header only** library. All you need to do is include the header `jpcre2.hpp` in your program.
 
 ```cpp
-#define PCRE2_CODE_UNIT_WIDTH 0
 #include "jpcre2.hpp"
 ```
 
@@ -64,9 +52,10 @@ This will compile some examples (for 8-bit) and install the header. For other te
 
 **Compile/Build:**
 
-Compile/Build your code with corresponding PCRE2 libraries linked. For 8-bit, you need to link with 8-bit and so on. If you want to use multiple code unit width, link against all 8-bit, 16-bit and 32-bit libraries and define `PCRE2_CODE_UNIT_WIDTH` as `0`.
+Compile/Build your code with corresponding PCRE2 libraries linked. For 8-bit code unit width, you need to link with 8-bit library, for 16-bit, 16-bit library and so on. If you want to use multiple code unit width, link against all 8-bit, 16-bit and 32-bit libraries. See <a href="#code-unit-and-character-type">code unit width and character type</a> for details.
 
-**Examples of compile command for g++:**
+
+**Example compilation with g++:**
 
 ```cpp
 g++ main.cpp jpcre2.hpp -lpcre2-8
@@ -91,12 +80,12 @@ Performing a match or replacement against regex pattern involves two steps:
 
 ## Compile a regex pattern 
 
-Select a character type according to `PCRE2_CODE_UNIT_WIDTH`. In this doc we are going to use 8 bit code unit width as reference and we will use `char` as the character type.
+Select a character type according to the library you want to use. In this doc we are going to use 8 bit library as reference and we will use `char` as the character type. If `char` in your system is 16-bit you will have to link against 16-bit library instead, same goes for 32-bit. Other bit sizes are not supported by PCRE2.
 
 Let's use a typedef to shorten the code:
 
 ```cpp
-typedef jpcre2::select<char, 8> jp; //explicit 8 makes it clear that it's 8-bit
+typedef jpcre2::select<char> jp;
 // You have to select the basic data type (char, wchar_t, char16_t or char32_t)
 // And this data type must be of the same bit size as code unit wdith to be used
 ```
@@ -393,7 +382,7 @@ Modifier | Details
 -------- | -------
 `e`<sup>\*</sup> | Unset back-references in the pattern will match to empty strings. Equivalent to `PCRE2_MATCH_UNSET_BACKREF`.
 `i` | Case-insensitive. Equivalent to `PCRE2_CASELESS` option.
-`j`<sup>\*</sup> | `\u \U \x` and unset back-references will act as JavaScript standard. <ul><li><code>\U</code> matches an upper case "U" character (by default it causes a compile time error if this option is not set).</li><li><code>\u</code> matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile time error if this option is not set).</li><li><code>\x</code> matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after <code>\x</code>, but it may have zero, one, or two digits (so, for example, <code>\xz</code> matches a binary zero character followed by z) ).</li><li>Unset back-references in the pattern will match to empty strings.</li></ul>
+`j`<sup>\*</sup> | `\u \U \x` and unset back-references will act as JavaScript standard. <ul><li><code>\U</code> matches an upper case "U" character (by default it causes a compile error if this option is not set).</li><li><code>\u</code> matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile error if this option is not set).</li><li><code>\x</code> matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after <code>\x</code>, but it may have zero, one, or two digits (so, for example, <code>\xz</code> matches a binary zero character followed by z) ).</li><li>Unset back-references in the pattern will match to empty strings.</li></ul>
 `m` | Multi-line regex. Equivalent to `PCRE2_MULTILINE` option.
 `n`<sup>\*</sup> | Enable Unicode support for `\w \d` etc... in pattern. Equivalent to PCRE2_UTF \| PCRE2_UCP.
 `s` | If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to `PCRE2_DOTALL` option.
@@ -448,23 +437,19 @@ While having its own way of doing things, JPCRE2 also supports the traditional P
 
 # Code unit width & character type 
 
-The bit size of character type must match with `PCRE2_CODE_UNIT_WIDTH` (8, 16, or 32). That is, if you are compiling in a machine where `char` is 32 bit, you need to use the 32-bit library. The bit size of `char` can be 8 bit, 16 bit, 32 bit, 64 bit (not supported ) etc... depending on the system. Same goes for `wchar_t`. In Linux `wchar_t` is 32 bit, where in Windows, it's 16 bit. A system which only have 8 bit support will define `wchar_t` as 8 bit. 
+The bit size of character type must match with the PCRE2 library you are linking against. There are three PCRE2 libraries according to code unit width, namely 8, 16 and 32 bit libraries. So, if you use a character type (e.g `char` which is generally 8 bit) of 8-bit code unit width then you will have to link your program against the 8-bit PCRE2 library. If it's 16-bit character, you will need 16-bit library. If you use a combination of various code unit width supported or use all of them, you will have to link your program against their corresponding PCRE2 libraries. Missing library will yield to compile time error.
 
-By default a code unit width validation check is turned on. It will give you compile time errors if you try to use character type whose bit size does not match with code unit width being used. You can however, disable this validation check by defining the following macro:
+**Implementation defined behavior:**
 
-```cpp
-#define JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
-#include <jpcre2.h>
-```
+Size of integral types (`char`, `wchar_t`, `char16_t`, `char32_t`) is implementation defined. `char` may be 8, 16, 32 or 64 (not supported) bit. Same goes for `wchar_t` and others. In Linux `wchar_t` is 32 bit and in windows it's 16 bit.
 
 <a name="portable-coding"></a>
 
 # Portable coding 
 
-It is possible to write portable code with JPCRE2 that can be compiled across multiple systems. In this case, code will get compiled according to the system environment. Consider the following example, where you do :
+JPCRE2 codes are portable when you use the selector (`jpcre2::select`) without an explicit bit size. In this case, code will get compiled according to the code unit width defined by your system. Consider the following example, where you do :
 
 ```cpp
-#define PCRE2_CODE_UNIT_WIDTH 0
 #include <jpcre2.hpp>
 
 typedef jpcre2::select<char> jp;
@@ -478,40 +463,25 @@ int main(){
     return 0;
 }
 ```
-The point to be noted that:
-
-1. `0` is used as the `PCRE2_CODE_UNIT_WIDTH` i.e all (8-bit, 16-bit, 32-bit) PCRE2 libraries are being linked.
-2. The selector `jpcre2::select<char>` is used without an explicit code unit width (i.e `jpcre2::select<char, 8>`)
-
 This is what will happen if the code is compiled in different systems:
 
 1. In a system where `char` is 8 bit, it will use 8-bit library and UTF-8 in UTF-mode.
 2. In a system where `char` is 16 bit, it will use 16-bit library and UTF-16 in UTF-mode.
 3. In a system where `char` is 32 bit, it will use 32-bit library and UTF-32 in UTF-mode.
-4. In a system where `char` is not 8, 16 or 32 bit, it will yield compile time error.
+4. In a system where `char` is not 8, 16 or 32 bit, it will yield compile error.
 
-The most common example can be the use of `wchar_t`. If you use 
+So, if you don't know or do not care to know about the code unit width of the character type/s you are using, just link your program against all PCRE2 libraries. The code unit width will be handled automatically (unless you use explicit code unit width like `jpcre2::select<char, 8>`) and if anything unsupported is encountered, you will get compile time error.
 
-```cpp
-#define PCRE2_CODE_UNIT_WIDTH 0
-```
-with all PCRE2 libraries linked and use the selector without an explicit bit size, then your code will act according to your system conventions: 
+The most common example in this regard can be the use of `wchar_t`:
 
 ```cpp
 jpcre2::select<wchar_t>::Regex re;
 ```
 
-1. In windows, the above code will be compiled with 16-bit library and UTF-16 in UTF mode.
-2. In Linux, the above code will be compiled with 32-bit library and UTF-32 in UTF mode.
+1. In windows, the above code will use 16-bit library and UTF-16 in UTF mode.
+2. In Linux, the above code will use 32-bit library and UTF-32 in UTF mode.
 
-> When `PCRE2_CODE_UNIT_WIDTH` is defined as `0`, this macro loses its significance in JPCRE2 context, i.e the quirk introduced by the macro `PCRE2_CODE_UNIT_WIDTH` can be suppressed by defining it as `0`.
-
-
-> With this portable coding approach, you can have single code unit width as well as multi-code unit width in a single program. To be precise you won't need to worry about code unit width and you can use whatever character type (Char_T) you want, as long as its' code unit width is supported. If the code unit width of a character type you used is not supported, you will get compile time error.
-
-
-> If you do care about the consistency of the code unit width among multiple systems, use the selector with an explicit bit size `jpcre2::select<Char_T, BS>`), but in this case, your code will not be portable, and you will get compile time error (if not suppressed) when code unit width mismatch occurs.
-
+> If you want to fix the code unit width, use an explicit bit size such as `jpcre2::select<Char_T, BS>`, but in this case, your code will not be portable, and you will get compile error (if not suppressed) when code unit width mismatch occurs.
 
 <a name="exception-handling"></a>
 

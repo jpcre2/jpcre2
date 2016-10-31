@@ -5,12 +5,10 @@
  * */
 
 #include <iostream>
-
-#define PCRE2_CODE_UNIT_WIDTH 0
 #include "jpcre2.hpp"
 
 typedef jpcre2::select<char> jp8;
-typedef jpcre2::select<wchar_t> jp32;
+typedef jpcre2::select<wchar_t, 32> jp32;
 
 int main(){
    jp8::Regex   re8 ( "\\d+");
