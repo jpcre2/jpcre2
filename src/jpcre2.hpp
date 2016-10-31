@@ -92,7 +92,6 @@
  *  If you want to use any PCRE2 functions or constants,
  *  remember that they are in the global scope and should be used as such.
  */
-
 namespace jpcre2 {
 
 
@@ -177,7 +176,6 @@ template<int BS> struct Pcre2Func;
 //PCRE2 types
 //These templated types will be used in place of actual types
 template<int BS> struct Pcre2Type {};
-
 
 template<> struct Pcre2Type<8>{
     //typedefs used
@@ -494,8 +492,6 @@ namespace INFO {
 	const std::string VERSION_PRE_RELEASE = "";      ///< Alpha or beta (testing) release version
 }
 
-
-
 // Namespace for modifier constants.
 // For each modifier constant there is a jpcre2::Uint option value.
 // Some modifiers may have multiple values set together (ORed in bitwise operation) and
@@ -613,7 +609,6 @@ template<> std::wstring ParseInt<wchar_t>::toString(int x){
     delete[] buf;
     return str;
 }
-
     
 #if __cplusplus >= 201103L
 
