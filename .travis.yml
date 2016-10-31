@@ -15,4 +15,3 @@ before_install:
   - cd -
   - ./autogen.sh; ./configure --enable-test-multi && make
   - make check
-  
