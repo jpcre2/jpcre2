@@ -1,6 +1,14 @@
 Change Log for JPCRE2
 --------------------
 
+
+Version 10.28.03 - Mon Oct 31 22:24:29 UTC 2016
+-----------------------------------------------
+
+* Remove convert16 and convert32 global variable.
+* Add convert16 and convert32 typedefs.
+
+
 Version 10.28.02 - Mon Oct 31 21:00:32 UTC 2016
 -----------------------------------------------
 
