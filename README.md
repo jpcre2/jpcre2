@@ -473,7 +473,7 @@ This is what will happen when you compile:
 3. In a system where `char` is 32 bit, it will use 32-bit library and UTF-32 in UTF-mode.
 4. In a system where `char` is not 8, 16 or 32 bit, it will yield compile error.
 
-So, if you don't want to be so aware of the code unit width of the character type/s you are using, just link your program against all PCRE2 libraries. The code unit width will be handled automatically (unless you use explicit code unit width like `jpcre2::select<char, 8>`) and if anything unsupported is encountered, you will get compile time error.
+So, if you don't want to be so aware of the code unit width of the character type/s you are using, link your program against all PCRE2 libraries. The code unit width will be handled automatically (unless you use explicit code unit width like `jpcre2::select<char, 8>`) and if anything unsupported is encountered, you will get compile time error.
 
 A common example in this regard can be the use of `wchar_t`:
 
