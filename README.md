@@ -157,11 +157,20 @@ The `jp::Regex::match(const String& s)` family of member functions can take two 
 ### Check if a string matches a regex 
 
 ```cpp
-if(re.match("I am the subject")) std::cout<<"matched (case sensitive)";
-else std::cout<<"Didn't match";
+jp::Regex re("\\w+");
 
-if(re.match("I am the subject","i")) std::cout<<"matched (case insensitive)";
-else std::cout<<"Didn't match";
+if(re.match("I am the subject"))
+    std::cout<<"matched (case sensitive)";
+else
+    std::cout<<"Didn't match";
+
+//For case insensitive match, re-compile with modifier 'i'
+re.addModifier("i").compile();
+
+if(re.match("I am the subject"))
+    std::cout<<"matched (case insensitive)";
+else
+    std::cout<<"Didn't match";
 ```
 
 <a name="simple-match-count"></a>
@@ -294,10 +303,10 @@ Match object is a private property of `Regex` class. You either have to use `jp:
 This is an example where we will perform a match in two steps:
 
 ```cpp
-re.initMatch()                                //invoke the initMatch() function
-  .setNumberedSubstringVector(&vec_num)       //pointer to numbered substring vector
-  .setNamedSubstringVector(&vec_nas)          //pointer to named substring vector
-  .setNameToNumberMapVector(&vec_ntn)         //pointer to name-to-number map vector
+re.getMatchObject()                     //get a match object (new if it's the first call)
+  .setNumberedSubstringVector(&vec_num) //pointer to numbered substring vector
+  .setNamedSubstringVector(&vec_nas)    //pointer to named substring vector
+  .setNameToNumberMapVector(&vec_ntn)   //pointer to name-to-number map vector
 ```
 In the first step, we just set the vectors that we want our results in. This is pretty convenient when we are going to reuse the same vectors for multiple matches against the same regex.
 
@@ -323,9 +332,9 @@ The `jp::Regex::replace(const String& s, const String& r)` member function can t
 
 ```cpp
 //Using a temporary regex object
-std::cout<<jp::Regex("\\d+").replace("I am digits 1234","5678", "g");
+std::cout<<jp::Regex("\\d+").replace("I am digits 1234 0000","5678", "g");
 //'g' modifier is for global replacement
-//1234 gets replaced with 5678
+//1234 and 0000 gets replaced with 5678
 ```
 
 <a name="using-method-chain"></a>
