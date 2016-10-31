@@ -13,5 +13,6 @@ before_install:
   - make
   - sudo make install
   - cd -
+script:
   - ./autogen.sh; ./configure --enable-test-multi && make
   - make check

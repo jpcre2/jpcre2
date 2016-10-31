@@ -523,9 +523,12 @@ template<> std::u32string ParseInt<char32_t>::toString(int x) {
 ///jpcre2::select<Char_T>
 ///```
 ///then `sizeof(Char_T)*CHAR_BIT` will be taken as the value for BS.
-///It may come in handy in many situation but it will somewhat degrade the readability of
-///your code. Passing the code unit width as a template parameter with jpcre2::select will
-///keep things clear.
+///
+///It may be possible to write portable code by using jpcre2::select<Char_T>
+///i.e by not defining the bit size explicitly.
+///
+///But, when you define a single code unit width, explicity pass the bit size
+///with the selctor, it will improve readability of code.
 template<typename Char_T, int BS = sizeof( Char_T ) * CHAR_BIT> 
 struct select{
     virtual ~select(){}	//allow subclassing

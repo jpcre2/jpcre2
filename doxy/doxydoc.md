@@ -72,7 +72,7 @@ If PCRE2 is not installed in the standard path, add the path with `-L` option:
 g++ main.cpp jpcre2.hpp -L/my/library/path -lpcre2-8
 ```
 
-# Start coding {#start-coding}
+# Coding guide {#coding-guide}
 
 Performing a match or replacement against regex pattern involves two steps: 
 
@@ -390,7 +390,7 @@ Option | Details
 
 While having its own way of doing things, JPCRE2 also supports the traditional PCRE2 options to be passed (and it's faster than passing modifier). We use the `jp::Regex::addPcre2Option()` family of functions to pass the PCRE2 options. These options are the same as the PCRE2 library and have the same meaning. For example instead of passing the 'g' modifier to the replacement operation we can also pass its PCRE2 equivalent `PCRE2_SUBSTITUTE_GLOBAL` to have the same effect.
 
-## Code unit width & character type {#code-unit-and-character-type}
+# Code unit width & character type {#code-unit-and-character-type}
 
 The bit size of character type must match with `PCRE2_CODE_UNIT_WIDTH` (8, 16, or 32). That is, if you are compiling in a machine where `char` is 32 bit, you need to use the 32-bit library. The bit size of `char` can be 8 bit, 16 bit, 32 bit, 64 bit (not supported ) etc... depending on the system. Same goes for `wchar_t`. In Linux `wchar_t` is 32 bit, where in Windows, it's 16 bit. A system which only have 8 bit support will define `wchar_t` as 8 bit. 
 
@@ -400,6 +400,56 @@ By default a code unit width validation check is turned on. It will give you com
 #define JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
 #include <jpcre2.h>
 ```
+
+# Portable coding {#portable-coding}
+
+It is possible to write portable code with JPCRE2 that can be compiled across multiple systems without any modifications in the source. In this case, code will get compiled according to the system environment. Consider the following example, where you do :
+
+```cpp
+#define PCRE2_CODE_UNIT_WIDTH 0
+#include <jpcre2.hpp>
+
+typedef jpcre2::select<char> jp;
+
+int main(){
+    jp::Regex re;
+
+    ///other things
+    // ...
+    
+    return 0;
+}
+```
+The point to be noted that:
+
+1. `0` is used as the `PCRE2_CODE_UNIT_WIDTH` i.e all (8-bit, 16-bit, 32-bit) PCRE2 libraries are being linked.
+2. The selector `jpcre2::select<char>` is used without an explicit code unit width (i.e `jpcre2::select<char, 8>`)
+
+This is what will happen if the code is compiled in different systems:
+
+1. In a system where `char` is 8 bit, it will use 8-bit library and UTF-8 in UTF-mode.
+2. In a system where `char` is 16 bit, it will use 16-bit library and UTF-16 in UTF-mode.
+3. In a system where `char` is 32 bit, it will use 32-bit library and UTF-32 in UTF-mode.
+4. In a system where `char` is not 8, 16 or 32 bit, it will yield compile time error.
+
+The most common example can be the use of `wchar_t`. If you use 
+
+```cpp
+#define PCRE2_CODE_UNIT_WIDTH 0
+```
+with all PCRE2 libraries linked and use the selector without an explicit bit size, then your code will act according to your system conventions: 
+
+```cpp
+jpcre2::select<wchar_t>::Regex re;
+```
+
+1. In windows, the above code will be compiled with 16-bit library and UTF-16 in UTF mode.
+2. In Linux, the above code will be compiled with 32-bit library and UTF-32 in UTF mode.
+
+> When `PCRE2_CODE_UNIT_WIDTH` is defined as `0`, this macro loses its significance in JPCRE2 context, i.e the quirk introduced by the macro `PCRE2_CODE_UNIT_WIDTH` can be suppressed by defining it as `0`.
+
+> If you do care about the consistency of the code unit width among multiple systems, use the selector with an explicit bit size `jpcre2::select<Char_T, BS>`), but in this case, your code will not be portable, and you will get compile time error (if not suppressed) when code unit width mismatch occurs.
+
 
 # Error handling {#exception-handling}
 
@@ -578,8 +628,6 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
 
 # API change notice {#api-change-notice}
 If you are using the previous version of JPCRE2 (10.27), you can easily migrate to this latest API by replacing all `jpcre2::select8` or `jpcre2::select16` or `jpcre2::select32` with `jpcre2::select` in your code.
-
-**Note:** Using `jpcre2::select<Char_T, BS>` (BS: code unit width) instead of `jpcre2::select<Char_T>` will improve readability of your code.
 
 
 # The configure script {#the-configure-script}
