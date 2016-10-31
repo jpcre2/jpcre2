@@ -9,7 +9,7 @@
 #include "jpcre2.hpp"
 
 
-#define getLine(a) std::getline(std::cin,a,'\n')
+void getLine(std::string& a) { std::getline(std::cin,a,'\n'); }
 
 typedef jpcre2::select<char> jp;
 
