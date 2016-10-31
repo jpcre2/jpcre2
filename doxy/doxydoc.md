@@ -83,7 +83,7 @@ typedef jpcre2::select<char> jp;
 
 (You can use temporary object too, see [short examples](#short-examples)).
 
-This object will hold the pattern, modifiers (PCRE2 and JPCRE2 options) and compiled pattern.
+This object will hold the pattern, options and compiled pattern.
 
 ```cpp
 jp::Regex re;
