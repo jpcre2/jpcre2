@@ -6,19 +6,18 @@
  * */
 
 #include <iostream>
-#define JPCRE2_ENABLE_CODE_UNIT_VALIDATION
 #define PCRE2_CODE_UNIT_WIDTH 16
 #include "jpcre2.hpp"
 
-typedef jpcre2::select<wchar_t> jpw;
-typedef jpcre2::select<char16_t> jpu;
+typedef jpcre2::select<wchar_t> jpw; //for windows
+typedef jpcre2::select<char16_t> jpu; //sizeof(char16_t)*CHAR_BIT will be taken as default value for BS
 
 int main() {
     
     //Working with wchar_t i.e std::wstring
     
-    /* //In Linux this will give a runtime error because wchar_t in Linux is 32 bit but 16 bit code unit is defined
-     * (JPCRE2_ENABLE_CODE_UNIT_VALIDATION)
+    /* //In Linux this will give compile time errors because wchar_t in Linux is 32 bit but 16 bit code unit is defined
+     * 
     //Match:
     std::cout<<"\n"<<
     jpw::Regex(L"[\\w]+").match(L"I am a subject with 7 matches", "g"); //modifier is always std::string

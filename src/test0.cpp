@@ -7,10 +7,10 @@
 #include <iostream>
 
 #define PCRE2_CODE_UNIT_WIDTH 0
-#include <jpcre2.hpp>
+#include "jpcre2.hpp"
 
-typedef jpcre2::select8<char> jp8;
-typedef jpcre2::select32<wchar_t> jp32;
+typedef jpcre2::select<char> jp8;
+typedef jpcre2::select<wchar_t> jp32;
 
 int main(){
    jp8::Regex   re8 ( "\\d+");
