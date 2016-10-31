@@ -31,7 +31,7 @@ If the required PCRE2 version is not available in the official channel, you can 
 
 This is a header only library. All you need to do is include the header `jpcre2.hpp` in your program.
 
-Define `PCRE2_CODE_UNIT_WDTH` before including this header. Valid values for this macro are:
+Define `PCRE2_CODE_UNIT_WIDTH` before including this header. Valid values for this macro are:
 
 Value | Library to be linked | Remarks
 ----- | -------------------- | -------
@@ -43,7 +43,7 @@ Value | Library to be linked | Remarks
 Example:
 
 ```cpp
-#define PCRE2_CODE_UNIT_WDTH 0
+#define PCRE2_CODE_UNIT_WIDTH 0
 #include "jpcre2.hpp"
 ```
 
@@ -64,7 +64,7 @@ This will compile some examples (for 8-bit) and install the header. For other te
 
 **Compile/Build:**
 
-Compile/Build your code with corresponding PCRE2 libraries linked. For 8-bit, you need to link with 8-bit and so on. If you want to use multiple code unit width, link against all 8-bit, 16-bit and 32-bit libraries and define `PCRE2_CODE_UNIT_WDTH` as `0`.
+Compile/Build your code with corresponding PCRE2 libraries linked. For 8-bit, you need to link with 8-bit and so on. If you want to use multiple code unit width, link against all 8-bit, 16-bit and 32-bit libraries and define `PCRE2_CODE_UNIT_WIDTH` as `0`.
 
 **Examples of compile command for g++:**
 
@@ -91,7 +91,7 @@ Performing a match or replacement against regex pattern involves two steps:
 
 ## Compile a regex pattern 
 
-Select a character type according to `PCRE2_CODE_UNIT_WDTH`. In this doc we are going to use 8 bit code unit width as reference and we will use `char` as the character type.
+Select a character type according to `PCRE2_CODE_UNIT_WIDTH`. In this doc we are going to use 8 bit code unit width as reference and we will use `char` as the character type.
 
 Let's use a typedef to shorten the code:
 
