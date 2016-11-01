@@ -115,7 +115,7 @@ CONFIG_CLEAN_VPATH_FILES =
 @WITH_TEST_32_TRUE@am__EXEEXT_3 = test32$(EXEEXT)
 @WITH_TEST_MULTI_TRUE@am__EXEEXT_4 = test0$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
-am__test0_SOURCES_DIST = test0.cpp jpcre2.hpp
+am__test0_SOURCES_DIST = test0.cpp
 am__objects_1 =
 @WITH_TEST_MULTI_TRUE@am_test0_OBJECTS = test0-test0.$(OBJEXT) \
 @WITH_TEST_MULTI_TRUE@	$(am__objects_1)
@@ -128,7 +128,7 @@ am__v_lt_1 =
 test0_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test0_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__test16_SOURCES_DIST = test16.cpp jpcre2.hpp
+am__test16_SOURCES_DIST = test16.cpp
 @WITH_TEST_16_TRUE@am_test16_OBJECTS = test16-test16.$(OBJEXT) \
 @WITH_TEST_16_TRUE@	$(am__objects_1)
 test16_OBJECTS = $(am_test16_OBJECTS)
@@ -136,7 +136,7 @@ test16_LDADD = $(LDADD)
 test16_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test16_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__test32_SOURCES_DIST = test32.cpp jpcre2.hpp
+am__test32_SOURCES_DIST = test32.cpp
 @WITH_TEST_32_TRUE@am_test32_OBJECTS = test32-test32.$(OBJEXT) \
 @WITH_TEST_32_TRUE@	$(am__objects_1)
 test32_OBJECTS = $(am_test32_OBJECTS)
@@ -144,7 +144,7 @@ test32_LDADD = $(LDADD)
 test32_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test32_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__test_match_SOURCES_DIST = test_match.cpp jpcre2.hpp
+am__test_match_SOURCES_DIST = test_match.cpp
 @WITH_TEST_8_TRUE@am_test_match_OBJECTS =  \
 @WITH_TEST_8_TRUE@	test_match-test_match.$(OBJEXT) \
 @WITH_TEST_8_TRUE@	$(am__objects_1)
@@ -153,7 +153,7 @@ test_match_LDADD = $(LDADD)
 test_match_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test_match_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__test_match2_SOURCES_DIST = test_match2.cpp jpcre2.hpp
+am__test_match2_SOURCES_DIST = test_match2.cpp
 @WITH_TEST_8_TRUE@am_test_match2_OBJECTS =  \
 @WITH_TEST_8_TRUE@	test_match2-test_match2.$(OBJEXT) \
 @WITH_TEST_8_TRUE@	$(am__objects_1)
@@ -162,7 +162,7 @@ test_match2_LDADD = $(LDADD)
 test_match2_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test_match2_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__test_replace_SOURCES_DIST = test_replace.cpp jpcre2.hpp
+am__test_replace_SOURCES_DIST = test_replace.cpp
 @WITH_TEST_8_TRUE@am_test_replace_OBJECTS =  \
 @WITH_TEST_8_TRUE@	test_replace-test_replace.$(OBJEXT) \
 @WITH_TEST_8_TRUE@	$(am__objects_1)
@@ -171,7 +171,7 @@ test_replace_LDADD = $(LDADD)
 test_replace_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test_replace_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__test_replace2_SOURCES_DIST = test_replace2.cpp jpcre2.hpp
+am__test_replace2_SOURCES_DIST = test_replace2.cpp
 @WITH_TEST_8_TRUE@am_test_replace2_OBJECTS =  \
 @WITH_TEST_8_TRUE@	test_replace2-test_replace2.$(OBJEXT) \
 @WITH_TEST_8_TRUE@	$(am__objects_1)
@@ -181,7 +181,7 @@ test_replace2_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(test_replace2_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-am__test_shorts_SOURCES_DIST = test_shorts.cpp jpcre2.hpp
+am__test_shorts_SOURCES_DIST = test_shorts.cpp
 @WITH_TEST_8_TRUE@am_test_shorts_OBJECTS =  \
 @WITH_TEST_8_TRUE@	test_shorts-test_shorts.$(OBJEXT) \
 @WITH_TEST_8_TRUE@	$(am__objects_1)
@@ -224,24 +224,6 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
-	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CFLAGS) $(CFLAGS)
-AM_V_CC = $(am__v_CC_@AM_V@)
-am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
-am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 = 
-CCLD = $(CC)
-LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_CCLD = $(am__v_CCLD_@AM_V@)
-am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
-am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 = 
 SOURCES = $(test0_SOURCES) $(test16_SOURCES) $(test32_SOURCES) \
 	$(test_match_SOURCES) $(test_match2_SOURCES) \
 	$(test_replace_SOURCES) $(test_replace2_SOURCES) \
@@ -441,9 +423,7 @@ EXTRA_DIST = jpcre2.hpp test_match.cpp test_replace.cpp \
 include_HEADERS = \
   jpcre2.hpp
 
-JPCRE2_SOURCES = \
-  jpcre2.hpp
-
+JPCRE2_SOURCES = 
 
 #Building test_match2
 @WITH_TEST_8_TRUE@test_match2_SOURCES = \

@@ -18,8 +18,7 @@ noinst_PROGRAMS =
 
 
 
-JPCRE2_SOURCES = \
-  jpcre2.hpp
+JPCRE2_SOURCES = 
 
 if WITH_TEST_8
 
