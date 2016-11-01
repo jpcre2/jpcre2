@@ -405,7 +405,7 @@ Modifier | Details
 
 ## Action modifiers 
 
-These modifiers are not compiled in the regex itself, rather they are used per call of each match, replace or compile function.
+These modifiers are not compiled in the regex itself, rather they are used per call of each match or replace function.
 
 Modifier | Action | Details
 ------ | ------ | ----- |
