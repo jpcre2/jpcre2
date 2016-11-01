@@ -56,13 +56,13 @@ Compile/Build your code with corresponding PCRE2 libraries linked. For 8-bit cod
 **Example compilation with g++:**
 
 ```cpp
-g++ main.cpp jpcre2.hpp -lpcre2-8
-g++ multi.cpp jpcre2.hpp -lpcre2-8 -lpcre2-16 -lpcre2-32
+g++ main.cpp -lpcre2-8
+g++ multi.cpp -lpcre2-8 -lpcre2-16 -lpcre2-32
 ```
 If PCRE2 is not installed in the standard path, add the path with `-L` option:
 
 ```cpp
-g++ main.cpp jpcre2.hpp -L/my/library/path -lpcre2-8
+g++ main.cpp -L/my/library/path -lpcre2-8
 ```
 
 # Coding guide {#coding-guide}
@@ -140,7 +140,7 @@ The `jp::Regex::match(const String& s)` family of member functions can take two 
 ### Check if a string matches a regex {#check-if-a-string-matches-a-regex}
 
 ```cpp
-jp::Regex re("\\w+");
+jp::Regex re("\\w+ect");
 
 if(re.match("I am the subject"))
     std::cout<<"matched (case sensitive)";
@@ -150,7 +150,7 @@ else
 //For case insensitive match, re-compile with modifier 'i'
 re.addModifier("i").compile();
 
-if(re.match("I am the subject"))
+if(re.match("I am the subjEct"))
     std::cout<<"matched (case insensitive)";
 else
     std::cout<<"Didn't match";
