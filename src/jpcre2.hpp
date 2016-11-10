@@ -487,10 +487,10 @@ template<> struct Pcre2Func<32> {
  */
 namespace INFO {
     const std::string NAME = "JPCRE2";               ///< Name of the project
-    const std::string FULL_VERSION = "10.28.03";     ///< Full version string
+    const std::string FULL_VERSION = "10.28.04";     ///< Full version string
     const std::string VERSION_GENRE = "10";          ///< Generation, depends on original PCRE2 version
     const std::string VERSION_MAJOR = "28";          ///< Major version, updated when API change is made
-    const std::string VERSION_MINOR = "03";          ///< Minor version, includes bug fix or minor feature upgrade
+    const std::string VERSION_MINOR = "04";          ///< Minor version, includes bug fix or minor feature upgrade
     const std::string VERSION_PRE_RELEASE = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -565,18 +565,19 @@ namespace MOD {
 }
 
 //These message strings are used for error/warning message construction.
-template<typename Char_T> struct MSG{
-    static const std::basic_string<Char_T> INVALID_MODIFIER;
-};
+namespace{//preven multiple definition
+    template<typename Char_T> struct MSG{
+        static const std::basic_string<Char_T> INVALID_MODIFIER;
+    };
 
-template<> const std::basic_string<char> MSG<char>::INVALID_MODIFIER = "Invalid modifier: ";
-template<> const std::basic_string<wchar_t> MSG<wchar_t>::INVALID_MODIFIER = L"Invalid modifier: ";
+    template<> const std::basic_string<char> MSG<char>::INVALID_MODIFIER = "Invalid modifier: ";
+    template<> const std::basic_string<wchar_t> MSG<wchar_t>::INVALID_MODIFIER = L"Invalid modifier: ";
 
-#if __cplusplus >= 201103L
-template<> const std::basic_string<char16_t> MSG<char16_t>::INVALID_MODIFIER = u"Invalid modifier: ";
-template<> const std::basic_string<char32_t> MSG<char32_t>::INVALID_MODIFIER = U"Invalid modifier: ";
-#endif
-
+    #if __cplusplus >= 201103L
+    template<> const std::basic_string<char16_t> MSG<char16_t>::INVALID_MODIFIER = u"Invalid modifier: ";
+    template<> const std::basic_string<char32_t> MSG<char32_t>::INVALID_MODIFIER = U"Invalid modifier: ";
+    #endif
+}
 
 ///@struct ParseInt
 ///Contains function that parses integer.
@@ -587,7 +588,7 @@ template<typename Char_T> struct ParseInt{
 ///Converts integer to std::string
 ///@param x the integer to convert
 ///@return std::string from the integer
-template<> std::string ParseInt<char>::toString(int x){
+template<> inline std::string ParseInt<char>::toString(int x){
     int length = snprintf(0, 0, "%d", x);
     //assert(length >= 0);
     char* buf = new char[length + 1];
@@ -602,7 +603,7 @@ template<> std::string ParseInt<char>::toString(int x){
 ///Converts integer to std::wstring
 ///@param x the integer to convert
 ///@return std::wstring from the integer
-template<> std::wstring ParseInt<wchar_t>::toString(int x){
+template<> inline std::wstring ParseInt<wchar_t>::toString(int x){
     int length = swprintf(0, 0, L"%d", x);
     //assert(length >= 0);
     wchar_t* buf = new wchar_t[length + 1];
@@ -620,7 +621,7 @@ template<> std::wstring ParseInt<wchar_t>::toString(int x){
 ///Uses codecvt to convert to utf16 from utf8
 ///@param x int to convert
 ///@return std::u16string from the integer
-template<> std::u16string ParseInt<char16_t>::toString(int x) {
+template<> inline std::u16string ParseInt<char16_t>::toString(int x) {
     std::string s = std::to_string(x);
     Convert16 conv;
     std::u16string us = conv.from_bytes(s);
@@ -633,7 +634,7 @@ template<> std::u16string ParseInt<char16_t>::toString(int x) {
 ///Uses codecvt to convert to utf32 from utf8
 ///@param x int to convert
 ///@return std::u32string from the integer
-template<> std::u32string ParseInt<char32_t>::toString(int x) {
+template<> inline std::u32string ParseInt<char32_t>::toString(int x) {
     std::string s = std::to_string(x);
     Convert32 conv;
     std::u32string us = conv.from_bytes(s);
@@ -1202,7 +1203,12 @@ struct select{
             return *this; 
         } 
          
-        /** Set the replacement string
+        /** Set the replacement string.
+         * `$` is a special char. It denotes a captured group, e.g `$0` is the whole match,
+         * $1 is the caputred group no. 1, `${name}` is the captured group `name`.
+         * To isolate a capture group, wrap the number with `{}` e.g ${12} is the 12th
+         * captured group.
+         * To pass a literal `$` you must use `$$`.
          * @param s String to replace with
          * @return Reference to the calling RegexReplace object
  * */
@@ -1341,6 +1347,8 @@ struct select{
         } 
         
         /// Perform regex replace by retrieving subject string, replacement string, modifier and other options from class variables.
+        /// In the replacement string (see RegexReplace::setReplaceWith()) `$` is a special character which implies captured group.
+        /// A literal `$` can be given as `$$` in the replacement string.
         ///@return Replaced string
         String replace(void); 
     }; 
