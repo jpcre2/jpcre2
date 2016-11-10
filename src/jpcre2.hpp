@@ -781,6 +781,8 @@ struct select{
         Uint jpcre2_match_opts; 
         int error_number;
         PCRE2_SIZE error_offset;
+        
+        PCRE2_SIZE startfrom_offset;
 
         VecNum* vec_num;        
         VecNas* vec_nas;        
@@ -814,6 +816,7 @@ struct select{
             jpcre2_match_opts = 0; 
             error_number = 0;
             error_offset = 0;
+            startfrom_offset = 0;
         } 
 
         RegexMatch() { 
@@ -882,8 +885,13 @@ struct select{
         ///@see RegexReplace::getSubject()
         String getSubject() { 
             return m_subject; 
-        } 
-
+        }
+        
+        ///Get offset where matching starts
+        ///@return offset where matching starts
+        PCRE2_SIZE getStartFromOffset() {
+            return startfrom_offset;
+        }
 
         /** Calculate modifier string from PCRE2 and JPCRE2 options and return it.
          *
@@ -957,6 +965,12 @@ struct select{
             return *this; 
         } 
 
+        ///Set offset where matching starts
+        ///@return Reference to the calling RegexMatch object
+        RegexMatch& setStartFromOffset(PCRE2_SIZE offset) {
+            startfrom_offset = offset;
+            return *this;
+        }
 
         /// Set the modifier (resets all JPCRE2 and PCRE2 options) by calling RegexMatch::changeModifier().
         /// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options.
@@ -2460,7 +2474,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     rc = Pcre2Func<BS>::match(  re->code,       /* the compiled pattern */
                                 subject,        /* the subject string */
                                 subject_length, /* the length of the subject */
-                                0,              /* start at offset 0 in the subject */
+                                startfrom_offset,              /* start at offset 'startfrom_offset' in the subject */
                                 match_opts,     /* default options */
                                 match_data,     /* block for storing the result */
                                 0);             /* use default match context */
