@@ -25,8 +25,9 @@ int main(){
       .addJpcre2Option(jpcre2::JIT_COMPILE)                              //perform JIT compile
       .addPcre2Option(PCRE2_DUPNAMES)                                    //add pcre2 option
       .compile();                                                        //Finally compile it.
-    
-    // JIT error is a harmless error, it just means that an optimization failed.
+      
+    std::cerr<<re.getErrorMessage();
+    // JIT error is a harmless, it just means that an optimization failed.
     
     //subject string
     std::string subject = "(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56)";
@@ -34,7 +35,9 @@ int main(){
     size_t count = 0;
     
     count = re.initMatch()                                  //create a match object
-              .addModifier("g")                             //set various parameters
+              .addModifier("gi")                            //set various parameters
+              //'invalid modifier: i' error (i is a compile modifier)
+              //modifier error is harmless
               .setSubject(subject)                          //...
               .setNumberedSubstringVector(&vec_num)         //...
               .setNamedSubstringVector(&vec_nas)            //...
@@ -42,7 +45,7 @@ int main(){
               .addPcre2Option(0)                            //...
               .match();                                     //Finally perform the match
     
-    std::cerr<<"\n"<<re.getErrorMessage();
+    std::cerr<<"\n"<<re.getMatchObject().getErrorMessage();
     
     
     // re.reset(); // re-initialize re
