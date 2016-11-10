@@ -5,7 +5,6 @@
  * */
 
 #include <iostream>
-#include "test.cpp"
 #include "jpcre2.hpp"
 
 typedef jpcre2::select<char> jp8;
