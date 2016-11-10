@@ -396,6 +396,8 @@ Size of integral types (`char`, `wchar_t`, `char16_t`, `char32_t`) is implementa
 
 # Portable coding {#portable-coding}
 
+## Code unit width quirk {#code-unit-width-quirk}
+
 JPCRE2 codes are portable when you use the selector (`jpcre2::select`) without an explicit bit size. In this case, code will get compiled according to the code unit width defined by your system. Consider the following example, where you do :
 
 ```cpp
@@ -431,6 +433,32 @@ jpcre2::select<wchar_t>::Regex re;
 2. In Linux, the above code will use 32-bit library and UTF-32 in UTF mode.
 
 > If you want to fix the code unit width, use an explicit bit size such as `jpcre2::select<Char_T, BS>`, but in this case, your code will not be portable, and you will get compile error (if not suppressed) when code unit width mismatch occurs.
+
+## Use of string class {#use-of-string-class}
+
+For portable code, instead of using the standard names `std::string` or such, use `jp::String` (you may further typedef it as `String` or whatever). It will be defined to an appropriate string class according to the basic character type you selected and thus provide all the functionalities and conveniences you get with `std::string` and such. Being said that, there's no harm if you use the standard names (`std::string` and such). Using `jp::String` will just ensure that you are using the correct string class for the correct character type. If you need to use the basic character type, use `jp::Char`.
+
+## Use of vectors {#use-of-vectors}
+
+Instead of using full names like `std::vector<std::string>` and such for storing match result, use the typedefs:
+
+1. `jp::NumSub`: Equivalent to `std::vector<std::string>`
+2. `jp::MapNas`: Equivalent to `std::map<std::string, std::string>`
+3. `jp::MapNtN`: Equivalent to `std::map<std::string, size_t>`
+4. `jp::VecNum`: Equivalent to `std::vector<jp::NumSub>`
+5. `jp::VecNas`: Equivalent to `std::vector<jp::MapNas>`
+6. `jp::VecNtN`: Equivalent to `std::vector<jp::MapNtN>`
+
+## Other typedefs {#other-typedefs}
+
+Other typedefs are mostly for internal use
+
+* You can use `jpcre2::Convert16` to convert between UTF-8 and UTF-16. (`>=C++11`)
+* You can use `jpcre2::Convert32` to convert between UTF-8 and UTF-32. (`>=C++11`)
+* You should not use the `jpcre2::Ush` as unsigned short. In JPCRE2 context, it is the smallest unsigned integer type to cover at least the numbers from 1 to 126.
+* `jpcre2::Uint` is a fixed width unsigned integer type and will be at least 32 bit wide.
+* `jpcre2::SIZE_T` is the same as `PCRE2_SIZE` which is defined as `size_t`.
+
 
 # Error handling {#exception-handling}
 
