@@ -500,15 +500,15 @@ jpcre2::select<wchar_t>::Regex re;
 
 For portable code, instead of using the standard names `std::string` or such, use `jp::String` (you may further typedef it as `String` or whatever). It will be defined to an appropriate string class according to the basic character type you selected and thus provide all the functionalities and conveniences you get with `std::string` and such string classes. Being said that, there's no harm if you use the standard names (`std::string` etc...). Using `jp::String` will just ensure that you are using the correct string class for the correct character type. If you need to use the basic character type, use `jp::Char`.
 
-<a name="use-of-vectors"></a>
+<a name="use-of-vectors-for-match-result"></a>
 
-## Use of vectors 
+## Use of vectors for match result 
 
 Instead of using full names like `std::vector<std::string>` and such for storing match result, use the typedefs:
 
-1. `jp::NumSub`: Equivalent to `std::vector<std::string>`
-2. `jp::MapNas`: Equivalent to `std::map<std::string, std::string>`
-3. `jp::MapNtN`: Equivalent to `std::map<std::string, size_t>`
+1. `jp::NumSub`: Equivalent to `std::vector<jp::String>`
+2. `jp::MapNas`: Equivalent to `std::map<jp::String, jp::String>`
+3. `jp::MapNtN`: Equivalent to `std::map<jp::String, size_t>`
 4. `jp::VecNum`: Equivalent to `std::vector<jp::NumSub>`
 5. `jp::VecNas`: Equivalent to `std::vector<jp::MapNas>`
 6. `jp::VecNtN`: Equivalent to `std::vector<jp::MapNtN>`
