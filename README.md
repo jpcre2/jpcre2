@@ -454,6 +454,10 @@ Size of integral types (`char`, `wchar_t`, `char16_t`, `char32_t`) is implementa
 
 # Portable coding 
 
+<a name="code-unit-width-quirk"></a>
+
+## Code unit width quirk 
+
 JPCRE2 codes are portable when you use the selector (`jpcre2::select`) without an explicit bit size. In this case, code will get compiled according to the code unit width defined by your system. Consider the following example, where you do :
 
 ```cpp
@@ -490,17 +494,49 @@ jpcre2::select<wchar_t>::Regex re;
 
 > If you want to fix the code unit width, use an explicit bit size such as `jpcre2::select<Char_T, BS>`, but in this case, your code will not be portable, and you will get compile error (if not suppressed) when code unit width mismatch occurs.
 
+<a name="use-of-string-class"></a>
+
+## Use of string class 
+
+For portable code, instead of using the standard names `std::string` or such, use `jp::String` (you may further typedef it as `String` or whatever). It will be defined to an appropriate string class according to the basic character type you selected and thus provide all the functionalities and conveniences you get with `std::string` and such string classes. Being said that, there's no harm if you use the standard names (`std::string` etc...). Using `jp::String` will just ensure that you are using the correct string class for the correct character type. If you need to use the basic character type, use `jp::Char`.
+
+<a name="use-of-vectors"></a>
+
+## Use of vectors 
+
+Instead of using full names like `std::vector<std::string>` and such for storing match result, use the typedefs:
+
+1. `jp::NumSub`: Equivalent to `std::vector<std::string>`
+2. `jp::MapNas`: Equivalent to `std::map<std::string, std::string>`
+3. `jp::MapNtN`: Equivalent to `std::map<std::string, size_t>`
+4. `jp::VecNum`: Equivalent to `std::vector<jp::NumSub>`
+5. `jp::VecNas`: Equivalent to `std::vector<jp::MapNas>`
+6. `jp::VecNtN`: Equivalent to `std::vector<jp::MapNtN>`
+
+<a name="other-typedefs"></a>
+
+## Other typedefs 
+
+Other typedefs are mostly for internal use
+
+* You can use `jpcre2::Convert16` to convert between UTF-8 and UTF-16. (`>=C++11`)
+* You can use `jpcre2::Convert32` to convert between UTF-8 and UTF-32. (`>=C++11`)
+* You should not use the `jpcre2::Ush` as unsigned short. In JPCRE2 context, it is the smallest unsigned integer type to cover at least the numbers from 1 to 126.
+* `jpcre2::Uint` is a fixed width unsigned integer type and will be at least 32 bit wide.
+* `jpcre2::SIZE_T` is the same as `PCRE2_SIZE` which is defined as `size_t`.
+
+
 <a name="exception-handling"></a>
 
 # Error handling 
 
-When a known error is occurred during pattern compilation or match or replace, the error number and error offsets are set to corresponding variables of `jp::Regex` class. You can get the error number, error offset and error message with `jp::Regex::getErrorNumber()`, `jp::Regex::getErrorOffset()` and `jp::Regex::getErrorMessage()` functions respectively.
+When a known error is occurred during pattern compilation or match or replace, the error number and error offsets are set to corresponding variables of the respective classes. You can get the error number, error offset and error message with `getErrorNumber()`, `getErrorOffset()` and `getErrorMessage()` functions respectively. These functions are available for all three classes.
 
 **Note** that, these errors always gets overwritten by previous error, so you only get the last error that occurred.
 
 **Also note** that, these errors never get re-initialized (set to zero), they are always there even when everything else worked great (except some previous error).
 
-If you do experiment with various erroneous situations, make use of the `resetErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is defined for all three classes and do the same thing.
+If you do experiment with various erroneous situations, make use of the `resetErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is also defined for all three classes to reset their corresponding errors.
 
 <a name="short-examples"></a>
 

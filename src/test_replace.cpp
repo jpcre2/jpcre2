@@ -33,7 +33,8 @@ int main(){
       .addPcre2Option(0)                                                //...
       .replace();                                                       //Finally perform the replace operation.
     
-    if(!re){std::cerr<<re.getErrorMessage();}
+    if(re.getReplaceObject().getErrorNumber() != 0)
+        std::cerr<<re.getReplaceObject().getErrorMessage();
     
 	return 0;
 }

@@ -436,7 +436,7 @@ jpcre2::select<wchar_t>::Regex re;
 
 ## Use of string class {#use-of-string-class}
 
-For portable code, instead of using the standard names `std::string` or such, use `jp::String` (you may further typedef it as `String` or whatever). It will be defined to an appropriate string class according to the basic character type you selected and thus provide all the functionalities and conveniences you get with `std::string` and such. Being said that, there's no harm if you use the standard names (`std::string` and such). Using `jp::String` will just ensure that you are using the correct string class for the correct character type. If you need to use the basic character type, use `jp::Char`.
+For portable code, instead of using the standard names `std::string` or such, use `jp::String` (you may further typedef it as `String` or whatever). It will be defined to an appropriate string class according to the basic character type you selected and thus provide all the functionalities and conveniences you get with `std::string` and such string classes. Being said that, there's no harm if you use the standard names (`std::string` etc...). Using `jp::String` will just ensure that you are using the correct string class for the correct character type. If you need to use the basic character type, use `jp::Char`.
 
 ## Use of vectors {#use-of-vectors}
 
@@ -462,13 +462,13 @@ Other typedefs are mostly for internal use
 
 # Error handling {#exception-handling}
 
-When a known error is occurred during pattern compilation or match or replace, the error number and error offsets are set to corresponding variables of `jp::Regex` class. You can get the error number, error offset and error message with `jp::Regex::getErrorNumber()`, `jp::Regex::getErrorOffset()` and `jp::Regex::getErrorMessage()` functions respectively.
+When a known error is occurred during pattern compilation or match or replace, the error number and error offsets are set to corresponding variables of the respective classes. You can get the error number, error offset and error message with `getErrorNumber()`, `getErrorOffset()` and `getErrorMessage()` functions respectively. These functions are available for all three classes.
 
 **Note** that, these errors always gets overwritten by previous error, so you only get the last error that occurred.
 
 **Also note** that, these errors never get re-initialized (set to zero), they are always there even when everything else worked great (except some previous error).
 
-If you do experiment with various erroneous situations, make use of the `resetErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is defined for all three classes and do the same thing.
+If you do experiment with various erroneous situations, make use of the `resetErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is also defined for all three classes to reset their corresponding errors.
 
 # Short examples {#short-examples}
 
