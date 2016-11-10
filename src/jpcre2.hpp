@@ -565,7 +565,7 @@ namespace MOD {
 }
 
 //These message strings are used for error/warning message construction.
-namespace{//preven multiple definition
+namespace{//prevent multiple definition
     template<typename Char_T> struct MSG{
         static const std::basic_string<Char_T> INVALID_MODIFIER;
     };
