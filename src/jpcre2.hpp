@@ -1058,7 +1058,7 @@ struct select{
             return setFindAll(true); 
         }
 
-        /// Set offset from where match starts
+        /// Set offset from where match starts.
         /// When FIND_ALL is set, a global match would not be performed on all positions on the subject,
         /// rather it will be performed from the start offset and onwards.
         /// @param offset Start offset
