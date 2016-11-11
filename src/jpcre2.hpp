@@ -1031,6 +1031,8 @@ struct select{
         }
         
         /// Set offset from where RegexMatch starts
+        /// When FIND_ALL is set, a global match would not be performed on all positions on the subject,
+        /// rather it will be performed from the start offset and onwards.
         /// @return Reference to the calling RegexMatch object
         RegexMatch& setStartOffset(PCRE2_SIZE offset) {
             start_offset = offset;
