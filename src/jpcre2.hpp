@@ -1937,7 +1937,7 @@ struct select{
          *  @see RegexMatch::match()
          * */
         SIZE_T match(const String& s, const std::string& mod) { 
-            return getMatchObject().setStartOffset(0).setModifier(mod).match(); 
+            return getMatchObject().setStartOffset(0).setSubject(s).setModifier(mod).match(); 
         } 
 
         /** @overload
