@@ -104,7 +104,7 @@ namespace INFO {
     static const char FULL_VERSION[] = "10.28.04";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
     static const char VERSION_MAJOR[] = "28";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "04";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MINOR[] = "05";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
