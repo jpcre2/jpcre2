@@ -781,6 +781,9 @@ struct select{
         Uint jpcre2_match_opts; 
         int error_number;
         PCRE2_SIZE error_offset;
+        
+        PCRE2_SIZE start_offset;
+        PCRE2_SIZE end_offset;
 
         VecNum* vec_num;        
         VecNas* vec_nas;        
@@ -814,6 +817,8 @@ struct select{
             jpcre2_match_opts = 0; 
             error_number = 0;
             error_offset = 0;
+            start_offset = 0;
+            end_offset = 0;
         } 
 
         RegexMatch() { 
@@ -920,6 +925,18 @@ struct select{
         Uint getJpcre2Option() { 
             return jpcre2_match_opts; 
         } 
+        
+        /// Get offset from where RegexMatch will start in next match() call
+        /// @return offset from where RegexMatch will start in next match() call
+        PCRE2_SIZE getStartOffset() {
+            return start_offset;
+        }
+        
+        /// Get offset where last match() call has ended
+        /// @return offset where last match() call has ended
+        PCRE2_SIZE getEndOffset() {
+            return end_offset;
+        }
 
         /// Set a pointer to the numbered substring vector.
         /// This vector will be filled with numbered (indexed) captured groups.
@@ -1011,7 +1028,14 @@ struct select{
         ///@return Reference to the calling RegexMatch object
         RegexMatch& setFindAll() { 
             return setFindAll(true); 
-        } 
+        }
+        
+        /// Set offset from where RegexMatch starts
+        /// @return Reference to the calling RegexMatch object
+        RegexMatch& setStartOffset(PCRE2_SIZE offset) {
+            start_offset = offset;
+            return *this;
+        }
 
         /// After a call to this function PCRE2 and JPCRE2 options will be properly set.
         /// This function does not initialize or re-initialize options.
@@ -2460,7 +2484,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     rc = Pcre2Func<BS>::match(  re->code,       /* the compiled pattern */
                                 subject,        /* the subject string */
                                 subject_length, /* the length of the subject */
-                                0,              /* start at offset 0 in the subject */
+                                start_offset,   /* start at offset 'start_offset' in the subject */
                                 match_opts,     /* default options */
                                 match_data,     /* block for storing the result */
                                 0);             /* use default match context */
@@ -2548,6 +2572,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
     // Populate vectors with their associated maps.
     pushMapsIntoVectors();
+    
+    end_offset = ovector[1]; //store where matching has ended if it's the only match
 
     /***********************************************************************//*
      * If the "g" modifier was given, we want to continue                     *
@@ -2708,6 +2734,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
         /// Populate vectors with their associated maps.
         pushMapsIntoVectors();
 
+        end_offset = ovector[1]; //store where matching has ended if it's the last match
+        
     } /* End of loop to find second and subsequent matches */
 
     Pcre2Func<BS>::match_data_free(match_data);
