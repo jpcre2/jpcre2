@@ -153,7 +153,11 @@ else std::cout<<"Failure";
 
 ## Match 
 
-The `jp::Regex::match(const String& s)` family of member functions can take two arguments (subject & modifier) and returns the number of matches found against the compiled pattern. What it actually does is create a `RegexMatch` object and forward all options to it, then finally call `jp::RegexMatch::match()` to perform the match. To get match results, you will need to pass vector pointers that will be filled with match data.
+Match is generally performed using the `jp::RegexMatch::match()` function.
+
+For convenience, a shortcut function in `jp::Regex` is available: `jp::Regex::match()`. It can take three optional arguments. If modifier is passed as an argument to this function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string. This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexMatch::match()` function.
+
+To get match results, you will need to pass vector pointers that will be filled with match data.
 
 <a name="check-if-a-string-matches-a-regex"></a>
 
@@ -195,7 +199,7 @@ To get the match results, you need to pass appropriate vector pointers. This is 
 jp::VecNum vec_num;
 size_t count=re.initMatch()									//Initialize match object
 			   .setSubject(subject)                         //set subject string
-               .setModifier(ac_mod)                         //set modifier string
+               .addModifier(ac_mod)                         //add modifier
                .setNumberedSubstringVector(&vec_num)        //pass pointer to VecNum vector
                .match();                                    //Finally perform the match.
 //vec_num will be populated with vectors of numbered substrings.
@@ -225,7 +229,7 @@ jp::VecNtN vec_ntn;   ///Vector to store Named substring to Number Map.
 std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Option()
 re.initMatch()
   .setSubject(subject)                         //set subject string
-  .setModifier(ac_mod)                         //set modifier string
+  .addModifier(ac_mod)                         //add modifier
   .setNumberedSubstringVector(&vec_num)        //pass pointer to vector of numbered substring vectors
   .setNamedSubstringVector(&vec_nas)           //pass pointer to vector of named substring maps
   .setNameToNumberMapVector(&vec_ntn)          //pass pointer to vector of name to number maps
@@ -301,7 +305,7 @@ for(size_t i=0;i<vec_nas.size();++i){
 
 ### Re-use a match object 
 
-Match object is a private property of `Regex` class. You either have to use `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` function to get a reference to it. The only difference between these two is: `initMatch()` always creates a new match object deleting the previous one, while `getMatchObject()` gives you a reference to the existing match object if available, otherwise creates it.
+You can use `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` function to get a reference to the associated match object. The only difference between these two is: `initMatch()` always creates a new match object deleting the previous one, while `getMatchObject()` gives you a reference to the existing match object if available, otherwise creates it.
 
 This is an example where we will perform a match in two steps:
 
@@ -309,23 +313,51 @@ This is an example where we will perform a match in two steps:
 re.getMatchObject()                     //get a match object (new if it's the first call)
   .setNumberedSubstringVector(&vec_num) //pointer to numbered substring vector
   .setNamedSubstringVector(&vec_nas)    //pointer to named substring vector
-  .setNameToNumberMapVector(&vec_ntn)   //pointer to name-to-number map vector
+  .setNameToNumberMapVector(&vec_ntn);  //pointer to name-to-number map vector
 ```
 In the first step, we just set the vectors that we want our results in. This is pretty convenient when we are going to reuse the same vectors for multiple matches against the same regex.
 
 ```cpp
 size_t count = re.getMatchObject()
                  .setSubject("I am the subject")
-                 .setModifier("i")
-                 .match()
+                 .addModifier("g")
+                 .match();
 ```
 We can perform this kind of matches as many times as we want. The vectors always get re-initialized and thus contain new data.
+
+<a name="independent-match-object"></a>
+
+### Independent match object 
+
+All match objects are associated with a Regex object. It is not allowed to create a match object without associating it with a Regex object, however the Regex object that is associated with can be changed. For example, the following is not valid:
+
+```cpp
+jp::RegexMatch rm; //compile error
+```
+This is valid:
+
+```cpp
+jp::RegexMatch rm(&re); //initializing a match object with a Regex object
+
+rm.setRegexObject(&re2); //Changing the associated Regex object.
+
+size_t count = rm.setSubject("subject")
+                 .setModifier("g")
+                 .match();
+
+//As you can see, it is possible to do things without using
+//the jp::Regex::initMatch() and jp::Regex::getMatchObject() function.
+```
+
+**Note:** This independent match object and the match object you get from `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` call are **not the same**.
 
 <a name="replace"></a>
 
 ##Replace or Substitute 
 
-The `jp::Regex::replace(const String& s, const String& r)` member function can take up-to three arguments (subject, replacement string, modifier) and returns the resultant replaced string. What it actually does is create a `RegexReplace` object and forward all options to it and finally call `jp::RegexReplace::replace()` function to perform the replacement.
+Regex replace is generally performed using the `jp::RegexReplace::replace()` function.
+
+However a convenience shortcut function is available in Regex class: `jp::Regex::replace()`. It can take three optional arguments. If modifier is passed as an argument to this shortcut function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string. This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexReplace::replace()` function.
 
 
 <a name="simple-replace"></a>
@@ -346,10 +378,10 @@ std::cout<<jp::Regex("\\d+").replace("I am digits 1234 0000","5678", "g");
 
 ```cpp
 std::cout<<
-re.initReplace()       //Prepare to call jp::RegexReplace::replace()
+re.initReplace()       //create a replace object
   .setSubject(s)       //Set various parameters
   .setReplaceWith(s2)  //...
-  .setModifier("gE")   //...
+  .addModifier("gE")   //...
   .addJpcre2Option(0)  //...
   .addPcre2Option(0)   //...
   .replace();          //Finally do the replacement.
@@ -358,8 +390,32 @@ re.initReplace()       //Prepare to call jp::RegexReplace::replace()
 // or ${name} (for named substrings) in the replacement part i.e in setReplaceWith()
 
 ```
-If you pass the size of the resultant string with `jp::RegexReplace::setBufferSize()` function, make sure it will be enough to store the whole resultant replaced string; otherwise the internal replace function (`pcre2_substitute()`) will be called *twice* to adjust the size of the buffer to hold the whole resultant string in order to avoid `PCRE2_ERROR_NOMEMORY` error.
 
+<a name="independent-replace-object"></a>
+
+### Independent replace object 
+
+All replace objects are associated with a Regex object. It is not allowed to create a replace object without associating it with a Regex object, however the Regex object that is associated with can be changed. For example, this is not valid:
+
+```cpp
+jp::RegexReplace rr; //compile error
+```
+This is valid:
+
+```cpp
+jp::RegexReplace rr(&re); //initializing a replace object with a Regex object
+
+rr.setRegexObject(&re2) //Changing the associated Regex object
+  .setSubject("subjEct")
+  .setReplaceWith("me")
+  .setModifier("g")
+  .replace();
+ 
+//As you can see, it is possible to do things without using
+//the jp::Regex::initReplace() and jp::Regex::getReplaceObject() function.
+```
+
+**Note:** This independent replace object and the replace object you get from `jp::Regex::initReplace()` or `jp::Regex::getReplaceObject()` call are not the same.
 
 <a name="modifiers"></a>
 
@@ -622,7 +678,7 @@ std::cout<<"\nCaptured group 2 of first match: "<<vec_num[0][2];
 //~ try {
     //~ std::cout<<"\nCaptured group 3 of first match: "<<vec_num[0].at(3);
 //~ } catch (const std::out_of_range& e) {
-    //~ std::cout<<"\n"<<e.what();
+    //~ std::cerr<<"\n"<<e.what();
 //~ }
 
 
