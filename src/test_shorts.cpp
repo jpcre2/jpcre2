@@ -89,7 +89,7 @@ int main(){
     //~ try {
         //~ std::cout<<"\nCaptured group 3 of first match: "<<vec_num[0].at(3);
     //~ } catch (const std::out_of_range& e) {
-        //~ std::cout<<"\n"<<e.what();
+        //~ std::cerr<<"\n"<<e.what();
     //~ }
 
 
