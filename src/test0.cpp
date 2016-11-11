@@ -40,7 +40,7 @@ int main(){
     jp8::RegexMatch rm(&re8);
     jp8::RegexReplace rr(&re8);
     #else
-    //This for doxygen documentation.
+    //This is for doxygen documentation.
     jp8::RegexMatch rm; //compile error
     jp8::RegexReplace rr; //compile error
     #endif
