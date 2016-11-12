@@ -15,8 +15,8 @@ int main(){
     jp8::Regex   re8;
     jp32::Regex  re32;
     
-    re8.setPattern("\\d+");
-    re32.setPattern(L"\\d+");
+    re8.setPattern("\\d+").compile();
+    re32.setPattern(L"\\d+").compile();
 
 
     re8.getMatchObject().setModifier("fdsafsd");
@@ -57,6 +57,8 @@ int main(){
     
     jp8::Regex re8_2("[\\S]+");
     rm.setRegexObject(&re8_2)
+      .setSubject("I am subject")
+      .setNumberedSubstringVector(&vec_num8)
       .match();
     std::cout<<"\nFirst match: " + vec_num8[0][0];
     

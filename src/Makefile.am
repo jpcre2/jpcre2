@@ -15,7 +15,7 @@ include_HEADERS = \
   jpcre2.hpp
   
 noinst_PROGRAMS = 
-
+TESTS =
 
 
 JPCRE2_SOURCES = 
@@ -23,6 +23,7 @@ JPCRE2_SOURCES =
 if WITH_TEST_8
 
 noinst_PROGRAMS += test_match2 test_replace2 test_match test_replace test_shorts
+TESTS += test_match test_replace test_shorts
 
 #Building test_match2
 test_match2_SOURCES = \
@@ -68,6 +69,7 @@ endif
 if WITH_TEST_16
 
 noinst_PROGRAMS += test16
+TESTS += test16
 
 #Building test16
 test16_SOURCES = \
@@ -82,6 +84,7 @@ endif
 if WITH_TEST_32
 
 noinst_PROGRAMS += test32
+TESTS += test32
 
 #Building test32
 test32_SOURCES = \
@@ -96,6 +99,7 @@ endif
 
 if WITH_TEST_MULTI
 noinst_PROGRAMS += test0
+TESTS += test0
 
 #Building test0
 test0_SOURCES = \
