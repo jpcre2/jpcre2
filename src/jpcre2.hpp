@@ -502,19 +502,19 @@ namespace MOD {
     // String of compile modifier characters for PCRE2 options
     static const char C_N[] = "eijmnsuxADJU";
     // Array of compile modifier values for PCRE2 options
-    static const jpcre2::Uint C_V[12] = {  PCRE2_MATCH_UNSET_BACKREF,                  // Modifier e
-                                    PCRE2_CASELESS,                             // Modifier i
-                                    PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, // Modifier j
-                                    PCRE2_MULTILINE,                            // Modifier m
-                                    PCRE2_UTF | PCRE2_UCP,                      // Modifier n (includes u)
-                                    PCRE2_DOTALL,                               // Modifier s
-                                    PCRE2_UTF,                                  // Modifier u
-                                    PCRE2_EXTENDED,                             // Modifier x
-                                    PCRE2_ANCHORED,                             // Modifier A
-                                    PCRE2_DOLLAR_ENDONLY,                       // Modifier D
-                                    PCRE2_DUPNAMES,                             // Modifier J
-                                    PCRE2_UNGREEDY                              // Modifier U
-                                  };
+    static const jpcre2::Uint C_V[12] = {   PCRE2_MATCH_UNSET_BACKREF,                  // Modifier e
+                                            PCRE2_CASELESS,                             // Modifier i
+                                            PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, // Modifier j
+                                            PCRE2_MULTILINE,                            // Modifier m
+                                            PCRE2_UTF | PCRE2_UCP,                      // Modifier n (includes u)
+                                            PCRE2_DOTALL,                               // Modifier s
+                                            PCRE2_UTF,                                  // Modifier u
+                                            PCRE2_EXTENDED,                             // Modifier x
+                                            PCRE2_ANCHORED,                             // Modifier A
+                                            PCRE2_DOLLAR_ENDONLY,                       // Modifier D
+                                            PCRE2_DUPNAMES,                             // Modifier J
+                                            PCRE2_UNGREEDY                              // Modifier U
+                                          };
                                               
 
     // String of compile modifier characters for JPCRE2 options
@@ -529,10 +529,10 @@ namespace MOD {
     // String of action (replace) modifier characters for PCRE2 options
     static const char R_N[] = "eEgx";
     // Array of action (replace) modifier values for PCRE2 options
-    static const jpcre2::Uint R_V[4] = {  PCRE2_SUBSTITUTE_UNSET_EMPTY,                // Modifier  e
-                                   PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   // Modifier E (includes e)
-                                   PCRE2_SUBSTITUTE_GLOBAL,                     // Modifier g
-                                   PCRE2_SUBSTITUTE_EXTENDED                    // Modifier x
+    static const jpcre2::Uint R_V[4] = {   PCRE2_SUBSTITUTE_UNSET_EMPTY,                // Modifier  e
+                                           PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   // Modifier E (includes e)
+                                           PCRE2_SUBSTITUTE_GLOBAL,                     // Modifier g
+                                           PCRE2_SUBSTITUTE_EXTENDED                    // Modifier x
                                  };
 
 
