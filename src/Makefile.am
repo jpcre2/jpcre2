@@ -9,7 +9,8 @@ EXTRA_DIST += \
   test_shorts.cpp \
   test16.cpp \
   test32.cpp \
-  test0.cpp
+  test0.cpp \
+  test.cpp
 
 include_HEADERS = \
   jpcre2.hpp
@@ -22,8 +23,8 @@ JPCRE2_SOURCES =
 
 if WITH_TEST_8
 
-noinst_PROGRAMS += test_match2 test_replace2 test_match test_replace test_shorts
-TESTS += test_match test_replace test_shorts
+noinst_PROGRAMS += test_match2 test_replace2 test_match test_replace test_shorts test
+TESTS += test_match test_replace test_shorts test
 
 #Building test_match2
 test_match2_SOURCES = \
@@ -62,6 +63,14 @@ test_shorts_SOURCES = \
   test_shorts.cpp \
   $(JPCRE2_SOURCES)
 test_shorts_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS)
+  
+#Building test
+test_SOURCES = \
+  test.cpp \
+  $(JPCRE2_SOURCES)
+test_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 endif
