@@ -2601,6 +2601,7 @@ ac_configure="$SHELL $ac_aux_dir/configure"  # Please don't use this var.
 
 #AC_CONFIG_HEADERS([config.h])
 
+#AM_INIT_AUTOMAKE
 am__api_version='1.15'
 
 # Find a good install program.  We prefer a C program (faster),
@@ -17288,8 +17289,7 @@ _ACEOF
   LIBS="-lpcre2-8 $LIBS"
 
 else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unable to find pcre2-8 library" >&5
-$as_echo "$as_me: WARNING: unable to find pcre2-8 library" >&2;}
+  as_fn_error $? "unable to find pcre2-8 library" "$LINENO" 5
 fi
 
 fi
@@ -17342,8 +17342,7 @@ _ACEOF
   LIBS="-lpcre2-16 $LIBS"
 
 else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unable to find pcre2-16 library" >&5
-$as_echo "$as_me: WARNING: unable to find pcre2-16 library" >&2;}
+  as_fn_error $? "unable to find pcre2-16 library" "$LINENO" 5
 fi
 
   enable_cpp11=yes
@@ -17397,8 +17396,7 @@ _ACEOF
   LIBS="-lpcre2-32 $LIBS"
 
 else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unable to find pcre2-32 library" >&5
-$as_echo "$as_me: WARNING: unable to find pcre2-32 library" >&2;}
+  as_fn_error $? "unable to find pcre2-32 library" "$LINENO" 5
 fi
 
   enable_cpp11=yes

@@ -1,83 +1,211 @@
 /**@file test.cpp
- * A miscellaneous example experimenting on different situations.
- * @include test.cpp
+ * A miscellaneous example experimenting on different situations (test suit).
+ * This test will try to reach every nook and cranny of the library
+ * and test all kinds of situations.
+ * Do not take codes in this file as reference, because it includes
+ * code regardless of good or bad practices, efficiency etc...
+ * 
+ * You will often notice that these codes make no sense whatsoever.
+ * 
+ * Primary goals of this test:
+ * 
+ * 1. Check for memory leak
+ * 2. Check for thread safety
+ * 3. Cover almost 100% codes
+ * 
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
 
 #include <iostream>
 #include "jpcre2.hpp"
 
+#define PS
+
+int err(size_t line, const std::string& s=""){
+    std::cerr<<"Error at line: "<<line<<"\n"+s;
+    return 1;
+}
 
 typedef jpcre2::select<char> jp;
 
 int main(){
-    std::string big_text("\n\
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
-I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    std::string big_text(PS"\n\
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
+    I am a sample big string. I am a sample big string. I am a sample big string. I am a sample big string.\n \
                         \n");
 
-    jp::Regex re("[\\S]+");
+    jp::Regex re;
+    //testing various situations
+    re = jp::Regex();
+    re = jp::Regex("[\\S]+"); //check copy assignment is done
+    re = jp::Regex("[.]+", "eijmnsuxADJUS"); //check modifiers
+    re = jp::Regex(".*", PCRE2_ANCHORED);
+    re = jp::Regex(".*", PCRE2_ANCHORED, jpcre2::JIT_COMPILE);
+    
+    //check pointer versions
+    re = jp::Regex(&big_text); //check copy assignment is done
+    re = jp::Regex(&big_text, "eijmnsuxADJUS"); //check modifiers
+    re = jp::Regex(&big_text, PCRE2_ANCHORED);
+    re = jp::Regex(&big_text, PCRE2_ANCHORED, jpcre2::JIT_COMPILE);
+    
+    jp::Regex re2(re); //check on copy constructor
+    
+    re2 = jp::Regex(re);
+    
+    re2.setLocale(LC_ALL, "en_US.UTF-8").compile();
+    
+    jp::Regex re3(re2);
+    
+    re = jp::Regex(re3);
+    //check bollean operator
+    if(re);
+    if(!re) err(__LINE__);
+    
+    re.resetErrors();
+    re.reset();
+    re.addModifier("eijmnsuxADJUS");
+    re.addPcre2Option(PCRE2_ANCHORED);
+    re.addJpcre2Option(jpcre2::JIT_COMPILE);
+    re.getLocale();
+    re.getLocaleTypeId();
+    re.getErrorMessage();
+    re.getErrorNumber();
+    re.getErrorOffset();
+    re.getPattern();
+    re.getPcre2Option();
+    re.getJpcre2Option();
+    re.getModifier();
+    
+    re.initMatch();
+    re.getMatchObject();
+    re.initMatch();
+    re.getMatchObject();
+    
+    re3 = re;
+    re2 = re;
+    re = re3;
+    
+    re.compile("(?<name>\\d+)(?<name>\\w+)", ""); //regex error, dupname.
+    re.getErrorMessage();
+    if(re) err(__LINE__, "dupname error not realized");
+    re.compile("(?<name>\\d+)(?<name>)\\w+","J"); //dupname allowed
+    if(!re) err(__LINE__, "J modifier not reqlized");
+    
+    re.getMatchObject().reset().resetErrors();
+    re.initMatch().reset().resetErrors();
+    jp::RegexMatch& m = re.getMatchObject();
+    
+    m.match(); re.match();
+    m.match("s"); re.match("s");
+    m.match("s", "g"); re.match("s", "g");
+    m.match(&big_text); re.match(&big_text);
+    m.match(&big_text, "g"); re.match(&big_text, "g");
+    m.match(&big_text, "g", 2); re.match(&big_text, "g", 2);
+    
     jp::RegexMatch rm;
+    jp::VecNum vec_num;
+    jp::VecNtN vec_ntn;
+    jp::VecNas vec_nas;
     
-    rm.setSubject(&big_text).setModifier("g");
+    rm = jp::RegexMatch(&re);
+    rm.setSubject("d");
+    rm.setSubject(&big_text);
+    jp::RegexMatch rm2 = rm;
+    jp::RegexMatch rm3 = jp::RegexMatch(rm2);
+    rm2.reset();
+    rm.resetErrors();
     
-    std::cout<<"\nMatch: "<<rm.match(); // 0 match, because no regex was specified.
+    rm.setNumberedSubstringVector(&vec_num);
+    rm.setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn);
+    jp::Regex re4(PS"\\w+");
+    rm.setRegexObject(&re4);
+    size_t c = rm.match(&big_text, "g", 0);
+    if(c == 0) err(__LINE__, "match should have been successful");
     
-    rm = jp::RegexMatch(&re); //equivalent efficient code: rm.reset().setRegexObject(&re);
+    vec_num[0][0]; //should not give segfault.
     
-    //It's more efficient to pass big text using pointer so that no copy is made:
-    rm.setSubject(&big_text).setModifier("g");
-    
-    std::cout<<"\n---------------";
-    
-    jp::Regex re2;
-    
-    re2.setPattern("[amp]+").setModifier("i").compile();
-    
-    re2.initMatchFrom(rm); //makes a copy of rm.
-    
-    rm.setRegexObject(&re2);
-    
-    std::cout<<"\n-----\nThe following uses same regex and different but similar match object:";
-    std::cout<<"\nMatch2: "<<rm.match();  //uses re for regex
-    std::cout<<"\nMatch2: "<<re2.match(); //uses a copy of rm as match object
+    re.initMatchFrom(rm);
+    re.getMatchObject().match();
+    re.getMatchObject().match();
+    re.initMatchFrom(rm2);
+    re.initMatch();
+    re.match();
     
     
-    rm.setStartOffset(20);
+    rm.getErrorMessage();
+    rm.getErrorNumber();
+    rm.getErrorOffset();
+    rm.getPcre2Option();
+    rm.getJpcre2Option();
+    rm.getModifier();
+    rm.getSubject();
     
-    std::cout<<"\n-----\nThe following uses same regex but different match object:";
-    std::cout<<"\nMatch3: "<<rm.match();
-    std::cout<<"\nMatch3: "<<re2.match(); //change in rm didn't affect re2, because re2 is working on a separate copy
+    rm.addPcre2Option(0);
+    rm.addModifier("g");
+    rm.addJpcre2Option(jpcre2::FIND_ALL);
+    rm.setFindAll();
     
-    //change in re2 will affect rm, because, rm is working on re2 directly (no copy)
-    std::cout<<"\n-----\nChange in associated regex object reflects on the match:";
-    re2.setPattern("[\\s]+").compile();
-    rm.setStartOffset(0);
-    std::cout<<"\nMatch4: "<<rm.match();
-    std::cout<<"\nMatch4: "<<re2.match();
     
-    jp::RegexReplace rr;
     
-    std::cout<<"\n"<<rr.setSubject(&big_text).setReplaceWith("$$").replace(); //no replacement, because regex was not given.
     
-    std::cout<<"\n"<<rr.setRegexObject(&re2).setModifier("g").replace();
     
-    re2.setPattern("[ampi]+").compile();
+    //check replace
     
-    std::cout<<"\n\n\n------\nChange in regex affects replace object because it's working on the regex object directly (no copy): \n-----\n";
-    std::cout<<"\n"<<rr.replace();
+    jp::RegexReplace rr, rr2, rr3;
     
-    std::cout<<"reset: "<<rr.reset().replace(); //empty string
+    rr = jp::RegexReplace(&re2);
+    
+    rr2 = rr;
+    rr2 = jp::RegexReplace(0);
+    rr2.setRegexObject(&re);
+    rr = rr2;
+    
+    rr.setBufferSize(2);
+    
+    rr.replace();
+    rr2.replace();
+    
+    re.initReplace();
+    
+    rr = rr2;
+    rr3 = jp::RegexReplace(&re2);
+    
+    rr.replace(); re.replace();
+    rr.replace("fds"); re.replace("fds");
+    rr.replace("fds", "$$"); re.replace("fds", "$$");
+    rr.replace("fds", "$$", "g"); re.replace("fds", "$$", "g");
+    rr.replace(&big_text); re.replace(&big_text);
+    rr.replace(&big_text, "$$"); re.replace(&big_text, "$$");
+    rr.replace(&big_text, "$$", "g"); re.replace(&big_text, "$$", "g");
+    rr.replace(&big_text, &big_text); re.replace(&big_text, &big_text);
+    rr.replace(&big_text, &big_text, "g"); re.replace(&big_text, &big_text, "g");
+    
+    
+    rr.getErrorMessage();
+    rr.getErrorNumber();
+    rr.getErrorOffset();
+    rr.getPcre2Option();
+    rr.getJpcre2Option();
+    rr.getModifier();
+    rr.getSubject();
+    rr.getReplaceWith();
+    
+    rr.addModifier("g");
+    rr.addPcre2Option(0);
+    rr.addJpcre2Option(0);
+    
+    re = *rr.getRegexObject();
+    
     
     
     return 0;

@@ -227,8 +227,11 @@ template<Ush BS> struct Pcre2Func{};
 
 //8-bit version
 template<> struct Pcre2Func<8> {
-    static Pcre2Type<8>::CompileContext* compile_context_create(typename Pcre2Type<8>::GeneralContext* ccontext){
-        return pcre2_compile_context_create_8(ccontext);
+    static typename Pcre2Type<8>::CompileContext* compile_context_create(typename Pcre2Type<8>::GeneralContext *gcontext){
+        return pcre2_compile_context_create_8(gcontext);
+    }
+    static void compile_context_free(typename Pcre2Type<8>::CompileContext *ccontext){
+        pcre2_compile_context_free_8(ccontext);
     }
     static const unsigned char * maketables(typename Pcre2Type<8>::GeneralContext* gcontext){
         return pcre2_maketables_8(gcontext);
@@ -315,8 +318,11 @@ template<> struct Pcre2Func<8> {
 
 //16-bit version
 template<> struct Pcre2Func<16> {
-    static Pcre2Type<16>::CompileContext* compile_context_create(typename Pcre2Type<16>::GeneralContext* ccontext){
-        return pcre2_compile_context_create_16(ccontext);
+    static typename Pcre2Type<16>::CompileContext* compile_context_create(typename Pcre2Type<16>::GeneralContext *gcontext){
+        return pcre2_compile_context_create_16(gcontext);
+    }
+    static void compile_context_free(typename Pcre2Type<16>::CompileContext *ccontext){
+        pcre2_compile_context_free_16(ccontext);
     }
     static const unsigned char * maketables(typename Pcre2Type<16>::GeneralContext* gcontext){
         return pcre2_maketables_16(gcontext);
@@ -403,8 +409,11 @@ template<> struct Pcre2Func<16> {
 
 //32-bit version
 template<> struct Pcre2Func<32> {
-    static Pcre2Type<32>::CompileContext* compile_context_create(typename Pcre2Type<32>::GeneralContext* ccontext){
-        return pcre2_compile_context_create_32(ccontext);
+    static typename Pcre2Type<32>::CompileContext* compile_context_create(typename Pcre2Type<32>::GeneralContext *gcontext){
+        return pcre2_compile_context_create_32(gcontext);
+    }
+    static void compile_context_free(typename Pcre2Type<32>::CompileContext *ccontext){
+        pcre2_compile_context_free_32(ccontext);
     }
     static const unsigned char * maketables(typename Pcre2Type<32>::GeneralContext* gcontext){
         return pcre2_maketables_32(gcontext);
@@ -854,9 +863,6 @@ struct select{
             vec_ntn = rm.vec_ntn;
             
             //maps should be null, no copy needed
-            //because they are instantiated during every match call
-            //maps may not be null always, we need to delete it first
-            resetMaps();
             
             match_opts = rm.match_opts;
             jpcre2_match_opts = rm.jpcre2_match_opts;
@@ -892,6 +898,7 @@ struct select{
         ///Copy constructor. Performs deep copy.
         ///@param rm Reference to RegexMatch object
         RegexMatch(const RegexMatch& rm){
+            init_vars();
             deepCopy(rm);
         }
         
@@ -1023,10 +1030,10 @@ struct select{
             return _end_offset;
         }
         
-        ///Get a reference to the associated Regex object.
-        ///@return A reference to the associated Regex object.
-        Regex& getRegexObject(){
-            return *re;
+        ///Get a pointer to the associated Regex object.
+        ///@return A pointer to the associated Regex object.
+        const Regex* getRegexObject(){
+            return re;
         }
         
         ///Set the associated regex object.
@@ -1429,6 +1436,7 @@ struct select{
         ///Copy constructor\. Performs a deep copy.
         ///@param rr RegexReplace object reference
         RegexReplace(const RegexReplace& rr){
+            init_vars();
             deepCopy(rr);
         }
         
@@ -1552,10 +1560,10 @@ struct select{
             return jpcre2_replace_opts; 
         }
         
-        ///Get a reference to the associated Regex object.
-        ///@return A reference to the associated Regex object.
-        Regex& getRegexObject(){
-            return *re;
+        ///Get a pointer to the associated Regex object.
+        ///@return A pointer to the associated Regex object.
+        const Regex* getRegexObject(){
+            return re;
         }
         
         ///Set the associated regex object.
@@ -1890,7 +1898,12 @@ struct select{
         std::string mylocale;            
         int error_number;
         PCRE2_SIZE error_offset;
+        int ltype; //local category
 
+        CompileContext *ccontext;
+        const unsigned char* tables;
+        
+        
         void init_vars() { 
             jpcre2_compile_opts = 0; 
             compile_opts = 0; 
@@ -1900,42 +1913,24 @@ struct select{
             rm = 0;
             rr = 0; 
             pat_str_ptr = &pat_str;
-            
+            ltype = 0;
+            ccontext = 0;
+            tables = 0;
         } 
 
-        void init() { 
-            init_vars(); 
-        } 
-
-        void init(const String& re, const std::string& mod) { 
-            init_vars(); 
-            setPattern(re);
-            changeModifier(mod, true); 
-        } 
+        void freeRegexMemory(void) {
+            Pcre2Func<BS>::code_free(code);
+            code = 0; //we may use it again
+        }
         
-        void init(const String* re, const std::string& mod) { 
-            init_vars(); 
-            setPattern(re);
-            changeModifier(mod, true); 
-        } 
-
-        void init(const String& re, Uint po, Uint jo) { 
-            init_vars(); 
-            setPattern(re);
-            setPcre2Option(po); 
-            setJpcre2Option(jo);
-        } 
-
-        void init(const String* re, Uint po, Uint jo) { 
-            init_vars(); 
-            setPattern(re);
-            setPcre2Option(po); 
-            setJpcre2Option(jo);
-        } 
-
-        void freeRegexMemory(void) { 
-            if (code) /* We don't need to free code if it's null */ 
-                Pcre2Func<BS>::code_free(code); 
+        void freeCompileContext(){
+            Pcre2Func<BS>::compile_context_free(ccontext);
+            ccontext = 0;
+        }
+        
+        void freeCharTables(){
+            ::free((void*)tables);
+            tables = 0;
         }
 
         friend class RegexMatch;    
@@ -1947,16 +1942,21 @@ struct select{
             if(r.pat_str_ptr == &r.pat_str) pat_str_ptr = &pat_str; //not r.pat_str
             else pat_str_ptr = r.pat_str_ptr; //other user data
             
-            mylocale = r.mylocale; 
+            mylocale = r.mylocale;
+            ltype = r.ltype;
+            //recreate ccontext and tables:
+            if(!mylocale.empty()) 
+                setLocale(ltype, mylocale);
+            
             compile_opts = r.compile_opts; 
             jpcre2_compile_opts = r.jpcre2_compile_opts; 
             error_number = r.error_number; 
             error_offset = r.error_offset; 
             
             //Copy #code if it is non-null
+            ///First release memory of #code from current object if it is non-NULL
+            freeRegexMemory();
             if (r.code) {
-                ///First release memory of #code from current object if it is non-NULL
-                freeRegexMemory();
                 /// Copy compiled memory of #code to #code of current object using pcre2_code_copy() 
                 code = Pcre2Func<BS>::code_copy(r.code);
                 /// Perform JIT compilation (if enabled) as pcre2_code_copy() doesn't copy JIT memory
@@ -1969,16 +1969,18 @@ struct select{
                         //JIT error should be ignored.
                     }
                 }
-            } else {
-                code = 0;
-            }
+            } //else code is already null
+            
             //use copy assignment for rm and rr
-            if(r.rm) { 
+            delete rm;
+            if(r.rm) {
                 rm = new RegexMatch(*(r.rm)); 
                 rm->re = this; //associated Regex object needs to be this one
             } else {
                 rm = 0;
             }
+            
+            delete rr;
             if(r.rr){
                 rr = new RegexReplace(*(r.rr)); 
                 rr->re = this; //associated Regex object needs to be this one
@@ -1993,20 +1995,22 @@ struct select{
         /// Initializes all class variables to defaults.
         /// Does not perform any pattern compilation.
         Regex() { 
-            init(); 
+            init_vars();
         } 
 
         /** Compile pattern with initialization.
          *  @param re Pattern string
          * */
-        Regex(const String& re) { 
+        Regex(const String& re) {
+            init_vars();
             compile(re, 0, 0); 
         } 
 
         /** Compile pattern with initialization.
          *  @param re Pointer to pattern string
          * */
-        Regex(const String* re) { 
+        Regex(const String* re) {
+            init_vars();
             compile(re, 0, 0); 
         } 
         
@@ -2017,7 +2021,8 @@ struct select{
          *  @param re Pattern string
          *  @param mod Modifier string
          * */
-        Regex(const String& re, const std::string& mod) { 
+        Regex(const String& re, const std::string& mod) {
+            init_vars();
             compile(re, mod); 
         } 
         
@@ -2028,7 +2033,8 @@ struct select{
          *  @param re Pointer to pattern string
          *  @param mod Modifier string
          * */
-        Regex(const String* re, const std::string& mod) { 
+        Regex(const String* re, const std::string& mod) {
+            init_vars();
             compile(re, mod); 
         }
 
@@ -2039,7 +2045,8 @@ struct select{
          *  @param re Pattern string
          *  @param pcre2_opts PCRE2 option value
          * */
-        Regex(const String& re, Uint pcre2_opts) { 
+        Regex(const String& re, Uint pcre2_opts) {
+            init_vars();
             compile(re, pcre2_opts, 0); 
         } 
 
@@ -2050,7 +2057,8 @@ struct select{
          *  @param re Pointer to pattern string
          *  @param pcre2_opts PCRE2 option value
          * */
-        Regex(const String* re, Uint pcre2_opts) { 
+        Regex(const String* re, Uint pcre2_opts) {
+            init_vars();
             compile(re, pcre2_opts, 0); 
         } 
 
@@ -2062,7 +2070,8 @@ struct select{
          *  @param pcre2_opts    PCRE2 option value
          *  @param opt_bits        JPCRE2 option value
          * */
-        Regex(const String& re, Uint pcre2_opts, Uint opt_bits) { 
+        Regex(const String& re, Uint pcre2_opts, Uint opt_bits) {
+            init_vars();
             compile(re, pcre2_opts, opt_bits); 
         } 
 
@@ -2074,7 +2083,8 @@ struct select{
          *  @param pcre2_opts    PCRE2 option value
          *  @param opt_bits        JPCRE2 option value
          * */
-        Regex(const String* re, Uint pcre2_opts, Uint opt_bits) { 
+        Regex(const String* re, Uint pcre2_opts, Uint opt_bits) {
+            init_vars();
             compile(re, pcre2_opts, opt_bits); 
         } 
 
@@ -2088,7 +2098,8 @@ struct select{
         /// RegexMatch and RegexReplace objects.
         /// @param r Constant reference to a Regex object.
         Regex(const Regex& r) {
-            deepCopy(r); 
+            init_vars();
+            deepCopy(r);
         } 
         
         /// Overloaded assignment operator.
@@ -2182,6 +2193,8 @@ struct select{
         ///There should be no memory leak when an object is destroyed.
         ~Regex() { 
             freeRegexMemory();
+            freeCharTables();
+            freeCompileContext();
             delete rm; /* Deleting null pointer is perfectly safe, no check needed. */ 
             delete rr; /* Deleting null pointer is perfectly safe, no check needed. */ 
         } 
@@ -2192,10 +2205,12 @@ struct select{
          * */
         Regex& reset() { 
             freeRegexMemory(); 
+            freeCharTables();
+            freeCompileContext();
             pat_str.clear();
             delete rm;  /* deleting null pointer is safe. */ 
             delete rr; 
-            init();
+            init_vars();
             return *this; 
         } 
 
@@ -2281,12 +2296,20 @@ struct select{
             return pat_str_ptr; 
         }
         
-        /** Get locale as a string
-         *  @return LC_CTYPE as std::string
+        /** Get locale as a string.
+         *  To get the type id, call Regex::getLocaleTypeId()
+         *  @return locale as std::string
          * */
         std::string getLocale() { 
             return mylocale; 
-        } 
+        }
+        
+        ///Get the category/type identifier for the locale
+        ///that is being used compile, match and replace.
+        ///@return Locale Type identifier.
+        int getLocaleTypeId(){
+            return ltype;
+        }
 
 
         /** Calculate modifier string from PCRE2 and JPCRE2 options and return it.
@@ -2376,8 +2399,8 @@ struct select{
         /// @return Reference to the calling Regex object.
         Regex& setPattern(const String* re) { 
             pat_str_ptr = re; 
-            return *this; 
-        } 
+            return *this;
+        }
 
         /// set the modifier (resets all JPCRE2 and PCRE2 options) by calling Regex::changeModifier().
         /// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets
@@ -2395,11 +2418,24 @@ struct select{
             return changeModifier(x, true); 
         } 
 
-        ///  Set the locale (LC_CTYPE)
-        /// @param x Locale string (LC_CTYPE)
+        /// Set the locale.
+        /// Locale is set temporarily to create character tables.
+        /// After creating character tables, locale is restored to its' prior state.
+        /// **Note:** This function may or may not be thread safe.
+        /// @param category  locale category identifier, one of the LC_xxx macros. May be 0. 
+        /// @param locale   system-specific locale identifier. Can be "" for the user-preferred locale or "C" for the minimal locale 
         /// @return Reference to the calling Regex object.
-        Regex& setLocale(const std::string& x) { 
-            mylocale = x; 
+        Regex& setLocale(int category, const std::string& locale) {
+            ltype = category;  //store
+            mylocale = locale; //store
+            freeCharTables();
+            freeCompileContext();
+            const char* loc_old = std::setlocale(ltype, 0);
+            std::setlocale(ltype, mylocale.c_str());
+            tables = Pcre2Func<BS>::maketables(0); //must pass 0, we are using free() to free the tables.
+            ccontext = Pcre2Func<BS>::compile_context_create(0);
+            Pcre2Func<BS>::set_character_tables(ccontext, tables);
+            std::setlocale(ltype, loc_old);
             return *this; 
         } 
         
@@ -2527,7 +2563,7 @@ struct select{
          *  @param jo JPCRE2 option
          * */
         void compile(const String& re, Uint po, Uint jo) { 
-            init(re, po, jo); 
+            setPattern(re).setPcre2Option(po).setJpcre2Option(jo);
             compile(); 
         } 
 
@@ -2540,7 +2576,7 @@ struct select{
          *  @param jo JPCRE2 option
          * */
         void compile(const String* re, Uint po, Uint jo) { 
-            init(re, po, jo); 
+            setPattern(re).setPcre2Option(po).setJpcre2Option(jo);
             compile(); 
         } 
         
@@ -2552,7 +2588,7 @@ struct select{
          *  @param po PCRE2 option
          * */
         void compile(const String& re, Uint po) { 
-            init(re, po, 0); 
+            setPattern(re).setPcre2Option(po);
             compile(); 
         } 
         
@@ -2564,7 +2600,7 @@ struct select{
          *  @param po PCRE2 option
          * */
         void compile(const String* re, Uint po) { 
-            init(re, po, 0); 
+            setPattern(re).setPcre2Option(po);
             compile(); 
         } 
 
@@ -2576,7 +2612,7 @@ struct select{
          *  @param mod Modifier string
          * */
         void compile(const String& re, const std::string& mod) { 
-            init(re, mod); 
+            setPattern(re).setModifier(mod);
             compile(); 
         } 
 
@@ -2587,8 +2623,8 @@ struct select{
          *  @param re Pointer to pattern string
          *  @param mod Modifier string
          * */
-        void compile(const String* re, const std::string& mod) { 
-            init(re, mod); 
+        void compile(const String* re, const std::string& mod) {
+            setPattern(re).setModifier(mod);
             compile(); 
         } 
 
@@ -2599,7 +2635,7 @@ struct select{
          *  @param re Pattern string
          * */
         void compile(const String& re) { 
-            init(re, 0, 0); 
+            setPattern(re);
             compile(); 
         } 
 
@@ -2609,8 +2645,8 @@ struct select{
          *  Set the specified parameters, then compile the pattern using options from class variables.
          *  @param re Pointer to pattern string
          * */
-        void compile(const String* re) { 
-            init(re, 0, 0); 
+        void compile(const String* re) {
+            setPattern(re);
             compile(); 
         } 
         
@@ -2967,22 +3003,15 @@ void jpcre2::select<Char_T, BS>::Regex::compile() {
      * any errors that are detected.                                          
      *************************************************************************/
 
-    CompileContext *ccontext = Pcre2Func<BS>::compile_context_create(0);
-
-    if (!mylocale.empty()) {
-        const char* loc_old = std::setlocale(LC_CTYPE, mylocale.c_str());
-        const unsigned char *tables = Pcre2Func<BS>::maketables(0);
-        Pcre2Func<BS>::set_character_tables(ccontext, tables);
-        std::setlocale(LC_CTYPE, loc_old);
-    }
-
-    code = Pcre2Func<BS>::compile(c_pattern,     /* the pattern */
-                PCRE2_ZERO_TERMINATED,  /* indicates pattern is zero-terminated */
-                compile_opts,           /* default options */
-                &error_number,          /* for error number */
-                &error_offset,          /* for error offset */
-                ccontext);              /* use compile context */
-
+    //first release any previous memory
+    freeRegexMemory();
+    code = Pcre2Func<BS>::compile(  c_pattern,              /* the pattern */
+                                    PCRE2_ZERO_TERMINATED,  /* indicates pattern is zero-terminated */
+                                    compile_opts,           /* default options */
+                                    &error_number,          /* for error number */
+                                    &error_offset,          /* for error offset */
+                                    ccontext);              /* use compile context */
+    
     if (code == 0) {
         /* Compilation failed */
         //must not free regex memory, the only function has that right is the destructor
@@ -2996,7 +3025,6 @@ void jpcre2::select<Char_T, BS>::Regex::compile() {
             //Do not return, JIT error should be ignored.
         }
     }
-    error_number = error_offset = 0;
 }
 
 

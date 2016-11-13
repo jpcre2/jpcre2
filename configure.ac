@@ -7,7 +7,8 @@ AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.hpp])
 #AC_CONFIG_HEADERS([config.h])
 
-AM_INIT_AUTOMAKE
+#AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign parallel-tests color-tests])
 
 AC_TYPE_INT64_T
 
@@ -139,20 +140,20 @@ if test "$enable_test_8" = "yes"; then
   AC_DEFINE([SUPPORT_TEST_8], [], [
     Define to any value to enable the 8 bit JPCRE2 library.])
     
-  AC_CHECK_LIB([pcre2-8], [pcre2_code_free_8], [], [AC_MSG_WARN([unable to find pcre2-8 library])])
+  AC_CHECK_LIB([pcre2-8], [pcre2_code_free_8], [], [AC_MSG_ERROR([unable to find pcre2-8 library])])
 fi
 
 if test "$enable_test_16" = "yes"; then
   AC_DEFINE([SUPPORT_TEST_16], [], [
     Define to any value to enable the 16 bit JPCRE2 library.])
-  AC_CHECK_LIB([pcre2-16], [pcre2_code_free_16], [], [AC_MSG_WARN([unable to find pcre2-16 library])])
+  AC_CHECK_LIB([pcre2-16], [pcre2_code_free_16], [], [AC_MSG_ERROR([unable to find pcre2-16 library])])
   enable_cpp11=yes
 fi
 
 if test "$enable_test_32" = "yes"; then
   AC_DEFINE([SUPPORT_TEST_32], [], [
     Define to any value to enable the 32 bit PCRE2 library.])
-  AC_CHECK_LIB([pcre2-32], [pcre2_code_free_32], [], [AC_MSG_WARN([unable to find pcre2-32 library])])
+  AC_CHECK_LIB([pcre2-32], [pcre2_code_free_32], [], [AC_MSG_ERROR([unable to find pcre2-32 library])])
   enable_cpp11=yes
 fi
 

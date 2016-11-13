@@ -9,7 +9,7 @@ before_install:
   - git clone --branch=release --depth=1 https://github.com/jpcre2/pcre2
   - cd pcre2
   - autoreconf --force --install
-  - ./configure --enable-pcre2-16 --enable-pcre2-32 --disable-shared
+  - ./configure --enable-pcre2-16 --enable-pcre2-32 --disable-shared --enable-jit
   - make
   - sudo make install
   - cd -
