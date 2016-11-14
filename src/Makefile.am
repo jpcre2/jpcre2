@@ -174,10 +174,12 @@ endif
 if WITH_VALGRIND
 
 check: $(TESTS)
-	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./test
-	@printf "\n\n\t*** Congrats! No memory leak found. ***\n\n\n"
-	$(VALGRIND) --tool=helgrind ./test
-	@printf "\n\n\t*** Congrats! Helgrind success. ***\n\n\n"
+	for test in $(TESTS); do \
+	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./$$test ; \
+	printf "\n\n\t*** Congrats! No memory leak found on $$test ***\n\n\n"; \
+	$(VALGRIND) --tool=helgrind ./$$test ; \
+	printf "\n\n\t*** Congrats! Helgrind success on $$test ***\n\n\n" ; \
+	done
 
 endif
 

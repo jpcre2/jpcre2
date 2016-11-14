@@ -760,8 +760,7 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
 
 > For complete changes see the changelog file
 
-If you are using the previous version of JPCRE2 (10.27), you can easily migrate to this latest API by replacing all `jpcre2::select8` or `jpcre2::select16` or `jpcre2::select32` with `jpcre2::select` in your code.
-
+All versions prior to 10.28.06 were discarded due to serious memory leaks. From 10.28.06, valgrind tests are performed to ensure proper memory management.
 
 <a name="test-suit"></a>
 

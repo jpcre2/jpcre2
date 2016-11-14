@@ -1439,10 +1439,12 @@ uninstall-am: uninstall-includeHEADERS
 @WITH_COVERAGE_TRUE@covclean: distclean-local
 
 @WITH_VALGRIND_TRUE@check: $(TESTS)
-@WITH_VALGRIND_TRUE@	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./test
-@WITH_VALGRIND_TRUE@	@printf "\n\n\t*** Congrats! No memory leak found. ***\n\n\n"
-@WITH_VALGRIND_TRUE@	$(VALGRIND) --tool=helgrind ./test
-@WITH_VALGRIND_TRUE@	@printf "\n\n\t*** Congrats! Helgrind success. ***\n\n\n"
+@WITH_VALGRIND_TRUE@	for test in $(TESTS); do \
+@WITH_VALGRIND_TRUE@	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./$$test ; \
+@WITH_VALGRIND_TRUE@	printf "\n\n\t*** Congrats! No memory leak found on $$test ***\n\n\n"; \
+@WITH_VALGRIND_TRUE@	$(VALGRIND) --tool=helgrind ./$$test ; \
+@WITH_VALGRIND_TRUE@	printf "\n\n\t*** Congrats! Helgrind success on $$test ***\n\n\n" ; \
+@WITH_VALGRIND_TRUE@	done
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
