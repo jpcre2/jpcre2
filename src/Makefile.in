@@ -90,17 +90,22 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
-	$(am__EXEEXT_4)
-TESTS = $(am__EXEEXT_5) $(am__EXEEXT_2) $(am__EXEEXT_3) \
-	$(am__EXEEXT_4)
+	$(am__EXEEXT_4) $(am__EXEEXT_5)
+TESTS = $(am__EXEEXT_6) $(am__EXEEXT_2) $(am__EXEEXT_3) \
+	$(am__EXEEXT_4) $(am__EXEEXT_5)
 @WITH_TEST_8_TRUE@am__append_1 = test_match2 test_replace2 test_match test_replace test_shorts
 @WITH_TEST_8_TRUE@am__append_2 = test_match test_replace test_shorts
 @WITH_TEST_16_TRUE@am__append_3 = test16
 @WITH_TEST_16_TRUE@am__append_4 = test16
 @WITH_TEST_32_TRUE@am__append_5 = test32
 @WITH_TEST_32_TRUE@am__append_6 = test32
-@WITH_TEST_MULTI_TRUE@am__append_7 = test0
-@WITH_TEST_MULTI_TRUE@am__append_8 = test0
+@WITH_TEST_ALL_TRUE@am__append_7 = test0
+@WITH_TEST_ALL_TRUE@am__append_8 = test0
+
+# Without coverage support, still arrange for 'make distclean' to get rid of
+# any coverage files that may have been left from a different configuration.
+@WITH_TEST_SUIT_TRUE@am__append_9 = test
+@WITH_TEST_SUIT_TRUE@am__append_10 = test
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
@@ -119,18 +124,27 @@ CONFIG_CLEAN_VPATH_FILES =
 @WITH_TEST_8_TRUE@	test_replace$(EXEEXT) test_shorts$(EXEEXT)
 @WITH_TEST_16_TRUE@am__EXEEXT_2 = test16$(EXEEXT)
 @WITH_TEST_32_TRUE@am__EXEEXT_3 = test32$(EXEEXT)
-@WITH_TEST_MULTI_TRUE@am__EXEEXT_4 = test0$(EXEEXT)
+@WITH_TEST_ALL_TRUE@am__EXEEXT_4 = test0$(EXEEXT)
+@WITH_TEST_SUIT_TRUE@am__EXEEXT_5 = test$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
-am__test0_SOURCES_DIST = test0.cpp
+am__test_SOURCES_DIST = test.cpp
 am__objects_1 =
-@WITH_TEST_MULTI_TRUE@am_test0_OBJECTS = test0-test0.$(OBJEXT) \
-@WITH_TEST_MULTI_TRUE@	$(am__objects_1)
-test0_OBJECTS = $(am_test0_OBJECTS)
-test0_LDADD = $(LDADD)
+@WITH_TEST_SUIT_TRUE@am_test_OBJECTS = test-test.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
+test_OBJECTS = $(am_test_OBJECTS)
+test_LDADD = $(LDADD)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am__test0_SOURCES_DIST = test0.cpp
+@WITH_TEST_ALL_TRUE@am_test0_OBJECTS = test0-test0.$(OBJEXT) \
+@WITH_TEST_ALL_TRUE@	$(am__objects_1)
+test0_OBJECTS = $(am_test0_OBJECTS)
+test0_LDADD = $(LDADD)
 test0_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test0_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -230,13 +244,13 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(test0_SOURCES) $(test16_SOURCES) $(test32_SOURCES) \
-	$(test_match_SOURCES) $(test_match2_SOURCES) \
+SOURCES = $(test_SOURCES) $(test0_SOURCES) $(test16_SOURCES) \
+	$(test32_SOURCES) $(test_match_SOURCES) $(test_match2_SOURCES) \
 	$(test_replace_SOURCES) $(test_replace2_SOURCES) \
 	$(test_shorts_SOURCES)
-DIST_SOURCES = $(am__test0_SOURCES_DIST) $(am__test16_SOURCES_DIST) \
-	$(am__test32_SOURCES_DIST) $(am__test_match_SOURCES_DIST) \
-	$(am__test_match2_SOURCES_DIST) \
+DIST_SOURCES = $(am__test_SOURCES_DIST) $(am__test0_SOURCES_DIST) \
+	$(am__test16_SOURCES_DIST) $(am__test32_SOURCES_DIST) \
+	$(am__test_match_SOURCES_DIST) $(am__test_match2_SOURCES_DIST) \
 	$(am__test_replace_SOURCES_DIST) \
 	$(am__test_replace2_SOURCES_DIST) \
 	$(am__test_shorts_SOURCES_DIST)
@@ -450,7 +464,7 @@ am__set_TESTS_bases = \
   bases=`echo $$bases`
 RECHECK_LOGS = $(TEST_LOGS)
 AM_RECURSIVE_TARGETS = check recheck
-@WITH_TEST_8_TRUE@am__EXEEXT_5 = test_match$(EXEEXT) \
+@WITH_TEST_8_TRUE@am__EXEEXT_6 = test_match$(EXEEXT) \
 @WITH_TEST_8_TRUE@	test_replace$(EXEEXT) test_shorts$(EXEEXT)
 TEST_SUITE_LOG = test-suite.log
 TEST_EXTENSIONS = @EXEEXT@ .test
@@ -504,6 +518,7 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+GENHTML = @GENHTML@
 GREP = @GREP@
 HAVE_CXX11 = @HAVE_CXX11@
 INSTALL = @INSTALL@
@@ -511,6 +526,7 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
@@ -542,6 +558,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+VALGRIND = @VALGRIND@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
@@ -567,12 +584,14 @@ datadir = @datadir@
 datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
+enable_coverage = @enable_coverage@
 enable_cpp11 = @enable_cpp11@
 enable_silent_rules = @enable_silent_rules@
 enable_test_16 = @enable_test_16@
 enable_test_32 = @enable_test_32@
 enable_test_8 = @enable_test_8@
-enable_test_multi = @enable_test_multi@
+enable_test_all = @enable_test_all@
+enable_valgrind = @enable_valgrind@
 exec_prefix = @exec_prefix@
 host = @host@
 host_alias = @host_alias@
@@ -605,7 +624,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = jpcre2.hpp test_match.cpp test_replace.cpp \
 	test_match2.cpp test_replace2.cpp test_shorts.cpp test16.cpp \
-	test32.cpp test0.cpp
+	test32.cpp test0.cpp test.cpp
 include_HEADERS = \
   jpcre2.hpp
 
@@ -682,13 +701,30 @@ JPCRE2_SOURCES =
 
 
 #Building test0
-@WITH_TEST_MULTI_TRUE@test0_SOURCES = \
-@WITH_TEST_MULTI_TRUE@  test0.cpp \
-@WITH_TEST_MULTI_TRUE@  $(JPCRE2_SOURCES)
+@WITH_TEST_ALL_TRUE@test0_SOURCES = \
+@WITH_TEST_ALL_TRUE@  test0.cpp \
+@WITH_TEST_ALL_TRUE@  $(JPCRE2_SOURCES)
 
-@WITH_TEST_MULTI_TRUE@test0_CXXFLAGS = \
-@WITH_TEST_MULTI_TRUE@  $(AM_CXXFLAGS) \
-@WITH_TEST_MULTI_TRUE@  $(AM_LDFLAGS)
+@WITH_TEST_ALL_TRUE@test0_CXXFLAGS = \
+@WITH_TEST_ALL_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_ALL_TRUE@  $(AM_LDFLAGS)
+
+COVERAGE_FLAGS = 
+DISTCLEANFILES = 
+@WITH_COVERAGE_TRUE@COVERAGE_TEST_NAME = $(PACKAGE)
+@WITH_COVERAGE_TRUE@COVERAGE_NAME = $(PACKAGE)-$(VERSION)
+@WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
+@WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
+
+#Building test
+@WITH_TEST_SUIT_TRUE@test_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
+
+@WITH_TEST_SUIT_TRUE@test_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(COVERAGE_FLAGS)
 
 all: all-am
 
@@ -733,6 +769,10 @@ clean-noinstPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
+test$(EXEEXT): $(test_OBJECTS) $(test_DEPENDENCIES) $(EXTRA_test_DEPENDENCIES) 
+	@rm -f test$(EXEEXT)
+	$(AM_V_CXXLD)$(test_LINK) $(test_OBJECTS) $(test_LDADD) $(LIBS)
+
 test0$(EXEEXT): $(test0_OBJECTS) $(test0_DEPENDENCIES) $(EXTRA_test0_DEPENDENCIES) 
 	@rm -f test0$(EXEEXT)
 	$(AM_V_CXXLD)$(test0_LINK) $(test0_OBJECTS) $(test0_LDADD) $(LIBS)
@@ -771,6 +811,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test-test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test0-test0.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test16-test16.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test32-test32.Po@am__quote@
@@ -800,6 +841,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+
+test-test.o: test.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_CXXFLAGS) $(CXXFLAGS) -MT test-test.o -MD -MP -MF $(DEPDIR)/test-test.Tpo -c -o test-test.o `test -f 'test.cpp' || echo '$(srcdir)/'`test.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test-test.Tpo $(DEPDIR)/test-test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test.cpp' object='test-test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_CXXFLAGS) $(CXXFLAGS) -c -o test-test.o `test -f 'test.cpp' || echo '$(srcdir)/'`test.cpp
+
+test-test.obj: test.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_CXXFLAGS) $(CXXFLAGS) -MT test-test.obj -MD -MP -MF $(DEPDIR)/test-test.Tpo -c -o test-test.obj `if test -f 'test.cpp'; then $(CYGPATH_W) 'test.cpp'; else $(CYGPATH_W) '$(srcdir)/test.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test-test.Tpo $(DEPDIR)/test-test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test.cpp' object='test-test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_CXXFLAGS) $(CXXFLAGS) -c -o test-test.obj `if test -f 'test.cpp'; then $(CYGPATH_W) 'test.cpp'; else $(CYGPATH_W) '$(srcdir)/test.cpp'; fi`
 
 test0-test0.o: test0.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test0_CXXFLAGS) $(CXXFLAGS) -MT test0-test0.o -MD -MP -MF $(DEPDIR)/test0-test0.Tpo -c -o test0-test0.o `test -f 'test0.cpp' || echo '$(srcdir)/'`test0.cpp
@@ -1175,6 +1230,13 @@ test0.log: test0$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test.log: test$(EXEEXT)
+	@p='test$(EXEEXT)'; \
+	b='test'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -1257,10 +1319,12 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+@WITH_COVERAGE_FALSE@distclean-local:
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
@@ -1270,7 +1334,7 @@ distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-tags
+	distclean-local distclean-tags
 
 dvi: dvi-am
 
@@ -1337,10 +1401,10 @@ uninstall-am: uninstall-includeHEADERS
 .PHONY: CTAGS GTAGS TAGS all all-am check check-TESTS check-am clean \
 	clean-generic clean-libtool clean-noinstPROGRAMS cscopelist-am \
 	ctags ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am \
+	distclean-libtool distclean-local distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
 	install-includeHEADERS install-info install-info-am \
 	install-man install-pdf install-pdf-am install-ps \
 	install-ps-am install-strip installcheck installcheck-am \
@@ -1351,6 +1415,34 @@ uninstall-am: uninstall-includeHEADERS
 
 .PRECIOUS: Makefile
 
+#COVERAGE_LCOV_EXTRA_FLAGS =
+#COVERAGE_GENHTML_EXTRA_FLAGS =
+
+#coverage_quiet = $(coverage_quiet_$(V))
+#coverage_quiet_ = $(coverage_quiet_$(AM_DEFAULT_VERBOSITY))
+#coverage_quiet_0 = --quiet
+
+@WITH_COVERAGE_TRUE@coverage: test jpcre2.hpp test.cpp
+@WITH_COVERAGE_TRUE@	-$(LCOV) $(coverage_quiet) --zerocounters --directory $(top_builddir)
+@WITH_COVERAGE_TRUE@	./test
+@WITH_COVERAGE_TRUE@	$(LCOV) --no-external --test-name "$(COVERAGE_TEST_NAME)" \
+@WITH_COVERAGE_TRUE@		--directory . \
+@WITH_COVERAGE_TRUE@		--directory "$(srcdir)" \
+@WITH_COVERAGE_TRUE@		--capture \
+@WITH_COVERAGE_TRUE@		--output-file "$(COVERAGE_OUTPUT_FILE)"
+@WITH_COVERAGE_TRUE@	mkdir -p "$(COVERAGE_OUTPUT_DIR)"
+@WITH_COVERAGE_TRUE@	$(GENHTML) -o "$(COVERAGE_OUTPUT_DIR)" "$(COVERAGE_OUTPUT_FILE)"
+
+@WITH_COVERAGE_TRUE@distclean-local:
+@WITH_COVERAGE_TRUE@	rm -f *.info *.gcno *.gcda
+@WITH_COVERAGE_TRUE@	rm -rf "$(COVERAGE_OUTPUT_DIR)"
+@WITH_COVERAGE_TRUE@covclean: distclean-local
+
+@WITH_VALGRIND_TRUE@check: $(TESTS)
+@WITH_VALGRIND_TRUE@	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./test
+@WITH_VALGRIND_TRUE@	@printf "\n\n\t*** Congrats! No memory leak found. ***\n\n\n"
+@WITH_VALGRIND_TRUE@	$(VALGRIND) --tool=helgrind ./test
+@WITH_VALGRIND_TRUE@	@printf "\n\n\t*** Congrats! Helgrind success. ***\n\n\n"
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -29,12 +29,12 @@ int main(){
     re.initReplace()                                                    //create replace object
       .setSubject(s)                                                    //Set various parameters
       .setReplaceWith("(replaced:$1)(replaced:$2)(replaced:${word})")   //...
-      .addModifier("xE")                                                //
+      .addModifier("xEafds")                                                //
       .addPcre2Option(0)                                                //...
       .replace();                                                       //Finally perform the replace operation.
     
     if(re.getReplaceObject().getErrorNumber() != 0)
-        std::cerr<<re.getReplaceObject().getErrorMessage();
+        std::cerr<<"\n"<<re.getReplaceObject().getErrorMessage();
     
 	return 0;
 }

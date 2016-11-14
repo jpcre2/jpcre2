@@ -6,6 +6,8 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install gcc-5 g++-5 -y
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
+  - sudo apt-get install lcov valgrind
+  - sudo -H pip install cpp-coveralls
   - git clone --branch=release --depth=1 https://github.com/jpcre2/pcre2
   - cd pcre2
   - autoreconf --force --install
@@ -13,6 +15,10 @@ before_install:
   - make
   - sudo make install
   - cd -
+  - rm -rf pcre2
 script:
-  - ./autogen.sh; ./configure --enable-test-multi && make
+  - ./autogen.sh; ./configure --enable-test-multi --enable-valgrind --enable-coverage && make
   - make check
+after_success:
+  - make coverage
+  - coveralls --exclude lib --exclude tests --gcov-options '\-lp'

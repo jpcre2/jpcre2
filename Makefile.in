@@ -267,6 +267,7 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+GENHTML = @GENHTML@
 GREP = @GREP@
 HAVE_CXX11 = @HAVE_CXX11@
 INSTALL = @INSTALL@
@@ -274,6 +275,7 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
@@ -305,6 +307,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+VALGRIND = @VALGRIND@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
@@ -330,12 +333,14 @@ datadir = @datadir@
 datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
+enable_coverage = @enable_coverage@
 enable_cpp11 = @enable_cpp11@
 enable_silent_rules = @enable_silent_rules@
 enable_test_16 = @enable_test_16@
 enable_test_32 = @enable_test_32@
 enable_test_8 = @enable_test_8@
-enable_test_multi = @enable_test_multi@
+enable_test_all = @enable_test_all@
+enable_valgrind = @enable_valgrind@
 exec_prefix = @exec_prefix@
 host = @host@
 host_alias = @host_alias@
@@ -872,6 +877,21 @@ uninstall-am: uninstall-dist_docDATA
 .PRECIOUS: Makefile
 
 	m4/ax_cxx_compile_stdcxx.m4
+
+.PHONY: coverage
+#.PHONY: covclean
+
+@WITH_COVERAGE_TRUE@coverage: src
+@WITH_COVERAGE_TRUE@	$(MAKE) coverage -C src
+
+@WITH_COVERAGE_TRUE@covclean: src 
+@WITH_COVERAGE_TRUE@	$(MAKE) covclean -C src
+
+@WITH_COVERAGE_FALSE@coverage:
+@WITH_COVERAGE_FALSE@	@printf "\n--- configure with --enable-coverage to run coverage ---\n\n"
+
+@WITH_COVERAGE_FALSE@covclean:
+@WITH_COVERAGE_FALSE@	@printf "\n--- configure with --enable-coverage to run coverage ---\n\n"
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -14,3 +14,26 @@ dist_doc_DATA = \
   ChangeLog \
   NEWS \
   README.md
+  
+
+.PHONY: coverage
+#.PHONY: covclean
+
+if WITH_COVERAGE
+
+coverage: src
+	$(MAKE) coverage -C src
+
+covclean: src 
+	$(MAKE) covclean -C src
+
+else
+
+coverage:
+	@printf "\n--- configure with --enable-coverage to run coverage ---\n\n"
+
+covclean:
+	@printf "\n--- configure with --enable-coverage to run coverage ---\n\n"
+
+endif
+

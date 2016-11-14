@@ -23,10 +23,10 @@ int main(){
     re.setPattern("(?:(?<w_s>[.?#@]+)|(?<w_s>\\w+))\\s*(?<digit>\\d+)")  //set pattern
       .setModifier("min")                                                //set modifier
       .addJpcre2Option(jpcre2::JIT_COMPILE)                              //perform JIT compile
-      .addPcre2Option(PCRE2_DUPNAMES)                                    //add pcre2 option
+      .addPcre2Option(0)                                    //add pcre2 option
       .compile();                                                        //Finally compile it.
-      
-    std::cerr<<re.getErrorMessage();
+      re.setModifier("fdsfsd"); 
+    std::cerr<<re.getErrorMessage()<<re.getErrorNumber();
     // JIT error is a harmless, it just means that an optimization failed.
     
     //subject string
