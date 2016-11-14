@@ -6,6 +6,7 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install gcc-5 g++-5 -y
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
+  - sudo apt-get install lcov valgrind gcov
   - git clone --branch=release --depth=1 https://github.com/jpcre2/pcre2
   - cd pcre2
   - autoreconf --force --install
