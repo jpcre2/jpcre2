@@ -1624,12 +1624,12 @@ struct select{
         }
          
         /** Set the replacement string.
-         * `$` is a special char. It denotes a captured group, e.g `$0` is the whole match,
-         * $1 is the caputred group no. 1, `${name}` is the captured group `name`.
-         * To isolate a capture group, wrap the number with `{}` e.g ${12} is the 12th
-         * captured group.
-         * To pass a literal `$` you must use `$$`.
-         * 
+         * `$` is a special character which implies captured group.
+         *
+         * 1. A numbered substring can be referenced with `$n` or `${n}` where n is the group number.
+         * 2. A named substring can be referenced with `${name}`, where 'name' is the group name.
+         * 3. A literal `$` can be given as `$$`.
+         *
          * **Note:** This function makes a copy of the string. If no copy is desired or
          * you are working with big text, consider passing the string with pointer.
          * 
