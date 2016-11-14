@@ -120,10 +120,10 @@ DISTCLEANFILES =
 
 if WITH_COVERAGE
 
-#COVERAGE_TEST_NAME = $(PACKAGE)
-#COVERAGE_NAME = $(PACKAGE)-$(VERSION)
-#COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
-#COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
+COVERAGE_TEST_NAME = $(PACKAGE)
+COVERAGE_NAME = $(PACKAGE)-$(VERSION)
+COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
+COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
 #COVERAGE_LCOV_EXTRA_FLAGS =
 #COVERAGE_GENHTML_EXTRA_FLAGS =
 
@@ -132,12 +132,25 @@ if WITH_COVERAGE
 #coverage_quiet_0 = --quiet
 
 
+coverage: test jpcre2.hpp test.cpp
+	-$(LCOV) $(coverage_quiet) --zerocounters --directory $(top_builddir)
+	./test
+	$(LCOV) --no-external --test-name "$(COVERAGE_TEST_NAME)" \
+		--directory . \
+		--directory "$(srcdir)" \
+		--capture \
+		--output-file "$(COVERAGE_OUTPUT_FILE)"
+	mkdir -p "$(COVERAGE_OUTPUT_DIR)"
+	$(GENHTML) -o "$(COVERAGE_OUTPUT_DIR)" "$(COVERAGE_OUTPUT_FILE)"
+
+distclean-local:
+	rm -f *.info *.gcno *.gcda
+	rm -rf "$(COVERAGE_OUTPUT_DIR)"
+covclean: distclean-local
 
 
 # Without coverage support, still arrange for 'make distclean' to get rid of
 # any coverage files that may have been left from a different configuration.
-
-COVERAGE_FLAGS += --coverage
 
 endif
 
@@ -160,22 +173,12 @@ endif
 
 if WITH_VALGRIND
 
-check: $(TESTS) jpcre2.hpp test.cpp
-	valgrind --show-reachable=no --leak-check=full --track-origins=yes ./test
+check: $(TESTS)
+	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./test
 	@printf "\n\n\t*** Congrats! No memory leak found. ***\n\n\n"
-	valgrind --tool=helgrind ./test
-	@printf "\n\n\t*** Congrats! Thread safe check passed. ***\n\n\n"
-	cp test-test.gcno test.gcno
-	./test
-	lcov --no-external --directory . --directory $(srcdir) --capture --output-file app.info
-	mkdir -p coverage
-	genhtml -o coverage app.info
+	$(VALGRIND) --tool=helgrind ./test
+	@printf "\n\n\t*** Congrats! Helgrind success. ***\n\n\n"
 
 endif
 
-
-cover: $(TESTS)
-	echo "fdsfsd"
-
-.PHONY: cover
 

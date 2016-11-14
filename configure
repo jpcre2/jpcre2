@@ -652,9 +652,9 @@ WITH_VALGRIND_TRUE
 WITH_COVERAGE_FALSE
 WITH_COVERAGE_TRUE
 HAVE_CXX11
-valgrind_test
-lcov_test
-gcov_test
+VALGRIND
+GENHTML
+LCOV
 enable_valgrind
 enable_coverage
 enable_cpp11
@@ -819,7 +819,10 @@ LT_SYS_LIBRARY_PATH
 CXX
 CXXFLAGS
 CCC
-CXXCPP'
+CXXCPP
+LCOV
+GENHTML
+VALGRIND'
 
 
 # Initialize some variables set by options.
@@ -1495,6 +1498,9 @@ Some influential environment variables:
   CXX         C++ compiler command
   CXXFLAGS    C++ compiler flags
   CXXCPP      C++ preprocessor
+  LCOV        the ltp lcov program
+  GENHTML     the ltp genhtml program
+  VALGRIND    the valgrind program
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -2616,7 +2622,6 @@ ac_configure="$SHELL $ac_aux_dir/configure"  # Please don't use this var.
 
 #AC_CONFIG_HEADERS([config.h])
 
-#AM_INIT_AUTOMAKE
 am__api_version='1.15'
 
 # Find a good install program.  We prefer a C program (faster),
@@ -3196,6 +3201,7 @@ END
   fi
 fi
 
+#AM_INIT_AUTOMAKE([foreign parallel-tests color-tests])
 
 DEPDIR="${am__leading_dot}deps"
 
@@ -17231,66 +17237,27 @@ fi
 
 if test "$enable_coverage" = "yes"; then
 
-$as_echo "#define SUPPORT_COVERAGE /**/" >>confdefs.h
 
-  # Extract the first word of "gcov", so it can be a program name with args.
-set dummy gcov; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_gcov_test+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$gcov_test"; then
-  ac_cv_prog_gcov_test="$gcov_test" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_gcov_test="yes"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-gcov_test=$ac_cv_prog_gcov_test
-if test -n "$gcov_test"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gcov_test" >&5
-$as_echo "$gcov_test" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  if test "$gcov_test" != yes; then
-    as_fn_error $? "missing program: gcov" "$LINENO" 5
-  fi
   # Extract the first word of "lcov", so it can be a program name with args.
 set dummy lcov; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_lcov_test+:} false; then :
+if ${ac_cv_path_LCOV+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  if test -n "$lcov_test"; then
-  ac_cv_prog_lcov_test="$lcov_test" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+  case $LCOV in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_LCOV="$LCOV" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
     for ac_exec_ext in '' $ac_executable_extensions; do
   if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_lcov_test="yes"
+    ac_cv_path_LCOV="$as_dir/$ac_word$ac_exec_ext"
     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
@@ -17298,47 +17265,96 @@ done
   done
 IFS=$as_save_IFS
 
+  test -z "$ac_cv_path_LCOV" && ac_cv_path_LCOV="false"
+  ;;
+esac
 fi
-fi
-lcov_test=$ac_cv_prog_lcov_test
-if test -n "$lcov_test"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lcov_test" >&5
-$as_echo "$lcov_test" >&6; }
+LCOV=$ac_cv_path_LCOV
+if test -n "$LCOV"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LCOV" >&5
+$as_echo "$LCOV" >&6; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 fi
 
 
-  if test "$lcov_test" != yes; then
-    as_fn_error $? "missing program: lcov" "$LINENO" 5
+  if test "x$LCOV" = "xfalse"; then
+    as_fn_error $? "lcov not found" "$LINENO" 5
+  fi
+
+
+  # Extract the first word of "genhtml", so it can be a program name with args.
+set dummy genhtml; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_GENHTML+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $GENHTML in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_GENHTML="$GENHTML" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_GENHTML="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_GENHTML" && ac_cv_path_GENHTML="false"
+  ;;
+esac
+fi
+GENHTML=$ac_cv_path_GENHTML
+if test -n "$GENHTML"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GENHTML" >&5
+$as_echo "$GENHTML" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  if test "x$GENHTML" = "xfalse"; then
+    as_fn_error $? "genhtml not found" "$LINENO" 5
   fi
   enable_test_all=yes
-  CXXFLAGS= #`echo "$CXXFLAGS" | sed -e 's/-O[0-9]*//g'`
+  CXXFLAGS="-O0 -ggdb3 -fprofile-arcs -ftest-coverage"
 fi
 
 if test "$enable_valgrind" = "yes"; then
 
-$as_echo "#define SUPPORT_VALGRIND /**/" >>confdefs.h
 
   # Extract the first word of "valgrind", so it can be a program name with args.
 set dummy valgrind; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_valgrind_test+:} false; then :
+if ${ac_cv_path_VALGRIND+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  if test -n "$valgrind_test"; then
-  ac_cv_prog_valgrind_test="$valgrind_test" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+  case $VALGRIND in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_VALGRIND="$VALGRIND" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
 do
   IFS=$as_save_IFS
   test -z "$as_dir" && as_dir=.
     for ac_exec_ext in '' $ac_executable_extensions; do
   if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_valgrind_test="yes"
+    ac_cv_path_VALGRIND="$as_dir/$ac_word$ac_exec_ext"
     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
@@ -17346,21 +17362,24 @@ done
   done
 IFS=$as_save_IFS
 
+  test -z "$ac_cv_path_VALGRIND" && ac_cv_path_VALGRIND="false"
+  ;;
+esac
 fi
-fi
-valgrind_test=$ac_cv_prog_valgrind_test
-if test -n "$valgrind_test"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $valgrind_test" >&5
-$as_echo "$valgrind_test" >&6; }
+VALGRIND=$ac_cv_path_VALGRIND
+if test -n "$VALGRIND"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $VALGRIND" >&5
+$as_echo "$VALGRIND" >&6; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 fi
 
 
-  if test "$valgrind_test" != yes; then
-    as_fn_error $? "missing program: valgrind" "$LINENO" 5
+  if test "x$VALGRIND" = "xfalse"; then
+    as_fn_error $? "valgrind not found" "$LINENO" 5
   fi
+
   enable_test_all=yes
 fi
 
@@ -18258,7 +18277,6 @@ fi
 done
 
 fi
-
 
 # Conditional compilation
  if test "x$enable_coverage" = "xyes"; then

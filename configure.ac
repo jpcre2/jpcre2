@@ -7,8 +7,8 @@ AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.hpp])
 #AC_CONFIG_HEADERS([config.h])
 
-#AM_INIT_AUTOMAKE
-AM_INIT_AUTOMAKE([foreign parallel-tests color-tests])
+AM_INIT_AUTOMAKE
+#AM_INIT_AUTOMAKE([foreign parallel-tests color-tests])
 
 AC_TYPE_INT64_T
 
@@ -144,27 +144,30 @@ fi
 # Here is where JPCRE2-specific defines are handled
 
 if test "$enable_coverage" = "yes"; then
-  AC_DEFINE([SUPPORT_COVERAGE], [], [
-    Define to any value to enable coverage test])
-  AC_CHECK_PROG([gcov_test], [gcov], [yes])
-  if test "$gcov_test" != yes; then
-    AC_MSG_ERROR([missing program: gcov])
+  
+  AC_ARG_VAR([LCOV],[the ltp lcov program])
+  AC_PATH_PROG([LCOV],[lcov],[false])
+  if test "x$LCOV" = "xfalse"; then
+    AC_MSG_ERROR([lcov not found])
   fi
-  AC_CHECK_PROG([lcov_test], [lcov], [yes])
-  if test "$lcov_test" != yes; then
-    AC_MSG_ERROR([missing program: lcov])
+
+  AC_ARG_VAR([GENHTML],[the ltp genhtml program])
+  AC_PATH_PROG([GENHTML],[genhtml],[false])
+  if test "x$GENHTML" = "xfalse"; then
+    AC_MSG_ERROR([genhtml not found])
   fi
   enable_test_all=yes
-  CXXFLAGS= #`echo "$CXXFLAGS" | sed -e 's/-O[0-9]*//g'`
+  CXXFLAGS="-O0 -ggdb3 -fprofile-arcs -ftest-coverage"
 fi
 
 if test "$enable_valgrind" = "yes"; then
-  AC_DEFINE([SUPPORT_VALGRIND], [], [
-    Define to any value to enable valgrind test])
-  AC_CHECK_PROG([valgrind_test], [valgrind], [yes])
-  if test "$valgrind_test" != yes; then
-    AC_MSG_ERROR([missing program: valgrind])
+
+  AC_ARG_VAR([VALGRIND],[the valgrind program])
+  AC_PATH_PROG([VALGRIND],[valgrind],[false])
+  if test "x$VALGRIND" = "xfalse"; then
+    AC_MSG_ERROR([valgrind not found])
   fi
+
   enable_test_all=yes
 fi
 
@@ -212,7 +215,6 @@ if test "$enable_cpp11" = "yes"; then
   AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
   AC_CHECK_HEADERS([codecvt],[AC_MSG_ERROR([Unable to find codecvt header])])
 fi
-
 
 # Conditional compilation
 AM_CONDITIONAL(WITH_COVERAGE, test "x$enable_coverage" = "xyes")

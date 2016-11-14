@@ -267,6 +267,7 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+GENHTML = @GENHTML@
 GREP = @GREP@
 HAVE_CXX11 = @HAVE_CXX11@
 INSTALL = @INSTALL@
@@ -274,6 +275,7 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
@@ -305,6 +307,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+VALGRIND = @VALGRIND@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
@@ -339,7 +342,6 @@ enable_test_8 = @enable_test_8@
 enable_test_all = @enable_test_all@
 enable_valgrind = @enable_valgrind@
 exec_prefix = @exec_prefix@
-gcov_test = @gcov_test@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -349,7 +351,6 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
-lcov_test = @lcov_test@
 libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
@@ -370,7 +371,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-valgrind_test = @valgrind_test@
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src
@@ -395,15 +395,15 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
-	      echo ' cd $(srcdir) && $(AUTOMAKE) --foreign'; \
-	      $(am__cd) $(srcdir) && $(AUTOMAKE) --foreign \
+	      echo ' cd $(srcdir) && $(AUTOMAKE) --gnu'; \
+	      $(am__cd) $(srcdir) && $(AUTOMAKE) --gnu \
 		&& exit 0; \
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign Makefile
+	  $(AUTOMAKE) --gnu Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -877,6 +877,21 @@ uninstall-am: uninstall-dist_docDATA
 .PRECIOUS: Makefile
 
 	m4/ax_cxx_compile_stdcxx.m4
+
+.PHONY: coverage
+#.PHONY: covclean
+
+@WITH_COVERAGE_TRUE@coverage: src
+@WITH_COVERAGE_TRUE@	$(MAKE) coverage -C src
+
+@WITH_COVERAGE_TRUE@covclean: src 
+@WITH_COVERAGE_TRUE@	$(MAKE) covclean -C src
+
+@WITH_COVERAGE_FALSE@coverage:
+@WITH_COVERAGE_FALSE@	@printf "\n--- configure with --enable-coverage to run coverage ---\n\n"
+
+@WITH_COVERAGE_FALSE@covclean:
+@WITH_COVERAGE_FALSE@	@printf "\n--- configure with --enable-coverage to run coverage ---\n\n"
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -5,7 +5,7 @@ JPCRE2
 
 C++ wrapper for PCRE2 library
 
-[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![CPP depends image](https://neurobin.org/img/badge/CPP-depends1.svg)](https://isocpp.org/) [![PCRE2 depends image](https://neurobin.org/img/badge/PCRE2-dep1.svg)](http://www.pcre.org/) 
+[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![Coverage Status](https://coveralls.io/repos/github/jpcre2/jpcre2/badge.svg?branch=release)](https://coveralls.io/github/jpcre2/jpcre2?branch=release) [![CPP depends image](https://neurobin.org/img/badge/CPP-depends1.svg)](https://isocpp.org/) [![PCRE2 depends image](https://neurobin.org/img/badge/PCRE2-dep1.svg)](http://www.pcre.org/) 
 
 
 > PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.
@@ -52,7 +52,7 @@ On Unix you can do:
 make
 make install #(may require root privilege)
 ```
-This will compile some examples (for 8-bit) and install the header. For other tests or compile options see <a href="#the-configure-script">configure script</a>
+This will compile some examples (for 8-bit) and install the header. For other compile options see <a href="#the-configure-script">configure script</a>
 
 **Compile/Build:**
 
@@ -79,6 +79,8 @@ Performing a match or replacement against regex pattern involves two steps:
 
 1. Compiling the pattern
 2. Performing the match or replacement operation
+
+**An important note:** All of the classes store the options/values that are set and their member functions use these options by default. You can reset the options/values one by one with setter functions or you can use the `reset()` member function to reset them all at once. Calling `reset()` on any object will re-initialize it.
 
 <a name="compile-a-regex-pattern"></a>
 
@@ -315,7 +317,7 @@ re.getMatchObject()                     //get a match object (new if it's the fi
   .setNamedSubstringVector(&vec_nas)    //pointer to named substring vector
   .setNameToNumberMapVector(&vec_ntn);  //pointer to name-to-number map vector
 ```
-In the first step, we just set the vectors that we want our results in. This is pretty convenient when we are going to reuse the same vectors for multiple matches against the same regex.
+In the first step, we just set the vectors that we want our results in.
 
 ```cpp
 size_t count = re.getMatchObject()
@@ -329,27 +331,22 @@ We can perform this kind of matches as many times as we want. The vectors always
 
 ### Independent match object 
 
-All match objects are associated with a Regex object. It is not allowed to create a match object without associating it with a Regex object, however the Regex object that is associated with can be changed. For example, the following is not valid:
+All match objects need to be associated with a Regex object. A match object without regex object associated with it, will always give 0 match.
 
 ```cpp
-jp::RegexMatch rm; //compile error
-```
-This is valid:
+jp::RegexMatch rm;
+rm.setRegexObject(&re);
 
-```cpp
-jp::RegexMatch rm(&re); //initializing a match object with a Regex object
-
-rm.setRegexObject(&re2); //Changing the associated Regex object.
+//Another way is to use constructor
+jp::RegexMatch rm1(&re);
 
 size_t count = rm.setSubject("subject")
                  .setModifier("g")
                  .match();
-
-//As you can see, it is possible to do things without using
-//the jp::Regex::initMatch() and jp::Regex::getMatchObject() function.
 ```
+The `RegexMatch` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, there will be no need to set the pointer again.
 
-**Note:** This independent match object and the match object you get from `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` call are **not the same**.
+**Note:** This independent match object and the match object you get from `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` are **not the same**.
 
 <a name="replace"></a>
 
@@ -395,27 +392,23 @@ re.initReplace()       //create a replace object
 
 ### Independent replace object 
 
-All replace objects are associated with a Regex object. It is not allowed to create a replace object without associating it with a Regex object, however the Regex object that is associated with can be changed. For example, this is not valid:
+All replace objects need to be associated with a Regex object. A replace object not associated with any regex object will perform no replacement and return the same subject string that was given.
 
 ```cpp
-jp::RegexReplace rr; //compile error
-```
-This is valid:
+jp::RegexReplace rr;
+rr.setRegexObject(&re);
 
-```cpp
-jp::RegexReplace rr(&re); //initializing a replace object with a Regex object
+//Another way is to use constructor
+jp::RegexReplace rr1(&re);
 
-rr.setRegexObject(&re2) //Changing the associated Regex object
-  .setSubject("subjEct")
+rr.setSubject("subjEct")
   .setReplaceWith("me")
   .setModifier("g")
   .replace();
- 
-//As you can see, it is possible to do things without using
-//the jp::Regex::initReplace() and jp::Regex::getReplaceObject() function.
 ```
+The `RegexReplace` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, there will be no need to set the pointer again.
 
-**Note:** This independent replace object and the replace object you get from `jp::Regex::initReplace()` or `jp::Regex::getReplaceObject()` call are not the same.
+**Note:** This independent replace object and the replace object you get from `jp::Regex::initReplace()` or `jp::Regex::getReplaceObject()` are not the same.
 
 <a name="modifiers"></a>
 
@@ -764,8 +757,33 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
 <a name="api-change-notice"></a>
 
 # API change notice 
+
+> For complete changes see the changelog file
+
 If you are using the previous version of JPCRE2 (10.27), you can easily migrate to this latest API by replacing all `jpcre2::select8` or `jpcre2::select16` or `jpcre2::select32` with `jpcre2::select` in your code.
 
+
+<a name="test-suit"></a>
+
+# Test suit 
+
+The `src/test.cpp` is written to check for major flaws like segfault, memory leak and crucial input/output validation. This is how you can run the test suit:
+
+```sh
+#requires valgrind to be installed in the system
+./configure --enable-valgrind
+make
+make check
+```
+
+You can prepare a coverage report:
+
+```sh
+#requires lcov and genhtml to be installed in the system
+./configure --enable-coverage
+make
+make coverage
+```
 
 <a name="the-configure-script"></a>
 
@@ -775,12 +793,14 @@ The configure script generated by autotools checks for availability of several p
 
 Option | Details
 ------ | -------
-`--[enable/disable]-test-8` | Enable/Disable building 8 bit examples (enabled by default)
-`--[enable/disable]-test-16` | Enable/Disable building 16 bit examples
-`--[enable/disable]-test-32` | Enable/Disable building 32 bit examples
-`--[enable/disable]-cpp11` | Enable/Disable building examples with C++11 features
+`--[enable/disable]-test-8` | Enable/Disable building 8 bit examples (enabled by default).
+`--[enable/disable]-test-16` | Enable/Disable building 16 bit examples.
+`--[enable/disable]-test-32` | Enable/Disable building 32 bit examples.
+`--[enable/disable]-cpp11` | Enable/Disable building examples with C++11 features.
 `--[enable/disable]-test-multi` | Enable/Disable building examples for multi code unit width support. (includes all previous ones.)
 `--[enable/disable]-silent-rules` | Enable/Disable silent rules (enabled by default). You will get prettified `make` output if enabled.
+`--[enable/disable]-valgrind` | Enable/Disable valgrind test (memory leak test).
+`--[enable/disable]-coverage` | Enable/Disable coverage report.
 
 
 <a name="licence"></a>

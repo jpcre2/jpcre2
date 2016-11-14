@@ -1,17 +1,22 @@
 /**@file test.cpp
- * A miscellaneous example experimenting on different situations (test suit).
- * This test will try to reach every nook and cranny of the library
- * and test all kinds of situations.
- * Do not take codes in this file as reference, because it includes
- * code regardless of good or bad practices, efficiency etc...
+ * A test experimenting on different situations (sanity check).
  * 
- * You will often notice that these codes make no sense whatsoever.
+ * The goal of this test is to go through every nook and cranny of the library
+ * and touch every bit of code. Most of this test is just to see if there's any
+ * major error like segfault or memory leak. It is also to measure the
+ * efficiency of various blocks code.
  * 
  * Primary goals of this test:
  * 
  * 1. Check for memory leak
- * 2. Check for thread safety
- * 3. Estimate code coverage
+ * 2. Check for segfault.
+ * 3. Some test on input/output (assert).
+ * 4. Estimate code coverage.
+ * 
+ * **Notes:**
+ * 
+ * * This test is not intended for client review, it's primarily for developers to make sure nothing is broken.
+ * * This test doesn't  check for input/output (mostly) i.e only calls are made, validity of output is not tested.
  * 
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
@@ -20,10 +25,8 @@
 #include "jpcre2.hpp"
 #include <cassert>
 
-void msg(size_t line, const std::string& s=""){
-    std::cout<<"\n"+s+" at line: "<<line;
-}
 
+typedef jpcre2::select<char> jp;
 typedef jpcre2::select<char> jpc;
 typedef jpcre2::select<wchar_t> jpw;
 typedef jpcre2::select<char16_t> jp16;
@@ -61,7 +64,6 @@ int main(){
     re = jp::Regex(re3); \
     /*//check bollean operator*/ \
     if(re); \
-    if(!re) msg(__LINE__); \
      \
     re.resetErrors(); \
     re.reset(); \
@@ -97,12 +99,12 @@ int main(){
      \
     re.compile(PAT, "gfdsf");  \
     re.getErrorMessage(); \
-    if(re) \
+    if(re); \
     re.compile(PAT,"J");  \
-    if(!re) \
+    if(!re); \
      \
     re.setModifier("fdsfsd"); \
-    if(re.getErrorNumber()) msg(__LINE__-1, "Harmless invalid modifier error"); \
+    assert(re.getErrorNumber() == jpcre2::ERROR::INVALID_MODIFIER); \
     re.getErrorMessage(); \
      \
     re.getMatchObject().reset().resetErrors(); \
@@ -141,7 +143,9 @@ int main(){
     jp::Regex re4(PAT, "niJS"); \
     rm.setRegexObject(&re4); \
     size_t count = rm.match(&text, "g", 0); \
-    if(count == 0) msg(__LINE__, "match failed"); \
+    if(count);\
+    count = rm.match(&text, "gA"); \
+    count = rm.match(&text, "A"); \
      \
      \
     re.initMatchFrom(rm); \
@@ -151,6 +155,10 @@ int main(){
     re.initMatch(); \
     re.match(); \
     rm.addModifier("E"); \
+    \
+    re.reset().setNewLine(PCRE2_NEWLINE_CRLF); \
+    re.compile(PAT,"J"); \
+    assert(PCRE2_NEWLINE_CRLF == re.getNewLine()); \
      \
     rm.getErrorMessage(); \
     rm.getErrorNumber(); \
@@ -245,16 +253,18 @@ int main(){
     rr.changeModifier("gfdsf", false); \
      \
     rr.reset().replace(TEXT, TEXT); \
+    rr.changePcre2Option(PCRE2_SUBSTITUTE_OVERFLOW_LENGTH, false); \
+    rr.setRegexObject(&re); \
+    rr.replace(TEXT, TEXT); /* replace error: */ \
      \
     const jp::Regex *rep = rr.getRegexObject(); \
     if(rep); /*//rep is not null*/ \
-    else;    /*//rep is null*/ \
      \
     re.initMatchFrom(rm); \
     re.initReplaceFrom(rr); \
      \
      \
-    /*//checking thre string converter with null input*/ \
+    /*//checking the string converter with null input*/ \
     assert(jp::toString((jp::Char)0) == jp::String()); \
     assert(jp::toString((jp::Char*)0) == jp::String()); \
     assert(jp::toString((jp::Pcre2Uchar*)0) == jp::String());
@@ -286,36 +296,39 @@ int main(){
 #define vec_nas JPCRE2_SUFFIX(vec_nas)
 
 #define JPCRE2_LOCAL_CHAR c
-#define TEXT u8"I am a simple text অ আ ক খ গ ঘ"
-#define PAT u8"(?<name1>\\w+)(?<name2>\\s+)"
+#define TEXT u8"I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"
+#define PAT u8"(?<name1>\\w+)(?<name2>\\s+)(?<name1>\\w+)"
 FUNKY_CODE
 #undef TEXT
 #undef PAT
 #undef JPCRE2_LOCAL_CHAR
     
 #define JPCRE2_LOCAL_CHAR w
-#define TEXT L"I am a simple text অ আ ক খ গ ঘ"
-#define PAT L"(?<name1>\\w+)(?<name2>\\s+)"
+#define TEXT L"I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"
+#define PAT L"(?<name1>\\w+)(?<name2>\\s+)(?<name1>\\w+)"
 FUNKY_CODE
 #undef TEXT
 #undef PAT
 #undef JPCRE2_LOCAL_CHAR
 
 #define JPCRE2_LOCAL_CHAR 16
-#define TEXT u"I am a simple text অ আ ক খ গ ঘ"
-#define PAT u"(?<name1>\\w+)(?<name2>\\s+)"
+#define TEXT u"I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"
+#define PAT u"(?<name1>\\w+)(?<name2>\\s+)(?<name1>\\w+)"
 FUNKY_CODE
 #undef TEXT
 #undef PAT
 #undef JPCRE2_LOCAL_CHAR
 
 #define JPCRE2_LOCAL_CHAR 32
-#define TEXT U"I am a simple text অ আ ক খ গ ঘ"
-#define PAT U"(?<name1>\\w+)(?<name2>\\s+)"
+#define TEXT U"I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\r\n"
+#define PAT U"(*CRLF)(?<name1>\\w+)(?<name2>\\s+)(?<name1>\\w+)"
 FUNKY_CODE
 #undef TEXT
 #undef PAT
 #undef JPCRE2_LOCAL_CHAR
+
+
+    
     
     return 0;
 }

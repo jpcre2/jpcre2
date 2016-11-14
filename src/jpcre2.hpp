@@ -59,7 +59,7 @@
 #include <vector>       // std::vector
 #include <map>          // std::map
 #include <cstdio>       // snprintf
-#include <cwchar>       // wcslen, std::mbstate_t
+#include <cwchar>       // std::mbstate_t
 #include <cstring>      // strlen
 #include <clocale>      // std::setlocale
 #include <climits>      // CHAR_BIT
@@ -121,8 +121,7 @@ namespace ERROR {
      *  PCRE2 error numbers are negative integers.
      */
     enum {
-        INVALID_MODIFIER        = 2,                ///< Error number implying that invalid modifier was detected
-        JIT_COMPILE_FAILED      = 3                 ///< Error number implying that JIT compile failed
+        INVALID_MODIFIER        = 2                ///< Error number implying that invalid modifier was detected
     };
 }
 
@@ -182,7 +181,6 @@ typedef std::wstring_convert<Codecvt<char32_t, char, std::mbstate_t>,char32_t> C
 //forward decalration
 
 template<Ush BS> struct Pcre2Type;
-template<Ush BS> struct Pcre2FuncPtr;
 template<Ush BS> struct Pcre2Func;
 
 //PCRE2 types
@@ -314,6 +312,9 @@ template<> struct Pcre2Func<8> {
     static int pattern_info(const typename Pcre2Type<8>::Pcre2Code *code, uint32_t what, void *where){
         return pcre2_pattern_info_8(code, what, where);
     }
+    static int set_newline(typename Pcre2Type<8>::CompileContext *ccontext, uint32_t value){
+        return pcre2_set_newline_8(ccontext, value); 
+    }
 };
 
 //16-bit version
@@ -404,6 +405,9 @@ template<> struct Pcre2Func<16> {
     }
     static int pattern_info(const typename Pcre2Type<16>::Pcre2Code *code, uint32_t what, void *where){
         return pcre2_pattern_info_16(code, what, where);
+    }
+    static int set_newline(typename Pcre2Type<16>::CompileContext *ccontext, uint32_t value){
+        return pcre2_set_newline_16(ccontext, value); 
     }
 };
 
@@ -496,6 +500,9 @@ template<> struct Pcre2Func<32> {
     static int pattern_info(const typename Pcre2Type<32>::Pcre2Code *code, uint32_t what, void *where){
         return pcre2_pattern_info_32(code, what, where);
     }
+    static int set_newline(typename Pcre2Type<32>::CompileContext *ccontext, uint32_t value){
+        return pcre2_set_newline_32(ccontext, value); 
+    }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -507,7 +514,6 @@ template<> struct Pcre2Func<32> {
 namespace MOD {
 
     // Define modifiers for compile
-    // Every modifier needs to be unique in this block
     // String of compile modifier characters for PCRE2 options
     static const char C_N[] = "eijmnsuxADJU";
     // Array of compile modifier values for PCRE2 options
@@ -534,7 +540,6 @@ namespace MOD {
 
 
     // Define modifiers for replace
-    // Every modifier needs to be unique in this block
     // String of action (replace) modifier characters for PCRE2 options
     static const char R_N[] = "eEgx";
     // Array of action (replace) modifier values for PCRE2 options
@@ -553,8 +558,6 @@ namespace MOD {
     //Explicit
 
     // Define modifiers for match
-    // Every modifier needs to be unique in this block
-
     // String of action (match) modifier characters for PCRE2 options
     static const char M_N[] = "A";
     // Array of action (match) modifier values for PCRE2 options
@@ -610,12 +613,12 @@ template<> inline std::string ParseInt<char>::toString(int x){
 ///@param x the integer to convert
 ///@return std::wstring from the integer
 template<> inline std::wstring ParseInt<wchar_t>::toString(int x){
-    int length = 0;
-    wchar_t* buf = new wchar_t[++length + 1];
-    while(swprintf(buf, sizeof(buf)/sizeof(*buf), L"%d", x) < 0){
+    int length = 2; //most ints coming here are 2 digits long.
+    wchar_t* buf = 0;
+    do{
         delete[] buf;
         buf = new wchar_t[++length + 1];
-    }
+    }while(swprintf(buf, length + 1, L"%d", x) < 0);
     std::wstring str(buf);
     delete[] buf;
     return str;
@@ -766,26 +769,32 @@ struct select{
     ///@param err_off error offset
     ///@return message as jpcre2::select::String.
     static String getErrorMessage(int err_num, int err_off) {
-        if (err_num == (int)ERROR::JIT_COMPILE_FAILED) {
-            return getPcre2ErrorMessage((int) err_off);
-        } else if(err_num == (int)ERROR::INVALID_MODIFIER){
+        if(err_num == (int)ERROR::INVALID_MODIFIER){
             return MSG<Char>::INVALID_MODIFIER() + toString((Char)err_off);
         } else if(err_num != 0) {
             return getPcre2ErrorMessage((int) err_num) + ParseInt<Char>::toString((int) err_off);
-        }
-        else return String();
+        } else return String();
     }
 
     //forward declaration
     class Regex; 
     
-    /** Provides the RegexMatch::match() function to perform regex matching.
-     *
-     *  Provides chained methods to set various options.
-     *
-     *  Provides a public constructor to create RegexMatch objects.
-     *  There is no copy constructor or copy-assignment operator for this
-     *  class.
+    /** Provides public constructors to create RegexMatch objects.
+     * Every RegexMatch object should be associated with a Regex object.
+     * This class stores a pointer to its' associated Regex object, thus when
+     * the content of the associated Regex object is changed, there's no need to
+     * set the pointer again.
+     * 
+     * Examples:
+     * 
+     * ```cpp
+     * Regex re;
+     * RegexMatch rm;
+     * rm.setRegexObject(&re);
+     * rm.match("subject", "g");  // 0 match
+     * re.compile("\\w");
+     * rm.match();  // 7 matches
+     * ```
      */
     class RegexMatch { 
 
@@ -1039,7 +1048,7 @@ struct select{
             return re;
         }
         
-        ///Set the associated regex object.
+        ///Set pointer to the associated regex object.
         ///@param r Pointer to a Regex object.
         ///@return Reference to the calling RegexMatch object.
         RegexMatch& setRegexObject(const Regex* r){
@@ -1359,13 +1368,23 @@ struct select{
         
     }; 
 
-    /** Provides the RegexReplace::replace() function to perform regex replace on a string.
-     *
-     *  Provides chained methods to set various options.
-     *
-     *  Provides a public constructor to create RegexReplace objects.
-     *  There is no copy constructor or copy-assignment operator for this
-     *  class.
+    
+    /** Provides public constructors to create RegexReplace objects.
+     * Every RegexReplace object should be associated with a Regex object.
+     * This class stores a pointer to its' associated Regex object, thus when
+     * the content of the associated Regex object is changed, there's no need to
+     * set the pointer again.
+     * 
+     * Examples:
+     * 
+     * ```cpp
+     * Regex re;
+     * RegexReplace rr;
+     * rr.setRegexObject(&re);
+     * rr.replace("subject", "me");  // returns 'subject'
+     * re.compile("\\w+");
+     * rr.replace();  // replaces 'subject' with 'me' i.e returns 'me'
+     * ```
      */
     class RegexReplace { 
 
@@ -1570,7 +1589,7 @@ struct select{
             return re;
         }
         
-        ///Set the associated regex object.
+        ///Set pointer to the associated Regex object.
         ///@param r Pointer to a Regex object.
         ///@return Reference to the calling RegexReplace object.
         RegexReplace& setRegexObject(const Regex* r){
@@ -1723,7 +1742,7 @@ struct select{
                 replace_opts |= opt; 
             else 
                 replace_opts &= ~opt; 
-                replace_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; /* It's important, this option must not be removed */ 
+                //replace_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; /* It's important, but let user override it. */ 
             return *this; 
         } 
         
@@ -1879,12 +1898,23 @@ struct select{
     }; 
  
  
-    /** Implements public overloaded and copy constructors, provides functions to set/unset various options and perform regex match
-     *  and replace against a compiled pattern.
-     *
-     *  Each regex pattern needs an object of this class.
-     *
-     *  A pattern must be compiled either by explicitly calling the compile function or using one of the parameterized constructors.
+    /** Provides public constructos to create Regex object.
+     * Each regex pattern needs an object of this class and each pattern needs to be compiled.
+     * Pattern compilation can be done using one of its' overloaded constructors or the `Regex::compile()`
+     * memeber function.
+     * 
+     * This class can contain a RegexMatch or RegexReplace object if desired. RegexMatch
+     * object can be created either with Regex::initMatch() or Regex::getMatchObject() member function.
+     * Similar functions are available for RegexReplace.
+     * 
+     * Examples:
+     * 
+     * ```cpp
+     * Regex re;
+     * re.compile("pattern", "modifier");
+     * Regex re2("pattern", "modifier");
+     * re.getReplaceObject().setReplaceWith("$0");
+     * ```
      *
      */
     class Regex { 
@@ -1933,7 +1963,7 @@ struct select{
         }
         
         void freeCharTables(){
-            ::free((void*)tables);
+            ::free((void*)tables); //malloc was used by PCRE2
             tables = 0;
         }
 
@@ -1967,11 +1997,7 @@ struct select{
                 if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
                     //Perform JIT compilation:
                     int jit_ret = Pcre2Func<BS>::jit_compile(code, PCRE2_JIT_COMPLETE);
-                    if (jit_ret != 0) {
-                        error_number = (int)ERROR::JIT_COMPILE_FAILED;
-                        error_offset = jit_ret;
-                        //JIT error should be ignored.
-                    }
+                    if(jit_ret < 0) error_number = jit_ret;
                 }
             } //else code is already null
             
@@ -2194,7 +2220,6 @@ struct select{
 
         /// Destructor.
         /// Deletes all memory used by Regex, RegexMatch and RegexReplace object including compiled code and JIT memory.
-        ///There should be no memory leak when an object is destroyed.
         ~Regex() { 
             freeRegexMemory();
             freeCharTables();
@@ -2204,7 +2229,7 @@ struct select{
         } 
 
         /** Reset all class variables to its default (initial) state.
-         * Release any memory used by existing compiled pattern, RegexMatch, RegexReplace objects.
+         * Release any memory used by existing compiled pattern, RegexMatch, RegexReplace objects etc..
          * @return Reference to the calling Regex object.
          * */
         Regex& reset() { 
@@ -2309,7 +2334,7 @@ struct select{
         }
         
         ///Get the category/type identifier for the locale
-        ///that is being used compile, match and replace.
+        ///that is being used to compile, match and replace.
         ///@return Locale Type identifier.
         int getLocaleTypeId(){
             return ltype;
@@ -2387,9 +2412,45 @@ struct select{
         RegexReplace& getReplaceObject() { 
             if(rr) return *rr; 
             else return initReplace(); 
-        } 
+        }
         
-        /// Set the Pattern string to compile
+        ///Get new line convention from compiled code.
+        ///@return New line option value or 0.
+        ///```
+        ///PCRE2_NEWLINE_CR        Carriage return only
+        ///PCRE2_NEWLINE_LF        Linefeed only
+        ///PCRE2_NEWLINE_CRLF      CR followed by LF only
+        ///PCRE2_NEWLINE_ANYCRLF   Any of the above
+        ///PCRE2_NEWLINE_ANY       Any Unicode newline sequence
+        ///```
+        Uint getNewLine(){
+            if(!code) return 0;
+            Uint newline = 0;
+            int ret = Pcre2Func<BS>::pattern_info(code, PCRE2_INFO_NEWLINE, &newline);
+            if(ret < 0) error_number = ret;
+            return newline;
+        }
+        
+        
+        ///Set new line convention.
+        ///@param value New line option value.
+        ///```
+        ///PCRE2_NEWLINE_CR        Carriage return only
+        ///PCRE2_NEWLINE_LF        Linefeed only
+        ///PCRE2_NEWLINE_CRLF      CR followed by LF only
+        ///PCRE2_NEWLINE_ANYCRLF   Any of the above
+        ///PCRE2_NEWLINE_ANY       Any Unicode newline sequence
+        ///```
+        ///@return Reference to the calling Regex object
+        Regex& setNewLine(Uint value){
+            if(!ccontext)
+                ccontext = Pcre2Func<BS>::compile_context_create(0);
+            int ret = Pcre2Func<BS>::set_newline(ccontext, value);
+            if(ret < 0) error_number = ret;
+            return *this;
+        }
+        
+        /// Set the pattern string to compile
         /// @param re Pattern string
         /// @return Reference to the calling Regex object.
         Regex& setPattern(const String& re) { 
@@ -2398,7 +2459,7 @@ struct select{
             return *this; 
         } 
         
-        /// Set the Pattern string to compile
+        /// Set pointer to the pattern string to compile
         /// @param re Pattern string
         /// @return Reference to the calling Regex object.
         Regex& setPattern(const String* re) { 
@@ -2425,19 +2486,19 @@ struct select{
         /// Set the locale.
         /// Locale is set temporarily to create character tables.
         /// After creating character tables, locale is restored to its' prior state.
-        /// **Note:** This function may or may not be thread safe.
+        /// **Note:** This function may or may not be thread safe (depends on std::setlocale()).
         /// @param category  locale category identifier, one of the LC_xxx macros. May be 0. 
-        /// @param locale   system-specific locale identifier. Can be "" for the user-preferred locale or "C" for the minimal locale 
+        /// @param locale   system-specific locale identifier. Can be "" for the user-preferred locale or "C" for the minimal locale.
         /// @return Reference to the calling Regex object.
         Regex& setLocale(int category, const std::string& locale) {
             ltype = category;  //store
             mylocale = locale; //store
             freeCharTables();
-            freeCompileContext();
             const char* loc_old = std::setlocale(ltype, 0);
             std::setlocale(ltype, mylocale.c_str());
             tables = Pcre2Func<BS>::maketables(0); //must pass 0, we are using free() to free the tables.
-            ccontext = Pcre2Func<BS>::compile_context_create(0);
+            if(!ccontext)
+                ccontext = Pcre2Func<BS>::compile_context_create(0);
             Pcre2Func<BS>::set_character_tables(ccontext, tables);
             std::setlocale(ltype, loc_old);
             return *this; 
@@ -3023,12 +3084,11 @@ void jpcre2::select<Char_T, BS>::Regex::compile() {
     } else if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
         ///perform JIT compilation it it's enabled
         int jit_ret = Pcre2Func<BS>::jit_compile(code, PCRE2_JIT_COMPLETE);
-        if (jit_ret != 0) {
-            error_number = (int)ERROR::JIT_COMPILE_FAILED;
-            error_offset = jit_ret;
-            //Do not return, JIT error should be ignored.
-        }
+        if(jit_ret < 0) error_number = jit_ret;
     }
+    //everythings OK
+    error_number = 0;
+    error_offset = 0;
 }
 
 
@@ -3083,10 +3143,9 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
     Pcre2Sptr replace = (Pcre2Sptr) r_replw_ptr->c_str();
     PCRE2_SIZE replace_length = r_replw_ptr->length() /* Strlen((Char *) replace) */;
     PCRE2_SIZE outlengthptr = (PCRE2_SIZE) buffer_size;
-    int ret = 0;
     bool retry = true;
-    Pcre2Uchar* output_buffer;
-    output_buffer = (Pcre2Uchar*) malloc(outlengthptr * sizeof(Pcre2Uchar));
+    int ret = 0;
+    Pcre2Uchar* output_buffer = new Pcre2Uchar[outlengthptr + 1];
 
     while (true) {
         ret = Pcre2Func<BS>::substitute(re->code,    /*Points to the compiled pattern*/
@@ -3107,16 +3166,15 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
             if ((replace_opts & PCRE2_SUBSTITUTE_OVERFLOW_LENGTH) != 0
                     && ret == (int) PCRE2_ERROR_NOMEMORY && retry) {
                 retry = false;
-                outlengthptr++;  // It was changed to required length
                 /// If initial #buffer_size wasn't big enough for resultant string, 
                 /// we will try once more with a new buffer size adjusted to the length of the resultant string.
-                output_buffer = (Pcre2Uchar*) realloc(output_buffer,
-                        outlengthptr * sizeof(Pcre2Uchar));
+                delete[] output_buffer;
+                output_buffer = new Pcre2Uchar[outlengthptr + 1];
                 // Go and try to perform the substitute again
                 continue;
             } else {
-                ::free(output_buffer);
-                error_number = error_offset = ret;
+                error_number = ret;
+                delete[] output_buffer;
                 return *r_subject_ptr;
             }
         }
@@ -3124,7 +3182,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
         break;
     }
     String result = toString((Char*) output_buffer);
-    ::free(output_buffer);
+    delete[] output_buffer;
     return result;
 }
 
@@ -3178,7 +3236,7 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, Match
         if (ret < 0) {
             switch (ret) {
             case PCRE2_ERROR_NOMEMORY:
-                error_number = error_offset = ret;
+                error_number = ret;
                 return false;
             default:
                 break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
@@ -3186,7 +3244,6 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, Match
         }
         value = toString((Char*) buffer);
         Pcre2Func<BS>::substring_free(buffer);     //must free memory
-        //::free(buffer);
         buffer = 0; //we are going to use it again.
         //if (num_sub)   //This null check is paranoid, this function shouldn't be called if this vector is null
         num_sub->push_back(value); 
@@ -3223,7 +3280,7 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
         if (ret < 0) {
             switch (ret) {
             case PCRE2_ERROR_NOMEMORY:
-                error_number = error_offset = ret;
+                error_number = ret;
                 return false;
             default:
                 break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
@@ -3231,7 +3288,6 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
         }
         value = toString((Char *) buffer);
         Pcre2Func<BS>::substring_free(buffer);     //must free memory
-        //::free(buffer);
         buffer = 0; //we may use this pointer again, better initialize it.
         
 
@@ -3248,7 +3304,7 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
             if (ret < 0) {
                 switch (ret) {
                 case PCRE2_ERROR_NOMEMORY:
-                    error_number = error_offset = ret;
+                    error_number = ret;
                     return false;
                 default:
                     break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
@@ -3256,7 +3312,6 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
             }
             value1 = toString((Char *) buffer);
             Pcre2Func<BS>::substring_free(buffer);     //must free memory
-            //::free(buffer);
             buffer = 0;
             
             if (value != value1) continue;
@@ -3344,7 +3399,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
                  */
             default:;
         }
-        error_number = error_offset = rc;
+        error_number = rc;
         return count;
     }
 
@@ -3448,7 +3503,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
     if ((jpcre2_match_opts & FIND_ALL) == 0) {
         Pcre2Func<BS>::match_data_free(match_data); /* Release the memory that was used */
-        //Pcre2Func<BS>::code_free(re);                  /// Don't do this. This function has no right to modify regex.
+        // Must not free code. This function has no right to modify regex.
         return count; /* Exit the program. */
     }
 
@@ -3457,8 +3512,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
      the UTF state. */
 
     (void) Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_ALLOPTIONS, &option_bits);
-    utf = (option_bits & PCRE2_UTF) != 0;
-
+    utf = ((option_bits & PCRE2_UTF) != 0);
+    
     /* Now find the newline convention and see whether CRLF is a valid newline
      sequence. */
 
@@ -3537,8 +3592,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
         if (rc < 0) {
             Pcre2Func<BS>::match_data_free(match_data);
-            //Pcre2Func<BS>::code_free(code);           //must not do this. This function has no right to modify regex.
-            error_number = error_offset = rc;
+            // Must not free code. This function has no right to modify regex.
+            error_number = rc;
             return count;
         }
 

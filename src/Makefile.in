@@ -102,22 +102,10 @@ TESTS = $(am__EXEEXT_6) $(am__EXEEXT_2) $(am__EXEEXT_3) \
 @WITH_TEST_ALL_TRUE@am__append_7 = test0
 @WITH_TEST_ALL_TRUE@am__append_8 = test0
 
-#COVERAGE_TEST_NAME = $(PACKAGE)
-#COVERAGE_NAME = $(PACKAGE)-$(VERSION)
-#COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
-#COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
-#COVERAGE_LCOV_EXTRA_FLAGS =
-#COVERAGE_GENHTML_EXTRA_FLAGS =
-
-#coverage_quiet = $(coverage_quiet_$(V))
-#coverage_quiet_ = $(coverage_quiet_$(AM_DEFAULT_VERBOSITY))
-#coverage_quiet_0 = --quiet
-
 # Without coverage support, still arrange for 'make distclean' to get rid of
 # any coverage files that may have been left from a different configuration.
-@WITH_COVERAGE_TRUE@am__append_9 = --coverage
+@WITH_TEST_SUIT_TRUE@am__append_9 = test
 @WITH_TEST_SUIT_TRUE@am__append_10 = test
-@WITH_TEST_SUIT_TRUE@am__append_11 = test
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
@@ -530,6 +518,7 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+GENHTML = @GENHTML@
 GREP = @GREP@
 HAVE_CXX11 = @HAVE_CXX11@
 INSTALL = @INSTALL@
@@ -537,6 +526,7 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
@@ -568,6 +558,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+VALGRIND = @VALGRIND@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
@@ -602,7 +593,6 @@ enable_test_8 = @enable_test_8@
 enable_test_all = @enable_test_all@
 enable_valgrind = @enable_valgrind@
 exec_prefix = @exec_prefix@
-gcov_test = @gcov_test@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -612,7 +602,6 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
-lcov_test = @lcov_test@
 libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
@@ -633,7 +622,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-valgrind_test = @valgrind_test@
 EXTRA_DIST = jpcre2.hpp test_match.cpp test_replace.cpp \
 	test_match2.cpp test_replace2.cpp test_shorts.cpp test16.cpp \
 	test32.cpp test0.cpp test.cpp
@@ -721,8 +709,12 @@ JPCRE2_SOURCES =
 @WITH_TEST_ALL_TRUE@  $(AM_CXXFLAGS) \
 @WITH_TEST_ALL_TRUE@  $(AM_LDFLAGS)
 
-COVERAGE_FLAGS = $(am__append_9)
+COVERAGE_FLAGS = 
 DISTCLEANFILES = 
+@WITH_COVERAGE_TRUE@COVERAGE_TEST_NAME = $(PACKAGE)
+@WITH_COVERAGE_TRUE@COVERAGE_NAME = $(PACKAGE)-$(VERSION)
+@WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
+@WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
 
 #Building test
 @WITH_TEST_SUIT_TRUE@test_SOURCES = \
@@ -747,9 +739,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src/Makefile
+	  $(AUTOMAKE) --gnu src/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -1332,6 +1324,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+@WITH_COVERAGE_FALSE@distclean-local:
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
@@ -1341,7 +1334,7 @@ distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-tags
+	distclean-local distclean-tags
 
 dvi: dvi-am
 
@@ -1408,10 +1401,10 @@ uninstall-am: uninstall-includeHEADERS
 .PHONY: CTAGS GTAGS TAGS all all-am check check-TESTS check-am clean \
 	clean-generic clean-libtool clean-noinstPROGRAMS cscopelist-am \
 	ctags ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am \
+	distclean-libtool distclean-local distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
 	install-includeHEADERS install-info install-info-am \
 	install-man install-pdf install-pdf-am install-ps \
 	install-ps-am install-strip installcheck installcheck-am \
@@ -1422,22 +1415,34 @@ uninstall-am: uninstall-includeHEADERS
 
 .PRECIOUS: Makefile
 
+#COVERAGE_LCOV_EXTRA_FLAGS =
+#COVERAGE_GENHTML_EXTRA_FLAGS =
 
-@WITH_VALGRIND_TRUE@check: $(TESTS) jpcre2.hpp test.cpp
-@WITH_VALGRIND_TRUE@	valgrind --show-reachable=no --leak-check=full --track-origins=yes ./test
+#coverage_quiet = $(coverage_quiet_$(V))
+#coverage_quiet_ = $(coverage_quiet_$(AM_DEFAULT_VERBOSITY))
+#coverage_quiet_0 = --quiet
+
+@WITH_COVERAGE_TRUE@coverage: test jpcre2.hpp test.cpp
+@WITH_COVERAGE_TRUE@	-$(LCOV) $(coverage_quiet) --zerocounters --directory $(top_builddir)
+@WITH_COVERAGE_TRUE@	./test
+@WITH_COVERAGE_TRUE@	$(LCOV) --no-external --test-name "$(COVERAGE_TEST_NAME)" \
+@WITH_COVERAGE_TRUE@		--directory . \
+@WITH_COVERAGE_TRUE@		--directory "$(srcdir)" \
+@WITH_COVERAGE_TRUE@		--capture \
+@WITH_COVERAGE_TRUE@		--output-file "$(COVERAGE_OUTPUT_FILE)"
+@WITH_COVERAGE_TRUE@	mkdir -p "$(COVERAGE_OUTPUT_DIR)"
+@WITH_COVERAGE_TRUE@	$(GENHTML) -o "$(COVERAGE_OUTPUT_DIR)" "$(COVERAGE_OUTPUT_FILE)"
+
+@WITH_COVERAGE_TRUE@distclean-local:
+@WITH_COVERAGE_TRUE@	rm -f *.info *.gcno *.gcda
+@WITH_COVERAGE_TRUE@	rm -rf "$(COVERAGE_OUTPUT_DIR)"
+@WITH_COVERAGE_TRUE@covclean: distclean-local
+
+@WITH_VALGRIND_TRUE@check: $(TESTS)
+@WITH_VALGRIND_TRUE@	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./test
 @WITH_VALGRIND_TRUE@	@printf "\n\n\t*** Congrats! No memory leak found. ***\n\n\n"
-@WITH_VALGRIND_TRUE@	valgrind --tool=helgrind ./test
-@WITH_VALGRIND_TRUE@	@printf "\n\n\t*** Congrats! Thread safe check passed. ***\n\n\n"
-@WITH_VALGRIND_TRUE@	cp test-test.gcno test.gcno
-@WITH_VALGRIND_TRUE@	./test
-@WITH_VALGRIND_TRUE@	lcov --no-external --directory . --directory $(srcdir) --capture --output-file app.info
-@WITH_VALGRIND_TRUE@	mkdir -p coverage
-@WITH_VALGRIND_TRUE@	genhtml -o coverage app.info
-
-cover: $(TESTS)
-	echo "fdsfsd"
-
-.PHONY: cover
+@WITH_VALGRIND_TRUE@	$(VALGRIND) --tool=helgrind ./test
+@WITH_VALGRIND_TRUE@	@printf "\n\n\t*** Congrats! Helgrind success. ***\n\n\n"
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

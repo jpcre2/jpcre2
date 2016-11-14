@@ -11,12 +11,14 @@ before_install:
   - git clone --branch=release --depth=1 https://github.com/jpcre2/pcre2
   - cd pcre2
   - autoreconf --force --install
-  - ./configure --enable-pcre2-16 --enable-pcre2-32 --disable-shared --enable-jit
+  - ./configure --enable-pcre2-16 --enable-pcre2-32 --disable-shared
   - make
   - sudo make install
   - cd -
+  - rm -rf pcre2
 script:
   - ./autogen.sh; ./configure --enable-test-multi --enable-valgrind --enable-coverage && make
   - make check
 after_success:
+  - make coverage
   - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
