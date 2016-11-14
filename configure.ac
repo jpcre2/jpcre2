@@ -38,7 +38,7 @@ AC_CHECK_HEADERS([pcre2.h],[AC_MSG_ERROR([Unable to find pcre2.h header])])
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([setlocale])
+AC_CHECK_FUNCS([setlocale, free])
 
 # handle --disable-silent-rules (enabled by default)
 AC_ARG_ENABLE(silent-rules,
@@ -68,12 +68,12 @@ AC_ARG_ENABLE(test-32,
               , enable_test_32=unset)
 AC_SUBST(enable_test_32)
 
-# Handle --enable-test-multi (disabled by default)
-AC_ARG_ENABLE(test-multi,
-              AS_HELP_STRING([--enable-test-multi],
-                             [enable multi bit test]),
-              , enable_test_multi=unset)
-AC_SUBST(enable_test_multi)
+# Handle --enable-test-all (disabled by default)
+AC_ARG_ENABLE(test-all,
+              AS_HELP_STRING([--enable-test-all],
+                             [enable all test]),
+              , enable_test_all=unset)
+AC_SUBST(enable_test_all)
 
 # Handle --enable-cpp11 (disabled by default)
 AC_ARG_ENABLE(cpp11,
@@ -81,6 +81,18 @@ AC_ARG_ENABLE(cpp11,
                              [enable compiling with cpp11]),
               , enable_cpp11=unset)
 AC_SUBST(enable_cpp11)
+
+AC_ARG_ENABLE(coverage,
+              AS_HELP_STRING([--enable-coverage],
+                              [use Gcov and lcov to test the test suite]),
+              , enable_coverage=unset)
+AC_SUBST(enable_coverage)
+
+AC_ARG_ENABLE(valgrind,
+              AS_HELP_STRING([--enable-valgrind],
+                              [use valgrind to test the test suite]),
+              , enable_valgrind=unset)
+AC_SUBST(enable_valgrind)
 
 
 # Set the default value for cpp11
@@ -113,22 +125,58 @@ then
   enable_test_32=no
 fi
 
-# Set the default value for test-multi
-if test "x$enable_test_multi" = "xunset"
+# Set the default value for test-all
+if test "x$enable_test_all" = "xunset"
 then
-  enable_test_multi=no
+  enable_test_all=no
+fi
+
+if test "x$enable_coverage" = "xunset"
+then
+  enable_coverage=no
+fi
+
+if test "x$enable_valgrind" = "xunset"
+then
+  enable_valgrind=no
+fi
+
+# Here is where JPCRE2-specific defines are handled
+
+if test "$enable_coverage" = "yes"; then
+  AC_DEFINE([SUPPORT_COVERAGE], [], [
+    Define to any value to enable coverage test])
+  AC_CHECK_PROG([gcov_test], [gcov], [yes])
+  if test "$gcov_test" != yes; then
+    AC_MSG_ERROR([missing program: gcov])
+  fi
+  AC_CHECK_PROG([lcov_test], [lcov], [yes])
+  if test "$lcov_test" != yes; then
+    AC_MSG_ERROR([missing program: lcov])
+  fi
+  enable_test_all=yes
+  CXXFLAGS= #`echo "$CXXFLAGS" | sed -e 's/-O[0-9]*//g'`
+fi
+
+if test "$enable_valgrind" = "yes"; then
+  AC_DEFINE([SUPPORT_VALGRIND], [], [
+    Define to any value to enable valgrind test])
+  AC_CHECK_PROG([valgrind_test], [valgrind], [yes])
+  if test "$valgrind_test" != yes; then
+    AC_MSG_ERROR([missing program: valgrind])
+  fi
+  enable_test_all=yes
 fi
 
 
-# Here is where JPCRE2-specific defines are handled
 if test "$enable_silent_rules" = "yes"; then
   AM_SILENT_RULES([yes])
   AC_DEFINE([SUPPORT_SILENT_RULES], [], [
     Define to any value to enable compiling the test examples])
 fi
 
-if test "$enable_test_multi" = "yes"; then
-  AC_DEFINE([SUPPORT_TEST_MULTI], [], [
+if test "$enable_test_all" = "yes"; then
+  AC_DEFINE([SUPPORT_TEST_ALL], [], [
     Define to any value to enable the 32 bit PCRE2 library.])
   enable_test_8=yes
   enable_test_16=yes
@@ -159,21 +207,22 @@ fi
 
 if test "$enable_cpp11" = "yes"; then
   AC_DEFINE([SUPPORT_CPP11], [], [
-    Define to any value to enable C++ 11] compilation)
+    Define to any value to enable C++ 11])
   #check for c++11 support and add flags
   AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
   AC_CHECK_HEADERS([codecvt],[AC_MSG_ERROR([Unable to find codecvt header])])
 fi
 
 
-
-
 # Conditional compilation
+AM_CONDITIONAL(WITH_COVERAGE, test "x$enable_coverage" = "xyes")
+AM_CONDITIONAL(WITH_VALGRIND, test "x$enable_valgrind" = "xyes")
 AM_CONDITIONAL(WITH_CPP11, test "x$enable_cpp11" = "xyes")
 AM_CONDITIONAL(WITH_TEST_8, test "x$enable_test_8" = "xyes")
 AM_CONDITIONAL(WITH_TEST_16, test "x$enable_test_16" = "xyes")
 AM_CONDITIONAL(WITH_TEST_32, test "x$enable_test_32" = "xyes")
-AM_CONDITIONAL(WITH_TEST_MULTI, test "x$enable_test_multi" = "xyes")
+AM_CONDITIONAL(WITH_TEST_ALL, test "x$enable_test_all" = "xyes")
+AM_CONDITIONAL(WITH_TEST_SUIT, test "x$enable_valgrind" = "xyes" || test "x$enable_coverage" = "xyes")
 
 
 AC_OUTPUT(Makefile src/Makefile)
@@ -193,8 +242,10 @@ configuration summary:
     Build 8-bit examples .............. : ${enable_test_8}
     Build 16-bit examples ..............: ${enable_test_16}
     Build 32-bit examples ............. : ${enable_test_32}
-    Build Multi-bit examples .......... : ${enable_test_multi}
+    Build Multi-bit examples .......... : ${enable_test_all}
     Build with C++ 11 ................. : ${enable_cpp11}
     Enable Silent Rules ............... : ${enable_silent_rules}
+    Coverage report ................... : ${enable_coverage}
+    Valgrind test ..................... : ${enable_valgrind}
 
 EOF

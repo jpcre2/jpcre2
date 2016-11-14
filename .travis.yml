@@ -14,5 +14,5 @@ before_install:
   - sudo make install
   - cd -
 script:
-  - ./autogen.sh; ./configure --enable-test-multi && make
+  - ./autogen.sh; ./configure --enable-test-multi --enable-valgrind --enable-coverage && make
   - make check

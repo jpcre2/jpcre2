@@ -595,7 +595,7 @@ template<typename Char_T> struct ParseInt{
 ///@return std::string from the integer
 template<> inline std::string ParseInt<char>::toString(int x){
     int length = snprintf(0, 0, "%d", x);
-    //assert(length >= 0);
+    if(length <= 0) return std::string();
     char* buf = new char[length + 1];
     snprintf(buf, length +1, "%d", x);
     std::string str(buf);
@@ -610,10 +610,12 @@ template<> inline std::string ParseInt<char>::toString(int x){
 ///@param x the integer to convert
 ///@return std::wstring from the integer
 template<> inline std::wstring ParseInt<wchar_t>::toString(int x){
-    int length = swprintf(0, 0, L"%d", x);
-    //assert(length >= 0);
-    wchar_t* buf = new wchar_t[length + 1];
-    swprintf(buf, length +1, L"%d", x);
+    int length = 0;
+    wchar_t* buf = new wchar_t[++length + 1];
+    while(swprintf(buf, sizeof(buf)/sizeof(*buf), L"%d", x) < 0){
+        delete[] buf;
+        buf = new wchar_t[++length + 1];
+    }
     std::wstring str(buf);
     delete[] buf;
     return str;
@@ -1031,7 +1033,8 @@ struct select{
         }
         
         ///Get a pointer to the associated Regex object.
-        ///@return A pointer to the associated Regex object.
+        ///If no actual Regex object is associated, null is returned.
+        ///@return A pointer to the associated Regex object or null.
         const Regex* getRegexObject(){
             return re;
         }
@@ -1561,7 +1564,8 @@ struct select{
         }
         
         ///Get a pointer to the associated Regex object.
-        ///@return A pointer to the associated Regex object.
+        ///If no actual Regex object is associated, null is returned
+        ///@return A pointer to the associated Regex object or null
         const Regex* getRegexObject(){
             return re;
         }
@@ -2003,7 +2007,7 @@ struct select{
          * */
         Regex(const String& re) {
             init_vars();
-            compile(re, 0, 0); 
+            compile(re); 
         } 
 
         /** Compile pattern with initialization.
@@ -2011,7 +2015,7 @@ struct select{
          * */
         Regex(const String* re) {
             init_vars();
-            compile(re, 0, 0); 
+            compile(re); 
         } 
         
         /** @overload
@@ -2047,7 +2051,7 @@ struct select{
          * */
         Regex(const String& re, Uint pcre2_opts) {
             init_vars();
-            compile(re, pcre2_opts, 0); 
+            compile(re, pcre2_opts); 
         } 
 
         /** @overload
@@ -2059,7 +2063,7 @@ struct select{
          * */
         Regex(const String* re, Uint pcre2_opts) {
             init_vars();
-            compile(re, pcre2_opts, 0); 
+            compile(re, pcre2_opts); 
         } 
 
         /** @overload

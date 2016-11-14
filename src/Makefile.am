@@ -23,8 +23,8 @@ JPCRE2_SOURCES =
 
 if WITH_TEST_8
 
-noinst_PROGRAMS += test_match2 test_replace2 test_match test_replace test_shorts test
-TESTS += test_match test_replace test_shorts test
+noinst_PROGRAMS += test_match2 test_replace2 test_match test_replace test_shorts
+TESTS += test_match test_replace test_shorts
 
 #Building test_match2
 test_match2_SOURCES = \
@@ -65,14 +65,7 @@ test_shorts_SOURCES = \
 test_shorts_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
-  
-#Building test
-test_SOURCES = \
-  test.cpp \
-  $(JPCRE2_SOURCES)
-test_CXXFLAGS = \
-  $(AM_CXXFLAGS) \
-  $(AM_LDFLAGS)
+
 endif
 
 if WITH_TEST_16
@@ -106,7 +99,8 @@ test32_CXXFLAGS = \
 endif
 
 
-if WITH_TEST_MULTI
+if WITH_TEST_ALL
+
 noinst_PROGRAMS += test0
 TESTS += test0
 
@@ -119,4 +113,69 @@ test0_CXXFLAGS = \
   $(AM_LDFLAGS)
 
 endif
+
+COVERAGE_FLAGS =
+DISTCLEANFILES =
+
+
+if WITH_COVERAGE
+
+#COVERAGE_TEST_NAME = $(PACKAGE)
+#COVERAGE_NAME = $(PACKAGE)-$(VERSION)
+#COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
+#COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
+#COVERAGE_LCOV_EXTRA_FLAGS =
+#COVERAGE_GENHTML_EXTRA_FLAGS =
+
+#coverage_quiet = $(coverage_quiet_$(V))
+#coverage_quiet_ = $(coverage_quiet_$(AM_DEFAULT_VERBOSITY))
+#coverage_quiet_0 = --quiet
+
+
+
+
+# Without coverage support, still arrange for 'make distclean' to get rid of
+# any coverage files that may have been left from a different configuration.
+
+COVERAGE_FLAGS += --coverage
+
+endif
+
+
+if WITH_TEST_SUIT
+
+noinst_PROGRAMS += test
+TESTS += test
+
+#Building test
+test_SOURCES = \
+  test.cpp \
+  $(JPCRE2_SOURCES)
+test_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS) \
+  $(COVERAGE_FLAGS)
+
+endif
+
+if WITH_VALGRIND
+
+check: $(TESTS) jpcre2.hpp test.cpp
+	valgrind --show-reachable=no --leak-check=full --track-origins=yes ./test
+	@printf "\n\n\t*** Congrats! No memory leak found. ***\n\n\n"
+	valgrind --tool=helgrind ./test
+	@printf "\n\n\t*** Congrats! Thread safe check passed. ***\n\n\n"
+	cp test-test.gcno test.gcno
+	./test
+	lcov --no-external --directory . --directory $(srcdir) --capture --output-file app.info
+	mkdir -p coverage
+	genhtml -o coverage app.info
+
+endif
+
+
+cover: $(TESTS)
+	echo "fdsfsd"
+
+.PHONY: cover
 

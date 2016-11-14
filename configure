@@ -635,8 +635,10 @@ ac_includes_default="\
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
-WITH_TEST_MULTI_FALSE
-WITH_TEST_MULTI_TRUE
+WITH_TEST_SUIT_FALSE
+WITH_TEST_SUIT_TRUE
+WITH_TEST_ALL_FALSE
+WITH_TEST_ALL_TRUE
 WITH_TEST_32_FALSE
 WITH_TEST_32_TRUE
 WITH_TEST_16_FALSE
@@ -645,9 +647,18 @@ WITH_TEST_8_FALSE
 WITH_TEST_8_TRUE
 WITH_CPP11_FALSE
 WITH_CPP11_TRUE
+WITH_VALGRIND_FALSE
+WITH_VALGRIND_TRUE
+WITH_COVERAGE_FALSE
+WITH_COVERAGE_TRUE
 HAVE_CXX11
+valgrind_test
+lcov_test
+gcov_test
+enable_valgrind
+enable_coverage
 enable_cpp11
-enable_test_multi
+enable_test_all
 enable_test_32
 enable_test_16
 enable_test_8
@@ -790,8 +801,10 @@ enable_libtool_lock
 enable_test_8
 enable_test_16
 enable_test_32
-enable_test_multi
+enable_test_all
 enable_cpp11
+enable_coverage
+enable_valgrind
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1451,8 +1464,10 @@ Optional Features:
   --disable-test-8        disable 8 bit test
   --enable-test-16        enable 16 bit test
   --enable-test-32        enable 32 bit test
-  --enable-test-multi     enable multi bit test
+  --enable-test-all       enable all test
   --enable-cpp11          enable compiling with cpp11
+  --enable-coverage       use Gcov and lcov to test the test suite
+  --enable-valgrind       use valgrind to test the test suite
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -17074,12 +17089,13 @@ $as_echo "#define realloc rpl_realloc" >>confdefs.h
 fi
 
 
-for ac_func in setlocale
+for ac_func in setlocale, free
 do :
-  ac_fn_c_check_func "$LINENO" "setlocale" "ac_cv_func_setlocale"
-if test "x$ac_cv_func_setlocale" = xyes; then :
+  as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
+ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
+if eval test \"x\$"$as_ac_var"\" = x"yes"; then :
   cat >>confdefs.h <<_ACEOF
-#define HAVE_SETLOCALE 1
+#define `$as_echo "HAVE_$ac_func" | $as_tr_cpp` 1
 _ACEOF
 
 fi
@@ -17126,12 +17142,12 @@ fi
 
 
 
-# Handle --enable-test-multi (disabled by default)
-# Check whether --enable-test-multi was given.
-if test "${enable_test_multi+set}" = set; then :
-  enableval=$enable_test_multi;
+# Handle --enable-test-all (disabled by default)
+# Check whether --enable-test-all was given.
+if test "${enable_test_all+set}" = set; then :
+  enableval=$enable_test_all;
 else
-  enable_test_multi=unset
+  enable_test_all=unset
 fi
 
 
@@ -17142,6 +17158,24 @@ if test "${enable_cpp11+set}" = set; then :
   enableval=$enable_cpp11;
 else
   enable_cpp11=unset
+fi
+
+
+
+# Check whether --enable-coverage was given.
+if test "${enable_coverage+set}" = set; then :
+  enableval=$enable_coverage;
+else
+  enable_coverage=unset
+fi
+
+
+
+# Check whether --enable-valgrind was given.
+if test "${enable_valgrind+set}" = set; then :
+  enableval=$enable_valgrind;
+else
+  enable_valgrind=unset
 fi
 
 
@@ -17177,14 +17211,160 @@ then
   enable_test_32=no
 fi
 
-# Set the default value for test-multi
-if test "x$enable_test_multi" = "xunset"
+# Set the default value for test-all
+if test "x$enable_test_all" = "xunset"
 then
-  enable_test_multi=no
+  enable_test_all=no
+fi
+
+if test "x$enable_coverage" = "xunset"
+then
+  enable_coverage=no
+fi
+
+if test "x$enable_valgrind" = "xunset"
+then
+  enable_valgrind=no
+fi
+
+# Here is where JPCRE2-specific defines are handled
+
+if test "$enable_coverage" = "yes"; then
+
+$as_echo "#define SUPPORT_COVERAGE /**/" >>confdefs.h
+
+  # Extract the first word of "gcov", so it can be a program name with args.
+set dummy gcov; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_gcov_test+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$gcov_test"; then
+  ac_cv_prog_gcov_test="$gcov_test" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_gcov_test="yes"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+gcov_test=$ac_cv_prog_gcov_test
+if test -n "$gcov_test"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gcov_test" >&5
+$as_echo "$gcov_test" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
 fi
 
 
-# Here is where JPCRE2-specific defines are handled
+  if test "$gcov_test" != yes; then
+    as_fn_error $? "missing program: gcov" "$LINENO" 5
+  fi
+  # Extract the first word of "lcov", so it can be a program name with args.
+set dummy lcov; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_lcov_test+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$lcov_test"; then
+  ac_cv_prog_lcov_test="$lcov_test" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_lcov_test="yes"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+lcov_test=$ac_cv_prog_lcov_test
+if test -n "$lcov_test"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lcov_test" >&5
+$as_echo "$lcov_test" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  if test "$lcov_test" != yes; then
+    as_fn_error $? "missing program: lcov" "$LINENO" 5
+  fi
+  enable_test_all=yes
+  CXXFLAGS= #`echo "$CXXFLAGS" | sed -e 's/-O[0-9]*//g'`
+fi
+
+if test "$enable_valgrind" = "yes"; then
+
+$as_echo "#define SUPPORT_VALGRIND /**/" >>confdefs.h
+
+  # Extract the first word of "valgrind", so it can be a program name with args.
+set dummy valgrind; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_valgrind_test+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$valgrind_test"; then
+  ac_cv_prog_valgrind_test="$valgrind_test" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_valgrind_test="yes"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+fi
+fi
+valgrind_test=$ac_cv_prog_valgrind_test
+if test -n "$valgrind_test"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $valgrind_test" >&5
+$as_echo "$valgrind_test" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  if test "$valgrind_test" != yes; then
+    as_fn_error $? "missing program: valgrind" "$LINENO" 5
+  fi
+  enable_test_all=yes
+fi
+
+
 if test "$enable_silent_rules" = "yes"; then
   # Check whether --enable-silent-rules was given.
 if test "${enable_silent_rules+set}" = set; then :
@@ -17230,9 +17410,9 @@ $as_echo "#define SUPPORT_SILENT_RULES /**/" >>confdefs.h
 
 fi
 
-if test "$enable_test_multi" = "yes"; then
+if test "$enable_test_all" = "yes"; then
 
-$as_echo "#define SUPPORT_TEST_MULTI /**/" >>confdefs.h
+$as_echo "#define SUPPORT_TEST_ALL /**/" >>confdefs.h
 
   enable_test_8=yes
   enable_test_16=yes
@@ -18080,9 +18260,23 @@ done
 fi
 
 
-
-
 # Conditional compilation
+ if test "x$enable_coverage" = "xyes"; then
+  WITH_COVERAGE_TRUE=
+  WITH_COVERAGE_FALSE='#'
+else
+  WITH_COVERAGE_TRUE='#'
+  WITH_COVERAGE_FALSE=
+fi
+
+ if test "x$enable_valgrind" = "xyes"; then
+  WITH_VALGRIND_TRUE=
+  WITH_VALGRIND_FALSE='#'
+else
+  WITH_VALGRIND_TRUE='#'
+  WITH_VALGRIND_FALSE=
+fi
+
  if test "x$enable_cpp11" = "xyes"; then
   WITH_CPP11_TRUE=
   WITH_CPP11_FALSE='#'
@@ -18115,12 +18309,20 @@ else
   WITH_TEST_32_FALSE=
 fi
 
- if test "x$enable_test_multi" = "xyes"; then
-  WITH_TEST_MULTI_TRUE=
-  WITH_TEST_MULTI_FALSE='#'
+ if test "x$enable_test_all" = "xyes"; then
+  WITH_TEST_ALL_TRUE=
+  WITH_TEST_ALL_FALSE='#'
 else
-  WITH_TEST_MULTI_TRUE='#'
-  WITH_TEST_MULTI_FALSE=
+  WITH_TEST_ALL_TRUE='#'
+  WITH_TEST_ALL_FALSE=
+fi
+
+ if test "x$enable_valgrind" = "xyes" || test "x$enable_coverage" = "xyes"; then
+  WITH_TEST_SUIT_TRUE=
+  WITH_TEST_SUIT_FALSE='#'
+else
+  WITH_TEST_SUIT_TRUE='#'
+  WITH_TEST_SUIT_FALSE=
 fi
 
 
@@ -18304,6 +18506,14 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${WITH_COVERAGE_TRUE}" && test -z "${WITH_COVERAGE_FALSE}"; then
+  as_fn_error $? "conditional \"WITH_COVERAGE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${WITH_VALGRIND_TRUE}" && test -z "${WITH_VALGRIND_FALSE}"; then
+  as_fn_error $? "conditional \"WITH_VALGRIND\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${WITH_CPP11_TRUE}" && test -z "${WITH_CPP11_FALSE}"; then
   as_fn_error $? "conditional \"WITH_CPP11\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
@@ -18320,8 +18530,12 @@ if test -z "${WITH_TEST_32_TRUE}" && test -z "${WITH_TEST_32_FALSE}"; then
   as_fn_error $? "conditional \"WITH_TEST_32\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${WITH_TEST_MULTI_TRUE}" && test -z "${WITH_TEST_MULTI_FALSE}"; then
-  as_fn_error $? "conditional \"WITH_TEST_MULTI\" was never defined.
+if test -z "${WITH_TEST_ALL_TRUE}" && test -z "${WITH_TEST_ALL_FALSE}"; then
+  as_fn_error $? "conditional \"WITH_TEST_ALL\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${WITH_TEST_SUIT_TRUE}" && test -z "${WITH_TEST_SUIT_FALSE}"; then
+  as_fn_error $? "conditional \"WITH_TEST_SUIT\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
@@ -20567,8 +20781,10 @@ configuration summary:
     Build 8-bit examples .............. : ${enable_test_8}
     Build 16-bit examples ..............: ${enable_test_16}
     Build 32-bit examples ............. : ${enable_test_32}
-    Build Multi-bit examples .......... : ${enable_test_multi}
+    Build Multi-bit examples .......... : ${enable_test_all}
     Build with C++ 11 ................. : ${enable_cpp11}
     Enable Silent Rules ............... : ${enable_silent_rules}
+    Coverage report ................... : ${enable_coverage}
+    Valgrind test ..................... : ${enable_valgrind}
 
 EOF
