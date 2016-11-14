@@ -17,3 +17,4 @@ before_install:
 script:
   - ./autogen.sh; ./configure --enable-test-multi --enable-valgrind --enable-coverage && make
   - make check
+  
