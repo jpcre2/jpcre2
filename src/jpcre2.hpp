@@ -58,11 +58,12 @@
 #include <string>       // std::string, std::wstring
 #include <vector>       // std::vector
 #include <map>          // std::map
-#include <cstdio>       // snprintf
-#include <cwchar>       // std::mbstate_t
+#include <cstdio>       // std::sprintf
+#include <cwchar>       // std::mbstate_t, std::swprintf
 #include <cstring>      // strlen
 #include <clocale>      // std::setlocale
 #include <climits>      // CHAR_BIT
+#include <cassert>      // assert()
 
 
 #if __cplusplus >= 201103L
@@ -141,39 +142,16 @@ enum {
 static const SIZE_T SUBSTITUTE_RESULT_INIT_SIZE = 0;  
 
 
-#if __cplusplus >= 201103L
-///@struct Codecvt
-///Convenience wrapper of `std::codecvt`.
-///Only available for >=C++11.
-template <class internT, class externT, class stateT>
-struct Codecvt : std::codecvt<internT,externT,stateT>
-{ ~Codecvt(){} };
+//enableif and is_same implementation
+template<bool B, typename T = void>
+struct EnableIf{};
+template<typename T>
+struct EnableIf<true, T>{typedef T Type;};
 
-///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-16.
-///Convert UTF-16 to UTF-8
-///```cpp
-///Convert16 conv;
-///std::string s = conv.to_bytes(utf16string);
-///```
-///Convert UTF-8 to UTF-16
-///```cpp
-///std::u16string us = conv.from_bytes(utf8string);
-///```
-typedef std::wstring_convert<Codecvt<char16_t, char, std::mbstate_t>,char16_t> Convert16;
-
-///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-32.
-///Convert UTF-32 to UTF-8
-///```cpp
-///Convert32 conv;
-///std::string s = conv.to_bytes(utf32string);
-///```
-///Convert UTF-8 to UTF-32
-///```cpp
-///std::u32string us = conv.from_bytes(utf8string);
-///```
-typedef std::wstring_convert<Codecvt<char32_t, char, std::mbstate_t>,char32_t> Convert32;
-
-#endif
+template<typename T1, typename T2>
+struct IsSame{ static const bool value = false; };
+template<typename T>
+struct IsSame<T,T>{ static const bool value = true; };
 
 
 ////////////////////////// The following are type and function mappings from PCRE2 interface to JPCRE2 interface /////////////////////////
@@ -587,73 +565,115 @@ template<> inline std::basic_string<char32_t> MSG<char32_t>::INVALID_MODIFIER(){
 #endif
 
 
-///@struct ParseInt
-///Contains function that parses integer.
-template<typename Char_T> struct ParseInt{
-    static std::basic_string<Char_T> toString(int x);
-};
-
-///Converts integer to std::string
-///@param x the integer to convert
-///@return std::string from the integer
-template<> inline std::string ParseInt<char>::toString(int x){
-    int length = snprintf(0, 0, "%d", x);
-    if(length <= 0) return std::string();
-    char* buf = new char[length + 1];
-    snprintf(buf, length +1, "%d", x);
-    std::string str(buf);
-    delete[] buf;
-    return str;
-}
-
-///@overload
-///
-///
-///Converts integer to std::wstring
-///@param x the integer to convert
-///@return std::wstring from the integer
-template<> inline std::wstring ParseInt<wchar_t>::toString(int x){
-    int length = 2; //most ints coming here are 2 digits long.
-    wchar_t* buf = 0;
-    do{
-        delete[] buf;
-        buf = new wchar_t[++length + 1];
-    }while(swprintf(buf, length + 1, L"%d", x) < 0);
-    std::wstring str(buf);
-    delete[] buf;
-    return str;
-}
-    
 #if __cplusplus >= 201103L
 
-///@overload
+//Convenience wrapper of std::codecvt (`>=C++11`)
+template <class internT, class externT, class stateT>
+struct Codecvt : std::codecvt<internT,externT,stateT>
+{ ~Codecvt(){} };
+
+///@struct ConvUTF
+///`UTF-8 <> UTF-16` and `UTF-8 <> UTF32` converter (`>=C++11`).
 ///
-///
-///Converts integer to std::u16string.
-///Uses codecvt to convert to utf16 from utf8
-///@param x int to convert
-///@return std::u16string from the integer
-template<> inline std::u16string ParseInt<char16_t>::toString(int x) {
-    std::string s = std::to_string(x);
-    Convert16 conv;
-    std::u16string us = conv.from_bytes(s);
-    return us;
+///Convert `UTF-16 <> UTF-8`:
+/// ```cpp
+/// ConvUTF<char16_t>::Converter conv;
+/// //UTF-16 to UTF-8
+/// std::string s = conv.to_bytes(utf16string);
+/// //UTF-8 to UTF-16
+/// std::u16string us = conv.from_bytes(utf8string);
+/// ```
+///Convert `UTF-8 <> UTF-16`:
+/// ```cpp
+/// ConvUTF<char32_t>::Converter conv;
+/// //UTF-8 to UTF-32
+/// std::u16string us = conv.from_bytes(utf8string);
+/// //UTF-32 to UTF-8
+/// std::string s = conv.to_bytes(utf32string);
+/// ```
+template<typename Char_T>
+struct ConvUTF { typedef std::wstring_convert<Codecvt<Char_T, char, std::mbstate_t>, Char_T> Converter; };
+
+///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-16.
+///Convert UTF-16 to UTF-8:
+///```cpp
+///Convert16 conv;
+///std::string s = conv.to_bytes(utf16string);
+///```
+///Convert UTF-8 to UTF-16:
+///```cpp
+///std::u16string us = conv.from_bytes(utf8string);
+///```
+typedef ConvUTF<char16_t>::Converter Convert16;
+
+///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-32.
+///Convert UTF-32 to UTF-8
+///```cpp
+///Convert32 conv;
+///std::string s = conv.to_bytes(utf32string);
+///```
+///Convert UTF-8 to UTF-32
+///```cpp
+///std::u32string us = conv.from_bytes(utf8string);
+///```
+typedef ConvUTF<char32_t>::Converter Convert32;
+#endif
+
+
+///@struct ConvInt
+///Contains a function to convert integer to string.
+///Integer is converted to `std::basic_string<Char_T>`
+///@tparam Char_T Basic character type (`char`, `wchar`, `char16_t`, `char32_t`).
+template<typename Char_T, typename T = Char_T> struct ConvInt{
+    ///Converts an integer to string.
+    ///String may be `std::string`, `std::wstring`
+    ///(`std::u16string`, `std::u32string` if `>=C++11`)
+    ///@param x the integer to convert
+    ///@return `std::string`/`std::wstring`/`std::u16string`/`std::u32string` from the integer
+    std::basic_string<Char_T> toString(int x);
+};
+
+template<typename Char_T> struct ConvInt<Char_T, typename EnableIf<
+IsSame<Char_T, char>::value|IsSame<Char_T, wchar_t>::value, Char_T>::Type>{
+    //wrapper of sprintf or swprintf
+    static int mysprint(Char_T*, size_t size, int x);
+    
+    ///Converts an integer to std::string/std::wstring
+    ///@param x the integer to convert
+    ///@return std::string/std::wstring from the integer
+    static std::basic_string<Char_T> toString(int x){
+        Char_T buf[sizeof(int)*CHAR_BIT]; //sizeof(int)*CHAR_BIT should always be sufficient
+        int written = mysprint(buf, sizeof(buf), x);
+        assert(written > 0);
+        return std::basic_string<Char_T>(buf);
+    }
+};
+
+template<> inline int ConvInt<char>::mysprint(char* buf, size_t size, int x){
+    return sprintf(buf, "%d", x);
+}
+template<> inline int ConvInt<wchar_t>::mysprint(wchar_t* buf, size_t size, int x){
+    return swprintf(buf, size, L"%d", x);
 }
 
-///@overload
-///
-///
-///Converts integer to std::u32string.
-///Uses codecvt to convert to utf32 from utf8
-///@param x int to convert
-///@return std::u32string from the integer
-template<> inline std::u32string ParseInt<char32_t>::toString(int x) {
-    std::string s = std::to_string(x);
-    Convert32 conv;
-    std::u32string us = conv.from_bytes(s);
-    return us;
-}
+
+#if __cplusplus >= 201103L
+
+template<typename Char_T> struct ConvInt<Char_T, typename EnableIf<
+IsSame<Char_T, char16_t>::value|IsSame<Char_T, char32_t>::value, Char_T>::Type>{
+    
+    ///Converts integer to std::u16string/std::u32string.
+    ///Uses codecvt for conversion.
+    ///@param x int to convert
+    ///@return std::u16string/std::u32string from the integer
+    static std::basic_string<Char_T> toString(int x){
+        std::string s = std::to_string(x);
+        typename ConvUTF<Char_T>::Converter conv;
+        return conv.from_bytes(s);
+    }
+};
 #endif
+
 
 
 ///struct to select code unit width and the character type. 
@@ -759,7 +779,7 @@ struct select{
     ///@param err_num error number (negative)
     ///@return message as jpcre2::select::String.
     static String getPcre2ErrorMessage(int err_num){
-        Pcre2Uchar buffer[8048];
+        Pcre2Uchar buffer[sizeof(Char)*CHAR_BIT*1024];
         Pcre2Func<BS>::get_error_message(err_num, buffer, sizeof(buffer));
         return toString((Pcre2Uchar*) buffer);
     }          
@@ -772,7 +792,7 @@ struct select{
         if(err_num == (int)ERROR::INVALID_MODIFIER){
             return MSG<Char>::INVALID_MODIFIER() + toString((Char)err_off);
         } else if(err_num != 0) {
-            return getPcre2ErrorMessage((int) err_num) + ParseInt<Char>::toString((int) err_off);
+            return getPcre2ErrorMessage((int) err_num) + ConvInt<Char>::toString((int) err_off);
         } else return String();
     }
 

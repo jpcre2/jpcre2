@@ -18,8 +18,6 @@ int main(){
      */
     if(jp::Regex("(\\d)|(\\w)").match("I am the subject"))
         std::cout<<"\nmatched";
-    else
-        std::cout<<"\nno match";
     /*
      * Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may or may not give you
      * any performance boost (depends on the complexity of the pattern). The more complex

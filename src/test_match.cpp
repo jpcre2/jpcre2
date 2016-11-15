@@ -21,11 +21,11 @@ int main(){
     
     //Compile the pattern
     re.setPattern("(?:(?<w_s>[.?#@]+)|(?<w_s>\\w+))\\s*(?<digit>\\d+)")  //set pattern
-      .setModifier("min")                                                //set modifier
+      .setModifier("minJ")                                               //set modifier
       .addJpcre2Option(jpcre2::JIT_COMPILE)                              //perform JIT compile
-      .addPcre2Option(0)                                    //add pcre2 option
+      .addPcre2Option(0)                                                 //add pcre2 option
       .compile();                                                        //Finally compile it.
-      re.setModifier("fdsfsd"); 
+      re.setModifier("fdsfsd"); //creating a invalid modifier error
     std::cerr<<re.getErrorMessage()<<re.getErrorNumber();
     // JIT error is a harmless, it just means that an optimization failed.
     

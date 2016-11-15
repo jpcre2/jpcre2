@@ -10,7 +10,8 @@ EXTRA_DIST += \
   test16.cpp \
   test32.cpp \
   test0.cpp \
-  test.cpp
+  test.cpp \
+  testio.cpp
 
 include_HEADERS = \
   jpcre2.hpp
@@ -21,7 +22,11 @@ TESTS =
 
 JPCRE2_SOURCES = 
 
-if WITH_TEST_8
+COVERAGE_FLAGS =
+DISTCLEANFILES =
+
+
+if WITH_TEST_SUIT
 
 noinst_PROGRAMS += test_match2 test_replace2 test_match test_replace test_shorts
 TESTS += test_match test_replace test_shorts
@@ -66,10 +71,6 @@ test_shorts_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-endif
-
-if WITH_TEST_16
-
 noinst_PROGRAMS += test16
 TESTS += test16
 
@@ -81,9 +82,6 @@ test16_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-endif
-
-if WITH_TEST_32
 
 noinst_PROGRAMS += test32
 TESTS += test32
@@ -96,10 +94,6 @@ test32_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-endif
-
-
-if WITH_TEST_ALL
 
 noinst_PROGRAMS += test0
 TESTS += test0
@@ -112,10 +106,29 @@ test0_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-endif
+noinst_PROGRAMS += test testio
+TESTS += test testio
 
-COVERAGE_FLAGS =
-DISTCLEANFILES =
+#Building test
+test_SOURCES = \
+  test.cpp \
+  $(JPCRE2_SOURCES)
+test_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS) \
+  $(COVERAGE_FLAGS)
+
+#Building testio
+testio_SOURCES = \
+  testio.cpp \
+  $(JPCRE2_SOURCES)
+testio_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS) \
+  $(COVERAGE_FLAGS)
+
+
+endif
 
 
 if WITH_COVERAGE
@@ -132,9 +145,11 @@ COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
 #coverage_quiet_0 = --quiet
 
 
-coverage: test jpcre2.hpp test.cpp
+coverage: $(TESTS) jpcre2.hpp
 	-$(LCOV) $(coverage_quiet) --zerocounters --directory $(top_builddir)
-	./test
+	for test in $(TESTS); do \
+	./$$test ; \
+	done
 	$(LCOV) --no-external --test-name "$(COVERAGE_TEST_NAME)" \
 		--directory . \
 		--directory "$(srcdir)" \
@@ -151,23 +166,6 @@ covclean: distclean-local
 
 # Without coverage support, still arrange for 'make distclean' to get rid of
 # any coverage files that may have been left from a different configuration.
-
-endif
-
-
-if WITH_TEST_SUIT
-
-noinst_PROGRAMS += test
-TESTS += test
-
-#Building test
-test_SOURCES = \
-  test.cpp \
-  $(JPCRE2_SOURCES)
-test_CXXFLAGS = \
-  $(AM_CXXFLAGS) \
-  $(AM_LDFLAGS) \
-  $(COVERAGE_FLAGS)
 
 endif
 

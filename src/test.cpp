@@ -4,7 +4,7 @@
  * The goal of this test is to go through every nook and cranny of the library
  * and touch every bit of code. Most of this test is just to see if there's any
  * major error like segfault or memory leak. It is also to measure the
- * efficiency of various blocks code.
+ * efficiency of various blocks of code.
  * 
  * Primary goals of this test:
  * 
@@ -16,7 +16,7 @@
  * **Notes:**
  * 
  * * This test is not intended for client review, it's primarily for developers to make sure nothing is broken.
- * * This test doesn't  check for input/output (mostly) i.e only calls are made, validity of output is not tested.
+ * * This test doesn't  check for input/output (mostly) i.e only calls are made, validity of output is not tested. See testio.cpp for input/output test.
  * 
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
@@ -29,8 +29,13 @@
 typedef jpcre2::select<char> jp;
 typedef jpcre2::select<char> jpc;
 typedef jpcre2::select<wchar_t> jpw;
+#if __cplusplus >= 201103L
 typedef jpcre2::select<char16_t> jp16;
-typedef jpcre2::select<char32_t, 32> jp32;
+typedef jpcre2::select<char32_t> jp32;
+#define RE_TEST if(re);
+#else
+#define RE_TEST
+#endif
 
 int main(){
     #define FUNKY_CODE \
@@ -63,7 +68,7 @@ int main(){
      \
     re = jp::Regex(re3); \
     /*//check bollean operator*/ \
-    if(re); \
+    RE_TEST \
      \
     re.resetErrors(); \
     re.reset(); \
@@ -99,7 +104,7 @@ int main(){
      \
     re.compile(PAT, "gfdsf");  \
     re.getErrorMessage(); \
-    if(re); \
+    RE_TEST \
     re.compile(PAT,"J");  \
     if(!re); \
      \
@@ -296,8 +301,8 @@ int main(){
 #define vec_nas JPCRE2_SUFFIX(vec_nas)
 
 #define JPCRE2_LOCAL_CHAR c
-#define TEXT u8"I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"
-#define PAT u8"(?<name1>\\w+)(?<name2>\\s+)(?<name1>\\w+)"
+#define TEXT "I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"
+#define PAT "(?<name1>\\w+)(?<name2>\\s+)(?<name1>\\w+)"
 FUNKY_CODE
 #undef TEXT
 #undef PAT
@@ -311,6 +316,7 @@ FUNKY_CODE
 #undef PAT
 #undef JPCRE2_LOCAL_CHAR
 
+#if __cplusplus >= 201103L
 #define JPCRE2_LOCAL_CHAR 16
 #define TEXT u"I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"
 #define PAT u"(?<name1>\\w+)(?<name2>\\s+)(?<name1>\\w+)"
@@ -326,7 +332,7 @@ FUNKY_CODE
 #undef TEXT
 #undef PAT
 #undef JPCRE2_LOCAL_CHAR
-
+#endif
 
     
     
