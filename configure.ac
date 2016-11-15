@@ -2,7 +2,7 @@ AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIR([m4])
 include([ax_cxx_compile_stdcxx.m4])
 
-AC_INIT([jpcre2], [10.28.06], [https://github.com/jpcre2/jpcre2/issues])
+AC_INIT([jpcre2], [10.28.07], [https://github.com/jpcre2/jpcre2/issues])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.hpp])
 #AC_CONFIG_HEADERS([config.h])
@@ -47,33 +47,12 @@ AC_ARG_ENABLE(silent-rules,
               , enable_silent_rules=unset)
 AC_SUBST(enable_silent_rules)
 
-# Handle --disable-test-8 (enabled by default)
-AC_ARG_ENABLE(test-8,
-              AS_HELP_STRING([--disable-test-8],
-                             [disable 8 bit test]),
-              , enable_test_8=unset)
-AC_SUBST(enable_test_8)
-
-# Handle --enable-test-16 (disabled by default)
-AC_ARG_ENABLE(test-16,
-              AS_HELP_STRING([--enable-test-16],
-                             [enable 16 bit test]),
-              , enable_test_16=unset)
-AC_SUBST(enable_test_16)
-
-# Handle --enable-test-32 (disabled by default)
-AC_ARG_ENABLE(test-32,
-              AS_HELP_STRING([--enable-test-32],
-                             [enable 32 bit test]),
-              , enable_test_32=unset)
-AC_SUBST(enable_test_32)
-
-# Handle --enable-test-all (disabled by default)
-AC_ARG_ENABLE(test-all,
-              AS_HELP_STRING([--enable-test-all],
-                             [enable all test]),
-              , enable_test_all=unset)
-AC_SUBST(enable_test_all)
+# Handle --enable-test (disabled by default)
+AC_ARG_ENABLE(test,
+              AS_HELP_STRING([--enable-test],
+                             [enable test]),
+              , enable_test=unset)
+AC_SUBST(enable_test)
 
 # Handle --enable-cpp11 (disabled by default)
 AC_ARG_ENABLE(cpp11,
@@ -107,29 +86,12 @@ then
   enable_silent_rules=yes
 fi
 
-# Set the default value for test-8
-if test "x$enable_test_8" = "xunset"
+# Set the default value for test
+if test "x$enable_test" = "xunset"
 then
-  enable_test_8=yes
+  enable_test=no
 fi
 
-# Set the default value for test-16
-if test "x$enable_test_16" = "xunset"
-then
-  enable_test_16=no
-fi
-
-# Set the default value for test-32
-if test "x$enable_test_32" = "xunset"
-then
-  enable_test_32=no
-fi
-
-# Set the default value for test-all
-if test "x$enable_test_all" = "xunset"
-then
-  enable_test_all=no
-fi
 
 if test "x$enable_coverage" = "xunset"
 then
@@ -156,7 +118,7 @@ if test "$enable_coverage" = "yes"; then
   if test "x$GENHTML" = "xfalse"; then
     AC_MSG_ERROR([genhtml not found])
   fi
-  enable_test_all=yes
+  enable_test=yes
   CXXFLAGS="-O0 -ggdb3 -fprofile-arcs -ftest-coverage"
 fi
 
@@ -167,45 +129,22 @@ if test "$enable_valgrind" = "yes"; then
   if test "x$VALGRIND" = "xfalse"; then
     AC_MSG_ERROR([valgrind not found])
   fi
-
-  enable_test_all=yes
+  enable_test=yes
 fi
 
 
 if test "$enable_silent_rules" = "yes"; then
   AM_SILENT_RULES([yes])
   AC_DEFINE([SUPPORT_SILENT_RULES], [], [
-    Define to any value to enable compiling the test examples])
+    Define to any value to enable prettified make output])
 fi
 
-if test "$enable_test_all" = "yes"; then
-  AC_DEFINE([SUPPORT_TEST_ALL], [], [
-    Define to any value to enable the 32 bit PCRE2 library.])
-  enable_test_8=yes
-  enable_test_16=yes
-  enable_test_32=yes
-fi
-
-
-if test "$enable_test_8" = "yes"; then
-  AC_DEFINE([SUPPORT_TEST_8], [], [
-    Define to any value to enable the 8 bit JPCRE2 library.])
-    
+if test "$enable_test" = "yes"; then
+  AC_DEFINE([SUPPORT_TEST], [], [
+    Define to any value to enable the test suit])
   AC_CHECK_LIB([pcre2-8], [pcre2_code_free_8], [], [AC_MSG_ERROR([unable to find pcre2-8 library])])
-fi
-
-if test "$enable_test_16" = "yes"; then
-  AC_DEFINE([SUPPORT_TEST_16], [], [
-    Define to any value to enable the 16 bit JPCRE2 library.])
   AC_CHECK_LIB([pcre2-16], [pcre2_code_free_16], [], [AC_MSG_ERROR([unable to find pcre2-16 library])])
-  enable_cpp11=yes
-fi
-
-if test "$enable_test_32" = "yes"; then
-  AC_DEFINE([SUPPORT_TEST_32], [], [
-    Define to any value to enable the 32 bit PCRE2 library.])
   AC_CHECK_LIB([pcre2-32], [pcre2_code_free_32], [], [AC_MSG_ERROR([unable to find pcre2-32 library])])
-  enable_cpp11=yes
 fi
 
 if test "$enable_cpp11" = "yes"; then
@@ -217,14 +156,10 @@ if test "$enable_cpp11" = "yes"; then
 fi
 
 # Conditional compilation
+AM_CONDITIONAL(WITH_TEST_SUIT, test "x$enable_valgrind" = "xyes" || test "x$enable_coverage" = "xyes" || test "x$enable_test" = "xyes")
 AM_CONDITIONAL(WITH_COVERAGE, test "x$enable_coverage" = "xyes")
 AM_CONDITIONAL(WITH_VALGRIND, test "x$enable_valgrind" = "xyes")
 AM_CONDITIONAL(WITH_CPP11, test "x$enable_cpp11" = "xyes")
-AM_CONDITIONAL(WITH_TEST_8, test "x$enable_test_8" = "xyes")
-AM_CONDITIONAL(WITH_TEST_16, test "x$enable_test_16" = "xyes")
-AM_CONDITIONAL(WITH_TEST_32, test "x$enable_test_32" = "xyes")
-AM_CONDITIONAL(WITH_TEST_ALL, test "x$enable_test_all" = "xyes")
-AM_CONDITIONAL(WITH_TEST_SUIT, test "x$enable_valgrind" = "xyes" || test "x$enable_coverage" = "xyes")
 
 
 AC_OUTPUT(Makefile src/Makefile)
@@ -241,13 +176,10 @@ configuration summary:
     C++ compiler flags ................ : ${CXXFLAGS}
     Linker flags ...................... : ${LDFLAGS}
     Extra libraries ................... : ${LIBS}
-    Build 8-bit examples .............. : ${enable_test_8}
-    Build 16-bit examples ..............: ${enable_test_16}
-    Build 32-bit examples ............. : ${enable_test_32}
-    Build Multi-bit examples .......... : ${enable_test_all}
+    Build tests ....................... : ${enable_test}
     Build with C++ 11 ................. : ${enable_cpp11}
-    Enable Silent Rules ............... : ${enable_silent_rules}
-    Coverage report ................... : ${enable_coverage}
     Valgrind test ..................... : ${enable_valgrind}
+    Coverage report ................... : ${enable_coverage}
+    Enable Silent Rules ............... : ${enable_silent_rules}
 
 EOF

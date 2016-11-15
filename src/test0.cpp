@@ -1,5 +1,5 @@
 /**@file test0.cpp
- * An example of handling multi code unit width.
+ * An example of handling std::string and std::wstring
  * @include test0.cpp
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
@@ -7,47 +7,43 @@
 #include <iostream>
 #include "jpcre2.hpp"
 
-typedef jpcre2::select<char> jp8;
-typedef jpcre2::select<wchar_t> jp32;
+typedef jpcre2::select<char> jpc;
+typedef jpcre2::select<wchar_t> jpw;
 
    
 int main(){
-    jp8::Regex   re8;
-    jp32::Regex  re32;
+    jpc::Regex   rec;
+    jpw::Regex  rew;
     
-    re8.setPattern("\\d+").compile();
-    re32.setPattern(L"\\d+").compile();
+    rec.setPattern("\\d+").compile();
+    rew.setPattern(L"\\d+").compile();
 
 
-    re8.getMatchObject().setModifier("fdsafsd");
-    std::cout<<re8.getMatchObject().getErrorMessage();
+    rec.getMatchObject().setModifier("fdsafsd");
+    std::cout<<rec.getMatchObject().getErrorMessage();
 
-    jp32::VecNum vec_num32;
-    re32.getMatchObject()
-        .setStartOffset(28) //match will start at offset 28.
-        .setNumberedSubstringVector(&vec_num32);
+    jpw::VecNum vec_num32;
+    rew.getMatchObject()
+       .setStartOffset(28) //match will start at offset 28.
+       .setNumberedSubstringVector(&vec_num32);
 
-    size_t count = re32.match(L"I am a subject with digits 32 43 44", "g");
+    size_t count = rew.match(L"I am a subject with digits 32 43 44", "g");
     std::cout<<"\nMatch count: "<<count;
     std::wcout<<"\nFirst match: "<<vec_num32[0][0];
-    std::cout<<"\nMatch ended at offset: "<<re32.getMatchObject().getEndOffset();
+    std::cout<<"\nMatch ended at offset: "<<rew.getMatchObject().getEndOffset();
 
     std::cout<<"\n--------------------------------\n";
     
     //////////////////////////////////////////////////
     //Using new match and replace object
-    #ifndef __DOXYGEN__
-    jp8::RegexMatch rm(&re8);
-    jp8::RegexReplace rr(&re8);
-    #else
-    //This is for doxygen documentation.
-    jp8::RegexMatch rm; //compile error
-    jp8::RegexReplace rr; //compile error
-    #endif
+    jpc::RegexMatch rm;
+    jpc::RegexReplace rr;
     
+    rm.setRegexObject(&rec);
+    rr.setRegexObject(&rec);
     
 
-    jp8::VecNum vec_num8;
+    jpc::VecNum vec_num8;
     rm.setSubject("I am a subject with digits 3343242 4433243 443244")
       .setModifier("g")
       .setNumberedSubstringVector(&vec_num8)
@@ -55,8 +51,8 @@ int main(){
      
     std::cout<<"\nFirst match: " + vec_num8[0][0];
     
-    jp8::Regex re8_2("[\\S]+");
-    rm.setRegexObject(&re8_2)
+    jpc::Regex rec_2("[\\S]+");
+    rm.setRegexObject(&rec_2)
       .setSubject("I am subject")
       .setNumberedSubstringVector(&vec_num8)
       .match();
@@ -73,7 +69,7 @@ int main(){
             rr.setSubject("I am a subject with digits 3343242 4433243 443244")
               .setReplaceWith("@")
               .setModifier("g")
-              .setRegexObject(&re8_2)
+              .setRegexObject(&rec_2)
               .replace();
    
    return 0;

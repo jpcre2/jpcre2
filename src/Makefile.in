@@ -89,23 +89,14 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
-	$(am__EXEEXT_4) $(am__EXEEXT_5)
-TESTS = $(am__EXEEXT_6) $(am__EXEEXT_2) $(am__EXEEXT_3) \
-	$(am__EXEEXT_4) $(am__EXEEXT_5)
-@WITH_TEST_8_TRUE@am__append_1 = test_match2 test_replace2 test_match test_replace test_shorts
-@WITH_TEST_8_TRUE@am__append_2 = test_match test_replace test_shorts
-@WITH_TEST_16_TRUE@am__append_3 = test16
-@WITH_TEST_16_TRUE@am__append_4 = test16
-@WITH_TEST_32_TRUE@am__append_5 = test32
-@WITH_TEST_32_TRUE@am__append_6 = test32
-@WITH_TEST_ALL_TRUE@am__append_7 = test0
-@WITH_TEST_ALL_TRUE@am__append_8 = test0
-
-# Without coverage support, still arrange for 'make distclean' to get rid of
-# any coverage files that may have been left from a different configuration.
-@WITH_TEST_SUIT_TRUE@am__append_9 = test
-@WITH_TEST_SUIT_TRUE@am__append_10 = test
+noinst_PROGRAMS = $(am__EXEEXT_1)
+TESTS = $(am__EXEEXT_2)
+@WITH_TEST_SUIT_TRUE@am__append_1 = test_match2 test_replace2 \
+@WITH_TEST_SUIT_TRUE@	test_match test_replace test_shorts \
+@WITH_TEST_SUIT_TRUE@	test16 test32 test0 test testio
+@WITH_TEST_SUIT_TRUE@am__append_2 = test_match test_replace \
+@WITH_TEST_SUIT_TRUE@	test_shorts test16 test32 test0 test \
+@WITH_TEST_SUIT_TRUE@	testio
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
@@ -119,13 +110,12 @@ DIST_COMMON = $(srcdir)/Makefile.am $(include_HEADERS) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-@WITH_TEST_8_TRUE@am__EXEEXT_1 = test_match2$(EXEEXT) \
-@WITH_TEST_8_TRUE@	test_replace2$(EXEEXT) test_match$(EXEEXT) \
-@WITH_TEST_8_TRUE@	test_replace$(EXEEXT) test_shorts$(EXEEXT)
-@WITH_TEST_16_TRUE@am__EXEEXT_2 = test16$(EXEEXT)
-@WITH_TEST_32_TRUE@am__EXEEXT_3 = test32$(EXEEXT)
-@WITH_TEST_ALL_TRUE@am__EXEEXT_4 = test0$(EXEEXT)
-@WITH_TEST_SUIT_TRUE@am__EXEEXT_5 = test$(EXEEXT)
+@WITH_TEST_SUIT_TRUE@am__EXEEXT_1 = test_match2$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	test_replace2$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	test_match$(EXEEXT) test_replace$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	test_shorts$(EXEEXT) test16$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	test32$(EXEEXT) test0$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	test$(EXEEXT) testio$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am__test_SOURCES_DIST = test.cpp
 am__objects_1 =
@@ -141,60 +131,60 @@ test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__test0_SOURCES_DIST = test0.cpp
-@WITH_TEST_ALL_TRUE@am_test0_OBJECTS = test0-test0.$(OBJEXT) \
-@WITH_TEST_ALL_TRUE@	$(am__objects_1)
+@WITH_TEST_SUIT_TRUE@am_test0_OBJECTS = test0-test0.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
 test0_OBJECTS = $(am_test0_OBJECTS)
 test0_LDADD = $(LDADD)
 test0_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test0_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__test16_SOURCES_DIST = test16.cpp
-@WITH_TEST_16_TRUE@am_test16_OBJECTS = test16-test16.$(OBJEXT) \
-@WITH_TEST_16_TRUE@	$(am__objects_1)
+@WITH_TEST_SUIT_TRUE@am_test16_OBJECTS = test16-test16.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
 test16_OBJECTS = $(am_test16_OBJECTS)
 test16_LDADD = $(LDADD)
 test16_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test16_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__test32_SOURCES_DIST = test32.cpp
-@WITH_TEST_32_TRUE@am_test32_OBJECTS = test32-test32.$(OBJEXT) \
-@WITH_TEST_32_TRUE@	$(am__objects_1)
+@WITH_TEST_SUIT_TRUE@am_test32_OBJECTS = test32-test32.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
 test32_OBJECTS = $(am_test32_OBJECTS)
 test32_LDADD = $(LDADD)
 test32_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test32_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__test_match_SOURCES_DIST = test_match.cpp
-@WITH_TEST_8_TRUE@am_test_match_OBJECTS =  \
-@WITH_TEST_8_TRUE@	test_match-test_match.$(OBJEXT) \
-@WITH_TEST_8_TRUE@	$(am__objects_1)
+@WITH_TEST_SUIT_TRUE@am_test_match_OBJECTS =  \
+@WITH_TEST_SUIT_TRUE@	test_match-test_match.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
 test_match_OBJECTS = $(am_test_match_OBJECTS)
 test_match_LDADD = $(LDADD)
 test_match_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test_match_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__test_match2_SOURCES_DIST = test_match2.cpp
-@WITH_TEST_8_TRUE@am_test_match2_OBJECTS =  \
-@WITH_TEST_8_TRUE@	test_match2-test_match2.$(OBJEXT) \
-@WITH_TEST_8_TRUE@	$(am__objects_1)
+@WITH_TEST_SUIT_TRUE@am_test_match2_OBJECTS =  \
+@WITH_TEST_SUIT_TRUE@	test_match2-test_match2.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
 test_match2_OBJECTS = $(am_test_match2_OBJECTS)
 test_match2_LDADD = $(LDADD)
 test_match2_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test_match2_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__test_replace_SOURCES_DIST = test_replace.cpp
-@WITH_TEST_8_TRUE@am_test_replace_OBJECTS =  \
-@WITH_TEST_8_TRUE@	test_replace-test_replace.$(OBJEXT) \
-@WITH_TEST_8_TRUE@	$(am__objects_1)
+@WITH_TEST_SUIT_TRUE@am_test_replace_OBJECTS =  \
+@WITH_TEST_SUIT_TRUE@	test_replace-test_replace.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
 test_replace_OBJECTS = $(am_test_replace_OBJECTS)
 test_replace_LDADD = $(LDADD)
 test_replace_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test_replace_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__test_replace2_SOURCES_DIST = test_replace2.cpp
-@WITH_TEST_8_TRUE@am_test_replace2_OBJECTS =  \
-@WITH_TEST_8_TRUE@	test_replace2-test_replace2.$(OBJEXT) \
-@WITH_TEST_8_TRUE@	$(am__objects_1)
+@WITH_TEST_SUIT_TRUE@am_test_replace2_OBJECTS =  \
+@WITH_TEST_SUIT_TRUE@	test_replace2-test_replace2.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
 test_replace2_OBJECTS = $(am_test_replace2_OBJECTS)
 test_replace2_LDADD = $(LDADD)
 test_replace2_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
@@ -202,13 +192,21 @@ test_replace2_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(test_replace2_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 am__test_shorts_SOURCES_DIST = test_shorts.cpp
-@WITH_TEST_8_TRUE@am_test_shorts_OBJECTS =  \
-@WITH_TEST_8_TRUE@	test_shorts-test_shorts.$(OBJEXT) \
-@WITH_TEST_8_TRUE@	$(am__objects_1)
+@WITH_TEST_SUIT_TRUE@am_test_shorts_OBJECTS =  \
+@WITH_TEST_SUIT_TRUE@	test_shorts-test_shorts.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
 test_shorts_OBJECTS = $(am_test_shorts_OBJECTS)
 test_shorts_LDADD = $(LDADD)
 test_shorts_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test_shorts_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am__testio_SOURCES_DIST = testio.cpp
+@WITH_TEST_SUIT_TRUE@am_testio_OBJECTS = testio-testio.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
+testio_OBJECTS = $(am_testio_OBJECTS)
+testio_LDADD = $(LDADD)
+testio_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(testio_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -247,13 +245,13 @@ am__v_CXXLD_1 =
 SOURCES = $(test_SOURCES) $(test0_SOURCES) $(test16_SOURCES) \
 	$(test32_SOURCES) $(test_match_SOURCES) $(test_match2_SOURCES) \
 	$(test_replace_SOURCES) $(test_replace2_SOURCES) \
-	$(test_shorts_SOURCES)
+	$(test_shorts_SOURCES) $(testio_SOURCES)
 DIST_SOURCES = $(am__test_SOURCES_DIST) $(am__test0_SOURCES_DIST) \
 	$(am__test16_SOURCES_DIST) $(am__test32_SOURCES_DIST) \
 	$(am__test_match_SOURCES_DIST) $(am__test_match2_SOURCES_DIST) \
 	$(am__test_replace_SOURCES_DIST) \
 	$(am__test_replace2_SOURCES_DIST) \
-	$(am__test_shorts_SOURCES_DIST)
+	$(am__test_shorts_SOURCES_DIST) $(am__testio_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -464,8 +462,11 @@ am__set_TESTS_bases = \
   bases=`echo $$bases`
 RECHECK_LOGS = $(TEST_LOGS)
 AM_RECURSIVE_TARGETS = check recheck
-@WITH_TEST_8_TRUE@am__EXEEXT_6 = test_match$(EXEEXT) \
-@WITH_TEST_8_TRUE@	test_replace$(EXEEXT) test_shorts$(EXEEXT)
+@WITH_TEST_SUIT_TRUE@am__EXEEXT_2 = test_match$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	test_replace$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	test_shorts$(EXEEXT) test16$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	test32$(EXEEXT) test0$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	test$(EXEEXT) testio$(EXEEXT)
 TEST_SUITE_LOG = test-suite.log
 TEST_EXTENSIONS = @EXEEXT@ .test
 LOG_DRIVER = $(SHELL) $(top_srcdir)/config/test-driver
@@ -587,10 +588,7 @@ dvidir = @dvidir@
 enable_coverage = @enable_coverage@
 enable_cpp11 = @enable_cpp11@
 enable_silent_rules = @enable_silent_rules@
-enable_test_16 = @enable_test_16@
-enable_test_32 = @enable_test_32@
-enable_test_8 = @enable_test_8@
-enable_test_all = @enable_test_all@
+enable_test = @enable_test@
 enable_valgrind = @enable_valgrind@
 exec_prefix = @exec_prefix@
 host = @host@
@@ -624,97 +622,93 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = jpcre2.hpp test_match.cpp test_replace.cpp \
 	test_match2.cpp test_replace2.cpp test_shorts.cpp test16.cpp \
-	test32.cpp test0.cpp test.cpp
+	test32.cpp test0.cpp test.cpp testio.cpp
 include_HEADERS = \
   jpcre2.hpp
 
 JPCRE2_SOURCES = 
+COVERAGE_FLAGS = 
+DISTCLEANFILES = 
 
 #Building test_match2
-@WITH_TEST_8_TRUE@test_match2_SOURCES = \
-@WITH_TEST_8_TRUE@  test_match2.cpp \
-@WITH_TEST_8_TRUE@  $(JPCRE2_SOURCES)
+@WITH_TEST_SUIT_TRUE@test_match2_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test_match2.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
 
-@WITH_TEST_8_TRUE@test_match2_CXXFLAGS = \
-@WITH_TEST_8_TRUE@  $(AM_CXXFLAGS) \
-@WITH_TEST_8_TRUE@  $(AM_LDFLAGS)
+@WITH_TEST_SUIT_TRUE@test_match2_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
 
 
 #Building test_match
-@WITH_TEST_8_TRUE@test_match_SOURCES = \
-@WITH_TEST_8_TRUE@  test_match.cpp \
-@WITH_TEST_8_TRUE@  $(JPCRE2_SOURCES)
+@WITH_TEST_SUIT_TRUE@test_match_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test_match.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
 
-@WITH_TEST_8_TRUE@test_match_CXXFLAGS = \
-@WITH_TEST_8_TRUE@  $(AM_CXXFLAGS) \
-@WITH_TEST_8_TRUE@  $(AM_LDFLAGS)
+@WITH_TEST_SUIT_TRUE@test_match_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
 
 
 #Building test_replace
-@WITH_TEST_8_TRUE@test_replace2_SOURCES = \
-@WITH_TEST_8_TRUE@  test_replace2.cpp \
-@WITH_TEST_8_TRUE@  $(JPCRE2_SOURCES)
+@WITH_TEST_SUIT_TRUE@test_replace2_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test_replace2.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
 
-@WITH_TEST_8_TRUE@test_replace2_CXXFLAGS = \
-@WITH_TEST_8_TRUE@  $(AM_CXXFLAGS) \
-@WITH_TEST_8_TRUE@  $(AM_LDFLAGS)
+@WITH_TEST_SUIT_TRUE@test_replace2_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
 
 
 #Building test_replace2
-@WITH_TEST_8_TRUE@test_replace_SOURCES = \
-@WITH_TEST_8_TRUE@  test_replace.cpp \
-@WITH_TEST_8_TRUE@  $(JPCRE2_SOURCES)
+@WITH_TEST_SUIT_TRUE@test_replace_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test_replace.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
 
-@WITH_TEST_8_TRUE@test_replace_CXXFLAGS = \
-@WITH_TEST_8_TRUE@  $(AM_CXXFLAGS) \
-@WITH_TEST_8_TRUE@  $(AM_LDFLAGS)
+@WITH_TEST_SUIT_TRUE@test_replace_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
 
 
 #Building test_shorts
-@WITH_TEST_8_TRUE@test_shorts_SOURCES = \
-@WITH_TEST_8_TRUE@  test_shorts.cpp \
-@WITH_TEST_8_TRUE@  $(JPCRE2_SOURCES)
+@WITH_TEST_SUIT_TRUE@test_shorts_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test_shorts.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
 
-@WITH_TEST_8_TRUE@test_shorts_CXXFLAGS = \
-@WITH_TEST_8_TRUE@  $(AM_CXXFLAGS) \
-@WITH_TEST_8_TRUE@  $(AM_LDFLAGS)
+@WITH_TEST_SUIT_TRUE@test_shorts_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
 
 
 #Building test16
-@WITH_TEST_16_TRUE@test16_SOURCES = \
-@WITH_TEST_16_TRUE@  test16.cpp \
-@WITH_TEST_16_TRUE@  $(JPCRE2_SOURCES)
+@WITH_TEST_SUIT_TRUE@test16_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test16.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
 
-@WITH_TEST_16_TRUE@test16_CXXFLAGS = \
-@WITH_TEST_16_TRUE@  $(AM_CXXFLAGS) \
-@WITH_TEST_16_TRUE@  $(AM_LDFLAGS)
+@WITH_TEST_SUIT_TRUE@test16_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
 
 
 #Building test32
-@WITH_TEST_32_TRUE@test32_SOURCES = \
-@WITH_TEST_32_TRUE@  test32.cpp \
-@WITH_TEST_32_TRUE@  $(JPCRE2_SOURCES)
+@WITH_TEST_SUIT_TRUE@test32_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test32.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
 
-@WITH_TEST_32_TRUE@test32_CXXFLAGS = \
-@WITH_TEST_32_TRUE@  $(AM_CXXFLAGS) \
-@WITH_TEST_32_TRUE@  $(AM_LDFLAGS)
+@WITH_TEST_SUIT_TRUE@test32_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
 
 
 #Building test0
-@WITH_TEST_ALL_TRUE@test0_SOURCES = \
-@WITH_TEST_ALL_TRUE@  test0.cpp \
-@WITH_TEST_ALL_TRUE@  $(JPCRE2_SOURCES)
+@WITH_TEST_SUIT_TRUE@test0_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test0.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
 
-@WITH_TEST_ALL_TRUE@test0_CXXFLAGS = \
-@WITH_TEST_ALL_TRUE@  $(AM_CXXFLAGS) \
-@WITH_TEST_ALL_TRUE@  $(AM_LDFLAGS)
+@WITH_TEST_SUIT_TRUE@test0_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
 
-COVERAGE_FLAGS = 
-DISTCLEANFILES = 
-@WITH_COVERAGE_TRUE@COVERAGE_TEST_NAME = $(PACKAGE)
-@WITH_COVERAGE_TRUE@COVERAGE_NAME = $(PACKAGE)-$(VERSION)
-@WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
-@WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
 
 #Building test
 @WITH_TEST_SUIT_TRUE@test_SOURCES = \
@@ -726,6 +720,21 @@ DISTCLEANFILES =
 @WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS) \
 @WITH_TEST_SUIT_TRUE@  $(COVERAGE_FLAGS)
 
+
+#Building testio
+@WITH_TEST_SUIT_TRUE@testio_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  testio.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
+
+@WITH_TEST_SUIT_TRUE@testio_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(COVERAGE_FLAGS)
+
+@WITH_COVERAGE_TRUE@COVERAGE_TEST_NAME = $(PACKAGE)
+@WITH_COVERAGE_TRUE@COVERAGE_NAME = $(PACKAGE)-$(VERSION)
+@WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
+@WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
 all: all-am
 
 .SUFFIXES:
@@ -805,6 +814,10 @@ test_shorts$(EXEEXT): $(test_shorts_OBJECTS) $(test_shorts_DEPENDENCIES) $(EXTRA
 	@rm -f test_shorts$(EXEEXT)
 	$(AM_V_CXXLD)$(test_shorts_LINK) $(test_shorts_OBJECTS) $(test_shorts_LDADD) $(LIBS)
 
+testio$(EXEEXT): $(testio_OBJECTS) $(testio_DEPENDENCIES) $(EXTRA_testio_DEPENDENCIES) 
+	@rm -f testio$(EXEEXT)
+	$(AM_V_CXXLD)$(testio_LINK) $(testio_OBJECTS) $(testio_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -820,6 +833,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_replace-test_replace.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_replace2-test_replace2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_shorts-test_shorts.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testio-testio.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -967,6 +981,20 @@ test_shorts-test_shorts.obj: test_shorts.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_shorts.cpp' object='test_shorts-test_shorts.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_shorts_CXXFLAGS) $(CXXFLAGS) -c -o test_shorts-test_shorts.obj `if test -f 'test_shorts.cpp'; then $(CYGPATH_W) 'test_shorts.cpp'; else $(CYGPATH_W) '$(srcdir)/test_shorts.cpp'; fi`
+
+testio-testio.o: testio.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testio_CXXFLAGS) $(CXXFLAGS) -MT testio-testio.o -MD -MP -MF $(DEPDIR)/testio-testio.Tpo -c -o testio-testio.o `test -f 'testio.cpp' || echo '$(srcdir)/'`testio.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/testio-testio.Tpo $(DEPDIR)/testio-testio.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='testio.cpp' object='testio-testio.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testio_CXXFLAGS) $(CXXFLAGS) -c -o testio-testio.o `test -f 'testio.cpp' || echo '$(srcdir)/'`testio.cpp
+
+testio-testio.obj: testio.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testio_CXXFLAGS) $(CXXFLAGS) -MT testio-testio.obj -MD -MP -MF $(DEPDIR)/testio-testio.Tpo -c -o testio-testio.obj `if test -f 'testio.cpp'; then $(CYGPATH_W) 'testio.cpp'; else $(CYGPATH_W) '$(srcdir)/testio.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/testio-testio.Tpo $(DEPDIR)/testio-testio.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='testio.cpp' object='testio-testio.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testio_CXXFLAGS) $(CXXFLAGS) -c -o testio-testio.obj `if test -f 'testio.cpp'; then $(CYGPATH_W) 'testio.cpp'; else $(CYGPATH_W) '$(srcdir)/testio.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1237,6 +1265,13 @@ test.log: test$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+testio.log: testio$(EXEEXT)
+	@p='testio$(EXEEXT)'; \
+	b='testio'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -1422,9 +1457,11 @@ uninstall-am: uninstall-includeHEADERS
 #coverage_quiet_ = $(coverage_quiet_$(AM_DEFAULT_VERBOSITY))
 #coverage_quiet_0 = --quiet
 
-@WITH_COVERAGE_TRUE@coverage: test jpcre2.hpp test.cpp
+@WITH_COVERAGE_TRUE@coverage: $(TESTS) jpcre2.hpp
 @WITH_COVERAGE_TRUE@	-$(LCOV) $(coverage_quiet) --zerocounters --directory $(top_builddir)
-@WITH_COVERAGE_TRUE@	./test
+@WITH_COVERAGE_TRUE@	for test in $(TESTS); do \
+@WITH_COVERAGE_TRUE@	./$$test ; \
+@WITH_COVERAGE_TRUE@	done
 @WITH_COVERAGE_TRUE@	$(LCOV) --no-external --test-name "$(COVERAGE_TEST_NAME)" \
 @WITH_COVERAGE_TRUE@		--directory . \
 @WITH_COVERAGE_TRUE@		--directory "$(srcdir)" \
@@ -1437,6 +1474,9 @@ uninstall-am: uninstall-includeHEADERS
 @WITH_COVERAGE_TRUE@	rm -f *.info *.gcno *.gcda
 @WITH_COVERAGE_TRUE@	rm -rf "$(COVERAGE_OUTPUT_DIR)"
 @WITH_COVERAGE_TRUE@covclean: distclean-local
+
+# Without coverage support, still arrange for 'make distclean' to get rid of
+# any coverage files that may have been left from a different configuration.
 
 @WITH_VALGRIND_TRUE@check: $(TESTS)
 @WITH_VALGRIND_TRUE@	for test in $(TESTS); do \
