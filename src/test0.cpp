@@ -23,14 +23,16 @@ int main(){
     std::cout<<rec.getMatchObject().getErrorMessage();
 
     jpw::VecNum vec_num32;
+    jpcre2::VecOff vec_eoff;
     rew.getMatchObject()
        .setStartOffset(28) //match will start at offset 28.
-       .setNumberedSubstringVector(&vec_num32);
+       .setNumberedSubstringVector(&vec_num32)
+       .setMatchEndOffsetVector(&vec_eoff);
 
     size_t count = rew.match(L"I am a subject with digits 32 43 44", "g");
     std::cout<<"\nMatch count: "<<count;
     std::wcout<<"\nFirst match: "<<vec_num32[0][0];
-    std::cout<<"\nMatch ended at offset: "<<rew.getMatchObject().getEndOffset();
+    std::cout<<"\nMatch ended at offset: "<<vec_eoff[vec_eoff.size()-1];
 
     std::cout<<"\n--------------------------------\n";
     

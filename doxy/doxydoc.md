@@ -515,6 +515,10 @@ When a known error is occurred during pattern compilation or match or replace, t
 
 If you do experiment with various erroneous situations, make use of the `resetErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is also defined for all three classes to reset their corresponding errors.
 
+# Multi threading {#multi-threading}
+
+JPCRE2 is thread unsafe. In threaded application, lock must be used on `Regex`, `RegexMatch` and `RegexReplace` objects. An example multi-threaded program is provided in *src/test_pthread.cpp*. The thread safety of this program is tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
+
 # Short examples {#short-examples}
 
 ```cpp
@@ -684,7 +688,17 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
 
 > For complete changes see the changelog file
 
-All versions prior to 10.28.06 were discarded due to serious memory leaks. From 10.28.06, valgrind tests are performed to ensure proper memory management.
+The following are added: 
+
+1. `jp::RegexMatch::setMatchStartOffsetVector()`: Vector to store the offsets where matches start in th subjects string.
+2. `jp::RegexMatch::setMatchEndOffsetVector()`: Vector to store the offsets where matches end in the subject string.
+3. `jp::Regex::resetCharacterTables()`: Reset the charater tables according to current locale.
+
+The following are removed:
+
+1. `getEndOffset()`: In favor of `jp::RegexMatch::setMatchEndOffsetVector()`.
+2. Thread unsafe function `setLocale()` and its' correspondings `getLocale()` and `getLocaleTypeId()` in favor of `jp::Regex::resetCharacterTables()`
+
 
 # Test suit {#test-suit}
 
@@ -705,6 +719,15 @@ To check with `valgrind`, run:
 ./configure --enable-valgrind
 make check
 ```
+To check the multi threaded example with helgrind, run:
+
+```sh
+#requires valgrind to be installed on the system
+#You can add --enable-cpp11 to test cpp11 features.
+./configure --enable-thread-check
+make check
+```
+
 To prepare a coverage report, run:
 
 ```sh
@@ -725,6 +748,7 @@ Option | Details
 `--[enable/disable]-test` | Enable/Disable test suit.
 `--[enable/disable]-cpp11` | Enable/Disable building tests with C++11 features.
 `--[enable/disable]-valgrind` | Enable/Disable valgrind test (memory leak test).
+`--[enable/disable]-thread-check` | Enable/Disable thread check on multi threaded examples.
 `--[enable/disable]-coverage` | Enable/Disable coverage report.
 `--[enable/disable]-silent-rules` | Enable/Disable silent rules (enabled by default). You will get prettified `make` output if enabled.
 

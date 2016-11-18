@@ -61,7 +61,6 @@
 #include <cstdio>       // std::sprintf
 #include <cwchar>       // std::mbstate_t, std::swprintf
 #include <cstring>      // strlen
-#include <clocale>      // std::setlocale
 #include <climits>      // CHAR_BIT
 #include <cassert>      // assert()
 
@@ -71,6 +70,7 @@
     #include <codecvt>
     #include <locale>  // std::wstring_convert
 #endif
+
 
 #ifdef JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
     template<bool B, class T = void>
@@ -96,16 +96,20 @@
 namespace jpcre2 {
 
 
+///Define for JPCRE2 version.
+///`#if` guard can be used to support changes in different versions of the lib.
+#define JPCRE2_VERSION 102808L
+
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
  *  Contains constant Strings with version info.
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.28.06";     ///< Full version string
+    static const char FULL_VERSION[] = "10.28.08";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
     static const char VERSION_MAJOR[] = "28";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "06";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MINOR[] = "08";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -113,6 +117,7 @@ namespace INFO {
 typedef PCRE2_SIZE SIZE_T;                          ///< Used for match count and vector size
 typedef uint32_t Uint;                              ///< Used for options (bitwise operation)
 typedef uint8_t Ush;                                ///< 8 bit unsigned integer.
+typedef std::vector<PCRE2_SIZE> VecOff;             ///< vector of size_t
 
 /// @namespace jpcre2::ERROR
 /// Namespace for error codes.
@@ -209,6 +214,9 @@ template<> struct Pcre2Func<8> {
     static void compile_context_free(typename Pcre2Type<8>::CompileContext *ccontext){
         pcre2_compile_context_free_8(ccontext);
     }
+    static Pcre2Type<8>::CompileContext* compile_context_copy(Pcre2Type<8>::CompileContext* ccontext){
+    return pcre2_compile_context_copy_8(ccontext); 
+    }
     static const unsigned char * maketables(typename Pcre2Type<8>::GeneralContext* gcontext){
         return pcre2_maketables_8(gcontext);
     }
@@ -249,9 +257,9 @@ template<> struct Pcre2Func<8> {
     static void substring_free(typename Pcre2Type<8>::Pcre2Uchar *buffer){
         pcre2_substring_free_8(buffer);
     }
-    static typename Pcre2Type<8>::Pcre2Code * code_copy(const typename Pcre2Type<8>::Pcre2Code *code){
-        return pcre2_code_copy_8(code);
-    }
+    //~ static typename Pcre2Type<8>::Pcre2Code * code_copy(const typename Pcre2Type<8>::Pcre2Code *code){
+        //~ return pcre2_code_copy_8(code);
+    //~ }
     static void code_free(typename Pcre2Type<8>::Pcre2Code *code){
         pcre2_code_free_8(code);
     }
@@ -303,6 +311,9 @@ template<> struct Pcre2Func<16> {
     static void compile_context_free(typename Pcre2Type<16>::CompileContext *ccontext){
         pcre2_compile_context_free_16(ccontext);
     }
+    static Pcre2Type<16>::CompileContext* compile_context_copy(Pcre2Type<16>::CompileContext* ccontext){
+    return pcre2_compile_context_copy_16(ccontext); 
+    }
     static const unsigned char * maketables(typename Pcre2Type<16>::GeneralContext* gcontext){
         return pcre2_maketables_16(gcontext);
     }
@@ -343,9 +354,9 @@ template<> struct Pcre2Func<16> {
     static void substring_free(typename Pcre2Type<16>::Pcre2Uchar *buffer){
         pcre2_substring_free_16(buffer);
     }
-    static typename Pcre2Type<16>::Pcre2Code * code_copy(const typename Pcre2Type<16>::Pcre2Code *code){
-        return pcre2_code_copy_16(code);
-    }
+    //~ static typename Pcre2Type<16>::Pcre2Code * code_copy(const typename Pcre2Type<16>::Pcre2Code *code){
+        //~ return pcre2_code_copy_16(code);
+    //~ }
     static void code_free(typename Pcre2Type<16>::Pcre2Code *code){
         pcre2_code_free_16(code);
     }
@@ -397,6 +408,9 @@ template<> struct Pcre2Func<32> {
     static void compile_context_free(typename Pcre2Type<32>::CompileContext *ccontext){
         pcre2_compile_context_free_32(ccontext);
     }
+    static Pcre2Type<32>::CompileContext* compile_context_copy(Pcre2Type<32>::CompileContext* ccontext){
+    return pcre2_compile_context_copy_32(ccontext); 
+    }
     static const unsigned char * maketables(typename Pcre2Type<32>::GeneralContext* gcontext){
         return pcre2_maketables_32(gcontext);
     }
@@ -437,9 +451,9 @@ template<> struct Pcre2Func<32> {
     static void substring_free(typename Pcre2Type<32>::Pcre2Uchar *buffer){
         pcre2_substring_free_32(buffer);
     }
-    static typename Pcre2Type<32>::Pcre2Code * code_copy(const typename Pcre2Type<32>::Pcre2Code *code){
-        return pcre2_code_copy_32(code);
-    }
+    //~ static typename Pcre2Type<32>::Pcre2Code * code_copy(const typename Pcre2Type<32>::Pcre2Code *code){
+        //~ return pcre2_code_copy_32(code);
+    //~ }
     static void code_free(typename Pcre2Type<32>::Pcre2Code *code){
         pcre2_code_free_32(code);
     }
@@ -830,11 +844,13 @@ struct select{
         PCRE2_SIZE error_offset;
         
         PCRE2_SIZE _start_offset; //name collision, use _ at start
-        PCRE2_SIZE _end_offset;
 
         VecNum* vec_num;        
         VecNas* vec_nas;        
         VecNtN* vec_ntn;        
+        
+        VecOff* vec_soff;
+        VecOff* vec_eoff;
 
         NumSub* num_sub;       
         MapNas* nas_map;       
@@ -857,7 +873,9 @@ struct select{
             re = 0;
             vec_num = 0; 
             vec_nas = 0; 
-            vec_ntn = 0; 
+            vec_ntn = 0;
+            vec_soff = 0;
+            vec_eoff = 0;
             num_sub = 0; 
             nas_map = 0; 
             ntn_map = 0; 
@@ -866,7 +884,6 @@ struct select{
             error_number = 0;
             error_offset = 0;
             _start_offset = 0;
-            _end_offset = 0;
             m_subject_ptr = &m_subject;
         }
         
@@ -893,6 +910,9 @@ struct select{
             vec_nas = rm.vec_nas;
             vec_ntn = rm.vec_ntn;
             
+            vec_soff = rm.vec_soff;
+            vec_eoff = rm.vec_eoff;
+            
             //maps should be null, no copy needed
             
             match_opts = rm.match_opts;
@@ -900,7 +920,6 @@ struct select{
             error_number = rm.error_number;
             error_offset = rm.error_offset;
             _start_offset = rm._start_offset;
-            _end_offset = rm._end_offset;
             
         }
 
@@ -1055,12 +1074,6 @@ struct select{
             return _start_offset;
         }
         
-        /// Get offset where last match operation has ended
-        /// @return End offset
-        PCRE2_SIZE getEndOffset() {
-            return _end_offset;
-        }
-        
         ///Get a pointer to the associated Regex object.
         ///If no actual Regex object is associated, null is returned.
         ///@return A pointer to the associated Regex object or null.
@@ -1101,7 +1114,25 @@ struct select{
         RegexMatch& setNameToNumberMapVector(VecNtN* v) { 
             vec_ntn = v; 
             return *this; 
-        } 
+        }
+        
+        /// Set the pointer to a vector to store the offsets where matches
+        /// start in the subject.
+        /// @param v Pointer to a jpcre2::VecOff vector (std::vector<size_t>)
+        /// @return Reference to the calling RegexMatch object
+        RegexMatch& setMatchStartOffsetVector(VecOff* v){
+            vec_soff = v;
+            return *this;
+        }
+        
+        /// Set the pointer to a vector to store the offsets where matches
+        /// end in the subject.
+        /// @param v Pointer to a VecOff vector (std::vector<size_t>)
+        /// @return Reference to the calling RegexMatch object
+        RegexMatch& setMatchEndOffsetVector(VecOff* v){
+            vec_eoff = v;
+            return *this;
+        }
 
         ///Set the subject string for match.
         ///This makes a copy of the subject string. If a copy is not desirable
@@ -1160,7 +1191,7 @@ struct select{
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setPcre2Option()
         /// @see Regex::setPcre2Option()
-        RegexMatch& setPcre2Option(Uint x) { 
+        RegexMatch& setPcre2Option(Uint x) {
             match_opts = x; 
             return *this; 
         } 
@@ -1948,14 +1979,12 @@ struct select{
         const String* pat_str_ptr;
         Pcre2Code *code;            
         Uint compile_opts;         
-        Uint jpcre2_compile_opts;    
-        std::string mylocale;            
+        Uint jpcre2_compile_opts;
         int error_number;
         PCRE2_SIZE error_offset;
-        int ltype; //local category
 
         CompileContext *ccontext;
-        const unsigned char* tables;
+        std::vector<unsigned char> tabv;
         
         
         void init_vars() { 
@@ -1967,9 +1996,7 @@ struct select{
             rm = 0;
             rr = 0; 
             pat_str_ptr = &pat_str;
-            ltype = 0;
             ccontext = 0;
-            tables = 0;
         } 
 
         void freeRegexMemory(void) {
@@ -1982,10 +2009,10 @@ struct select{
             ccontext = 0;
         }
         
-        void freeCharTables(){
-            ::free((void*)tables); //malloc was used by PCRE2
-            tables = 0;
-        }
+        //~ void freeCharTables(){
+            //~ ::free((void*)tables); //malloc was used by PCRE2
+            //~ tables = 0;
+        //~ }
 
         friend class RegexMatch;    
         friend class RegexReplace; 
@@ -1996,30 +2023,43 @@ struct select{
             if(r.pat_str_ptr == &r.pat_str) pat_str_ptr = &pat_str; //not r.pat_str
             else pat_str_ptr = r.pat_str_ptr; //other user data
             
-            mylocale = r.mylocale;
-            ltype = r.ltype;
-            //recreate ccontext and tables:
-            if(!mylocale.empty()) 
-                setLocale(ltype, mylocale);
-            
             compile_opts = r.compile_opts; 
             jpcre2_compile_opts = r.jpcre2_compile_opts; 
             error_number = r.error_number; 
             error_offset = r.error_offset; 
             
-            //Copy #code if it is non-null
-            ///First release memory of #code from current object if it is non-NULL
-            freeRegexMemory();
-            if (r.code) {
-                /// Copy compiled memory of #code to #code of current object using pcre2_code_copy() 
-                code = Pcre2Func<BS>::code_copy(r.code);
-                /// Perform JIT compilation (if enabled) as pcre2_code_copy() doesn't copy JIT memory
-                if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
-                    //Perform JIT compilation:
-                    int jit_ret = Pcre2Func<BS>::jit_compile(code, PCRE2_JIT_COMPLETE);
-                    if(jit_ret < 0) error_number = jit_ret;
+            //copy tables
+            tabv = r.tabv;
+            //copy ccontext if it's not null
+            freeCompileContext();
+            if(r.ccontext){
+                ccontext = Pcre2Func<BS>::compile_context_copy(r.ccontext);
+                //if tabv is not empty and ccontext is ok (not null) set the table pointer to ccontext
+                if(!tabv.empty()){
+                    Pcre2Func<BS>::set_character_tables(ccontext, &tabv[0]);
                 }
-            } //else code is already null
+            } else {
+                ccontext = r.ccontext; //r.ccontext is null
+            }
+            
+            //table pointer must be updated in the compiled code itself
+            //copy is not going to work, we need a recompile.
+            //as all vars are already copied, we can just call compile()
+            compile();
+            
+            //~ //Copy #code if it is non-null
+            //~ ///First release memory of #code from current object if it is non-NULL
+            //~ freeRegexMemory();
+            //~ if (r.code) {
+                //~ /// Copy compiled memory of #code to #code of current object using pcre2_code_copy() 
+                //~ code = Pcre2Func<BS>::code_copy(r.code);
+                //~ /// Perform JIT compilation (if enabled) as pcre2_code_copy() doesn't copy JIT memory
+                //~ if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
+                    //~ //Perform JIT compilation:
+                    //~ int jit_ret = Pcre2Func<BS>::jit_compile(code, PCRE2_JIT_COMPLETE);
+                    //~ if(jit_ret < 0) error_number = jit_ret;
+                //~ }
+            //~ } //else code is already null
             
             //use copy assignment for rm and rr
             delete rm;
@@ -2240,9 +2280,9 @@ struct select{
 
         /// Destructor.
         /// Deletes all memory used by Regex, RegexMatch and RegexReplace object including compiled code and JIT memory.
-        ~Regex() { 
+        ~Regex() {
             freeRegexMemory();
-            freeCharTables();
+            //~ freeCharTables();
             freeCompileContext();
             delete rm; /* Deleting null pointer is perfectly safe, no check needed. */ 
             delete rr; /* Deleting null pointer is perfectly safe, no check needed. */ 
@@ -2254,7 +2294,7 @@ struct select{
          * */
         Regex& reset() { 
             freeRegexMemory(); 
-            freeCharTables();
+            //~ freeCharTables();
             freeCompileContext();
             pat_str.clear();
             delete rm;  /* deleting null pointer is safe. */ 
@@ -2274,6 +2314,24 @@ struct select{
         Regex& resetErrors() { 
             error_number = 0; 
             error_offset = 0; 
+            return *this; 
+        } 
+
+        /// Reset character tables used by PCRE2.
+        /// You should call this function after changing the locale to remake the
+        /// character tables according to the new locale.
+        /// These character tables are used to compile the regex and used by match
+        /// and replace operation. A separate call to compile() will be required
+        /// to apply the new character tables.
+        /// @return Reference to the calling Regex object.
+        Regex& resetCharacterTables() {
+            //~ freeCharTables();
+            const unsigned char* tables = Pcre2Func<BS>::maketables(0); //must pass 0, we are using free() to free the tables.
+            tabv = std::vector<unsigned char>(tables, tables+1087);
+            ::free((void*)tables); //must free memory
+            if(!ccontext)
+                ccontext = Pcre2Func<BS>::compile_context_create(0);
+            Pcre2Func<BS>::set_character_tables(ccontext, &tabv[0]);
             return *this; 
         } 
 
@@ -2343,21 +2401,6 @@ struct select{
          * */
         const String* getPatternPointer() { 
             return pat_str_ptr; 
-        }
-        
-        /** Get locale as a string.
-         *  To get the type id, call Regex::getLocaleTypeId()
-         *  @return locale as std::string
-         * */
-        std::string getLocale() { 
-            return mylocale; 
-        }
-        
-        ///Get the category/type identifier for the locale
-        ///that is being used to compile, match and replace.
-        ///@return Locale Type identifier.
-        int getLocaleTypeId(){
-            return ltype;
         }
 
 
@@ -2501,28 +2544,7 @@ struct select{
             compile_opts = 0; 
             jpcre2_compile_opts = 0; 
             return changeModifier(x, true); 
-        } 
-
-        /// Set the locale.
-        /// Locale is set temporarily to create character tables.
-        /// After creating character tables, locale is restored to its' prior state.
-        /// **Note:** This function may or may not be thread safe (depends on std::setlocale()).
-        /// @param category  locale category identifier, one of the LC_xxx macros. May be 0. 
-        /// @param locale   system-specific locale identifier. Can be "" for the user-preferred locale or "C" for the minimal locale.
-        /// @return Reference to the calling Regex object.
-        Regex& setLocale(int category, const std::string& locale) {
-            ltype = category;  //store
-            mylocale = locale; //store
-            freeCharTables();
-            const char* loc_old = std::setlocale(ltype, 0);
-            std::setlocale(ltype, mylocale.c_str());
-            tables = Pcre2Func<BS>::maketables(0); //must pass 0, we are using free() to free the tables.
-            if(!ccontext)
-                ccontext = Pcre2Func<BS>::compile_context_create(0);
-            Pcre2Func<BS>::set_character_tables(ccontext, tables);
-            std::setlocale(ltype, loc_old);
-            return *this; 
-        } 
+        }
         
         /// Set JPCRE2 option for compile (overwrites existing option)
         /// @param x Option value
@@ -3275,8 +3297,8 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, Match
 
 template<typename Char_T, jpcre2::Ush BS>
 bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
-                                                            Pcre2Sptr tabptr, MatchData *match_data) {
-
+                                                            Pcre2Sptr name_table, MatchData *match_data) {
+    Pcre2Sptr tabptr = name_table;
     String key, value, value1;
     PCRE2_SIZE bufflen = 0;
     Pcre2Uchar *buffer = 0;
@@ -3392,6 +3414,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
         delete ntn_map;
         ntn_map = new MapNtN();
     }
+    if(vec_soff) vec_soff->clear();
+    if(vec_eoff) vec_eoff->clear();
 
     /* Using this function ensures that the block is exactly the right size for
      the number of capturing parentheses in the pattern. */
@@ -3442,55 +3466,54 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
         return count;
 
     }
+    //match succeeded at offset ovector[0]
+    if(vec_soff) vec_soff->push_back(ovector[0]);
+    if(vec_eoff) vec_eoff->push_back(ovector[1]);
 
     // Get numbered substrings if #num_sub isn't null
     if (num_sub) { //must do null check
         if(!getNumberedSubstrings(rc, match_data))
             return count;
     }
-
-    /* See if there are any named substrings, and if so, show them by name. First
-     we have to extract the count of named parentheses from the pattern. */
-
-    (void) Pcre2Func<BS>::pattern_info( re->code,               /* the compiled pattern */
-                                        PCRE2_INFO_NAMECOUNT,   /* get the number of named substrings */
-                                        &namecount);            /* where to put the answer */
-
-    if (namecount <= 0); /*No named substrings*/
-
-    else {
-        Pcre2Sptr tabptr;
-
-        /* Before we can access the substrings, we must extract the table for
-         translating names to numbers, and the size of each entry in the table. */
+    
+    //get named substrings if either nas_map or ntn_map is given.
+    if (nas_map || ntn_map) {
+        /* See if there are any named substrings, and if so, show them by name. First
+         we have to extract the count of named parentheses from the pattern. */
 
         (void) Pcre2Func<BS>::pattern_info( re->code,               /* the compiled pattern */
-                                            PCRE2_INFO_NAMETABLE,   /* address of the table */
-                                            &name_table);           /* where to put the answer */
+                                            PCRE2_INFO_NAMECOUNT,   /* get the number of named substrings */
+                                            &namecount);            /* where to put the answer */
 
-        (void) Pcre2Func<BS>::pattern_info( re->code,                   /* the compiled pattern */
-                                            PCRE2_INFO_NAMEENTRYSIZE,   /* size of each entry in the table */
-                                            &name_entry_size);          /* where to put the answer */
+        if (namecount <= 0); /*No named substrings*/
 
-        /* Now we can scan the table and, for each entry, print the number, the name,
-         and the substring itself. In the 8-bit library the number is held in two
-         bytes, most significant first. */
+        else {
+            /* Before we can access the substrings, we must extract the table for
+             translating names to numbers, and the size of each entry in the table. */
 
-        tabptr = name_table;
+            (void) Pcre2Func<BS>::pattern_info( re->code,               /* the compiled pattern */
+                                                PCRE2_INFO_NAMETABLE,   /* address of the table */
+                                                &name_table);           /* where to put the answer */
 
-        // Get named substrings if #nas_map isn't null.
-        // Get name to number map if #ntn_map isn't null.
-        if (nas_map || ntn_map) {
-            if(!getNamedSubstrings(namecount, name_entry_size, tabptr, match_data))
+            (void) Pcre2Func<BS>::pattern_info( re->code,                   /* the compiled pattern */
+                                                PCRE2_INFO_NAMEENTRYSIZE,   /* size of each entry in the table */
+                                                &name_entry_size);          /* where to put the answer */
+
+            /* Now we can scan the table and, for each entry, print the number, the name,
+             and the substring itself. In the 8-bit library the number is held in two
+             bytes, most significant first. */
+
+
+            // Get named substrings if #nas_map isn't null.
+            // Get name to number map if #ntn_map isn't null.
+            
+            if(!getNamedSubstrings(namecount, name_entry_size, name_table, match_data))
                 return count;
         }
-
     }
 
     // Populate vectors with their associated maps.
     pushMapsIntoVectors();
-    
-    _end_offset = ovector[1]; //store where current match has ended, it may be the last one.
 
     /***********************************************************************//*
      * If the "g" modifier was given, we want to continue                     *
@@ -3625,7 +3648,11 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
              should not happen. */
             return count;
         }
-
+        
+        //match succeded at ovector[0]
+        if(vec_soff) vec_soff->push_back(ovector[0]);
+        if(vec_eoff) vec_eoff->push_back(ovector[1]);
+        
         /* As before, get substrings stored in the output vector by number, and then
          also any named substrings. */
 
@@ -3635,23 +3662,18 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
                 return count;
         }
 
-        if (namecount <= 0)
-            ; /*No named substrings*/
-        else {
-            Pcre2Sptr tabptr = name_table;
-
-            /// Get named substrings if #nas_map isn't null.
-            /// Get name to number map if #ntn_map isn't null.
-            if (nas_map || ntn_map) {
-                if(!getNamedSubstrings(namecount, name_entry_size, tabptr, match_data))
+        if (nas_map || ntn_map) {
+            if (namecount <= 0); /*No named substrings*/
+            else {
+                /// Get named substrings if #nas_map isn't null.
+                /// Get name to number map if #ntn_map isn't null.
+                if(!getNamedSubstrings(namecount, name_entry_size, name_table, match_data))
                     return count;
             }
         }
 
         /// Populate vectors with their associated maps.
         pushMapsIntoVectors();
-
-        _end_offset = ovector[1]; //store where current match has ended, overwrite to contain the last one.
         
     } /* End of loop to find second and subsequent matches */
 

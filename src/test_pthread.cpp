@@ -1,3 +1,9 @@
+/**@file test_pthread.cpp
+ * A multi threaded example with POSIX pthread
+ * @include test_pthread.cpp
+ * @author [Md Jahidul Hamid](https://github.com/neurobin)
+ * */
+
 #include <iostream>
 #include <pthread.h>
 #include "jpcre2.hpp"
@@ -11,20 +17,20 @@ struct MyRegex{
 };
 
 void *task(void *arg){
-    pthread_mutex_lock( &mutex1 );
-    std::cout<<"\nStarting thread...\n";
+    std::cout<<"\n*** Thread started ***\n";
     MyRegex* re = (MyRegex*) arg;
     std::string sub[5] = {"subject1", "123456789", "1a2b3c", "1a 2b 3c ", "I am a string"};
+    pthread_mutex_lock( &mutex1 );
     for(int i = 0;i<5; ++i){
         std::cout<<"\nMatch count for re["<<i<<"]:\t"<<re->re[i].match(sub[i], "g");
     }
-    std::cout<<"\n\nThread finished\n";
     pthread_mutex_unlock( &mutex1 );
+    std::cout<<"\n\n*** Thread finished ***\n";
     return 0;
 }
 
     
-int main(void){
+int main(){
     pthread_t thread[5];
     
     MyRegex re;
@@ -35,8 +41,8 @@ int main(void){
     re.re[4].compile("[\\w\\s]+","m");
     
     for(size_t i = 0;i<5;++i){
-        if(pthread_create( &thread[0], NULL, task, &re)) std::cerr<<"Error creating thread";
-        else pthread_join(thread[0],NULL);
+        if(pthread_create( &thread[0], 0, task, &re)) std::cerr<<"Error creating thread";
+        else pthread_join(thread[0],0);
     }
     
     pthread_exit((void*) 0);
