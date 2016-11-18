@@ -591,7 +591,7 @@ If you do experiment with various erroneous situations, make use of the `resetEr
 
 # Multi threading 
 
-JPCRE2 is thread unsafe. In threaded application, lock must be used on `Regex`, `RegexMatch` and `RegexReplace` objects. An example multi-threaded program is provided in *src/test_pthread.cpp*. The thread safety of this program is tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
+JPCRE2 is thread unsafe. In threaded application, lock must be used on `Regex`, `RegexMatch` and `RegexReplace` objects to ensure thread safety. An example multi-threaded program is provided in *src/test_pthread.cpp*. The thread safety of this program is tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
 
 <a name="short-examples"></a>
 
