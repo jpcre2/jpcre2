@@ -1,8 +1,9 @@
 AC_PREREQ([2.69])
 AC_CONFIG_MACRO_DIR([m4])
 include([ax_cxx_compile_stdcxx.m4])
+include([acx_pthread.m4])
 
-AC_INIT([jpcre2], [10.28.07], [https://github.com/jpcre2/jpcre2/issues])
+AC_INIT([jpcre2], [10.28.08], [https://github.com/jpcre2/jpcre2/issues])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.hpp])
 #AC_CONFIG_HEADERS([config.h])
@@ -54,6 +55,13 @@ AC_ARG_ENABLE(test,
               , enable_test=unset)
 AC_SUBST(enable_test)
 
+# Handle --enable-test (disabled by default)
+AC_ARG_ENABLE(thread-check,
+              AS_HELP_STRING([--enable-thread-check],
+                             [enable thread check]),
+              , enable_thread_check=unset)
+AC_SUBST(enable_thread_check)
+
 # Handle --enable-cpp11 (disabled by default)
 AC_ARG_ENABLE(cpp11,
               AS_HELP_STRING([--enable-cpp11],
@@ -92,6 +100,12 @@ then
   enable_test=no
 fi
 
+# Set default value for enable_thread_check
+if test "x$enable_thread_check" = "xunset"
+then
+  enable_thread_check=no
+fi
+
 
 if test "x$enable_coverage" = "xunset"
 then
@@ -122,6 +136,21 @@ if test "$enable_coverage" = "yes"; then
   CXXFLAGS="-O0 -ggdb3 -fprofile-arcs -ftest-coverage"
 fi
 
+
+if test "$enable_thread_check" = "yes"; then
+  AC_DEFINE([SUPPORT_THREAD_CHECK], [], [
+    Define to any value to enable thread check])
+  LIBS="$LIBS -lpthread"
+  AC_ARG_VAR([VALGRIND],[the valgrind program])
+  AC_PATH_PROG([VALGRIND],[valgrind],[false])
+  if test "x$VALGRIND" = "xfalse"; then
+    AC_MSG_ERROR([valgrind not found])
+  fi
+  #enable_valgrind=yes
+#  AC_CHECK_HEADERS([pthread.h],[AC_MSG_ERROR([Unable to find pthread.h header])])
+#  AC_CHECK_LIB([pthread], [pthread_exit((void*) 0)], [], [AC_MSG_ERROR([unable to find pthread library])])
+fi
+
 if test "$enable_valgrind" = "yes"; then
 
   AC_ARG_VAR([VALGRIND],[the valgrind program])
@@ -147,6 +176,8 @@ if test "$enable_test" = "yes"; then
   AC_CHECK_LIB([pcre2-32], [pcre2_code_free_32], [], [AC_MSG_ERROR([unable to find pcre2-32 library])])
 fi
 
+
+
 if test "$enable_cpp11" = "yes"; then
   AC_DEFINE([SUPPORT_CPP11], [], [
     Define to any value to enable C++ 11])
@@ -158,6 +189,7 @@ fi
 # Conditional compilation
 AM_CONDITIONAL(WITH_TEST_SUIT, test "x$enable_valgrind" = "xyes" || test "x$enable_coverage" = "xyes" || test "x$enable_test" = "xyes")
 AM_CONDITIONAL(WITH_COVERAGE, test "x$enable_coverage" = "xyes")
+AM_CONDITIONAL(WITH_THREAD_TEST, test "x$enable_thread_check" = "xyes")
 AM_CONDITIONAL(WITH_VALGRIND, test "x$enable_valgrind" = "xyes")
 AM_CONDITIONAL(WITH_CPP11, test "x$enable_cpp11" = "xyes")
 
@@ -178,7 +210,8 @@ configuration summary:
     Extra libraries ................... : ${LIBS}
     Build tests ....................... : ${enable_test}
     Build with C++ 11 ................. : ${enable_cpp11}
-    Valgrind test ..................... : ${enable_valgrind}
+    Valgrind memory leak test ......... : ${enable_valgrind}
+    Multi-thread test ................. : ${enable_thread_check}
     Coverage report ................... : ${enable_coverage}
     Enable Silent Rules ............... : ${enable_silent_rules}
 

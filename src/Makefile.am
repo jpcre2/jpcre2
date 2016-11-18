@@ -169,16 +169,32 @@ covclean: distclean-local
 
 endif
 
+
 if WITH_VALGRIND
 
 check: $(TESTS)
 	for test in $(TESTS); do \
 	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./$$test ; \
-	printf "\n\n\t*** Congrats! No memory leak found on $$test ***\n\n\n"; \
-	$(VALGRIND) --tool=helgrind ./$$test ; \
-	printf "\n\n\t*** Congrats! Helgrind success on $$test ***\n\n\n" ; \
 	done
 
 endif
 
+
+if WITH_THREAD_TEST
+noinst_PROGRAMS += test_pthread
+TESTS += test_pthread
+
+#Building testio
+test_pthread_SOURCES = \
+  test_pthread.cpp \
+  $(JPCRE2_SOURCES)
+test_pthread_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS) \
+  $(COVERAGE_FLAGS)
+
+
+check-local: test_pthread
+	$(VALGRIND) --tool=helgrind ./test_pthread
+endif
 

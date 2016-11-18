@@ -337,6 +337,7 @@ enable_coverage = @enable_coverage@
 enable_cpp11 = @enable_cpp11@
 enable_silent_rules = @enable_silent_rules@
 enable_test = @enable_test@
+enable_thread_check = @enable_thread_check@
 enable_valgrind = @enable_valgrind@
 exec_prefix = @exec_prefix@
 host = @host@

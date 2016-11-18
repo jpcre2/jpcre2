@@ -1,6 +1,19 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.28.08 - Fri Nov 18 00:49:26 UTC 2016
+-----------------------------------------------
+
+* Added `setMatchStartOffsetVector()`
+* Added `setMatchEndOffsetVector()`
+* Added `resetCharacterTables()`
+* Added a #define to privide JPCRE2 version
+* Added a typedef `jpcre2::VecOff`
+* Removed `getEndOffset()`
+* Removed `setLocale()`, `getLocale()` and `getLocaleTypeId()`
+* Fixed a bug on Regex copy constructor (deleted character tables were being tried to be used).
+
+
 Version 10.28.07 - Tue Nov 15 19:50:34 UTC 2016
 -----------------------------------------------
 

@@ -62,10 +62,10 @@ int main(){
      \
     re2 = jp::Regex(re); \
      \
-    re2.setLocale(LC_ALL, "en_US.UTF-8").compile(); \
+    std::setlocale(LC_CTYPE, "en_US"); \
+    re2.resetCharacterTables().compile(); \
      \
     jp::Regex re3(re2); \
-     \
     re = jp::Regex(re3); \
     /*//check bollean operator*/ \
     RE_TEST \
@@ -75,8 +75,8 @@ int main(){
     re.addModifier("eijmnsuxADJUS"); \
     re.addPcre2Option(PCRE2_ANCHORED); \
     re.addJpcre2Option(jpcre2::JIT_COMPILE); \
-    re.getLocale(); \
-    re.getLocaleTypeId(); \
+    std::setlocale(LC_CTYPE, "fr_FR"); \
+    re.resetCharacterTables().compile(); \
     re.getErrorMessage(); \
     re.getErrorNumber(); \
     re.getErrorOffset(); \
@@ -142,6 +142,10 @@ int main(){
      \
     rm.setNumberedSubstringVector(&vec_num); \
     rm.setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn); \
+    jpcre2::VecOff vec_soff; \
+    jpcre2::VecOff vec_eoff; \
+    rm.setMatchStartOffsetVector(&vec_soff); \
+    rm.setMatchEndOffsetVector(&vec_eoff); \
     re = jp::Regex(PAT, "in"); \
     rm.setRegexObject(&re); \
     rm.match(&text, "g"); \
@@ -172,7 +176,6 @@ int main(){
     rm.getJpcre2Option(); \
     rm.getModifier(); \
     rm.getStartOffset(); \
-    rm.getEndOffset(); \
     rm.getSubject(); \
     rm.getSubjectPointer(); \
     rm.getRegexObject(); \
@@ -299,6 +302,8 @@ int main(){
 #define vec_num JPCRE2_SUFFIX(vec_num)
 #define vec_ntn JPCRE2_SUFFIX(vec_ntn)
 #define vec_nas JPCRE2_SUFFIX(vec_nas)
+#define vec_soff JPCRE2_SUFFIX(vec_soff)
+#define vec_eoff JPCRE2_SUFFIX(vec_eoff)
 
 #define JPCRE2_LOCAL_CHAR c
 #define TEXT "I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"
