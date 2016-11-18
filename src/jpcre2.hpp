@@ -2205,12 +2205,6 @@ struct select{
         /// Regex re;
         /// re = Regex("new pattern");
         /// ```
-        /// However, use of this method is discouraged (Use Regex::compile() instead), because a call to this function
-        /// requires an additional call to PCRE2 internal function pcre2_code_copy().
-        /// If the pattern was JIT compiled, it requires another additional JIT compilation because
-        /// JIT memory was not copied by pcre2_code_copy().
-        ///
-        /// **Memory management:** Old JIT memory will be released along with the old compiled code.
         /// @param r const Regex&
         /// @return *this
         Regex& operator=(const Regex& r) { 
@@ -2647,13 +2641,6 @@ struct select{
 
         /**Compile pattern using info from class variables.
          *
-         * Prefer using one of its variants when compiling pattern for an already declared Regex object.
-         * A use of
-         * ```cpp
-         * jpcre2::select<char>::Regex re;
-         * re = jpcre2::select<char>::Regex("pattern");
-         * ```
-         * (or such) is discouraged. see `Regex::operator=(const Regex& r)` for details.
          * @see Regex::compile(const String& re, Uint po, Uint jo)
          * @see Regex::compile(const String& re, Uint po)
          * @see Regex::compile(const String& re, const std::string& mod)
