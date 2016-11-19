@@ -1,6 +1,11 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.28.09 - Sat Nov 19 13:16:37 UTC 2016
+-----------------------------------------------
+
+* For loop optimization (Thanks to David Carlier for noticing them.)
+
 Version 10.28.08 - Fri Nov 18 00:49:26 UTC 2016
 -----------------------------------------------
 

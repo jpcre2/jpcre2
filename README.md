@@ -187,7 +187,7 @@ else
 ### Get match count 
 
 ```cpp
-size_t count = jp::Regex("(\\d)|(\\w)","i").match("I am the subject","g");
+size_t count = jp::Regex("[aijst]","i").match("I am the subject","g");
 ```
 
 <a name="do-match"></a>
@@ -438,7 +438,7 @@ Modifier | Details
 -------- | -------
 `e`<sup>\*</sup> | Unset back-references in the pattern will match to empty strings. Equivalent to `PCRE2_MATCH_UNSET_BACKREF`.
 `i` | Case-insensitive. Equivalent to `PCRE2_CASELESS` option.
-`j`<sup>\*</sup> | `\u \U \x` and unset back-references will act as JavaScript standard. <ul><li><code>\U</code> matches an upper case "U" character (by default it causes a compile error if this option is not set).</li><li><code>\u</code> matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile error if this option is not set).</li><li><code>\x</code> matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after <code>\x</code>, but it may have zero, one, or two digits (so, for example, <code>\xz</code> matches a binary zero character followed by z) ).</li><li>Unset back-references in the pattern will match to empty strings.</li></ul>
+`j`<sup>\*</sup> | `\u \U \x` and unset back-references will act as JavaScript standard. Equivalent to PCRE2_ALT_BSUX \| PCRE2_MATCH_UNSET_BACKREF. <ul><li><code>\U</code> matches an upper case "U" character (by default it causes a compile error if this option is not set).</li><li><code>\u</code> matches a lower case "u" character unless it is followed by four hexadecimal digits, in which case the hexadecimal number defines the code point to match (by default it causes a compile error if this option is not set).</li><li><code>\x</code> matches a lower case "x" character unless it is followed by two hexadecimal digits, in which case the hexadecimal number defines the code point to match (By default, as in Perl, a hexadecimal number is always expected after <code>\x</code>, but it may have zero, one, or two digits (so, for example, <code>\xz</code> matches a binary zero character followed by z) ).</li><li>Unset back-references in the pattern will match to empty strings.</li></ul>
 `m` | Multi-line regex. Equivalent to `PCRE2_MULTILINE` option.
 `n`<sup>\*</sup> | Enable Unicode support for `\w \d` etc... in pattern. Equivalent to PCRE2_UTF \| PCRE2_UCP.
 `s` | If this modifier is set, a dot meta-character in the pattern matches all characters, including newlines. Equivalent to `PCRE2_DOTALL` option.

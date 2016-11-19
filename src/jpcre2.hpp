@@ -60,7 +60,6 @@
 #include <map>          // std::map
 #include <cstdio>       // std::sprintf
 #include <cwchar>       // std::mbstate_t, std::swprintf
-#include <cstring>      // strlen
 #include <climits>      // CHAR_BIT
 #include <cassert>      // assert()
 
@@ -97,8 +96,8 @@ namespace jpcre2 {
 
 
 ///Define for JPCRE2 version.
-///`#if` guard can be used to support changes in different versions of the lib.
-#define JPCRE2_VERSION 102808L
+///It can be used to support changes in different versions of the lib.
+#define JPCRE2_VERSION 102809L
 
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
@@ -106,10 +105,10 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.28.08";     ///< Full version string
+    static const char FULL_VERSION[] = "10.28.09";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
     static const char VERSION_MAJOR[] = "28";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "08";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MINOR[] = "09";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -545,9 +544,8 @@ namespace MOD {
     // String of action (replace) modifier characters for JPCRE2 options
     static const char RJ_N[] = "";
     // Array of action (replace) modifier values for JPCRE2 options
-    static const jpcre2::Uint RJ_V[1] = { NONE
+    static const jpcre2::Uint RJ_V[1] = { NONE  //placeholder
                                               };
-    //Explicit
 
     // Define modifiers for match
     // String of action (match) modifier characters for PCRE2 options
@@ -1308,6 +1306,8 @@ struct select{
 
         /// Perform match operaton using info from class variables and return the match count and
         /// store the results in specified vectors.
+        /// 
+        /// Note: This function uses pcre2_match() function to do the match.
         ///@return Match count
         SIZE_T match(void);
         
@@ -1839,6 +1839,7 @@ struct select{
         /// 2. A named substring can be referenced with `${name}`, where 'name' is the group name.
         /// 3. A literal `$` can be given as `$$`.
         ///
+        /// Note: This function calls pcre2_substitute() to do the replacement. 
         ///@return Replaced string
         String replace(void);
         
@@ -3000,13 +3001,13 @@ template<typename Char_T, jpcre2::Ush BS>
 std::string jpcre2::select<Char_T, BS>::Regex::getModifier(){
     //Calculate PCRE2 mod
     std::string temp("");
-    for(SIZE_T i = 0; i < strlen(MOD::C_N); ++i){
+    for(SIZE_T i = 0; i < sizeof(MOD::C_V)/sizeof(Uint); ++i){
         if( (MOD::C_V[i] & compile_opts) != 0 && 
             (MOD::C_V[i] & compile_opts) == MOD::C_V[i]) //One option can include other
             temp += MOD::C_N[i];
     }
     //Calculate JPCRE2 mod
-    for(SIZE_T i = 0; i < strlen(MOD::CJ_N); ++i){
+    for(SIZE_T i = 0; i < sizeof(MOD::CJ_V)/sizeof(Uint); ++i){
         if( (MOD::CJ_V[i] & jpcre2_compile_opts) != 0 && 
             (MOD::CJ_V[i] & jpcre2_compile_opts) == MOD::CJ_V[i]) //One option can include other
             temp += MOD::CJ_N[i];
@@ -3020,13 +3021,13 @@ template<typename Char_T, jpcre2::Ush BS>
 std::string jpcre2::select<Char_T, BS>::RegexMatch::getModifier(){
     //Calculate PCRE2 mod
     std::string temp("");
-    for(SIZE_T i = 0; i < strlen(MOD::M_N); ++i){
+    for(SIZE_T i = 0; i < sizeof(MOD::M_V)/sizeof(Uint); ++i){
         if( (MOD::M_V[i] & match_opts) != 0 && 
             (MOD::M_V[i] & match_opts) == MOD::M_V[i]) //One option can include other
             temp += MOD::M_N[i];
     }
     //Calculate JPCRE2 mod
-    for(SIZE_T i = 0; i < strlen(MOD::MJ_N); ++i){
+    for(SIZE_T i = 0; i < sizeof(MOD::MJ_V)/sizeof(Uint); ++i){
         if( (MOD::MJ_V[i] & jpcre2_match_opts) != 0 && 
             (MOD::MJ_V[i] & jpcre2_match_opts) == MOD::MJ_V[i]) //One option can include other
             temp += MOD::MJ_N[i];
@@ -3038,13 +3039,13 @@ template<typename Char_T, jpcre2::Ush BS>
 std::string jpcre2::select<Char_T, BS>::RegexReplace::getModifier(){
     //Calculate PCRE2 mod
     std::string temp("");
-    for(SIZE_T i = 0; i < strlen(MOD::R_N); ++i){
+    for(SIZE_T i = 0; i < sizeof(MOD::R_V)/sizeof(Uint); ++i){
         if( (MOD::R_V[i] & replace_opts) != 0 &&
             (MOD::R_V[i] & replace_opts) == MOD::R_V[i]) //One option can include other
             temp += MOD::R_N[i];
     }
     //Calculate JPCRE2 mod
-    for(SIZE_T i = 0; i < strlen(MOD::RJ_N); ++i){
+    for(SIZE_T i = 0; i < sizeof(MOD::RJ_V)/sizeof(Uint); ++i){
         if( (MOD::RJ_V[i] & jpcre2_replace_opts) != 0 &&
             (MOD::RJ_V[i] & jpcre2_replace_opts) == MOD::RJ_V[i]) //One option can include other
             temp += MOD::RJ_N[i];
@@ -3058,16 +3059,17 @@ typename jpcre2::select<Char_T, BS>::Regex&
             jpcre2::select<Char_T, BS>::Regex::
                 changeModifier(const std::string& mod, bool x) {
     //loop through mod
-    for (SIZE_T i = 0; i < mod.length(); ++i) {
+    SIZE_T n = mod.length();
+    for (SIZE_T i = 0; i < n; ++i) {
         //First check for JPCRE2 mods
-        for(SIZE_T j = 0; j < strlen(MOD::CJ_N); ++j){
+        for(SIZE_T j = 0; j < sizeof(MOD::CJ_V)/sizeof(Uint); ++j){
             if(MOD::CJ_N[j] == mod[i]) {
                 changeJpcre2Option(MOD::CJ_V[j], x);
                 goto endfor;
             }
         }
         //Now check for PCRE2 mods
-        for(SIZE_T j = 0; j< strlen(MOD::C_N); ++j){
+        for(SIZE_T j = 0; j< sizeof(MOD::C_V)/sizeof(Uint); ++j){
             if(MOD::C_N[j] == mod[i]){
                 changePcre2Option(MOD::C_V[j], x);
                 goto endfor;
@@ -3133,16 +3135,17 @@ typename jpcre2::select<Char_T, BS>::RegexReplace&
             jpcre2::select<Char_T, BS>::RegexReplace::
                 changeModifier(const std::string& mod, bool x) {
     //loop through mod
-    for (SIZE_T i = 0; i < mod.length(); ++i) {
+    SIZE_T n = mod.length();
+    for (SIZE_T i = 0; i < n; ++i) {
         //First check for JPCRE2 mods
-        for(SIZE_T j = 0; j < strlen(MOD::RJ_N); ++j){
+        for(SIZE_T j = 0; j < sizeof(MOD::RJ_V)/sizeof(Uint); ++j){
             if(MOD::RJ_N[j] == mod[i]) {
                 changeJpcre2Option(MOD::RJ_V[j], x);
                 goto endfor;
             }
         }
         //Now check for PCRE2 mods
-        for(SIZE_T j = 0; j< strlen(MOD::R_N); ++j){
+        for(SIZE_T j = 0; j< sizeof(MOD::R_V)/sizeof(Uint); ++j){
             if(MOD::R_N[j] == mod[i]){
                 changePcre2Option(MOD::R_V[j], x);
                 goto endfor;
@@ -3168,9 +3171,9 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
         return *r_subject_ptr;
 
     Pcre2Sptr subject = (Pcre2Sptr) r_subject_ptr->c_str();
-    PCRE2_SIZE subject_length = r_subject_ptr->length() /* Strlen((Char *) subject) */;
+    PCRE2_SIZE subject_length = r_subject_ptr->length();
     Pcre2Sptr replace = (Pcre2Sptr) r_replw_ptr->c_str();
-    PCRE2_SIZE replace_length = r_replw_ptr->length() /* Strlen((Char *) replace) */;
+    PCRE2_SIZE replace_length = r_replw_ptr->length();
     PCRE2_SIZE outlengthptr = (PCRE2_SIZE) buffer_size;
     bool retry = true;
     int ret = 0;
@@ -3224,16 +3227,17 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
 template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::RegexMatch& jpcre2::select<Char_T, BS>::RegexMatch::changeModifier(const std::string& mod, bool x) {
     //loop through mod
-    for (SIZE_T i = 0; i < mod.length(); ++i) {
+    SIZE_T n = mod.length();
+    for (SIZE_T i = 0; i < n; ++i) {
         //First check for JPCRE2 mods
-        for(SIZE_T j = 0; j < strlen(MOD::MJ_N); ++j){
+        for(SIZE_T j = 0; j < sizeof(MOD::MJ_V)/sizeof(Uint); ++j){
             if(MOD::MJ_N[j] == mod[i]) {
                 changeJpcre2Option(MOD::MJ_V[j], x);
                 goto endfor;
             }
         }
         //Now check for PCRE2 mods
-        for(SIZE_T j = 0; j< strlen(MOD::M_N); ++j){
+        for(SIZE_T j = 0; j< sizeof(MOD::M_V)/sizeof(Uint); ++j){
             if(MOD::M_N[j] == mod[i]){
                 changePcre2Option(MOD::M_V[j], x);
                 goto endfor;
