@@ -97,7 +97,7 @@ namespace jpcre2 {
 
 ///Define for JPCRE2 version.
 ///It can be used to support changes in different versions of the lib.
-#define JPCRE2_VERSION 102809L
+#define JPCRE2_VERSION 102810L
 
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
@@ -105,10 +105,10 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.28.09";     ///< Full version string
+    static const char FULL_VERSION[] = "10.28.10";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
     static const char VERSION_MAJOR[] = "28";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "09";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MINOR[] = "10";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -2064,19 +2064,17 @@ struct select{
             
             //use copy assignment for rm and rr
             delete rm;
+            rm = 0;
             if(r.rm) {
                 rm = new RegexMatch(*(r.rm)); 
                 rm->re = this; //associated Regex object needs to be this one
-            } else {
-                rm = 0;
             }
             
             delete rr;
+            rr = 0;
             if(r.rr){
                 rr = new RegexReplace(*(r.rr)); 
                 rr->re = this; //associated Regex object needs to be this one
-            } else {
-                rr = 0;
             }
         }
 
@@ -2187,6 +2185,7 @@ struct select{
         /// and their associated Regex object is set to this Regex Object.
         /// No change is made to the original Regex object or their associated
         /// RegexMatch and RegexReplace objects.
+        /// A separate and new compile is performed from the copied options.
         /// @param r Constant reference to a Regex object.
         Regex(const Regex& r) {
             init_vars();
@@ -2203,8 +2202,8 @@ struct select{
         ///
         /// Allows assigning objects like this:
         /// ```cpp
-        /// Regex re;
-        /// re = Regex("new pattern");
+        /// Regex re2;
+        /// re2 = re;
         /// ```
         /// @param r const Regex&
         /// @return *this
@@ -2322,7 +2321,7 @@ struct select{
         Regex& resetCharacterTables() {
             //~ freeCharTables();
             const unsigned char* tables = Pcre2Func<BS>::maketables(0); //must pass 0, we are using free() to free the tables.
-            tabv = std::vector<unsigned char>(tables, tables+1087);
+            tabv = std::vector<unsigned char>(tables, tables+1088);
             ::free((void*)tables); //must free memory
             if(!ccontext)
                 ccontext = Pcre2Func<BS>::compile_context_create(0);
@@ -2773,7 +2772,7 @@ struct select{
         ///@return Match count
         SIZE_T match(const String* s, const std::string& mod, PCRE2_SIZE start_offset) {
             return getMatchObject().setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
-        } 
+        }
         
         /** @overload
          * 
