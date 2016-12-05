@@ -105,10 +105,10 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.28.10";     ///< Full version string
+    static const char FULL_VERSION[] = "10.28.11";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
     static const char VERSION_MAJOR[] = "28";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "10";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MINOR[] = "11";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -2046,7 +2046,8 @@ struct select{
             //table pointer must be updated in the compiled code itself
             //copy is not going to work, we need a recompile.
             //as all vars are already copied, we can just call compile()
-            compile();
+            if(r.code) compile();
+            else freeRegexMemory();
             
             //~ //Copy #code if it is non-null
             //~ ///First release memory of #code from current object if it is non-NULL
