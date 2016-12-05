@@ -1,10 +1,11 @@
 Change Log for JPCRE2
 --------------------
 
-Version 10.28.10 - Wed Nov 23 08:11:04 UTC 2016
+Version 10.28.11 - Mon Dec  5 09:58:35 UTC 2016
 -----------------------------------------------
 
-* Fix table copy
+* Fix bug: Copy constructor of Regex class was performing an additional compilation even
+		when the to-be-copied code was null, thus producing a wrong copy.
 
 
 Version 10.28.09 - Sat Nov 19 13:16:37 UTC 2016
