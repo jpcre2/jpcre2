@@ -38,7 +38,7 @@ PROJECT_NAME = JPCRE2
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER = 10.28.11
+PROJECT_NUMBER = 10.28.12
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -844,7 +844,7 @@ EXCLUDE_SYMBOLS =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH = src/test_match.cpp src/test_match2.cpp src/test_replace.cpp src/test_replace2.cpp src/test_shorts.cpp src/test16.cpp src/test32.cpp src/test0.cpp src/testio.cpp src/test_pthread.cpp
+EXAMPLE_PATH = src/test_match.cpp src/test_match2.cpp src/test_replace.cpp src/test_replace2.cpp src/test_shorts.cpp src/test16.cpp src/test32.cpp src/test0.cpp src/testio.cpp src/test_pthread.cpp src/testme.cpp
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
