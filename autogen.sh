@@ -1,3 +1,3 @@
 #!/bin/sh
-#autoreconf -v -i
-autoreconf --force --install
+autoreconf -v -i
+#autoreconf --force --install
