@@ -11,7 +11,8 @@ EXTRA_DIST += \
   test32.cpp \
   test0.cpp \
   test.cpp \
-  testio.cpp
+  testio.cpp \
+  testme.cpp
 
 include_HEADERS = \
   jpcre2.hpp
@@ -106,8 +107,8 @@ test0_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-noinst_PROGRAMS += test testio
-TESTS += test testio
+noinst_PROGRAMS += test testio testme
+TESTS += test testio testme
 
 #Building test
 test_SOURCES = \
@@ -123,6 +124,15 @@ testio_SOURCES = \
   testio.cpp \
   $(JPCRE2_SOURCES)
 testio_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS) \
+  $(COVERAGE_FLAGS)
+
+#Building testme
+testme_SOURCES = \
+  testme.cpp \
+  $(JPCRE2_SOURCES)
+testme_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS) \
   $(COVERAGE_FLAGS)

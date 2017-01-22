@@ -1,6 +1,13 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.28.12 - 
+-----------------------------------------------
+
+* Add match evaluator (close feature request #9)
+* Improve getter functions
+
+
 Version 10.28.11 - Mon Dec  5 09:58:35 UTC 2016
 -----------------------------------------------
 

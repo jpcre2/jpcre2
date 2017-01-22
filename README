@@ -410,6 +410,47 @@ The `RegexReplace` class stores a pointer to its' associated Regex object. If th
 
 **Note:** This independent replace object and the replace object you get from `jp::Regex::initReplace()` or `jp::Regex::getReplaceObject()` are not the same.
 
+<a name="matchevaluator"></a>
+
+### MatchEvaluator 
+
+There's another replace function (`jp::RegexReplace::nreplace()`) that takes a MatchEvaluator with a callback function. It's required when you have to create the replacement strings dynamically according to some criteria.
+
+The class `jp::MatchEvaluator` implements several constructor overloads to take different callback functions i.e you can pass a callback function with its' constructor when instantiating a object of this class.
+
+The callback function takes exactly three positional arguments. If you don't need one or two arguments, you may pass `void*` in their respective positions in the argument list.
+
+**Examples:**
+
+```cpp
+jp::String myme1(jp::NumSub m, void*, void*){
+    return "("+m[0]+")";
+}
+
+int main(){
+	jp::Regex re("(?<total>\\w+)", "n");
+	jp::RegexReplace rr(&re);
+
+	String s3 = "I am ঋ আা a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ ঘ আমার সোনার বাংলা";
+
+	rr.setSubject(s3)
+	  .setPcre2Option(PCRE2_SUBSTITUTE_GLOBAL);
+	  
+	#if __cplusplus >= 201103L
+	//example with lambda
+	std::cout<<"\n\n### Lambda\n"<<rr.nreplace(
+		        jp::MatchEvaluator([](jp::NumSub m1, jp::MapNas m2, void*)
+		        {
+		            return "("+m1[0]+"/"+m2["total"]+")";
+		        }));
+	#endif
+	std::cout<<"\n\n### 1\n"<<rr.nreplace(jp::MatchEvaluator(myme1));
+	return 0;
+}
+```
+
+Detailed examples are in the testme.cpp file.
+
 <a name="modifiers"></a>
 
 # Modifiers 
