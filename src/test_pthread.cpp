@@ -12,6 +12,7 @@ typedef jpcre2::select<char> jp;
 
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex3 = PTHREAD_MUTEX_INITIALIZER;
 
 //this is an example how you can use pre-defined data objects in multithreaded program.
 //The logic is to wrap your objects inside another class and initialize them with constructor.
@@ -55,7 +56,13 @@ void *thread_safe_fun1(void *arg){ //uses no global or static variable, thus thr
 
 void* thread_safe_fun2(void* arg){//uses no global or static variable, thus thread safe.
     jp::Regex re("\\w", "g");
-    jp::RegexMatch rm(&re); 
+    jp::RegexMatch rm(&re);
+    
+    //jit related functions are thread unsafe
+    pthread_mutex_lock( &mutex3 );
+    rm.setJitStackSize(32*1024,0);
+    pthread_mutex_unlock( &mutex3 );
+    
     rm.setSubject("fdsf").setModifier("g").match();
     return 0;
 }

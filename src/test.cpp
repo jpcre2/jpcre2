@@ -152,6 +152,11 @@ int main(){
     rm.setMatchEndOffsetVector(&vec_eoff); \
     re = jp::Regex(PAT, "in"); \
     rm.setRegexObject(&re); \
+    rm.setJitStackSize(32*1024,0); \
+    rm.setJitStackSize(0,0); \
+    rm.setJitStackSize(32*1024,0); \
+    rm.setJitStackSize(32*1024,0); \
+    rm.freeUnusedJitMemory(); \
     rm.setSubject(&text).setModifier("g").match(); \
     jp::Regex re4(PAT, "niJS"); \
     rm.setRegexObject(&re4); \
@@ -228,12 +233,10 @@ int main(){
     rr3 = jp::RegexReplace(&re2); \
      \
     rr.replace(); re.replace(); \
-    re.replace(TEXT); \
     re.replace(TEXT, TEXT); \
     re.replace(TEXT, &text); \
     re.replace(TEXT, TEXT, "g"); \
     re.replace(TEXT, &text, "g"); \
-    re.replace(&text); \
     re.replace(&text, TEXT); \
     re.replace(&text, TEXT, "g"); \
     re.replace(&text, &text); \

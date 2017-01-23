@@ -856,8 +856,8 @@ struct select{
     typedef typename Pcre2Type<BS>::MatchData MatchData;
     typedef typename Pcre2Type<BS>::GeneralContext GeneralContext;
     typedef typename Pcre2Type<BS>::MatchContext MatchContext;
-    //~ typedef typename Pcre2Type<BS>::JitCallback JitCallback;
-    //~ typedef typename Pcre2Type<BS>::JitStack JitStack;
+    typedef typename Pcre2Type<BS>::JitCallback JitCallback;
+    typedef typename Pcre2Type<BS>::JitStack JitStack;
     
     template<typename T>
     static String toString(T); //prevent implicit type conversion of T
@@ -959,10 +959,10 @@ struct select{
         int error_number;
         PCRE2_SIZE error_offset;
         MatchContext *mcontext;
-        //Managing jit stack inside class brings thread unsafety
-        //~ JitStack *jit_stack;
-        //~ PCRE2_SIZE jit_stack_startsize;
-        //~ PCRE2_SIZE jit_stack_maxsize;
+        //Managing jit stack brings thread unsafety
+        JitStack *jit_stack;
+        PCRE2_SIZE jit_stack_startsize;
+        PCRE2_SIZE jit_stack_maxsize;
         
         PCRE2_SIZE _start_offset; //name collision, use _ at start
 
@@ -989,29 +989,30 @@ struct select{
             if (vec_ntn) 
                 vec_ntn->push_back(*ntn_map); 
         }
-        //~ void createJitStack(){
-            //~ if(jit_stack_startsize)
-                //~ jit_stack = Pcre2Func<BS>::jit_stack_create(jit_stack_startsize, jit_stack_maxsize, 0);
-        //~ }
-        //~ void createMatchContext(){
-            //~ mcontext = Pcre2Func<BS>::match_context_create(0);
-        //~ }
-        //this function does not create jit_stack more than once.
-        //~ void assignJitStack(){
-            //~ if(!jit_stack) createJitStack();
-            //~ if(jit_stack){
-                //~ if(!mcontext) createMatchContext();
-                //~ if(mcontext) Pcre2Func<BS>::jit_stack_assign(mcontext, 0, jit_stack);
-            //~ }
-        //~ }
-        //~ void freeJitStack(){
-            //~ if(jit_stack) Pcre2Func<BS>::jit_stack_free(jit_stack);
-            //~ jit_stack = 0;
-        //~ }
-        //~ void freeMatchContext(){
-            //~ if(mcontext) Pcre2Func<BS>::match_context_free(mcontext);
-            //~ mcontext = 0;
-        //~ }
+        void createJitStack(){
+            freeJitStack();
+            if(jit_stack_startsize) jit_stack = Pcre2Func<BS>::jit_stack_create(jit_stack_startsize, jit_stack_maxsize, 0);
+        }
+        void createMatchContext(){
+            freeMatchContext();
+            mcontext = Pcre2Func<BS>::match_context_create(0);
+        }
+        //this function creates jit_stack if not available.
+        void assignJitStack(){
+            if(!jit_stack) createJitStack();
+            if(jit_stack){//not else
+                if(!mcontext) createMatchContext();
+                if(mcontext) Pcre2Func<BS>::jit_stack_assign(mcontext, 0, jit_stack);
+            }
+        }
+        void freeJitStack(){
+            if(jit_stack) Pcre2Func<BS>::jit_stack_free(jit_stack);
+            jit_stack = 0;
+        }
+        void freeMatchContext(){
+            if(mcontext) Pcre2Func<BS>::match_context_free(mcontext);
+            mcontext = 0;
+        }
         
         void init_vars() {
             re = 0;
@@ -1030,9 +1031,9 @@ struct select{
             _start_offset = 0;
             m_subject_ptr = &m_subject;
             mcontext = 0;
-            //~ jit_stack = 0;
-            //~ jit_stack_startsize = 0;
-            //~ jit_stack_maxsize = 0;
+            jit_stack = 0;
+            jit_stack_startsize = 0;
+            jit_stack_maxsize = 0;
         }
         
         void resetMaps(){
@@ -1069,7 +1070,10 @@ struct select{
             error_offset = rm.error_offset;
             _start_offset = rm._start_offset;
             
-            mcontext = rm.mcontext;
+            freeMatchContext();
+            if(rm.mcontext) mcontext = Pcre2Func<BS>::match_context_copy(rm.mcontext);
+            //no need to copy jit_stack, it will be created if needed
+            setJitStackSize(rm.jit_stack_startsize, rm.jit_stack_maxsize);
             
         }
 
@@ -1120,8 +1124,8 @@ struct select{
             delete num_sub; 
             delete nas_map; 
             delete ntn_map;
-            //~ freeMatchContext();
-            //~ freeJitStack();
+            freeMatchContext();
+            freeJitStack();
         } 
 
         /** Reset all class variables to its default (initial) state.
@@ -1132,8 +1136,8 @@ struct select{
         virtual RegexMatch& reset() { 
             resetMaps();
             m_subject.clear(); //not ptr , external string won't be modified.
-            //~ freeMatchContext();
-            //~ freeJitStack();
+            freeMatchContext();
+            freeJitStack();
             init_vars();
             return *this; 
         } 
@@ -1398,36 +1402,35 @@ struct select{
             return *this;
         }
         
-        ///Set the match context.
-        ///You can create match context using the native PCRE2 API.
-        ///The memory is not handled by RegexMatch object and not freed.
-        ///User will be responsible for freeing the memory of the match context.
-        ///@param match_context Pointer to the match context.
-        ///@return Reference to the calling RegexMatch object
-        virtual RegexMatch& setMatchContext(MatchContext *match_context){
-            mcontext = match_context;
-            return *this;
-        }
-        
-        //the following is not thread safe. (pcre2_jit_stack_create function is not thread safe.)
-        //~ ///Set JIT stack size.
-        //~ ///Some large or complicated pattern may need more than the default stack size (32K).
-        //~ ///A call to this function will create a new JIT memory on machine stack exclusively for this match object.
-        //~ ///Any and all copies from this match object will also hold their respective exclusive JIT stack.
-        //~ ///If this match object is copied into multiple other match objects, it may have a significant memory cost.
-        //~ ///You can change/reset it to its default state by setting the startsize (first argument) to 0.
-        //~ ///A call to `RegexMatch::reset()` will reset it to default along with others.
-        //~ ///@param startsize Starting JIT stack size (usually 32*1024).
-        //~ ///@param maxsize Maximum size of JIT stack (512*1024 or 1024*1024 should be more than enough). A wrong value, such as less than the startsize will be corrected to startsize.
+        //~ ///Set the match context.
+        //~ ///You can create match context using the native PCRE2 API.
+        //~ ///The memory is not handled by RegexMatch object and not freed.
+        //~ ///User will be responsible for freeing the memory of the match context.
+        //~ ///@param match_context Pointer to the match context.
         //~ ///@return Reference to the calling RegexMatch object
-        //~ virtual RegexMatch& setJitStackSize(PCRE2_SIZE startsize, PCRE2_SIZE maxsize){
-            //~ jit_stack_startsize = startsize;
-            //~ jit_stack_maxsize = maxsize;
-            //~ if(jit_stack_maxsize < jit_stack_startsize) jit_stack_maxsize = jit_stack_startsize;
-            //~ if(jit_stack) freeJitStack();
-            //~ createJitStack();
+        //~ virtual RegexMatch& setMatchContext(MatchContext *match_context){
+            //~ mcontext = match_context;
             //~ return *this;
         //~ }
+        
+        //the following is not thread safe. (pcre2_jit_stack_create function is not thread safe.)
+        ///Set JIT stack size.
+        ///Some large or complicated pattern may need more than the default stack size (32K).
+        ///A call to this function will create a new JIT memory on machine stack exclusively for this match object.
+        ///Any and all copies from this match object will also hold their respective exclusive JIT stack.
+        ///If this match object is copied into multiple other match objects, it may have a significant memory cost.
+        ///You can change/reset it to its default state by setting the startsize (first argument) to 0.
+        ///A call to `RegexMatch::reset()` will reset it to default along with others.
+        ///@param startsize Starting JIT stack size (usually 32*1024).
+        ///@param maxsize Maximum size of JIT stack (512*1024 or 1024*1024 should be more than enough). A wrong value, such as less than the startsize will be corrected to startsize.
+        ///@return Reference to the calling RegexMatch object
+        virtual RegexMatch& setJitStackSize(PCRE2_SIZE startsize, PCRE2_SIZE maxsize){
+            jit_stack_startsize = startsize;
+            jit_stack_maxsize = maxsize;
+            if(jit_stack_maxsize < jit_stack_startsize) jit_stack_maxsize = jit_stack_startsize;
+            createJitStack();
+            return *this;
+        }
         
         /// After a call to this function PCRE2 and JPCRE2 options will be properly set.
         /// This function does not initialize or re-initialize options.
@@ -1509,11 +1512,11 @@ struct select{
             return *this; 
         }
         
-        //~ ///Free unused JIT memory.
-        //~ virtual RegexMatch& freeUnusedJitMemory(){
-            //~ Pcre2Func<BS>::jit_free_unused_memory(0);
-            //~ return *this;
-        //~ }
+        ///Free unused JIT memory.
+        virtual RegexMatch& freeUnusedJitMemory(){
+            Pcre2Func<BS>::jit_free_unused_memory(0);
+            return *this;
+        }
 
         /// Perform match operaton using info from class variables and return the match count and
         /// store the results in specified vectors.
@@ -3300,31 +3303,7 @@ struct select{
          * */
         String replace(const String* mains, const String* repl) { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).replace(); 
-        } 
-
-        /** @overload
-         * .
-         *  This action doesn not affect any class variables.
-         *  The temporary object that is created is not further usable.
-         *  @param mains Subject string
-         *  @return Resultant string after regex replace
-         *  @see RegexReplace::replace()
-         * */
-        String replace(const String& mains) { 
-            return RegexReplace(this).setSubject(mains).replace();
-        } 
-
-        /** @overload
-         * .
-         *  This action doesn not affect any class variables.
-         *  The temporary object that is created is not further usable.
-         *  @param mains Pointer to subject string
-         *  @return Resultant string after regex replace
-         *  @see RegexReplace::replace()
-         * */
-        String replace(const String* mains) { 
-            return RegexReplace(this).setSubject(mains).replace();
-        } 
+        }
 
         /** Shorthand for getReplaceObject().replace()
          *  All prevously set options will be used. It's just a short hand
@@ -3832,10 +3811,10 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     if(vec_soff) vec_soff->clear();
     if(vec_eoff) vec_eoff->clear();
 
-    //~ //check if jit code is available and assign jit stack if user wants it.
-    //~ SIZE_T jit_size = 0;
-    //~ Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_JITSIZE, &jit_size);
-    //~ if(jit_size && jit_stack_startsize) assignJitStack();
+    //check if jit code is available and assign jit stack if user wants it.
+    SIZE_T jit_size = 0;
+    Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_JITSIZE, &jit_size);
+    if(jit_size && jit_stack_startsize) assignJitStack();
 
     /* Using this function ensures that the block is exactly the right size for
      the number of capturing parentheses in the pattern. */

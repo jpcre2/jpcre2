@@ -563,11 +563,11 @@ If you do experiment with various erroneous situations, make use of the `resetEr
 # Multi threading {#multi-threading}
 
 1. There is no data race between two separate objects (`Regex`, `RegexMatch` and `RegexReplace`) because the classes do not contain any static variables.
-2. Temporary class objects will always be thread safe as no jpcre2 class uses any thread unsafe functions.
+2. Temporary class objects will always be thread safe as no jpcre2 class uses any thread unsafe functions except the `Regex::compile()` function when doing JIT compilation. If JIT compile is not required, this function is thread safe too.
 3. Temporary class object that uses another third party class object reference or pointer is thread safe provided that the third party object is thread safe i.e its thread safety is defined by the thread safety of the third party object reference or pointer.
 4. All member functions of all classes are thread safe provided that the object calling them are thread safe except the `Regex::compile()` function when doing JIT compilation. If JIT compile is not required, this function is thread safe too.
-5. Simultaneous access of the same object is MT unsafe. You can use lock and mutex to ensure thread safety.
-6. Class objects must be local to each thread to ensure thread safety. Thus with `>=C++11`, you can make it thread safe just by declaring the class objects with `thread_local`
+5. Simultaneous access of the same object is MT unsafe. You can make them `thread_local` or use mutex lock or other mechanisms to ensure thread safety.
+6. Class objects must be local to each thread to ensure thread safety. Thus with `>=C++11`, you can make it thread safe just by declaring the class objects as `thread_local`
 
 **Examples:**
 
@@ -612,6 +612,13 @@ void *thread_safe_fun3(void *arg){ //uses thread_local global variable 'rec1', t
     rm.setSubject("fdsf").setModifier("g").match();
     return 0;
 }
+```
+
+The following is MT unsafe as it performs JIT compilation:
+
+```cpp
+thread_local jp::Regex rec2("\\w", "gS");
+//S modifier is for JIT compilation.
 ```
 
 
@@ -787,18 +794,6 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
 * The behavior of shorthand `match()` and `replace()` function in the Regex class has changed. When they are called with no argument they will use previously set options, but when they are called with arguments, they will initiate a temporary match/replace object and will not use (or change) any previous options. This temporary object will not affect any class variables (i.e previously set option) and it won't be available after returning the result.
 
 > For complete changes see the changelog file
-
-The following are added: 
-
-1. `jp::RegexMatch::setMatchStartOffsetVector()`: Vector to store the offsets where matches start in th subjects string.
-2. `jp::RegexMatch::setMatchEndOffsetVector()`: Vector to store the offsets where matches end in the subject string.
-3. `jp::Regex::resetCharacterTables()`: Reset the charater tables according to current locale.
-
-The following are removed:
-
-1. `getEndOffset()`: In favor of `jp::RegexMatch::setMatchEndOffsetVector()`.
-2. Thread unsafe function `setLocale()` and its' correspondings `getLocale()` and `getLocaleTypeId()` in favor of `jp::Regex::resetCharacterTables()`
-
 
 # Test suit {#test-suit}
 

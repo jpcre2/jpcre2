@@ -10,6 +10,8 @@ Version 10.29.01 - Mon Jan 23 12:23:12 UTC 2017
 4. Object instantiation of select class is prohibited.
 5. The behavior of shorthand `match()` and `replace()` function in the Regex class has changed. When they are called with no argument they will use previously set options, but when they are called with arguments, they will initiate a temporary match/replace object and will not use (or change) any previous options. This temporary object will not affect any class variables (i.e previously set option) and it won't be available after returning the result.
 6. `RegexMatch::match()` and `RegexReplace::replace()` function will no longer take any argument.
+7. Add `RegexReplace::setMatchContext()` and `RegexReplace::setMatchData()` function.
+8. Add `RegexMatch::setJitStackSize()` and `RegexMatch::freeUnusedJitMemory()` function.
 
 
 Version 10.28.12 - Sun Jan 22 10:34:35 UTC 2016
