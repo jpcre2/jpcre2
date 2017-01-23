@@ -27,9 +27,11 @@ int main(){
     rew.getMatchObject()
        .setStartOffset(28) //match will start at offset 28.
        .setNumberedSubstringVector(&vec_num32)
-       .setMatchEndOffsetVector(&vec_eoff);
+       .setMatchEndOffsetVector(&vec_eoff)
+       .setSubject(L"I am a subject with digits 32 43 44")
+       .setModifier("g");
 
-    size_t count = rew.match(L"I am a subject with digits 32 43 44", "g");
+    size_t count = rew.match();
     std::cout<<"\nMatch count: "<<count;
     std::wcout<<"\nFirst match: "<<vec_num32[0][0];
     std::cout<<"\nMatch ended at offset: "<<vec_eoff[vec_eoff.size()-1];

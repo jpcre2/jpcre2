@@ -2896,14 +2896,12 @@ struct select{
             compile(); 
         } 
         
-        /** Perform regex match and return match count.
-         *  This function takes the parameters, creates a new match object,
-         *  then sets the parameters to the newly created RegexMatch object and calls
-         *  RegexMatch::match() which returns the result.
-         *
-         *  1. No previously set options are retained, all are re-initialized.
-         *  3. Resets all JPCRE2 and PCRE2 options and re-initializes them according to modifier string.
-         *  4. Overwrites subject string for match.
+        /** Perform regex match and return match count using a temporary match object.
+         *  No previously set options are used or changed. A match is performed with just the options
+         *  that were passed as parameters.
+         * 
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          * 
          *  @param s Subject string.
          *  @param mod Modifier string.
@@ -2912,53 +2910,54 @@ struct select{
          *  @see RegexMatch::match()
          * */
         SIZE_T match(const String& s, const std::string& mod, PCRE2_SIZE start_offset) {
-            return initMatch().setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
+            return RegexMatch(this).setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         } 
         
         ///@overload
         ///.
-        ///Creates a new match object with the given options and return match count.
+        ///This action doesn not affect any class variables.
+        ///The temporary object that is created is not further usable.
         ///@param s Pointer to subject string.
         ///@param mod Modifier string.
         ///@param start_offset Offset from where matching will start in the subject string.
         ///@return Match count
         SIZE_T match(const String* s, const std::string& mod, PCRE2_SIZE start_offset) {
-            return initMatch().setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
+            return RegexMatch(this).setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         }
         
         /** @overload
          * 
          * .
-         * Creates a new match object with the given options and return match count.
-         *  1. Resets all JPCRE2 and PCRE2 options and re-initializes them according to modifier string.
-         *  2. Overwrites subject string for match.
-         * 
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param s Subject string.
          *  @param mod Modifier string.
          *  @return Match count
          *  @see RegexMatch::match()
          * */
         SIZE_T match(const String& s, const std::string& mod) { 
-            return initMatch().setSubject(s).setModifier(mod).match(); 
+            return RegexMatch(this).setSubject(s).setModifier(mod).match(); 
         } 
         
         
         ///@overload
         ///.
-        ///Creates a new match object with the given options and return match count.
+        ///This action doesn not affect any class variables.
+        ///The temporary object that is created is not further usable.
         ///
         ///@param s Pointer to subject string.
         ///@param mod Modifier string.
         ///@return Match count
         ///@see RegexMatch::match()
         SIZE_T match(const String* s, const std::string& mod) { 
-            return initMatch().setSubject(s).setModifier(mod).match(); 
+            return RegexMatch(this).setSubject(s).setModifier(mod).match(); 
         } 
 
         /** @overload
          * 
          * .
-         * Creates a new match object with the given options and return match count.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          * 
          *  @param s Subject string
          *  @param start_offset Offset from where matching will start in the subject string.
@@ -2966,43 +2965,46 @@ struct select{
          *  @see RegexMatch::match()
          * */
         SIZE_T match(const String& s,  PCRE2_SIZE start_offset) { 
-            return initMatch().setStartOffset(start_offset).setSubject(s).match(); 
+            return RegexMatch(this).setStartOffset(start_offset).setSubject(s).match(); 
         } 
 
         /** @overload
          * .
-         * Creates a new match object with the given options and return match count.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param s Pointer to subject string
          *  @param start_offset Offset from where matching will start in the subject string.
          *  @return Match count
          *  @see RegexMatch::match()
          * */
         SIZE_T match(const String* s,  PCRE2_SIZE start_offset) { 
-            return initMatch().setStartOffset(start_offset).setSubject(s).match(); 
+            return RegexMatch(this).setStartOffset(start_offset).setSubject(s).match(); 
         }
         
         /** @overload
          * 
          * 
-         * Creates a new match object with the given options and return match count.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          * 
          *  @param s Subject string
          *  @return Match count
          *  @see RegexMatch::match()
          * */
         SIZE_T match(const String& s) { 
-            return initMatch().setSubject(s).match(); 
+            return RegexMatch(this).setSubject(s).match(); 
         }
         
         /** @overload
          * .
-         * Creates a new match object with the given options and return match count.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param s Pointer to subject string
          *  @return Match count
          *  @see RegexMatch::match()
          * */
         SIZE_T match(const String* s) { 
-            return initMatch().setSubject(s).match(); 
+            return RegexMatch(this).setSubject(s).match(); 
         }
         
         ///Shorthand for getMatchObject().match()
@@ -3011,14 +3013,13 @@ struct select{
             return getMatchObject().match();
         }
         
-        /** Perform regex replace and return the replaced string (from scratch).
-         *  This function takes the parameters, creates a new replace object and
+        /** Perform regex replace and return the replaced string using a temporary replace object.
+         *  This function takes the parameters, creates a temporary replace object and
          *  then sets the parameters to the newly created RegexReplace object and calls
          *  RegexReplace::replace() which returns the result.
          * 
-         *  Each call will create a new replace object each time and no previous options will be retained.
-         * 
-         *  Replace object created by a call to this function can be re-used by `Regex::getReplaceObject()` function.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Subject string
          *  @param repl String to replace with
          *  @param mod Modifier string (std::string)
@@ -3026,12 +3027,13 @@ struct select{
          *  @see RegexReplace::replace()
          * */
         String replace(const String& mains, const String& repl, const std::string& mod) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
+            return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
         /**@overload
          * .
-         * Creates a new replace object.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Pointer to subject string
          *  @param repl String to replace with
          *  @param mod Modifier string (std::string)
@@ -3039,12 +3041,13 @@ struct select{
          *  @see RegexReplace::replace()
          * */
         String replace(const String* mains, const String& repl, const std::string& mod) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
+            return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
         /**@overload
          * .
-         * Creates a new replace object.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Subject string
          *  @param repl Pointer to string to replace with
          *  @param mod Modifier string (std::string)
@@ -3052,12 +3055,13 @@ struct select{
          *  @see RegexReplace::replace()
          * */
         String replace(const String& mains, const String* repl, const std::string& mod) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
+            return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
         /**@overload
          * .
-         * Creates a new replace object.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Pointer to subject string
          *  @param repl Pointer to string to replace with
          *  @param mod Modifier string (std::string)
@@ -3065,82 +3069,87 @@ struct select{
          *  @see RegexReplace::replace()
          * */
         String replace(const String* mains, const String* repl, const std::string& mod) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
+            return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
 
         /** @overload
          * .
-         * Creates a new replace object.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Subject string
          *  @param repl String to replace with
          *  @return Resultant string after regex replace
          *  @see RegexReplace::replace()
          * */
         String replace(const String& mains, const String& repl) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).replace(); 
+            return RegexReplace(this).setSubject(mains).setReplaceWith(repl).replace(); 
         } 
         
         /** @overload
          * .
-         * Creates a new replace object.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Pointer to subject string
          *  @param repl String to replace with
          *  @return Resultant string after regex replace
          *  @see RegexReplace::replace()
          * */
         String replace(const String* mains, const String& repl) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).replace(); 
+            return RegexReplace(this).setSubject(mains).setReplaceWith(repl).replace(); 
         } 
         
         /** @overload
          * .
-         * Creates a new replace object.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Subject string
          *  @param repl Pointer to string to replace with
          *  @return Resultant string after regex replace
          *  @see RegexReplace::replace()
          * */
         String replace(const String& mains, const String* repl) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).replace(); 
+            return RegexReplace(this).setSubject(mains).setReplaceWith(repl).replace(); 
         } 
         
         /** @overload
          * .
-         * Creates a new replace object.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Pointer to subject string
          *  @param repl Pointer to string to replace with
          *  @return Resultant string after regex replace
          *  @see RegexReplace::replace()
          * */
         String replace(const String* mains, const String* repl) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).replace(); 
+            return RegexReplace(this).setSubject(mains).setReplaceWith(repl).replace(); 
         } 
 
         /** @overload
          * .
-         * Creates a new replace object.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Subject string
          *  @return Resultant string after regex replace
          *  @see RegexReplace::replace()
          * */
         String replace(const String& mains) { 
-            return initReplace().setSubject(mains).replace();
+            return RegexReplace(this).setSubject(mains).replace();
         } 
 
         /** @overload
          * .
-         * Creates a new replace object.
+         *  This action doesn not affect any class variables.
+         *  The temporary object that is created is not further usable.
          *  @param mains Pointer to subject string
          *  @return Resultant string after regex replace
          *  @see RegexReplace::replace()
          * */
         String replace(const String* mains) { 
-            return initReplace().setSubject(mains).replace();
+            return RegexReplace(this).setSubject(mains).replace();
         } 
 
         /** Shorthand for getReplaceObject().replace()
-         *  This will not create a new replace object, instead previous object
-         *  and all prevously set options will be used. It's just a short hand
+         *  All prevously set options will be used. It's just a short hand
          *  for calling `re.getReplaceObject().replace()`
          *  @return Resultant string after regex replace
          *  @see RegexReplace::replace()
@@ -3326,8 +3335,7 @@ typename jpcre2::select<Char_T, BS>::RegexReplace&
 template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexReplace::nreplace(MatchEvaluator me){
     // If code is null, return the subject string unmodified.
-    if (!re || re->code == 0)
-        return *r_subject_ptr;
+    if (!re || re->code == 0) return *r_subject_ptr;
     String res;
     //set the re object to point to the re object corresponding to replace object
     me.setRegexObject(re);
@@ -3338,7 +3346,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
     //set subject and start offset
     me.setSubject(r_subject_ptr).setStartOffset(_start_offset);
     //global replacement will force global match and vice versa
-    if((replace_opts & PCRE2_SUBSTITUTE_GLOBAL)!=0) me.setFindAll(); //true is default
+    if((replace_opts & PCRE2_SUBSTITUTE_GLOBAL)!=0) me.setFindAll(true); //true is default
     else me.setFindAll(false);
     //remove bad match options
     me.changePcre2Option(PCRE2_PARTIAL_HARD|PCRE2_PARTIAL_SOFT, false);

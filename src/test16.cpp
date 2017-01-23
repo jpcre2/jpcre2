@@ -5,6 +5,7 @@
  * */
 
 #include <iostream>
+#define JPCRE2_USE_CHAR1632
 #include "jpcre2.hpp"
 
 typedef jpcre2::select<wchar_t> jpw; //for windows it's 16

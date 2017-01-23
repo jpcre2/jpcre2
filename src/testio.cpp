@@ -15,6 +15,7 @@
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
 #include <iostream>
+#define JPCRE2_USE_CHAR1632
 #include "jpcre2.hpp"
 #include <cassert>
 
@@ -36,10 +37,12 @@ int main(){
     rec.getMatchObject()
        .setNumberedSubstringVector(&vec_numc)
        .setNamedSubstringVector(&vec_nasc)
-       .setNameToNumberMapVector(&vec_ntnc);
+       .setNameToNumberMapVector(&vec_ntnc)
+       .setSubject("123456789")
+       .setModifier("g");
     
     //check for validity of match
-    assert(rec.match("123456789", "g") == 9);
+    assert(rec.match() == 9);
     assert(vec_numc[8][0] == "9");
     assert(vec_numc[8][1] == "9");
     assert(vec_nasc[8]["digit"] == "9");
@@ -61,10 +64,12 @@ int main(){
     rew.getMatchObject()
        .setNumberedSubstringVector(&vec_numw)
        .setNamedSubstringVector(&vec_nasw)
-       .setNameToNumberMapVector(&vec_ntnw);
+       .setNameToNumberMapVector(&vec_ntnw)
+       .setSubject(L"123456789")
+       .setModifier("g");
     
     //check for validity of match
-    assert(rew.match(L"123456789", "g") == 9);
+    assert(rew.match() == 9);
     assert(vec_numw[8][0] == L"9");
     assert(vec_numw[8][1] == L"9");
     assert(vec_nasw[8][L"digit"] == L"9");
@@ -86,10 +91,12 @@ int main(){
     re16.getMatchObject()
         .setNumberedSubstringVector(&vec_num16)
         .setNamedSubstringVector(&vec_nas16)
-        .setNameToNumberMapVector(&vec_ntn16);
+        .setNameToNumberMapVector(&vec_ntn16)
+        .setSubject(u"123456789")
+        .setModifier("g");
     
     //check for validity of match
-    assert(re16.match(u"123456789", "g") == 9);
+    assert(re16.match() == 9);
     assert(vec_num16[8][0] == u"9");
     assert(vec_num16[8][1] == u"9");
     assert(vec_nas16[8][u"digit"] == u"9");
@@ -110,10 +117,12 @@ int main(){
     re32.getMatchObject()
         .setNumberedSubstringVector(&vec_num32)
         .setNamedSubstringVector(&vec_nas32)
-        .setNameToNumberMapVector(&vec_ntn32);
+        .setNameToNumberMapVector(&vec_ntn32)
+        .setSubject(U"123456789")
+        .setModifier("g");
     
     //check for validity of match
-    assert(re32.match(U"123456789", "g") == 9);
+    assert(re32.match() == 9);
     assert(vec_num32[8][0] == U"9");
     assert(vec_num32[8][1] == U"9");
     assert(vec_nas32[8][U"digit"] == U"9");

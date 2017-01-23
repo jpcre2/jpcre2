@@ -59,10 +59,11 @@ int main(){
     #if __cplusplus >= 201103L
     //example with lambda
     std::cout<<"\n\n### Lambda\n"<<rr.nreplace(
-                jp::MatchEvaluator([](jp::NumSub m1, jp::MapNas m2, void*)
-                {
-                    return "("+m1[0]+"/"+m2["total"]+")";
-                }));
+                jp::MatchEvaluator(
+                    [](jp::NumSub m1, jp::MapNas m2, void*){
+                        return "("+m1[0]+"/"+m2["total"]+")";
+                    }
+                ));
     #endif
     
     std::cout<<"\n\n### 1\n"<<rr.nreplace(jp::MatchEvaluator(myme1));

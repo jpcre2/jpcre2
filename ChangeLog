@@ -1,7 +1,7 @@
 Change Log for JPCRE2
 --------------------
 
-Version 10.29.01
+Version 10.29.01 - Mon Jan 23 12:23:12 UTC 2017
 -----------------------------------------------
 
 * Removed `SUBSTITUTE_RESULT_INIT_SIZE` constant
@@ -12,7 +12,7 @@ Version 10.29.01
 * `RegexMatch::match()` and `RegexReplace::replace()` function will no longer take any argument.
 
 
-Version 10.28.12 - 
+Version 10.28.12 - Sun Jan 22 10:34:35 UTC 2016
 -----------------------------------------------
 
 * Add match evaluator (close feature request #9)
