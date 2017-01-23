@@ -1,6 +1,17 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.29.01
+-----------------------------------------------
+
+* Removed `SUBSTITUTE_RESULT_INIT_SIZE` constant
+* Add `JPCRE2_USE_CHAR1632` to add char16_t and char32_t support, by default it will be disabled (adopted for compatibility issue with older compiler)
+* Add `JPCRE2_USE_FUNCTIONAL` to use `functional` header as much as possible.
+* Object instantiation of select class is prohibited.
+* The behavior of shorthand `match()` and `replace()` function in the Regex class has changed. When they are called with no argument they will use previously set options, but when they are called with arguments, they will initiate a new match/replace object and will not use any previous options.
+* `RegexMatch::match()` and `RegexReplace::replace()` function will no longer take any argument.
+
+
 Version 10.28.12 - 
 -----------------------------------------------
 

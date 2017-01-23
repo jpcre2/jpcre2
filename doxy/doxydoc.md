@@ -31,9 +31,10 @@ This is a **header only** library. All you need to do is include the header `jpc
 
 **Notes:** 
 
-* `jpcre2.hpp` \#includes `pcre2.h`, thus you should not include `pcre2.h` manually in your program.
+* `jpcre2.hpp` \#includes `pcre2.h`, thus you don't need to include `pcre2.h` manually in your program.
+* If `pcre2.h` is in a non-standard path then you may include it before `jpcre2.hpp` with correct path (you will need to define `PCRE2_CODE_UNIT_WIDTH` before including `pcre2.h` in this case)
 * There's no need to define `PCRE2_CODE_UNIT_WIDTH` before including `jpcre2.hpp`.
-* On windows, if you are working with a static PCRE2 library, you must define `PCRE2_STATIC` before including `jpcre2.hpp`.
+* On windows, if you are working with a static PCRE2 library, you must define `PCRE2_STATIC` before including `jpcre2.hpp` (or before `pcre2.h` if you included it manually).
 
 **Install:**
 
@@ -72,7 +73,6 @@ Performing a match or replacement against regex pattern involves two steps:
 1. Compiling the pattern
 2. Performing the match or replacement operation
 
-**An important note:** All of the classes store the options/values that are set and their member functions use these options by default. You can reset the options/values one by one with setter functions or you can use the `reset()` member function to reset them all at once. Calling `reset()` on any object will re-initialize it.
 
 ## Compile a regex pattern {#compile-a-regex-pattern}
 
@@ -83,6 +83,7 @@ Let's use a typedef to shorten the code:
 ```cpp
 typedef jpcre2::select<char> jp;
 // You have to select the basic data type (char, wchar_t, char16_t or char32_t)
+// To use char16_t or char32_t, you must define JPCRE2_USE_CHAR1632 before including jpcre2.hpp
 ```
 
 ### A Regex object {#a-regex-object}
@@ -139,7 +140,9 @@ else std::cout<<"Failure";
 
 Match is generally performed using the `jp::RegexMatch::match()` function.
 
-For convenience, a shortcut function in `jp::Regex` is available: `jp::Regex::match()`. It can take three optional arguments. If modifier is passed as an argument to this function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string. This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexMatch::match()` function.
+For convenience, a shortcut function in `jp::Regex` is available: `jp::Regex::match()`. It can take three optional arguments. If modifier is passed as an argument to this function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
+
+This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexMatch::match()` function only when it is called with no argument (e.g `re.match()`), but when it is called with arguments (e.g `re.match("subject")`), it creates a new match object with all options re-initialized according to the arguments passed.
 
 To get match results, you will need to pass vector pointers that will be filled with match data.
 
@@ -148,7 +151,7 @@ To get match results, you will need to pass vector pointers that will be filled 
 ```cpp
 jp::Regex re("\\w+ect");
 
-if(re.match("I am the subject"))
+if(re.match("I am the subject")) //always new initialization of match object
     std::cout<<"matched (case sensitive)";
 else
     std::cout<<"Didn't match";
@@ -156,7 +159,7 @@ else
 //For case insensitive match, re-compile with modifier 'i'
 re.addModifier("i").compile();
 
-if(re.match("I am the subjEct"))
+if(re.match("I am the subjEct")) //always new initialization of match object
     std::cout<<"matched (case insensitive)";
 else
     std::cout<<"Didn't match";
@@ -167,6 +170,7 @@ else
 ```cpp
 size_t count = jp::Regex("[aijst]","i").match("I am the subject","g");
 ```
+The `g` modifier performs global match.
 
 ### Get match result {#do-match}
 
@@ -306,7 +310,7 @@ size_t count = rm.setSubject("subject")
                  .setModifier("g")
                  .match();
 ```
-The `RegexMatch` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, there will be no need to set the pointer again.
+The `RegexMatch` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, it will be reflected on the next operation/result.
 
 **Note:** This independent match object and the match object you get from `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` are **not the same**.
 
@@ -314,7 +318,9 @@ The `RegexMatch` class stores a pointer to its' associated Regex object. If the 
 
 Regex replace is generally performed using the `jp::RegexReplace::replace()` function.
 
-However a convenience shortcut function is available in Regex class: `jp::Regex::replace()`. It can take three optional arguments. If modifier is passed as an argument to this shortcut function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string. This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexReplace::replace()` function.
+However a convenience shortcut function is available in Regex class: `jp::Regex::replace()`. If modifier is passed as an argument to this shortcut function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
+
+This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexReplace::replace()` function only when it is called with no argument (e.g `re.replace()`), but when it is called with arguments (e.g `re.replace("subject", "replacewith")`), it creates a new replace object with all options re-initialized according to the arguments passed.
 
 
 ### Simple replacement {#simple-replace}
@@ -360,7 +366,7 @@ rr.setSubject("subjEct")
   .setModifier("g")
   .replace();
 ```
-The `RegexReplace` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, there will be no need to set the pointer again.
+The `RegexReplace` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, it will be reflected on the next operation/result.
 
 **Note:** This independent replace object and the replace object you get from `jp::Regex::initReplace()` or `jp::Regex::getReplaceObject()` are not the same.
 
@@ -537,8 +543,8 @@ Instead of using full names like `std::vector<std::string>` and such for storing
 
 Other typedefs are mostly for internal use
 
-* You can use `jpcre2::Convert16` to convert between UTF-8 and UTF-16. (`>=C++11`)
-* You can use `jpcre2::Convert32` to convert between UTF-8 and UTF-32. (`>=C++11`)
+* You can use `jpcre2::Convert16` to convert between UTF-8 and UTF-16. (`>=C++11` and if `JPCRE2_USE_CHAR1632` is defined)
+* You can use `jpcre2::Convert32` to convert between UTF-8 and UTF-32. (`>=C++11` and if `JPCRE2_USE_CHAR1632` is defined)
 * You should not use the `jpcre2::Ush` as unsigned short. In JPCRE2 context, it is the smallest unsigned integer type to cover at least the numbers from 1 to 126.
 * `jpcre2::Uint` is a fixed width unsigned integer type and will be at least 32 bit wide.
 * `jpcre2::SIZE_T` is the same as `PCRE2_SIZE` which is defined as `size_t`.
@@ -724,6 +730,8 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
 ```
 
 # API change notice {#api-change-notice}
+
+* The behavior of shorthand `match()` and `replace()` function in the Regex class has changed. When they are called with no argument they will use previously set options, but when they are called with arguments, they will initiate a new match/replace object and will not use any previous options.
 
 > For complete changes see the changelog file
 
