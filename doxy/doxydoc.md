@@ -142,7 +142,7 @@ Match is generally performed using the `jp::RegexMatch::match()` function.
 
 For convenience, a shortcut function in `jp::Regex` is available: `jp::Regex::match()`. It can take three optional arguments. If modifier is passed as an argument to this function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
 
-This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexMatch::match()` function only when it is called with no argument (e.g `re.match()`), but when it is called with arguments (e.g `re.match("subject")`), it creates a new match object with all options re-initialized according to the arguments passed.
+This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexMatch::match()` function only when it is called with no argument (e.g `re.match()`), but when it is called with arguments (e.g `re.match("subject")`), it uses a temporary match object to perform the match which does not use/change/affect any previous options.
 
 To get match results, you will need to pass vector pointers that will be filled with match data.
 
@@ -151,7 +151,7 @@ To get match results, you will need to pass vector pointers that will be filled 
 ```cpp
 jp::Regex re("\\w+ect");
 
-if(re.match("I am the subject")) //always new initialization of match object
+if(re.match("I am the subject")) //always uses a new temporary match object
     std::cout<<"matched (case sensitive)";
 else
     std::cout<<"Didn't match";
@@ -159,7 +159,7 @@ else
 //For case insensitive match, re-compile with modifier 'i'
 re.addModifier("i").compile();
 
-if(re.match("I am the subjEct")) //always new initialization of match object
+if(re.match("I am the subjEct")) //always uses a new temporary match object
     std::cout<<"matched (case insensitive)";
 else
     std::cout<<"Didn't match";
@@ -168,7 +168,7 @@ else
 ### Get match count {#simple-match-count}
 
 ```cpp
-size_t count = jp::Regex("[aijst]","i").match("I am the subject","g");
+size_t count = jp::Regex("[aijst]","i").match("I am the subject","g"); //always uses a new temporary match object
 ```
 The `g` modifier performs global match.
 
@@ -320,7 +320,7 @@ Regex replace is generally performed using the `jp::RegexReplace::replace()` fun
 
 However a convenience shortcut function is available in Regex class: `jp::Regex::replace()`. If modifier is passed as an argument to this shortcut function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
 
-This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexReplace::replace()` function only when it is called with no argument (e.g `re.replace()`), but when it is called with arguments (e.g `re.replace("subject", "replacewith")`), it creates a new replace object with all options re-initialized according to the arguments passed.
+This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexReplace::replace()` function only when it is called with no argument (e.g `re.replace()`), but when it is called with arguments (e.g `re.replace("subject", "replacewith")`), it uses a temporary replace object to perform the replacement which does not use/change/affect any previous options.
 
 
 ### Simple replacement {#simple-replace}
@@ -562,7 +562,33 @@ If you do experiment with various erroneous situations, make use of the `resetEr
 
 # Multi threading {#multi-threading}
 
-JPCRE2 is thread unsafe. In threaded application, lock must be used on `Regex`, `RegexMatch` and `RegexReplace` objects to ensure thread safety. An example multi-threaded program is provided in *src/test_pthread.cpp*. The thread safety of this program is tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
+1. There is no data race between two separate objects (`Regex`, `RegexMatch` and `RegexReplace`) because the classes do not contain any static variables.
+2. Temporary class objects will always be thread safe as no jpcre2 class uses any thread unsafe functions.
+3. Temporary class object that uses another third party class object reference or pointer is thread safe provided that the third party object is thread safe i.e its thread safety is defined by the thread safety of the third party object reference or pointer.
+4. Simultaneous access of the same object is thread unsafe just like another normal variable. You can use lock and mutex to ensure thread safety.
+
+The following function is thread safe:
+
+```cpp
+typedef jpcre2::select<char> jp;
+void thread_safe_fun(){ //uses no global or static variable, thus thread safe.
+	jp::Regex re("\\w", "i"); //It's a local variable
+	std::cout<<re.getMatchObject().setSubject("fdsf").match();
+}
+```
+
+The following function is thread unsafe:
+
+```cpp
+typedef jpcre2::select<char> jp;
+jp::Regex re("\\w", "g");
+void thread_unsafe_fun(){ //uses global variable 're', thus thread unsafe.
+	jp::RegexMatch rm(&re); //It's a local variable
+	std::cout<<rm.setSubject("fdsf").match();
+}
+```
+
+An example multi-threaded program is provided in *src/test_pthread.cpp*. The thread safety of this program is tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
 
 # Short examples {#short-examples}
 
@@ -731,7 +757,7 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
 
 # API change notice {#api-change-notice}
 
-* The behavior of shorthand `match()` and `replace()` function in the Regex class has changed. When they are called with no argument they will use previously set options, but when they are called with arguments, they will initiate a new match/replace object and will not use any previous options.
+* The behavior of shorthand `match()` and `replace()` function in the Regex class has changed. When they are called with no argument they will use previously set options, but when they are called with arguments, they will initiate a temporary match/replace object and will not use (or change) any previous options. This temporary object will not affect any class variables (i.e previously set option) and it won't be available after returning the result.
 
 > For complete changes see the changelog file
 
