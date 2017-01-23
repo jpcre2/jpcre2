@@ -22,7 +22,9 @@
  * */
 
 #include <iostream>
+#if __cplusplus >= 201103L
 #define JPCRE2_USE_CHAR1632
+#endif
 #include "jpcre2.hpp"
 #include <cassert>
 
@@ -30,7 +32,7 @@
 typedef jpcre2::select<char> jp;
 typedef jpcre2::select<char> jpc;
 typedef jpcre2::select<wchar_t> jpw;
-#if __cplusplus >= 201103L
+#ifdef JPCRE2_USE_CHAR1632
 typedef jpcre2::select<char16_t> jp16;
 typedef jpcre2::select<char32_t> jp32;
 #define RE_TEST if(re);
@@ -77,6 +79,8 @@ int main(){
     re.addPcre2Option(PCRE2_ANCHORED); \
     re.addJpcre2Option(jpcre2::JIT_COMPILE); \
     std::setlocale(LC_CTYPE, "fr_FR"); \
+    re.resetCharacterTables().compile(); \
+    re.resetCharacterTables().compile(); \
     re.resetCharacterTables().compile(); \
     re.getErrorMessage(); \
     re.getErrorNumber(); \
@@ -321,7 +325,7 @@ FUNKY_CODE
 #undef PAT
 #undef JPCRE2_LOCAL_CHAR
 
-#if __cplusplus >= 201103L
+#ifdef JPCRE2_USE_CHAR1632
 #define JPCRE2_LOCAL_CHAR 16
 #define TEXT u"I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"
 #define PAT u"(?<name1>\\w+)(?<name2>\\s+)(?<name1>\\w+)"

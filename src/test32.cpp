@@ -5,11 +5,13 @@
  * */
 
 #include <iostream>
+#if __cplusplus >= 201103L
 #define JPCRE2_USE_CHAR1632
+#endif
 #include "jpcre2.hpp"
 
 typedef jpcre2::select<wchar_t> jpw;
-#if __cplusplus >= 201103L
+#ifdef JPCRE2_USE_CHAR1632
 typedef jpcre2::select<char32_t> jpu;
 #endif
 
@@ -27,7 +29,7 @@ int main() {
     
     
     
-    #if __cplusplus >= 201103L
+    #ifdef JPCRE2_USE_CHAR1632
     //Working with char32_t i.e std::u32string (>=C++11)
     
     //Match:

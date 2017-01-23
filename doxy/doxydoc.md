@@ -565,15 +565,22 @@ If you do experiment with various erroneous situations, make use of the `resetEr
 1. There is no data race between two separate objects (`Regex`, `RegexMatch` and `RegexReplace`) because the classes do not contain any static variables.
 2. Temporary class objects will always be thread safe as no jpcre2 class uses any thread unsafe functions.
 3. Temporary class object that uses another third party class object reference or pointer is thread safe provided that the third party object is thread safe i.e its thread safety is defined by the thread safety of the third party object reference or pointer.
-4. Simultaneous access of the same object is thread unsafe just like another normal variable. You can use lock and mutex to ensure thread safety.
+4. All member functions of all classes are thread safe provided that the object calling them are thread safe except the `Regex::compile()` function when doing JIT compilation. If JIT compile is not required, this function is thread safe too.
+5. Simultaneous access of the same object is MT unsafe. You can use lock and mutex to ensure thread safety.
+6. Class objects must be local to each thread to ensure thread safety. Thus with `>=C++11`, you can make it thread safe just by declaring the class objects with `thread_local`
+
+**Examples:**
 
 The following function is thread safe:
 
 ```cpp
 typedef jpcre2::select<char> jp;
-void thread_safe_fun(){ //uses no global or static variable, thus thread safe.
-	jp::Regex re("\\w", "i"); //It's a local variable
-	std::cout<<re.getMatchObject().setSubject("fdsf").match();
+
+void* thread_safe_fun1(void* arg){//uses no global or static variable, thus thread safe.
+    jp::Regex re("\\w", "g");
+    jp::RegexMatch rm(&re); //It's a local variable
+    rm.setSubject("fdsf").setModifier("g").match();
+    return 0;
 }
 ```
 
@@ -581,12 +588,32 @@ The following function is thread unsafe:
 
 ```cpp
 typedef jpcre2::select<char> jp;
-jp::Regex re("\\w", "g");
-void thread_unsafe_fun(){ //uses global variable 're', thus thread unsafe.
-	jp::RegexMatch rm(&re); //It's a local variable
-	std::cout<<rm.setSubject("fdsf").match();
+
+jp::Regex rec("\\w", "g"); //thread unsafe.
+//thread_local jp::Regex rec("\\w", "g"); //is thread safe without mutex lock.
+
+void *thread_unsafe_fun1(void *arg){ //uses global variable 'rec', thus thread unsafe.
+    //this mutex lock will not make it thread safe
+    pthread_mutex_lock( &mutex2 );
+    jp::RegexMatch rm(&rec);
+    rm.setSubject("fdsf").setModifier("g").match();
+    pthread_mutex_unlock( &mutex2);
+    return 0;
 }
 ```
+
+If you have `>=C++11`, `thread_local` will be enough:
+
+```cpp
+thread_local jp::Regex rec1("\\w", "g");
+
+void *thread_safe_fun3(void *arg){ //uses thread_local global variable 'rec1', thus thread safe.
+    jp::RegexMatch rm(&rec1);
+    rm.setSubject("fdsf").setModifier("g").match();
+    return 0;
+}
+```
+
 
 An example multi-threaded program is provided in *src/test_pthread.cpp*. The thread safety of this program is tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
 

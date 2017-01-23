@@ -15,13 +15,15 @@
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
 #include <iostream>
+#if __cplusplus >= 201103L
 #define JPCRE2_USE_CHAR1632
+#endif
 #include "jpcre2.hpp"
 #include <cassert>
 
 typedef jpcre2::select<char> jpc;
 typedef jpcre2::select<wchar_t> jpw;
-#if __cplusplus >= 201103L
+#ifdef JPCRE2_USE_CHAR1632
 typedef jpcre2::select<char16_t> jp16;
 typedef jpcre2::select<char32_t> jp32;
 #endif
@@ -80,7 +82,7 @@ int main(){
     assert(rew.replace(L"123456789", L"d$1", "g") == L"d1d2d3d4d5d6d7d8d9");
     ////////////////////////////////////////////////////////////////////
     
-    #if __cplusplus >= 201103L
+    #ifdef JPCRE2_USE_CHAR1632
     //////////////////////// Check with std::u16string ///////////////////
     jp16::Regex re16;
     jp16::VecNum vec_num16;
