@@ -149,11 +149,7 @@ int main(){
     rm.setMatchEndOffsetVector(&vec_eoff); \
     re = jp::Regex(PAT, "in"); \
     rm.setRegexObject(&re); \
-    rm.setJitStackSize(32*1024,0); \
-    rm.setJitStackSize(0,0); \
-    rm.setJitStackSize(32*1024,0); \
-    rm.setJitStackSize(32*1024,0); \
-    rm.freeUnusedJitMemory(); \
+    rm.setMatchContext(0); \
     rm.setSubject(&text).setModifier("g").match(); \
     jp::Regex re4(PAT, "niJS"); \
     rm.setRegexObject(&re4); \
@@ -193,6 +189,9 @@ int main(){
     rm.changePcre2Option(0, false); \
      \
     rm.addPcre2Option(0); \
+    rm.getNumberedSubstringVector(); \
+    rm.getNamedSubstringVector(); \
+    rm.getNameToNumberMapVector(); \
     rm.changePcre2Option(PCRE2_ANCHORED, true); \
     rm.changePcre2Option(PCRE2_ANCHORED, false); \
     rm.addModifier("g"); \
@@ -258,6 +257,8 @@ int main(){
     rr.addJpcre2Option(0); \
     rr.setJpcre2Option(0); \
     rr.setPcre2Option(0); \
+    rr.setMatchContext(0); \
+    rr.setMatchData(0); \
     rr.changeJpcre2Option(0, true); \
     rr.changeJpcre2Option(0, false); \
     rr.changePcre2Option(0, true); \

@@ -18,7 +18,10 @@ before_install:
   - rm -rf pcre2
 script:
   - ./autogen.sh || true
-  - ./configure --enable-cpp11 --enable-valgrind --enable-thread-check --enable-coverage
+  - ./configure --enable-cpp11 --enable-valgrind --enable-thread-check
+  - make check
+  - make distclean
+  - ./configure --enable-cpp11 --enable-coverage
   - make check
 after_success:
   - make coverage

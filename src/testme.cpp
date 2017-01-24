@@ -6,7 +6,7 @@
  * */
 
 #include <iostream>
-#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8
+#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while usin c++11
 #include "jpcre2.hpp"
 #include <cassert>
 
@@ -41,7 +41,7 @@ String callback4(void*, void*, const jp::MapNtN& m3){
 
 String callback5(const jp::NumSub& m1, void*, const jp::MapNtN& m3){
     jp::MapNtN mn = m3;
-    return "("+m1[0]+"/"+toString(int(mn["total"]))+")";
+    return "("+m1[0]+"/"+toString(mn["total"])+")";
 }
 
 String callback6(void*, const jp::MapNas& m2, const jp::MapNtn& m3){
@@ -95,38 +95,31 @@ int main(){
     rr.setRegexObject(&re).setPcre2Option(0).nreplace(jp::MatchEvaluator(callback2));
     
     
-    #if __cplusplus >= 201103L
-    jp::MatchEvaluator me1([](const jp::NumSub& m1, const jp::MapNas& m2, void*)
-                {
-                    return "("+m1[0]+"/"+m2.at("total")+")";
-                });
+
+    jp::MatchEvaluator me1(&callback0);
     
     jp::MatchEvaluator me2 = me1;
     jp::MatchEvaluator me3 = me2;
     
     rr.setRegexObject(&re).setPcre2Option(0).nreplace(me1);
     
-    me1 = jp::MatchEvaluator([](const jp::NumSub& m1, const jp::MapNas& m2, const jp::MapNtN& m3)
-                {
-                    jp::MapNas mn2 = m2;
-                    return "("+m1[0]+"/"+mn2["total"]+")";
-                });
-    me2 = me1;
-    me1 = jp::MatchEvaluator([](void*, const jp::MapNas& m2, const jp::MapNtN& m3)
-                {
-                    jp::MapNas mn2 = m2;
-                    return "("+mn2["total"]+")";
-                });
-                
-    me3 = me1;
-    me1 = jp::MatchEvaluator([](void*, void*, const jp::MapNtN& m3)
-                {
-                    return "("+toString(m3.at("total"))+")";
-                });
     
+    me2 = jp::MatchEvaluator(callback2);
+    me1 = me2;
+    rr.nreplace(me1);
+    me2 = me1;
+    me1 = jp::MatchEvaluator(callback3);
+    rr.nreplace(me1);
+    me3 = me1;
+    me1 = jp::MatchEvaluator(callback4);
+    
+    rr.nreplace(me1);
     me2 = me1;
     me1 = me3;
-    
-    #endif
+    me1 = jp::MatchEvaluator(callback5);
+    me1 = jp::MatchEvaluator(callback6);
+    me1 = jp::MatchEvaluator(callback7);
+    me1 = jp::MatchEvaluator(callback1);
+
     return 0;
 }

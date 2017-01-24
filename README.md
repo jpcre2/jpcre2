@@ -93,14 +93,13 @@ Let's use a typedef to shorten the code:
 ```cpp
 typedef jpcre2::select<char> jp;
 // You have to select the basic data type (char, wchar_t, char16_t or char32_t)
-// To use char16_t or char32_t, you must define JPCRE2_USE_CHAR1632 before including jpcre2.hpp
 ```
 
 <a name="a-regex-object"></a>
 
 ### A Regex object 
 
-(You can use temporary object too, see [short examples](#short-examples)).
+(You can use temporary objects too, see [short examples](#short-examples)).
 
 This object will hold the pattern, options and compiled pattern.
 
@@ -422,14 +421,14 @@ The `RegexReplace` class stores a pointer to its' associated Regex object. If th
 
 There's another replace function (`jp::RegexReplace::nreplace()`) that takes a MatchEvaluator with a callback function. It's required when you have to create the replacement strings dynamically according to some criteria.
 
-The class `jp::MatchEvaluator` implements several constructor overloads to take different callback functions i.e you can pass a callback function with its' constructor when instantiating a object of this class.
+The class `jp::MatchEvaluator` implements several constructor overloads to take different callback functions.
 
-The callback function takes exactly three positional arguments. If you don't need one or two arguments, you may pass `void*` in their respective positions in the argument list.
+The callback function takes exactly three positional arguments. If you don't need one or more arguments, you may pass `void*` in their respective positions in the argument list.
 
 **Examples:**
 
 ```cpp
-jp::String myme1(jp::NumSub m, void*, void*){
+jp::String callback1(const jp::NumSub& m, void*, void*){
     return "("+m[0]+")";
 }
 
@@ -442,15 +441,20 @@ int main(){
 	rr.setSubject(s3)
 	  .setPcre2Option(PCRE2_SUBSTITUTE_GLOBAL);
 	  
+	std::cout<<"\n\n### 1\n"<<
+			rr.nreplace(jp::MatchEvaluator(callback1));
+	
 	#if __cplusplus >= 201103L
 	//example with lambda
-	std::cout<<"\n\n### Lambda\n"<<rr.nreplace(
-		        jp::MatchEvaluator([](jp::NumSub m1, jp::MapNas m2, void*)
-		        {
-		            return "("+m1[0]+"/"+m2["total"]+")";
-		        }));
+    std::cout<<"\n\n### Lambda\n"<<
+    		rr.nreplace(
+                jp::MatchEvaluator(
+                    [](const jp::NumSub& m1, const jp::MapNas& m2, void*){
+                        return "("+m1[0]+"/"+m2.at("total")+")";
+                    }
+                ));
 	#endif
-	std::cout<<"\n\n### 1\n"<<rr.nreplace(jp::MatchEvaluator(myme1));
+	
 	return 0;
 }
 ```
@@ -615,14 +619,14 @@ Instead of using full names like `std::vector<std::string>` and such for storing
 
 Other typedefs are mostly for internal use
 
-* You can use `jpcre2::Convert16` to convert between UTF-8 and UTF-16. (`>=C++11` and if `JPCRE2_USE_CHAR1632` is defined)
-* You can use `jpcre2::Convert32` to convert between UTF-8 and UTF-32. (`>=C++11` and if `JPCRE2_USE_CHAR1632` is defined)
+* You can use `jpcre2::Convert16` to convert between UTF-8 and UTF-16. (`>=C++11`)
+* You can use `jpcre2::Convert32` to convert between UTF-8 and UTF-32. (`>=C++11`)
 * You should not use the `jpcre2::Ush` as unsigned short. In JPCRE2 context, it is the smallest unsigned integer type to cover at least the numbers from 1 to 126.
 * `jpcre2::Uint` is a fixed width unsigned integer type and will be at least 32 bit wide.
 * `jpcre2::SIZE_T` is the same as `PCRE2_SIZE` which is defined as `size_t`.
 
 
-<a name="exception-handling"></a>
+<a name="error-handling"></a>
 
 # Error handling 
 
@@ -638,12 +642,32 @@ If you do experiment with various erroneous situations, make use of the `resetEr
 
 # Multi threading 
 
-1. There is no data race between two separate objects (`Regex`, `RegexMatch` and `RegexReplace`) because the classes do not contain any static variables.
-2. Temporary class objects will always be thread safe as no jpcre2 class uses any thread unsafe functions except the `Regex::compile()` function when doing JIT compilation. If JIT compile is not required, this function is thread safe too.
-3. Temporary class object that uses another third party class object reference or pointer is thread safe provided that the third party object is thread safe i.e its thread safety is defined by the thread safety of the third party object reference or pointer.
-4. All member functions of all classes are thread safe provided that the object calling them are thread safe except the `Regex::compile()` function when doing JIT compilation. If JIT compile is not required, this function is thread safe too.
-5. Simultaneous access of the same object is MT unsafe. You can make them `thread_local` or use mutex lock or other mechanisms to ensure thread safety.
-6. Class objects must be local to each thread to ensure thread safety. Thus with `>=C++11`, you can make it thread safe just by declaring the class objects as `thread_local`
+<a name="functions-thread-safety"></a>
+
+##Functions 
+
+<b>(C) MT safe:</b> _All functions (except JIT related functions) in JPCRE2 library are MT safe provided that the instances calling those functions are themselves thread safe._
+
+**When we say '(C) MT safe' or simply 'thread safe' throughout this doc, we mean the above definition of Conditional Multi-Thread safety.**
+
+The thread safety of JIT related functions:
+
+Function | (C) MT safe | MT unsafe
+-------- | ----------- | ---------
+`Regex::compile()` and its family | When JIT compile is not done | When JIT compile is done (passing the 'S' modifier)
+`Regex::Regex()` and its family | When JIT compile is not done | When JIT compile is done
+
+The thread safety of JIT operations is directly related to the native PCRE2 API. Thus its behavior will change according to PCRE2 specs.
+
+<a name="objects-thread-safety"></a>
+
+##Objects 
+
+1. There is no data race between two separate objects (`Regex`, `RegexMatch`, `RegexReplace` etc..) because the classes do not contain any static variables.
+2. Temporary class objects will always be thread safe as long as no JIT operation (JIT compile) is performed.
+3. Temporary class object that uses another third party object reference or pointer is thread safe provided that the third party object is thread safe.
+4. Simultaneous access of the same object is MT unsafe. You can use mutex lock or other mechanisms to ensure thread safety.
+
 
 **Examples:**
 
@@ -666,7 +690,6 @@ The following function is thread unsafe:
 typedef jpcre2::select<char> jp;
 
 jp::Regex rec("\\w", "g"); //thread unsafe.
-//thread_local jp::Regex rec("\\w", "g"); //is thread safe without mutex lock.
 
 void *thread_unsafe_fun1(void *arg){ //uses global variable 'rec', thus thread unsafe.
     //this mutex lock will not make it thread safe
@@ -678,27 +701,31 @@ void *thread_unsafe_fun1(void *arg){ //uses global variable 'rec', thus thread u
 }
 ```
 
-If you have `>=C++11`, `thread_local` will be enough:
+The following is thread safe as we are guarding JIT compilation with mutex:
 
 ```cpp
-thread_local jp::Regex rec1("\\w", "g");
-
-void *thread_safe_fun3(void *arg){ //uses thread_local global variable 'rec1', thus thread safe.
-    jp::RegexMatch rm(&rec1);
+void* thread_safe_fun1(void* arg){//uses no global or static variable.
+	pthread_mutex_lock( &mutex2 );
+    jp::Regex re("\\w", "gS"); //JIT compile is done for 'S' modifier.
+    pthread_mutex_unlock( &mutex2);
+    jp::RegexMatch rm(&re); //It's a local variable
     rm.setSubject("fdsf").setModifier("g").match();
     return 0;
 }
 ```
 
-The following is MT unsafe as it performs JIT compilation:
 
-```cpp
-thread_local jp::Regex rec2("\\w", "gS");
-//S modifier is for JIT compilation.
-```
+Example multi-threaded programs are provided in *src/test_pthread.cpp* and *src/teststdthread.cpp*. The thread safety of these programs are tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
 
 
-An example multi-threaded program is provided in *src/test_pthread.cpp*. The thread safety of this program is tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
+<a name="compatibility-with-compilers"></a>
+
+# Compatibility with compilers 
+
+1. To use JPCRE2 in its full capability, use latest compilers with full `C++11` support.
+2. Use `>=C++11` with modern compilers to use `C++11` specific features.
+3. If you use `>=C++11`, make sure it comes with `std::wstring_convert` which is required for supporting `char16_t` and `char32_t`, though you can disable `char16_t` and `char32_t` support by defining `JPCRE2_DISABLE_CHAR1632` before including `jpcre2.hpp`.
+4. If you don't use `C++11`, you should be OK with older compilers.
 
 <a name="short-examples"></a>
 

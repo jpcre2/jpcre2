@@ -41,15 +41,6 @@
  * manually. In this case you will have to define `PCRE2_CODE_UNIT_WIDTH` before including `pcre2.h`.
  * Make sure to link required PCRE2 libraries when compiling.
  * 
- * ### Compatibility with compilers:
- * 
- * 1. To use JPCRE2 in its full capability, use latest compilers with full C++11 support.
- * 2. Use `>=C++11` with modern compilers to use `C++11` specific features.
- * 3. If you use `>=C++11`, make sure it comes with `wstring_convert` which is required
- * for supporting `char16_t` and `char32_t`, though you can disable `char16_t` and `char32_t` support by defining `JPCRE2_DISABLE_CHAR1632`
- * before including `jpcre2.hpp`.
- * 4. If you don't use C++11, you should be OK with older compilers.
- * 
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  */
 
@@ -956,9 +947,9 @@ struct select{
         PCRE2_SIZE error_offset;
         MatchContext *mcontext;
         //Managing jit stack spoils thread safety
-        JitStack *jit_stack;
-        PCRE2_SIZE jit_stack_startsize;
-        PCRE2_SIZE jit_stack_maxsize;
+        //~ JitStack *jit_stack;
+        //~ PCRE2_SIZE jit_stack_startsize;
+        //~ PCRE2_SIZE jit_stack_maxsize;
         
         PCRE2_SIZE _start_offset; //name collision, use _ at start
 
@@ -985,30 +976,30 @@ struct select{
             if (vec_ntn) 
                 vec_ntn->push_back(*ntn_map); 
         }
-        void createJitStack(){
-            freeJitStack();
-            if(jit_stack_startsize) jit_stack = Pcre2Func<BS>::jit_stack_create(jit_stack_startsize, jit_stack_maxsize, 0);
-        }
-        void createMatchContext(){
-            freeMatchContext();
-            mcontext = Pcre2Func<BS>::match_context_create(0);
-        }
-        //this function creates jit_stack if not available.
-        void assignJitStack(){
-            if(!jit_stack) createJitStack();
-            if(jit_stack){//not else
-                if(!mcontext) createMatchContext();
-                if(mcontext) Pcre2Func<BS>::jit_stack_assign(mcontext, 0, jit_stack);
-            }
-        }
-        void freeJitStack(){
-            if(jit_stack) Pcre2Func<BS>::jit_stack_free(jit_stack);
-            jit_stack = 0;
-        }
-        void freeMatchContext(){
-            if(mcontext) Pcre2Func<BS>::match_context_free(mcontext);
-            mcontext = 0;
-        }
+        //~ void createJitStack(){
+            //~ freeJitStack();
+            //~ if(jit_stack_startsize) jit_stack = Pcre2Func<BS>::jit_stack_create(jit_stack_startsize, jit_stack_maxsize, 0);
+        //~ }
+        //~ void createMatchContext(){
+            //~ freeMatchContext();
+            //~ mcontext = Pcre2Func<BS>::match_context_create(0);
+        //~ }
+        //~ //this function creates jit_stack if not available.
+        //~ void assignJitStack(){
+            //~ if(!jit_stack) createJitStack();
+            //~ if(jit_stack){//not else
+                //~ if(!mcontext) createMatchContext();
+                //~ if(mcontext) Pcre2Func<BS>::jit_stack_assign(mcontext, 0, jit_stack);
+            //~ }
+        //~ }
+        //~ void freeJitStack(){
+            //~ if(jit_stack) Pcre2Func<BS>::jit_stack_free(jit_stack);
+            //~ jit_stack = 0;
+        //~ }
+        //~ void freeMatchContext(){
+            //~ if(mcontext) Pcre2Func<BS>::match_context_free(mcontext);
+            //~ mcontext = 0;
+        //~ }
         
         void init_vars() {
             re = 0;
@@ -1027,9 +1018,9 @@ struct select{
             _start_offset = 0;
             m_subject_ptr = &m_subject;
             mcontext = 0;
-            jit_stack = 0;
-            jit_stack_startsize = 0;
-            jit_stack_maxsize = 0;
+            //~ jit_stack = 0;
+            //~ jit_stack_startsize = 0;
+            //~ jit_stack_maxsize = 0;
         }
         
         void resetMaps(){
@@ -1066,10 +1057,11 @@ struct select{
             error_offset = rm.error_offset;
             _start_offset = rm._start_offset;
             
-            freeMatchContext();
-            if(rm.mcontext) mcontext = Pcre2Func<BS>::match_context_copy(rm.mcontext);
+            //~ freeMatchContext();
+            //~ if(rm.mcontext) mcontext = Pcre2Func<BS>::match_context_copy(rm.mcontext);
+            mcontext = rm.mcontext;
             //no need to copy jit_stack, it will be created if needed
-            setJitStackSize(rm.jit_stack_startsize, rm.jit_stack_maxsize);
+            //~ setJitStackSize(rm.jit_stack_startsize, rm.jit_stack_maxsize);
             
         }
 
@@ -1118,33 +1110,25 @@ struct select{
         
         ///Destructor
         ///Frees all internal memories that were used.
-        ///Thread safety: 
-        ///
-        ///1. MT safe if custom JIT stack was not used. (default behavior)
-        ///2. MT unsafe if custom JIT stack was used.
         virtual ~RegexMatch() { 
             delete num_sub; 
             delete nas_map; 
             delete ntn_map;
-            freeMatchContext();
-            freeJitStack();
+            //~ freeMatchContext();
+            //~ freeJitStack();
         } 
 
         /** Reset all class variables to its default (initial) state.
          * Data in the vectors will retain (It won't delete previous data in vectors)
          * You will need to pass vector pointers again after calling this function to get match results.
          * 
-         * Thread safety: 
-         *
-         * 1. MT safe if custom JIT stack was not used. (default behavior)
-         * 2. MT unsafe if custom JIT stack was used.
          * @return Reference to the calling RegexMatch object.
          * */
         virtual RegexMatch& reset() { 
             resetMaps();
             m_subject.clear(); //not ptr , external string won't be modified.
-            freeMatchContext();
-            freeJitStack();
+            //~ freeMatchContext();
+            //~ freeJitStack();
             init_vars();
             return *this; 
         } 
@@ -1409,42 +1393,42 @@ struct select{
             return *this;
         }
         
-        //~ ///Set the match context.
-        //~ ///You can create match context using the native PCRE2 API.
-        //~ ///The memory is not handled by RegexMatch object and not freed.
-        //~ ///User will be responsible for freeing the memory of the match context.
-        //~ ///@param match_context Pointer to the match context.
-        //~ ///@return Reference to the calling RegexMatch object
-        //~ virtual RegexMatch& setMatchContext(MatchContext *match_context){
-            //~ mcontext = match_context;
-            //~ return *this;
-        //~ }
-        
-        //the following is not thread safe. (pcre2_jit_stack_create function is not thread safe.)
-        ///Set JIT stack size.
-        ///Some large or complicated pattern may need more than the default stack size (32K).
-        ///A call to this function will create a new JIT memory on machine stack exclusively for this match object.
-        ///Any and all copies from this match object will also hold their respective exclusive JIT stack.
-        ///If this match object is copied into multiple other match objects, it may have a significant memory cost.
-        ///You can change/reset it to its default state by setting the startsize (first argument) to 0.
-        ///A call to `RegexMatch::reset()` will reset it to default along with others.
-        ///
-        ///Thread safety:
-        /// 
-        ///1. MT unsafe if called with non-zero value.
-        ///2. Also the next matching operations (RegexMatch::match()) will be MT unsafe.
-        ///3. Dummy call to this function is MT safe i.e calling it with zero-value when there was no previous custom JIT stack.
-        ///
-        ///@param startsize Starting JIT stack size (usually 32*1024).
-        ///@param maxsize Maximum size of JIT stack (512*1024 or 1024*1024 should be more than enough). A wrong value, such as less than the startsize will be corrected to startsize.
+        ///Set the match context.
+        ///You can create match context using the native PCRE2 API.
+        ///The memory is not handled by RegexMatch object and not freed.
+        ///User will be responsible for freeing the memory of the match context.
+        ///@param match_context Pointer to the match context.
         ///@return Reference to the calling RegexMatch object
-        virtual RegexMatch& setJitStackSize(PCRE2_SIZE startsize, PCRE2_SIZE maxsize){
-            jit_stack_startsize = startsize;
-            jit_stack_maxsize = maxsize;
-            if(jit_stack_maxsize < jit_stack_startsize) jit_stack_maxsize = jit_stack_startsize;
-            createJitStack();
+        virtual RegexMatch& setMatchContext(MatchContext *match_context){
+            mcontext = match_context;
             return *this;
         }
+        
+        //the following is not thread safe. (pcre2_jit_stack_create function is not thread safe.)
+        //~ ///Set JIT stack size.
+        //~ ///Some large or complicated pattern may need more than the default stack size (32K).
+        //~ ///A call to this function will create a new JIT memory on machine stack exclusively for this match object.
+        //~ ///Any and all copies from this match object will also hold their respective exclusive JIT stack.
+        //~ ///If this match object is copied into multiple other match objects, it may have a significant memory cost.
+        //~ ///You can change/reset it to its default state by setting the startsize (first argument) to 0.
+        //~ ///A call to `RegexMatch::reset()` will reset it to default along with others.
+        //~ ///
+        //~ ///Thread safety:
+        //~ /// 
+        //~ ///1. MT unsafe if called with non-zero value.
+        //~ ///2. Also the next matching operations (RegexMatch::match()) will be MT unsafe.
+        //~ ///3. Dummy call to this function is (C) MT safe i.e calling it with zero-value when there was no previous custom JIT stack.
+        //~ ///
+        //~ ///@param startsize Starting JIT stack size (usually 32*1024).
+        //~ ///@param maxsize Maximum size of JIT stack (512*1024 or 1024*1024 should be more than enough). A wrong value, such as less than the startsize will be corrected to startsize.
+        //~ ///@return Reference to the calling RegexMatch object
+        //~ virtual RegexMatch& setJitStackSize(PCRE2_SIZE startsize, PCRE2_SIZE maxsize){
+            //~ jit_stack_startsize = startsize;
+            //~ jit_stack_maxsize = maxsize;
+            //~ if(jit_stack_maxsize < jit_stack_startsize) jit_stack_maxsize = jit_stack_startsize;
+            //~ createJitStack();
+            //~ return *this;
+        //~ }
         
         /// After a call to this function PCRE2 and JPCRE2 options will be properly set.
         /// This function does not initialize or re-initialize options.
@@ -1526,22 +1510,17 @@ struct select{
             return *this; 
         }
         
-        ///Free unused JIT memory.
-        ///Thread safety: MT unsafe
-        virtual RegexMatch& freeUnusedJitMemory(){
-            Pcre2Func<BS>::jit_free_unused_memory(0);
-            return *this;
-        }
+        //~ ///Free unused JIT memory.
+        //~ ///Thread safety: MT unsafe
+        //~ virtual RegexMatch& freeUnusedJitMemory(){
+            //~ Pcre2Func<BS>::jit_free_unused_memory(0);
+            //~ return *this;
+        //~ }
 
         /// Perform match operaton using info from class variables and return the match count and
         /// store the results in specified vectors.
         /// 
         /// Note: This function uses pcre2_match() function to do the match.
-        ///
-        /// **Thread safety:** 
-        /// 
-        /// 1. MT safe if custom JIT stack was not used. (default)
-        /// 2. MT unsafe if custom JIT stack was used.
         ///@return Match count
         virtual SIZE_T match(void);
     }; 
@@ -1552,7 +1531,8 @@ struct select{
     ///`std::function` is used when `>=C++11` is being used , otherwise function pointer is used.
     ///You can force using function pointer instead of `std::function` when `>=C++11` is used by defining  the macro
     ///`JPCRE2_USE_FUNCTION_POINTER_CALLBACK` before including jpcre2.hpp.
-    ///**If you are using lambda function with capture, you must use the `std::function` approach:**
+    ///If you are using lambda function with capture, you must use the `std::function` approach.
+    ///
     ///The callback function takes exactly three positional arguments:
     ///@tparam T1 The first argument must be `const jp::NumSub&` aka `const std::vector<String>&` (or `void*` if not needed).
     ///@tparam T2 The second argument must be `const jp::MapNas&` aka `const std::map<String, size_t>&` (or `void*` if not needed).
@@ -1609,10 +1589,10 @@ struct select{
         private:
         friend class RegexReplace;
         
-        VecNum* vec_num;
-        VecNas* vec_nas;
-        VecNtN* vec_ntn;
-        
+        VecNum vec_num;
+        VecNas vec_nas;
+        VecNtN vec_ntn;
+        int callback;
         typename MatchEvaluatorCallBack<void*, void*, void*>::CallBack callback0;
         typename MatchEvaluatorCallBack<const NumSub&, void*, void*>::CallBack callback1;
         typename MatchEvaluatorCallBack<void*, const MapNas&, void*>::CallBack callback2;
@@ -1623,6 +1603,7 @@ struct select{
         typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, const MapNtN&>::CallBack callback7;
         
         void init(){
+            callback = 0;
             callback0 = 0;
             callback1 = 0;
             callback2 = 0;
@@ -1631,12 +1612,23 @@ struct select{
             callback5 = 0;
             callback6 = 0;
             callback7 = 0;
-            vec_num = 0;
-            vec_nas = 0;
-            vec_ntn = 0;
+        }
+        
+        void setVectorPointersAccordingToCallback(){
+            switch(callback){
+                case 0: break;
+                case 1: setNumberedSubstringVector(&vec_num);break;
+                case 2: setNamedSubstringVector(&vec_nas);break;
+                case 3: setNumberedSubstringVector(&vec_num).setNamedSubstringVector(&vec_nas);break;
+                case 4: setNameToNumberMapVector(&vec_ntn);break;
+                case 5: setNumberedSubstringVector(&vec_num).setNameToNumberMapVector(&vec_ntn);break;
+                case 6: setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn);break;
+                case 7: setNumberedSubstringVector(&vec_num).setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn);break;
+            }
         }
         
         void deepCopy(const MatchEvaluator& me) {
+            callback = me.callback;
             callback0 = me.callback0;
             callback1 = me.callback1;
             callback2 = me.callback2;
@@ -1645,15 +1637,7 @@ struct select{
             callback5 = me.callback5;
             callback6 = me.callback6;
             callback7 = me.callback7;
-            delete vec_num;
-            if(me.vec_num) vec_num = new VecNum(*(me.vec_num));
-            else vec_num = 0;
-            delete vec_nas;
-            if(me.vec_nas) vec_nas = new VecNas(*(me.vec_nas));
-            else vec_nas = 0;
-            delete vec_ntn;
-            if(me.vec_ntn) vec_ntn = new VecNtN(*(me.vec_ntn));
-            else vec_ntn = 0;
+            setVectorPointersAccordingToCallback();
         }
         
         //prevent public access to some funcitons
@@ -1710,18 +1694,19 @@ struct select{
         MatchEvaluator(typename MatchEvaluatorCallBack<void*, void*, void*>::CallBack mef): RegexMatch(){
             init();
             callback0 = mef;
+            callback = 0;
         }
         
         ///@overload
-        ///.
+        ///
         ///You will be working with a constant reference of NumSub vector.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, void*, void*>::CallBack mef): RegexMatch(){
             init();
             callback1 = mef;
-            vec_num = new VecNum();
-            setNumberedSubstringVector(vec_num);
+            callback = 1;
+            setNumberedSubstringVector(&vec_num);
         }
         
         ///@overload
@@ -1743,10 +1728,9 @@ struct select{
         MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, void*>::CallBack mef): RegexMatch(){
             init();
             callback3 = mef;
-            vec_num = new VecNum();
-            vec_nas = new VecNas();
-            setNumberedSubstringVector(vec_num);
-            setNamedSubstringVector(vec_nas);
+            callback = 3;
+            setNumberedSubstringVector(&vec_num);
+            setNamedSubstringVector(&vec_nas);
         }
         
         ///@overload
@@ -1768,10 +1752,9 @@ struct select{
         MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, void*,  const MapNtN&>::CallBack mef): RegexMatch(){
             init();
             callback5 = mef;
-            vec_num = new VecNum();
-            vec_ntn = new VecNtN();
-            setNumberedSubstringVector(vec_num);
-            setNameToNumberMapVector(vec_ntn);
+            callback = 5;
+            setNumberedSubstringVector(&vec_num);
+            setNameToNumberMapVector(&vec_ntn);
         }
         
         ///@overload
@@ -1793,12 +1776,10 @@ struct select{
         MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, const MapNtN&>::CallBack mef): RegexMatch(){
             init();
             callback7 = mef;
-            vec_num = new VecNum();
-            vec_nas = new VecNas();
-            vec_ntn = new VecNtN();
-            setNumberedSubstringVector(vec_num);
-            setNamedSubstringVector(vec_nas);
-            setNameToNumberMapVector(vec_ntn);
+            callback = 7;
+            setNumberedSubstringVector(&vec_num);
+            setNamedSubstringVector(&vec_nas);
+            setNameToNumberMapVector(&vec_ntn);
         }
         
         ///@overload
@@ -1820,8 +1801,8 @@ struct select{
         MatchEvaluator(typename MatchEvaluatorCallBack<void*, const MapNas&, void*>::CallBack mef): RegexMatch(){
             init();
             callback2 = mef;
-            vec_nas = new VecNas();
-            setNamedSubstringVector(vec_nas);
+            callback = 2;
+            setNamedSubstringVector(&vec_nas);
         }
         
         ///@overload
@@ -1843,10 +1824,9 @@ struct select{
         MatchEvaluator(typename MatchEvaluatorCallBack<void*, const MapNas&,  const MapNtN&>::CallBack mef): RegexMatch(){
             init();
             callback6 = mef;
-            vec_nas = new VecNas();
-            vec_ntn = new VecNtN();
-            setNamedSubstringVector(vec_nas);
-            setNameToNumberMapVector(vec_ntn);
+            callback = 6;
+            setNamedSubstringVector(&vec_nas);
+            setNameToNumberMapVector(&vec_ntn);
         }
         
         ///@overload
@@ -1868,8 +1848,8 @@ struct select{
         MatchEvaluator(typename MatchEvaluatorCallBack<void*, void*,  const MapNtN&>::CallBack mef): RegexMatch(){
             init();
             callback4 = mef;
-            vec_ntn = new VecNtN();
-            setNameToNumberMapVector(vec_ntn);
+            callback = 4;
+            setNameToNumberMapVector(&vec_ntn);
         }
         
         ///@overload
@@ -1892,11 +1872,7 @@ struct select{
             return *this;
         }
         
-        virtual ~MatchEvaluator(){
-            delete vec_num;
-            delete vec_nas;
-            delete vec_ntn;
-        }
+        virtual ~MatchEvaluator(){}
     };
     
     /** Provides public constructors to create RegexReplace objects.
@@ -2386,7 +2362,6 @@ struct select{
         ///2. Bad matching options such as `PCRE2_PARTIAL_HARD|PCRE2_PARTIAL_SOFT` will be removed.
         ///3. subject, start_offset and Regex object will change according to the RegexReplace object.
         ///
-        ///Thread safety: same as `RegexMatch::match()`.
         ///@param me A MatchEvaluator object.
         ///@return The resultant string after replacement.
         ///@see MatchEvaluator
@@ -3092,9 +3067,8 @@ struct select{
          * 
          * **Thread safety:** 
          * 
-         * 1. MT safe if JIT compile is not done.
+         * 1. (C) MT safe if JIT compile is not done.
          * 2. MT unsafe if JIT compile is done (e.g passing the 'S' modifier)
-         * 3. Matching operations will be MT safe if no custom JIT stack is created.
          *
          * 
          * @see Regex::compile(const String& re, Uint po, Uint jo)
@@ -3228,7 +3202,6 @@ struct select{
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          * 
-         *  Thread safety: same as `RegexMatch::match()`.
          * 
          *  @param s Subject string.
          *  @param mod Modifier string.
@@ -3241,10 +3214,9 @@ struct select{
         } 
         
         ///@overload
-        ///.
+        ///
         ///This action doesn not affect any class variables.
         ///The temporary object that is created is not further usable.
-        ///Thread safety: same as `RegexMatch::match()`.
         ///@param s Pointer to subject string.
         ///@param mod Modifier string.
         ///@param start_offset Offset from where matching will start in the subject string.
@@ -3255,10 +3227,9 @@ struct select{
         
         /** @overload
          * 
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
-         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Subject string.
          *  @param mod Modifier string.
          *  @return Match count
@@ -3270,11 +3241,10 @@ struct select{
         
         
         ///@overload
-        ///.
+        ///
         ///This action doesn not affect any class variables.
         ///The temporary object that is created is not further usable.
         ///
-        ///Thread safety: same as `RegexMatch::match()`.
         ///@param s Pointer to subject string.
         ///@param mod Modifier string.
         ///@return Match count
@@ -3285,11 +3255,10 @@ struct select{
 
         /** @overload
          * 
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          * 
-         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Subject string
          *  @param start_offset Offset from where matching will start in the subject string.
          *  @return Match count
@@ -3300,10 +3269,9 @@ struct select{
         } 
 
         /** @overload
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
-         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Pointer to subject string
          *  @param start_offset Offset from where matching will start in the subject string.
          *  @return Match count
@@ -3319,7 +3287,6 @@ struct select{
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          * 
-         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Subject string
          *  @return Match count
          *  @see RegexMatch::match()
@@ -3329,10 +3296,9 @@ struct select{
         }
         
         /** @overload
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
-         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Pointer to subject string
          *  @return Match count
          *  @see RegexMatch::match()
@@ -3343,7 +3309,6 @@ struct select{
         
         ///Shorthand for getMatchObject().match()
         ///This uses previously initiated match object i.e call RegexMatch::match() with all previous options intact.
-        ///Thread safety: same as `RegexMatch::match()`.
         ///@return Match count
         ///@see RegexMatch::match()
         SIZE_T match(){
@@ -3368,7 +3333,7 @@ struct select{
         } 
         
         /**@overload
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          *  @param mains Pointer to subject string
@@ -3382,7 +3347,7 @@ struct select{
         } 
         
         /**@overload
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          *  @param mains Subject string
@@ -3396,7 +3361,7 @@ struct select{
         } 
         
         /**@overload
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          *  @param mains Pointer to subject string
@@ -3410,7 +3375,7 @@ struct select{
         } 
 
         /** @overload
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          *  @param mains Subject string
@@ -3423,7 +3388,7 @@ struct select{
         } 
         
         /** @overload
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          *  @param mains Pointer to subject string
@@ -3436,7 +3401,7 @@ struct select{
         } 
         
         /** @overload
-         * .
+         *
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          *  @param mains Subject string
@@ -3449,7 +3414,7 @@ struct select{
         } 
         
         /** @overload
-         * .
+         * 
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          *  @param mains Pointer to subject string
@@ -3652,14 +3617,10 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
     String res;
     //set the re object to point to the re object corresponding to replace object
     me.setRegexObject(re);
-    //store vector pointers
-    VecNum* vec_num_ptr = me.getNumberedSubstringVector();
-    VecNas* vec_nas_ptr = me.getNamedSubstringVector();
-    VecNtN* vec_ntn_ptr = me.getNameToNumberMapVector();
     //set subject and start offset
     me.setSubject(r_subject_ptr).setStartOffset(_start_offset);
     //global replacement will force global match and vice versa
-    if((replace_opts & PCRE2_SUBSTITUTE_GLOBAL)!=0) me.setFindAll(true); //true is default
+    if((replace_opts & PCRE2_SUBSTITUTE_GLOBAL)!=0) me.setFindAll(); //true is default
     else me.setFindAll(false);
     //remove bad match options
     me.changePcre2Option(PCRE2_PARTIAL_HARD|PCRE2_PARTIAL_SOFT, false);
@@ -3669,29 +3630,23 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
     me.setMatchStartOffsetVector(&start_off).setMatchEndOffsetVector(&end_off);
     //finaly perform the match
     size_t count = me.match();
-    //determine the mode
-    // num=1, nas=2, ntn=4, num+nas=3, num+ntn=5, nas+ntn=6, num+nas+ntn=7
-    int mode  = 0;
-    if(vec_num_ptr) mode += 1;
-    if(vec_nas_ptr) mode += 2;
-    if(vec_ntn_ptr) mode += 4;
     
     //loop through the matches
     size_t current_offset = 0;
+    
     for(size_t i=0;i<count;++i){
         //first copy the unmatched part
         res += r_subject_ptr->substr(current_offset, start_off[i]-current_offset);
         //now process the matched part
-        switch(mode){
+        switch(me.callback){
             case 0: res += me.callback0((void*)0, (void*)0, (void*)0); break;
-            case 1: res += me.callback1((*vec_num_ptr)[i], (void*)0, (void*)0); break;
-            case 2: res += me.callback2((void*)0, (*vec_nas_ptr)[i], (void*)0); break;
-            case 3: res += me.callback3((*vec_num_ptr)[i], (*vec_nas_ptr)[i], (void*)0); break;
-            case 4: res += me.callback4((void*)0, (void*)0, (*vec_ntn_ptr)[i]); break;
-            case 5: res += me.callback5((*vec_num_ptr)[i], (void*)0, (*vec_ntn_ptr)[i]); break;
-            case 6: res += me.callback6((void*)0, (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]); break;
-            case 7: res += me.callback7((*vec_num_ptr)[i], (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]); break;
-            default: break;
+            case 1: res += me.callback1(me.vec_num[i], (void*)0, (void*)0); break;
+            case 2: res += me.callback2((void*)0, me.vec_nas[i], (void*)0); break;
+            case 3: res += me.callback3(me.vec_num[i], me.vec_nas[i], (void*)0); break;
+            case 4: res += me.callback4((void*)0, (void*)0, me.vec_ntn[i]); break;
+            case 5: res += me.callback5(me.vec_num[i], (void*)0, me.vec_ntn[i]); break;
+            case 6: res += me.callback6((void*)0, me.vec_nas[i], me.vec_ntn[i]); break;
+            case 7: res += me.callback7(me.vec_num[i], me.vec_nas[i], me.vec_ntn[i]); break;
         }
         //reset the current offset
         current_offset = end_off[i];
@@ -3948,10 +3903,10 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     if(vec_soff) vec_soff->clear();
     if(vec_eoff) vec_eoff->clear();
 
-    //check if jit code is available and assign jit stack if user wants it.
-    SIZE_T jit_size = 0;
-    Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_JITSIZE, &jit_size);
-    if(jit_size && jit_stack_startsize) assignJitStack();
+    //~ //check if jit code is available and assign jit stack if user wants it.
+    //~ SIZE_T jit_size = 0;
+    //~ Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_JITSIZE, &jit_size);
+    //~ if(jit_size && jit_stack_startsize) assignJitStack();
 
     /* Using this function ensures that the block is exactly the right size for
      the number of capturing parentheses in the pattern. */
