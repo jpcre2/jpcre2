@@ -1593,21 +1593,39 @@ struct select{
         private:
         friend class RegexReplace;
         
-        void* callback;
         VecNum* vec_num;
         VecNas* vec_nas;
         VecNtN* vec_ntn;
         
+        typename MatchEvaluatorCallBack<const NumSub&, void*, void*>::CallBack callback1;
+        typename MatchEvaluatorCallBack<void*, const MapNas&, void*>::CallBack callback2;
+        typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, void*>::CallBack callback3;
+        typename MatchEvaluatorCallBack<void*, void*, const MapNtN&>::CallBack callback4;
+        typename MatchEvaluatorCallBack<const NumSub&, void*, const MapNtN&>::CallBack callback5;
+        typename MatchEvaluatorCallBack<void*, const MapNas&, const MapNtN&>::CallBack callback6;
+        typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, const MapNtN&>::CallBack callback7;
         
         void init(){
-            callback = 0;
+            callback1 = 0;
+            callback2 = 0;
+            callback3 = 0;
+            callback4 = 0;
+            callback5 = 0;
+            callback6 = 0;
+            callback7 = 0;
             vec_num = 0;
             vec_nas = 0;
             vec_ntn = 0;
         }
         
         void deepCopy(const MatchEvaluator& me) {
-            callback = me.callback;
+            callback1 = me.callback1;
+            callback2 = me.callback2;
+            callback3 = me.callback3;
+            callback4 = me.callback4;
+            callback5 = me.callback5;
+            callback6 = me.callback6;
+            callback7 = me.callback7;
             delete vec_num;
             if(me.vec_num) vec_num = new VecNum(*(me.vec_num));
             else vec_num = 0;
@@ -1667,22 +1685,12 @@ struct select{
         public:
         
         ///Constructor taking function with a NumSub vector.
-        ///You will be working with a copy of the vector.
+        ///You will be working with a constant reference of the vector.
         ///@param mef Callback function.
-        MatchEvaluator(typename MatchEvaluatorCallBack<NumSub, void*, void*>::CallBack mef): RegexMatch(){
-            init();
-            callback = &mef;
-            vec_num = new VecNum();
-            setNumberedSubstringVector(vec_num);
-        }
-        
-        ///@overload
-        ///
-        ///Takes function with a const NumSub reference (no copy).
-        ///@param mef Callback function.
+        explicit
         MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, void*, void*>::CallBack mef): RegexMatch(){
             init();
-            callback = &mef;
+            callback1 = mef;
             vec_num = new VecNum();
             setNumberedSubstringVector(vec_num);
         }
@@ -1690,11 +1698,22 @@ struct select{
         ///@overload
         ///
         ///Takes function with a NumSub and MapNas.
-        ///You will be working with copies of the vectors.
+        ///You will be working with constant references of the vectors.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_nas["word"]; //wrong
+        ///map_nas.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNas mn = map_nas;
+        ///mn["word"]; //ok
+        ///```
         ///@param mef Callback function.
-        MatchEvaluator(typename MatchEvaluatorCallBack<NumSub, MapNas, void*>::CallBack mef): RegexMatch(){
+        explicit
+        MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, void*>::CallBack mef): RegexMatch(){
             init();
-            callback = &mef;
+            callback3 = mef;
             vec_num = new VecNum();
             vec_nas = new VecNas();
             setNumberedSubstringVector(vec_num);
@@ -1704,11 +1723,22 @@ struct select{
         ///@overload
         ///
         ///Takes function with a NumSub and MapNtN.
-        ///You will be working with copies of the vectors.
+        ///You will be working with constant references of the vectors.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_ntn["word"]; //wrong
+        ///map_ntn.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNtN mn = map_ntn;
+        ///mn["word"]; //ok
+        ///```
         ///@param mef Callback function.
-        MatchEvaluator(typename MatchEvaluatorCallBack<NumSub, void*,  MapNtN>::CallBack mef): RegexMatch(){
+        explicit
+        MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, void*,  const MapNtN&>::CallBack mef): RegexMatch(){
             init();
-            callback = &mef;
+            callback5 = mef;
             vec_num = new VecNum();
             vec_ntn = new VecNtN();
             setNumberedSubstringVector(vec_num);
@@ -1718,11 +1748,22 @@ struct select{
         ///@overload
         ///
         ///Takes function with a NumSub, MapNas, MapNtN.
-        ///You will be working with copies of the vectors.
+        ///You will be working with constant references of the vectors.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_nas["word"]; //wrong
+        ///map_nas.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNas mn = map_nas;
+        ///mn["word"]; //ok
+        ///```
         ///@param mef Callback function.
-        MatchEvaluator(typename MatchEvaluatorCallBack<NumSub, MapNas, MapNtN>::CallBack mef): RegexMatch(){
+        explicit
+        MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, const MapNtN&>::CallBack mef): RegexMatch(){
             init();
-            callback = &mef;
+            callback7 = mef;
             vec_num = new VecNum();
             vec_nas = new VecNas();
             vec_ntn = new VecNtN();
@@ -1734,11 +1775,22 @@ struct select{
         ///@overload
         ///
         ///Takes function with a MapNas.
-        ///You will be working with a copy of the vector.
+        ///You will be working with constant reference of the vector.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_nas["word"]; //wrong
+        ///map_nas.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNas mn = map_nas;
+        ///mn["word"]; //ok
+        ///```
         ///@param mef Callback function.
-        MatchEvaluator(typename MatchEvaluatorCallBack<void*, MapNas, void*>::CallBack mef): RegexMatch(){
+        explicit
+        MatchEvaluator(typename MatchEvaluatorCallBack<void*, const MapNas&, void*>::CallBack mef): RegexMatch(){
             init();
-            callback = &mef;
+            callback2 = mef;
             vec_nas = new VecNas();
             setNamedSubstringVector(vec_nas);
         }
@@ -1746,11 +1798,22 @@ struct select{
         ///@overload
         ///
         ///Takes function with a MapNas, MapNtN.
-        ///You will be working with copies of the vectors.
+        ///You will be working with constant reference of the vector.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_nas["word"]; //wrong
+        ///map_nas.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNas mn = map_nas;
+        ///mn["word"]; //ok
+        ///```
         ///@param mef Callback function.
-        MatchEvaluator(typename MatchEvaluatorCallBack<void*, MapNas,  MapNtN>::CallBack mef): RegexMatch(){
+        explicit
+        MatchEvaluator(typename MatchEvaluatorCallBack<void*, const MapNas&,  const MapNtN&>::CallBack mef): RegexMatch(){
             init();
-            callback = &mef;
+            callback6 = mef;
             vec_nas = new VecNas();
             vec_ntn = new VecNtN();
             setNamedSubstringVector(vec_nas);
@@ -1760,11 +1823,22 @@ struct select{
         ///@overload
         ///
         ///Takes function with a MapNtN.
-        ///You will be working with a copy of the vector.
+        ///You will be working with constant references of the vectors.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_ntn["word"]; //wrong
+        ///map_ntn.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNtN mn = map_ntn;
+        ///mn["word"]; //ok
+        ///```
         ///@param mef Callback function.
-        MatchEvaluator(typename MatchEvaluatorCallBack<void*, void*,  MapNtN>::CallBack mef): RegexMatch(){
+        explicit
+        MatchEvaluator(typename MatchEvaluatorCallBack<void*, void*,  const MapNtN&>::CallBack mef): RegexMatch(){
             init();
-            callback = &mef;
+            callback4 = mef;
             vec_ntn = new VecNtN();
             setNameToNumberMapVector(vec_ntn);
         }
@@ -3528,32 +3602,25 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
         //now process the matched part
         switch(mode){
             case 1:
-                res += (*(typename MatchEvaluatorCallBack<const NumSub&, void*, void*>::CallBack*)
-                                (me.callback))((*vec_num_ptr)[i], 0, 0);
+                res += me.callback1((*vec_num_ptr)[i], 0, 0);
                 break;
             case 2:
-                res += (*(typename MatchEvaluatorCallBack<void*, const MapNas&, void*>::CallBack*)
-                                (me.callback))(0, (*vec_nas_ptr)[i], 0);
+                res += me.callback2(0, (*vec_nas_ptr)[i], 0);
                 break;
             case 3:
-                res += (*(typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, void*>::CallBack*)
-                                (me.callback))((*vec_num_ptr)[i], (*vec_nas_ptr)[i], 0);
+                res += me.callback3((*vec_num_ptr)[i], (*vec_nas_ptr)[i], 0);
                 break;
             case 4:
-                res += (*(typename MatchEvaluatorCallBack<void*, void*, const MapNtN&>::CallBack*)
-                                (me.callback))(0, 0, (*vec_ntn_ptr)[i]);
+                res += me.callback4(0, 0, (*vec_ntn_ptr)[i]);
                 break;
             case 5:
-                res += (*(typename MatchEvaluatorCallBack<const NumSub&, void*, const MapNtN&>::CallBack*)
-                                (me.callback))((*vec_num_ptr)[i], 0, (*vec_ntn_ptr)[i]);
+                res += me.callback5((*vec_num_ptr)[i], 0, (*vec_ntn_ptr)[i]);
                 break;
             case 6:
-                res += (*(typename MatchEvaluatorCallBack<void*, const MapNas&, const MapNtN&>::CallBack*)
-                                (me.callback))(0, (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]);
+                res += me.callback6(0, (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]);
                 break;
             case 7:
-                res += (*(typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, const MapNtN&>::CallBack*)
-                                (me.callback))((*vec_num_ptr)[i], (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]);
+                res += me.callback7((*vec_num_ptr)[i], (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]);
                 break;
         }
         //reset the current offset
