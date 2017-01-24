@@ -36,4 +36,3 @@ covclean:
 	@printf "\n--- configure with --enable-coverage to run coverage ---\n\n"
 
 endif
-
