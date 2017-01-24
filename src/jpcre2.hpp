@@ -1,7 +1,7 @@
 /* *****************************************************************************
  * ******************* C++ wrapper for PCRE2 Library ****************************
  * *****************************************************************************
- *            Copyright (c) 2015-2016 Md. Jahidul Hamid
+ *            Copyright (c) 2015-2017 Md. Jahidul Hamid
  * 
  * -----------------------------------------------------------------------------
  * Redistribution and use in source and binary forms, with or without
@@ -35,8 +35,11 @@
 
 /** @file jpcre2.hpp
  * @brief Main header file for JPCRE2 library to be included by programs that uses its functionalities.
- * It includes the pcre2.h header, therefore you shouldn't include pcre2.h
- * separately in your program. Make sure to link PCRE2 library when compiling.
+ * It includes the `pcre2.h` header, therefore you shouldn't include `pcre2.h`, neither should you define `PCRE2_CODE_UNIT_WIDTH` before including
+ * `jpcre2.hpp`.
+ * If your `pcre2.h` header is not in the standard include path, you may include `pcre2.h` with correct path before including `jpcre2.hpp`
+ * manually. In this case you will have to define `PCRE2_CODE_UNIT_WIDTH` before including `pcre2.h`.
+ * Make sure to link required PCRE2 libraries when compiling.
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  */
 
@@ -757,7 +760,7 @@ template<typename Char_T> struct ConvInt<Char_T, typename EnableIf<
 IsSame<Char_T, char16_t>::value|IsSame<Char_T, char32_t>::value, Char_T>::Type>{
     
     ///Converts integer to std::u16string/std::u32string.
-    ///Uses codecvt for conversion.
+    ///Uses `std::codecvt` for conversion.
     ///@param x int to convert
     ///@return std::u16string/std::u32string from the integer
     static std::basic_string<Char_T> toString(int x){
@@ -893,7 +896,7 @@ struct select{
         return toString((Pcre2Uchar*) buffer);
     }          
     
-    ///Retruns error message (either JPCRE2 or PCRE2) from error number and error offset
+    ///Returns error message (either JPCRE2 or PCRE2) from error number and error offset
     ///@param err_num error number (negative for PCRE2, positive for JPCRE2)
     ///@param err_off error offset
     ///@return message as jpcre2::select::String.
@@ -940,7 +943,7 @@ struct select{
         int error_number;
         PCRE2_SIZE error_offset;
         MatchContext *mcontext;
-        //Managing jit stack brings thread unsafety
+        //Managing jit stack spoils thread safety
         JitStack *jit_stack;
         PCRE2_SIZE jit_stack_startsize;
         PCRE2_SIZE jit_stack_maxsize;
@@ -1034,7 +1037,7 @@ struct select{
             if(rm.m_subject_ptr == &rm.m_subject) m_subject_ptr = &m_subject; //not &rm.m_subject
             else m_subject_ptr = rm.m_subject_ptr;
                         
-            //undelying data of vectors are not handled by RegexMatch
+            //underlying data of vectors are not handled by RegexMatch
             //thus it's safe to just copy the pointers.
             vec_num = rm.vec_num;
             vec_nas = rm.vec_nas;
@@ -1088,7 +1091,7 @@ struct select{
         }
         
         ///Overloaded copy-assignment operator
-        ///Allowes assigning objects like this:
+        ///Allows assigning objects like this:
         ///```cpp
         ///RegexMatch rm;
         ///rm = RegexMatch(&re);
@@ -1509,11 +1512,11 @@ struct select{
 
     
     ///This class contains a typedef of a function pointer or a templated function wrapper (`std::function`)
-    ///to provide callback funtion to the `MatchEvaluator`.
+    ///to provide callback function to the `MatchEvaluator`.
     ///`std::function` is used when `>=C++11` is being used , otherwise function pointer is used.
     ///You can force using function pointer instead of `std::function` when `>=C++11` is used by defining  the macro
     ///`JPCRE2_USE_FUNCTION_POINTER_CALLBACK` before including jpcre2.hpp.
-    ///**If you are using lamda function with capture, you must use the `std::function` approach:**
+    ///**If you are using lambda function with capture, you must use the `std::function` approach:**
     ///The callback function takes exactly three positional arguments:
     ///@tparam T1 The first argument must be `const jp::NumSub&` aka `const std::vector<String>&` (or `void*` if not needed).
     ///@tparam T2 The second argument must be `const jp::MapNas&` aka `const std::map<String, size_t>&` (or `void*` if not needed).
@@ -1563,7 +1566,7 @@ struct select{
     ///
     ///Each of the constructors takes a callback function as argument (see `MatchEvaluatorCallBack`).
     ///An instance of this class can be passed with `RegexReplace::nreplace()` function to perform replace
-    ///accordig to this match evaluator.
+    ///according to this match evaluator.
     ///@see MatchEvaluatorCallBack
     ///@see RegexReplace::nreplace()
     class MatchEvaluator: virtual public RegexMatch{
@@ -2343,7 +2346,7 @@ struct select{
         ///This function modifies the associated MatchEvaluator as mentioned below:
         ///1. Global replacment will set FIND_ALL for match, unset otherwise.
         ///2. Bad matching options such as `PCRE2_PARTIAL_HARD|PCRE2_PARTIAL_SOFT` will be removed.
-        ///3. subject, start_offset and Regex object will change accoding to the RegexReplace object.
+        ///3. subject, start_offset and Regex object will change according to the RegexReplace object.
         ///
         ///@param me A MatchEvaluator object.
         ///@return The resultant string after replacement.
@@ -2354,10 +2357,10 @@ struct select{
     }; 
  
  
-    /** Provides public constructos to create Regex object.
+    /** Provides public constructors to create Regex object.
      * Each regex pattern needs an object of this class and each pattern needs to be compiled.
      * Pattern compilation can be done using one of its' overloaded constructors or the `Regex::compile()`
-     * memeber function.
+     * member function.
      * 
      * This class can contain a RegexMatch or RegexReplace object if desired. RegexMatch
      * object can be created either with Regex::initMatch() or Regex::getMatchObject() member function.
@@ -2616,7 +2619,7 @@ struct select{
         #if __cplusplus >= 201103L
         
         /** Provides boolean check for the status of the object.
-         *  This overlaoded boolean operator needs to be declared
+         *  This overloaded boolean operator needs to be declared
          *  explicit to prevent implicit conversion and overloading issues.
          *
          *  We will only enable it if >=C++11 is being used, as the explicit keyword
@@ -3370,7 +3373,7 @@ struct select{
         }
 
         /** Shorthand for getReplaceObject().replace()
-         *  All prevously set options will be used. It's just a short hand
+         *  All previously set options will be used. It's just a short hand
          *  for calling `re.getReplaceObject().replace()`
          *  @return Resultant string after regex replace
          *  @see RegexReplace::replace()
