@@ -12,6 +12,7 @@ Version 10.29.01 - Mon Jan 23 12:23:12 UTC 2017
 6. `RegexMatch::match()` and `RegexReplace::replace()` function will no longer take any argument.
 7. Add `RegexReplace::setMatchContext()` and `RegexReplace::setMatchData()` function.
 8. Add `RegexMatch::setJitStackSize()` and `RegexMatch::freeUnusedJitMemory()` function.
+9. MatchEvaluatorCallback function will use const reference of vectors.
 
 
 Version 10.28.12 - Sun Jan 22 10:34:35 UTC 2016

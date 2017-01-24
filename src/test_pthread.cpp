@@ -25,14 +25,7 @@ struct MyRegex{
     jp::Regex re[5];
     MyRegex(){
         re[0].compile("\\w","i");
-        
-        //The S modifier is for JIT compile.
-        //The PCRE2 function pcre2_jit_compile is MT unsafe,
-        //thus you need lock when you use JIT compile:
-        pthread_mutex_lock( &mutex1 );
-        re[1].compile("\\d","iS");
-        pthread_mutex_unlock( &mutex1);
-        
+        re[1].compile("\\d","i");
         re[2].compile("\\d\\w+","i");
         re[3].compile("\\d\\w\\s","m");
         re[4].compile("[\\w\\s]+","m");
@@ -40,30 +33,36 @@ struct MyRegex{
 };
 
 void *task(void *arg){
+    {
     MyRegex re;
     std::string sub[5] = {"subject1", "123456789", "1a2b3c", "1a 2b 3c ", "I am a string"};
     for(int i = 0;i<5; ++i){
         re.re[i].match(sub[i], "g");
     }
+    }
     return 0;
 }
 
 void *thread_safe_fun1(void *arg){ //uses no global or static variable, thus thread safe.
+    {
 	jp::Regex re("\\w", "i"); 
 	re.getMatchObject().setSubject("fdsf").setModifier("g").match();
+    }
     return 0;
 }
 
 void* thread_safe_fun2(void* arg){//uses no global or static variable, thus thread safe.
+    {
     jp::Regex re("\\w", "g");
     jp::RegexMatch rm(&re);
     
     //jit related functions are thread unsafe
-    pthread_mutex_lock( &mutex3 );
-    rm.setJitStackSize(32*1024,0);
-    pthread_mutex_unlock( &mutex3 );
+    //~ pthread_mutex_lock( &mutex3 );
+    //~ rm.setJitStackSize(32*1024,0);
+    //~ pthread_mutex_unlock( &mutex3 );
     
     rm.setSubject("fdsf").setModifier("g").match();
+    }
     return 0;
 }
 
@@ -82,8 +81,10 @@ void *thread_unsafe_fun1(void *arg){ //uses global variable 'rec', thus thread u
 thread_local jp::Regex rec1("\\w", "g");
 
 void *thread_safe_fun3(void *arg){ //uses thread_local global variable 'rec1', thus thread safe.
+    {
     jp::RegexMatch rm(&rec1);
     rm.setSubject("fdsf").setModifier("g").match();
+    }
     return 0;
 }
 #endif
