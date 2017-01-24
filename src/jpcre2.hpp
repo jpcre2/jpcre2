@@ -37,9 +37,19 @@
  * @brief Main header file for JPCRE2 library to be included by programs that uses its functionalities.
  * It includes the `pcre2.h` header, therefore you shouldn't include `pcre2.h`, neither should you define `PCRE2_CODE_UNIT_WIDTH` before including
  * `jpcre2.hpp`.
- * If your `pcre2.h` header is not in the standard include path, you may include `pcre2.h` with correct path before including `jpcre2.hpp`
+ * If your `pcre2.h` header is not in standard include paths, you may include `pcre2.h` with correct path before including `jpcre2.hpp`
  * manually. In this case you will have to define `PCRE2_CODE_UNIT_WIDTH` before including `pcre2.h`.
  * Make sure to link required PCRE2 libraries when compiling.
+ * 
+ * ### Compatibility with compilers:
+ * 
+ * 1. To use JPCRE2 in its full capability, use latest compilers with full C++11 support.
+ * 2. Use `>=C++11` with modern compilers to use `C++11` specific features.
+ * 3. If you use `>=C++11`, make sure it comes with `wstring_convert` which is required
+ * for supporting `char16_t` and `char32_t`, though you can disable `char16_t` and `char32_t` support by defining `JPCRE2_DISABLE_CHAR1632`
+ * before including `jpcre2.hpp`.
+ * 4. If you don't use C++11, you should be OK with older compilers.
+ * 
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  */
 
@@ -72,7 +82,9 @@
 #include <cstring>      // std::memcpy
 
 #if __cplusplus >= 201103L
-    #include <locale>       // std::codecvt, std::wstring_convert
+    #if !defined JPCRE2_DISABLE_CHAR1632
+        #include <locale>       // std::codecvt, std::wstring_convert
+    #endif
     #ifndef JPCRE2_USE_FUNCTION_POINTER_CALLBACK
         #include <functional>   // std::function
     #endif
@@ -656,13 +668,13 @@ template<typename Char_T> struct MSG{
 //specialization
 template<> inline std::basic_string<char> MSG<char>::INVALID_MODIFIER(){ return "Invalid modifier: "; }
 template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INVALID_MODIFIER(){ return L"Invalid modifier: "; }
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L && !defined JPCRE2_DISABLE_CHAR1632
 template<> inline std::basic_string<char16_t> MSG<char16_t>::INVALID_MODIFIER(){ return u"Invalid modifier: "; }
 template<> inline std::basic_string<char32_t> MSG<char32_t>::INVALID_MODIFIER(){ return U"Invalid modifier: "; }
 #endif
 
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L && !defined JPCRE2_DISABLE_CHAR1632
 
 //Convenience wrapper of std::codecvt (`>=C++11`)
 template <class internT, class externT, class stateT>
@@ -724,7 +736,7 @@ typedef ConvUTF<char32_t>::Converter Convert32;
 template<typename Char_T, typename T = Char_T> struct ConvInt{
     ///Converts an integer to string.
     ///String may be `std::string`, `std::wstring`
-    ///(+ `std::u16string`, `std::u32string` if `JPCR2_USE_CHAR1632` is used)
+    ///(+ `std::u16string`, `std::u32string` if `>=C++11` is used)
     ///@param x the integer to convert
     ///@return `std::string`/`std::wstring`/`std::u16string`/`std::u32string` from the integer
     std::basic_string<Char_T> toString(int x);
@@ -754,7 +766,7 @@ template<> inline int ConvInt<wchar_t>::mysprint(wchar_t* buf, size_t size, int 
 }
 
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L && !defined JPCRE2_DISABLE_CHAR1632
 
 template<typename Char_T> struct ConvInt<Char_T, typename EnableIf<
 IsSame<Char_T, char16_t>::value|IsSame<Char_T, char32_t>::value, Char_T>::Type>{
@@ -1104,6 +1116,12 @@ struct select{
             return *this;
         }
         
+        ///Destructor
+        ///Frees all internal memories that were used.
+        ///Thread safety: 
+        ///
+        ///1. MT safe if custom JIT stack was not used. (default behavior)
+        ///2. MT unsafe if custom JIT stack was used.
         virtual ~RegexMatch() { 
             delete num_sub; 
             delete nas_map; 
@@ -1115,6 +1133,11 @@ struct select{
         /** Reset all class variables to its default (initial) state.
          * Data in the vectors will retain (It won't delete previous data in vectors)
          * You will need to pass vector pointers again after calling this function to get match results.
+         * 
+         * Thread safety: 
+         *
+         * 1. MT safe if custom JIT stack was not used. (default behavior)
+         * 2. MT unsafe if custom JIT stack was used.
          * @return Reference to the calling RegexMatch object.
          * */
         virtual RegexMatch& reset() { 
@@ -1405,6 +1428,13 @@ struct select{
         ///If this match object is copied into multiple other match objects, it may have a significant memory cost.
         ///You can change/reset it to its default state by setting the startsize (first argument) to 0.
         ///A call to `RegexMatch::reset()` will reset it to default along with others.
+        ///
+        ///Thread safety:
+        /// 
+        ///1. MT unsafe if called with non-zero value.
+        ///2. Also the next matching operations (RegexMatch::match()) will be MT unsafe.
+        ///3. Dummy call to this function is MT safe i.e calling it with zero-value when there was no previous custom JIT stack.
+        ///
         ///@param startsize Starting JIT stack size (usually 32*1024).
         ///@param maxsize Maximum size of JIT stack (512*1024 or 1024*1024 should be more than enough). A wrong value, such as less than the startsize will be corrected to startsize.
         ///@return Reference to the calling RegexMatch object
@@ -1497,6 +1527,7 @@ struct select{
         }
         
         ///Free unused JIT memory.
+        ///Thread safety: MT unsafe
         virtual RegexMatch& freeUnusedJitMemory(){
             Pcre2Func<BS>::jit_free_unused_memory(0);
             return *this;
@@ -1506,6 +1537,11 @@ struct select{
         /// store the results in specified vectors.
         /// 
         /// Note: This function uses pcre2_match() function to do the match.
+        ///
+        /// **Thread safety:** 
+        /// 
+        /// 1. MT safe if custom JIT stack was not used. (default)
+        /// 2. MT unsafe if custom JIT stack was used.
         ///@return Match count
         virtual SIZE_T match(void);
     }; 
@@ -2343,17 +2379,19 @@ struct select{
         ///The string returned by the callback function will be treated as literal and will
         ///not go through any further processing.
         ///
-        ///This function modifies the associated MatchEvaluator as mentioned below:
+        ///This function works on a copy of the MatchEvaluator, and thus makes no changes
+        ///to the original. The copy is modified as below:
+        ///
         ///1. Global replacment will set FIND_ALL for match, unset otherwise.
         ///2. Bad matching options such as `PCRE2_PARTIAL_HARD|PCRE2_PARTIAL_SOFT` will be removed.
         ///3. subject, start_offset and Regex object will change according to the RegexReplace object.
         ///
+        ///Thread safety: same as `RegexMatch::match()`.
         ///@param me A MatchEvaluator object.
         ///@return The resultant string after replacement.
         ///@see MatchEvaluator
         ///@see MatchEvaluatorCallBack
         String nreplace(MatchEvaluator me);
-        
     }; 
  
  
@@ -2491,6 +2529,7 @@ struct select{
         } 
 
         /** Compile pattern with initialization.
+         *  Thread safety: same as `Regex::compile()`.
          *  @param re Pattern string
          * */
         Regex(const String& re) {
@@ -2499,6 +2538,7 @@ struct select{
         } 
 
         /** Compile pattern with initialization.
+         *  Thread safety: same as `Regex::compile()`.
          *  @param re Pointer to pattern string
          * */
         Regex(const String* re) {
@@ -2510,6 +2550,7 @@ struct select{
          *
          *
          *  Compile pattern with initialization.
+         *  Thread safety: same as `Regex::compile()`.
          *  @param re Pattern string
          *  @param mod Modifier string
          * */
@@ -2522,6 +2563,7 @@ struct select{
          *
          *
          *  Compile pattern with initialization.
+         *  Thread safety: same as `Regex::compile()`.
          *  @param re Pointer to pattern string
          *  @param mod Modifier string
          * */
@@ -2534,6 +2576,7 @@ struct select{
          *
          *
          *  Compile pattern with initialization.
+         *  Thread safety: same as `Regex::compile()`.
          *  @param re Pattern string
          *  @param pcre2_opts PCRE2 option value
          * */
@@ -2546,6 +2589,7 @@ struct select{
          *
          *
          *  Compile pattern with initialization.
+         *  Thread safety: same as `Regex::compile()`.
          *  @param re Pointer to pattern string
          *  @param pcre2_opts PCRE2 option value
          * */
@@ -2558,6 +2602,7 @@ struct select{
          *
          *
          *  Compile pattern with initialization.
+         *  Thread safety: same as `Regex::compile()`.
          *  @param re Pattern string
          *  @param pcre2_opts    PCRE2 option value
          *  @param opt_bits        JPCRE2 option value
@@ -2571,6 +2616,7 @@ struct select{
          *
          *
          *  Compile pattern with initialization.
+         *  Thread safety: same as `Regex::compile()`.
          *  @param re Pointer to pattern string
          *  @param pcre2_opts    PCRE2 option value
          *  @param opt_bits        JPCRE2 option value
@@ -2589,6 +2635,8 @@ struct select{
         /// No change is made to the original Regex object or their associated
         /// RegexMatch and RegexReplace objects.
         /// A separate and new compile is performed from the copied options.
+        ///
+        ///Thread safety: same as `Regex::compile()`.
         /// @param r Constant reference to a Regex object.
         Regex(const Regex& r) {
             init_vars();
@@ -2608,6 +2656,7 @@ struct select{
         /// Regex re2;
         /// re2 = re;
         /// ```
+        ///Thread safety: same as `Regex::compile()`.
         /// @param r const Regex&
         /// @return *this
         Regex& operator=(const Regex& r) { 
@@ -3040,7 +3089,14 @@ struct select{
         } 
 
         /**Compile pattern using info from class variables.
+         * 
+         * **Thread safety:** 
+         * 
+         * 1. MT safe if JIT compile is not done.
+         * 2. MT unsafe if JIT compile is done (e.g passing the 'S' modifier)
+         * 3. Matching operations will be MT safe if no custom JIT stack is created.
          *
+         * 
          * @see Regex::compile(const String& re, Uint po, Uint jo)
          * @see Regex::compile(const String& re, Uint po)
          * @see Regex::compile(const String& re, const std::string& mod)
@@ -3050,6 +3106,8 @@ struct select{
 
         /** @overload
          *
+         *
+         * Thread safety: same as `Regex::compile()`.
          *
          *  Set the specified parameters, then compile the pattern using information from class variables.
          *  @param re Pattern string
@@ -3064,6 +3122,8 @@ struct select{
         /** @overload
          *
          *
+         * Thread safety: same as `Regex::compile()`.
+         *
          *  Set the specified parameters, then compile the pattern using information from class variables.
          *  @param re Pointer to pattern string
          *  @param po PCRE2 option
@@ -3077,6 +3137,8 @@ struct select{
         /** @overload
          *
          *
+         * Thread safety: same as `Regex::compile()`.
+         *
          *  Set the specified parameters, then compile the pattern using options from class variables.
          *  @param re Pattern string
          *  @param po PCRE2 option
@@ -3089,6 +3151,9 @@ struct select{
         /** @overload
          *
          *
+         * Thread safety: same as `Regex::compile()`.
+         *
+         *
          *  Set the specified parameters, then compile the pattern using options from class variables.
          *  @param re  Pointer to pattern string
          *  @param po PCRE2 option
@@ -3099,6 +3164,9 @@ struct select{
         } 
 
         /** @overload
+         *
+         * 
+         * Thread safety: same as `Regex::compile()`.
          *
          *
          *  Set the specified parameters, then compile the pattern using options from class variables.
@@ -3113,6 +3181,9 @@ struct select{
         /** @overload
          *
          *
+         * Thread safety: same as `Regex::compile()`.
+         *
+         *
          *  Set the specified parameters, then compile the pattern using options from class variables.
          *  @param re Pointer to pattern string
          *  @param mod Modifier string
@@ -3125,6 +3196,9 @@ struct select{
         /** @overload
          *
          *
+         * Thread safety: same as `Regex::compile()`.
+         *
+         *
          *  Set the specified parameters, then compile the pattern using options from class variables.
          *  @param re Pattern string
          * */
@@ -3134,6 +3208,9 @@ struct select{
         } 
 
         /** @overload
+         *
+         *
+         * Thread safety: same as `Regex::compile()`.
          *
          *
          *  Set the specified parameters, then compile the pattern using options from class variables.
@@ -3151,6 +3228,8 @@ struct select{
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          * 
+         *  Thread safety: same as `RegexMatch::match()`.
+         * 
          *  @param s Subject string.
          *  @param mod Modifier string.
          *  @param start_offset Offset from where matching will start in the subject string.
@@ -3165,6 +3244,7 @@ struct select{
         ///.
         ///This action doesn not affect any class variables.
         ///The temporary object that is created is not further usable.
+        ///Thread safety: same as `RegexMatch::match()`.
         ///@param s Pointer to subject string.
         ///@param mod Modifier string.
         ///@param start_offset Offset from where matching will start in the subject string.
@@ -3178,6 +3258,7 @@ struct select{
          * .
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
+         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Subject string.
          *  @param mod Modifier string.
          *  @return Match count
@@ -3193,6 +3274,7 @@ struct select{
         ///This action doesn not affect any class variables.
         ///The temporary object that is created is not further usable.
         ///
+        ///Thread safety: same as `RegexMatch::match()`.
         ///@param s Pointer to subject string.
         ///@param mod Modifier string.
         ///@return Match count
@@ -3207,6 +3289,7 @@ struct select{
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          * 
+         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Subject string
          *  @param start_offset Offset from where matching will start in the subject string.
          *  @return Match count
@@ -3220,6 +3303,7 @@ struct select{
          * .
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
+         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Pointer to subject string
          *  @param start_offset Offset from where matching will start in the subject string.
          *  @return Match count
@@ -3235,6 +3319,7 @@ struct select{
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
          * 
+         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Subject string
          *  @return Match count
          *  @see RegexMatch::match()
@@ -3247,6 +3332,7 @@ struct select{
          * .
          *  This action doesn not affect any class variables.
          *  The temporary object that is created is not further usable.
+         * Thread safety: same as `RegexMatch::match()`.
          *  @param s Pointer to subject string
          *  @return Match count
          *  @see RegexMatch::match()
@@ -3257,6 +3343,9 @@ struct select{
         
         ///Shorthand for getMatchObject().match()
         ///This uses previously initiated match object i.e call RegexMatch::match() with all previous options intact.
+        ///Thread safety: same as `RegexMatch::match()`.
+        ///@return Match count
+        ///@see RegexMatch::match()
         SIZE_T match(){
             return getMatchObject().match();
         }
@@ -3594,13 +3683,13 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
         res += r_subject_ptr->substr(current_offset, start_off[i]-current_offset);
         //now process the matched part
         switch(mode){
-            case 0: res += me.callback0(0, 0, 0); break;
-            case 1: res += me.callback1((*vec_num_ptr)[i], 0, 0); break;
-            case 2: res += me.callback2(0, (*vec_nas_ptr)[i], 0); break;
-            case 3: res += me.callback3((*vec_num_ptr)[i], (*vec_nas_ptr)[i], 0); break;
-            case 4: res += me.callback4(0, 0, (*vec_ntn_ptr)[i]); break;
-            case 5: res += me.callback5((*vec_num_ptr)[i], 0, (*vec_ntn_ptr)[i]); break;
-            case 6: res += me.callback6(0, (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]); break;
+            case 0: res += me.callback0((void*)0, (void*)0, (void*)0); break;
+            case 1: res += me.callback1((*vec_num_ptr)[i], (void*)0, (void*)0); break;
+            case 2: res += me.callback2((void*)0, (*vec_nas_ptr)[i], (void*)0); break;
+            case 3: res += me.callback3((*vec_num_ptr)[i], (*vec_nas_ptr)[i], (void*)0); break;
+            case 4: res += me.callback4((void*)0, (void*)0, (*vec_ntn_ptr)[i]); break;
+            case 5: res += me.callback5((*vec_num_ptr)[i], (void*)0, (*vec_ntn_ptr)[i]); break;
+            case 6: res += me.callback6((void*)0, (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]); break;
             case 7: res += me.callback7((*vec_num_ptr)[i], (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]); break;
             default: break;
         }
@@ -4144,16 +4233,21 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 #endif
 
 ///@def JPCRE2_DISABLE_CHAR1632
-///Disable support for char16_t and char32_t.
+///Disable support for `char16_t` and `char32_t`.
 ///Older compiler which supposedly supports C++11
-///but does not have the codecvt header will not work with char16_t and char32_t, in this case
+///but does not have `std::wstring_convert` will not work with `char16_t` and `char32_t`, in this case
+///define this macro before including `jpcre2.hpp` to disable `char16_t` and `char32_t` support.
 
 ///@def JPCRE2_USE_FUNCTION_POINTER_CALLBACK
 ///Use function pointer in all cases for MatchEvaluatorCallback function.
 ///By default function pointer is used for callback in MatchEvaluator when using <C++11 compiler, but for
 ///`>=C++11` compiler `std::function` instead of function pointer is used.
 ///If this macro is defined before including jpcre2.hpp, function pointer will be used in all cases.
-///It you are using lambda function with captures, stick with `std::function`.
+///It you are using lambda function with captures, stick with `std::function`, on the other hand, if
+///you are using older compilers, you might want to use function pointer instead.
+///
+///For example, with gcc-4.7, `std::function` will give compile error in C++11 mode, in such cases where full C++11
+///support is not available, use function pointer.
 
 ///@def JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
 ///By default JPCRE2 checks if the code unit width equals to

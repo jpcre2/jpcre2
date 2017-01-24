@@ -6,6 +6,7 @@
  * */
 
 #include <iostream>
+#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8
 #include "jpcre2.hpp"
 #include <cassert>
 
@@ -102,6 +103,8 @@ int main(){
     
     jp::MatchEvaluator me2 = me1;
     jp::MatchEvaluator me3 = me2;
+    
+    rr.setRegexObject(&re).setPcre2Option(0).nreplace(me1);
     
     me1 = jp::MatchEvaluator([](const jp::NumSub& m1, const jp::MapNas& m2, const jp::MapNtN& m3)
                 {
