@@ -89,8 +89,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2)
-TESTS = $(am__EXEEXT_3) $(am__EXEEXT_2)
+noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3)
+TESTS = $(am__EXEEXT_4)
 @WITH_TEST_SUIT_TRUE@am__append_1 = test_match2 test_replace2 \
 @WITH_TEST_SUIT_TRUE@	test_match test_replace test_shorts \
 @WITH_TEST_SUIT_TRUE@	test16 test32 test0 test testio testme
@@ -98,7 +98,8 @@ TESTS = $(am__EXEEXT_3) $(am__EXEEXT_2)
 @WITH_TEST_SUIT_TRUE@	test_shorts test16 test32 test0 test \
 @WITH_TEST_SUIT_TRUE@	testio testme
 @WITH_THREAD_TEST_TRUE@am__append_3 = test_pthread
-@WITH_THREAD_TEST_TRUE@am__append_4 = test_pthread
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@am__append_4 = teststdthread
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@am__append_5 = teststdthread
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
@@ -120,6 +121,7 @@ CONFIG_CLEAN_VPATH_FILES =
 @WITH_TEST_SUIT_TRUE@	test$(EXEEXT) testio$(EXEEXT) \
 @WITH_TEST_SUIT_TRUE@	testme$(EXEEXT)
 @WITH_THREAD_TEST_TRUE@am__EXEEXT_2 = test_pthread$(EXEEXT)
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@am__EXEEXT_3 = teststdthread$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am__test_SOURCES_DIST = test.cpp
 am__objects_1 =
@@ -229,6 +231,15 @@ testme_LDADD = $(LDADD)
 testme_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(testme_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am__teststdthread_SOURCES_DIST = teststdthread.cpp
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@am_teststdthread_OBJECTS = teststdthread-teststdthread.$(OBJEXT) \
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@	$(am__objects_1)
+teststdthread_OBJECTS = $(am_teststdthread_OBJECTS)
+teststdthread_LDADD = $(LDADD)
+teststdthread_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(teststdthread_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -267,7 +278,7 @@ SOURCES = $(test_SOURCES) $(test0_SOURCES) $(test16_SOURCES) \
 	$(test32_SOURCES) $(test_match_SOURCES) $(test_match2_SOURCES) \
 	$(test_pthread_SOURCES) $(test_replace_SOURCES) \
 	$(test_replace2_SOURCES) $(test_shorts_SOURCES) \
-	$(testio_SOURCES) $(testme_SOURCES)
+	$(testio_SOURCES) $(testme_SOURCES) $(teststdthread_SOURCES)
 DIST_SOURCES = $(am__test_SOURCES_DIST) $(am__test0_SOURCES_DIST) \
 	$(am__test16_SOURCES_DIST) $(am__test32_SOURCES_DIST) \
 	$(am__test_match_SOURCES_DIST) $(am__test_match2_SOURCES_DIST) \
@@ -275,7 +286,7 @@ DIST_SOURCES = $(am__test_SOURCES_DIST) $(am__test0_SOURCES_DIST) \
 	$(am__test_replace_SOURCES_DIST) \
 	$(am__test_replace2_SOURCES_DIST) \
 	$(am__test_shorts_SOURCES_DIST) $(am__testio_SOURCES_DIST) \
-	$(am__testme_SOURCES_DIST)
+	$(am__testme_SOURCES_DIST) $(am__teststdthread_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -486,7 +497,7 @@ am__set_TESTS_bases = \
   bases=`echo $$bases`
 RECHECK_LOGS = $(TEST_LOGS)
 AM_RECURSIVE_TARGETS = check recheck
-@WITH_TEST_SUIT_TRUE@am__EXEEXT_3 = test_match$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@am__EXEEXT_4 = test_match$(EXEEXT) \
 @WITH_TEST_SUIT_TRUE@	test_replace$(EXEEXT) \
 @WITH_TEST_SUIT_TRUE@	test_shorts$(EXEEXT) test16$(EXEEXT) \
 @WITH_TEST_SUIT_TRUE@	test32$(EXEEXT) test0$(EXEEXT) \
@@ -772,16 +783,25 @@ DISTCLEANFILES =
 @WITH_COVERAGE_TRUE@COVERAGE_NAME = $(PACKAGE)-$(VERSION)
 @WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
 @WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
+@WITH_THREAD_TEST_TRUE@thread_tests = test_pthread $(am__append_4)
+#TESTS += test_pthread
 
-#Building testio
+#Building test_pthread
 @WITH_THREAD_TEST_TRUE@test_pthread_SOURCES = \
 @WITH_THREAD_TEST_TRUE@  test_pthread.cpp \
 @WITH_THREAD_TEST_TRUE@  $(JPCRE2_SOURCES)
 
 @WITH_THREAD_TEST_TRUE@test_pthread_CXXFLAGS = \
 @WITH_THREAD_TEST_TRUE@  $(AM_CXXFLAGS) \
-@WITH_THREAD_TEST_TRUE@  $(AM_LDFLAGS) \
-@WITH_THREAD_TEST_TRUE@  $(COVERAGE_FLAGS)
+@WITH_THREAD_TEST_TRUE@  $(AM_LDFLAGS) 
+
+#TESTS += teststdthread
+
+#Building teststdthread
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@teststdthread_SOURCES = teststdthread.cpp $(JPCRE2_SOURCES)
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@teststdthread_CXXFLAGS = \
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@  $(AM_CXXFLAGS) \
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@  $(AM_LDFLAGS) 
 
 all: all-am
 
@@ -874,6 +894,10 @@ testme$(EXEEXT): $(testme_OBJECTS) $(testme_DEPENDENCIES) $(EXTRA_testme_DEPENDE
 	@rm -f testme$(EXEEXT)
 	$(AM_V_CXXLD)$(testme_LINK) $(testme_OBJECTS) $(testme_LDADD) $(LIBS)
 
+teststdthread$(EXEEXT): $(teststdthread_OBJECTS) $(teststdthread_DEPENDENCIES) $(EXTRA_teststdthread_DEPENDENCIES) 
+	@rm -f teststdthread$(EXEEXT)
+	$(AM_V_CXXLD)$(teststdthread_LINK) $(teststdthread_OBJECTS) $(teststdthread_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -892,6 +916,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_shorts-test_shorts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testio-testio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testme-testme.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/teststdthread-teststdthread.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -1081,6 +1106,20 @@ testme-testme.obj: testme.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='testme.cpp' object='testme-testme.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testme_CXXFLAGS) $(CXXFLAGS) -c -o testme-testme.obj `if test -f 'testme.cpp'; then $(CYGPATH_W) 'testme.cpp'; else $(CYGPATH_W) '$(srcdir)/testme.cpp'; fi`
+
+teststdthread-teststdthread.o: teststdthread.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(teststdthread_CXXFLAGS) $(CXXFLAGS) -MT teststdthread-teststdthread.o -MD -MP -MF $(DEPDIR)/teststdthread-teststdthread.Tpo -c -o teststdthread-teststdthread.o `test -f 'teststdthread.cpp' || echo '$(srcdir)/'`teststdthread.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/teststdthread-teststdthread.Tpo $(DEPDIR)/teststdthread-teststdthread.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='teststdthread.cpp' object='teststdthread-teststdthread.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(teststdthread_CXXFLAGS) $(CXXFLAGS) -c -o teststdthread-teststdthread.o `test -f 'teststdthread.cpp' || echo '$(srcdir)/'`teststdthread.cpp
+
+teststdthread-teststdthread.obj: teststdthread.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(teststdthread_CXXFLAGS) $(CXXFLAGS) -MT teststdthread-teststdthread.obj -MD -MP -MF $(DEPDIR)/teststdthread-teststdthread.Tpo -c -o teststdthread-teststdthread.obj `if test -f 'teststdthread.cpp'; then $(CYGPATH_W) 'teststdthread.cpp'; else $(CYGPATH_W) '$(srcdir)/teststdthread.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/teststdthread-teststdthread.Tpo $(DEPDIR)/teststdthread-teststdthread.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='teststdthread.cpp' object='teststdthread-teststdthread.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(teststdthread_CXXFLAGS) $(CXXFLAGS) -c -o teststdthread-teststdthread.obj `if test -f 'teststdthread.cpp'; then $(CYGPATH_W) 'teststdthread.cpp'; else $(CYGPATH_W) '$(srcdir)/teststdthread.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1365,13 +1404,6 @@ testme.log: testme$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test_pthread.log: test_pthread$(EXEEXT)
-	@p='test_pthread$(EXEEXT)'; \
-	b='test_pthread'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -1585,8 +1617,10 @@ uninstall-am: uninstall-includeHEADERS
 @WITH_VALGRIND_TRUE@	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./$$test ; \
 @WITH_VALGRIND_TRUE@	done
 
-@WITH_THREAD_TEST_TRUE@check-local: test_pthread
-@WITH_THREAD_TEST_TRUE@	$(VALGRIND) --tool=helgrind ./test_pthread
+@WITH_THREAD_TEST_TRUE@check-local: $(thread_tests)
+@WITH_THREAD_TEST_TRUE@	for test in $(thread_tests); do \
+@WITH_THREAD_TEST_TRUE@	$(VALGRIND) --tool=helgrind ./$$test ; \
+@WITH_THREAD_TEST_TRUE@	done
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

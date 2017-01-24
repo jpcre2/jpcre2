@@ -37,9 +37,10 @@ This is a **header only** library. All you need to do is include the header `jpc
 
 **Notes:** 
 
-* `jpcre2.hpp` \#includes `pcre2.h`, thus you should not include `pcre2.h` manually in your program.
+* `jpcre2.hpp` \#includes `pcre2.h`, thus you don't need to include `pcre2.h` manually in your program.
+* If `pcre2.h` is in a non-standard path then you may include it before `jpcre2.hpp` with correct path (you will need to define `PCRE2_CODE_UNIT_WIDTH` before including `pcre2.h` in this case)
 * There's no need to define `PCRE2_CODE_UNIT_WIDTH` before including `jpcre2.hpp`.
-* On windows, if you are working with a static PCRE2 library, you must define `PCRE2_STATIC` before including `jpcre2.hpp`.
+* On windows, if you are working with a static PCRE2 library, you must define `PCRE2_STATIC` before including `jpcre2.hpp` (or before `pcre2.h` if you included it manually).
 
 **Install:**
 
@@ -80,7 +81,6 @@ Performing a match or replacement against regex pattern involves two steps:
 1. Compiling the pattern
 2. Performing the match or replacement operation
 
-**An important note:** All of the classes store the options/values that are set and their member functions use these options by default. You can reset the options/values one by one with setter functions or you can use the `reset()` member function to reset them all at once. Calling `reset()` on any object will re-initialize it.
 
 <a name="compile-a-regex-pattern"></a>
 
@@ -99,7 +99,7 @@ typedef jpcre2::select<char> jp;
 
 ### A Regex object 
 
-(You can use temporary object too, see [short examples](#short-examples)).
+(You can use temporary objects too, see [short examples](#short-examples)).
 
 This object will hold the pattern, options and compiled pattern.
 
@@ -157,7 +157,9 @@ else std::cout<<"Failure";
 
 Match is generally performed using the `jp::RegexMatch::match()` function.
 
-For convenience, a shortcut function in `jp::Regex` is available: `jp::Regex::match()`. It can take three optional arguments. If modifier is passed as an argument to this function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string. This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexMatch::match()` function.
+For convenience, a shortcut function in `jp::Regex` is available: `jp::Regex::match()`. It can take three optional arguments. If modifier is passed as an argument to this function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
+
+This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexMatch::match()` function only when it is called with no argument (e.g `re.match()`), but when it is called with arguments (e.g `re.match("subject")`), it uses a temporary match object to perform the match which does not use/change/affect any previous options.
 
 To get match results, you will need to pass vector pointers that will be filled with match data.
 
@@ -168,7 +170,7 @@ To get match results, you will need to pass vector pointers that will be filled 
 ```cpp
 jp::Regex re("\\w+ect");
 
-if(re.match("I am the subject"))
+if(re.match("I am the subject")) //always uses a new temporary match object
     std::cout<<"matched (case sensitive)";
 else
     std::cout<<"Didn't match";
@@ -176,7 +178,7 @@ else
 //For case insensitive match, re-compile with modifier 'i'
 re.addModifier("i").compile();
 
-if(re.match("I am the subjEct"))
+if(re.match("I am the subjEct")) //always uses a new temporary match object
     std::cout<<"matched (case insensitive)";
 else
     std::cout<<"Didn't match";
@@ -187,8 +189,9 @@ else
 ### Get match count 
 
 ```cpp
-size_t count = jp::Regex("[aijst]","i").match("I am the subject","g");
+size_t count = jp::Regex("[aijst]","i").match("I am the subject","g"); //always uses a new temporary match object
 ```
+The `g` modifier performs global match.
 
 <a name="do-match"></a>
 
@@ -344,7 +347,7 @@ size_t count = rm.setSubject("subject")
                  .setModifier("g")
                  .match();
 ```
-The `RegexMatch` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, there will be no need to set the pointer again.
+The `RegexMatch` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, it will be reflected on the next operation/result.
 
 **Note:** This independent match object and the match object you get from `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` are **not the same**.
 
@@ -354,7 +357,9 @@ The `RegexMatch` class stores a pointer to its' associated Regex object. If the 
 
 Regex replace is generally performed using the `jp::RegexReplace::replace()` function.
 
-However a convenience shortcut function is available in Regex class: `jp::Regex::replace()`. It can take three optional arguments. If modifier is passed as an argument to this shortcut function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string. This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexReplace::replace()` function.
+However a convenience shortcut function is available in Regex class: `jp::Regex::replace()`. If modifier is passed as an argument to this shortcut function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
+
+This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexReplace::replace()` function only when it is called with no argument (e.g `re.replace()`), but when it is called with arguments (e.g `re.replace("subject", "replacewith")`), it uses a temporary replace object to perform the replacement which does not use/change/affect any previous options.
 
 
 <a name="simple-replace"></a>
@@ -406,7 +411,7 @@ rr.setSubject("subjEct")
   .setModifier("g")
   .replace();
 ```
-The `RegexReplace` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, there will be no need to set the pointer again.
+The `RegexReplace` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, it will be reflected on the next operation/result.
 
 **Note:** This independent replace object and the replace object you get from `jp::Regex::initReplace()` or `jp::Regex::getReplaceObject()` are not the same.
 
@@ -416,14 +421,14 @@ The `RegexReplace` class stores a pointer to its' associated Regex object. If th
 
 There's another replace function (`jp::RegexReplace::nreplace()`) that takes a MatchEvaluator with a callback function. It's required when you have to create the replacement strings dynamically according to some criteria.
 
-The class `jp::MatchEvaluator` implements several constructor overloads to take different callback functions i.e you can pass a callback function with its' constructor when instantiating a object of this class.
+The class `jp::MatchEvaluator` implements several constructor overloads to take different callback functions.
 
-The callback function takes exactly three positional arguments. If you don't need one or two arguments, you may pass `void*` in their respective positions in the argument list.
+The callback function takes exactly three positional arguments. If you don't need one or more arguments, you may pass `void*` in their respective positions in the argument list.
 
 **Examples:**
 
 ```cpp
-jp::String myme1(jp::NumSub m, void*, void*){
+jp::String callback1(const jp::NumSub& m, void*, void*){
     return "("+m[0]+")";
 }
 
@@ -436,15 +441,20 @@ int main(){
 	rr.setSubject(s3)
 	  .setPcre2Option(PCRE2_SUBSTITUTE_GLOBAL);
 	  
+	std::cout<<"\n\n### 1\n"<<
+			rr.nreplace(jp::MatchEvaluator(callback1));
+	
 	#if __cplusplus >= 201103L
 	//example with lambda
-	std::cout<<"\n\n### Lambda\n"<<rr.nreplace(
-		        jp::MatchEvaluator([](jp::NumSub m1, jp::MapNas m2, void*)
-		        {
-		            return "("+m1[0]+"/"+m2["total"]+")";
-		        }));
+    std::cout<<"\n\n### Lambda\n"<<
+    		rr.nreplace(
+                jp::MatchEvaluator(
+                    [](const jp::NumSub& m1, const jp::MapNas& m2, void*){
+                        return "("+m1[0]+"/"+m2.at("total")+")";
+                    }
+                ));
 	#endif
-	std::cout<<"\n\n### 1\n"<<rr.nreplace(jp::MatchEvaluator(myme1));
+	
 	return 0;
 }
 ```
@@ -616,7 +626,7 @@ Other typedefs are mostly for internal use
 * `jpcre2::SIZE_T` is the same as `PCRE2_SIZE` which is defined as `size_t`.
 
 
-<a name="exception-handling"></a>
+<a name="error-handling"></a>
 
 # Error handling 
 
@@ -632,7 +642,90 @@ If you do experiment with various erroneous situations, make use of the `resetEr
 
 # Multi threading 
 
-JPCRE2 is thread unsafe. In threaded application, lock must be used on `Regex`, `RegexMatch` and `RegexReplace` objects to ensure thread safety. An example multi-threaded program is provided in *src/test_pthread.cpp*. The thread safety of this program is tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
+<a name="functions-thread-safety"></a>
+
+##Functions 
+
+<b>(C) MT safe:</b> _All functions (except JIT related functions) in JPCRE2 library are MT safe provided that the instances calling those functions are themselves thread safe._
+
+**When we say '(C) MT safe' or simply 'thread safe' throughout this doc, we mean the above definition of Conditional Multi-Thread safety.**
+
+The thread safety of JIT related functions:
+
+Function | (C) MT safe | MT unsafe
+-------- | ----------- | ---------
+`Regex::compile()` and its family | When JIT compile is not done | When JIT compile is done (passing the 'S' modifier)
+`Regex::Regex()` and its family | When JIT compile is not done | When JIT compile is done
+
+The thread safety of JIT operations is directly related to the native PCRE2 API. Thus its behavior will change according to PCRE2 specs.
+
+<a name="objects-thread-safety"></a>
+
+##Objects 
+
+1. There is no data race between two separate objects (`Regex`, `RegexMatch`, `RegexReplace` etc..) because the classes do not contain any static variables.
+2. Temporary class objects will always be thread safe as long as no JIT operation (JIT compile) is performed.
+3. Temporary class object that uses another third party object reference or pointer is thread safe provided that the third party object is thread safe.
+4. Simultaneous access of the same object is MT unsafe. You can use mutex lock or other mechanisms to ensure thread safety.
+
+
+**Examples:**
+
+The following function is thread safe:
+
+```cpp
+typedef jpcre2::select<char> jp;
+
+void* thread_safe_fun1(void* arg){//uses no global or static variable, thus thread safe.
+    jp::Regex re("\\w", "g");
+    jp::RegexMatch rm(&re); //It's a local variable
+    rm.setSubject("fdsf").setModifier("g").match();
+    return 0;
+}
+```
+
+The following function is thread unsafe:
+
+```cpp
+typedef jpcre2::select<char> jp;
+
+jp::Regex rec("\\w", "g"); //thread unsafe.
+
+void *thread_unsafe_fun1(void *arg){ //uses global variable 'rec', thus thread unsafe.
+    //this mutex lock will not make it thread safe
+    pthread_mutex_lock( &mutex2 );
+    jp::RegexMatch rm(&rec);
+    rm.setSubject("fdsf").setModifier("g").match();
+    pthread_mutex_unlock( &mutex2);
+    return 0;
+}
+```
+
+The following is thread safe as we are guarding JIT compilation with mutex:
+
+```cpp
+void* thread_safe_fun1(void* arg){//uses no global or static variable.
+	pthread_mutex_lock( &mutex2 );
+    jp::Regex re("\\w", "gS"); //JIT compile is done for 'S' modifier.
+    pthread_mutex_unlock( &mutex2);
+    jp::RegexMatch rm(&re); //It's a local variable
+    rm.setSubject("fdsf").setModifier("g").match();
+    return 0;
+}
+```
+
+
+Example multi-threaded programs are provided in *src/test_pthread.cpp* and *src/teststdthread.cpp*. The thread safety of these programs are tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
+
+
+<a name="compatibility-with-compilers"></a>
+
+# Compatibility with compilers 
+
+1. To use JPCRE2 in its full capability, use latest compilers with full `C++11` support.
+2. Use `>=C++11` with modern compilers to use `C++11` specific features.
+3. If you use `>=C++11`, make sure it comes with `std::wstring_convert` which is required for supporting `char16_t` and `char32_t`, though you can disable `char16_t` and `char32_t` support by defining `JPCRE2_DISABLE_CHAR1632` before including `jpcre2.hpp`.
+4. If you don't use `C++11`, you should be OK with older compilers.
 
 <a name="short-examples"></a>
 
@@ -805,19 +898,9 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
 
 # API change notice 
 
+* The behavior of shorthand `match()` and `replace()` function in the Regex class has changed. When they are called with no argument they will use previously set options, but when they are called with arguments, they will initiate a temporary match/replace object and will not use (or change) any previous options. This temporary object will not affect any class variables (i.e previously set option) and it won't be available after returning the result.
+
 > For complete changes see the changelog file
-
-The following are added: 
-
-1. `jp::RegexMatch::setMatchStartOffsetVector()`: Vector to store the offsets where matches start in th subjects string.
-2. `jp::RegexMatch::setMatchEndOffsetVector()`: Vector to store the offsets where matches end in the subject string.
-3. `jp::Regex::resetCharacterTables()`: Reset the charater tables according to current locale.
-
-The following are removed:
-
-1. `getEndOffset()`: In favor of `jp::RegexMatch::setMatchEndOffsetVector()`.
-2. Thread unsafe function `setLocale()` and its' correspondings `getLocale()` and `getLocaleTypeId()` in favor of `jp::Regex::resetCharacterTables()`
-
 
 <a name="test-suit"></a>
 

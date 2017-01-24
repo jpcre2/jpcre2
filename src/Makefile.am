@@ -191,20 +191,35 @@ endif
 
 
 if WITH_THREAD_TEST
+thread_tests = test_pthread
 noinst_PROGRAMS += test_pthread
-TESTS += test_pthread
+#TESTS += test_pthread
 
-#Building testio
+
+#Building test_pthread
 test_pthread_SOURCES = \
   test_pthread.cpp \
   $(JPCRE2_SOURCES)
 test_pthread_CXXFLAGS = \
   $(AM_CXXFLAGS) \
-  $(AM_LDFLAGS) \
-  $(COVERAGE_FLAGS)
+  $(AM_LDFLAGS) 
 
+if WITH_CPP11
+thread_tests += teststdthread
+noinst_PROGRAMS += teststdthread
+#TESTS += teststdthread
 
-check-local: test_pthread
-	$(VALGRIND) --tool=helgrind ./test_pthread
+#Building teststdthread
+teststdthread_SOURCES = teststdthread.cpp $(JPCRE2_SOURCES)
+teststdthread_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS) 
+
+endif
+
+check-local: $(thread_tests)
+	for test in $(thread_tests); do \
+	$(VALGRIND) --tool=helgrind ./$$test ; \
+	done
 endif
 

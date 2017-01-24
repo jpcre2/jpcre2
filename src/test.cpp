@@ -77,6 +77,8 @@ int main(){
     re.addJpcre2Option(jpcre2::JIT_COMPILE); \
     std::setlocale(LC_CTYPE, "fr_FR"); \
     re.resetCharacterTables().compile(); \
+    re.resetCharacterTables().compile(); \
+    re.resetCharacterTables().compile(); \
     re.getErrorMessage(); \
     re.getErrorNumber(); \
     re.getErrorOffset(); \
@@ -117,15 +119,14 @@ int main(){
     jp::RegexMatch& m = re.getMatchObject(); \
      \
     m.match(); re.match(); \
-    m.match(3); re.match(3); \
-    m.match(PAT); re.match(PAT); \
-    m.match(PAT, 0); re.match(PAT, 0); \
-    m.match(PAT, "g"); re.match(PAT, "g"); \
-    m.match(PAT, "g", 2); re.match(PAT, "g", 2); \
-    m.match(&text); re.match(&text); \
-    m.match(&text, 21); re.match(&text, 21); \
-    m.match(&text, "g"); re.match(&text, "g"); \
-    m.match(&text, "g", 22); re.match(&text, "g", 22); \
+    re.match(PAT); \
+    re.match(PAT, 0); \
+    re.match(PAT, "g"); \
+    re.match(PAT, "g", 2); \
+    re.match(&text); \
+    re.match(&text, 21); \
+    re.match(&text, "g"); \
+    re.match(&text, "g", 22); \
      \
     jp::RegexMatch rm; \
     jp::VecNum vec_num; \
@@ -148,13 +149,14 @@ int main(){
     rm.setMatchEndOffsetVector(&vec_eoff); \
     re = jp::Regex(PAT, "in"); \
     rm.setRegexObject(&re); \
-    rm.match(&text, "g"); \
+    rm.setMatchContext(0); \
+    rm.setSubject(&text).setModifier("g").match(); \
     jp::Regex re4(PAT, "niJS"); \
     rm.setRegexObject(&re4); \
-    size_t count = rm.match(&text, "g", 0); \
+    size_t count = rm.setSubject(&text).setModifier("g").setStartOffset(0).match(); \
     if(count);\
-    count = rm.match(&text, "gA"); \
-    count = rm.match(&text, "A"); \
+    count = rm.setSubject(&text).setModifier("gA").match(); \
+    count = rm.setSubject(&text).setModifier("A").match(); \
      \
      \
     re.initMatchFrom(rm); \
@@ -187,6 +189,9 @@ int main(){
     rm.changePcre2Option(0, false); \
      \
     rm.addPcre2Option(0); \
+    rm.getNumberedSubstringVector(); \
+    rm.getNamedSubstringVector(); \
+    rm.getNameToNumberMapVector(); \
     rm.changePcre2Option(PCRE2_ANCHORED, true); \
     rm.changePcre2Option(PCRE2_ANCHORED, false); \
     rm.addModifier("g"); \
@@ -224,16 +229,14 @@ int main(){
     rr3 = jp::RegexReplace(&re2); \
      \
     rr.replace(); re.replace(); \
-    rr.replace(TEXT); re.replace(TEXT); \
-    rr.replace(TEXT, TEXT); re.replace(TEXT, TEXT); \
-    rr.replace(TEXT, &text); re.replace(TEXT, &text); \
-    rr.replace(TEXT, TEXT, "g"); re.replace(TEXT, TEXT, "g"); \
-    rr.replace(TEXT, &text, "g"); re.replace(TEXT, &text, "g"); \
-    rr.replace(&text); re.replace(&text); \
-    rr.replace(&text, TEXT); re.replace(&text, TEXT); \
-    rr.replace(&text, TEXT, "g"); re.replace(&text, TEXT, "g"); \
-    rr.replace(&text, &text); re.replace(&text, &text); \
-    rr.replace(&text, &text, "g"); re.replace(&text, &text, "g"); \
+    re.replace(TEXT, TEXT); \
+    re.replace(TEXT, &text); \
+    re.replace(TEXT, TEXT, "g"); \
+    re.replace(TEXT, &text, "g"); \
+    re.replace(&text, TEXT); \
+    re.replace(&text, TEXT, "g"); \
+    re.replace(&text, &text); \
+    re.replace(&text, &text, "g"); \
      \
     rr.resetErrors(); \
     rr.reset(); \
@@ -254,16 +257,18 @@ int main(){
     rr.addJpcre2Option(0); \
     rr.setJpcre2Option(0); \
     rr.setPcre2Option(0); \
+    rr.setMatchContext(0); \
+    rr.setMatchData(0); \
     rr.changeJpcre2Option(0, true); \
     rr.changeJpcre2Option(0, false); \
     rr.changePcre2Option(0, true); \
     rr.changePcre2Option(0, false); \
     rr.changeModifier("gfdsf", false); \
      \
-    rr.reset().replace(TEXT, TEXT); \
+    rr.reset().setSubject(TEXT).setReplaceWith(TEXT).replace(); \
     rr.changePcre2Option(PCRE2_SUBSTITUTE_OVERFLOW_LENGTH, false); \
     rr.setRegexObject(&re); \
-    rr.replace(TEXT, TEXT); /* replace error: */ \
+    rr.setSubject(TEXT).setReplaceWith(TEXT).replace(); /* replace error: */ \
      \
     const jp::Regex *rep = rr.getRegexObject(); \
     if(rep); /*//rep is not null*/ \
