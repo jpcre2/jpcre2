@@ -5,13 +5,10 @@
  * */
 
 #include <iostream>
-#if __cplusplus >= 201103L
-#define JPCRE2_USE_CHAR1632
-#endif
 #include "jpcre2.hpp"
 
 typedef jpcre2::select<wchar_t> jpw; //for windows it's 16
-#ifdef JPCRE2_USE_CHAR1632
+#if __cplusplus >= 201103L
 typedef jpcre2::select<char16_t> jpu; //sizeof(char16_t)*CHAR_BIT will be taken as default value for BS
 #endif
 
@@ -28,7 +25,7 @@ int main() {
     jpw::Regex(L"subject").replace(L"I am a subject",L"string"); 
     
     
-    #ifdef JPCRE2_USE_CHAR1632
+    #if __cplusplus >= 201103L
     //Working with char16_t i.e std::u16string (>=C++11)
     
     //Match:

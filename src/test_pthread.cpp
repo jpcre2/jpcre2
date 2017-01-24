@@ -33,36 +33,30 @@ struct MyRegex{
 };
 
 void *task(void *arg){
-    {
     MyRegex re;
     std::string sub[5] = {"subject1", "123456789", "1a2b3c", "1a 2b 3c ", "I am a string"};
     for(int i = 0;i<5; ++i){
         re.re[i].match(sub[i], "g");
     }
-    }
     return 0;
 }
 
 void *thread_safe_fun1(void *arg){ //uses no global or static variable, thus thread safe.
-    {
 	jp::Regex re("\\w", "i"); 
 	re.getMatchObject().setSubject("fdsf").setModifier("g").match();
-    }
     return 0;
 }
 
 void* thread_safe_fun2(void* arg){//uses no global or static variable, thus thread safe.
-    {
     jp::Regex re("\\w", "g");
     jp::RegexMatch rm(&re);
     
     //jit related functions are thread unsafe
-    //~ pthread_mutex_lock( &mutex3 );
-    //~ rm.setJitStackSize(32*1024,0);
-    //~ pthread_mutex_unlock( &mutex3 );
+    pthread_mutex_lock( &mutex3 );
+    rm.setJitStackSize(32*1024,0);
+    pthread_mutex_unlock( &mutex3 );
     
     rm.setSubject("fdsf").setModifier("g").match();
-    }
     return 0;
 }
 
@@ -99,12 +93,12 @@ int main(){
     
     for(size_t i=5;i<10;++i){
         if(pthread_create( &thread[i], 0, thread_safe_fun1, 0));
-        //else pthread_join(thread[5],0);
+        //else pthread_join(thread[i],0);
     }
     
     for(size_t i=10;i<15;++i){
-        if(pthread_create( &thread[i], 0, thread_safe_fun2, 0));
-        //else pthread_join(thread[5],0);
+        if(pthread_create( &thread[i], 0, &thread_safe_fun2, 0));
+        //else pthread_join(thread[i],0);
     }
     #if __cplusplus >= 201103L
     for(size_t i=15;i<20;++i){

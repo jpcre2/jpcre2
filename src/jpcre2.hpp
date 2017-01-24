@@ -68,29 +68,10 @@
 #include <cassert>      // assert()
 #include <cstring>      // std::memcpy
 
-
-#ifdef JPCRE2_USE_CHAR1632
-    #if __cplusplus < 201103L
-        #error "Must use C++11 or later: char16_t and char32_t are only available with C++11 or later compilers."
-        #undef JPCRE2_USE_CHAR1632
-    #else
-        #include <codecvt>      // std::codecvt
-        #include <locale>       // std::wstring_convert
-    #endif
-#endif
-
-#ifdef JPCRE2_USE_FUNCTIONAL_CALLBACK
-    #ifndef JPCRE2_USE_FUNCTIONAL
-        #define JPCRE2_USE_FUNCTIONAL
-    #endif
-#endif
-
-#ifdef JPCRE2_USE_FUNCTIONAL
-    #if __cplusplus >= 201103L
+#if __cplusplus >= 201103L
+    #include <locale>       // std::codecvt, std::wstring_convert
+    #ifndef JPCRE2_USE_FUNCTION_POINTER_CALLBACK
         #include <functional>   // std::function
-    #else
-        #error "Must use C++11 or later: std::functional is only available with C++11 or later compilers."
-        #undef JPCRE2_USE_FUNCTIONAL
     #endif
 #endif
 
@@ -672,13 +653,13 @@ template<typename Char_T> struct MSG{
 //specialization
 template<> inline std::basic_string<char> MSG<char>::INVALID_MODIFIER(){ return "Invalid modifier: "; }
 template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INVALID_MODIFIER(){ return L"Invalid modifier: "; }
-#ifdef JPCRE2_USE_CHAR1632
+#if __cplusplus >= 201103L
 template<> inline std::basic_string<char16_t> MSG<char16_t>::INVALID_MODIFIER(){ return u"Invalid modifier: "; }
 template<> inline std::basic_string<char32_t> MSG<char32_t>::INVALID_MODIFIER(){ return U"Invalid modifier: "; }
 #endif
 
 
-#ifdef JPCRE2_USE_CHAR1632
+#if __cplusplus >= 201103L
 
 //Convenience wrapper of std::codecvt (`>=C++11`)
 template <class internT, class externT, class stateT>
@@ -686,7 +667,7 @@ struct Codecvt : std::codecvt<internT,externT,stateT>
 { ~Codecvt(){} };
 
 ///@struct ConvUTF
-///`UTF-8 <> UTF-16` and `UTF-8 <> UTF32` converter (>=C++11 and If `JPCRE2_USE_CHAR1632` is defined).
+///`UTF-8 <> UTF-16` and `UTF-8 <> UTF32` converter (>=C++11).
 ///
 ///Convert `UTF-16 <> UTF-8`:
 /// ```cpp
@@ -707,7 +688,7 @@ struct Codecvt : std::codecvt<internT,externT,stateT>
 template<typename Char_T>
 struct ConvUTF { typedef std::wstring_convert<Codecvt<Char_T, char, std::mbstate_t>, Char_T> Converter; };
 
-///This is a convenience typedef (>=C++11 and If `JPCRE2_USE_CHAR1632` is defined) to convert between UTF-8 <> UTF-16.
+///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-16.
 ///Convert UTF-16 to UTF-8:
 ///```cpp
 ///Convert16 conv;
@@ -719,7 +700,7 @@ struct ConvUTF { typedef std::wstring_convert<Codecvt<Char_T, char, std::mbstate
 ///```
 typedef ConvUTF<char16_t>::Converter Convert16;
 
-///This is a convenience typedef (>=C++11 and If `JPCRE2_USE_CHAR1632` is defined) to convert between UTF-8 <> UTF-32.
+///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-32.
 ///Convert UTF-32 to UTF-8
 ///```cpp
 ///Convert32 conv;
@@ -770,7 +751,7 @@ template<> inline int ConvInt<wchar_t>::mysprint(wchar_t* buf, size_t size, int 
 }
 
 
-#ifdef JPCRE2_USE_CHAR1632
+#if __cplusplus >= 201103L
 
 template<typename Char_T> struct ConvInt<Char_T, typename EnableIf<
 IsSame<Char_T, char16_t>::value|IsSame<Char_T, char32_t>::value, Char_T>::Type>{
@@ -827,8 +808,8 @@ struct select{
     ///---------  | -------
     ///char | std::string
     ///wchar_t | std::wstring
-    ///char16_t | std::u16string (>=C++11 and If `JPCRE2_USE_CHAR1632` is defined)
-    ///char32_t | std::u32string (>=C++11 and If `JPCRE2_USE_CHAR1632` is defined) 
+    ///char16_t | std::u16string (>=C++11)
+    ///char32_t | std::u32string (>=C++11) 
     typedef typename std::basic_string<Char_T> String;
     
     ///Map for Named substrings.
@@ -1529,34 +1510,30 @@ struct select{
     
     ///This class contains a typedef of a function pointer or a templated function wrapper (`std::function`)
     ///to provide callback funtion to the `MatchEvaluator`.
-    ///`std::function` is selected when `>=C++11` is being used and the macro
-    ///`JPCRE2_USE_FUNCTIONAL` is defined before including this header, otherwise function pointer is selected.
-    ///**If you are using lamda function with capture, you must use the `std::function` approach i.e use `>=C++11` compiler
-    ///and define `JPCRE2_USE_FUNCTIONAL` before including the header:**
-    /// ```cpp
-    /// #define JPCRE2_USE_FUNCTIONAL
-    /// #include <jpcre2.hpp>
-    /// ```
+    ///`std::function` is used when `>=C++11` is being used , otherwise function pointer is used.
+    ///You can force using function pointer instead of `std::function` when `>=C++11` is used by defining  the macro
+    ///`JPCRE2_USE_FUNCTION_POINTER_CALLBACK` before including jpcre2.hpp.
+    ///**If you are using lamda function with capture, you must use the `std::function` approach:**
     ///The callback function takes exactly three positional arguments:
-    ///@tparam T1 The first argument must be `jp::NumSub` aka `std::vector<String>` (or `void*` if not needed).
-    ///@tparam T2 The second argument must be `jp::MapNas` aka `std::map<String, size_t>` (or `void*` if not needed).
-    ///@tparam T3 The third argument must be `jp::MapNtN` aka `std::map<String, String>` (or `void*` if not needed).
+    ///@tparam T1 The first argument must be `const jp::NumSub&` aka `const std::vector<String>&` (or `void*` if not needed).
+    ///@tparam T2 The second argument must be `const jp::MapNas&` aka `const std::map<String, size_t>&` (or `void*` if not needed).
+    ///@tparam T3 The third argument must be `const jp::MapNtN&` aka `const std::map<String, String>&` (or `void*` if not needed).
     ///
     /// **Examples:**
     /// ```cpp
     /// typedef jpcre2::select<char> jp;
-    /// jp::String myCallBack1(jp::NumSub m1, void*, void*){
+    /// jp::String myCallBack1(const jp::NumSub& m1, void*, void*){
     ///     return "("+m1[0]+")";
     /// }
     /// 
-    /// jp::String myCallBack2(jp::NumSub m1, jp::MapNas m2, void*){
-    ///     return "("+m1[0]+"/"+m2["total"]+")";
+    /// jp::String myCallBack2(const jp::NumSub& m1, const jp::MapNas& m2, void*){
+    ///     return "("+m1[0]+"/"+m2.at("total")+")";
     /// }
-    /// //Now you can pass these functions in MatchEvaluator constructors
+    /// //Now you can pass these functions in MatchEvaluator constructors to create a match evaluator
     /// jp::MatchEvaluator me1(myCallBack1); 
     ///
     /// //Examples with lambda (>=C++11)
-    /// jp::MatchEvaluator me2([](jp::NumSub m1, void*, void*)
+    /// jp::MatchEvaluator me2([](const jp::NumSub& m1, void*, void*)
     ///                         {
     ///                             return "("+m1[0]+")";
     ///                         });
@@ -1564,7 +1541,7 @@ struct select{
     ///@see MatchEvaluator
     template<typename T1, typename T2, typename T3>
     struct MatchEvaluatorCallBack{
-        #ifdef JPCRE2_USE_FUNCTIONAL
+        #if !defined JPCRE2_USE_FUNCTION_POINTER_CALLBACK && __cplusplus >= 201103L
         typedef std::function<String (T1,T2,T3)> CallBack;
         #else
         typedef String (*CallBack)(T1,T2,T3);
@@ -1597,6 +1574,7 @@ struct select{
         VecNas* vec_nas;
         VecNtN* vec_ntn;
         
+        typename MatchEvaluatorCallBack<void*, void*, void*>::CallBack callback0;
         typename MatchEvaluatorCallBack<const NumSub&, void*, void*>::CallBack callback1;
         typename MatchEvaluatorCallBack<void*, const MapNas&, void*>::CallBack callback2;
         typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, void*>::CallBack callback3;
@@ -1606,6 +1584,7 @@ struct select{
         typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, const MapNtN&>::CallBack callback7;
         
         void init(){
+            callback0 = 0;
             callback1 = 0;
             callback2 = 0;
             callback3 = 0;
@@ -1619,6 +1598,7 @@ struct select{
         }
         
         void deepCopy(const MatchEvaluator& me) {
+            callback0 = me.callback0;
             callback1 = me.callback1;
             callback2 = me.callback2;
             callback3 = me.callback3;
@@ -1684,8 +1664,18 @@ struct select{
         
         public:
         
-        ///Constructor taking function with a NumSub vector.
-        ///You will be working with a constant reference of the vector.
+        
+        ///Constructor taking a callback function with no vector reference.
+        ///@param mef Callback function.
+        explicit
+        MatchEvaluator(typename MatchEvaluatorCallBack<void*, void*, void*>::CallBack mef): RegexMatch(){
+            init();
+            callback0 = mef;
+        }
+        
+        ///@overload
+        ///.
+        ///You will be working with a constant reference of NumSub vector.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, void*, void*>::CallBack mef): RegexMatch(){
@@ -3391,7 +3381,7 @@ struct select{
     };
     
     protected:
-    //prevent object instatiation of select class
+    //prevent object instantiation of select class
     select();
     select(const select&);
     virtual ~select(){}
@@ -3601,27 +3591,15 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
         res += r_subject_ptr->substr(current_offset, start_off[i]-current_offset);
         //now process the matched part
         switch(mode){
-            case 1:
-                res += me.callback1((*vec_num_ptr)[i], 0, 0);
-                break;
-            case 2:
-                res += me.callback2(0, (*vec_nas_ptr)[i], 0);
-                break;
-            case 3:
-                res += me.callback3((*vec_num_ptr)[i], (*vec_nas_ptr)[i], 0);
-                break;
-            case 4:
-                res += me.callback4(0, 0, (*vec_ntn_ptr)[i]);
-                break;
-            case 5:
-                res += me.callback5((*vec_num_ptr)[i], 0, (*vec_ntn_ptr)[i]);
-                break;
-            case 6:
-                res += me.callback6(0, (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]);
-                break;
-            case 7:
-                res += me.callback7((*vec_num_ptr)[i], (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]);
-                break;
+            case 0: res += me.callback0(0, 0, 0); break;
+            case 1: res += me.callback1((*vec_num_ptr)[i], 0, 0); break;
+            case 2: res += me.callback2(0, (*vec_nas_ptr)[i], 0); break;
+            case 3: res += me.callback3((*vec_num_ptr)[i], (*vec_nas_ptr)[i], 0); break;
+            case 4: res += me.callback4(0, 0, (*vec_ntn_ptr)[i]); break;
+            case 5: res += me.callback5((*vec_num_ptr)[i], 0, (*vec_ntn_ptr)[i]); break;
+            case 6: res += me.callback6(0, (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]); break;
+            case 7: res += me.callback7((*vec_num_ptr)[i], (*vec_nas_ptr)[i], (*vec_ntn_ptr)[i]); break;
+            default: break;
         }
         //reset the current offset
         current_offset = end_off[i];
@@ -4152,33 +4130,27 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
 #ifdef __DOXYGEN__
 
-#ifndef JPCRE2_USE_CHAR1632
-#define JPCRE2_USE_CHAR1632
+#ifndef JPCRE2_DISABLE_CHAR1632
+#define JPCRE2_DISABLE_CHAR1632
 #endif
-#ifndef JPCRE2_USE_FUNCTIONAL
-#define JPCRE2_USE_FUNCTIONAL
-#endif
-#ifndef JPCRE2_USE_FUNCTIONAL_CALLBACK
-#define JPCRE2_USE_FUNCTIONAL_CALLBACK
+#ifndef JPCRE2_USE_FUNCTION_POINTER_CALLBACK
+#define JPCRE2_USE_FUNCTION_POINTER_CALLBACK
 #endif
 #ifndef JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
 #define JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
 #endif
 
-///@def JPCRE2_USE_CHAR1632
-///You need to define this macro when you intend to use char16_t and char32_t.
-///It requires C++11 compiler or later. Older compiler which supposedly supports C++11
-///but does not have the codecvt header will not work, make sure to use a compiler that comes
-///with codecvt header.
+///@def JPCRE2_DISABLE_CHAR1632
+///Disable support for char16_t and char32_t.
+///Older compiler which supposedly supports C++11
+///but does not have the codecvt header will not work with char16_t and char32_t, in this case
 
-///@def JPCRE2_USE_FUNCTIONAL
-///include `#include <functional>` and use `std::functional` as much as possible
-
-///@def JPCRE2_USE_FUNCTIONAL_CALLBACK
-///By default function pointer is used for callback in MatchEvaluator.
-///If this macro is defined before including jpcre2.hpp, `std::function` wrapper will be used
-///instead. This may be required when using lambda function with captures.
-///You can have the same effect with `JPCRE2_USE_FUNCTIONAL` and that makes this macro as redundant but kept for compatibility.
+///@def JPCRE2_USE_FUNCTION_POINTER_CALLBACK
+///Use function pointer in all cases for MatchEvaluatorCallback function.
+///By default function pointer is used for callback in MatchEvaluator when using <C++11 compiler, but for
+///`>=C++11` compiler `std::function` instead of function pointer is used.
+///If this macro is defined before including jpcre2.hpp, function pointer will be used in all cases.
+///It you are using lambda function with captures, stick with `std::function`.
 
 ///@def JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
 ///By default JPCRE2 checks if the code unit width equals to
