@@ -3612,7 +3612,7 @@ typename jpcre2::select<Char_T, BS>::RegexReplace&
 
 template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexReplace::nreplace(MatchEvaluator me){
-    // If code is null, return the subject string unmodified.
+    // If re or re->code is null, return the subject string unmodified.
     if (!re || re->code == 0) return *r_subject_ptr;
     String res;
     //set the re object to point to the re object corresponding to replace object
@@ -3660,7 +3660,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
 template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexReplace::replace() {
 
-    // If code is null, return the subject string unmodified.
+    // If re or re->code is null, return the subject string unmodified.
     if (!re || re->code == 0)
         return *r_subject_ptr;
 
