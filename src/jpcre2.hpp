@@ -1079,7 +1079,7 @@ struct select{
         ///
         ///Creates a RegexMatch object associating a Regex object.
         ///@param r pointer to a Regex object
-        RegexMatch(Regex * r) {
+        RegexMatch(const Regex * r) {
             init_vars();
             re = r;
         }
@@ -1962,7 +1962,7 @@ struct select{
         ///
         ///Creates a RegexReplace object associating a Regex object.
         ///@param r pointer to a Regex object
-        RegexReplace(Regex * r) { 
+        RegexReplace(const Regex * r) { 
             init_vars();
             re = r;
         }
@@ -3671,7 +3671,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
     PCRE2_SIZE outlengthptr = (PCRE2_SIZE) buffer_size;
     bool retry = true;
     int ret = 0;
-    Pcre2Uchar* output_buffer = new Pcre2Uchar[outlengthptr + 1];
+    Pcre2Uchar* output_buffer = new Pcre2Uchar[outlengthptr + 1]();
 
     while (true) {
         ret = Pcre2Func<BS>::substitute(
@@ -3696,7 +3696,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
                 /// If initial #buffer_size wasn't big enough for resultant string, 
                 /// we will try once more with a new buffer size adjusted to the length of the resultant string.
                 delete[] output_buffer;
-                output_buffer = new Pcre2Uchar[outlengthptr + 1];
+                output_buffer = new Pcre2Uchar[outlengthptr + 1]();
                 // Go and try to perform the substitute again
                 continue;
             } else {
@@ -3919,7 +3919,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
                                 _start_offset,  /* start at offset 'start_offset' in the subject */
                                 match_opts,     /* default options */
                                 match_data,     /* block for storing the result */
-                                mcontext);             /* use default match context */
+                                mcontext);      /* use default match context */
 
     /* Matching failed: handle error cases */
 
