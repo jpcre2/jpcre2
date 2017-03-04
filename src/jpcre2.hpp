@@ -108,7 +108,7 @@ namespace jpcre2 {
 
 ///Define for JPCRE2 version.
 ///It can be used to support changes in different versions of the lib.
-#define JPCRE2_VERSION 102901L
+#define JPCRE2_VERSION 102902L
 
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
@@ -116,10 +116,10 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.29.01";     ///< Full version string
+    static const char FULL_VERSION[] = "10.29.02";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
     static const char VERSION_MAJOR[] = "29";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "01";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MINOR[] = "02";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -1079,7 +1079,7 @@ struct select{
         ///
         ///Creates a RegexMatch object associating a Regex object.
         ///@param r pointer to a Regex object
-        RegexMatch(Regex * r) {
+        RegexMatch(const Regex * r) {
             init_vars();
             re = r;
         }
@@ -1962,7 +1962,7 @@ struct select{
         ///
         ///Creates a RegexReplace object associating a Regex object.
         ///@param r pointer to a Regex object
-        RegexReplace(Regex * r) { 
+        RegexReplace(const Regex * r) { 
             init_vars();
             re = r;
         }
@@ -3671,7 +3671,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
     PCRE2_SIZE outlengthptr = (PCRE2_SIZE) buffer_size;
     bool retry = true;
     int ret = 0;
-    Pcre2Uchar* output_buffer = new Pcre2Uchar[outlengthptr + 1];
+    Pcre2Uchar* output_buffer = new Pcre2Uchar[outlengthptr + 1]();
 
     while (true) {
         ret = Pcre2Func<BS>::substitute(
@@ -3696,7 +3696,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
                 /// If initial #buffer_size wasn't big enough for resultant string, 
                 /// we will try once more with a new buffer size adjusted to the length of the resultant string.
                 delete[] output_buffer;
-                output_buffer = new Pcre2Uchar[outlengthptr + 1];
+                output_buffer = new Pcre2Uchar[outlengthptr + 1]();
                 // Go and try to perform the substitute again
                 continue;
             } else {
@@ -3769,9 +3769,10 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, Match
             default:
                 break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
             }
+        } else {
+            value = toString((Char*) buffer);
+            Pcre2Func<BS>::substring_free(buffer);     //must free memory
         }
-        value = toString((Char*) buffer);
-        Pcre2Func<BS>::substring_free(buffer);     //must free memory
         buffer = 0; //we are going to use it again.
         //if (num_sub)   //This null check is paranoid, this function shouldn't be called if this vector is null
         num_sub->push_back(value); 
@@ -3813,11 +3814,11 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
             default:
                 break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
             }
+        } else {
+            value = toString((Char *) buffer);
+            Pcre2Func<BS>::substring_free(buffer);     //must free memory
         }
-        value = toString((Char *) buffer);
-        Pcre2Func<BS>::substring_free(buffer);     //must free memory
         buffer = 0; //we may use this pointer again, better initialize it.
-        
 
         if(ntn_map) {
             //Let's get the value again, this time with number
@@ -3837,9 +3838,10 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
                 default:
                     break;   ///Errors other than PCRE2_ERROR_NOMEMORY error are ignored
                 }
+            } else {
+                value1 = toString((Char *) buffer);
+                Pcre2Func<BS>::substring_free(buffer);     //must free memory
             }
-            value1 = toString((Char *) buffer);
-            Pcre2Func<BS>::substring_free(buffer);     //must free memory
             buffer = 0;
             
             if (value != value1) continue;
@@ -3919,7 +3921,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
                                 _start_offset,  /* start at offset 'start_offset' in the subject */
                                 match_opts,     /* default options */
                                 match_data,     /* block for storing the result */
-                                mcontext);             /* use default match context */
+                                mcontext);      /* use default match context */
 
     /* Matching failed: handle error cases */
 

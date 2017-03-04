@@ -1,6 +1,11 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.29.02 - Sat Mar  4 00:52:38 UTC 2017
+-----------------------------------------------
+
+* Fix unsafe use of pcre2_substring_free
+
 Version 10.29.01 - Tue Jan 24 21:41:29 UTC 2017
 -----------------------------------------------
 
