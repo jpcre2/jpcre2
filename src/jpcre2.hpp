@@ -3818,9 +3818,7 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
             value = toString((Char *) buffer);
             Pcre2Func<BS>::substring_free(buffer);     //must free memory
         }
-        
         buffer = 0; //we may use this pointer again, better initialize it.
-        
 
         if(ntn_map) {
             //Let's get the value again, this time with number
