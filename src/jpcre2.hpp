@@ -108,7 +108,7 @@ namespace jpcre2 {
 
 ///Define for JPCRE2 version.
 ///It can be used to support changes in different versions of the lib.
-#define JPCRE2_VERSION 102902L
+#define JPCRE2_VERSION 102903L
 
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
@@ -116,10 +116,10 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.29.02";     ///< Full version string
+    static const char FULL_VERSION[] = "10.29.03";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
     static const char VERSION_MAJOR[] = "29";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "02";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MINOR[] = "03";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -137,7 +137,8 @@ namespace ERROR {
      *  PCRE2 error numbers are negative integers.
      */
     enum {
-        INVALID_MODIFIER        = 2                ///< Error number implying that invalid modifier was detected
+        INVALID_MODIFIER        = 2,  ///< Error number implying that invalid modifier was detected
+        INSUFFICIENT_OVECTOR    = 3   ///< Error number implying that ovector was not big enough during a match
     };
 }
 
@@ -335,6 +336,9 @@ template<> struct Pcre2Func<8> {
     static void match_context_free(typename Pcre2Type<8>::MatchContext *mcontext){
         pcre2_match_context_free_8(mcontext);
     }
+    static uint32_t get_ovector_count(typename Pcre2Type<8>::MatchData *match_data){
+        return pcre2_get_ovector_count_8(match_data);
+    }
 };
 
 //16-bit version
@@ -455,6 +459,9 @@ template<> struct Pcre2Func<16> {
     }
     static void match_context_free(typename Pcre2Type<16>::MatchContext *mcontext){
         pcre2_match_context_free_16(mcontext);
+    }
+    static uint32_t get_ovector_count(typename Pcre2Type<16>::MatchData *match_data){
+        return pcre2_get_ovector_count_16(match_data);
     }
 };
 
@@ -580,6 +587,9 @@ template<> struct Pcre2Func<32> {
     static void match_context_free(typename Pcre2Type<32>::MatchContext *mcontext){
         pcre2_match_context_free_32(mcontext);
     }
+    static uint32_t get_ovector_count(typename Pcre2Type<32>::MatchData *match_data){
+        return pcre2_get_ovector_count_32(match_data);
+    }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -655,13 +665,18 @@ namespace MOD {
 //take care to prevent multiple definition
 template<typename Char_T> struct MSG{
     static std::basic_string<Char_T> INVALID_MODIFIER(void);
+    static std::basic_string<Char_T> INSUFFICIENT_OVECTOR(void);
 };
 //specialization
 template<> inline std::basic_string<char> MSG<char>::INVALID_MODIFIER(){ return "Invalid modifier: "; }
 template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INVALID_MODIFIER(){ return L"Invalid modifier: "; }
+template<> inline std::basic_string<char> MSG<char>::INSUFFICIENT_OVECTOR(){ return "ovector wasn't big enough"; }
+template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INSUFFICIENT_OVECTOR(){ return L"ovector wasn't big enough"; }
 #if __cplusplus >= 201103L && !defined JPCRE2_DISABLE_CHAR1632
 template<> inline std::basic_string<char16_t> MSG<char16_t>::INVALID_MODIFIER(){ return u"Invalid modifier: "; }
 template<> inline std::basic_string<char32_t> MSG<char32_t>::INVALID_MODIFIER(){ return U"Invalid modifier: "; }
+template<> inline std::basic_string<char16_t> MSG<char16_t>::INSUFFICIENT_OVECTOR(){ return u"ovector wasn't big enough"; }
+template<> inline std::basic_string<char32_t> MSG<char32_t>::INSUFFICIENT_OVECTOR(){ return U"ovector wasn't big enough"; }
 #endif
 
 
@@ -906,6 +921,8 @@ struct select{
     static String getErrorMessage(int err_num, int err_off)  {
         if(err_num == (int)ERROR::INVALID_MODIFIER){
             return MSG<Char>::INVALID_MODIFIER() + toString((Char)err_off);
+        } else if(err_num == (int)ERROR::INSUFFICIENT_OVECTOR){
+            return MSG<Char>::INSUFFICIENT_OVECTOR();
         } else if(err_num != 0) {
             return getPcre2ErrorMessage((int) err_num) + ConvInt<Char>::toString((int) err_off);
         } else return String();
@@ -1541,15 +1558,15 @@ struct select{
     /// **Examples:**
     /// ```cpp
     /// typedef jpcre2::select<char> jp;
-    /// jp::String myCallBack1(const jp::NumSub& m1, void*, void*){
+    /// jp::String myCallback1(const jp::NumSub& m1, void*, void*){
     ///     return "("+m1[0]+")";
     /// }
     /// 
-    /// jp::String myCallBack2(const jp::NumSub& m1, const jp::MapNas& m2, void*){
+    /// jp::String myCallback2(const jp::NumSub& m1, const jp::MapNas& m2, void*){
     ///     return "("+m1[0]+"/"+m2.at("total")+")";
     /// }
     /// //Now you can pass these functions in MatchEvaluator constructors to create a match evaluator
-    /// jp::MatchEvaluator me1(myCallBack1); 
+    /// jp::MatchEvaluator me1(myCallback1); 
     ///
     /// //Examples with lambda (>=C++11)
     /// jp::MatchEvaluator me2([](const jp::NumSub& m1, void*, void*)
@@ -1559,11 +1576,11 @@ struct select{
     /// ```
     ///@see MatchEvaluator
     template<typename T1, typename T2, typename T3>
-    struct MatchEvaluatorCallBack{
+    struct MatchEvaluatorCallback{
         #if !defined JPCRE2_USE_FUNCTION_POINTER_CALLBACK && __cplusplus >= 201103L
-        typedef std::function<String (T1,T2,T3)> CallBack;
+        typedef std::function<String (T1,T2,T3)> Callback;
         #else
-        typedef String (*CallBack)(T1,T2,T3);
+        typedef String (*Callback)(T1,T2,T3);
         #endif
     };
 
@@ -1580,10 +1597,10 @@ struct select{
     ///* setSubject
     ///* setFindAll.
     ///
-    ///Each of the constructors takes a callback function as argument (see `MatchEvaluatorCallBack`).
+    ///Each of the constructors takes a callback function as argument (see `MatchEvaluatorCallback`).
     ///An instance of this class can be passed with `RegexReplace::nreplace()` function to perform replace
     ///according to this match evaluator.
-    ///@see MatchEvaluatorCallBack
+    ///@see MatchEvaluatorCallback
     ///@see RegexReplace::nreplace()
     class MatchEvaluator: virtual public RegexMatch{
         private:
@@ -1592,15 +1609,17 @@ struct select{
         VecNum vec_num;
         VecNas vec_nas;
         VecNtN vec_ntn;
+        VecOff vec_soff;
+        VecOff vec_eoff;
         int callback;
-        typename MatchEvaluatorCallBack<void*, void*, void*>::CallBack callback0;
-        typename MatchEvaluatorCallBack<const NumSub&, void*, void*>::CallBack callback1;
-        typename MatchEvaluatorCallBack<void*, const MapNas&, void*>::CallBack callback2;
-        typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, void*>::CallBack callback3;
-        typename MatchEvaluatorCallBack<void*, void*, const MapNtN&>::CallBack callback4;
-        typename MatchEvaluatorCallBack<const NumSub&, void*, const MapNtN&>::CallBack callback5;
-        typename MatchEvaluatorCallBack<void*, const MapNas&, const MapNtN&>::CallBack callback6;
-        typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, const MapNtN&>::CallBack callback7;
+        typename MatchEvaluatorCallback<void*, void*, void*>::Callback callback0;
+        typename MatchEvaluatorCallback<const NumSub&, void*, void*>::Callback callback1;
+        typename MatchEvaluatorCallback<void*, const MapNas&, void*>::Callback callback2;
+        typename MatchEvaluatorCallback<const NumSub&, const MapNas&, void*>::Callback callback3;
+        typename MatchEvaluatorCallback<void*, void*, const MapNtN&>::Callback callback4;
+        typename MatchEvaluatorCallback<const NumSub&, void*, const MapNtN&>::Callback callback5;
+        typename MatchEvaluatorCallback<void*, const MapNas&, const MapNtN&>::Callback callback6;
+        typename MatchEvaluatorCallback<const NumSub&, const MapNas&, const MapNtN&>::Callback callback7;
         
         void init(){
             callback = 0;
@@ -1612,6 +1631,8 @@ struct select{
             callback5 = 0;
             callback6 = 0;
             callback7 = 0;
+            setMatchStartOffsetVector(&vec_soff);
+            setMatchEndOffsetVector(&vec_eoff);
         }
         
         void setVectorPointersAccordingToCallback(){
@@ -1638,6 +1659,11 @@ struct select{
             callback6 = me.callback6;
             callback7 = me.callback7;
             setVectorPointersAccordingToCallback();
+            vec_num = me.vec_num;
+            vec_nas = me.vec_nas;
+            vec_ntn = me.vec_ntn;
+            vec_soff = me.vec_soff;
+            vec_eoff = me.vec_eoff;
         }
         
         //prevent public access to some funcitons
@@ -1653,14 +1679,14 @@ struct select{
             RegexMatch::setNameToNumberMapVector(v);
             return *this;
         }
-        MatchEvaluator& setRegexObject(const Regex* r){
-            RegexMatch::setRegexObject(r);
-            return *this;
-        }
-        MatchEvaluator& setStartOffset(PCRE2_SIZE start_off){
-            RegexMatch::setStartOffset(start_off);
-            return *this;
-        }
+        //~ MatchEvaluator& setRegexObject(const Regex* r){
+            //~ RegexMatch::setRegexObject(r);
+            //~ return *this;
+        //~ }
+        //~ MatchEvaluator& setStartOffset(PCRE2_SIZE start_off){
+            //~ RegexMatch::setStartOffset(start_off);
+            //~ return *this;
+        //~ }
         MatchEvaluator& setMatchStartOffsetVector(VecOff* v){
             RegexMatch::setMatchStartOffsetVector(v);
             return *this;
@@ -1669,21 +1695,21 @@ struct select{
             RegexMatch::setMatchEndOffsetVector(v);
             return *this;
         }
-        MatchEvaluator& setSubject(const String& s){
-            RegexMatch::setSubject(s);
-            return *this;
-        }
-        MatchEvaluator& setSubject(const String* s){
-            RegexMatch::setSubject(s);
-            return *this;
-        }
-        MatchEvaluator& setFindAll(bool x){
-            RegexMatch::setFindAll(x);
-            return *this;
-        }
-        MatchEvaluator& setFindAll(){
-            return setFindAll(true);
-        }
+        //~ MatchEvaluator& setSubject(const String& s){
+            //~ RegexMatch::setSubject(s);
+            //~ return *this;
+        //~ }
+        //~ MatchEvaluator& setSubject(const String* s){
+            //~ RegexMatch::setSubject(s);
+            //~ return *this;
+        //~ }
+        //~ MatchEvaluator& setFindAll(bool x){
+            //~ RegexMatch::setFindAll(x);
+            //~ return *this;
+        //~ }
+        //~ MatchEvaluator& setFindAll(){
+            //~ return setFindAll(true);
+        //~ }
         
         public:
         
@@ -1691,10 +1717,9 @@ struct select{
         ///Constructor taking a callback function with no vector reference.
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallBack<void*, void*, void*>::CallBack mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<void*, void*, void*>::Callback mef): RegexMatch(){
             init();
-            callback0 = mef;
-            callback = 0;
+            setMatchEvaluatorCallback(mef);
         }
         
         ///@overload
@@ -1702,11 +1727,9 @@ struct select{
         ///You will be working with a constant reference of NumSub vector.
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, void*, void*>::CallBack mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<const NumSub&, void*, void*>::Callback mef): RegexMatch(){
             init();
-            callback1 = mef;
-            callback = 1;
-            setNumberedSubstringVector(&vec_num);
+            setMatchEvaluatorCallback(mef);
         }
         
         ///@overload
@@ -1725,12 +1748,9 @@ struct select{
         ///```
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, void*>::CallBack mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, void*>::Callback mef): RegexMatch(){
             init();
-            callback3 = mef;
-            callback = 3;
-            setNumberedSubstringVector(&vec_num);
-            setNamedSubstringVector(&vec_nas);
+            setMatchEvaluatorCallback(mef);
         }
         
         ///@overload
@@ -1749,12 +1769,9 @@ struct select{
         ///```
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, void*,  const MapNtN&>::CallBack mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<const NumSub&, void*,  const MapNtN&>::Callback mef): RegexMatch(){
             init();
-            callback5 = mef;
-            callback = 5;
-            setNumberedSubstringVector(&vec_num);
-            setNameToNumberMapVector(&vec_ntn);
+            setMatchEvaluatorCallback(mef);
         }
         
         ///@overload
@@ -1773,13 +1790,9 @@ struct select{
         ///```
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallBack<const NumSub&, const MapNas&, const MapNtN&>::CallBack mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, const MapNtN&>::Callback mef): RegexMatch(){
             init();
-            callback7 = mef;
-            callback = 7;
-            setNumberedSubstringVector(&vec_num);
-            setNamedSubstringVector(&vec_nas);
-            setNameToNumberMapVector(&vec_ntn);
+            setMatchEvaluatorCallback(mef);
         }
         
         ///@overload
@@ -1798,12 +1811,11 @@ struct select{
         ///```
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallBack<void*, const MapNas&, void*>::CallBack mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<void*, const MapNas&, void*>::Callback mef): RegexMatch(){
             init();
-            callback2 = mef;
-            callback = 2;
-            setNamedSubstringVector(&vec_nas);
+            setMatchEvaluatorCallback(mef);
         }
+        
         
         ///@overload
         ///
@@ -1821,13 +1833,12 @@ struct select{
         ///```
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallBack<void*, const MapNas&,  const MapNtN&>::CallBack mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<void*, const MapNas&,  const MapNtN&>::Callback mef): RegexMatch(){
             init();
-            callback6 = mef;
-            callback = 6;
-            setNamedSubstringVector(&vec_nas);
-            setNameToNumberMapVector(&vec_ntn);
+            setMatchEvaluatorCallback(mef);
         }
+        
+        
         
         ///@overload
         ///
@@ -1845,12 +1856,12 @@ struct select{
         ///```
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallBack<void*, void*,  const MapNtN&>::CallBack mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<void*, void*,  const MapNtN&>::Callback mef): RegexMatch(){
             init();
-            callback4 = mef;
-            callback = 4;
-            setNameToNumberMapVector(&vec_ntn);
+            setMatchEvaluatorCallback(mef);
         }
+        
+        
         
         ///@overload
         ///
@@ -1873,6 +1884,174 @@ struct select{
         }
         
         virtual ~MatchEvaluator(){}
+        
+        
+        ///Member function to set a callback function with no vector reference.
+        ///@param mef Callback function.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, void*, void*>::Callback mef){
+            callback0 = mef;
+            callback = 0;
+            return *this;
+        }
+        
+        ///@overload
+        ///
+        ///You will be working with a constant reference of NumSub vector.
+        ///@param mef Callback function.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, void*, void*>::Callback mef){
+            callback1 = mef;
+            callback = 1;
+            setNumberedSubstringVector(&vec_num);
+            return *this;
+        }
+        
+        ///@overload
+        ///
+        ///Sets a callback function with a NumSub and MapNas.
+        ///You will be working with constant references of the vectors.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_nas["word"]; //wrong
+        ///map_nas.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNas mn = map_nas;
+        ///mn["word"]; //ok
+        ///```
+        ///@param mef Callback function.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, void*>::Callback mef){
+            callback3 = mef;
+            callback = 3;
+            setNumberedSubstringVector(&vec_num);
+            setNamedSubstringVector(&vec_nas);
+            return *this;
+        }
+        
+        ///@overload
+        ///
+        ///Sets a callback function with a NumSub and MapNtN.
+        ///You will be working with constant references of the vectors.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_ntn["word"]; //wrong
+        ///map_ntn.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNtN mn = map_ntn;
+        ///mn["word"]; //ok
+        ///```
+        ///@param mef Callback function.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, void*,  const MapNtN&>::Callback mef){
+            callback5 = mef;
+            callback = 5;
+            setNumberedSubstringVector(&vec_num);
+            setNameToNumberMapVector(&vec_ntn);
+            return *this;
+        }
+        
+        
+        ///@overload
+        ///
+        ///Sets a callback function with a NumSub, MapNas, MapNtN.
+        ///You will be working with constant references of the vectors.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_nas["word"]; //wrong
+        ///map_nas.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNas mn = map_nas;
+        ///mn["word"]; //ok
+        ///```
+        ///@param mef Callback function.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, const MapNtN&>::Callback mef){
+            callback7 = mef;
+            callback = 7;
+            setNumberedSubstringVector(&vec_num);
+            setNamedSubstringVector(&vec_nas);
+            setNameToNumberMapVector(&vec_ntn);
+            return *this;
+        }
+        
+        ///@overload
+        ///
+        ///Sets a callback function with a MapNas.
+        ///You will be working with constant reference of the vector.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_nas["word"]; //wrong
+        ///map_nas.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNas mn = map_nas;
+        ///mn["word"]; //ok
+        ///```
+        ///@param mef Callback function.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, const MapNas&, void*>::Callback mef){
+            callback2 = mef;
+            callback = 2;
+            setNamedSubstringVector(&vec_nas);
+            return *this;
+        }
+        
+        ///@overload
+        ///
+        ///Sets a callback function with a MapNas, MapNtN.
+        ///You will be working with constant reference of the vector.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_nas["word"]; //wrong
+        ///map_nas.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNas mn = map_nas;
+        ///mn["word"]; //ok
+        ///```
+        ///@param mef Callback function.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, const MapNas&,  const MapNtN&>::Callback mef){
+            callback6 = mef;
+            callback = 6;
+            setNamedSubstringVector(&vec_nas);
+            setNameToNumberMapVector(&vec_ntn);
+            return *this;
+        }
+        
+        ///@overload
+        ///
+        ///Sets a callback function with a MapNtN.
+        ///You will be working with constant references of the vectors.
+        ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
+        ///```cpp
+        ///map_ntn["word"]; //wrong
+        ///map_ntn.at("word"); //ok 
+        ///```
+        ///If you want to use `[]` operator with maps, make a copy:
+        ///```cpp
+        ///jp::MapNtN mn = map_ntn;
+        ///mn["word"]; //ok
+        ///```
+        ///@param mef Callback function.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, void*,  const MapNtN&>::Callback mef){
+            callback4 = mef;
+            callback = 4;
+            setNameToNumberMapVector(&vec_ntn);
+            return *this;
+        }
+        
+        
     };
     
     /** Provides public constructors to create RegexReplace objects.
@@ -2365,7 +2544,7 @@ struct select{
         ///@param me A MatchEvaluator object.
         ///@return The resultant string after replacement.
         ///@see MatchEvaluator
-        ///@see MatchEvaluatorCallBack
+        ///@see MatchEvaluatorCallback
         String nreplace(MatchEvaluator me);
     }; 
  
@@ -3613,7 +3792,7 @@ typename jpcre2::select<Char_T, BS>::RegexReplace&
 template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexReplace::nreplace(MatchEvaluator me){
     // If re or re->code is null, return the subject string unmodified.
-    if (!re || re->code == 0) return *r_subject_ptr;
+    if (!re || re->code == 0) return *r_subject_ptr; //r_subject_ptr is never null.
     String res;
     //set the re object to point to the re object corresponding to replace object
     me.setRegexObject(re);
@@ -3635,8 +3814,14 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
     size_t current_offset = 0;
     
     for(size_t i=0;i<count;++i){
-        //first copy the unmatched part
-        res += r_subject_ptr->substr(current_offset, start_off[i]-current_offset);
+        //first copy the unmatched part.
+        //Matches that use \K to end before they start are not supported.
+        if(current_offset < start_off[i]){
+            error_number = PCRE2_ERROR_BADSUBSPATTERN;
+            return *r_subject_ptr; //r_subject_ptr is never null.
+        } else {
+            res += r_subject_ptr->substr(current_offset, start_off[i]-current_offset);
+        }
         //now process the matched part
         switch(me.callback){
             case 0: res += me.callback0((void*)0, (void*)0, (void*)0); break;
@@ -3956,8 +4141,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
     if (rc == 0) {
         //ovector was not big enough for all the captured substrings;
-        return count;
-
+        error_number = ERROR::INSUFFICIENT_OVECTOR;
+        rc = Pcre2Func<BS>::get_ovector_count(match_data);
     }
     //match succeeded at offset ovector[0]
     if(vec_soff) vec_soff->push_back(ovector[0]);
@@ -4090,7 +4275,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
                                     start_offset,   /* starting offset in the subject */
                                     options,        /* options */
                                     match_data,     /* block for storing the result */
-                                    mcontext);             /* use default match context */
+                                    mcontext);      /* use match context */
 
         /* This time, a result of NOMATCH isn't an error. If the value in "options"
          is zero, it just means we have found all possible matches, so the loop ends.
@@ -4139,7 +4324,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
         if (rc == 0) {
             /* The match succeeded, but the output vector wasn't big enough. This
              should not happen. */
-            return count;
+            error_number = ERROR::INSUFFICIENT_OVECTOR;
+            rc = Pcre2Func<BS>::get_ovector_count(match_data);
         }
         
         //match succeded at ovector[0]
