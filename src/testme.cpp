@@ -87,13 +87,46 @@ int main(){
     std::cout<<"\n\n### 6\n"<<rr.nreplace(jp::MatchEvaluator(callback6));
     std::cout<<"\n\n### 7\n"<<rr.nreplace(jp::MatchEvaluator(callback7));
     
+    //MatchEvaluator itself has an nreplace() function:
+    //Actually the RegexReplace::nreplace(MatchEvaluator me) is just a wrapper of MatchEvaluator::nreplace().
+    std::cout<<"\n\n### 7 Calling directly MatchEvaluator::nreplace()\n"
+             <<jp::MatchEvaluator(callback7)
+                                 .setSubject(&s3)
+                                 //.setRegexObject(&re) //without this, there would be an assertion failure.
+                                 .setFindAll()
+                                 .nreplace();
+    //note the setFindAll() in above, without it, only single replacement would occur because there would be only one match.
     
-    // Some random sanity check
+    
+    /* *****************************************************************
+     * Re-using same MatchEvaluator for different replace operation
+     * by using existing match data with different callback function:
+     * ****************************************************************/
+    
+    jp::MatchEvaluator cme(callback7);
+    cme.setSubject(&s3).setRegexObject(&re).setFindAll().match(); //this one performs a match
+    
+    std::cout<<"\n\n###### Re-using existing match data of MatchEvaluator:";
+    std::cout<<"\n\n### callback0: \n"<<cme.setMatchEvaluatorCallback(callback0).nreplace();      //this one performs the match again (redundant).
+    std::cout<<"\n\n### callback1: \n"<<cme.setMatchEvaluatorCallback(callback1).nreplace(false); //this one and all the following
+    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false); //uses existing match data
+    std::cout<<"\n\n### callback3: \n"<<cme.setMatchEvaluatorCallback(callback3).nreplace(false); //from the previous match
+    std::cout<<"\n\n### callback4: \n"<<cme.setMatchEvaluatorCallback(callback4).nreplace(false);
+    std::cout<<"\n\n### callback5: \n"<<cme.setMatchEvaluatorCallback(callback5).nreplace(false);
+    std::cout<<"\n\n### callback6: \n"<<cme.setMatchEvaluatorCallback(callback6).nreplace(false);
+    std::cout<<"\n\n### callback7: \n"<<cme.setMatchEvaluatorCallback(callback7).nreplace(false);
+    
+    //note the 'false' in the above nreplace() functions, it says 'do not perform a new match' i.e 'use previous match data'
+    
+    
+    ////////////////////////////////////////////////////////////////////
+    ///////////// Some random sanity checks
+    ////////////////////////////////////////////////////////////////////
+    
     rr.setRegexObject(0);
     assert(rr.nreplace(jp::MatchEvaluator(callback1))==s3);
     
     rr.setRegexObject(&re).setPcre2Option(0).nreplace(jp::MatchEvaluator(callback2));
-    
     
 
     jp::MatchEvaluator me1(&callback0);
@@ -120,6 +153,7 @@ int main(){
     me1 = jp::MatchEvaluator(callback6);
     me1 = jp::MatchEvaluator(callback7);
     me1 = jp::MatchEvaluator(callback1);
+
 
     return 0;
 }

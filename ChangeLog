@@ -1,6 +1,20 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.29.03 - 
+-----------------------------------------------
+
+1. Add ERROR constant INSUFFICIENT_OVECTOR
+2. Allow INSUFFICIENT_OVECTOR to be bypassed in `RegexMatch::match()` function.
+3. Add `MatchEvaluator::match()`, and `MatchEvaluator::nreplace()`
+4. Add `RegexMatch::getMatchStartOffsetVector()` and `RegexMatch::getMatchEndOffsetVector()`
+5. Add `MatchEvaluator::setMatchEvaluatorCallback()`
+6. Add an extra optional argument with `RegexReplace::nreplace()` to use existing match data.
+7. Add `MatchEvaluator::clearMatchData()` and `MatchEvaluator::reset()`
+8. Allow all `RegexMatch` member functions except functions that can set vector pointers in `MatchEvaluator` class.
+9. All chained methods of `RegexMatch` class are overridden to port the method chaining.
+
+
 Version 10.29.02 - Sat Mar  4 00:52:38 UTC 2017
 -----------------------------------------------
 

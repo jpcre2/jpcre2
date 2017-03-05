@@ -1,27 +1,25 @@
 #include <iostream>
 
-class A{
+class B{
     int a;
-    
     public:
-    
-    virtual void setA(int x){
+    virtual ~B(){}
+    virtual B& setA(int x){
         a = x;
+        return *this;
     }
-    virtual int getA(){
-        return a;
-    }
-    virtual ~A(){}
 };
 
-class B: virtual public A{
-    int a;
+class D: virtual public B{
+    int d;
+    public:
+    D& setD(int x){
+        d = x;
+        return *this;
+    }
 };
 
 int main(){
-    
-    B b;
-    b.setA(7);
-    std::cout<<b.getA();
+
     return 0;
 }
