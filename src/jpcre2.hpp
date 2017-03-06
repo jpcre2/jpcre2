@@ -69,7 +69,6 @@
 #include <cstdio>       // std::sprintf
 #include <cwchar>       // std::mbstate_t, std::swprintf
 #include <climits>      // CHAR_BIT
-#include <cassert>      // assert()
 #include <cstring>      // std::memcpy
 
 #if __cplusplus >= 201103L
@@ -81,6 +80,22 @@
     #endif
 #endif
 
+#ifndef NDEBUG
+    #define JPCRE2_ASSERT(cond, msg) \
+    if(!(cond)) { std::cerr<<"\nE: Assert Failed: "<<msg<<"\nFile: "<<__FILE__<<"\tLine: "<<__LINE__<<"\n"; std::abort();}
+    #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) \
+    if(!(cond)) { std::cerr<<"\nE: Assert Failed: "<<"NullPointerError: \n"\
+    <<"\
+    Required data vector of type "<<name<<" is empty.\n\
+    Your MatchEvaluator callback function is not\n\
+    compatible with existing data!!"<<\
+    "\nFile: "<<__FILE__<<"\tLine: "<<__LINE__<<"\n"; std::abort();}
+    #define JPCRE2_UC_ASSERT(cond, msg) JPCRE2_ASSERT(cond, msg)
+#else
+    #define JPCRE2_ASSERT(cond, msg) ((void)0)
+    #define JPCRE2_UC_ASSERT(cond, msg) if(!(cond)){}
+    #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) ((void)0)
+#endif
 
 #ifdef JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
     template<bool B, class T = void>
@@ -759,7 +774,7 @@ IsSame<Char_T, char>::value|IsSame<Char_T, wchar_t>::value, Char_T>::Type>{
     static std::basic_string<Char_T> toString(int x){
         Char_T buf[sizeof(int)*CHAR_BIT]; //sizeof(int)*CHAR_BIT should always be sufficient
         int written = mysprint(buf, sizeof(buf)/sizeof(Char_T), x);
-        assert(written > 0);
+        JPCRE2_UC_ASSERT(written > 0, "IOError: Failed to write into buffer during int to string conversion.");
         return std::basic_string<Char_T>(buf);
     }
 };
@@ -1597,6 +1612,14 @@ struct select{
         #endif
     };
 
+    ///Default callback funcition for MatchEvaluatorCallback.
+    ///@param num NumSub vector.
+    ///@param nas MapNas map.
+    ///@param ntn MapNtN map.
+    ///@return empty string.
+    String defaultCallbackFcn(const NumSub& num, const MapNas& nas, const MapNtN& ntn){
+        return String();
+    }
 
     ///This class inherits RegexMatch and provides a similar functionality.
     ///All public member functions from RegexMatch class are publicly available except the following:
@@ -1995,7 +2018,7 @@ struct select{
         ///It clears all match data from all vectors.
         ///A call to `match()`  or nreplace() will be required to produce match data again.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& clearMatchData(){
+        MatchEvaluator& clearMatchDataVectors(){
             vec_num.clear();
             vec_nas.clear();
             vec_ntn.clear();
@@ -2011,7 +2034,7 @@ struct select{
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& reset(){
             RegexMatch::reset();
-            clearMatchData();
+            clearMatchDataVectors();
             //set vector pointers.
             setVectorPointersAccordingToCallback();
             setMatchStartOffsetVector(&vec_soff);
@@ -2166,8 +2189,8 @@ struct select{
         ///assertion failure.
         ///@return match count.
         SIZE_T match(void){
-            assert(RegexMatch::getRegexObject() != 0 && "\
-                E: NullPointerError:\
+            JPCRE2_ASSERT(RegexMatch::getRegexObject() != 0, "\
+                NullPointerError:\
                 MatchEvaluator object contains null Regex pointer.\
                 May be you forgot to setRegexObject!!!");
             //remove bad matching options
@@ -3064,7 +3087,8 @@ struct select{
             return *this; 
         } 
 
-        /** Create and initialize a new match object and return a reference to it
+        ///@deprecated 
+        /**Create and initialize a new match object and return a reference to it
          *
          * Options can be set with the setter functions of RegexMatch class
          * in-between the Regex::initMatch() and RegexMatch::match() call.
@@ -3078,7 +3102,8 @@ struct select{
             return *rm; 
         } 
 
-        /** Creates a new RegexReplace object and returns its reference.
+        ///@deprecated 
+        /**Creates a new RegexReplace object and returns its reference.
          * Options can be set with the setter functions of RegexReplace class
          * in-between the Regex::initReplace() and RegexReplace::replace() call.
          * @return Reference to a new RegexReplace object.
@@ -3090,6 +3115,7 @@ struct select{
             return *rr; 
         } 
 
+        ///@deprecated 
         ///Copy the match object into this Regex object.
         ///The match object passed is copied into the Regex object leaving the
         ///original unchanged.
@@ -3104,6 +3130,7 @@ struct select{
             return *this;
         }
 
+        ///@deprecated 
         ///Copy the replace object into this Regex object.
         ///The replace object passed is copied into the Regex object leaving the
         ///original unchanged.
@@ -3187,7 +3214,8 @@ struct select{
             return select<Char, BS>::getErrorMessage(error_number, error_offset); 
         } 
       
-        /// Returns a reference to existing match object.
+        ///@deprecated 
+        ///Returns a reference to existing match object.
         /// If there was no match object, it will create a new and act similarly to Regex::initMatch()
         /// @return Reference to a RegexMatch object
         ///@see Regex::initMatch()
@@ -3196,7 +3224,8 @@ struct select{
             else return initMatch(); 
         } 
         
-        /// Returns a reference to the existing RegexReplace object.
+        ///@deprecated 
+        ///Returns a reference to the existing RegexReplace object.
         ///If there was no replace object, it will create a new one
         /// and act similarly to Regex::initReplace().
         ///@return reference to a RegexReplace object
@@ -3608,6 +3637,7 @@ struct select{
             return RegexMatch(this).setSubject(s).match(); 
         }
         
+        ///@deprecated 
         ///Shorthand for getMatchObject().match()
         ///This uses previously initiated match object i.e call RegexMatch::match() with all previous options intact.
         ///@return Match count
@@ -3727,6 +3757,7 @@ struct select{
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).replace(); 
         }
 
+        ///@deprecated 
         /** Shorthand for getReplaceObject().replace()
          *  All previously set options will be used. It's just a short hand
          *  for calling `re.getReplaceObject().replace()`
@@ -3932,13 +3963,20 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEva
         //now process the matched part
         switch(callback){
             case 0: res += callback0((void*)0, (void*)0, (void*)0); break;
-            case 1: res += callback1(vec_num[i], (void*)0, (void*)0); break;
-            case 2: res += callback2((void*)0, vec_nas[i], (void*)0); break;
-            case 3: res += callback3(vec_num[i], vec_nas[i], (void*)0); break;
-            case 4: res += callback4((void*)0, (void*)0, vec_ntn[i]); break;
-            case 5: res += callback5(vec_num[i], (void*)0, vec_ntn[i]); break;
-            case 6: res += callback6((void*)0, vec_nas[i], vec_ntn[i]); break;
-            case 7: res += callback7(vec_num[i], vec_nas[i], vec_ntn[i]); break;
+            case 1: JPCRE2_VECTOR_DATA_ASSERT(vec_num.size() == mcount, "VecNum");
+                    res += callback1(vec_num[i], (void*)0, (void*)0); break;
+            case 2: JPCRE2_VECTOR_DATA_ASSERT(vec_nas.size() == mcount, "VecNas");
+                    res += callback2((void*)0, vec_nas[i], (void*)0); break;
+            case 3: JPCRE2_VECTOR_DATA_ASSERT(vec_num.size() == mcount && vec_nas.size() == mcount, "VecNum or VecNas");
+                    res += callback3(vec_num[i], vec_nas[i], (void*)0); break;
+            case 4: JPCRE2_VECTOR_DATA_ASSERT(vec_ntn.size() == mcount, "VecNtn");
+                    res += callback4((void*)0, (void*)0, vec_ntn[i]); break;
+            case 5: JPCRE2_VECTOR_DATA_ASSERT(vec_num.size() == mcount && vec_ntn.size() == mcount, "VecNum or VecNtn");
+                    res += callback5(vec_num[i], (void*)0, vec_ntn[i]); break;
+            case 6: JPCRE2_VECTOR_DATA_ASSERT(vec_nas.size() == mcount && vec_ntn.size() == mcount, "VecNas or VecNtn");
+                    res += callback6((void*)0, vec_nas[i], vec_ntn[i]); break;
+            case 7: JPCRE2_VECTOR_DATA_ASSERT(vec_num.size() == mcount && vec_nas.size() == mcount && vec_ntn.size() == mcount, "VecNum\n or VecNas or VecNtn");
+                    res += callback7(vec_num[i], vec_nas[i], vec_ntn[i]); break;
         }
         //reset the current offset
         current_offset = vec_eoff[i];
@@ -4485,6 +4523,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     // Must not free code. This function has no right to modify regex.
     return count;
 }
+
+#undef JPCRE2_VECTOR_DATA_ASSERT
 
 //some macro documentation for doxygen
 

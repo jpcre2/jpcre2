@@ -4,7 +4,7 @@
  * @include testme.cpp
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * */
-
+//~ #define NDEBUG
 #include <iostream>
 #define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while usin c++11
 #include "./jpcre2.hpp"
@@ -92,7 +92,7 @@ int main(){
     std::cout<<"\n\n### 7 Calling directly MatchEvaluator::nreplace()\n"
              <<jp::MatchEvaluator(callback7)
                                  .setSubject(&s3)
-                                 //.setRegexObject(&re) //without this, there would be an assertion failure.
+                                 .setRegexObject(&re) //without this, there would be an assertion failure.
                                  .setFindAll()
                                  .nreplace();
     //note the setFindAll() in above, without it, only single replacement would occur because there would be only one match.
@@ -153,7 +153,12 @@ int main(){
     me1 = jp::MatchEvaluator(callback6);
     me1 = jp::MatchEvaluator(callback7);
     me1 = jp::MatchEvaluator(callback1);
-
+    
+    me1.resetErrors().clearMatchDataVectors().reset();
+    me1.setModifier("g").addModifier("").changeModifier("",true);
+    me1.setPcre2Option(0).addPcre2Option(0).changePcre2Option(0, !0);
+    me1.setJpcre2Option(0).addJpcre2Option(0).changeJpcre2Option(0,!0);
+    me1.setStartOffset(0).setMatchContext(0);
 
     return 0;
 }
