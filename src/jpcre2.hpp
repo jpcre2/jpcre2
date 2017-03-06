@@ -1630,7 +1630,7 @@ struct select{
     ///Provides some default static callback functions.
     ///The primary goal of this class is to provide default
     ///callback function to MatchEvaluator default constructor which is
-    ///essentially callback::REMOVE_FCN.
+    ///essentially callback::erase.
     ///This class does not allow object instantiation.
     struct callback{
         ///Callback funcition that removes the matched part/s in the subject string
@@ -1642,7 +1642,7 @@ struct select{
         ///@param nas jp::MapNas map.
         ///@param ntn jp::MapNtN map.
         ///@return empty string.
-        static String REMOVE_AND_POPULATE_FCN(const NumSub& num, const MapNas& nas, const MapNtN& ntn){
+        static String eraseFill(const NumSub& num, const MapNas& nas, const MapNtN& ntn){
             return String();
         }
         
@@ -1656,7 +1656,7 @@ struct select{
         ///MatchEvaluator me;
         ///```
         ///@return empty string.
-        static String REMOVE_FCN(void*, void*, void*){
+        static String erase(void*, void*, void*){
             return String();
         }
         
@@ -1666,7 +1666,7 @@ struct select{
         ///@param nas jp::MapNas map.
         ///@param ntn jp::MapNtN map.
         ///@return total match (group 0) of current match.
-        static String POPULATE_FCN(const NumSub& num, const MapNas& nas, const MapNtn& ntn){
+        static String fill(const NumSub& num, const MapNas& nas, const MapNtn& ntn){
             return num[0];
         }
         
@@ -1841,7 +1841,7 @@ struct select{
         public:
         
         ///Default constructor.
-        ///Sets callback::REMOVE_FCN as the callback function.
+        ///Sets callback::erase as the callback function.
         ///Removes matched part/s from the subject string if the callback is not
         ///changed.
         /// ```cpp
@@ -1857,7 +1857,7 @@ struct select{
         explicit
         MatchEvaluator():RegexMatch(){
             init();
-            setMatchEvaluatorCallback(callback::REMOVE_FCN);
+            setMatchEvaluatorCallback(callback::erase);
         }
         
         ///@overload
@@ -1865,12 +1865,12 @@ struct select{
         ///Constructor taking a Regex object pointer.
         ///It sets the associated Regex object and
         ///initializes the MatchEvaluator object with
-        ///callback::REMOVE_FCN callback function.
+        ///callback::erase callback function.
         ///@param r constant Regex pointer.
         explicit
         MatchEvaluator(const Regex *r):RegexMatch(r){
             init();
-            setMatchEvaluatorCallback(callback::REMOVE_FCN);
+            setMatchEvaluatorCallback(callback::erase);
         }
         
         ///@overload
@@ -2170,7 +2170,7 @@ struct select{
             clearMatchDataVectors();
             //just like a new object with default constructor:
             init();
-            setMatchEvaluatorCallback(callback::REMOVE_FCN);
+            setMatchEvaluatorCallback(callback::erase);
             return *this;
         }
         

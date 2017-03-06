@@ -102,7 +102,7 @@ int main(){
      * by using existing match data with different callback function:
      * ****************************************************************/
     
-    jp::MatchEvaluator cme(jp::callback::POPULATE_FCN);
+    jp::MatchEvaluator cme(jp::callback::fill);
     //perform a match to populate all the vectos with match data.
     cme.setSubject(&s3).setRegexObject(&re).setFindAll().match();
     
@@ -124,7 +124,7 @@ int main(){
     ////////////////////////////////////////////////////////////////////
     
     rr.setRegexObject(0);
-    JPCRE2_ASSERT(rr.nreplace(jp::MatchEvaluator(callback1))==s3,"InvalidResult");
+    JPCRE2_ASSERT(rr.nreplace(jp::MatchEvaluator(callback1))==s3,"InvalidResult"); 
     
     rr.setRegexObject(&re).setPcre2Option(0).nreplace(jp::MatchEvaluator(callback2));
     
@@ -160,9 +160,9 @@ int main(){
     me1.setJpcre2Option(0).addJpcre2Option(0).changeJpcre2Option(0,!0);
     me1.setStartOffset(0).setMatchContext(0);
     me1.setRegexObject(&re).setSubject(s3);
-    me1.setMatchEvaluatorCallback(jp::callback::POPULATE_FCN).nreplace();
-    me1.setMatchEvaluatorCallback(jp::callback::REMOVE_AND_POPULATE_FCN).nreplace();
-    me1.setMatchEvaluatorCallback(jp::callback::REMOVE_FCN).nreplace();
+    me1.setMatchEvaluatorCallback(jp::callback::fill).nreplace();
+    me1.setMatchEvaluatorCallback(jp::callback::eraseFill).nreplace();
+    me1.setMatchEvaluatorCallback(jp::callback::erase).nreplace();
 
     return 0;
 }

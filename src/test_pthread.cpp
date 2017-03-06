@@ -10,11 +10,16 @@
 
 typedef jpcre2::select<char> jp;
 
-pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex3 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mtx1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mtx2 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mtx3 = PTHREAD_MUTEX_INITIALIZER;
 
-pthread_attr_t thattr;
+
+void sleep(double sec){
+    clock_t st = std::clock();
+    while(((double)(std::clock()-st)/CLOCKS_PER_SEC) < sec);
+}
+
 
 //this is an example how you can use pre-defined data objects in multithreaded program.
 //The logic is to wrap your objects inside another class and initialize them with constructor.
@@ -32,62 +37,83 @@ struct MyRegex{
     }
 };
 
-void *task(void *arg){
+void* thread_safe_fun1(void*){
     MyRegex re;
     std::string sub[5] = {"subject1", "123456789", "1a2b3c", "1a 2b 3c ", "I am a string"};
     for(int i = 0;i<5; ++i){
         re.re[i].match(sub[i], "g");
     }
+    int c=0;
+    while(c++<4){
+        pthread_mutex_lock(&mtx2);
+        std::cout<<"\t1";
+        pthread_mutex_unlock(&mtx2);
+        sleep(0.01);
+    }
     return 0;
 }
 
-void *thread_safe_fun1(void *arg){ //uses no global or static variable, thus thread safe.
+void* thread_safe_fun2(void*){ //uses no global or static variable, thus thread safe.
 	jp::Regex re("\\w", "i"); 
 	re.getMatchObject().setSubject("fdsf").setModifier("g").match();
+    int c=0;
+    while(c++<4){
+        pthread_mutex_lock(&mtx2);
+        std::cout<<"\t2";
+        pthread_mutex_unlock(&mtx2);
+        sleep(0.02);
+    }
     return 0;
 }
 
-void* thread_safe_fun2(void* arg){//uses no global or static variable, thus thread safe.
+void* thread_safe_fun3(void*){//uses no global or static variable, thus thread safe.
     jp::Regex re("\\w", "g");
     jp::RegexMatch rm(&re);
-    
     rm.setSubject("fdsf").setModifier("g").match();
+    int c=0;
+    while(c++<4){
+        pthread_mutex_lock(&mtx2);
+        std::cout<<"\t3";
+        pthread_mutex_unlock(&mtx2);
+        sleep(0.015);
+    }
     return 0;
 }
 
 jp::Regex rec("\\w", "g");
 
-void *thread_unsafe_fun1(void *arg){ //uses global variable 'rec', thus thread unsafe.
-    //this mutex lock will not make it thread safe
-    pthread_mutex_lock( &mutex2 );
+void* thread_safe_fun4(void*){
+    //uses global variable 'rec', but uses
+    //mutex lock, thus thread safe:
+    pthread_mutex_lock(&mtx1);
     jp::RegexMatch rm(&rec);
     rm.setSubject("fdsf").setModifier("g").match();
-    pthread_mutex_unlock( &mutex2);
+    pthread_mutex_unlock(&mtx1);
+    int c=0;
+    while(c++<4){
+        pthread_mutex_lock(&mtx2);
+        std::cout<<"\t4";
+        pthread_mutex_unlock(&mtx2);
+        sleep(0.017);
+    }
     return 0;
 }
 
-
 int main(){
-    pthread_t thread[20];
-    pthread_attr_init(&thattr);
-    pthread_attr_setdetachstate(&thattr, PTHREAD_CREATE_DETACHED);
+    pthread_t th[5];
     
+    if(pthread_create( &th[1], 0, thread_safe_fun1, 0));
+    else pthread_join(th[1],0);
     
-    for(size_t i = 0;i<5;++i){
-        if(pthread_create( &thread[i], &thattr, task, 0));
-        //~ //else pthread_detach(thread[i]);
-    }
+    if(pthread_create( &th[2], 0, thread_safe_fun2, 0));
+    else pthread_join(th[2],0);
     
-    for(size_t i=5;i<10;++i){
-        if(pthread_create( &thread[i], &thattr, thread_safe_fun1, 0));
-        //~ else pthread_detach(thread[i]);
-    }
+    if(pthread_create( &th[3], 0, thread_safe_fun3, 0));
+    else pthread_join(th[3],0);
     
-    for(size_t i=10;i<15;++i){
-        if(pthread_create( &thread[i], &thattr, &thread_safe_fun2, 0));
-        //~ else pthread_detach(thread[i]);
-    }
-    pthread_attr_destroy(&thattr);
+    if(pthread_create( &th[4], 0, thread_safe_fun4, 0));
+    else pthread_join(th[4],0);
+
     pthread_exit((void*) 0);
     return 0;
 

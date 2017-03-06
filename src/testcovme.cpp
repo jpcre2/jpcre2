@@ -74,9 +74,9 @@ int main(){
     //as the required vectors NumSub and MapNas are both populated.
     std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false);
     
-    //jp::callback::REMOVE_AND_POPULATE_FCN function initiates all vectors (kinda like callback7). Thus, the following
-    //populates all vectors.
-    std::cout<<"\n\n### default callback: \n"<<cme.setMatchEvaluatorCallback(jp::callback::REMOVE_AND_POPULATE_FCN).nreplace();
+    //jp::callback::eraseFill function initiates all vectors (kinda like callback7). Thus, the following
+    //populates all vectors. It erases the matched part/s from the subject string.
+    std::cout<<"\n\n### default callback: \n"<<cme.setMatchEvaluatorCallback(jp::callback::eraseFill).nreplace();
     //After populating all vectors, you can use any type of callback without performing the match again.
     
     

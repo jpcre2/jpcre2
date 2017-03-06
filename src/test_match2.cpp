@@ -43,8 +43,8 @@ int main(){
     std::cout<<"\nPattern compiled with modifiers: "<<re.getModifier();
 
     size_t matched = 0;
-    
-    re.initMatch()                                //create a match object
+    jp::RegexMatch rm;
+    rm.setRegexObject(&re)                        //set associated Regex object
       .setNumberedSubstringVector(&vec_num)       //pointer to numbered substring vector
       .setNamedSubstringVector(&vec_nas)          //pointer to named substring vector
       .setNameToNumberMapVector(&vec_ntn)         //pointer to name-to-number map vector
@@ -62,8 +62,7 @@ int main(){
 		getLine(ac_mod);
         
         //Now let's do the match
-        matched = re.getMatchObject()                           //get reference to the match object
-                    .setSubject(subject)						//subject
+        matched = rm.setSubject(subject)						//subject
                     .addModifier(ac_mod)                        //add modifier
                     .match();                                   //Now perform the match
           

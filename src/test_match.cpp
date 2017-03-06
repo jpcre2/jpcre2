@@ -33,8 +33,8 @@ int main(){
     std::string subject = "(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56)";
     
     size_t count = 0;
-    
-    count = re.initMatch()                                  //create a match object
+    jp::RegexMatch rm;
+    count = rm.setRegexObject(&re)                          //set associated Regex object
               .addModifier("gi")                            //set various parameters
               //'invalid modifier: i' error (i is a compile modifier)
               //modifier error is harmless
@@ -45,7 +45,7 @@ int main(){
               .addPcre2Option(0)                            //...
               .match();                                     //Finally perform the match
     
-    std::cerr<<"\n"<<re.getMatchObject().getErrorMessage();
+    std::cerr<<"\n"<<rm.getErrorMessage();
     
     
     // re.reset(); // re-initialize re

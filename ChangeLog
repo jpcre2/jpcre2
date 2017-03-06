@@ -16,6 +16,7 @@ Version 10.29.03 -
 10. `select` class construtor and destructor access specifier updated from `protected` to `private`.
 11. Add `MatchEvaluator` default constructor.
 12. Add `MatchEvaluator` constructor to that takes `const Regex*`.
+13. `initMatch()`, `getMatchObject()`, `initReplace()`, `getReplaceObject()` and their associates are deprecated
 
 
 Version 10.29.02 - Sat Mar  4 00:52:38 UTC 2017

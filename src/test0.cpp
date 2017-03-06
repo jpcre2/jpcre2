@@ -18,28 +18,25 @@ int main(){
     rec.setPattern("\\d+").compile();
     rew.setPattern(L"\\d+").compile();
 
-
-    rec.getMatchObject().setModifier("fdsafsd");
-    std::cout<<rec.getMatchObject().getErrorMessage();
-
     jpw::VecNum vec_num32;
     jpcre2::VecOff vec_eoff;
-    rew.getMatchObject()
-       .setStartOffset(28) //match will start at offset 28.
+    
+    jpw::RegexMatch rmw;
+    size_t count =
+    rmw.setRegexObject(&rew)
+       .setSubject(L"123456789")
+       .setModifier("g")
        .setNumberedSubstringVector(&vec_num32)
        .setMatchEndOffsetVector(&vec_eoff)
-       .setSubject(L"I am a subject with digits 32 43 44")
-       .setModifier("g");
-
-    size_t count = rew.match();
+       .match();
+    
     std::cout<<"\nMatch count: "<<count;
     std::wcout<<"\nFirst match: "<<vec_num32[0][0];
     std::cout<<"\nMatch ended at offset: "<<vec_eoff[vec_eoff.size()-1];
 
     std::cout<<"\n--------------------------------\n";
-    
-    //////////////////////////////////////////////////
-    //Using new match and replace object
+
+
     jpc::RegexMatch rm;
     jpc::RegexReplace rr;
     
