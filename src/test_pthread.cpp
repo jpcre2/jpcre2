@@ -16,8 +16,8 @@ pthread_mutex_t mtx3 = PTHREAD_MUTEX_INITIALIZER;
 
 
 void sleep(double sec){
-    clock_t st = std::clock();
-    while(((double)(std::clock()-st)/CLOCKS_PER_SEC) < sec);
+    clock_t st = clock();
+    while(((double)(clock()-st)/CLOCKS_PER_SEC) < sec);
 }
 
 
@@ -111,8 +111,8 @@ int main(){
     if(pthread_create( &th[3], 0, thread_safe_fun3, 0));
     else pthread_join(th[3],0);
     
-    if(pthread_create( &th[4], 0, thread_safe_fun4, 0));
-    else pthread_join(th[4],0);
+    //~ if(pthread_create( &th[4], 0, thread_safe_fun4, 0));
+    //~ else pthread_join(th[4],0);
 
     pthread_exit((void*) 0);
     return 0;

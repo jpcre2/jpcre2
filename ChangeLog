@@ -1,7 +1,7 @@
 Change Log for JPCRE2
 --------------------
 
-Version 10.29.03 - 
+Version 10.29.03 - Mon Mar  6 21:55:29 UTC 2017
 -----------------------------------------------
 
 1. Add ERROR constant INSUFFICIENT_OVECTOR

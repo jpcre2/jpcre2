@@ -15,8 +15,8 @@ typedef jpcre2::select<char> jp;
 std::mutex mtx1, mtx2, mtx3;
 
 void sleep(double sec){
-    clock_t st = std::clock();
-    while(((double)(std::clock()-st)/CLOCKS_PER_SEC) < sec);
+    clock_t st = clock();
+    while(((double)(clock()-st)/CLOCKS_PER_SEC) < sec);
 }
 
 
@@ -64,6 +64,7 @@ void thread_safe_fun2(){ //uses no global or static variable, thus thread safe.
 }
 
 void thread_safe_fun3(){//uses no global or static variable, thus thread safe.
+    {
     jp::Regex re("\\w", "g");
     jp::RegexMatch rm(&re);
     rm.setSubject("fdsf").setModifier("g").match();
@@ -73,6 +74,7 @@ void thread_safe_fun3(){//uses no global or static variable, thus thread safe.
         std::cout<<"\t3";
         mtx2.unlock();
         sleep(0.0015);
+    }
     }
 }
 
@@ -99,10 +101,10 @@ int main(){
     std::thread th1(thread_safe_fun1);
     std::thread th2(thread_safe_fun2);
     std::thread th3(thread_safe_fun3);
-    std::thread th4(thread_safe_fun4);
+    //~ std::thread th4(thread_safe_fun4);
     th1.join();
     th2.join();
     th3.join();
-    th4.join();
+    //~ th4.join();
     return 0;
 }
