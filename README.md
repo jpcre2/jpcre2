@@ -157,9 +157,9 @@ else std::cout<<"Failure";
 
 Match is generally performed using the `jp::RegexMatch::match()` function.
 
-For convenience, a shortcut function in `jp::Regex` is available: `jp::Regex::match()`. It can take three optional arguments. If modifier is passed as an argument to this function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
+For convenience, a shortcut function in `Regex` is available: `jp::Regex::match()`. It can take upto three arguments. If modifier is passed as an argument to this function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
 
-This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexMatch::match()` function only when it is called with no argument (e.g `re.match()`), but when it is called with arguments (e.g `re.match("subject")`), it uses a temporary match object to perform the match which does not use/change/affect any previous options.
+If called with at least one argument, it uses a temporary match object to perform the match which does not use/change/affect any previous options.
 
 To get match results, you will need to pass vector pointers that will be filled with match data.
 
@@ -202,7 +202,8 @@ To get the match results, you need to pass appropriate vector pointers. This is 
 
 ```cpp
 jp::VecNum vec_num;
-size_t count=re.initMatch()									//Initialize match object
+jp::RegexMatch rm;
+size_t count=rm.setRegexObject(&re)                         //set associated Regex object
 			   .setSubject(subject)                         //set subject string
                .addModifier(ac_mod)                         //add modifier
                .setNumberedSubstringVector(&vec_num)        //pass pointer to VecNum vector
@@ -232,7 +233,8 @@ jp::VecNum vec_num;   ///Vector to store numbered substring vector.
 jp::VecNas vec_nas;   ///Vector to store named substring Map.
 jp::VecNtN vec_ntn;   ///Vector to store Named substring to Number Map.
 std::string ac_mod="g";   // g is for global match. Equivalent to using setFindAll() or FIND_ALL in addJpcre2Option()
-re.initMatch()
+jp::RegexMatch rm;
+rm.setRegexObject(&re)
   .setSubject(subject)                         //set subject string
   .addModifier(ac_mod)                         //add modifier
   .setNumberedSubstringVector(&vec_num)        //pass pointer to vector of numbered substring vectors
@@ -310,31 +312,15 @@ for(size_t i=0;i<vec_nas.size();++i){
 
 ### Re-use a match object 
 
-You can use `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` function to get a reference to the associated match object. The only difference between these two is: `initMatch()` always creates a new match object deleting the previous one, while `getMatchObject()` gives you a reference to the existing match object if available, otherwise creates it.
+For re-using a match object, the best way is to use a standalone `RegexMatch` object instead of creating it with `jp::Regex::getMatchObject()` as shown above.
 
-This is an example where we will perform a match in two steps:
-
-```cpp
-re.getMatchObject()                     //get a match object (new if it's the first call)
-  .setNumberedSubstringVector(&vec_num) //pointer to numbered substring vector
-  .setNamedSubstringVector(&vec_nas)    //pointer to named substring vector
-  .setNameToNumberMapVector(&vec_ntn);  //pointer to name-to-number map vector
-```
-In the first step, we just set the vectors that we want our results in.
-
-```cpp
-size_t count = re.getMatchObject()
-                 .setSubject("I am the subject")
-                 .addModifier("g")
-                 .match();
-```
-We can perform this kind of matches as many times as we want. The vectors always get re-initialized and thus contain new data.
+**Important Note:** The `initMatch()`, `getMatchObject()`, `initReplace()` and `getReplaceObject()` methods are redundant and they should not be used with newer JPCRE2 library. They will be removed in the next major release.
 
 <a name="independent-match-object"></a>
 
-### Independent match object 
+### RegexMatch object 
 
-All match objects need to be associated with a Regex object. A match object without regex object associated with it, will always give 0 match.
+Every match object needs to be associated with a Regex object. A match object without regex object associated with it, will always give 0 match.
 
 ```cpp
 jp::RegexMatch rm;
@@ -349,7 +335,7 @@ size_t count = rm.setSubject("subject")
 ```
 The `RegexMatch` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, it will be reflected on the next operation/result.
 
-**Note:** This independent match object and the match object you get from `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` are **not the same**.
+**Note:** This Match object and the match object you get from `jp::Regex::initMatch()` or `jp::Regex::getMatchObject()` are **not the same**.
 
 <a name="replace"></a>
 
@@ -357,9 +343,9 @@ The `RegexMatch` class stores a pointer to its' associated Regex object. If the 
 
 Regex replace is generally performed using the `jp::RegexReplace::replace()` function.
 
-However a convenience shortcut function is available in Regex class: `jp::Regex::replace()`. If modifier is passed as an argument to this shortcut function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
+However a convenience shortcut function is available in Regex class: `jp::Regex::replace(subject, replawith, modifier)`. If modifier is passed as an argument to this shortcut function, all other JPCRE2 and PCRE2 options will be reset to `0` and re-initialized according to the modifier string.
 
-This shortcut function uses previously set options if not overridden and acts exactly the same way as `jp::RegexReplace::replace()` function only when it is called with no argument (e.g `re.replace()`), but when it is called with arguments (e.g `re.replace("subject", "replacewith")`), it uses a temporary replace object to perform the replacement which does not use/change/affect any previous options.
+If it is called with at least one argument, it uses a temporary replace object to perform the replacement which does not use/change/affect any previous options.
 
 
 <a name="simple-replace"></a>
@@ -379,8 +365,9 @@ std::cout<<jp::Regex("\\d+").replace("I am digits 1234 0000","5678", "g");
 ### Using method chain 
 
 ```cpp
+jp::RegexReplace rr;
 std::cout<<
-re.initReplace()       //create a replace object
+rr.setRegexObject(&re) //set associated Regex object
   .setSubject(s)       //Set various parameters
   .setReplaceWith(s2)  //...
   .addModifier("gE")   //...
@@ -395,9 +382,9 @@ re.initReplace()       //create a replace object
 
 <a name="independent-replace-object"></a>
 
-### Independent replace object 
+### RegexReplace object 
 
-All replace objects need to be associated with a Regex object. A replace object not associated with any regex object will perform no replacement and return the same subject string that was given.
+Every replace object needs to be associated with a Regex object. A replace object not associated with any Regex object will perform no replacement and return the same subject string that was given.
 
 ```cpp
 jp::RegexReplace rr;
@@ -413,53 +400,142 @@ rr.setSubject("subjEct")
 ```
 The `RegexReplace` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, it will be reflected on the next operation/result.
 
-**Note:** This independent replace object and the replace object you get from `jp::Regex::initReplace()` or `jp::Regex::getReplaceObject()` are not the same.
+**Note:** This replace object and the replace object you get from `jp::Regex::initReplace()` or `jp::Regex::getReplaceObject()` are not the same.
 
 <a name="matchevaluator"></a>
 
 ### MatchEvaluator 
 
-There's another replace function (`jp::RegexReplace::nreplace()`) that takes a MatchEvaluator with a callback function. It's required when you have to create the replacement strings dynamically according to some criteria.
+There's another replace function (`jp::RegexReplace::nreplace()`) that takes a MatchEvaluator with a callback function. It helps us to create the replacement strings dynamically according to some criteria.
 
-The class `jp::MatchEvaluator` implements several constructor overloads to take different callback functions.
+The class `MatchEvaluator` implements several constructor overloads to take different callback functions.
 
 The callback function takes exactly three positional arguments. If you don't need one or more arguments, you may pass `void*` in their respective positions in the argument list.
 
-**Examples:**
+> `jp::RegexReplace::nreplace()` is a wrapper of `jp::MatchEvaluator::nreplace()`.
 
+<a name="simple-example"></a>
+
+#### Simple example 
+
+The callback function:
 ```cpp
-jp::String callback1(const jp::NumSub& m, void*, void*){
-    return "("+m[0]+")";
-}
-
-int main(){
-	jp::Regex re("(?<total>\\w+)", "n");
-	jp::RegexReplace rr(&re);
-
-	String s3 = "I am ঋ আা a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ ঘ আমার সোনার বাংলা";
-
-	rr.setSubject(s3)
-	  .setPcre2Option(PCRE2_SUBSTITUTE_GLOBAL);
-	  
-	std::cout<<"\n\n### 1\n"<<
-			rr.nreplace(jp::MatchEvaluator(callback1));
-	
-	#if __cplusplus >= 201103L
-	//example with lambda
-    std::cout<<"\n\n### Lambda\n"<<
-    		rr.nreplace(
-                jp::MatchEvaluator(
-                    [](const jp::NumSub& m1, const jp::MapNas& m2, void*){
-                        return "("+m1[0]+"/"+m2.at("total")+")";
-                    }
-                ));
-	#endif
-	
-	return 0;
+jp::String callback1(const jp::NumSub& m1, void*, void*){
+    return "("+m1[0]+")";
 }
 ```
+Next:
+```cpp
+jp::Regex re("(?<total>\\w+)", "n");
+jp::RegexReplace rr;
+String s3 = "I am a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ ঘ";
 
-Detailed examples are in the testme.cpp file.
+rr.setRegexObject(&re)
+  .setSubject(&s3)
+  .setModifier("g");
+  
+std::cout<<"Result:\n"<<
+    rr.nreplace(jp::MatchEvaluator(callback1));
+```
+Detailed examples are in the testme.cpp and testcovme.cpp file.
+
+<a name="matchevaluator-with-lambda"></a>
+
+#### MatchEvaluator with lambda 
+
+```cpp
+std::cout<<"Result:\n"<<
+    rr.nreplace(jp::MatchEvaluator
+               (
+                 [](const jp::NumSub& m1, const jp::MapNas& m2, void*){
+                    return "("+m1[0]+"/"+m2.at("total")+")";
+                 }
+               ));
+```
+
+<a name="matchevaluator-only"></a>
+
+#### MatchEvaluator only 
+
+Replacement can be done with only MatchEvaluator:
+
+```cpp
+std::cout<<"Result:\n"<<
+jp::MatchEvaluator(callback1).setSubject(s3)
+                             .setRegexObject(&re)
+                             .setModifier("g")
+                             .nreplace();
+```
+
+
+<a name="matchevaluator-object"></a>
+
+#### MatchEvaluator object 
+
+A `MatchEvaluator` object can be created using one of its many constructors. Callback functions can be provided with the constructors or can be changed later with `jp::MatchEvaluator::setMatchEvaluatorCallback()` function. If no callback function is set/given, then the default callback function is `jp::callback::erase()` which deletes matched part/s from the subject string.
+
+```cpp
+jp::MatchEvaluator me; //default callback jp::callback::erase
+me.setRegexObject(&re).setSubject(sub).nreplace(); //this will remove matched parts from sub.
+
+jp::MatchEvaluator me(callback1); //arbitrary callback function.
+
+jp::MatchEvaluator(&re); //default callback jp::callback::erase
+me.setSubject(sub).nreplace(); //this will remove matched parts from sub.
+```
+
+<a name="re-use-match-data"></a>
+
+#### Re-use match data 
+
+It is possible to use existing match data to perform replacement without performing a new match operation.
+
+**Safest way but not the best:**
+
+```cpp
+jp::MatchEvaluator me(jp::callback::fill); //this callback implements all vectors and does not modify subject string.
+//Now you need to populate the vectors with match data:
+me.setSubject(sub).setRegexObject(&re).match();
+
+//Now that we have all the match data we need, we can use it to perform replacement according to
+//different callback function:
+me.setMatchEvaluatorCallback(callback2).nreplace(false); //'false' tells nreplace() to not perform new match.
+me.setMatchEvaluatorCallback(callback3).nreplace(false);
+//etc..
+```
+
+**Best but not the safest:**
+
+Instead of creating data for all vectors, you can do it as necessary, but it requires you to be vigilant about what you are doing:
+
+```cpp
+jp::MatchEvaluator me; //no vector with jp::callback::erase callback
+me.setSubject(sub).setRegexObject(&re); //no data yet.
+```
+Let's say, we have a callback `cb3` that implements NumSub and MapNas and we have already done this:
+
+```cpp
+me.setMatchEvaluatorCallback(cb3).nreplace(); //which creates match data for NumSub and MapNas
+//and performs the replacement.
+```
+Now, say, we want to perform the replacement with a different callback function `cb2` which implements only MapNas. As we already have the data required for the `jp::MapNas` map, we can re-use this data:
+
+```cpp
+me.setMatchEvaluatorCallback(cb2).nreplace(false);
+```
+
+Now, if we want to use a callback function `cb4` which implements `jp::MapNtN`, we can not use this callback with existing data, as there is no match data for `jp::MapNtn` yet. (it will give assertion error if we try). Thus we will need to do the match again:
+
+```cpp
+me.setMatchEvaluatorCallback(cb4).nreplace(); //creating data again and performing replacement.
+```
+After the above operation, all the vectors are filled with data (missing `jp::MapNtn` was created), consequently, we can use any callback function we want at this stage because we have all the data that we will need.
+
+Thus a callback `cb7` that implements all match data vectors can be used without doing the match again:
+```cpp
+me.setMatchEvaluatorCallback(cb7).nreplace(false); //OK, as we have all the data we need.
+```
+
 
 <a name="modifiers"></a>
 
@@ -612,6 +688,7 @@ Instead of using full names like `std::vector<std::string>` and such for storing
 4. `jp::VecNum`: Equivalent to `std::vector<jp::NumSub>`
 5. `jp::VecNas`: Equivalent to `std::vector<jp::MapNas>`
 6. `jp::VecNtN`: Equivalent to `std::vector<jp::MapNtN>`
+7. `jpcre2::VecOff`: Equivalent to `std::vector<size_t>` (note the namespace, it's directly under `jpcre2`)
 
 <a name="other-typedefs"></a>
 
@@ -630,6 +707,10 @@ Other typedefs are mostly for internal use
 
 # Error handling 
 
+<a name="runtime-error"></a>
+
+## Runtime error 
+
 When a known error is occurred during pattern compilation or match or replace, the error number and error offsets are set to corresponding variables of the respective classes. You can get the error number, error offset and error message with `getErrorNumber()`, `getErrorOffset()` and `getErrorMessage()` functions respectively. These functions are available for all three classes.
 
 **Note** that, these errors always gets overwritten by previous error, so you only get the last error that occurred.
@@ -637,6 +718,28 @@ When a known error is occurred during pattern compilation or match or replace, t
 **Also note** that, these errors never get re-initialized (set to zero), they are always there even when everything else worked great (except some previous error).
 
 If you do experiment with various erroneous situations, make use of the `resetErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is also defined for all three classes to reset their corresponding errors.
+
+<a name="assertion-failure"></a>
+
+## Assertion failure 
+
+JPCRE2 asserts some errors with descriptive error messages. These errors are mistakes in your code and not to be shipped to the client without fixing.
+
+In no situation these errors should be bypassed by `#define NDEBUG` before including `jpcre2.hpp`. You should investigate the error message and fix cause.
+
+> When there is no such errors in your finalized code, you may use `#define NDEBUG` to strip out these assertions.
+
+<a name="null-pointer-error"></a>
+
+### Null pointer error 
+
+This error occurs when you leave a required pointer NULL.
+
+<a name="value-error"></a>
+
+### Value error 
+
+This error occurs when you pass bad values to some functions or unintentionally mess up or forget to set some values the right way.
 
 <a name="multi-threading"></a>
 
@@ -646,18 +749,9 @@ If you do experiment with various erroneous situations, make use of the `resetEr
 
 ##Functions 
 
-<b>(C) MT safe:</b> _All functions (except JIT related functions) in JPCRE2 library are MT safe provided that the instances calling those functions are themselves thread safe._
+<b>(C) MT safe:</b> _All functions in JPCRE2 library are MT safe provided that the instances calling those functions are themselves thread safe._
 
 **When we say '(C) MT safe' or simply 'thread safe' throughout this doc, we mean the above definition of Conditional Multi-Thread safety.**
-
-The thread safety of JIT related functions:
-
-Function | (C) MT safe | MT unsafe
--------- | ----------- | ---------
-`Regex::compile()` and its family | When JIT compile is not done | When JIT compile is done (passing the 'S' modifier)
-`Regex::Regex()` and its family | When JIT compile is not done | When JIT compile is done
-
-The thread safety of JIT operations is directly related to the native PCRE2 API. Thus its behavior will change according to PCRE2 specs.
 
 <a name="objects-thread-safety"></a>
 
@@ -665,7 +759,7 @@ The thread safety of JIT operations is directly related to the native PCRE2 API.
 
 1. There is no data race between two separate objects (`Regex`, `RegexMatch`, `RegexReplace` etc..) because the classes do not contain any static variables.
 2. Temporary class objects will always be thread safe as long as no JIT operation (JIT compile) is performed.
-3. Temporary class object that uses another third party object reference or pointer is thread safe provided that the third party object is thread safe.
+3. Temporary class object that uses another third party object reference or pointer is thread safe provided that the access to the third party object is thread safe.
 4. Simultaneous access of the same object is MT unsafe. You can use mutex lock or other mechanisms to ensure thread safety.
 
 
@@ -684,36 +778,22 @@ void* thread_safe_fun1(void* arg){//uses no global or static variable, thus thre
 }
 ```
 
-The following function is thread unsafe:
+The following function is also thread safe:
 
 ```cpp
 typedef jpcre2::select<char> jp;
 
 jp::Regex rec("\\w", "g"); //thread unsafe.
 
-void *thread_unsafe_fun1(void *arg){ //uses global variable 'rec', thus thread unsafe.
-    //this mutex lock will not make it thread safe
-    pthread_mutex_lock( &mutex2 );
+void *thread_unsafe_fun1(void *arg){
+    //uses global variable 'rec', but uses mutex lock, thus thread safe
+    pthread_mutex_lock( &mtx );
     jp::RegexMatch rm(&rec);
     rm.setSubject("fdsf").setModifier("g").match();
-    pthread_mutex_unlock( &mutex2);
+    pthread_mutex_unlock( &mtx);
     return 0;
 }
 ```
-
-The following is thread safe as we are guarding JIT compilation with mutex:
-
-```cpp
-void* thread_safe_fun1(void* arg){//uses no global or static variable.
-	pthread_mutex_lock( &mutex2 );
-    jp::Regex re("\\w", "gS"); //JIT compile is done for 'S' modifier.
-    pthread_mutex_unlock( &mutex2);
-    jp::RegexMatch rm(&re); //It's a local variable
-    rm.setSubject("fdsf").setModifier("g").match();
-    return 0;
-}
-```
-
 
 Example multi-threaded programs are provided in *src/test_pthread.cpp* and *src/teststdthread.cpp*. The thread safety of these programs are tested with Valgrind (helgrind tool). See <a href="#test-suit">Test suit</a> for more details on the test.
 
@@ -722,17 +802,15 @@ Example multi-threaded programs are provided in *src/test_pthread.cpp* and *src/
 
 # Compatibility with compilers 
 
-1. To use JPCRE2 in its full capability, use latest compilers with full `C++11` support.
-2. Use `>=C++11` with modern compilers to use `C++11` specific features.
-3. If you use `>=C++11`, make sure it comes with `std::wstring_convert` which is required for supporting `char16_t` and `char32_t`, though you can disable `char16_t` and `char32_t` support by defining `JPCRE2_DISABLE_CHAR1632` before including `jpcre2.hpp`.
-4. If you don't use `C++11`, you should be OK with older compilers.
+1. To use JPCRE2 in its full capability (including `>=C++11` features), use latest compilers with full `C++11` support.
+2. If you use `>=C++11`, make sure it comes with `std::wstring_convert` which is required for `char16_t` and `char32_t` support, though you can disable `char16_t` and `char32_t` support by defining `JPCRE2_DISABLE_CHAR1632` before including `jpcre2.hpp`.
+3. If you don't use `C++11`, you should be OK with older compilers.
 
 <a name="short-examples"></a>
 
 # Short examples 
 
 ```cpp
-
 size_t count;
 //Check if string matches the pattern
 /*
@@ -740,8 +818,6 @@ size_t count;
  */
 if(jp::Regex("(\\d)|(\\w)").match("I am the subject"))
     std::cout<<"\nmatched";
-else
-    std::cout<<"\nno match";
 /*
  * Using the modifier S (i.e jpcre2::JIT_COMPILE) with temporary object may or may not give you
  * any performance boost (depends on the complexity of the pattern). The more complex
@@ -781,13 +857,13 @@ std::cout<<"\n"<<
 
 // ***** Get numbered substring ***** ///
 jp::VecNum vec_num;
+jp::RegexMatch rm;
+jp::Regex re("(\\w+)\\s*(\\d+)","m");
 count =
-jp::Regex("(\\w+)\\s*(\\d+)","m")
-    .initMatch()
-    .setSubject("I am 23, I am digits 10")
-    .setModifier("g")
-    .setNumberedSubstringVector(&vec_num)
-    .match();
+jp::RegexMatch(&re).setSubject("I am 23, I am digits 10")
+                   .setModifier("g")
+                   .setNumberedSubstringVector(&vec_num)
+                   .match();
 /*
 * count (the return value) is guaranteed to give you the correct number of matches,
 * while vec_num.size() may give you wrong result if any match result
@@ -825,15 +901,14 @@ std::cout<<"\nCaptured group 2 of second match: "<<vec_num[1][2]; //captured gro
 
 jp::VecNas vec_nas;
 jp::VecNtN vec_ntn; // We will get name to number map vector too
+re.compile("(?<word>\\w+)\\s*(?<digit>\\d+)","m");
 count =
-jp::Regex("(?<word>\\w+)\\s*(?<digit>\\d+)","m")
-    .initMatch()
-    .setSubject("I am 23, I am digits 10")
-    .setModifier("g")
-    //.setNumberedSubstringVector(vec_num) // We don't need it in this example
-    .setNamedSubstringVector(&vec_nas)
-    .setNameToNumberMapVector(&vec_ntn) // Additional (name to number maps)
-    .match();
+jp::RegexMatch(&re).setSubject("I am 23, I am digits 10")
+                   .setModifier("g")
+                   //.setNumberedSubstringVector(vec_num) // We don't need it in this example
+                   .setNamedSubstringVector(&vec_nas)
+                   .setNameToNumberMapVector(&vec_ntn) // Additional (name to number maps)
+                   .match();
 std::cout<<"\nNumber of matches: "<<vec_nas.size()/* or count */;
 //Now vec_nas is populated with named substrings for each match
 //The size of vec_nas is the total match count
@@ -886,12 +961,11 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
     .replace("I am the subject\tTo be swapped according to tab", "$2 $1");
     
 //Doing the above with method chain:
-jp::Regex("^([^\t]+)\t([^\t]+)$")
-    .initReplace()
-    .setSubject("I am the subject\tTo be swapped according to tab")
-    .setReplaceWith("$2 $1")
-    .replace();
-
+re.compile("^([^\t]+)\t([^\t]+)$");
+jp::RegexReplace(&re).setSubject("I am the subject\tTo be swapped according to tab")
+                     .setReplaceWith("$2 $1")
+                     .replace();
+return 0;
 ```
 
 <a name="api-change-notice"></a>
@@ -899,6 +973,8 @@ jp::Regex("^([^\t]+)\t([^\t]+)$")
 # API change notice 
 
 * The behavior of shorthand `match()` and `replace()` function in the Regex class has changed. When they are called with no argument they will use previously set options, but when they are called with arguments, they will initiate a temporary match/replace object and will not use (or change) any previous options. This temporary object will not affect any class variables (i.e previously set option) and it won't be available after returning the result.
+
+* `initMatch()`, `getMatchObject()`, `initReplace()`, `getReplaceObject()` and their associates are deprecated. They will be removed in next major release.
 
 > For complete changes see the changelog file
 

@@ -53,9 +53,9 @@ int main(){
     getLine(repl_mod);
 
     //perform replace
-
+    jp::RegexReplace rr;
     std::cout<<"\nreplaced string: "<<
-        re.initReplace()
+        rr.setRegexObject(&re)
           .setSubject(subject)
           .setReplaceWith(repl)
           .addModifier(repl_mod)

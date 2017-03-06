@@ -201,6 +201,9 @@ int main(){
     rm.setFindAll(); \
     rm.setFindAll(false); \
     rm.changeModifier("gAgfdsf", false); \
+    jp::getErrorMessage(jpcre2::ERROR::INSUFFICIENT_OVECTOR, 0); \
+    rm.getMatchEndOffsetVector();\
+    rm.getMatchStartOffsetVector();\
      \
      \
      \
