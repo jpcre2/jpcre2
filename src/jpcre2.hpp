@@ -68,8 +68,7 @@
 #include <map>          // std::map
 #include <cstdio>       // std::sprintf
 #include <cwchar>       // std::mbstate_t, std::swprintf
-#include <climits>      // CHAR_BIT
-#include <cstring>      // std::memcpy
+//~ #include <climits>      // CHAR_BIT //[redundant] limits.h is included by pcre2.h
 
 #if __cplusplus >= 201103L
     #if !defined JPCRE2_DISABLE_CHAR1632
@@ -80,20 +79,23 @@
     #endif
 #endif
 
+#define JPCRE2_UNUSED(x) ((void)(x))
+
 #ifndef NDEBUG
-    #define JPCRE2_ASSERT(cond, msg) \
-    if(!(cond)) { std::cerr<<"\nE: Assert Failed: "<<msg<<"\nFile: "<<__FILE__<<"\tLine: "<<__LINE__<<"\n"; std::abort();}
+    #define JPCRE2_ASSERT(cond, msg) jpcre2::assert(cond, msg, __FILE__, __LINE__)
     #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) \
-    if(!(cond)) { std::cerr<<"\nE: Assert Failed: "<<"NullPointerError: \n"\
-    <<"\
-    Required data vector of type "<<name<<" is empty.\n\
+    jpcre2::assert(cond, \
+    std::string("ValueError: \n\
+    Required data vector of type ")+std::string(name)+" is empty.\n\
     Your MatchEvaluator callback function is not\n\
-    compatible with existing data!!"<<\
-    "\nFile: "<<__FILE__<<"\tLine: "<<__LINE__<<"\n"; std::abort();}
-    #define JPCRE2_UC_ASSERT(cond, msg) JPCRE2_ASSERT(cond, msg)
+    compatible with existing data!!\n\
+    You are trying to use a vector that does not\n\
+    have any match data. Either call nreplace()\n\
+    with true or perform a match with appropriate\n\
+    callback function. For more details, refer to\n\
+    the doc in MatchEvaluator section.", __FILE__, __LINE__)
 #else
     #define JPCRE2_ASSERT(cond, msg) ((void)0)
-    #define JPCRE2_UC_ASSERT(cond, msg) if(!(cond)){}
     #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) ((void)0)
 #endif
 
@@ -166,6 +168,18 @@ enum {
     JIT_COMPILE             = 0x0000004u            ///< Perform JIT compilation for optimization
 };
 
+///JPCRE2 assert function.
+///Aborts with an error message if condition fails.
+///@param cond boolean condition
+///@param msg message (std::string)
+///@param file file where assert was called.
+///@param line line number where assert was called.
+void assert(bool cond, std::string msg, std::string file, size_t line){
+    if(!cond) {
+        std::cerr<<"\nE: AssertionFailure: "<<msg<<"\nAssertion failed in File: "<<file<<"\tat Line: "<<line<<"\n";
+        ::abort(); //abort is defined in stdlib.h which is included by pcre2.h
+    }
+}
 
 //enableif and is_same implementation
 template<bool B, typename T = void>
@@ -774,16 +788,17 @@ IsSame<Char_T, char>::value|IsSame<Char_T, wchar_t>::value, Char_T>::Type>{
     static std::basic_string<Char_T> toString(int x){
         Char_T buf[sizeof(int)*CHAR_BIT]; //sizeof(int)*CHAR_BIT should always be sufficient
         int written = mysprint(buf, sizeof(buf)/sizeof(Char_T), x);
-        JPCRE2_UC_ASSERT(written > 0, "IOError: Failed to write into buffer during int to string conversion.");
+        JPCRE2_ASSERT(written > 0, "IOError: Failed to write into buffer during int to string conversion.");
+        JPCRE2_UNUSED(written); //production happy
         return std::basic_string<Char_T>(buf);
     }
 };
 
 template<> inline int ConvInt<char>::mysprint(char* buf, SIZE_T size, int x){
-    return sprintf(buf, "%d", x);
+    return std::sprintf(buf, "%d", x);
 }
 template<> inline int ConvInt<wchar_t>::mysprint(wchar_t* buf, SIZE_T size, int x){
-    return swprintf(buf, size, L"%d", x);
+    return std::swprintf(buf, size, L"%d", x);
 }
 
 
@@ -1562,7 +1577,7 @@ struct select{
             //~ return *this;
         //~ }
 
-        /// Perform match operaton using info from class variables and return the match count and
+        /// Perform match operation using info from class variables and return the match count and
         /// store the results in specified vectors.
         /// 
         /// Note: This function uses pcre2_match() function to do the match.
@@ -1612,14 +1627,55 @@ struct select{
         #endif
     };
 
-    ///Default callback funcition for MatchEvaluatorCallback.
-    ///@param num NumSub vector.
-    ///@param nas MapNas map.
-    ///@param ntn MapNtN map.
-    ///@return empty string.
-    String defaultCallbackFcn(const NumSub& num, const MapNas& nas, const MapNtN& ntn){
-        return String();
-    }
+    ///Provides some default static callback functions.
+    ///The primary goal of this class is to provide default
+    ///callback function to MatchEvaluator default constructor which is
+    ///essentially callback::REMOVE_FCN.
+    ///This class does not allow object instantiation.
+    struct callback{
+        ///Callback funcition that removes the matched part/s in the subject string
+        /// and takes all match vectors as argument.
+        ///Even though this function itself does not use the vectors, it still takes them
+        ///so that the caller can perform a match and populate all the match data to perform
+        ///further evaluation of other callback functions without doing the match again.
+        ///@param num jp::NumSub vector.
+        ///@param nas jp::MapNas map.
+        ///@param ntn jp::MapNtN map.
+        ///@return empty string.
+        static String REMOVE_AND_POPULATE_FCN(const NumSub& num, const MapNas& nas, const MapNtN& ntn){
+            return String();
+        }
+        
+        ///Callback function that removes the matched part/s in the subject string
+        ///and does not take any match vector.
+        ///This is a minimum cost pattern deleting callback function.
+        ///
+        ///It's the default callback function when you Instantiate
+        ///a MatchEvaluator object with its default constructor:
+        ///```cpp
+        ///MatchEvaluator me;
+        ///```
+        ///@return empty string.
+        static String REMOVE_FCN(void*, void*, void*){
+            return String();
+        }
+        
+        ///Callback function for populating match vectors that does not modify the subject string.
+        ///It always returns the total matched part and thus the subject string remains the same.
+        ///@param num jp::NumSub vector.
+        ///@param nas jp::MapNas map.
+        ///@param ntn jp::MapNtN map.
+        ///@return total match (group 0) of current match.
+        static String POPULATE_FCN(const NumSub& num, const MapNas& nas, const MapNtn& ntn){
+            return num[0];
+        }
+        
+        private:
+        //preven onject instantiation.
+        callback();
+        callback(const callback&);
+        ~callback();
+    };
 
     ///This class inherits RegexMatch and provides a similar functionality.
     ///All public member functions from RegexMatch class are publicly available except the following:
@@ -1637,6 +1693,48 @@ struct select{
     ///
     ///An instance of this class can also be passed with `RegexReplace::nreplace()` function to perform replacement
     ///according to this match evaluator.
+    ///
+    ///Match data is stored in vectors, and the vectors are populated according to the callback functions.
+    ///Populated vector data is never deleted but they get overwritten. Vector data can be manually zeroed out
+    ///by calling `MatchEvaluator::clearMatchDataVectors()`.
+    ///
+    /// # Compatibility of callback function with Match Data
+    /// A match data populated with a callback function that takes only a jp::NumSub vector is not compatible
+    /// with the data created according to callback function with a jp::MapNas vector.
+    /// Because, for this later callback, jp::MapNas data is required but is not available (only jp::NumSub is available).
+    /// In such cases, previous Match data can not be used to perform a new replacment operation with this second callback function.
+    ///
+    /// To populate the match vectors, one must call the `MatchEvaluator::match()` or `MatchEvaluator::nreplace()` function, they will populated
+    /// vectors with match data according to call back function.
+    ///
+    /// ## Example:
+    ///
+    /// ```cpp
+    /// jp::String callback5(const NumSub& m, void*, const MapNtn& n){
+    ///     return m[0];
+    /// }
+    /// jp::String callback4(void*, void*, const MapNtn& n){
+    ///     return jpcre2::ConvInt<char>::toString(n.at("name")); //position of group 'name'.
+    /// }
+    /// jp::String callback2(void*, const MapNas& m, void*){
+    ///     return m.at('name'); //substring by name
+    /// }
+    ///
+    /// jp::MatchEvaluator me;
+    /// me.setRegexObject(&re).setSubject("string").setMatchEvaluatorCallback(callback5).nreplace();
+    /// //In above, nreplace() populates jp::NumSub and jp::MapNtn with match data.
+    ///
+    /// me.setMatchEvaluatorCallback(callback4).nreplace(false);
+    /// //the above uses previous match result (note the 'false') which is OK, 
+    /// //because, callback4 requires jp::MapNtn which was made available in the previous operation.
+    ///
+    /// //but the following is not OK: (assertion failure)
+    /// me.setMatchEvaluatorCallback(callback2).nreplace(false);
+    /// //because, callback2 requires jp::MapNas data which is not available.
+    /// //now, this is OK:
+    /// me.setMatchEvaluatorCallback(callback2).nreplace();
+    /// //because, it will recreate those match data including this one (jp::MapNas).
+    /// ```
     ///@see MatchEvaluatorCallback
     ///@see RegexReplace::nreplace()
     class MatchEvaluator: virtual public RegexMatch{
@@ -1648,7 +1746,7 @@ struct select{
         VecNtN vec_ntn;
         VecOff vec_soff;
         VecOff vec_eoff;
-        int callback;
+        int callbackn;
         typename MatchEvaluatorCallback<void*, void*, void*>::Callback callback0;
         typename MatchEvaluatorCallback<const NumSub&, void*, void*>::Callback callback1;
         typename MatchEvaluatorCallback<void*, const MapNas&, void*>::Callback callback2;
@@ -1673,7 +1771,7 @@ struct select{
         
         
         void init(){
-            callback = 0;
+            callbackn = 0;
             callback0 = 0;
             callback1 = 0;
             callback2 = 0;
@@ -1687,7 +1785,7 @@ struct select{
         }
         
         void setVectorPointersAccordingToCallback(){
-            switch(callback){
+            switch(callbackn){
                 case 0: break;
                 case 1: setNumberedSubstringVector(&vec_num);break;
                 case 2: setNamedSubstringVector(&vec_nas);break;
@@ -1700,7 +1798,7 @@ struct select{
         }
         
         void deepCopy(const MatchEvaluator& me) {
-            callback = me.callback;
+            callbackn = me.callbackn;
             callback0 = me.callback0;
             callback1 = me.callback1;
             callback2 = me.callback2;
@@ -1709,7 +1807,8 @@ struct select{
             callback5 = me.callback5;
             callback6 = me.callback6;
             callback7 = me.callback7;
-            setVectorPointersAccordingToCallback();
+            //must update the pointers to point to this class vectors.
+            setVectorPointersAccordingToCallback(); 
             vec_num = me.vec_num;
             vec_nas = me.vec_nas;
             vec_ntn = me.vec_ntn;
@@ -1741,8 +1840,42 @@ struct select{
         
         public:
         
+        ///Default constructor.
+        ///Sets callback::REMOVE_FCN as the callback function.
+        ///Removes matched part/s from the subject string if the callback is not
+        ///changed.
+        /// ```cpp
+        /// jp::Regex re("\s*string");
+        /// jp::MatchEvaluator me;
+        /// std::cout<<
+        /// me.setRegexObject(&re);
+        ///   .setSubject("I am a   string");
+        ///   .nreplace();
+        /// //The above will delete '   string' from the subject
+        /// //thus the result will be 'I am a'
+        /// ```
+        explicit
+        MatchEvaluator():RegexMatch(){
+            init();
+            setMatchEvaluatorCallback(callback::REMOVE_FCN);
+        }
         
-        ///Constructor taking a callback function with no vector reference.
+        ///@overload
+        ///...
+        ///Constructor taking a Regex object pointer.
+        ///It sets the associated Regex object and
+        ///initializes the MatchEvaluator object with
+        ///callback::REMOVE_FCN callback function.
+        ///@param r constant Regex pointer.
+        explicit
+        MatchEvaluator(const Regex *r):RegexMatch(r){
+            init();
+            setMatchEvaluatorCallback(callback::REMOVE_FCN);
+        }
+        
+        ///@overload
+        ///...
+        ///Constructor taking a callback function.
         ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
@@ -1853,26 +1986,26 @@ struct select{
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, void*, void*>::Callback mef){
             callback0 = mef;
-            callback = 0;
+            callbackn = 0;
             return *this;
         }
         
         ///@overload
         /// ...
-        ///Sets a callback function with a NumSub vector.
+        ///Sets a callback function with a jp::NumSub vector.
         ///You will be working with a constant reference to the vector.
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, void*, void*>::Callback mef){
             callback1 = mef;
-            callback = 1;
+            callbackn = 1;
             setNumberedSubstringVector(&vec_num);
             return *this;
         }
         
         ///@overload
         /// ...
-        ///Sets a callback function with a NumSub and MapNas.
+        ///Sets a callback function with a jp::NumSub and jp::MapNas.
         ///You will be working with constant references of the vectors.
         ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
         ///```cpp
@@ -1888,7 +2021,7 @@ struct select{
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, void*>::Callback mef){
             callback3 = mef;
-            callback = 3;
+            callbackn = 3;
             setNumberedSubstringVector(&vec_num);
             setNamedSubstringVector(&vec_nas);
             return *this;
@@ -1896,7 +2029,7 @@ struct select{
         
         ///@overload
         /// ...
-        ///Sets a callback function with a NumSub and MapNtN.
+        ///Sets a callback function with a jp::NumSub and jp::MapNtN.
         ///You will be working with constant references of the vectors.
         ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
         ///```cpp
@@ -1912,7 +2045,7 @@ struct select{
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, void*,  const MapNtN&>::Callback mef){
             callback5 = mef;
-            callback = 5;
+            callbackn = 5;
             setNumberedSubstringVector(&vec_num);
             setNameToNumberMapVector(&vec_ntn);
             return *this;
@@ -1921,7 +2054,7 @@ struct select{
         
         ///@overload
         /// ...
-        ///Sets a callback function with a NumSub, MapNas, MapNtN.
+        ///Sets a callback function with a jp::NumSub, jp::MapNas, jp::MapNtN.
         ///You will be working with constant references of the vectors.
         ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
         ///```cpp
@@ -1937,7 +2070,7 @@ struct select{
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, const MapNtN&>::Callback mef){
             callback7 = mef;
-            callback = 7;
+            callbackn = 7;
             setNumberedSubstringVector(&vec_num);
             setNamedSubstringVector(&vec_nas);
             setNameToNumberMapVector(&vec_ntn);
@@ -1946,7 +2079,7 @@ struct select{
         
         ///@overload
         /// ...
-        ///Sets a callback function with a MapNas.
+        ///Sets a callback function with a jp::MapNas.
         ///You will be working with constant reference of the vector.
         ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
         ///```cpp
@@ -1962,14 +2095,14 @@ struct select{
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, const MapNas&, void*>::Callback mef){
             callback2 = mef;
-            callback = 2;
+            callbackn = 2;
             setNamedSubstringVector(&vec_nas);
             return *this;
         }
         
         ///@overload
         /// ...
-        ///Sets a callback function with a MapNas, MapNtN.
+        ///Sets a callback function with a jp::MapNas, jp::MapNtN.
         ///You will be working with constant reference of the vector.
         ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
         ///```cpp
@@ -1985,7 +2118,7 @@ struct select{
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, const MapNas&,  const MapNtN&>::Callback mef){
             callback6 = mef;
-            callback = 6;
+            callbackn = 6;
             setNamedSubstringVector(&vec_nas);
             setNameToNumberMapVector(&vec_ntn);
             return *this;
@@ -1993,7 +2126,7 @@ struct select{
         
         ///@overload
         /// ...
-        ///Sets a callback function with a MapNtN.
+        ///Sets a callback function with a jp::MapNtN.
         ///You will be working with constant references of the vectors.
         ///For maps, you won't be able to use `[]` operator on constant reference, use at() instead:
         ///```cpp
@@ -2009,7 +2142,7 @@ struct select{
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, void*,  const MapNtN&>::Callback mef){
             callback4 = mef;
-            callback = 4;
+            callbackn = 4;
             setNameToNumberMapVector(&vec_ntn);
             return *this;
         }
@@ -2035,10 +2168,9 @@ struct select{
         MatchEvaluator& reset(){
             RegexMatch::reset();
             clearMatchDataVectors();
-            //set vector pointers.
-            setVectorPointersAccordingToCallback();
-            setMatchStartOffsetVector(&vec_soff);
-            setMatchEndOffsetVector(&vec_eoff);
+            //just like a new object with default constructor:
+            init();
+            setMatchEvaluatorCallback(callback::REMOVE_FCN);
             return *this;
         }
         
@@ -2189,10 +2321,9 @@ struct select{
         ///assertion failure.
         ///@return match count.
         SIZE_T match(void){
-            JPCRE2_ASSERT(RegexMatch::getRegexObject() != 0, "\
-                NullPointerError:\
-                MatchEvaluator object contains null Regex pointer.\
-                May be you forgot to setRegexObject!!!");
+            JPCRE2_ASSERT(RegexMatch::getRegexObject() != 0, "NullPointerError:\n\
+    MatchEvaluator object contains null Regex pointer.\n\
+    May be you forgot to setRegexObject!!!");
             //remove bad matching options
             RegexMatch::changePcre2Option(PCRE2_PARTIAL_HARD|PCRE2_PARTIAL_SOFT, false);
             return RegexMatch::match();
@@ -3769,11 +3900,11 @@ struct select{
         } 
     };
     
-    protected:
+    private:
     //prevent object instantiation of select class
     select();
     select(const select&);
-    virtual ~select(){}
+    ~select();
 };//struct select
 }//jpcre2 namespace
 
@@ -3961,7 +4092,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEva
             res += RegexMatch::getSubjectPointer()->substr(current_offset, vec_soff[i]-current_offset);
         }
         //now process the matched part
-        switch(callback){
+        switch(callbackn){
             case 0: res += callback0((void*)0, (void*)0, (void*)0); break;
             case 1: JPCRE2_VECTOR_DATA_ASSERT(vec_num.size() == mcount, "VecNum");
                     res += callback1(vec_num[i], (void*)0, (void*)0); break;
@@ -4525,6 +4656,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 }
 
 #undef JPCRE2_VECTOR_DATA_ASSERT
+#undef JPCRE2_UNUSED
 
 //some macro documentation for doxygen
 
@@ -4562,6 +4694,13 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 ///sizeof(Char_T)*CHAR_BIT, if not,it will produce compile error.
 ///This check can be disabled by defining this macro.
 
+
+///@def JPCRE2_ASSERT(cond, msg)
+///Macro to call `jpcre2::assert()` with file path and line number.
+///When NDEBUG is defined before including this header, this macro will
+///be defined as `((void)0)` thus eliminating this assertion.
+///@param cond condtion (boolean)
+///@param msg message
 
 #endif
 

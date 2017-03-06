@@ -1,5 +1,5 @@
 #include <iostream>
-#include "./jpcre2.hpp"
+#include "jpcre2.hpp"
 
 typedef jpcre2::select<char> jp;
 
@@ -11,14 +11,11 @@ jp::String callback2(void*, const jp::MapNas& m2, void*){
     return "("+m2.at("total")+")";
 }
 
-//~ #define NDEBUG
-
-
 int main(){
 	jp::Regex re("(?<total>\\w+)", "n");
 	jp::RegexReplace rr(&re);
 
-	jp::String s3 = "I am ঋ আা a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ ঘ আমার সোনার বাংলা";
+	jp::String s3 = "I am a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ ঘ ";
 
 	rr.setSubject(&s3) //just s3 would do too, but passing with pointer will be faster.
 	  .setPcre2Option(PCRE2_SUBSTITUTE_GLOBAL);
@@ -54,17 +51,17 @@ int main(){
      * by using existing match data with different callback function:
      * ****************************************************************/
     
-    jp::MatchEvaluator cme(callback1);
-    cme.setSubject(&s3).setRegexObject(&re).setFindAll().match(); //this one performs a match
+    jp::MatchEvaluator cme(jp::callback::POPULATE_FCN);
+    //perform a match to populate all those vectos with match data.
+    cme.setSubject(&s3).setRegexObject(&re).setFindAll().match();
     
     //this performs the match again (redundant)
-    std::cout<<"\n\n### callback1: \n"<<cme.setMatchEvaluatorCallback(callback1).nreplace(false);
+    std::cout<<"\n\n### callback1: \n"<<cme.setMatchEvaluatorCallback(callback1).nreplace();
 
     //this one uses the match data from previous match (note the 'false' in nreplace)
-    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace();
+    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false);
     std::cout<<"\n\n### callback1: \n"<<cme.setMatchEvaluatorCallback(callback1).nreplace(false);
     
-    jpcre2_assert(1==2,"1 is not 2");
 	
 	return 0;
 }

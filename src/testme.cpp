@@ -7,8 +7,7 @@
 //~ #define NDEBUG
 #include <iostream>
 #define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while usin c++11
-#include "./jpcre2.hpp"
-#include <cassert>
+#include "jpcre2.hpp"
 
 typedef jpcre2::select<char> jp;
 typedef jp::String String;
@@ -60,7 +59,7 @@ int main(){
     jp::Regex re("(?<total>\\w+)", "n");
     jp::RegexReplace rr(&re);
     
-    String s3 = "I am ঋ আা a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ ঘ আমার সোনার বাংলা";
+    String s3 = "I am a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ ঘ";
     
     
     rr.setSubject(&s3)
@@ -103,8 +102,9 @@ int main(){
      * by using existing match data with different callback function:
      * ****************************************************************/
     
-    jp::MatchEvaluator cme(callback7);
-    cme.setSubject(&s3).setRegexObject(&re).setFindAll().match(); //this one performs a match
+    jp::MatchEvaluator cme(jp::callback::POPULATE_FCN);
+    //perform a match to populate all the vectos with match data.
+    cme.setSubject(&s3).setRegexObject(&re).setFindAll().match();
     
     std::cout<<"\n\n###### Re-using existing match data of MatchEvaluator:";
     std::cout<<"\n\n### callback0: \n"<<cme.setMatchEvaluatorCallback(callback0).nreplace();      //this one performs the match again (redundant).
@@ -124,7 +124,7 @@ int main(){
     ////////////////////////////////////////////////////////////////////
     
     rr.setRegexObject(0);
-    assert(rr.nreplace(jp::MatchEvaluator(callback1))==s3);
+    JPCRE2_ASSERT(rr.nreplace(jp::MatchEvaluator(callback1))==s3,"InvalidResult");
     
     rr.setRegexObject(&re).setPcre2Option(0).nreplace(jp::MatchEvaluator(callback2));
     
@@ -159,6 +159,10 @@ int main(){
     me1.setPcre2Option(0).addPcre2Option(0).changePcre2Option(0, !0);
     me1.setJpcre2Option(0).addJpcre2Option(0).changeJpcre2Option(0,!0);
     me1.setStartOffset(0).setMatchContext(0);
+    me1.setRegexObject(&re).setSubject(s3);
+    me1.setMatchEvaluatorCallback(jp::callback::POPULATE_FCN).nreplace();
+    me1.setMatchEvaluatorCallback(jp::callback::REMOVE_AND_POPULATE_FCN).nreplace();
+    me1.setMatchEvaluatorCallback(jp::callback::REMOVE_FCN).nreplace();
 
     return 0;
 }

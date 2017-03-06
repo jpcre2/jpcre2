@@ -13,6 +13,9 @@ Version 10.29.03 -
 7. Add `MatchEvaluator::clearMatchData()` and `MatchEvaluator::reset()`
 8. Allow all `RegexMatch` member functions except functions that can set vector pointers in `MatchEvaluator` class.
 9. All chained methods of `RegexMatch` class are overridden to port the method chaining.
+10. `select` class construtor and destructor access specifier updated from `protected` to `private`.
+11. Add `MatchEvaluator` default constructor.
+12. Add `MatchEvaluator` constructor to that takes `const Regex*`.
 
 
 Version 10.29.02 - Sat Mar  4 00:52:38 UTC 2017

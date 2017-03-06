@@ -51,6 +51,9 @@ int main(){
     assert(rec.replace("123456789", "d$1") == "d123456789");
     assert(rec.replace("123456789", "d$1", "g") == "d1d2d3d4d5d6d7d8d9");
     
+    rec.compile("\\w*\\K\\w*");
+    jpc::MatchEvaluator(&rec).setSubject("----fdsjflfsd8fds68").nreplace();
+    
     ////////////////////////////////////////////////////////////////////
     
     //////////////////////// Check with std::wstring ///////////////////

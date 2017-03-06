@@ -12,7 +12,8 @@ EXTRA_DIST += \
   test0.cpp \
   test.cpp \
   testio.cpp \
-  testme.cpp
+  testme.cpp \
+  testcovme.cpp
 
 include_HEADERS = \
   jpcre2.hpp
@@ -143,10 +144,21 @@ endif
 
 if WITH_COVERAGE
 
+noinst_PROGRAMS += testcovme
+
+testcovme_SOURCES = testcovme.cpp $(JPCRE2_SOURCES)
+testcovme_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS) \
+  $(COVERAGE_FLAGS)
+
 COVERAGE_TEST_NAME = $(PACKAGE)
 COVERAGE_NAME = $(PACKAGE)-$(VERSION)
 COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
 COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
+
+COV_PROGS = $(TESTS) testcovme
+
 #COVERAGE_LCOV_EXTRA_FLAGS =
 #COVERAGE_GENHTML_EXTRA_FLAGS =
 
@@ -155,10 +167,10 @@ COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
 #coverage_quiet_0 = --quiet
 
 
-coverage: $(TESTS) jpcre2.hpp
+coverage: $(COV_PROGS) jpcre2.hpp
 	-$(LCOV) $(coverage_quiet) --zerocounters --directory $(top_builddir)
-	for test in $(TESTS); do \
-	./$$test ; \
+	for test in $(COV_PROGS); do \
+	./$$test | true ; \
 	done
 	$(LCOV) --no-external --test-name "$(COVERAGE_TEST_NAME)" \
 		--directory . \
