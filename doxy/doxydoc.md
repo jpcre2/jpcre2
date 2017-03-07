@@ -631,7 +631,7 @@ When a known error is occurred during pattern compilation or match or replace, t
 
 **Also note** that, these errors never get re-initialized (set to zero), they are always there even when everything else worked great (except some previous error).
 
-If you do experiment with various erroneous situations, make use of the `resetErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is also defined for all three classes to reset their corresponding errors.
+If you do experiment with various erroneous situations, make use of the `clearErrors()` function. You can call it from anywhere in your method chain and immediately set the errors to zero. This function is also defined for all three classes to clear their corresponding errors.
 
 ## Assertion failure {#assertion-failure}
 

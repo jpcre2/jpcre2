@@ -82,7 +82,7 @@ int main(){
     
     //The following will give you assertion failure, because the callback1 only populates NumSub vector,
     //but callback2 requires pre-exisiting (due to the 'false' argument to nreplace()) MapNas data:
-    cme.reset().setSubject(&s3).setRegexObject(&re).setFindAll().setMatchEvaluatorCallback(callback1).nreplace();
+    cme.clear().setSubject(&s3).setRegexObject(&re).setFindAll().setMatchEvaluatorCallback(callback1).nreplace();
     std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false); //Assertion failure.
     
     return 0;

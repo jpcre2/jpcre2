@@ -1116,8 +1116,8 @@ struct select{
         ///...
         ///Move constructor.
         ///This constructor steals resources from the argument.
-        ///It leaves the argument in a valid but indeterminated sate.
-        ///The indeterminate state can be returned to normal by calling reset() on that object.
+        ///It leaves the argument in a valid but indeterminate sate.
+        ///The indeterminate state can be returned to normal by calling clear() on that object.
         ///@param rm rvalue reference to a RegexMatch object
         RegexMatch(RegexMatch&& rm){
             init_vars();
@@ -1128,8 +1128,8 @@ struct select{
         ///...
         ///Overloaded move-assignment operator.
         ///This constructor steals resources from the argument.
-        ///It leaves the argument in a valid but indeterminated sate.
-        ///The indeterminate state can be returned to normal by calling reset() on that object.
+        ///It leaves the argument in a valid but indeterminate sate.
+        ///The indeterminate state can be returned to normal by calling clear() on that object.
         ///@param rm rvalue reference to a RegexMatch object
         ///@return A reference to the calling RegexMatch object.
         virtual RegexMatch& operator=(RegexMatch&& rm){
@@ -1143,27 +1143,27 @@ struct select{
         ///Frees all internal memories that were used.
         virtual ~RegexMatch() {} 
 
-        /// Reset all class variables to its default (initial) state.
+        /// Clear all class variables to its default (initial) state.
         ///Data in the vectors will retain (It won't delete previous data in vectors)
         ///You will need to pass vector pointers again after calling this function to get match results.
         ///
         ///@return Reference to the calling RegexMatch object.
         ///
-        virtual RegexMatch& reset() {
+        virtual RegexMatch& clear() {
             m_subject.clear(); //not ptr , external string won't be modified.
             init_vars();
             return *this; 
         } 
         
-        ///Reset match related errors to zero.
+        ///Clear match related errors to zero.
         ///If you want to examine the error status of a function call in the method chain,
         ///add this function just before your target function so that the error is set to zero
         ///before that target function is called, and leave everything out after the target
         ///function so that there will be no additional errors from other function calls.
         ///@return A reference to the RegexMatch object
-        ///@see Regex::resetErrors()
-        ///@see RegexReplace::resetErrors()
-        virtual RegexMatch& resetErrors(){
+        ///@see Regex::clearErrors()
+        ///@see RegexReplace::clearErrors()
+        virtual RegexMatch& clearErrors(){
             error_number = 0;
             error_offset = 0;
             return *this;
@@ -1433,7 +1433,7 @@ struct select{
         } 
 
 
-        /// Set the modifier (resets all JPCRE2 and PCRE2 options) by calling RegexMatch::changeModifier().
+        /// Set the modifier (clears all JPCRE2 and PCRE2 options) by calling RegexMatch::changeModifier().
         /// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier to set their equivalent options.
         ///
         /// **Note:** If speed of operation is very crucial, use RegexMatch::setJpcre2Option() and
@@ -2043,8 +2043,8 @@ struct select{
         /// ...
         ///Move constructor.
         ///This constructor steals resources from the argument.
-        ///It leaves the argument in a valid but indeterminated sate.
-        ///The indeterminate state can be returned to normal by calling reset() on that object.
+        ///It leaves the argument in a valid but indeterminate sate.
+        ///The indeterminate state can be returned to normal by calling clear() on that object.
         ///@param me rvalue reference to a MatchEvaluator object
         MatchEvaluator(MatchEvaluator&& me): RegexMatch(me){
             init();
@@ -2055,8 +2055,8 @@ struct select{
         ///...
         ///Overloaded move-assignment operator.
         ///It steals resources from the argument.
-        ///It leaves the argument in a valid but indeterminated sate.
-        ///The indeterminate state can be returned to normal by calling reset() on that object.
+        ///It leaves the argument in a valid but indeterminate sate.
+        ///The indeterminate state can be returned to normal by calling clear() on that object.
         ///@param me rvalue reference to a MatchEvaluator object
         ///@return A reference to the calling MatchEvaluator object.
         ///@see MatchEvaluator(MatchEvaluator&& me)
@@ -2251,23 +2251,23 @@ struct select{
             return *this;
         }
         
-        ///Reset MatchEvaluator.
+        ///Clear MatchEvaluator.
         ///Makes it kinda like a new object with default constructor.
         ///The only difference with a new object after this function call is the memory
         ///retained by the vectors after they are cleared.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& reset(){
-            RegexMatch::reset();
+        MatchEvaluator& clear(){
+            RegexMatch::clear();
             clearMatchDataVectors();
             //just like a new object with default constructor:
             init();
             return *this;
         }
         
-        ///Call RegexMatch::resetErrors().
+        ///Call RegexMatch::clearErrors().
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& resetErrors(){
-            RegexMatch::resetErrors();
+        MatchEvaluator& clearErrors(){
+            RegexMatch::clearErrors();
             return *this;
         }
         
@@ -2590,8 +2590,8 @@ struct select{
         ///...
         ///Move constructor.
         ///This constructor steals resources from the argument.
-        ///It leaves the argument in a valid but indeterminated sate.
-        ///The indeterminate state can be returned to normal by calling reset() on that object.
+        ///It leaves the argument in a valid but indeterminate sate.
+        ///The indeterminate state can be returned to normal by calling clear() on that object.
         ///@param rr rvalue reference to a RegexReplace object reference
         RegexReplace(RegexReplace&& rr){
             init_vars();
@@ -2602,8 +2602,8 @@ struct select{
         ///...
         ///Overloaded move assignment operator.
         ///This constructor steals resources from the argument.
-        ///It leaves the argument in a valid but indeterminated sate.
-        ///The indeterminate state can be returned to normal by calling reset() on that object.
+        ///It leaves the argument in a valid but indeterminate sate.
+        ///The indeterminate state can be returned to normal by calling clear() on that object.
         ///@param rr rvalue reference to a RegexReplace object reference
         ///@return A reference to the calling RegexReplace object
         RegexReplace& operator=(RegexReplace&& rr){
@@ -2616,25 +2616,25 @@ struct select{
         
         virtual ~RegexReplace() {} 
     
-        /// Reset all class variables to its default (initial) state.
+        /// Clear all class variables to its default (initial) state.
         ///@return Reference to the calling RegexReplace object.
         ///     
-        RegexReplace& reset() { 
+        RegexReplace& clear() { 
             r_subject.clear();
             r_replw.clear();
             init_vars(); 
             return *this; 
         } 
         
-        /// Reset replace related errors to zero.
+        /// Clear replace related errors to zero.
         ///If you want to examine the error status of a function call in the method chain,
         ///add this function just before your target function so that the error is set to zero
         ///before that target function is called, and leave everything out after the target
         ///function so that there will be no additional errors from other function calls.
         ///@return Reference to the calling RegexReplace object
-        ///@see Regex::resetErrors()
-        ///@see RegexMatch::resetErrors()
-        RegexReplace& resetErrors(){
+        ///@see Regex::clearErrors()
+        ///@see RegexMatch::clearErrors()
+        RegexReplace& clearErrors(){
             error_number = 0;
             error_offset = 0;
             return *this;
@@ -2834,7 +2834,7 @@ struct select{
             return *this; 
         }    
         
-        /// Set the modifier string (resets all JPCRE2 and PCRE2 options) by calling RegexReplace::changeModifier().
+        /// Set the modifier string (clears all JPCRE2 and PCRE2 options) by calling RegexReplace::changeModifier().
         ///
         ///**Note:** If speed of operation is very crucial, use RegexReplace::setJpcre2Option() and RegexReplace::setPcre2Option()
         ///with equivalent options. It will be faster that way.
@@ -3287,8 +3287,8 @@ struct select{
         ///...
         /// Move constructor.
         ///This constructor steals resources from the argument.
-        ///It leaves the argument in a valid but indeterminated sate.
-        ///The indeterminate state can be returned to normal by calling reset() on that object.
+        ///It leaves the argument in a valid but indeterminate sate.
+        ///The indeterminate state can be returned to normal by calling clear() on that object.
         /// @param r rvalue reference to a Regex object.
         Regex(Regex&& r) {
             init_vars();
@@ -3299,8 +3299,8 @@ struct select{
         ///...
         /// Overloaded move-assignment operator.
         ///This constructor steals resources from the argument.
-        ///It leaves the argument in a valid but indeterminated sate.
-        ///The indeterminate state can be returned to normal by calling reset() on that object.
+        ///It leaves the argument in a valid but indeterminate sate.
+        ///The indeterminate state can be returned to normal by calling clear() on that object.
         /// @param r Regex&&
         /// @return *this
         Regex& operator=(Regex&& r) { 
@@ -3371,11 +3371,11 @@ struct select{
             freeCompileContext();
         } 
 
-        /// Reset all class variables to its default (initial) state.
+        /// Clear all class variables to its default (initial) state.
         ///Release any memory used by existing compiled pattern, RegexMatch, RegexReplace objects etc..
         ///@return Reference to the calling Regex object.
         ///
-        Regex& reset() { 
+        Regex& clear() { 
             freeRegexMemory();
             freeCompileContext();
             pat_str.clear();
@@ -3383,28 +3383,28 @@ struct select{
             return *this; 
         } 
 
-        /// Reset regex compile related errors to zero.
+        /// Clear regex compile related errors to zero.
         ///If you want to examine the error status of a function call in the method chain,
         ///add this function just before your target function so that the error is set to zero
         ///before that target function is called, and leave everything out after the target
         ///function so that there will be no additional errors from other function calls.
         ///@return A reference to the Regex object
-        ///@see  RegexReplace::resetErrors()
-        ///@see  RegexMatch::resetErrors()
-        Regex& resetErrors() { 
+        ///@see  RegexReplace::clearErrors()
+        ///@see  RegexMatch::clearErrors()
+        Regex& clearErrors() { 
             error_number = 0; 
             error_offset = 0; 
             return *this; 
         } 
 
-        /// Reset character tables used by PCRE2.
+        /// Create character tables used by PCRE2.
         /// You should call this function after changing the locale to remake the
         /// character tables according to the new locale.
         /// These character tables are used to compile the regex and used by match
         /// and replace operation. A separate call to compile() will be required
         /// to apply the new character tables.
         /// @return Reference to the calling Regex object.
-        Regex& resetCharacterTables() {
+        Regex& createCharacterTables() {
             const unsigned char* tables = Pcre2Func<BS>::maketables(0); //must pass 0, we are using free() to free the tables.
             tabv = std::vector<unsigned char>(tables, tables+1088);
             ::free((void*)tables); //must free memory
@@ -3549,7 +3549,7 @@ struct select{
             return *this;
         }
 
-        /// set the modifier (resets all JPCRE2 and PCRE2 options) by calling Regex::changeModifier().
+        /// set the modifier (clears all JPCRE2 and PCRE2 options) by calling Regex::changeModifier().
         /// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets
         /// equivalent PCRE2 and JPCRE2 options.
         /// @param x Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*
