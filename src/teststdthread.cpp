@@ -47,7 +47,7 @@ void thread_safe_fun1(){
         mtx2.lock();
         std::cout<<"\t1";
         mtx2.unlock();
-        sleep(0.001);
+        sleep(0.01);
     }
 }
 
@@ -60,7 +60,7 @@ void thread_safe_fun2(){ //uses no global or static variable, thus thread safe.
         mtx2.lock();
         std::cout<<"\t2";
         mtx2.unlock();
-        sleep(0.002);
+        sleep(0.02);
     }
 }
 
@@ -73,7 +73,7 @@ void thread_safe_fun3(){//uses no global or static variable, thus thread safe.
         mtx2.lock();
         std::cout<<"\t3";
         mtx2.unlock();
-        sleep(0.0015);
+        sleep(0.015);
     }
 }
 

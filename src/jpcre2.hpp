@@ -1022,11 +1022,9 @@ struct select{
             mcontext = 0;
         }
         
-        
-        void deepCopy(const RegexMatch& rm){
+        void onlyCopy(const RegexMatch& rm){
             re = rm.re; //only pointer should be copied
             
-            m_subject = rm.m_subject;
             //pointer to subject may point to m_subject or other user data
             if(rm.m_subject_ptr == &rm.m_subject) m_subject_ptr = &m_subject; //not &rm.m_subject
             else m_subject_ptr = rm.m_subject_ptr;
@@ -1036,7 +1034,6 @@ struct select{
             vec_num = rm.vec_num;
             vec_nas = rm.vec_nas;
             vec_ntn = rm.vec_ntn;
-            
             vec_soff = rm.vec_soff;
             vec_eoff = rm.vec_eoff;
             
@@ -1045,34 +1042,18 @@ struct select{
             error_number = rm.error_number;
             error_offset = rm.error_offset;
             _start_offset = rm._start_offset;
-            
             mcontext = rm.mcontext;
         }
+        
+        void deepCopy(const RegexMatch& rm){
+            m_subject = rm.m_subject;
+            onlyCopy(rm);
+        }
+        
         #if __cplusplus >= 201103L
         void deepMove(RegexMatch& rm){
-            re = rm.re; rm.re = 0;
-            
-            m_subject = std::move(rm.m_subject);
-            rm.m_subject.clear(); //return it to normal state
-            //pointer to subject may point to m_subject or other user data
-            if(rm.m_subject_ptr == &rm.m_subject) m_subject_ptr = &m_subject; //not &rm.m_subject
-            else m_subject_ptr = rm.m_subject_ptr;
-            rm.m_subject_ptr = &rm.m_subject;
-            
-            vec_num = rm.vec_num; rm.vec_num = 0;
-            vec_nas = rm.vec_nas; rm.vec_nas = 0;
-            vec_ntn = rm.vec_ntn; rm.vec_ntn = 0;
-            vec_soff = rm.vec_soff; rm.vec_soff = 0;
-            vec_eoff = rm. vec_eoff; rm.vec_eoff = 0;
-            
-            match_opts = rm.match_opts; rm.match_opts = 0;
-            jpcre2_match_opts = rm.jpcre2_match_opts; rm.jpcre2_match_opts = 0;
-            error_number = rm.error_number; rm.error_number = 0;
-            error_offset = rm.error_offset; rm.error_offset = 0;
-            _start_offset = rm._start_offset; rm._start_offset = 0;
-            
-            mcontext = rm.mcontext; rm.mcontext = 0;
-            
+            m_subject = std::move_if_noexcept(rm.m_subject);
+            onlyCopy(rm);
         }
         #endif
 
@@ -1134,6 +1115,9 @@ struct select{
         ///@overload
         ///...
         ///Move constructor.
+        ///This constructor steals resources from the argument.
+        ///It leaves the argument in a valid but indeterminated sate.
+        ///The indeterminate state can be returned to normal by calling reset() on that object.
         ///@param rm rvalue reference to a RegexMatch object
         RegexMatch(RegexMatch&& rm){
             init_vars();
@@ -1143,6 +1127,9 @@ struct select{
         ///@overload
         ///...
         ///Overloaded move-assignment operator.
+        ///This constructor steals resources from the argument.
+        ///It leaves the argument in a valid but indeterminated sate.
+        ///The indeterminate state can be returned to normal by calling reset() on that object.
         ///@param rm rvalue reference to a RegexMatch object
         ///@return A reference to the calling RegexMatch object.
         virtual RegexMatch& operator=(RegexMatch&& rm){
@@ -1826,7 +1813,7 @@ struct select{
             }
         }
         
-        void deepCopy(const MatchEvaluator& me) {
+        void onlyCopy(const MatchEvaluator& me){
             callbackn = me.callbackn;
             callback0 = me.callback0;
             callback1 = me.callback1;
@@ -1836,33 +1823,27 @@ struct select{
             callback5 = me.callback5;
             callback6 = me.callback6;
             callback7 = me.callback7;
+            //must update the pointers to point to this class vectors.
+            setVectorPointersAccordingToCallback(); 
+        }
+        
+        void deepCopy(const MatchEvaluator& me) {
             vec_num = me.vec_num;
             vec_nas = me.vec_nas;
             vec_ntn = me.vec_ntn;
             vec_soff = me.vec_soff;
             vec_eoff = me.vec_eoff;
-            //must update the pointers to point to this class vectors.
-            setVectorPointersAccordingToCallback(); 
+            onlyCopy(me);
         }
 
         #if __cplusplus >= 201103L
         void deepMove(MatchEvaluator& me){
-            callbackn = me.callbackn; me.callbackn = 0;
-            callback0 = me.callback0; me.callback0 = callback::erase;
-            callback1 = me.callback1; me.callback1 = 0;
-            callback2 = me.callback2; me.callback2 = 0;
-            callback3 = me.callback3; me.callback3 = 0;
-            callback4 = me.callback4; me.callback4 = 0;
-            callback5 = me.callback5; me.callback5 = 0;
-            callback6 = me.callback6; me.callback6 = 0;
-            callback7 = me.callback7; me.callback7 = 0;
-            vec_num = std::move(me.vec_num); me.vec_num.clear(); //return to a normal state
-            vec_nas = std::move(me.vec_nas); me.vec_nas.clear();
-            vec_ntn = std::move(me.vec_ntn); me.vec_ntn.clear();
-            vec_soff = std::move(me.vec_soff); me.vec_soff.clear();
-            vec_eoff = std::move(me.vec_eoff); me.vec_eoff.clear();
-            //must update the pointers to point to this class vectors.
-            setVectorPointersAccordingToCallback(); 
+            vec_num = std::move_if_noexcept(me.vec_num);
+            vec_nas = std::move_if_noexcept(me.vec_nas);
+            vec_ntn = std::move_if_noexcept(me.vec_ntn);
+            vec_soff = std::move_if_noexcept(me.vec_soff);
+            vec_eoff = std::move_if_noexcept(me.vec_eoff);
+            onlyCopy(me);
         }
         #endif
         
@@ -2061,6 +2042,9 @@ struct select{
         ///@overload
         /// ...
         ///Move constructor.
+        ///This constructor steals resources from the argument.
+        ///It leaves the argument in a valid but indeterminated sate.
+        ///The indeterminate state can be returned to normal by calling reset() on that object.
         ///@param me rvalue reference to a MatchEvaluator object
         MatchEvaluator(MatchEvaluator&& me): RegexMatch(me){
             init();
@@ -2069,9 +2053,13 @@ struct select{
         
         ///@overload
         ///...
-        ///Overloaded move-assignment operator
+        ///Overloaded move-assignment operator.
+        ///It steals resources from the argument.
+        ///It leaves the argument in a valid but indeterminated sate.
+        ///The indeterminate state can be returned to normal by calling reset() on that object.
         ///@param me rvalue reference to a MatchEvaluator object
         ///@return A reference to the calling MatchEvaluator object.
+        ///@see MatchEvaluator(MatchEvaluator&& me)
         MatchEvaluator& operator=(MatchEvaluator&& me){
             if(this == &me) return *this;
             RegexMatch::operator=(me);
@@ -2513,11 +2501,10 @@ struct select{
             mdata = 0;
             mcontext = 0;
         }
-
-        void deepCopy(const RegexReplace& rr){
+        
+        void onlyCopy(const RegexReplace& rr){
             re = rr.re; //only pointer should be copied.
             
-            r_subject = rr.r_subject;
             //rr.r_subject_ptr may point to rr.r_subject or other user data
             if(rr.r_subject_ptr == &rr.r_subject) r_subject_ptr = &r_subject; //not rr.r_subject
             else r_subject_ptr = rr.r_subject_ptr; //other user data
@@ -2536,36 +2523,17 @@ struct select{
             mdata = rr.mdata;
             mcontext = rr.mcontext;
         }
-        
-        #if __cplusplus >= 201103L
-        
-        void deepMove(RegexReplace& rr){
-            re = rr.re; rr.re = 0; //only pointer should be copied.
-            
-            r_subject = std::move(rr.r_subject);
-            rr.r_subject.clear(); //return to normal state.
-            //rr.r_subject_ptr may point to rr.r_subject or other user data
-            if(rr.r_subject_ptr == &rr.r_subject) r_subject_ptr = &r_subject; //not rr.r_subject
-            else r_subject_ptr = rr.r_subject_ptr; //other user data
-            rr.r_subject_ptr = &rr.r_subject;
-            
-            r_replw = std::move(rr.r_replw);
-            rr.r_replw.clear(); //return to normal state.
-            //rr.r_replw_ptr may point to rr.r_replw or other user data
-            if(rr.r_replw_ptr == &rr.r_replw) r_replw_ptr = &r_replw; //not rr.r_replw
-            else r_replw_ptr = rr.r_replw_ptr; //other user data
-            rr.r_replw_ptr = &rr.r_replw;
-            
-            replace_opts = rr.replace_opts; rr.replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
-            jpcre2_replace_opts = rr.jpcre2_replace_opts; rr.jpcre2_replace_opts = 0;
-            buffer_size = rr.buffer_size; rr.buffer_size = 0;
-            error_number = rr.error_number; rr.error_number = 0;
-            error_offset = rr.error_offset; rr.error_offset = 0;
-            _start_offset = rr._start_offset; rr._start_offset = 0;
-            mdata = rr.mdata; rr.mdata = 0;
-            mcontext = rr.mcontext; rr.mcontext = 0;
+
+        void deepCopy(const RegexReplace& rr){
+            r_subject = rr.r_subject;
+            onlyCopy(rr);
         }
         
+        #if __cplusplus >= 201103L
+        void deepMove(RegexReplace& rr){
+            r_subject = std::move_if_noexcept(rr.r_subject);
+            onlyCopy(rr);
+        }
         #endif
         
         
@@ -2621,6 +2589,9 @@ struct select{
         ///@overload
         ///...
         ///Move constructor.
+        ///This constructor steals resources from the argument.
+        ///It leaves the argument in a valid but indeterminated sate.
+        ///The indeterminate state can be returned to normal by calling reset() on that object.
         ///@param rr rvalue reference to a RegexReplace object reference
         RegexReplace(RegexReplace&& rr){
             init_vars();
@@ -2630,6 +2601,9 @@ struct select{
         ///@overload
         ///...
         ///Overloaded move assignment operator.
+        ///This constructor steals resources from the argument.
+        ///It leaves the argument in a valid but indeterminated sate.
+        ///The indeterminate state can be returned to normal by calling reset() on that object.
         ///@param rr rvalue reference to a RegexReplace object reference
         ///@return A reference to the calling RegexReplace object
         RegexReplace& operator=(RegexReplace&& rr){
@@ -2926,13 +2900,13 @@ struct select{
             return *this;
         }
         
-        ///Set the match data to be used.
-        ///Native PCRE2 API may be used to create match data.
+        ///Set the match data block to be used.
+        ///Native PCRE2 API may be used to create match data block.
         ///The memory of the match data is not handled by RegexReplace object and not freed.
-        ///User will be responsible for freeing memory.
+        ///User will be responsible for creating/freeing memory.
         ///@param match_data Pointer to match data.
         ///@return Reference to the calling RegexReplace object.
-        RegexReplace& setMatchData(MatchData *match_data){
+        RegexReplace& setMatchDataBlock(MatchData *match_data){
             mdata = match_data;
             return *this;
         }
@@ -3112,8 +3086,7 @@ struct select{
         friend class RegexMatch;    
         friend class RegexReplace; 
 
-        void deepCopy(const Regex& r) {
-            pat_str = r.pat_str; //must not use setPattern() here
+        void onlyCopy(const Regex& r){
             //r.pat_str_ptr may point to other user data
             if(r.pat_str_ptr == &r.pat_str) pat_str_ptr = &pat_str; //not r.pat_str
             else pat_str_ptr = r.pat_str_ptr; //other user data
@@ -3122,6 +3095,12 @@ struct select{
             jpcre2_compile_opts = r.jpcre2_compile_opts; 
             error_number = r.error_number; 
             error_offset = r.error_offset; 
+        }
+
+        void deepCopy(const Regex& r) {
+            pat_str = r.pat_str; //must not use setPattern() here
+            
+            onlyCopy(r);
             
             //copy tables
             tabv = r.tabv;
@@ -3132,7 +3111,7 @@ struct select{
             //if tabv is not empty and ccontext is ok (not null) set the table pointer to ccontext
             if(ccontext  && !tabv.empty()) Pcre2Func<BS>::set_character_tables(ccontext, &tabv[0]);
             
-            //table pointer must be updated in the compiled code itself
+            //table pointer must be updated in the compiled code itself, jit memory copy is not available.
             //copy is not going to work, we need a recompile.
             //as all vars are already copied, we can just call compile()
             if(r.code) compile(); //compile frees previous memory.
@@ -3142,28 +3121,21 @@ struct select{
         #if __cplusplus >= 201103L
         
         void deepMove(Regex& r) {
-            pat_str = std::move(r.pat_str); r.pat_str.clear(); //must not use setPattern() here
-            //r.pat_str_ptr may point to other user data
-            if(r.pat_str_ptr == &r.pat_str) pat_str_ptr = &pat_str; //not r.pat_str
-            else pat_str_ptr = r.pat_str_ptr; //other user data
-            r.pat_str_ptr = &r.pat_str;
+            pat_str = std::move_if_noexcept(r.pat_str);
             
-            compile_opts = r.compile_opts; r.compile_opts = 0;
-            jpcre2_compile_opts = r.jpcre2_compile_opts; r.jpcre2_compile_opts = 0;
-            error_number = r.error_number; r.error_number = 0;
-            error_offset = r.error_offset; r.error_offset = 0;
+            onlyCopy(r);
             
             //steal tables
-            tabv = std::move(r.tabv); r.tabv.clear(); //return to normal state.
+            tabv = std::move_if_noexcept(r.tabv);
             
             //steal ccontext
             freeCompileContext();
-            ccontext = r.ccontext; r.ccontext = 0;
+            ccontext = r.ccontext; r.ccontext = 0; //must set this to 0
             if(ccontext && !tabv.empty()) Pcre2Func<BS>::set_character_tables(ccontext, &tabv[0]);
             
             //steal the code
             freeRegexMemory();
-            code = r.code; r.code = 0;
+            code = r.code; r.code = 0; //must set this to 0
         }
         
         #endif
@@ -3314,6 +3286,9 @@ struct select{
         /// @overload
         ///...
         /// Move constructor.
+        ///This constructor steals resources from the argument.
+        ///It leaves the argument in a valid but indeterminated sate.
+        ///The indeterminate state can be returned to normal by calling reset() on that object.
         /// @param r rvalue reference to a Regex object.
         Regex(Regex&& r) {
             init_vars();
@@ -3322,7 +3297,10 @@ struct select{
         
         ///@overload
         ///...
-        /// Overloaded move-assignment operator
+        /// Overloaded move-assignment operator.
+        ///This constructor steals resources from the argument.
+        ///It leaves the argument in a valid but indeterminated sate.
+        ///The indeterminate state can be returned to normal by calling reset() on that object.
         /// @param r Regex&&
         /// @return *this
         Regex& operator=(Regex&& r) { 

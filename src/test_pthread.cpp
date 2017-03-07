@@ -48,7 +48,7 @@ void* thread_safe_fun1(void*){
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t1";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.001);
+        sleep(0.01);
     }
     return 0;
 }
@@ -62,7 +62,7 @@ void* thread_safe_fun2(void*){ //uses no global or static variable, thus thread 
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t2";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.002);
+        sleep(0.02);
     }
     return 0;
 }
@@ -76,7 +76,7 @@ void* thread_safe_fun3(void*){//uses no global or static variable, thus thread s
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t3";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.0015);
+        sleep(0.015);
     }
     return 0;
 }
@@ -95,7 +95,7 @@ void* thread_safe_fun4(void*){
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t4";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.0017);
+        sleep(0.017);
     }
     return 0;
 }

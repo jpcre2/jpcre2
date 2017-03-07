@@ -248,7 +248,7 @@ int main(){
     rr.setJpcre2Option(0); \
     rr.setPcre2Option(0); \
     rr.setMatchContext(0); \
-    rr.setMatchData(0); \
+    rr.setMatchDataBlock(0); \
     rr.changeJpcre2Option(0, true); \
     rr.changeJpcre2Option(0, false); \
     rr.changePcre2Option(0, true); \
