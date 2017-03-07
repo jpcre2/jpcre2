@@ -71,6 +71,7 @@
 //~ #include <climits>      // CHAR_BIT //[redundant] limits.h is included by pcre2.h
 
 #if __cplusplus >= 201103L
+    #include <utility>
     #if !defined JPCRE2_DISABLE_CHAR1632
         #include <locale>       // std::codecvt, std::wstring_convert
     #endif
@@ -125,7 +126,7 @@ namespace jpcre2 {
 
 ///Define for JPCRE2 version.
 ///It can be used to support changes in different versions of the lib.
-#define JPCRE2_VERSION 102903L
+#define JPCRE2_VERSION 103001L
 
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
@@ -133,10 +134,10 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.29.03";     ///< Full version string
+    static const char FULL_VERSION[] = "10.30.01";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
-    static const char VERSION_MAJOR[] = "29";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "03";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MAJOR[] = "30";          ///< Major version, updated when API change is made
+    static const char VERSION_MINOR[] = "01";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -991,10 +992,6 @@ struct select{
         int error_number;
         PCRE2_SIZE error_offset;
         MatchContext *mcontext;
-        //Managing jit stack spoils thread safety
-        //~ JitStack *jit_stack;
-        //~ PCRE2_SIZE jit_stack_startsize;
-        //~ PCRE2_SIZE jit_stack_maxsize;
         
         PCRE2_SIZE _start_offset; //name collision, use _ at start
 
@@ -1005,9 +1002,9 @@ struct select{
         VecOff* vec_soff;
         VecOff* vec_eoff;
 
-        NumSub* num_sub;       
-        MapNas* nas_map;       
-        MapNtN* ntn_map;       
+        NumSub num_sub;       
+        MapNas nas_map;       
+        MapNtN ntn_map;       
 
         bool getNumberedSubstrings(int, MatchData *);   
 
@@ -1015,36 +1012,12 @@ struct select{
         
         void pushMapsIntoVectors(void){ 
             if (vec_num) 
-                vec_num->push_back(*num_sub); 
+                vec_num->push_back(num_sub); 
             if (vec_nas) 
-                vec_nas->push_back(*nas_map); 
+                vec_nas->push_back(nas_map); 
             if (vec_ntn) 
-                vec_ntn->push_back(*ntn_map); 
+                vec_ntn->push_back(ntn_map); 
         }
-        //~ void createJitStack(){
-            //~ freeJitStack();
-            //~ if(jit_stack_startsize) jit_stack = Pcre2Func<BS>::jit_stack_create(jit_stack_startsize, jit_stack_maxsize, 0);
-        //~ }
-        //~ void createMatchContext(){
-            //~ freeMatchContext();
-            //~ mcontext = Pcre2Func<BS>::match_context_create(0);
-        //~ }
-        //~ //this function creates jit_stack if not available.
-        //~ void assignJitStack(){
-            //~ if(!jit_stack) createJitStack();
-            //~ if(jit_stack){//not else
-                //~ if(!mcontext) createMatchContext();
-                //~ if(mcontext) Pcre2Func<BS>::jit_stack_assign(mcontext, 0, jit_stack);
-            //~ }
-        //~ }
-        //~ void freeJitStack(){
-            //~ if(jit_stack) Pcre2Func<BS>::jit_stack_free(jit_stack);
-            //~ jit_stack = 0;
-        //~ }
-        //~ void freeMatchContext(){
-            //~ if(mcontext) Pcre2Func<BS>::match_context_free(mcontext);
-            //~ mcontext = 0;
-        //~ }
         
         void init_vars() {
             re = 0;
@@ -1053,9 +1026,6 @@ struct select{
             vec_ntn = 0;
             vec_soff = 0;
             vec_eoff = 0;
-            num_sub = 0; 
-            nas_map = 0; 
-            ntn_map = 0; 
             match_opts = 0; 
             jpcre2_match_opts = 0; 
             error_number = 0;
@@ -1063,19 +1033,8 @@ struct select{
             _start_offset = 0;
             m_subject_ptr = &m_subject;
             mcontext = 0;
-            //~ jit_stack = 0;
-            //~ jit_stack_startsize = 0;
-            //~ jit_stack_maxsize = 0;
         }
         
-        void resetMaps(){
-            delete num_sub; 
-            delete nas_map; 
-            delete ntn_map;
-            num_sub = 0;
-            nas_map = 0;
-            ntn_map = 0;
-        }
         
         void deepCopy(const RegexMatch& rm){
             re = rm.re; //only pointer should be copied
@@ -1094,7 +1053,7 @@ struct select{
             vec_soff = rm.vec_soff;
             vec_eoff = rm.vec_eoff;
             
-            //maps should be null, no copy needed
+            //maps should be empty, no copy needed
             
             match_opts = rm.match_opts;
             jpcre2_match_opts = rm.jpcre2_match_opts;
@@ -1102,13 +1061,40 @@ struct select{
             error_offset = rm.error_offset;
             _start_offset = rm._start_offset;
             
-            //~ freeMatchContext();
-            //~ if(rm.mcontext) mcontext = Pcre2Func<BS>::match_context_copy(rm.mcontext);
             mcontext = rm.mcontext;
-            //no need to copy jit_stack, it will be created if needed
-            //~ setJitStackSize(rm.jit_stack_startsize, rm.jit_stack_maxsize);
+        }
+        #if __cplusplus >= 201103L
+        void deepMove(RegexMatch& rm){
+            re = rm.re; rm.re = 0;
+            
+            m_subject = std::move(rm.m_subject);
+            rm.m_subject.clear(); //return it to normal state
+            //pointer to subject may point to m_subject or other user data
+            if(rm.m_subject_ptr == &rm.m_subject) m_subject_ptr = &m_subject; //not &rm.m_subject
+            else m_subject_ptr = rm.m_subject_ptr;
+            rm.m_subject_ptr = &rm.m_subject;
+            
+            vec_num = rm.vec_num; rm.vec_num = 0;
+            vec_nas = rm.vec_nas; rm.vec_nas = 0;
+            vec_ntn = rm.vec_ntn; rm.vec_ntn = 0;
+            vec_soff = rm.vec_soff; rm.vec_soff = 0;
+            vec_eoff = rm. vec_eoff; rm.vec_eoff = 0;
+            
+            //maps should be empty, no move needed
+            rm.num_sub.clear();
+            rm.nas_map.clear();
+            rm.ntn_map.clear();
+            
+            match_opts = rm.match_opts; rm.match_opts = 0;
+            jpcre2_match_opts = rm.jpcre2_match_opts; rm.jpcre2_match_opts = 0;
+            error_number = rm.error_number; rm.error_number = 0;
+            error_offset = rm.error_offset; rm.error_offset = 0;
+            _start_offset = rm._start_offset; rm._start_offset = 0;
+            
+            mcontext = rm.mcontext; rm.mcontext = 0;
             
         }
+        #endif
 
         friend class Regex;
 
@@ -1137,7 +1123,7 @@ struct select{
         
         ///@overload
         ///...
-        ///Copy constructor. Performs deep copy.
+        ///Copy constructor.
         ///@param rm Reference to RegexMatch object
         RegexMatch(const RegexMatch& rm){
             init_vars();
@@ -1145,11 +1131,6 @@ struct select{
         }
         
         ///Overloaded copy-assignment operator.
-        ///Allows assigning objects:
-        ///```cpp
-        ///jp::RegexMatch rm;
-        ///rm = jp::RegexMatch(&re);
-        ///```
         ///@param rm RegexMatch object
         ///@return A reference to the calling RegexMatch object.
         virtual RegexMatch& operator=(const RegexMatch& rm){
@@ -1158,15 +1139,31 @@ struct select{
             return *this;
         }
         
+        #if __cplusplus >= 201103L
+        ///@overload
+        ///...
+        ///Move constructor.
+        ///@param rm rvalue reference to a RegexMatch object
+        RegexMatch(RegexMatch&& rm){
+            init_vars();
+            deepMove(rm);
+        }
+        
+        ///@overload
+        ///...
+        ///Overloaded move-assignment operator.
+        ///@param rm rvalue reference to a RegexMatch object
+        ///@return A reference to the calling RegexMatch object.
+        virtual RegexMatch& operator=(RegexMatch&& rm){
+            if(this == &rm) return *this;
+            deepMove(rm);
+            return *this;
+        }
+        #endif
+        
         ///Destructor
         ///Frees all internal memories that were used.
-        virtual ~RegexMatch() { 
-            delete num_sub; 
-            delete nas_map; 
-            delete ntn_map;
-            //~ freeMatchContext();
-            //~ freeJitStack();
-        } 
+        virtual ~RegexMatch() {} 
 
         /** Reset all class variables to its default (initial) state.
          * Data in the vectors will retain (It won't delete previous data in vectors)
@@ -1174,11 +1171,8 @@ struct select{
          * 
          * @return Reference to the calling RegexMatch object.
          * */
-        virtual RegexMatch& reset() { 
-            resetMaps();
+        virtual RegexMatch& reset() {
             m_subject.clear(); //not ptr , external string won't be modified.
-            //~ freeMatchContext();
-            //~ freeJitStack();
             init_vars();
             return *this; 
         } 
@@ -1464,31 +1458,6 @@ struct select{
             return *this;
         }
         
-        //the following is not thread safe. (pcre2_jit_stack_create function is not thread safe.)
-        //~ ///Set JIT stack size.
-        //~ ///Some large or complicated pattern may need more than the default stack size (32K).
-        //~ ///A call to this function will create a new JIT memory on machine stack exclusively for this match object.
-        //~ ///Any and all copies from this match object will also hold their respective exclusive JIT stack.
-        //~ ///If this match object is copied into multiple other match objects, it may have a significant memory cost.
-        //~ ///You can change/reset it to its default state by setting the startsize (first argument) to 0.
-        //~ ///A call to `RegexMatch::reset()` will reset it to default along with others.
-        //~ ///
-        //~ ///Thread safety:
-        //~ /// 
-        //~ ///1. MT unsafe if called with non-zero value.
-        //~ ///2. Also the next matching operations (RegexMatch::match()) will be MT unsafe.
-        //~ ///3. Dummy call to this function is (C) MT safe i.e calling it with zero-value when there was no previous custom JIT stack.
-        //~ ///
-        //~ ///@param startsize Starting JIT stack size (usually 32*1024).
-        //~ ///@param maxsize Maximum size of JIT stack (512*1024 or 1024*1024 should be more than enough). A wrong value, such as less than the startsize will be corrected to startsize.
-        //~ ///@return Reference to the calling RegexMatch object
-        //~ virtual RegexMatch& setJitStackSize(PCRE2_SIZE startsize, PCRE2_SIZE maxsize){
-            //~ jit_stack_startsize = startsize;
-            //~ jit_stack_maxsize = maxsize;
-            //~ if(jit_stack_maxsize < jit_stack_startsize) jit_stack_maxsize = jit_stack_startsize;
-            //~ createJitStack();
-            //~ return *this;
-        //~ }
         
         /// After a call to this function PCRE2 and JPCRE2 options will be properly set.
         /// This function does not initialize or re-initialize options.
@@ -1570,12 +1539,6 @@ struct select{
             return *this; 
         }
         
-        //~ ///Free unused JIT memory.
-        //~ ///Thread safety: MT unsafe
-        //~ virtual RegexMatch& freeUnusedJitMemory(){
-            //~ Pcre2Func<BS>::jit_free_unused_memory(0);
-            //~ return *this;
-        //~ }
 
         /// Perform match operation using info from class variables and return the match count and
         /// store the results in specified vectors.
@@ -1772,7 +1735,7 @@ struct select{
         
         void init(){
             callbackn = 0;
-            callback0 = 0;
+            callback0 = callback::erase;
             callback1 = 0;
             callback2 = 0;
             callback3 = 0;
@@ -1807,14 +1770,35 @@ struct select{
             callback5 = me.callback5;
             callback6 = me.callback6;
             callback7 = me.callback7;
-            //must update the pointers to point to this class vectors.
-            setVectorPointersAccordingToCallback(); 
             vec_num = me.vec_num;
             vec_nas = me.vec_nas;
             vec_ntn = me.vec_ntn;
             vec_soff = me.vec_soff;
             vec_eoff = me.vec_eoff;
+            //must update the pointers to point to this class vectors.
+            setVectorPointersAccordingToCallback(); 
         }
+
+        #if __cplusplus >= 201103L
+        void deepMove(MatchEvaluator& me){
+            callbackn = me.callbackn; me.callbackn = 0;
+            callback0 = me.callback0; me.callback0 = callback::erase;
+            callback1 = me.callback1; me.callback1 = 0;
+            callback2 = me.callback2; me.callback2 = 0;
+            callback3 = me.callback3; me.callback3 = 0;
+            callback4 = me.callback4; me.callback4 = 0;
+            callback5 = me.callback5; me.callback5 = 0;
+            callback6 = me.callback6; me.callback6 = 0;
+            callback7 = me.callback7; me.callback7 = 0;
+            vec_num = std::move(me.vec_num); me.vec_num.clear(); //return to a normal state
+            vec_nas = std::move(me.vec_nas); me.vec_nas.clear();
+            vec_ntn = std::move(me.vec_ntn); me.vec_ntn.clear();
+            vec_soff = std::move(me.vec_soff); me.vec_soff.clear();
+            vec_eoff = std::move(me.vec_eoff); me.vec_eoff.clear();
+            //must update the pointers to point to this class vectors.
+            setVectorPointersAccordingToCallback(); 
+        }
+        #endif
         
         //prevent public access to some funcitons
         MatchEvaluator& setNumberedSubstringVector(VecNum* v){
@@ -1857,7 +1841,6 @@ struct select{
         explicit
         MatchEvaluator():RegexMatch(){
             init();
-            setMatchEvaluatorCallback(callback::erase);
         }
         
         ///@overload
@@ -1870,7 +1853,6 @@ struct select{
         explicit
         MatchEvaluator(const Regex *r):RegexMatch(r){
             init();
-            setMatchEvaluatorCallback(callback::erase);
         }
         
         ///@overload
@@ -1961,7 +1943,7 @@ struct select{
         
         ///@overload
         /// ...
-        ///Copy constructor. Performs deep copy.
+        ///Copy constructor.
         ///@param me Reference to MatchEvaluator object
         MatchEvaluator(const MatchEvaluator& me): RegexMatch(me){
             init();
@@ -1977,6 +1959,31 @@ struct select{
             deepCopy(me);
             return *this;
         }
+        
+        #if __cplusplus >= 201103L
+        
+        ///@overload
+        /// ...
+        ///Move constructor.
+        ///@param me rvalue reference to a MatchEvaluator object
+        MatchEvaluator(MatchEvaluator&& me): RegexMatch(me){
+            init();
+            deepMove(me);
+        }
+        
+        ///@overload
+        ///...
+        ///Overloaded move-assignment operator
+        ///@param me rvalue reference to a MatchEvaluator object
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& operator=(MatchEvaluator&& me){
+            if(this == &me) return *this;
+            RegexMatch::operator=(me);
+            deepMove(me);
+            return *this;
+        }
+        
+        #endif
         
         virtual ~MatchEvaluator(){}
         
@@ -2170,7 +2177,6 @@ struct select{
             clearMatchDataVectors();
             //just like a new object with default constructor:
             init();
-            setMatchEvaluatorCallback(callback::erase);
             return *this;
         }
         
@@ -2419,6 +2425,38 @@ struct select{
             mcontext = rr.mcontext;
         }
         
+        #if __cplusplus >= 201103L
+        
+        void deepMove(RegexReplace& rr){
+            re = rr.re; rr.re = 0; //only pointer should be copied.
+            
+            r_subject = std::move(rr.r_subject);
+            rr.r_subject.clear(); //return to normal state.
+            //rr.r_subject_ptr may point to rr.r_subject or other user data
+            if(rr.r_subject_ptr == &rr.r_subject) r_subject_ptr = &r_subject; //not rr.r_subject
+            else r_subject_ptr = rr.r_subject_ptr; //other user data
+            rr.r_subject_ptr = &rr.r_subject;
+            
+            r_replw = std::move(rr.r_replw);
+            rr.r_replw.clear(); //return to normal state.
+            //rr.r_replw_ptr may point to rr.r_replw or other user data
+            if(rr.r_replw_ptr == &rr.r_replw) r_replw_ptr = &r_replw; //not rr.r_replw
+            else r_replw_ptr = rr.r_replw_ptr; //other user data
+            rr.r_replw_ptr = &rr.r_replw;
+            
+            replace_opts = rr.replace_opts; rr.replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
+            jpcre2_replace_opts = rr.jpcre2_replace_opts; rr.jpcre2_replace_opts = 0;
+            buffer_size = rr.buffer_size; rr.buffer_size = 0;
+            error_number = rr.error_number; rr.error_number = 0;
+            error_offset = rr.error_offset; rr.error_offset = 0;
+            _start_offset = rr._start_offset; rr._start_offset = 0;
+            mdata = rr.mdata; rr.mdata = 0;
+            mcontext = rr.mcontext; rr.mcontext = 0;
+        }
+        
+        #endif
+        
+        
         friend class Regex;
 
     public: 
@@ -2438,9 +2476,8 @@ struct select{
         }
         
         ///@overload
-        ///
-        ///
-        ///Copy constructor\. Performs a deep copy.
+        ///...
+        ///Copy constructor.
         ///@param rr RegexReplace object reference
         RegexReplace(const RegexReplace& rr){
             init_vars();
@@ -2448,11 +2485,6 @@ struct select{
         }
         
         ///Overloaded Copy assignment operator.
-        ///Allows object assignment:
-        ///```cpp
-        ///jp::RegexReplace rr;
-        ///rr = jp::RegexReplace(&re);
-        ///```
         ///@param rr RegexReplace object reference
         ///@return A reference to the calling RegexReplace object
         RegexReplace& operator=(const RegexReplace& rr){
@@ -2460,6 +2492,30 @@ struct select{
             deepCopy(rr);
             return *this;
         }
+        
+        #if __cplusplus >= 201103L
+        
+        ///@overload
+        ///...
+        ///Move constructor.
+        ///@param rr rvalue reference to a RegexReplace object reference
+        RegexReplace(RegexReplace&& rr){
+            init_vars();
+            deepMove(rr);
+        }
+        
+        ///@overload
+        ///...
+        ///Overloaded move assignment operator.
+        ///@param rr rvalue reference to a RegexReplace object reference
+        ///@return A reference to the calling RegexReplace object
+        RegexReplace& operator=(RegexReplace&& rr){
+            if(this == &rr) return *this;
+            deepMove(rr);
+            return *this;
+        }
+        
+        #endif
         
         virtual ~RegexReplace() {} 
     
@@ -2864,8 +2920,8 @@ struct select{
 
     private: 
     
-        RegexMatch *rm;
-        RegexReplace *rr;
+        //~ RegexMatch *rm;
+        //~ RegexReplace *rr;
 
         String pat_str;
         const String* pat_str_ptr;
@@ -2885,8 +2941,8 @@ struct select{
             error_number = 0; 
             error_offset = 0; 
             code = 0;
-            rm = 0;
-            rr = 0; 
+            //~ rm = 0;
+            //~ rr = 0; 
             pat_str_ptr = &pat_str;
             ccontext = 0;
         } 
@@ -2932,38 +2988,53 @@ struct select{
             //table pointer must be updated in the compiled code itself
             //copy is not going to work, we need a recompile.
             //as all vars are already copied, we can just call compile()
-            if(r.code) compile();
+            if(r.code) compile(); //compile frees previous memory.
             else freeRegexMemory();
             
-            //~ //Copy #code if it is non-null
-            //~ ///First release memory of #code from current object if it is non-NULL
-            //~ freeRegexMemory();
-            //~ if (r.code) {
-                //~ /// Copy compiled memory of #code to #code of current object using pcre2_code_copy() 
-                //~ code = Pcre2Func<BS>::code_copy(r.code);
-                //~ /// Perform JIT compilation (if enabled) as pcre2_code_copy() doesn't copy JIT memory
-                //~ if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
-                    //~ //Perform JIT compilation:
-                    //~ int jit_ret = Pcre2Func<BS>::jit_compile(code, PCRE2_JIT_COMPLETE);
-                    //~ if(jit_ret < 0) error_number = jit_ret;
-                //~ }
-            //~ } //else code is already null
-            
             //use copy assignment for rm and rr
-            delete rm;
-            rm = 0;
-            if(r.rm) {
-                rm = new RegexMatch(*(r.rm)); 
-                rm->re = this; //associated Regex object needs to be this one
-            }
+            //~ delete rm;
+            //~ rm = 0;
+            //~ if(r.rm) {
+                //~ rm = new RegexMatch(*(r.rm)); 
+                //~ rm->re = this; //associated Regex object needs to be this one
+            //~ }
             
-            delete rr;
-            rr = 0;
-            if(r.rr){
-                rr = new RegexReplace(*(r.rr)); 
-                rr->re = this; //associated Regex object needs to be this one
-            }
+            //~ delete rr;
+            //~ rr = 0;
+            //~ if(r.rr){
+                //~ rr = new RegexReplace(*(r.rr)); 
+                //~ rr->re = this; //associated Regex object needs to be this one
+            //~ }
         }
+        
+        #if __cplusplus >= 201103L
+        
+        void deepMove(Regex& r) {
+            pat_str = std::move(r.pat_str); r.pat_str.clear(); //must not use setPattern() here
+            //r.pat_str_ptr may point to other user data
+            if(r.pat_str_ptr == &r.pat_str) pat_str_ptr = &pat_str; //not r.pat_str
+            else pat_str_ptr = r.pat_str_ptr; //other user data
+            r.pat_str_ptr = &r.pat_str;
+            
+            compile_opts = r.compile_opts; r.compile_opts = 0;
+            jpcre2_compile_opts = r.jpcre2_compile_opts; r.jpcre2_compile_opts = 0;
+            error_number = r.error_number; r.error_number = 0;
+            error_offset = r.error_offset; r.error_offset = 0;
+            
+            //steal tables
+            tabv = std::move(r.tabv); r.tabv.clear(); //return to normal state.
+            
+            //steal ccontext
+            freeCompileContext();
+            ccontext = r.ccontext; r.ccontext = 0;
+            if(ccontext && !tabv.empty()) Pcre2Func<BS>::set_character_tables(ccontext, &tabv[0]);
+            
+            //steal the code
+            freeRegexMemory();
+            code = r.code; r.code = 0;
+        }
+        
+        #endif
 
     public: 
 
@@ -3067,13 +3138,8 @@ struct select{
         } 
 
         /// @overload
-        ///
-        ///
-        /// Copy constructor\. Performs a deep copy.
-        /// The associated RegexMatch and RegexReplace objects (if any) are copied
-        /// and their associated Regex object is set to this Regex Object.
-        /// No change is made to the original Regex object or their associated
-        /// RegexMatch and RegexReplace objects.
+        ///...
+        /// Copy constructor.
         /// A separate and new compile is performed from the copied options.
         ///
         ///Thread safety: same as `Regex::compile()`.
@@ -3084,18 +3150,6 @@ struct select{
         } 
         
         /// Overloaded assignment operator.
-        /// Performs a deep copy.
-        ///
-        /// The associated RegexMatch and RegexReplace objects (if any) are copied
-        /// and their associated Regex object is set to this Regex Object.
-        /// No change is made to the original Regex object or their associated
-        /// RegexMatch and RegexReplace objects.
-        ///
-        /// Allows assigning objects:
-        /// ```cpp
-        /// jp::Regex re2;
-        /// re2 = re;
-        /// ```
         ///Thread safety: same as `Regex::compile()`.
         /// @param r const Regex&
         /// @return *this
@@ -3103,9 +3157,33 @@ struct select{
             if (this == &r) return *this;
             deepCopy(r); 
             return *this; 
-        } 
+        }
+        
         
         #if __cplusplus >= 201103L
+        
+        
+        /// @overload
+        ///...
+        /// Move constructor.
+        ///Thread safety: same as `Regex::compile()`.
+        /// @param r rvalue reference to a Regex object.
+        Regex(Regex&& r) {
+            init_vars();
+            deepMove(r);
+        } 
+        
+        ///@overload
+        ///...
+        /// Overloaded move-assignment operator
+        ///Thread safety: same as `Regex::compile()`.
+        /// @param r Regex&&
+        /// @return *this
+        Regex& operator=(Regex&& r) { 
+            if (this == &r) return *this;
+            deepMove(r); 
+            return *this; 
+        }
         
         /** Provides boolean check for the status of the object.
          *  This overloaded boolean operator needs to be declared
@@ -3166,11 +3244,11 @@ struct select{
 
         /// Destructor.
         /// Deletes all memory used by Regex, RegexMatch and RegexReplace object including compiled code and JIT memory.
-        virtual ~Regex() {
+        ~Regex() {
             freeRegexMemory();
             freeCompileContext();
-            delete rm; /* Deleting null pointer is perfectly safe, no check needed. */ 
-            delete rr; /* Deleting null pointer is perfectly safe, no check needed. */ 
+            //~ delete rm; /* Deleting null pointer is perfectly safe, no check needed. */ 
+            //~ delete rr; /* Deleting null pointer is perfectly safe, no check needed. */ 
         } 
 
         /** Reset all class variables to its default (initial) state.
@@ -3181,8 +3259,8 @@ struct select{
             freeRegexMemory();
             freeCompileContext();
             pat_str.clear();
-            delete rm;  /* deleting null pointer is safe. */ 
-            delete rr; 
+            //~ delete rm;  /* deleting null pointer is safe. */ 
+            //~ delete rr; 
             init_vars();
             return *this; 
         } 
@@ -3218,63 +3296,63 @@ struct select{
             return *this; 
         } 
 
-        ///@deprecated 
-        /**Create and initialize a new match object and return a reference to it
-         *
-         * Options can be set with the setter functions of RegexMatch class
-         * in-between the Regex::initMatch() and RegexMatch::match() call.
-         *
-         * @return Reference to a new RegexMatch object
-         * @see Regex::getMatchObject()
-         * */
-        RegexMatch& initMatch() {
-            delete rm; /* rm is either occupied or NULL, double deletion won't happen */ 
-            rm = new RegexMatch(this);
-            return *rm; 
-        } 
+        //~ ///@deprecated 
+        //~ /**Create and initialize a new match object and return a reference to it
+         //~ *
+         //~ * Options can be set with the setter functions of RegexMatch class
+         //~ * in-between the Regex::initMatch() and RegexMatch::match() call.
+         //~ *
+         //~ * @return Reference to a new RegexMatch object
+         //~ * @see Regex::getMatchObject()
+         //~ * */
+        //~ RegexMatch& initMatch() {
+            //~ delete rm; /* rm is either occupied or NULL, double deletion won't happen */ 
+            //~ rm = new RegexMatch(this);
+            //~ return *rm; 
+        //~ } 
 
-        ///@deprecated 
-        /**Creates a new RegexReplace object and returns its reference.
-         * Options can be set with the setter functions of RegexReplace class
-         * in-between the Regex::initReplace() and RegexReplace::replace() call.
-         * @return Reference to a new RegexReplace object.
-         * @see Regex::getReplaceObject()
-         * */
-        RegexReplace& initReplace() {
-            delete rr; /* rr is either occupied or NULL, double deletion won't happen */ 
-            rr = new RegexReplace(this);
-            return *rr; 
-        } 
+        //~ ///@deprecated 
+        //~ /**Creates a new RegexReplace object and returns its reference.
+         //~ * Options can be set with the setter functions of RegexReplace class
+         //~ * in-between the Regex::initReplace() and RegexReplace::replace() call.
+         //~ * @return Reference to a new RegexReplace object.
+         //~ * @see Regex::getReplaceObject()
+         //~ * */
+        //~ RegexReplace& initReplace() {
+            //~ delete rr; /* rr is either occupied or NULL, double deletion won't happen */ 
+            //~ rr = new RegexReplace(this);
+            //~ return *rr; 
+        //~ } 
 
-        ///@deprecated 
-        ///Copy the match object into this Regex object.
-        ///The match object passed is copied into the Regex object leaving the
-        ///original unchanged.
-        ///After copying, the associated Regex object for this new internal
-        ///match object is set (corrected) to this object.
-        ///@param rmo Constant reference to a RegexMatch object
-        ///@return Reference to the calling Regex object
-        Regex& initMatchFrom(const RegexMatch& rmo){
-            delete rm;
-            rm = new RegexMatch(rmo);
-            rm->re = this;
-            return *this;
-        }
+        //~ ///@deprecated 
+        //~ ///Copy the match object into this Regex object.
+        //~ ///The match object passed is copied into the Regex object leaving the
+        //~ ///original unchanged.
+        //~ ///After copying, the associated Regex object for this new internal
+        //~ ///match object is set (corrected) to this object.
+        //~ ///@param rmo Constant reference to a RegexMatch object
+        //~ ///@return Reference to the calling Regex object
+        //~ Regex& initMatchFrom(const RegexMatch& rmo){
+            //~ delete rm;
+            //~ rm = new RegexMatch(rmo);
+            //~ rm->re = this;
+            //~ return *this;
+        //~ }
 
-        ///@deprecated 
-        ///Copy the replace object into this Regex object.
-        ///The replace object passed is copied into the Regex object leaving the
-        ///original unchanged.
-        ///After copying, the associated Regex object for this new internal
-        ///replace object is changed to this object.
-        ///@param rro Constant reference to a RegexReplace object
-        ///@return Reference to the calling Regex object
-        Regex& initReplaceFrom(const RegexReplace& rro){
-            delete rr;
-            rr = new RegexReplace(rro);
-            rr->re = this;
-            return *this;
-        }
+        //~ ///@deprecated 
+        //~ ///Copy the replace object into this Regex object.
+        //~ ///The replace object passed is copied into the Regex object leaving the
+        //~ ///original unchanged.
+        //~ ///After copying, the associated Regex object for this new internal
+        //~ ///replace object is changed to this object.
+        //~ ///@param rro Constant reference to a RegexReplace object
+        //~ ///@return Reference to the calling Regex object
+        //~ Regex& initReplaceFrom(const RegexReplace& rro){
+            //~ delete rr;
+            //~ rr = new RegexReplace(rro);
+            //~ rr->re = this;
+            //~ return *this;
+        //~ }
 
         /** Get pattern string
          * @return pattern string of type jpcre2::select::String
@@ -3345,26 +3423,26 @@ struct select{
             return select<Char, BS>::getErrorMessage(error_number, error_offset); 
         } 
       
-        ///@deprecated 
-        ///Returns a reference to existing match object.
-        /// If there was no match object, it will create a new and act similarly to Regex::initMatch()
-        /// @return Reference to a RegexMatch object
-        ///@see Regex::initMatch()
-        RegexMatch& getMatchObject() { 
-            if(rm) return *rm; 
-            else return initMatch(); 
-        } 
+        //~ ///@deprecated 
+        //~ ///Returns a reference to existing match object.
+        //~ /// If there was no match object, it will create a new and act similarly to Regex::initMatch()
+        //~ /// @return Reference to a RegexMatch object
+        //~ ///@see Regex::initMatch()
+        //~ RegexMatch& getMatchObject() { 
+            //~ if(rm) return *rm; 
+            //~ else return initMatch(); 
+        //~ } 
         
-        ///@deprecated 
-        ///Returns a reference to the existing RegexReplace object.
-        ///If there was no replace object, it will create a new one
-        /// and act similarly to Regex::initReplace().
-        ///@return reference to a RegexReplace object
-        ///@see Regex::initReplace()
-        RegexReplace& getReplaceObject() { 
-            if(rr) return *rr; 
-            else return initReplace(); 
-        }
+        //~ ///@deprecated 
+        //~ ///Returns a reference to the existing RegexReplace object.
+        //~ ///If there was no replace object, it will create a new one
+        //~ /// and act similarly to Regex::initReplace().
+        //~ ///@return reference to a RegexReplace object
+        //~ ///@see Regex::initReplace()
+        //~ RegexReplace& getReplaceObject() { 
+            //~ if(rr) return *rr; 
+            //~ else return initReplace(); 
+        //~ }
         
         ///Get new line convention from compiled code.
         ///@return New line option value or 0.
@@ -3768,14 +3846,14 @@ struct select{
             return RegexMatch(this).setSubject(s).match(); 
         }
         
-        ///@deprecated 
-        ///Shorthand for getMatchObject().match()
-        ///This uses previously initiated match object i.e call RegexMatch::match() with all previous options intact.
-        ///@return Match count
-        ///@see RegexMatch::match()
-        SIZE_T match(){
-            return getMatchObject().match();
-        }
+        //~ ///@deprecated 
+        //~ ///Shorthand for getMatchObject().match()
+        //~ ///This uses previously initiated match object i.e call RegexMatch::match() with all previous options intact.
+        //~ ///@return Match count
+        //~ ///@see RegexMatch::match()
+        //~ SIZE_T match(){
+            //~ return getMatchObject().match();
+        //~ }
         
         /** Perform regex replace and return the replaced string using a temporary replace object.
          *  This function takes the parameters, creates a temporary replace object and
@@ -3888,16 +3966,16 @@ struct select{
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).replace(); 
         }
 
-        ///@deprecated 
-        /** Shorthand for getReplaceObject().replace()
-         *  All previously set options will be used. It's just a short hand
-         *  for calling `re.getReplaceObject().replace()`
-         *  @return Resultant string after regex replace
-         *  @see RegexReplace::replace()
-         * */
-        String replace() { 
-            return getReplaceObject().replace(); 
-        } 
+        //~ ///@deprecated 
+        //~ /** Shorthand for getReplaceObject().replace()
+         //~ *  All previously set options will be used. It's just a short hand
+         //~ *  for calling `re.getReplaceObject().replace()`
+         //~ *  @return Resultant string after regex replace
+         //~ *  @see RegexReplace::replace()
+         //~ * */
+        //~ String replace() { 
+            //~ return getReplaceObject().replace(); 
+        //~ } 
     };
     
     private:
@@ -4254,7 +4332,7 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, Match
         }
         buffer = 0; //we are going to use it again.
         //if (num_sub)   //This null check is paranoid, this function shouldn't be called if this vector is null
-        num_sub->push_back(value); 
+        num_sub.push_back(value); 
     }
     return true;
 }
@@ -4299,7 +4377,7 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
         }
         buffer = 0; //we may use this pointer again, better initialize it.
 
-        if(ntn_map) {
+        if(vec_ntn) {
             //Let's get the value again, this time with number
             //We will match this value with the previous one.
             //If they match, we got the right one.
@@ -4325,11 +4403,11 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
             
             if (value != value1) continue;
             
-            (*ntn_map)[key] = n; //this is inside ntn_map null check
+            ntn_map[key] = n; //this is inside vec_ntn null check
         }
         
-        if (nas_map)
-            (*nas_map)[key] = value;  //must check for null
+        if (vec_nas)
+            nas_map[key] = value;  //must check for null
             //The above assignment will execute multiple times for same value with same key when there are dupnames and
             //ntn_map is null, therefore keeping it below ntn_map will be more efficient.
             //In this way, when ntn_map is non-Null, it will execute only once for all dupnames.
@@ -4364,30 +4442,16 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     subject_length = m_subject_ptr->length();
     
 
-    /// Clear all (passed) vectors and initialize associated maps
-    /// No memory will be allocated for a map if its associated vector is't passed.
-    if (vec_num) {
-        vec_num->clear();
-        delete num_sub;
-        num_sub = new NumSub();
-    }
-    if (vec_nas) {
-        vec_nas->clear();
-        delete nas_map;
-        nas_map = new MapNas();
-    }
-    if (vec_ntn) {
-        vec_ntn->clear();
-        delete ntn_map;
-        ntn_map = new MapNtN();
-    }
+    // Clear all (passed) vectors and clear associated maps
+    num_sub.clear();
+    nas_map.clear();
+    ntn_map.clear();
+    if (vec_num) vec_num->clear();
+    if (vec_nas) vec_nas->clear();
+    if (vec_ntn) vec_ntn->clear();
     if(vec_soff) vec_soff->clear();
     if(vec_eoff) vec_eoff->clear();
 
-    //~ //check if jit code is available and assign jit stack if user wants it.
-    //~ SIZE_T jit_size = 0;
-    //~ Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_JITSIZE, &jit_size);
-    //~ if(jit_size && jit_stack_startsize) assignJitStack();
 
     /* Using this function ensures that the block is exactly the right size for
      the number of capturing parentheses in the pattern. */
@@ -4443,13 +4507,13 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     if(vec_eoff) vec_eoff->push_back(ovector[1]);
 
     // Get numbered substrings if #num_sub isn't null
-    if (num_sub) { //must do null check
+    if (vec_num) { //must do null check
         if(!getNumberedSubstrings(rc, match_data))
             return count;
     }
     
-    //get named substrings if either nas_map or ntn_map is given.
-    if (nas_map || ntn_map) {
+    //get named substrings if either vec_nas or vec_ntn is given.
+    if (vec_nas || vec_ntn) {
         /* See if there are any named substrings, and if so, show them by name. First
          we have to extract the count of named parentheses from the pattern. */
 
@@ -4476,8 +4540,8 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
              bytes, most significant first. */
 
 
-            // Get named substrings if #nas_map isn't null.
-            // Get name to number map if #ntn_map isn't null.
+            // Get named substrings if vec_nas isn't null.
+            // Get name to number map if vec_ntn isn't null.
             
             if(!getNamedSubstrings(namecount, name_entry_size, name_table, match_data))
                 return count;
@@ -4540,13 +4604,10 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     /** We got the first match. Now loop for second and subsequent matches. */
 
     for (;;) {
-        /// Clear maps before filling it with new values
-        if (num_sub)
-            num_sub->clear();
-        if (nas_map)
-            nas_map->clear();
-        if (ntn_map)
-            ntn_map->clear();
+        // Clear maps before filling it with new values
+        num_sub.clear();
+        nas_map.clear();
+        ntn_map.clear();
 
         Uint options = match_opts; /* Normally no options */
         PCRE2_SIZE start_offset = ovector[1]; /* Start at end of previous match */
@@ -4629,13 +4690,13 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
         /* As before, get substrings stored in the output vector by number, and then
          also any named substrings. */
 
-        /// Get numbered substrings if #num_sub isn't null
-        if (num_sub) { //must do null check
+        // Get numbered substrings if #vec_num isn't null
+        if (vec_num) { //must do null check
             if(!getNumberedSubstrings(rc, match_data))
                 return count;
         }
 
-        if (nas_map || ntn_map) {
+        if (vec_nas || vec_ntn) {
             if (namecount <= 0); /*No named substrings*/
             else {
                 /// Get named substrings if #nas_map isn't null.

@@ -48,20 +48,21 @@ void* thread_safe_fun1(void*){
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t1";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.01);
+        sleep(0.001);
     }
     return 0;
 }
 
 void* thread_safe_fun2(void*){ //uses no global or static variable, thus thread safe.
 	jp::Regex re("\\w", "i"); 
-	re.getMatchObject().setSubject("fdsf").setModifier("g").match();
+    jp::RegexMatch rm(&re);
+	rm.setSubject("fdsf").setModifier("g").match();
     int c=0;
     while(c++<4){
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t2";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.02);
+        sleep(0.002);
     }
     return 0;
 }
@@ -75,7 +76,7 @@ void* thread_safe_fun3(void*){//uses no global or static variable, thus thread s
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t3";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.015);
+        sleep(0.0015);
     }
     return 0;
 }
@@ -94,7 +95,7 @@ void* thread_safe_fun4(void*){
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t4";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.017);
+        sleep(0.0017);
     }
     return 0;
 }
@@ -111,8 +112,8 @@ int main(){
     if(pthread_create( &th[3], 0, thread_safe_fun3, 0));
     else pthread_join(th[3],0);
     
-    //~ if(pthread_create( &th[4], 0, thread_safe_fun4, 0));
-    //~ else pthread_join(th[4],0);
+    if(pthread_create( &th[4], 0, thread_safe_fun4, 0));
+    else pthread_join(th[4],0);
 
     pthread_exit((void*) 0);
     return 0;

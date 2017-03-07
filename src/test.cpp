@@ -56,7 +56,6 @@ int main(){
     re = jp::Regex(&text, PCRE2_ANCHORED); \
     re = jp::Regex(&text, PCRE2_ANCHORED, jpcre2::JIT_COMPILE); \
      \
-    re.initReplace(); \
      \
     jp::Regex re2(re); /*//check on copy constructor*/ \
      \
@@ -88,14 +87,8 @@ int main(){
     re.getJpcre2Option(); \
     re.getModifier(); \
      \
-    re.initMatch(); \
-    re.getMatchObject(); \
-    re.initMatch(); \
-    re.getMatchObject(); \
     re.resetErrors(); \
     re.reset(); \
-    re.getMatchObject(); \
-    re.getReplaceObject(); \
     re.changeJpcre2Option(0, false); \
     re.changePcre2Option(0, false); \
     re.changeModifier("i", false); \
@@ -114,11 +107,9 @@ int main(){
     assert(re.getErrorNumber() == jpcre2::ERROR::INVALID_MODIFIER); \
     re.getErrorMessage(); \
      \
-    re.getMatchObject().reset().resetErrors(); \
-    re.initMatch().reset().resetErrors(); \
-    jp::RegexMatch& m = re.getMatchObject(); \
+    re.reset().resetErrors(); \
+    re.reset().resetErrors(); \
      \
-    m.match(); re.match(); \
     re.match(PAT); \
     re.match(PAT, 0); \
     re.match(PAT, "g"); \
@@ -159,12 +150,6 @@ int main(){
     count = rm.setSubject(&text).setModifier("A").match(); \
      \
      \
-    re.initMatchFrom(rm); \
-    re.getMatchObject().match(); \
-    re.getMatchObject().match(); \
-    re.initMatchFrom(rm2); \
-    re.initMatch(); \
-    re.match(); \
     rm.addModifier("E"); \
     \
     re.reset().setNewLine(PCRE2_NEWLINE_CRLF); \
@@ -226,12 +211,10 @@ int main(){
     rr.replace(); \
     rr2.replace(); \
      \
-    re.initReplace(); \
      \
     rr = rr2; \
     rr3 = jp::RegexReplace(&re2); \
      \
-    rr.replace(); re.replace(); \
     re.replace(TEXT, TEXT); \
     re.replace(TEXT, &text); \
     re.replace(TEXT, TEXT, "g"); \
@@ -276,8 +259,6 @@ int main(){
     const jp::Regex *rep = rr.getRegexObject(); \
     if(rep); /*//rep is not null*/ \
      \
-    re.initMatchFrom(rm); \
-    re.initReplaceFrom(rr); \
      \
      \
     /*//checking the string converter with null input*/ \

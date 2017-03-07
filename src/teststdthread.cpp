@@ -15,8 +15,8 @@ typedef jpcre2::select<char> jp;
 std::mutex mtx1, mtx2, mtx3;
 
 void sleep(double sec){
-    clock_t st = clock();
-    while(((double)(clock()-st)/CLOCKS_PER_SEC) < sec);
+    //~ clock_t st = clock();
+    //~ while(((double)(clock()-st)/CLOCKS_PER_SEC) < sec);
 }
 
 
@@ -29,10 +29,10 @@ struct MyRegex{
     jp::Regex re[5];
     MyRegex(){
         re[0].compile("\\w","i");
-        re[1].compile("\\d","iS");
-        re[2].compile("\\d\\w+","iS");
-        re[3].compile("\\d\\w\\s","mS");
-        re[4].compile("[\\w\\s]+","mS");
+        re[1].compile("\\d","i");
+        re[2].compile("\\d\\w+","i");
+        re[3].compile("\\d\\w\\s","m");
+        re[4].compile("[\\w\\s]+","m");
     }
 };
 
@@ -53,7 +53,8 @@ void thread_safe_fun1(){
 
 void thread_safe_fun2(){ //uses no global or static variable, thus thread safe.
 	jp::Regex re("\\w", "i"); 
-	re.getMatchObject().setSubject("fdsf").setModifier("g").match();
+    jp::RegexMatch rm(&re);
+	rm.setSubject("fdsf").setModifier("g").match();
     int c=0;
     while(c++<4){
         mtx2.lock();
@@ -64,7 +65,6 @@ void thread_safe_fun2(){ //uses no global or static variable, thus thread safe.
 }
 
 void thread_safe_fun3(){//uses no global or static variable, thus thread safe.
-    {
     jp::Regex re("\\w", "g");
     jp::RegexMatch rm(&re);
     rm.setSubject("fdsf").setModifier("g").match();
@@ -75,12 +75,11 @@ void thread_safe_fun3(){//uses no global or static variable, thus thread safe.
         mtx2.unlock();
         sleep(0.0015);
     }
-    }
 }
 
 jp::Regex rec("\\w", "g");
 
-void thread_safe_fun4(){
+void* thread_safe_fun4(void*){
     //uses global variable 'rec', but uses
     //mutex lock, thus thread safe:
     mtx1.lock();
@@ -94,17 +93,18 @@ void thread_safe_fun4(){
         mtx2.unlock();
         sleep(0.017);
     }
+    return 0;
 }
 
 int main(){
-    std::cout<<"running threads..";
+    //std::cout<<"running threads..";
     std::thread th1(thread_safe_fun1);
     std::thread th2(thread_safe_fun2);
     std::thread th3(thread_safe_fun3);
-    //~ std::thread th4(thread_safe_fun4);
+    std::thread th4(thread_safe_fun4, (void*)0);
     th1.join();
     th2.join();
     th3.join();
-    //~ th4.join();
+    th4.join();
     return 0;
 }
