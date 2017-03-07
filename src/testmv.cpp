@@ -1,12 +1,23 @@
 #include <iostream>
-#include <thread>
+#define JPCRE2_DISABLE_CHAR1632
+#include "jpcre2.hpp"
 
-void fun(void){
-    int a = 0;
-}
+class A{
+    std::string s;
+    std::vector<std::string> v;
+    int* a;
+    std::string* sp;
+    public:
+    //other ctors
+    
+    //move ctor
+    A(A&& a){
+        
+    }
+    //others
+};
 
 int main(){
-    std::thread th1(fun);
-    th1.join();
+   std::string s;
     return 0;
 }

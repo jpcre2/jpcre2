@@ -1040,8 +1040,6 @@ struct select{
             vec_soff = rm.vec_soff;
             vec_eoff = rm.vec_eoff;
             
-            //~ //maps should be empty, no copy needed
-            
             match_opts = rm.match_opts;
             jpcre2_match_opts = rm.jpcre2_match_opts;
             error_number = rm.error_number;
@@ -1066,11 +1064,6 @@ struct select{
             vec_ntn = rm.vec_ntn; rm.vec_ntn = 0;
             vec_soff = rm.vec_soff; rm.vec_soff = 0;
             vec_eoff = rm. vec_eoff; rm.vec_eoff = 0;
-            
-            //~ //maps should be empty, no move needed
-            //~ rm.num_sub.clear();
-            //~ rm.nas_map.clear();
-            //~ rm.ntn_map.clear();
             
             match_opts = rm.match_opts; rm.match_opts = 0;
             jpcre2_match_opts = rm.jpcre2_match_opts; rm.jpcre2_match_opts = 0;
@@ -1102,10 +1095,21 @@ struct select{
         ///@overload
         ///...
         ///Creates a RegexMatch object associating a Regex object.
+        ///Underlying data is not modified.
         ///@param r pointer to a Regex object
         RegexMatch(const Regex * r) {
             init_vars();
             re = r;
+        }
+        
+        ///@overload
+        ///...
+        ///Creates a RegexMatch object associating a Regex object.
+        ///Underlying data is not modified.
+        ///@param r reference to a Regex object
+        RegexMatch(Regex& r) {
+            init_vars();
+            re = &r;
         }
         
         ///@overload
@@ -1196,10 +1200,10 @@ struct select{
             return select<Char, BS>::getErrorMessage(error_number, error_offset); 
         } 
         
-        ///Get subject string.
+        ///Get subject string (by value).
         ///@return subject string
         ///@see RegexReplace::getSubject()
-        virtual String getSubject() const  { 
+        virtual String getSubject() const  {
             return *m_subject_ptr; 
         } 
         
@@ -1291,15 +1295,29 @@ struct select{
             return vec_ntn;
         }
         
-        ///Set pointer to the associated regex object.
+        ///Set the associated regex object.
+        ///Null pointer unsets it.
+        ///Underlying data is not modified.
         ///@param r Pointer to a Regex object.
         ///@return Reference to the calling RegexMatch object.
         virtual RegexMatch& setRegexObject(const Regex* r){
             re = r;
             return *this;
         }
+        
+        ///@overload
+        ///...
+        ///Underlying data is not modified.
+        ///@param r Reference to a Regex object.
+        ///@return Reference to the calling RegexMatch object.
+        virtual RegexMatch& setRegexObject(Regex& r){
+            re = &r;
+            return *this;
+        }
 
         /// Set a pointer to the numbered substring vector.
+        /// Null pointer unsets it.
+        ///
         /// This vector will be filled with numbered (indexed) captured groups.
         /// @param v pointer to the numbered substring vector
         /// @return Reference to the calling RegexMatch object
@@ -1307,8 +1325,17 @@ struct select{
             vec_num = v; 
             return *this; 
         } 
+        /// @overload
+        /// @param v Reference to the numbered substring vector
+        /// @return Reference to the calling RegexMatch object
+        virtual RegexMatch& setNumberedSubstringVector(VecNum& v) { 
+            vec_num = &v; 
+            return *this;
+        }
 
         /// Set a pointer to the named substring vector.
+        /// Null pointer unsets it.
+        ///
         /// This vector will be populated with named captured groups.
         /// @param v pointer to the named substring vector
         /// @return Reference to the calling RegexMatch object
@@ -1316,8 +1343,18 @@ struct select{
             vec_nas = v; 
             return *this; 
         } 
+        
+        /// @overload
+        /// @param v Reference to the named substring vector
+        /// @return Reference to the calling RegexMatch object
+        virtual RegexMatch& setNamedSubstringVector(VecNas& v) { 
+            vec_nas = &v; 
+            return *this; 
+        } 
 
         /// Set a pointer to the name to number map vector.
+        /// Null pointer unsets it.
+        ///
         /// This vector will be populated with name to number map for captured groups.
         /// @param v pointer to the name to number map vector
         /// @return Reference to the calling RegexMatch object
@@ -1326,8 +1363,17 @@ struct select{
             return *this; 
         }
         
+        /// @overload
+        /// @param v Reference to the name to number map vector
+        /// @return Reference to the calling RegexMatch object
+        virtual RegexMatch& setNameToNumberMapVector(VecNtN& v) { 
+            vec_ntn = &v; 
+            return *this; 
+        }
+        
         /// Set the pointer to a vector to store the offsets where matches
         /// start in the subject.
+        /// Null pointer unsets it.
         /// @param v Pointer to a jpcre2::VecOff vector (std::vector<size_t>)
         /// @return Reference to the calling RegexMatch object
         virtual RegexMatch& setMatchStartOffsetVector(VecOff* v){
@@ -1335,19 +1381,34 @@ struct select{
             return *this;
         }
         
+        /// @overload
+        /// @param v Reference to a jpcre2::VecOff vector (std::vector<size_t>)
+        /// @return Reference to the calling RegexMatch object
+        virtual RegexMatch& setMatchStartOffsetVector(VecOff& v){
+            vec_soff = &v;
+            return *this;
+        }
+        
         /// Set the pointer to a vector to store the offsets where matches
         /// end in the subject.
+        /// Null pointer unsets it.
         /// @param v Pointer to a VecOff vector (std::vector<size_t>)
         /// @return Reference to the calling RegexMatch object
         virtual RegexMatch& setMatchEndOffsetVector(VecOff* v){
             vec_eoff = v;
             return *this;
         }
+        
+        /// @overload
+        /// @param v Reference to a VecOff vector (std::vector<size_t>)
+        /// @return Reference to the calling RegexMatch object
+        virtual RegexMatch& setMatchEndOffsetVector(VecOff& v){
+            vec_eoff = &v;
+            return *this;
+        }
 
         ///Set the subject string for match.
-        ///This makes a copy of the subject string. If a copy is not desirable
-        ///or you are working with huge text, consider passing a pointer instead
-        ///of a constant reference.
+        ///This makes a copy of the subject string.
         /// @param s Subject string
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setSubject()
@@ -1356,15 +1417,31 @@ struct select{
             m_subject_ptr = &m_subject; //must overwrite
             return *this; 
         } 
+        
+        /// @overload
+        /// ...
+        /// Does not make a copy, works with the original without modifying it.
+        /// @param s Reference to subject string
+        /// @return Reference to the calling RegexMatch object
+        /// @see RegexReplace::setSubject()
+        virtual RegexMatch& setSubject(String& s) { 
+            m_subject_ptr = &s;
+            return *this; 
+        } 
 
         ///@overload
         ///...
-        ///Set pointer to the subject string for match.
+        /// Works with the original without modifying it. Null pointer unsets the subject.
+        /// This function is slower than RegexMatch::setSubject(String& s).
         /// @param s Pointer to subject string
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setSubject()
-        virtual RegexMatch& setSubject(const String* s) { 
-            m_subject_ptr = s; 
+        virtual RegexMatch& setSubject(const String* s) {
+            if(s) m_subject_ptr = s;
+            else {
+                m_subject.clear();
+                m_subject_ptr = &m_subject;
+            }
             return *this; 
         } 
 
@@ -1374,7 +1451,8 @@ struct select{
         ///
         /// **Note:** If speed of operation is very crucial, use RegexMatch::setJpcre2Option() and
         /// RegexMatch::setPcre2Option() with equivalent options. It will be faster that way.
-        /// @param s Modifier string
+        ///
+        /// @param s Modifier string, null pointer causes Undefined Behavior because of std::string constructor that takes const char*.
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setModifier()
         /// @see Regex::setModifier()
@@ -1456,7 +1534,8 @@ struct select{
         /// If invalid modifier is detected, then the error number for the RegexMatch
         /// object will be jpcre2::ERROR::INVALID_MODIFIER and error offset will be the modifier character.
         /// You can get the message with RegexMatch::getErrorMessage() function.
-        /// @param mod Modifier string
+        ///
+        /// @param mod Modifier string, null pointer causes Undefined Behavior because of std::string constructor that takes const char*.
         /// @param x Whether to add or remove option
         /// @return Reference to the RegexMatch object
         /// @see Regex::changeModifier()
@@ -1498,7 +1577,7 @@ struct select{
         ///
         /// **Note:** If speed of operation is very crucial, use RegexMatch::addJpcre2Option() and RegexMatch::addPcre2Option()
         /// with equivalent options. It will be faster that way.
-        /// @param mod Modifier string
+        /// @param mod Modifier string, null pointer causes Undefined Behavior because of std::string constructor that takes const char*.
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::addModifier()
         /// @see Regex::addModifier()
@@ -1621,7 +1700,7 @@ struct select{
         }
         
         private:
-        //preven onject instantiation.
+        //prevent onject instantiation.
         callback();
         callback(const callback&);
         ~callback();
@@ -1792,7 +1871,15 @@ struct select{
             RegexMatch::setNumberedSubstringVector(v);
             return *this;
         }
+        MatchEvaluator& setNumberedSubstringVector(VecNum& v){
+            RegexMatch::setNumberedSubstringVector(v);
+            return *this;
+        }
         MatchEvaluator& setNamedSubstringVector(VecNas* v){
+            RegexMatch::setNamedSubstringVector(v);
+            return *this;
+        }
+        MatchEvaluator& setNamedSubstringVector(VecNas& v){
             RegexMatch::setNamedSubstringVector(v);
             return *this;
         }
@@ -1800,11 +1887,23 @@ struct select{
             RegexMatch::setNameToNumberMapVector(v);
             return *this;
         }
+        MatchEvaluator& setNameToNumberMapVector(VecNtN& v){
+            RegexMatch::setNameToNumberMapVector(v);
+            return *this;
+        }
         MatchEvaluator& setMatchStartOffsetVector(VecOff* v){
             RegexMatch::setMatchStartOffsetVector(v);
             return *this;
         }
+        MatchEvaluator& setMatchStartOffsetVector(VecOff& v){
+            RegexMatch::setMatchStartOffsetVector(v);
+            return *this;
+        }
         MatchEvaluator& setMatchEndOffsetVector(VecOff* v){
+            RegexMatch::setMatchEndOffsetVector(v);
+            return *this;
+        }
+        MatchEvaluator& setMatchEndOffsetVector(VecOff& v){
             RegexMatch::setMatchEndOffsetVector(v);
             return *this;
         }
@@ -1836,9 +1935,19 @@ struct select{
         ///It sets the associated Regex object and
         ///initializes the MatchEvaluator object with
         ///callback::erase callback function.
+        ///Underlying data is not modified.
         ///@param r constant Regex pointer.
         explicit
         MatchEvaluator(const Regex *r):RegexMatch(r){
+            init();
+        }
+        
+        ///@overload
+        ///...
+        ///Underlying data is not modified.
+        ///@param r reference to a Regex object.
+        explicit
+        MatchEvaluator(Regex& r):RegexMatch(r){
             init();
         }
         
@@ -2154,10 +2263,10 @@ struct select{
             return *this;
         }
         
-        ///Reset MatchEvaluator retaining callback function.
-        ///It calls the base `RegexMatch::reset()` function and then 
-        ///updates the vector pointers (internal use).
-        ///It clears all match data in all vectors.
+        ///Reset MatchEvaluator.
+        ///Makes it kinda like a new object with default constructor.
+        ///The only difference with a new object after this function call is the memory
+        ///retained by the vectors after they are cleared.
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& reset(){
             RegexMatch::reset();
@@ -2182,16 +2291,32 @@ struct select{
             return *this;
         }
         
+        ///@overload
+        ///@param r reference to Regex object.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setRegexObject (Regex& r){
+            RegexMatch::setRegexObject(r);
+            return *this;
+        }
+        
         ///Call RegexMatch::setSubject(const String &s).
-        ///@param s subject string
+        ///@param s subject string by constant reference.
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setSubject (const String &s){
             RegexMatch::setSubject(s);
             return *this;
         }
         
-        ///Call RegexMatch::setSubject(const String *s).
-        ///@param s subject string
+        ///@overload
+        ///@param s subject string by reference.
+        ///@return A reference to the calling MatchEvaluator object.
+        MatchEvaluator& setSubject (String &s){
+            RegexMatch::setSubject(s);
+            return *this;
+        }
+        
+        ///@overload
+        ///@param s subject string by pointer
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setSubject (const String *s){
             RegexMatch::setSubject(s);
@@ -2199,7 +2324,7 @@ struct select{
         }
         
         ///Call RegexMatch::setModifier(const std::string &s).
-        ///@param s modifier string.
+        ///@param s modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setModifier (const std::string &s){
             RegexMatch::setModifier(s);
@@ -2254,7 +2379,7 @@ struct select{
         }
         
         ///Call RegexMatch::changeModifier(const std::string &mod, bool x).
-        ///@param mod modifier string.
+        ///@param mod modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
         ///@param x true (add) or false (remove).
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& changeModifier (const std::string &mod, bool x){
@@ -2281,7 +2406,7 @@ struct select{
         }
         
         ///Call RegexMatch::addModifier(const std::string &mod).
-        ///@param mod modifier string.
+        ///@param mod modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& addModifier (const std::string &mod){
             RegexMatch::addModifier(mod);
@@ -2456,10 +2581,21 @@ struct select{
         ///@overload
         /// ...
         ///Creates a RegexReplace object associating a Regex object.
+        ///Regex object is not modified.
         ///@param r pointer to a Regex object
         RegexReplace(const Regex * r) { 
             init_vars();
             re = r;
+        }
+        
+        ///@overload
+        /// ...
+        ///Creates a RegexReplace object associating a Regex object.
+        ///Regex object is not modified.
+        ///@param r reference to a Regex object
+        RegexReplace(Regex& r) { 
+            init_vars();
+            re = &r;
         }
         
         ///@overload
@@ -2550,7 +2686,7 @@ struct select{
         
         /// Get replacement string
         ///@return replacement string
-        String getReplaceWith() const  { 
+        String getReplaceWith() const  {
             return *r_replw_ptr; 
         } 
         
@@ -2623,18 +2759,29 @@ struct select{
             return re;
         }
         
-        ///Set pointer to the associated Regex object.
+        ///Set the associated Regex object.
+        ///Regex object is not modified.
         ///@param r Pointer to a Regex object.
         ///@return Reference to the calling RegexReplace object.
         RegexReplace& setRegexObject(const Regex* r){
             re = r;
             return *this;
         }
+        
+        ///@overload
+        ///...
+        ///Regex object is not modified.
+        ///@param r Reference to a Regex object.
+        ///@return Reference to the calling RegexReplace object.
+        RegexReplace& setRegexObject(Regex& r){
+            re = &r;
+            return *this;
+        }
     
         /** Set the subject string for replace.
          * This makes a copy of the string. If no copy is desired or you are working
-         * with big text, consider passing pointer to the subject string.
-         * @param s Subject string
+         * with big text, consider passing by pointer or reference.
+         * @param s Subject string (constant reference)
          * @return Reference to the calling RegexReplace object
          * @see RegexMatch::setSubject()
          * */
@@ -2643,16 +2790,31 @@ struct select{
             r_subject_ptr = &r_subject; //must overwrite
             return *this; 
         } 
+        
+        /** Set the subject string for replace.
+         * Makes no copy, works with the original and the original is not modified.
+         * @param s reference to the subject string
+         * @return Reference to the calling RegexReplace object
+         * @see RegexMatch::setSubject()
+         * */
+        RegexReplace& setSubject(String& s) {
+            r_subject_ptr = &s; //must overwrite
+            return *this; 
+        } 
     
         /**@overload
          *...
-         *  Set pointer to the subject string for replace
+         *  Set pointer to the subject string for replace, null pointer unsets it.
          * @param s Pointer to subject string
          * @return Reference to the calling RegexReplace object
          * @see RegexMatch::setSubject()
          * */
-        RegexReplace& setSubject(const String* s) { 
-            r_subject_ptr = s; 
+        RegexReplace& setSubject(const String* s) {
+            if(s) r_subject_ptr = s;
+            else {
+                r_subject.clear();
+                r_subject_ptr = &r_subject;
+            }
             return *this; 
         }
          
@@ -2664,9 +2826,9 @@ struct select{
          * 3. A literal `$` can be given as `$$`.
          *
          * **Note:** This function makes a copy of the string. If no copy is desired or
-         * you are working with big text, consider passing the string with pointer.
+         * you are working with big text, consider passing the string with pointer or reference.
          * 
-         * @param s String to replace with
+         * @param s String to replace with (constant reference)
          * @return Reference to the calling RegexReplace object
          * */
         RegexReplace& setReplaceWith(const String& s) { 
@@ -2676,12 +2838,25 @@ struct select{
         }   
         
         /**@overload
-         *...
-         * @param s Pointer to the string to replace with
+         * @param s String to replace with (reference)
          * @return Reference to the calling RegexReplace object
          * */
-        RegexReplace& setReplaceWith(const String* s) { 
-            r_replw_ptr = s; 
+        RegexReplace& setReplaceWith(String& s) { 
+            r_replw_ptr = &s; //must overwrite
+            return *this; 
+        }   
+        
+        /**@overload
+         *...
+         * @param s Pointer to the string to replace with, null pointer unsets it.
+         * @return Reference to the calling RegexReplace object
+         * */
+        RegexReplace& setReplaceWith(const String* s) {
+            if(s) r_replw_ptr = s;
+            else {
+                r_replw.clear();
+                r_replw_ptr = &r_replw;
+            }
             return *this; 
         }    
         
@@ -2689,7 +2864,7 @@ struct select{
          *
          * **Note:** If speed of operation is very crucial, use RegexReplace::setJpcre2Option() and RegexReplace::setPcre2Option()
          * with equivalent options. It will be faster that way.
-         * @param s Modifier string
+         * @param s Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
          * @return Reference to the calling RegexReplace object
          * @see RegexMatch::setModifier()
          * @see Regex::setModifier()
@@ -2772,7 +2947,7 @@ struct select{
         /// If invalid modifier is detected, then the error number for the RegexReplace
         /// object will be jpcre2::ERROR::INVALID_MODIFIER and error offset will be the modifier character.
         /// You can get the message with RegexReplace::getErrorMessage() function.
-        /// @param mod Modifier string
+        /// @param mod Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
         /// @param x Whether to add or remove option
         /// @return Reference to the RegexReplace object
         /// @see Regex::changeModifier()
@@ -2815,7 +2990,7 @@ struct select{
         ///
         /// **Note:** If speed of operation is very crucial, use RegexReplace::addJpcre2Option() and
         /// RegexReplace::addPcre2Option() with equivalent options. It will be faster that way.
-        /// @param mod Modifier string
+        /// @param mod Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
         /// @return Reference to the calling RegexReplace object
         /// @see RegexMatch::addModifier()
         /// @see Regex::addModifier()
@@ -2889,17 +3064,12 @@ struct select{
      * Pattern compilation can be done using one of its' overloaded constructors or the `Regex::compile()`
      * member function.
      * 
-     * This class can contain a RegexMatch or RegexReplace object if desired. RegexMatch
-     * object can be created either with Regex::initMatch() or Regex::getMatchObject() member function.
-     * Similar functions are available for RegexReplace.
-     * 
      * Examples:
      * 
      * ```cpp
      * jp::Regex re;
      * re.compile("pattern", "modifier");
      * jp::Regex re2("pattern", "modifier");
-     * re.getReplaceObject().setReplaceWith("$0");
      * ```
      *
      */
@@ -3007,18 +3177,25 @@ struct select{
             init_vars();
         } 
 
-        /** Compile pattern with initialization.
-         *  Thread safety: same as `Regex::compile()`.
-         *  @param re Pattern string
+        /**
+         * Compile pattern with initialization.
+         *  @param re Pattern string (constant reference)
          * */
         Regex(const String& re) {
             init_vars();
             compile(re); 
         } 
 
-        /** Compile pattern with initialization.
-         *  Thread safety: same as `Regex::compile()`.
-         *  @param re Pointer to pattern string
+        /** @overload
+         *  @param re Pattern string (reference)
+         * */
+        Regex(String& re) {
+            init_vars();
+            compile(re); 
+        } 
+
+        /**  @overload
+         *  @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
          * */
         Regex(const String* re) {
             init_vars();
@@ -3026,11 +3203,8 @@ struct select{
         } 
         
         /**@overload
-         *...
-         *  Compile pattern with initialization.
-         *  Thread safety: same as `Regex::compile()`.
-         *  @param re Pattern string
-         *  @param mod Modifier string
+         *  @param re Pattern string (const reference).
+         *  @param mod Modifier string, null pointer causes undefined behavior (from std::string).
          * */
         Regex(const String& re, const std::string& mod) {
             init_vars();
@@ -3038,11 +3212,17 @@ struct select{
         } 
         
         /**@overload
-         *...
-         *  Compile pattern with initialization.
-         *  Thread safety: same as `Regex::compile()`.
-         *  @param re Pointer to pattern string
-         *  @param mod Modifier string
+         *  @param re Pattern string (reference).
+         *  @param mod Modifier string, null pointer causes undefined behavior (from std::string).
+         * */
+        Regex(String& re, const std::string& mod) {
+            init_vars();
+            compile(re, mod); 
+        } 
+        
+        /**@overload
+         *  @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
+         *  @param mod Modifier string, null pointer causes undefined behavior (from std::string).
          * */
         Regex(const String* re, const std::string& mod) {
             init_vars();
@@ -3050,53 +3230,60 @@ struct select{
         }
 
         /**@overload
-         *...
-         *  Compile pattern with initialization.
-         *  Thread safety: same as `Regex::compile()`.
-         *  @param re Pattern string
-         *  @param pcre2_opts PCRE2 option value
+         *  @param re Pattern string (constant reference).
+         *  @param po PCRE2 option value
          * */
-        Regex(const String& re, Uint pcre2_opts) {
+        Regex(const String& re, Uint po) {
             init_vars();
-            compile(re, pcre2_opts); 
+            compile(re, po); 
         } 
 
         /**@overload
-         *...
-         *  Compile pattern with initialization.
-         *  Thread safety: same as `Regex::compile()`.
-         *  @param re Pointer to pattern string
-         *  @param pcre2_opts PCRE2 option value
+         *  @param re Pattern string (reference).
+         *  @param po PCRE2 option value
          * */
-        Regex(const String* re, Uint pcre2_opts) {
+        Regex(String& re, Uint po) {
             init_vars();
-            compile(re, pcre2_opts); 
+            compile(re, po); 
         } 
 
         /**@overload
-         *...
-         *  Compile pattern with initialization.
-         *  Thread safety: same as `Regex::compile()`.
-         *  @param re Pattern string
-         *  @param pcre2_opts    PCRE2 option value
-         *  @param opt_bits        JPCRE2 option value
+         *  @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
+         *  @param po PCRE2 option value
          * */
-        Regex(const String& re, Uint pcre2_opts, Uint opt_bits) {
+        Regex(const String* re, Uint po) {
             init_vars();
-            compile(re, pcre2_opts, opt_bits); 
+            compile(re, po); 
         } 
 
         /**@overload
-         *...
-         *  Compile pattern with initialization.
-         *  Thread safety: same as `Regex::compile()`.
-         *  @param re Pointer to pattern string
-         *  @param pcre2_opts    PCRE2 option value
-         *  @param opt_bits        JPCRE2 option value
+         *  @param re Pattern string (constant reference).
+         *  @param po    PCRE2 option value
+         *  @param jo    JPCRE2 option value
          * */
-        Regex(const String* re, Uint pcre2_opts, Uint opt_bits) {
+        Regex(const String& re, Uint po, Uint jo) {
             init_vars();
-            compile(re, pcre2_opts, opt_bits); 
+            compile(re, po, jo); 
+        } 
+
+        /**@overload
+         *  @param re Pattern string (reference)
+         *  @param po    PCRE2 option value
+         *  @param jo    JPCRE2 option value
+         * */
+        Regex(String& re, Uint po, Uint jo) {
+            init_vars();
+            compile(re, po, jo); 
+        } 
+
+        /**@overload
+         *  @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
+         *  @param po    PCRE2 option value
+         *  @param jo    JPCRE2 option value
+         * */
+        Regex(const String* re, Uint po, Uint jo) {
+            init_vars();
+            compile(re, po, jo); 
         } 
 
         /// @overload
@@ -3104,7 +3291,6 @@ struct select{
         /// Copy constructor.
         /// A separate and new compile is performed from the copied options.
         ///
-        ///Thread safety: same as `Regex::compile()`.
         /// @param r Constant reference to a Regex object.
         Regex(const Regex& r) {
             init_vars();
@@ -3128,7 +3314,6 @@ struct select{
         /// @overload
         ///...
         /// Move constructor.
-        ///Thread safety: same as `Regex::compile()`.
         /// @param r rvalue reference to a Regex object.
         Regex(Regex&& r) {
             init_vars();
@@ -3138,7 +3323,6 @@ struct select{
         ///@overload
         ///...
         /// Overloaded move-assignment operator
-        ///Thread safety: same as `Regex::compile()`.
         /// @param r Regex&&
         /// @return *this
         Regex& operator=(Regex&& r) { 
@@ -3204,9 +3388,7 @@ struct select{
             return (code == 0); 
         } 
 
-        /// Destructor.
-        /// Deletes all memory used by Regex, RegexMatch and RegexReplace object including compiled code and JIT memory.
-        ~Regex() {
+        virtual ~Regex() {
             freeRegexMemory();
             freeCompileContext();
         } 
@@ -3360,7 +3542,7 @@ struct select{
         }
         
         /// Set the pattern string to compile
-        /// @param re Pattern string
+        /// @param re Pattern string (constant reference)
         /// @return Reference to the calling Regex object.
         Regex& setPattern(const String& re) { 
             pat_str = re;
@@ -3368,21 +3550,31 @@ struct select{
             return *this; 
         } 
         
-        /// Set pointer to the pattern string to compile
-        /// @param re Pattern string
+        
+        /// @overload
+        /// @param re Pattern string (reference)
         /// @return Reference to the calling Regex object.
-        Regex& setPattern(const String* re) { 
-            pat_str_ptr = re; 
+        Regex& setPattern(String& re) { 
+            pat_str_ptr = &re; //must overwrite
+            return *this; 
+        } 
+        
+        /// @overload
+        /// @param re Pattern string pointer, null pointer will unset it.
+        /// @return Reference to the calling Regex object.
+        Regex& setPattern(const String* re) {
+            if(re) pat_str_ptr = re;
+            else {
+                pat_str.clear();
+                pat_str_ptr = &pat_str;
+            }
             return *this;
         }
 
         /// set the modifier (resets all JPCRE2 and PCRE2 options) by calling Regex::changeModifier().
         /// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets
         /// equivalent PCRE2 and JPCRE2 options.
-        ///
-        /// **Note:** If speed of operation is very crucial, use Regex::setJpcre2Option() and
-        /// Regex::setPcre2Option() with equivalent options. It will be faster that way.
-        /// @param x Modifier string
+        /// @param x Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*
         /// @return Reference to the calling Regex object.
         /// @see RegexMatch::setModifier()
         /// @see RegexReplace::setModifier()
@@ -3416,13 +3608,10 @@ struct select{
         /// This function does not initialize or re-initialize options.
         /// If you want to set options from scratch, initialize them to 0 before calling this function.
         ///
-        /// **Note:** If speed of operation is very crucial, use Regex::changeJpcre2Option() and
-        /// Regex::changePcre2Option() with equivalent options. It will be faster that way.
-        ///
         /// If invalid modifier is detected, then the error number for the Regex
         /// object will be jpcre2::ERROR::INVALID_MODIFIER and error offset will be the modifier character.
         /// You can get the message with Regex::getErrorMessage() function.
-        /// @param mod Modifier string
+        /// @param mod Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*
         /// @param x Whether to add or remove option
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::changeModifier()
@@ -3460,10 +3649,7 @@ struct select{
         /// Parse modifier string and add equivalent PCRE2 and JPCRE2 options.
         /// This is just a wrapper of the original function Regex::changeModifier()
         /// provided for convenience.
-        ///
-        /// **Note:** If speed of operation is very crucial, use Regex::addJpcre2Option() and
-        /// Regex::addPcre2Option() with equivalent options. It will be faster that way.
-        /// @param mod Modifier string
+        /// @param mod Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::addModifier()
         /// @see RegexReplace::addModifier()
@@ -3492,13 +3678,6 @@ struct select{
         } 
 
         /**Compile pattern using info from class variables.
-         * 
-         * **Thread safety:** 
-         * 
-         * 1. (C) MT safe if JIT compile is not done.
-         * 2. MT unsafe if JIT compile is done (e.g passing the 'S' modifier)
-         *
-         * 
          * @see Regex::compile(const String& re, Uint po, Uint jo)
          * @see Regex::compile(const String& re, Uint po)
          * @see Regex::compile(const String& re, const std::string& mod)
@@ -3507,11 +3686,9 @@ struct select{
         void compile(void); 
 
         /**@overload
-         *...
-         * Thread safety: same as `Regex::compile()`.
-         *
+         * ...
          *  Set the specified parameters, then compile the pattern using information from class variables.
-         *  @param re Pattern string
+         *  @param re Pattern string (constant reference)
          *  @param po PCRE2 option
          *  @param jo JPCRE2 option
          * */
@@ -3519,13 +3696,20 @@ struct select{
             setPattern(re).setPcre2Option(po).setJpcre2Option(jo);
             compile(); 
         } 
+        
+        /**@overload
+         *  @param re Pattern string (reference).
+         *  @param po PCRE2 option.
+         *  @param jo JPCRE2 option.
+         * */
+        void compile(String& re, Uint po, Uint jo) {
+            setPattern(re).setPcre2Option(po).setJpcre2Option(jo);
+            compile(); 
+        } 
+
 
         /**@overload
-         *...
-         * Thread safety: same as `Regex::compile()`.
-         *
-         *  Set the specified parameters, then compile the pattern using information from class variables.
-         *  @param re Pointer to pattern string
+         *  @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
          *  @param po PCRE2 option
          *  @param jo JPCRE2 option
          * */
@@ -3535,11 +3719,7 @@ struct select{
         } 
         
         /**@overload
-         *...
-         * Thread safety: same as `Regex::compile()`.
-         *
-         *  Set the specified parameters, then compile the pattern using options from class variables.
-         *  @param re Pattern string
+         *  @param re Pattern string (constant reference)
          *  @param po PCRE2 option
          * */
         void compile(const String& re, Uint po) { 
@@ -3548,12 +3728,16 @@ struct select{
         } 
         
         /**@overload
-         *...
-         * Thread safety: same as `Regex::compile()`.
-         *
-         *
-         *  Set the specified parameters, then compile the pattern using options from class variables.
-         *  @param re  Pointer to pattern string
+         *  @param re Pattern string (reference)
+         *  @param po PCRE2 option
+         * */
+        void compile(String& re, Uint po) { 
+            setPattern(re).setPcre2Option(po);
+            compile(); 
+        } 
+        
+        /**@overload
+         *  @param re  Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
          *  @param po PCRE2 option
          * */
         void compile(const String* re, Uint po) { 
@@ -3562,28 +3746,26 @@ struct select{
         } 
 
         /** @overload
-         *
-         * 
-         * Thread safety: same as `Regex::compile()`.
-         *
-         *
-         *  Set the specified parameters, then compile the pattern using options from class variables.
-         *  @param re Pattern string
-         *  @param mod Modifier string
+         *  @param re Pattern string (constant reference)
+         *  @param mod Modifier string, null pointer causes undefined behavior (from std::string).
          * */
         void compile(const String& re, const std::string& mod) { 
             setPattern(re).setModifier(mod);
             compile(); 
         } 
 
+        /** @overload
+         *  @param re Pattern string (reference)
+         *  @param mod Modifier string, null pointer causes undefined behavior (from std::string).
+         * */
+        void compile(String& re, const std::string& mod) { 
+            setPattern(re).setModifier(mod);
+            compile(); 
+        } 
+
         /**@overload
-         *...
-         * Thread safety: same as `Regex::compile()`.
-         *
-         *
-         *  Set the specified parameters, then compile the pattern using options from class variables.
-         *  @param re Pointer to pattern string
-         *  @param mod Modifier string
+         *  @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
+         *  @param mod Modifier string, null pointer causes undefined behavior (from std::string).
          * */
         void compile(const String* re, const std::string& mod) {
             setPattern(re).setModifier(mod);
@@ -3591,12 +3773,7 @@ struct select{
         } 
 
         /**@overload
-         *...
-         * Thread safety: same as `Regex::compile()`.
-         *
-         *
-         *  Set the specified parameters, then compile the pattern using options from class variables.
-         *  @param re Pattern string
+         *  @param re Pattern string (constant reference).
          * */
         void compile(const String& re) { 
             setPattern(re);
@@ -3604,12 +3781,15 @@ struct select{
         } 
 
         /**@overload
-         *...
-         * Thread safety: same as `Regex::compile()`.
-         *
-         *
-         *  Set the specified parameters, then compile the pattern using options from class variables.
-         *  @param re Pointer to pattern string
+         *  @param re Pattern string (reference).
+         * */
+        void compile(String& re) { 
+            setPattern(re);
+            compile(); 
+        } 
+
+        /**@overload
+         *  @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
          * */
         void compile(const String* re) {
             setPattern(re);

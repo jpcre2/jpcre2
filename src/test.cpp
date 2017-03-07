@@ -134,14 +134,18 @@ int main(){
      \
     rm.setNumberedSubstringVector(&vec_num); \
     rm.setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn); \
+    rm.setNumberedSubstringVector(vec_num); \
+    rm.setNamedSubstringVector(vec_nas).setNameToNumberMapVector(vec_ntn); \
     jpcre2::VecOff vec_soff; \
     jpcre2::VecOff vec_eoff; \
     rm.setMatchStartOffsetVector(&vec_soff); \
     rm.setMatchEndOffsetVector(&vec_eoff); \
+    rm.setMatchStartOffsetVector(vec_soff); \
+    rm.setMatchEndOffsetVector(vec_eoff); \
     re = jp::Regex(PAT, "in"); \
     rm.setRegexObject(&re); \
     rm.setMatchContext(0); \
-    rm.setSubject(&text).setModifier("g").match(); \
+    rm.setSubject(jp::String()).setSubject(&text).setSubject(text).setModifier("g").match(); \
     jp::Regex re4(PAT, "niJS"); \
     rm.setRegexObject(&re4); \
     size_t count = rm.setSubject(&text).setModifier("g").setStartOffset(0).match(); \
