@@ -689,7 +689,135 @@ namespace MOD {
     static const jpcre2::Uint MJ_V[1] = { FIND_ALL,                                   // Modifier  g
                                               };
 
-}
+} //MOD namespace ends
+
+///Class to parse modifiers or to convert option to modifier.
+///std::string or const char* can be taken as modifiers and converted
+///to equivalent option values. Null pointer is treated as empty string.
+class Modifier{
+    std::string mod;
+    
+    void toOption(bool x, const Uint J_V[], const char J_N[], SIZE_T SJ,
+                  const Uint V[], const char N[], SIZE_T S,
+                  Uint* po, Uint* jo, int* en, SIZE_T* eo ) const ;
+    Modifier& fromOption(const Uint J_V[], const char J_N[], SIZE_T SJ,
+                    const Uint V[], const char N[], SIZE_T S,
+                    Uint po, Uint jo) ;
+    public:
+    ///Default constructor.
+    Modifier(){}
+    
+    ///Constructor that takes a const std::string& (null safe, see Modifier(const char*)).
+    ///@param x const std::string&
+    Modifier(const std::string& x):mod(x){}
+    
+    ///Constructor that takes a std::string& (data is not modified)
+    ///@param x std::string&
+    Modifier(std::string& x):mod(x){}
+    
+    ///Constructor that takes const char pointer (null safety is provided by this one)
+    ///@param x const char*
+    Modifier(const char* x):mod(x?x:""){}
+    
+    ///Copy constructor.
+    Modifier(const Modifier& md):mod(md.mod){}
+    
+    ///Copy assignment operatior overloaded.
+    Modifier& operator =(const Modifier& md){
+        if(this == &md) return *this;
+        mod = md.mod;
+        return *this;
+    }
+    
+    #if __cplusplus >= 201103L
+    ///Move constructor.
+    Modifier(Modifier&& md):mod(std::move_if_noexcept(md.mod)){}
+    
+    ///Overloaded move assignment operator.
+    Modifier& operator =(Modifier&& md){
+        if(this == &md) return *this;
+        mod = std::move_if_noexcept(md.mod);
+        return *this;
+    }
+    #endif
+    virtual ~Modifier(){}
+    
+    
+    ///returns the modifier string
+    ///@return modifier string (std::string)
+    const std::string& str() const { return mod; }
+    
+    ///Returns the c_str() of modifier string
+    ///@return const char*
+    const char* c_str() const { return mod.c_str(); }
+    
+    ///Returns the length of the modifier string
+    ///@return length
+    const SIZE_T length() const{ return mod.length(); }
+    
+    ///operator[] overload to access character by index.
+    ///@param i index
+    ///@return character at index i.
+    const char operator[](SIZE_T i) const { return mod[i]; }
+    
+    ///Modifier parser for match related options.
+    ///@param x whether to add or remove the modifers.
+    ///@param po pointer to PCRE2 match option that will be modified.
+    ///@param jo pointer to JPCRE2 match option that will be modified.
+    ///@param en where to put the error number.
+    ///@param eo where to put the error offset.
+    void toOptionM(bool x, Uint* po, Uint* jo, int* en, SIZE_T* eo) const {
+        toOption(x,MOD::MJ_V,MOD::MJ_N,sizeof(MOD::MJ_V)/sizeof(Uint),MOD::M_V, MOD::M_N,sizeof(MOD::M_V)/sizeof(Uint),po,jo,en,eo);
+    }
+    
+    ///Modifier parser for replace related options.
+    ///@param x whether to add or remove the modifers.
+    ///@param po pointer to PCRE2 replace option that will be modified.
+    ///@param jo pointer to JPCRE2 replace option that will be modified.
+    ///@param en where to put the error number.
+    ///@param eo where to put the error offset.
+    void toOptionR(bool x, Uint* po, Uint* jo, int* en, SIZE_T* eo) const {
+        return toOption(x,MOD::RJ_V,MOD::RJ_N,sizeof(MOD::RJ_V)/sizeof(Uint),MOD::R_V, MOD::R_N,sizeof(MOD::R_V)/sizeof(Uint),po,jo,en,eo);
+    }
+    
+    ///Modifier parser for compile related options.
+    ///@param x whether to add or remove the modifers.
+    ///@param po pointer to PCRE2 compile option that will be modified.
+    ///@param jo pointer to JPCRE2 compile option that will be modified.
+    ///@param en where to put the error number.
+    ///@param eo where to put the error offset.
+    void toOptionC(bool x, Uint* po, Uint* jo, int* en, SIZE_T* eo) const {
+        return toOption(x,MOD::CJ_V,MOD::CJ_N,sizeof(MOD::CJ_V)/sizeof(Uint),MOD::C_V, MOD::C_N,sizeof(MOD::C_V)/sizeof(Uint),po,jo,en,eo);
+    }
+    
+    ///Take match related option value and convert to modifier string.
+    ///The modifier string can be get by calling the str() function.
+    ///@param po PCRE2 option.
+    ///@param jo JPCRE2 option.
+    ///@return A reference to the calling Modifier object.
+    Modifier& fromOptionM(Uint po, Uint jo) {
+        return fromOption(MOD::MJ_V,MOD::MJ_N,sizeof(MOD::MJ_V)/sizeof(Uint),MOD::M_V, MOD::M_N,sizeof(MOD::M_V)/sizeof(Uint),po,jo);
+    }
+    
+    ///Take replace related option value and convert to modifier string.
+    ///The modifier string can be get by calling the str() function.
+    ///@param po PCRE2 option.
+    ///@param jo JPCRE2 option.
+    ///@return A reference to the calling Modifier object.
+    Modifier& fromOptionR(Uint po, Uint jo) {
+        return fromOption(MOD::RJ_V,MOD::RJ_N,sizeof(MOD::RJ_V)/sizeof(Uint),MOD::R_V, MOD::R_N,sizeof(MOD::R_V)/sizeof(Uint),po,jo);
+    }
+    
+    ///Take compile related option value and convert to modifier string.
+    ///The modifier string can be get by calling the str() function.
+    ///@param po PCRE2 option.
+    ///@param jo JPCRE2 option.
+    ///@return A reference to the calling Modifier object.
+    Modifier& fromOptionC(Uint po, Uint jo) {
+        return fromOption(MOD::CJ_V,MOD::CJ_N,sizeof(MOD::CJ_V)/sizeof(Uint),MOD::C_V, MOD::C_N,sizeof(MOD::C_V)/sizeof(Uint),po,jo);
+    }
+};
+
 
 //These message strings are used for error/warning message construction.
 //take care to prevent multiple definition
@@ -1218,7 +1346,9 @@ struct select{
         ///@see Regex::getModifier()
         ///@see RegexReplace::getModifier()
         ///
-        virtual std::string getModifier() const ; 
+        virtual std::string getModifier() const {
+            return Modifier().fromOptionM(match_opts, jpcre2_match_opts).str();
+        } 
         
         
         ///Get PCRE2 option
@@ -1443,7 +1573,7 @@ struct select{
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setModifier()
         /// @see Regex::setModifier()
-        virtual RegexMatch& setModifier(const std::string& s) { 
+        virtual RegexMatch& setModifier(const Modifier& s) { 
             match_opts = 0; 
             jpcre2_match_opts = 0; 
             changeModifier(s, true); 
@@ -1522,12 +1652,15 @@ struct select{
         /// object will be jpcre2::ERROR::INVALID_MODIFIER and error offset will be the modifier character.
         /// You can get the message with RegexMatch::getErrorMessage() function.
         ///
-        /// @param mod Modifier string, null pointer causes Undefined Behavior because of std::string constructor that takes const char*.
+        /// @param mod Modifier string.
         /// @param x Whether to add or remove option
         /// @return Reference to the RegexMatch object
         /// @see Regex::changeModifier()
         /// @see RegexReplace::changeModifier()
-        virtual RegexMatch& changeModifier(const std::string& mod, bool x); 
+        virtual RegexMatch& changeModifier(const Modifier& mod, bool x){
+            mod.toOptionM(x, &match_opts, &jpcre2_match_opts, &error_number, &error_offset);
+            return *this;
+        } 
 
         /// Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options.
         /// Add or remove a JPCRE2 option
@@ -1564,11 +1697,11 @@ struct select{
         ///
         /// **Note:** If speed of operation is very crucial, use RegexMatch::addJpcre2Option() and RegexMatch::addPcre2Option()
         /// with equivalent options. It will be faster that way.
-        /// @param mod Modifier string, null pointer causes Undefined Behavior because of std::string constructor that takes const char*.
+        /// @param mod Modifier string.
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::addModifier()
         /// @see Regex::addModifier()
-        virtual RegexMatch& addModifier(const std::string& mod){ 
+        virtual RegexMatch& addModifier(const Modifier& mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -2311,10 +2444,10 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::setModifier(const std::string &s).
+        ///Call RegexMatch::setModifier(const Modifier&s).
         ///@param s modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setModifier (const std::string &s){
+        MatchEvaluator& setModifier (const Modifier& s){
             RegexMatch::setModifier(s);
             return *this;
         }
@@ -2366,11 +2499,11 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::changeModifier(const std::string &mod, bool x).
-        ///@param mod modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
+        ///Call RegexMatch::changeModifier(const Modifier&mod, bool x).
+        ///@param mod modifier string.
         ///@param x true (add) or false (remove).
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& changeModifier (const std::string &mod, bool x){
+        MatchEvaluator& changeModifier (const Modifier& mod, bool x){
             RegexMatch::changeModifier(mod, x);
             return *this;
         }
@@ -2393,10 +2526,10 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::addModifier(const std::string &mod).
-        ///@param mod modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
+        ///Call RegexMatch::addModifier(const Modifier&mod).
+        ///@param mod modifier string.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& addModifier (const std::string &mod){
+        MatchEvaluator& addModifier (const Modifier& mod){
             RegexMatch::addModifier(mod);
             return *this;
         }
@@ -2700,7 +2833,9 @@ struct select{
         ///@see RegexMatch::getModifier()
         ///@see Regex::getModifier()
         ///
-        std::string getModifier() const;
+        std::string getModifier() const {
+            return Modifier().fromOptionR(replace_opts, jpcre2_replace_opts).str();
+        }
         
         ///Get start offset.
         ///@return the start offset where matching starts for replace operation
@@ -2842,8 +2977,8 @@ struct select{
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setModifier()
         ///@see Regex::setModifier()
-        ////
-        RegexReplace& setModifier(const std::string& s) { 
+
+        RegexReplace& setModifier(const Modifier& s) { 
             replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; /* must not be initialized to 0 */ 
             jpcre2_replace_opts = 0; 
             return changeModifier(s, true); 
@@ -2852,7 +2987,7 @@ struct select{
         /// Set the initial buffer size to be allocated for replaced string (used by PCRE2)
         ///@param x Buffer size
         ///@return Reference to the calling RegexReplace object
-        ////
+
         RegexReplace& setBufferSize(PCRE2_SIZE x) { 
             buffer_size = x; 
             return *this; 
@@ -2872,7 +3007,7 @@ struct select{
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setJpcre2Option()
         ///@see Regex::setJpcre2Option()
-        ////
+
         RegexReplace& setJpcre2Option(Uint x) { 
             jpcre2_replace_opts = x; 
             return *this; 
@@ -2883,7 +3018,7 @@ struct select{
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setPcre2Option()
         ///@see Regex::setPcre2Option()
-        ////
+
         RegexReplace& setPcre2Option(Uint x) { 
             replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH | x; 
             return *this; 
@@ -2921,12 +3056,15 @@ struct select{
         /// If invalid modifier is detected, then the error number for the RegexReplace
         /// object will be jpcre2::ERROR::INVALID_MODIFIER and error offset will be the modifier character.
         /// You can get the message with RegexReplace::getErrorMessage() function.
-        /// @param mod Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
+        /// @param mod Modifier string.
         /// @param x Whether to add or remove option
         /// @return Reference to the RegexReplace object
         /// @see Regex::changeModifier()
         /// @see RegexMatch::changeModifier()
-        RegexReplace& changeModifier(const std::string& mod, bool);
+        RegexReplace& changeModifier(const Modifier& mod, bool x){
+            mod.toOptionR(x, &replace_opts, &jpcre2_replace_opts, &error_number, &error_offset);
+            return *this;
+        }
          
         /// Parse modifier and add/remove equivalent PCRE2 and JPCRE2 options.
         /// Add or remove a JPCRE2 option
@@ -2964,11 +3102,11 @@ struct select{
         ///
         /// **Note:** If speed of operation is very crucial, use RegexReplace::addJpcre2Option() and
         /// RegexReplace::addPcre2Option() with equivalent options. It will be faster that way.
-        /// @param mod Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
+        /// @param mod Modifier string.
         /// @return Reference to the calling RegexReplace object
         /// @see RegexMatch::addModifier()
         /// @see Regex::addModifier()
-        RegexReplace& addModifier(const std::string& mod){ 
+        RegexReplace& addModifier(const Modifier& mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -3176,27 +3314,27 @@ struct select{
         
         ///@overload
         /// @param re Pattern string (const reference).
-        /// @param mod Modifier string, null pointer causes undefined behavior (from std::string).
+        /// @param mod Modifier string.
         ///
-        Regex(const String& re, const std::string& mod) {
+        Regex(const String& re, const Modifier& mod) {
             init_vars();
             compile(re, mod); 
         } 
         
         ///@overload
         /// @param re Pattern string .
-        /// @param mod Modifier string, null pointer causes undefined behavior (from std::string).
+        /// @param mod Modifier string.
         ///
-        Regex(String& re, const std::string& mod) {
+        Regex(String& re, const Modifier& mod) {
             init_vars();
             compile(re, mod); 
         } 
         
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
-        /// @param mod Modifier string, null pointer causes undefined behavior (from std::string).
+        /// @param mod Modifier string.
         ///
-        Regex(const String* re, const std::string& mod) {
+        Regex(const String* re, const Modifier& mod) {
             init_vars();
             compile(re, mod); 
         }
@@ -3445,7 +3583,9 @@ struct select{
         ///@see RegexMatch::getModifier()
         ///@see RegexReplace::getModifier()
         ///
-        std::string getModifier() const ; 
+        std::string getModifier() const {
+            return Modifier().fromOptionC(compile_opts, jpcre2_compile_opts).str();
+        }
 
         /// Get PCRE2 option
         /// @return Compile time PCRE2 option value
@@ -3556,7 +3696,7 @@ struct select{
         /// @return Reference to the calling Regex object.
         /// @see RegexMatch::setModifier()
         /// @see RegexReplace::setModifier()
-        Regex& setModifier(const std::string& x) { 
+        Regex& setModifier(const Modifier& x) { 
             compile_opts = 0; 
             jpcre2_compile_opts = 0; 
             return changeModifier(x, true); 
@@ -3589,12 +3729,15 @@ struct select{
         /// If invalid modifier is detected, then the error number for the Regex
         /// object will be jpcre2::ERROR::INVALID_MODIFIER and error offset will be the modifier character.
         /// You can get the message with Regex::getErrorMessage() function.
-        /// @param mod Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*
+        /// @param mod Modifier string.
         /// @param x Whether to add or remove option
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::changeModifier()
         /// @see RegexReplace::changeModifier()
-        Regex& changeModifier(const std::string&, bool); 
+        Regex& changeModifier(const Modifier& mod, bool x){
+            mod.toOptionC(x, &compile_opts, &jpcre2_compile_opts, &error_number, &error_offset);
+            return *this;
+        }
 
         ///  Add or remove a JPCRE2 option
         /// @param opt JPCRE2 option value
@@ -3627,11 +3770,11 @@ struct select{
         /// Parse modifier string and add equivalent PCRE2 and JPCRE2 options.
         /// This is just a wrapper of the original function Regex::changeModifier()
         /// provided for convenience.
-        /// @param mod Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*
+        /// @param mod Modifier string.
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::addModifier()
         /// @see RegexReplace::addModifier()
-        Regex& addModifier(const std::string& mod){ 
+        Regex& addModifier(const Modifier& mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -3658,7 +3801,7 @@ struct select{
         ///Compile pattern using info from class variables.
         ///@see Regex::compile(const String& re, Uint po, Uint jo)
         ///@see Regex::compile(const String& re, Uint po)
-        ///@see Regex::compile(const String& re, const std::string& mod)
+        ///@see Regex::compile(const String& re, const Modifier& mod)
         ///@see Regex::compile(const String& re)
         ///
         void compile(void); 
@@ -3725,27 +3868,27 @@ struct select{
 
         /// @overload
         /// @param re Pattern string 
-        /// @param mod Modifier string, null pointer causes undefined behavior (from std::string).
+        /// @param mod Modifier string.
         ///
-        void compile(const String& re, const std::string& mod) { 
+        void compile(const String& re, const Modifier& mod) { 
             setPattern(re).setModifier(mod);
             compile(); 
         } 
 
         /// @overload
         /// @param re Pattern string 
-        /// @param mod Modifier string, null pointer causes undefined behavior (from std::string).
+        /// @param mod Modifier string.
         ///
-        void compile(String& re, const std::string& mod) { 
+        void compile(String& re, const Modifier& mod) { 
             setPattern(re).setModifier(mod);
             compile(); 
         } 
 
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
-        /// @param mod Modifier string, null pointer causes undefined behavior (from std::string).
+        /// @param mod Modifier string.
         ///
-        void compile(const String* re, const std::string& mod) {
+        void compile(const String* re, const Modifier& mod) {
             setPattern(re).setModifier(mod);
             compile(); 
         } 
@@ -3788,7 +3931,7 @@ struct select{
         /// @return Match count
         /// @see RegexMatch::match()
         ///
-        SIZE_T match(const String& s, const std::string& mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(const String& s, const Modifier& mod, PCRE2_SIZE start_offset=0) {
             return RegexMatch(this).setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         } 
         
@@ -3801,7 +3944,7 @@ struct select{
         /// @return Match count
         /// @see RegexMatch::match()
         ///
-        SIZE_T match(String& s, const std::string& mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(String& s, const Modifier& mod, PCRE2_SIZE start_offset=0) {
             return RegexMatch(this).setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         } 
         
@@ -3812,7 +3955,7 @@ struct select{
         ///@param mod Modifier string.
         ///@param start_offset Offset from where matching will start in the subject string.
         ///@return Match count
-        SIZE_T match(const String* s, const std::string& mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(const String* s, const Modifier& mod, PCRE2_SIZE start_offset=0) {
             return RegexMatch(this).setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         }
         
@@ -3863,11 +4006,11 @@ struct select{
         /// Subject and replacement strings are not modified.
         /// @param mains Subject string.
         /// @param repl String to replace with
-        /// @param mod Modifier string (std::string)
+        /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
         ///
-        String replace(const String& mains, const String& repl, const std::string& mod="") { 
+        String replace(const String& mains, const String& repl, const Modifier& mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -3875,11 +4018,11 @@ struct select{
         ///Subject and replacement strings are not modified.
         /// @param mains Subject string.
         /// @param repl String to replace with .
-        /// @param mod Modifier string (std::string)
+        /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
         ///
-        String replace(const String& mains, String& repl, const std::string& mod="") { 
+        String replace(const String& mains, String& repl, const Modifier& mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -3887,11 +4030,11 @@ struct select{
         ///Subject and replacement strings are not modified.
         /// @param mains Subject string reference.
         /// @param repl String to replace with
-        /// @param mod Modifier string (std::string)
+        /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
         ///
-        String replace(String& mains, const String& repl, const std::string& mod="") { 
+        String replace(String& mains, const String& repl, const Modifier& mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -3899,11 +4042,11 @@ struct select{
         ///Subject and replacement strings are not modified.
         /// @param mains Subject string reference.
         /// @param repl String to replace with reference
-        /// @param mod Modifier string (std::string)
+        /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
         ///
-        String replace(String& mains, String& repl, const std::string& mod="") { 
+        String replace(String& mains, String& repl, const Modifier& mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -3911,11 +4054,11 @@ struct select{
         ///Subject and replacement strings are not modified.
         /// @param mains Pointer to subject string
         /// @param repl String to replace with
-        /// @param mod Modifier string (std::string)
+        /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
         ///
-        String replace(const String* mains, const String& repl, const std::string& mod="") { 
+        String replace(const String* mains, const String& repl, const Modifier& mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -3923,11 +4066,11 @@ struct select{
         ///Subject and replacement strings are not modified.
         /// @param mains Pointer to subject string
         /// @param repl String to replace with .
-        /// @param mod Modifier string (std::string)
+        /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
         ///
-        String replace(const String* mains, String& repl, const std::string& mod="") { 
+        String replace(const String* mains, String& repl, const Modifier& mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -3936,11 +4079,11 @@ struct select{
         ///Subject and replacement strings are not modified.
         /// @param mains Subject string
         /// @param repl Pointer to string to replace with
-        /// @param mod Modifier string (std::string)
+        /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
         ///
-        String replace(const String& mains, const String* repl, const std::string& mod="") { 
+        String replace(const String& mains, const String* repl, const Modifier& mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -3949,11 +4092,11 @@ struct select{
         ///Subject and replacement strings are not modified.
         /// @param mains Subject string .
         /// @param repl Pointer to string to replace with
-        /// @param mod Modifier string (std::string)
+        /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
         ///
-        String replace(String& mains, const String* repl, const std::string& mod="") { 
+        String replace(String& mains, const String* repl, const Modifier& mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -3962,11 +4105,11 @@ struct select{
         ///Subject and replacement strings are not modified.
         /// @param mains Pointer to subject string
         /// @param repl Pointer to string to replace with
-        /// @param mod Modifier string (std::string)
+        /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
         ///
-        String replace(const String* mains, const String* repl, const std::string& mod="") { 
+        String replace(const String* mains, const String* repl, const Modifier& mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
     };
@@ -3979,96 +4122,57 @@ struct select{
 };//struct select
 }//jpcre2 namespace
 
-    
-template<typename Char_T, jpcre2::Ush BS>
-std::string jpcre2::select<Char_T, BS>::Regex::getModifier() const {
-    //Calculate PCRE2 mod
-    std::string temp("");
-    for(SIZE_T i = 0; i < sizeof(MOD::C_V)/sizeof(Uint); ++i){
-        if( (MOD::C_V[i] & compile_opts) != 0 && 
-            (MOD::C_V[i] & compile_opts) == MOD::C_V[i]) //One option can include other
-            temp += MOD::C_N[i];
-    }
-    //Calculate JPCRE2 mod
-    for(SIZE_T i = 0; i < sizeof(MOD::CJ_V)/sizeof(Uint); ++i){
-        if( (MOD::CJ_V[i] & jpcre2_compile_opts) != 0 && 
-            (MOD::CJ_V[i] & jpcre2_compile_opts) == MOD::CJ_V[i]) //One option can include other
-            temp += MOD::CJ_N[i];
-    }
-    return temp;
-}
 
-
-
-template<typename Char_T, jpcre2::Ush BS>
-std::string jpcre2::select<Char_T, BS>::RegexMatch::getModifier() const {
-    //Calculate PCRE2 mod
-    std::string temp("");
-    for(SIZE_T i = 0; i < sizeof(MOD::M_V)/sizeof(Uint); ++i){
-        if( (MOD::M_V[i] & match_opts) != 0 && 
-            (MOD::M_V[i] & match_opts) == MOD::M_V[i]) //One option can include other
-            temp += MOD::M_N[i];
-    }
-    //Calculate JPCRE2 mod
-    for(SIZE_T i = 0; i < sizeof(MOD::MJ_V)/sizeof(Uint); ++i){
-        if( (MOD::MJ_V[i] & jpcre2_match_opts) != 0 && 
-            (MOD::MJ_V[i] & jpcre2_match_opts) == MOD::MJ_V[i]) //One option can include other
-            temp += MOD::MJ_N[i];
-    }
-    return temp;
-}
-
-template<typename Char_T, jpcre2::Ush BS>
-std::string jpcre2::select<Char_T, BS>::RegexReplace::getModifier() const {
-    //Calculate PCRE2 mod
-    std::string temp("");
-    for(SIZE_T i = 0; i < sizeof(MOD::R_V)/sizeof(Uint); ++i){
-        if( (MOD::R_V[i] & replace_opts) != 0 &&
-            (MOD::R_V[i] & replace_opts) == MOD::R_V[i]) //One option can include other
-            temp += MOD::R_N[i];
-    }
-    //Calculate JPCRE2 mod
-    for(SIZE_T i = 0; i < sizeof(MOD::RJ_V)/sizeof(Uint); ++i){
-        if( (MOD::RJ_V[i] & jpcre2_replace_opts) != 0 &&
-            (MOD::RJ_V[i] & jpcre2_replace_opts) == MOD::RJ_V[i]) //One option can include other
-            temp += MOD::RJ_N[i];
-    }
-    return temp;
-}
-
-
-template<typename Char_T, jpcre2::Ush BS>
-typename jpcre2::select<Char_T, BS>::Regex& 
-            jpcre2::select<Char_T, BS>::Regex::
-                changeModifier(const std::string& mod, bool x) {
+inline void jpcre2::Modifier::toOption(bool x, const Uint J_V[], const char J_N[], SIZE_T SJ,
+              const Uint V[], const char N[], SIZE_T S,
+              Uint* po, Uint* jo, int* en, SIZE_T* eo ) const {
     //loop through mod
     SIZE_T n = mod.length();
     for (SIZE_T i = 0; i < n; ++i) {
         //First check for JPCRE2 mods
-        for(SIZE_T j = 0; j < sizeof(MOD::CJ_V)/sizeof(Uint); ++j){
-            if(MOD::CJ_N[j] == mod[i]) {
-                changeJpcre2Option(MOD::CJ_V[j], x);
-                goto endfor;
-            }
-        }
-        //Now check for PCRE2 mods
-        for(SIZE_T j = 0; j< sizeof(MOD::C_V)/sizeof(Uint); ++j){
-            if(MOD::C_N[j] == mod[i]){
-                changePcre2Option(MOD::C_V[j], x);
+        for(SIZE_T j = 0; j < SJ; ++j){
+            if(J_N[j] == mod[i]) {
+                if(x) *jo |= J_V[j]; 
+                else  *jo &= ~J_V[j]; 
                 goto endfor;
             }
         }
         
+        //Now check for PCRE2 mods
+        for(SIZE_T j = 0; j< S; ++j){
+            if(N[j] == mod[i]){
+                if(x) *po |= V[j]; 
+                else  *po &= ~V[j]; 
+                goto endfor;
+            }
+        }
         
         //Modifier didn't match, invalid modifier
-        error_number = (int)ERROR::INVALID_MODIFIER;
-        error_offset = (int)mod[i];
+        *en = (int)ERROR::INVALID_MODIFIER;
+        *eo = (int)mod[i];
         
         endfor:;
     }
-    return *this;
 }
 
+inline jpcre2::Modifier& jpcre2::Modifier::fromOption(const Uint J_V[], const char J_N[], SIZE_T SJ,
+                const Uint V[], const char N[], SIZE_T S,
+                Uint po, Uint jo) {
+    mod.clear();
+    //Calculate PCRE2 mod
+    for(SIZE_T i = 0; i < S; ++i){
+        if( (V[i] & po) != 0 &&
+            (V[i] & po) == V[i]) //One option can include other
+            mod += N[i];
+    }
+    //Calculate JPCRE2 mod
+    for(SIZE_T i = 0; i < SJ; ++i){
+        if( (J_V[i] & jo) != 0 &&
+            (J_V[i] & jo) == J_V[i]) //One option can include other
+            mod += J_N[i];
+    }
+    return *this;
+}
 
 
 
@@ -4105,44 +4209,6 @@ void jpcre2::select<Char_T, BS>::Regex::compile() {
     error_offset = 0;
 }
 
-
-
-//////////////////
-
-
-// RegexReplace class
-
-
-template<typename Char_T, jpcre2::Ush BS>
-typename jpcre2::select<Char_T, BS>::RegexReplace&
-            jpcre2::select<Char_T, BS>::RegexReplace::
-                changeModifier(const std::string& mod, bool x) {
-    //loop through mod
-    SIZE_T n = mod.length();
-    for (SIZE_T i = 0; i < n; ++i) {
-        //First check for JPCRE2 mods
-        for(SIZE_T j = 0; j < sizeof(MOD::RJ_V)/sizeof(Uint); ++j){
-            if(MOD::RJ_N[j] == mod[i]) {
-                changeJpcre2Option(MOD::RJ_V[j], x);
-                goto endfor;
-            }
-        }
-        //Now check for PCRE2 mods
-        for(SIZE_T j = 0; j< sizeof(MOD::R_V)/sizeof(Uint); ++j){
-            if(MOD::R_N[j] == mod[i]){
-                changePcre2Option(MOD::R_V[j], x);
-                goto endfor;
-            }
-        }
-        
-        //Modifier didn't match, invalid modifier
-        error_number = (int)ERROR::INVALID_MODIFIER;
-        error_offset = (int)mod[i];
-        
-        endfor:;
-    }
-    return *this;
-}
 
 template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEvaluator::nreplace(bool do_match){
@@ -4261,41 +4327,6 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
     String result = toString((Char*) output_buffer);
     delete[] output_buffer;
     return result;
-}
-
-
-
-/////////////////
-
-// RegexMatch class
-
-template<typename Char_T, jpcre2::Ush BS>
-typename jpcre2::select<Char_T, BS>::RegexMatch& jpcre2::select<Char_T, BS>::RegexMatch::changeModifier(const std::string& mod, bool x) {
-    //loop through mod
-    SIZE_T n = mod.length();
-    for (SIZE_T i = 0; i < n; ++i) {
-        //First check for JPCRE2 mods
-        for(SIZE_T j = 0; j < sizeof(MOD::MJ_V)/sizeof(Uint); ++j){
-            if(MOD::MJ_N[j] == mod[i]) {
-                changeJpcre2Option(MOD::MJ_V[j], x);
-                goto endfor;
-            }
-        }
-        //Now check for PCRE2 mods
-        for(SIZE_T j = 0; j< sizeof(MOD::M_V)/sizeof(Uint); ++j){
-            if(MOD::M_N[j] == mod[i]){
-                changePcre2Option(MOD::M_V[j], x);
-                goto endfor;
-            }
-        }
-        
-        //Modifier didn't match, invalid modifier
-        error_number = (int)ERROR::INVALID_MODIFIER;
-        error_offset = (int)mod[i];
-        
-        endfor:;
-    }
-    return *this;
 }
 
 
