@@ -57,7 +57,7 @@ String callback7(const jp::NumSub& m1, const jp::MapNas& m2, const jp::MapNtn& m
 
 int main(){
     jp::Regex re("(?<total>\\w+)", "n");
-    jp::RegexReplace rr(&re);
+    jp::RegexReplace rr(re);
     
     String s3 = "I am a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ ঘ";
     

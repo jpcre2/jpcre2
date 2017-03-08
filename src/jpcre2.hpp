@@ -692,7 +692,7 @@ namespace MOD {
 } //MOD namespace ends
 
 ///Class to parse modifiers or to convert option to modifier.
-///std::string or const char* can be taken as modifiers and converted
+///std::string or char const * can be taken as modifiers and converted
 ///to equivalent option values. Null pointer is treated as empty string.
 class Modifier{
     std::string mod;
@@ -707,23 +707,24 @@ class Modifier{
     ///Default constructor.
     Modifier(){}
     
-    ///Constructor that takes a const std::string& (null safe, see Modifier(const char*)).
-    ///@param x const std::string&
-    Modifier(const std::string& x):mod(x){}
+    ///Constructor that takes a std::string const &(null safe, see Modifier(char const *)).
+    ///@param x std::string const &
+    Modifier(std::string const &x):mod(x){}
     
     ///Constructor that takes a std::string& (data is not modified)
     ///@param x std::string&
     Modifier(std::string& x):mod(x){}
     
-    ///Constructor that takes const char pointer (null safety is provided by this one)
-    ///@param x const char*
-    Modifier(const char* x):mod(x?x:""){}
+    ///Constructor that takes char const * (null safety is provided by this one)
+    ///@param x char const *
+    Modifier(char const *x):mod(x?x:""){}
     
     ///Copy constructor.
-    Modifier(const Modifier& md):mod(md.mod){}
+    Modifier(Modifier const &md):mod(md.mod){}
     
-    ///Copy assignment operatior overloaded.
-    Modifier& operator =(const Modifier& md){
+    ///Copy assignment operator overloaded.
+    ///@return A reference to the calling object.
+    Modifier& operator =(Modifier const &md){
         if(this == &md) return *this;
         mod = md.mod;
         return *this;
@@ -734,6 +735,7 @@ class Modifier{
     Modifier(Modifier&& md):mod(std::move_if_noexcept(md.mod)){}
     
     ///Overloaded move assignment operator.
+    ///@return A reference to the calling object.
     Modifier& operator =(Modifier&& md){
         if(this == &md) return *this;
         mod = std::move_if_noexcept(md.mod);
@@ -743,13 +745,13 @@ class Modifier{
     virtual ~Modifier(){}
     
     
-    ///returns the modifier string
-    ///@return modifier string (std::string)
-    const std::string& str() const { return mod; }
+    ///Returns the modifier string
+    ///@return modifier string (std::string const&)
+    std::string const &str() const { return mod; }
     
     ///Returns the c_str() of modifier string
-    ///@return const char*
-    const char* c_str() const { return mod.c_str(); }
+    ///@return char const *
+    char const * c_str() const { return mod.c_str(); }
     
     ///Returns the length of the modifier string
     ///@return length
@@ -1034,10 +1036,10 @@ struct select{
     
     ///@overload
     ///...
-    ///Converts a const Char_T* (char*, wchar_t*, char16_t*, char32_t*) to jpcre2::select::String
-    ///@param a const Char_T*
+    ///Converts a Char_T const * (char*, wchar_t*, char16_t*, char32_t*) to jpcre2::select::String
+    ///@param a Char_T const *
     ///@return jpcre2::select::String
-    static String toString(const Char* a){
+    static String toString(Char const *a){
         if (a) return String(a);
         else return String();
     }
@@ -1045,7 +1047,7 @@ struct select{
     ///@overload
     ///...
     ///Converts a Char_T* (char*, wchar_t*, char16_t*, char32_t*) to jpcre2::select::String
-    ///@param a const Char_T*
+    ///@param a Char_T const *
     ///@return jpcre2::select::String
     static String toString(Char* a){
         if (a) return String(a);
@@ -1111,10 +1113,10 @@ struct select{
 
     private: 
 
-        const Regex* re;              
+        Regex const *re;              
 
         String m_subject;
-        const String* m_subject_ptr; //for huge text avoid copy
+        String const *m_subject_ptr; //for huge text avoid copy
         Uint match_opts;        
         Uint jpcre2_match_opts; 
         int error_number;
@@ -1150,7 +1152,7 @@ struct select{
             mcontext = 0;
         }
         
-        void onlyCopy(const RegexMatch& rm){
+        void onlyCopy(RegexMatch const &rm){
             re = rm.re; //only pointer should be copied
             
             //pointer to subject may point to m_subject or other user data
@@ -1173,7 +1175,7 @@ struct select{
             mcontext = rm.mcontext;
         }
         
-        void deepCopy(const RegexMatch& rm){
+        void deepCopy(RegexMatch const &rm){
             m_subject = rm.m_subject;
             onlyCopy(rm);
         }
@@ -1206,7 +1208,7 @@ struct select{
         ///Creates a RegexMatch object associating a Regex object.
         ///Underlying data is not modified.
         ///@param r pointer to a Regex object
-        RegexMatch(const Regex * r) {
+        RegexMatch(Regex const *r) {
             init_vars();
             re = r;
         }
@@ -1225,7 +1227,7 @@ struct select{
         ///...
         ///Copy constructor.
         ///@param rm Reference to RegexMatch object
-        RegexMatch(const RegexMatch& rm){
+        RegexMatch(RegexMatch const &rm){
             init_vars();
             deepCopy(rm);
         }
@@ -1233,7 +1235,7 @@ struct select{
         ///Overloaded copy-assignment operator.
         ///@param rm RegexMatch object
         ///@return A reference to the calling RegexMatch object.
-        virtual RegexMatch& operator=(const RegexMatch& rm){
+        virtual RegexMatch& operator=(RegexMatch const &rm){
             if(this == &rm) return *this;
             deepCopy(rm);
             return *this;
@@ -1276,7 +1278,6 @@ struct select{
         ///You will need to pass vector pointers again after calling this function to get match results.
         ///
         ///@return Reference to the calling RegexMatch object.
-        ///
         virtual RegexMatch& clear() {
             m_subject.clear(); //not ptr , external string won't be modified.
             init_vars();
@@ -1326,7 +1327,7 @@ struct select{
         ///Data can not be changed with this pointer.
         ///@return subject string pointer 
         ///@see RegexReplace::getSubjectPointer()
-        virtual const String* getSubjectPointer() const  { 
+        virtual String const * getSubjectPointer() const  { 
             return m_subject_ptr;
         } 
 
@@ -1345,7 +1346,6 @@ struct select{
         ///@return Calculated modifier string (std::string)
         ///@see Regex::getModifier()
         ///@see RegexReplace::getModifier()
-        ///
         virtual std::string getModifier() const {
             return Modifier().fromOptionM(match_opts, jpcre2_match_opts).str();
         } 
@@ -1355,7 +1355,6 @@ struct select{
         ///@return PCRE2 option for match operation
         ///@see Regex::getPcre2Option()
         ///@see RegexReplace::getPcre2Option()
-        ///
         virtual Uint getPcre2Option() const  { 
             return match_opts; 
         } 
@@ -1364,7 +1363,6 @@ struct select{
         ///@return JPCRE2 options for math operation
         ///@see Regex::getJpcre2Option()
         ///@see RegexReplace::getJpcre2Option()
-        ///
         virtual Uint getJpcre2Option() const  { 
             return jpcre2_match_opts; 
         } 
@@ -1390,7 +1388,7 @@ struct select{
         ///Get a pointer to the associated Regex object.
         ///If no actual Regex object is associated, null is returned.
         ///@return A pointer to the associated Regex object or null.
-        virtual const Regex* getRegexObject() const {
+        virtual Regex const * getRegexObject() const {
             return re;
         }
         
@@ -1417,7 +1415,7 @@ struct select{
         ///Underlying data is not modified.
         ///@param r Pointer to a Regex object.
         ///@return Reference to the calling RegexMatch object.
-        virtual RegexMatch& setRegexObject(const Regex* r){
+        virtual RegexMatch& setRegexObject(Regex const *r){
             re = r;
             return *this;
         }
@@ -1529,7 +1527,7 @@ struct select{
         /// @param s Subject string
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setSubject()
-        virtual RegexMatch& setSubject(const String& s) { 
+        virtual RegexMatch& setSubject(String const &s) { 
             m_subject = s;
             m_subject_ptr = &m_subject; //must overwrite
             return *this; 
@@ -1553,7 +1551,7 @@ struct select{
         /// @param s Pointer to subject string
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setSubject()
-        virtual RegexMatch& setSubject(const String* s) {
+        virtual RegexMatch& setSubject(String const *s) {
             if(s) m_subject_ptr = s;
             else {
                 m_subject.clear();
@@ -1569,11 +1567,11 @@ struct select{
         /// **Note:** If speed of operation is very crucial, use RegexMatch::setJpcre2Option() and
         /// RegexMatch::setPcre2Option() with equivalent options. It will be faster that way.
         ///
-        /// @param s Modifier string, null pointer causes Undefined Behavior because of std::string constructor that takes const char*.
+        /// @param s Modifier string, null pointer causes Undefined Behavior because of std::string constructor that takes char const *.
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setModifier()
         /// @see Regex::setModifier()
-        virtual RegexMatch& setModifier(const Modifier& s) { 
+        virtual RegexMatch& setModifier(Modifier const &s) { 
             match_opts = 0; 
             jpcre2_match_opts = 0; 
             changeModifier(s, true); 
@@ -1657,7 +1655,7 @@ struct select{
         /// @return Reference to the RegexMatch object
         /// @see Regex::changeModifier()
         /// @see RegexReplace::changeModifier()
-        virtual RegexMatch& changeModifier(const Modifier& mod, bool x){
+        virtual RegexMatch& changeModifier(Modifier const &mod, bool x){
             mod.toOptionM(x, &match_opts, &jpcre2_match_opts, &error_number, &error_offset);
             return *this;
         } 
@@ -1701,7 +1699,7 @@ struct select{
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::addModifier()
         /// @see Regex::addModifier()
-        virtual RegexMatch& addModifier(const Modifier& mod){ 
+        virtual RegexMatch& addModifier(Modifier const &mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -1743,25 +1741,25 @@ struct select{
     ///If you are using lambda function with capture, you must use the `std::function` approach.
     ///
     ///The callback function takes exactly three positional arguments:
-    ///@tparam T1 The first argument must be `const jp::NumSub&` aka `const std::vector<String>&` (or `void*` if not needed).
-    ///@tparam T2 The second argument must be `const jp::MapNas&` aka `const std::map<String, size_t>&` (or `void*` if not needed).
-    ///@tparam T3 The third argument must be `const jp::MapNtN&` aka `const std::map<String, String>&` (or `void*` if not needed).
+    ///@tparam T1 The first argument must be `jp::NumSub const &` aka `std::vector<String> const &` (or `void*` if not needed).
+    ///@tparam T2 The second argument must be `jp::MapNas const &` aka `std::map<String, size_t> const &` (or `void*` if not needed).
+    ///@tparam T3 The third argument must be `jp::MapNtN const &` aka `std::map<String, String> const &` (or `void*` if not needed).
     ///
     /// **Examples:**
     /// ```cpp
     /// typedef jpcre2::select<char> jp;
-    /// jp::String myCallback1(const jp::NumSub& m1, void*, void*){
+    /// jp::String myCallback1(jp::NumSub const &m1, void*, void*){
     ///     return "("+m1[0]+")";
     /// }
     /// 
-    /// jp::String myCallback2(const jp::NumSub& m1, const jp::MapNas& m2, void*){
+    /// jp::String myCallback2(jp::NumSub const &m1, jp::MapNas const &m2, void*){
     ///     return "("+m1[0]+"/"+m2.at("total")+")";
     /// }
     /// //Now you can pass these functions in MatchEvaluator constructors to create a match evaluator
     /// jp::MatchEvaluator me1(myCallback1); 
     ///
     /// //Examples with lambda (>=C++11)
-    /// jp::MatchEvaluator me2([](const jp::NumSub& m1, void*, void*)
+    /// jp::MatchEvaluator me2([](jp::NumSub const &m1, void*, void*)
     ///                         {
     ///                             return "("+m1[0]+")";
     ///                         });
@@ -1791,7 +1789,7 @@ struct select{
         ///@param nas jp::MapNas map.
         ///@param ntn jp::MapNtN map.
         ///@return empty string.
-        static String eraseFill(const NumSub& num, const MapNas& nas, const MapNtN& ntn){
+        static String eraseFill(NumSub const &num, MapNas const &nas, MapNtN const &ntn){
             return String();
         }
         
@@ -1815,14 +1813,14 @@ struct select{
         ///@param nas jp::MapNas map.
         ///@param ntn jp::MapNtN map.
         ///@return total match (group 0) of current match.
-        static String fill(const NumSub& num, const MapNas& nas, const MapNtn& ntn){
+        static String fill(NumSub const &num, MapNas const &nas, MapNtn const &ntn){
             return num[0];
         }
         
         private:
         //prevent onject instantiation.
         callback();
-        callback(const callback&);
+        callback(callback const &);
         ~callback();
     };
 
@@ -1859,13 +1857,13 @@ struct select{
     /// ## Example:
     ///
     /// ```cpp
-    /// jp::String callback5(const NumSub& m, void*, const MapNtn& n){
+    /// jp::String callback5(NumSub const &m, void*, MapNtn const &n){
     ///     return m[0];
     /// }
-    /// jp::String callback4(void*, void*, const MapNtn& n){
+    /// jp::String callback4(void*, void*, MapNtn const &n){
     ///     return jpcre2::ConvInt<char>::toString(n.at("name")); //position of group 'name'.
     /// }
-    /// jp::String callback2(void*, const MapNas& m, void*){
+    /// jp::String callback2(void*, MapNas const &m, void*){
     ///     return m.at('name'); //substring by name
     /// }
     ///
@@ -1897,13 +1895,13 @@ struct select{
         VecOff vec_eoff;
         int callbackn;
         typename MatchEvaluatorCallback<void*, void*, void*>::Callback callback0;
-        typename MatchEvaluatorCallback<const NumSub&, void*, void*>::Callback callback1;
-        typename MatchEvaluatorCallback<void*, const MapNas&, void*>::Callback callback2;
-        typename MatchEvaluatorCallback<const NumSub&, const MapNas&, void*>::Callback callback3;
-        typename MatchEvaluatorCallback<void*, void*, const MapNtN&>::Callback callback4;
-        typename MatchEvaluatorCallback<const NumSub&, void*, const MapNtN&>::Callback callback5;
-        typename MatchEvaluatorCallback<void*, const MapNas&, const MapNtN&>::Callback callback6;
-        typename MatchEvaluatorCallback<const NumSub&, const MapNas&, const MapNtN&>::Callback callback7;
+        typename MatchEvaluatorCallback<NumSub const &, void*, void*>::Callback callback1;
+        typename MatchEvaluatorCallback<void*, MapNas const &, void*>::Callback callback2;
+        typename MatchEvaluatorCallback<NumSub const &, MapNas const &, void*>::Callback callback3;
+        typename MatchEvaluatorCallback<void*, void*, MapNtN const &>::Callback callback4;
+        typename MatchEvaluatorCallback<NumSub const &, void*, MapNtN const &>::Callback callback5;
+        typename MatchEvaluatorCallback<void*, MapNas const &, MapNtN const &>::Callback callback6;
+        typename MatchEvaluatorCallback<NumSub const &, MapNas const &, MapNtN const &>::Callback callback7;
         //Q: Why the callback names seem random? is it random?
         //A: No, it's not random, NumSub = 1, MapNas = 2, MapNtn = 4, thus:
         //     NumSub + MapNas = 3
@@ -1946,7 +1944,7 @@ struct select{
             }
         }
         
-        void onlyCopy(const MatchEvaluator& me){
+        void onlyCopy(MatchEvaluator const &me){
             callbackn = me.callbackn;
             callback0 = me.callback0;
             callback1 = me.callback1;
@@ -1960,7 +1958,7 @@ struct select{
             setVectorPointersAccordingToCallback(); 
         }
         
-        void deepCopy(const MatchEvaluator& me) {
+        void deepCopy(MatchEvaluator const &me) {
             vec_num = me.vec_num;
             vec_nas = me.vec_nas;
             vec_ntn = me.vec_ntn;
@@ -2052,7 +2050,7 @@ struct select{
         ///Underlying data is not modified.
         ///@param r constant Regex pointer.
         explicit
-        MatchEvaluator(const Regex *r):RegexMatch(r){
+        MatchEvaluator(Regex const *r):RegexMatch(r){
             init();
         }
         
@@ -2081,7 +2079,7 @@ struct select{
         ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallback<const NumSub&, void*, void*>::Callback mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<NumSub const &, void*, void*>::Callback mef): RegexMatch(){
             init();
             setMatchEvaluatorCallback(mef);
         }
@@ -2091,7 +2089,7 @@ struct select{
         ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, void*>::Callback mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, void*>::Callback mef): RegexMatch(){
             init();
             setMatchEvaluatorCallback(mef);
         }
@@ -2101,7 +2099,7 @@ struct select{
         ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallback<const NumSub&, void*,  const MapNtN&>::Callback mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<NumSub const &, void*,  MapNtN const &>::Callback mef): RegexMatch(){
             init();
             setMatchEvaluatorCallback(mef);
         }
@@ -2111,7 +2109,7 @@ struct select{
         ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, const MapNtN&>::Callback mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, MapNtN const &>::Callback mef): RegexMatch(){
             init();
             setMatchEvaluatorCallback(mef);
         }
@@ -2121,7 +2119,7 @@ struct select{
         ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallback<void*, const MapNas&, void*>::Callback mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<void*, MapNas const &, void*>::Callback mef): RegexMatch(){
             init();
             setMatchEvaluatorCallback(mef);
         }
@@ -2132,7 +2130,7 @@ struct select{
         ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallback<void*, const MapNas&,  const MapNtN&>::Callback mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<void*, MapNas const &,  MapNtN const &>::Callback mef): RegexMatch(){
             init();
             setMatchEvaluatorCallback(mef);
         }
@@ -2144,7 +2142,7 @@ struct select{
         ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
-        MatchEvaluator(typename MatchEvaluatorCallback<void*, void*,  const MapNtN&>::Callback mef): RegexMatch(){
+        MatchEvaluator(typename MatchEvaluatorCallback<void*, void*,  MapNtN const &>::Callback mef): RegexMatch(){
             init();
             setMatchEvaluatorCallback(mef);
         }
@@ -2155,7 +2153,7 @@ struct select{
         /// ...
         ///Copy constructor.
         ///@param me Reference to MatchEvaluator object
-        MatchEvaluator(const MatchEvaluator& me): RegexMatch(me){
+        MatchEvaluator(MatchEvaluator const &me): RegexMatch(me){
             init();
             deepCopy(me);
         }
@@ -2163,7 +2161,7 @@ struct select{
         ///Overloaded copy-assignment operator
         ///@param me MatchEvaluator object
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& operator=(const MatchEvaluator& me){
+        MatchEvaluator& operator=(MatchEvaluator const &me){
             if(this == &me) return *this;
             RegexMatch::operator=(me);
             deepCopy(me);
@@ -2220,7 +2218,7 @@ struct select{
         ///You will be working with a constant reference to the vector.
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, void*, void*>::Callback mef){
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<NumSub const &, void*, void*>::Callback mef){
             callback1 = mef;
             callbackn = 1;
             setNumberedSubstringVector(&vec_num);
@@ -2243,7 +2241,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, void*>::Callback mef){
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, void*>::Callback mef){
             callback3 = mef;
             callbackn = 3;
             setNumberedSubstringVector(&vec_num);
@@ -2267,7 +2265,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, void*,  const MapNtN&>::Callback mef){
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<NumSub const &, void*,  MapNtN const &>::Callback mef){
             callback5 = mef;
             callbackn = 5;
             setNumberedSubstringVector(&vec_num);
@@ -2292,7 +2290,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<const NumSub&, const MapNas&, const MapNtN&>::Callback mef){
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, MapNtN const &>::Callback mef){
             callback7 = mef;
             callbackn = 7;
             setNumberedSubstringVector(&vec_num);
@@ -2317,7 +2315,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, const MapNas&, void*>::Callback mef){
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, MapNas const &, void*>::Callback mef){
             callback2 = mef;
             callbackn = 2;
             setNamedSubstringVector(&vec_nas);
@@ -2340,7 +2338,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, const MapNas&,  const MapNtN&>::Callback mef){
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, MapNas const &,  MapNtN const &>::Callback mef){
             callback6 = mef;
             callbackn = 6;
             setNamedSubstringVector(&vec_nas);
@@ -2364,7 +2362,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, void*,  const MapNtN&>::Callback mef){
+        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, void*,  MapNtN const &>::Callback mef){
             callback4 = mef;
             callbackn = 4;
             setNameToNumberMapVector(&vec_ntn);
@@ -2407,7 +2405,7 @@ struct select{
         ///Call RegexMatch::setRegexObject(r).
         ///@param r constant Regex object pointer
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setRegexObject (const Regex *r){
+        MatchEvaluator& setRegexObject (Regex const *r){
             RegexMatch::setRegexObject(r);
             return *this;
         }
@@ -2420,10 +2418,10 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::setSubject(const String &s).
+        ///Call RegexMatch::setSubject(String const &s).
         ///@param s subject string by constant reference.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setSubject (const String &s){
+        MatchEvaluator& setSubject (String const &s){
             RegexMatch::setSubject(s);
             return *this;
         }
@@ -2439,15 +2437,15 @@ struct select{
         ///@overload
         ///@param s subject string by pointer
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setSubject (const String *s){
+        MatchEvaluator& setSubject (String const *s){
             RegexMatch::setSubject(s);
             return *this;
         }
         
-        ///Call RegexMatch::setModifier(const Modifier&s).
-        ///@param s modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
+        ///Call RegexMatch::setModifier(Modifier const &s).
+        ///@param s modifier string, null pointer will produce undefined behavior because of std::string constructor that takes char const *.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setModifier (const Modifier& s){
+        MatchEvaluator& setModifier (Modifier const &s){
             RegexMatch::setModifier(s);
             return *this;
         }
@@ -2499,11 +2497,11 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::changeModifier(const Modifier&mod, bool x).
+        ///Call RegexMatch::changeModifier(Modifier const &mod, bool x).
         ///@param mod modifier string.
         ///@param x true (add) or false (remove).
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& changeModifier (const Modifier& mod, bool x){
+        MatchEvaluator& changeModifier (Modifier const &mod, bool x){
             RegexMatch::changeModifier(mod, x);
             return *this;
         }
@@ -2526,10 +2524,10 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::addModifier(const Modifier&mod).
+        ///Call RegexMatch::addModifier(Modifier const &mod).
         ///@param mod modifier string.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& addModifier (const Modifier& mod){
+        MatchEvaluator& addModifier (Modifier const &mod){
             RegexMatch::addModifier(mod);
             return *this;
         }
@@ -2606,12 +2604,12 @@ struct select{
 
     private: 
 
-        const Regex* re;      
+        Regex const *re;      
 
         String r_subject;
-        const String* r_subject_ptr;
+        String const *r_subject_ptr;
         String r_replw;
-        const String* r_replw_ptr;
+        String const *r_replw_ptr;
         Uint replace_opts;          
         Uint jpcre2_replace_opts;  
         PCRE2_SIZE buffer_size;     
@@ -2635,7 +2633,7 @@ struct select{
             mcontext = 0;
         }
         
-        void onlyCopy(const RegexReplace& rr){
+        void onlyCopy(RegexReplace const &rr){
             re = rr.re; //only pointer should be copied.
             
             //rr.r_subject_ptr may point to rr.r_subject or other user data
@@ -2657,7 +2655,7 @@ struct select{
             mcontext = rr.mcontext;
         }
 
-        void deepCopy(const RegexReplace& rr){
+        void deepCopy(RegexReplace const &rr){
             r_subject = rr.r_subject;
             onlyCopy(rr);
         }
@@ -2684,7 +2682,7 @@ struct select{
         ///Creates a RegexReplace object associating a Regex object.
         ///Regex object is not modified.
         ///@param r pointer to a Regex object
-        RegexReplace(const Regex * r) { 
+        RegexReplace(Regex const *r) { 
             init_vars();
             re = r;
         }
@@ -2703,7 +2701,7 @@ struct select{
         ///...
         ///Copy constructor.
         ///@param rr RegexReplace object reference
-        RegexReplace(const RegexReplace& rr){
+        RegexReplace(RegexReplace const &rr){
             init_vars();
             deepCopy(rr);
         }
@@ -2711,7 +2709,7 @@ struct select{
         ///Overloaded Copy assignment operator.
         ///@param rr RegexReplace object reference
         ///@return A reference to the calling RegexReplace object
-        RegexReplace& operator=(const RegexReplace& rr){
+        RegexReplace& operator=(RegexReplace const &rr){
             if(this == &rr) return *this;
             deepCopy(rr);
             return *this;
@@ -2751,7 +2749,6 @@ struct select{
     
         /// Clear all class variables to its default (initial) state.
         ///@return Reference to the calling RegexReplace object.
-        ///     
         RegexReplace& clear() { 
             r_subject.clear();
             r_replw.clear();
@@ -2799,7 +2796,7 @@ struct select{
         
         /// Get pointer to replacement string
         ///@return pointer to replacement string
-        const String* getReplaceWithPointer() const  { 
+        String const * getReplaceWithPointer() const  { 
             return r_replw_ptr; 
         } 
 
@@ -2813,7 +2810,7 @@ struct select{
         /// Get pointer to subject string
         ///@return Pointer to subject string
         ///@see RegexMatch::getSubjectPointer()
-        const String* getSubjectPointer() const  { 
+        String const *  getSubjectPointer() const  { 
             return r_subject_ptr; 
         } 
 
@@ -2832,7 +2829,6 @@ struct select{
         /// @return Calculated modifier string (std::string)
         ///@see RegexMatch::getModifier()
         ///@see Regex::getModifier()
-        ///
         std::string getModifier() const {
             return Modifier().fromOptionR(replace_opts, jpcre2_replace_opts).str();
         }
@@ -2847,7 +2843,6 @@ struct select{
         ///@return PCRE2 option for replace
         ///@see Regex::getPcre2Option()
         ///@see RegexMatch::getPcre2Option()
-        ///
         Uint getPcre2Option() const  { 
             return replace_opts; 
         } 
@@ -2856,7 +2851,6 @@ struct select{
         ///@return JPCRE2 option  for replace
         ///@see Regex::getJpcre2Option()
         ///@see RegexMatch::getJpcre2Option()
-        ///
         Uint getJpcre2Option() const  { 
             return jpcre2_replace_opts; 
         }
@@ -2864,7 +2858,7 @@ struct select{
         ///Get a pointer to the associated Regex object.
         ///If no actual Regex object is associated, null is returned
         ///@return A pointer to the associated Regex object or null
-        const Regex* getRegexObject() const {
+        Regex const * getRegexObject() const {
             return re;
         }
         
@@ -2872,7 +2866,7 @@ struct select{
         ///Regex object is not modified.
         ///@param r Pointer to a Regex object.
         ///@return Reference to the calling RegexReplace object.
-        RegexReplace& setRegexObject(const Regex* r){
+        RegexReplace& setRegexObject(Regex const *r){
             re = r;
             return *this;
         }
@@ -2893,8 +2887,7 @@ struct select{
         ///@param s Subject string 
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setSubject()
-        ///
-        RegexReplace& setSubject(const String& s) { 
+        RegexReplace& setSubject(String const &s) { 
             r_subject = s; 
             r_subject_ptr = &r_subject; //must overwrite
             return *this; 
@@ -2905,7 +2898,6 @@ struct select{
         ///@param s reference to the subject string
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setSubject()
-        ///
         RegexReplace& setSubject(String& s) {
             r_subject_ptr = &s; //must overwrite
             return *this; 
@@ -2917,8 +2909,7 @@ struct select{
         ///@param s Pointer to subject string
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setSubject()
-        ///
-        RegexReplace& setSubject(const String* s) {
+        RegexReplace& setSubject(String const *s) {
             if(s) r_subject_ptr = s;
             else {
                 r_subject.clear();
@@ -2939,8 +2930,7 @@ struct select{
         ///
         ///@param s String to replace with 
         ///@return Reference to the calling RegexReplace object
-        ///
-        RegexReplace& setReplaceWith(const String& s) { 
+        RegexReplace& setReplaceWith(String const &s) { 
             r_replw = s;
             r_replw_ptr = &r_replw; //must overwrite
             return *this; 
@@ -2949,7 +2939,6 @@ struct select{
         ///@overload
         ///@param s String to replace with 
         ///@return Reference to the calling RegexReplace object
-        ///
         RegexReplace& setReplaceWith(String& s) { 
             r_replw_ptr = &s; //must overwrite
             return *this; 
@@ -2959,8 +2948,7 @@ struct select{
         ///...
         ///@param s Pointer to the string to replace with, null pointer unsets it.
         ///@return Reference to the calling RegexReplace object
-        ///
-        RegexReplace& setReplaceWith(const String* s) {
+        RegexReplace& setReplaceWith(String const *s) {
             if(s) r_replw_ptr = s;
             else {
                 r_replw.clear();
@@ -2973,12 +2961,11 @@ struct select{
         ///
         ///**Note:** If speed of operation is very crucial, use RegexReplace::setJpcre2Option() and RegexReplace::setPcre2Option()
         ///with equivalent options. It will be faster that way.
-        ///@param s Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*.
+        ///@param s Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes char const *.
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setModifier()
         ///@see Regex::setModifier()
-
-        RegexReplace& setModifier(const Modifier& s) { 
+        RegexReplace& setModifier(Modifier const &s) { 
             replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; /* must not be initialized to 0 */ 
             jpcre2_replace_opts = 0; 
             return changeModifier(s, true); 
@@ -3061,7 +3048,7 @@ struct select{
         /// @return Reference to the RegexReplace object
         /// @see Regex::changeModifier()
         /// @see RegexMatch::changeModifier()
-        RegexReplace& changeModifier(const Modifier& mod, bool x){
+        RegexReplace& changeModifier(Modifier const &mod, bool x){
             mod.toOptionR(x, &replace_opts, &jpcre2_replace_opts, &error_number, &error_offset);
             return *this;
         }
@@ -3106,7 +3093,7 @@ struct select{
         /// @return Reference to the calling RegexReplace object
         /// @see RegexMatch::addModifier()
         /// @see Regex::addModifier()
-        RegexReplace& addModifier(const Modifier& mod){ 
+        RegexReplace& addModifier(Modifier const &mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -3115,7 +3102,6 @@ struct select{
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::addJpcre2Option()
         ///@see Regex::addJpcre2Option()
-        ///
         RegexReplace& addJpcre2Option(Uint x) { 
             jpcre2_replace_opts |= x; 
             return *this; 
@@ -3126,7 +3112,6 @@ struct select{
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::addPcre2Option()
         ///@see Regex::addPcre2Option()
-        ///
         RegexReplace& addPcre2Option(Uint x) { 
             replace_opts |= x; 
             return *this; 
@@ -3190,7 +3175,7 @@ struct select{
     private: 
 
         String pat_str;
-        const String* pat_str_ptr;
+        String const *pat_str_ptr;
         Pcre2Code *code;            
         Uint compile_opts;         
         Uint jpcre2_compile_opts;
@@ -3224,7 +3209,7 @@ struct select{
         friend class RegexMatch;    
         friend class RegexReplace; 
 
-        void onlyCopy(const Regex& r){
+        void onlyCopy(Regex const &r){
             //r.pat_str_ptr may point to other user data
             if(r.pat_str_ptr == &r.pat_str) pat_str_ptr = &pat_str; //not r.pat_str
             else pat_str_ptr = r.pat_str_ptr; //other user data
@@ -3235,7 +3220,7 @@ struct select{
             error_offset = r.error_offset; 
         }
 
-        void deepCopy(const Regex& r) {
+        void deepCopy(Regex const &r) {
             pat_str = r.pat_str; //must not use setPattern() here
             
             onlyCopy(r);
@@ -3287,18 +3272,15 @@ struct select{
             init_vars();
         } 
 
-        ///
         ///Compile pattern with initialization.
         /// @param re Pattern string 
-        ///
-        Regex(const String& re) {
+        Regex(String const &re) {
             init_vars();
             compile(re); 
         } 
 
         /// @overload
         /// @param re Pattern string 
-        ///
         Regex(String& re) {
             init_vars();
             compile(re); 
@@ -3306,8 +3288,7 @@ struct select{
 
         ///  @overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
-        ///
-        Regex(const String* re) {
+        Regex(String const *re) {
             init_vars();
             compile(re); 
         } 
@@ -3315,8 +3296,7 @@ struct select{
         ///@overload
         /// @param re Pattern string (const reference).
         /// @param mod Modifier string.
-        ///
-        Regex(const String& re, const Modifier& mod) {
+        Regex(String const &re, Modifier const &mod) {
             init_vars();
             compile(re, mod); 
         } 
@@ -3324,8 +3304,7 @@ struct select{
         ///@overload
         /// @param re Pattern string .
         /// @param mod Modifier string.
-        ///
-        Regex(String& re, const Modifier& mod) {
+        Regex(String& re, Modifier const &mod) {
             init_vars();
             compile(re, mod); 
         } 
@@ -3333,8 +3312,7 @@ struct select{
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param mod Modifier string.
-        ///
-        Regex(const String* re, const Modifier& mod) {
+        Regex(String const *re, Modifier const &mod) {
             init_vars();
             compile(re, mod); 
         }
@@ -3342,8 +3320,7 @@ struct select{
         ///@overload
         /// @param re Pattern string .
         /// @param po PCRE2 option value
-        ///
-        Regex(const String& re, Uint po) {
+        Regex(String const &re, Uint po) {
             init_vars();
             compile(re, po); 
         } 
@@ -3351,7 +3328,6 @@ struct select{
         ///@overload
         /// @param re Pattern string .
         /// @param po PCRE2 option value
-        ///
         Regex(String& re, Uint po) {
             init_vars();
             compile(re, po); 
@@ -3360,8 +3336,7 @@ struct select{
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param po PCRE2 option value
-        ///
-        Regex(const String* re, Uint po) {
+        Regex(String const *re, Uint po) {
             init_vars();
             compile(re, po); 
         } 
@@ -3370,8 +3345,7 @@ struct select{
         /// @param re Pattern string .
         /// @param po    PCRE2 option value
         /// @param jo    JPCRE2 option value
-        ///
-        Regex(const String& re, Uint po, Uint jo) {
+        Regex(String const &re, Uint po, Uint jo) {
             init_vars();
             compile(re, po, jo); 
         } 
@@ -3380,7 +3354,6 @@ struct select{
         /// @param re Pattern string 
         /// @param po    PCRE2 option value
         /// @param jo    JPCRE2 option value
-        ///
         Regex(String& re, Uint po, Uint jo) {
             init_vars();
             compile(re, po, jo); 
@@ -3390,8 +3363,7 @@ struct select{
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param po    PCRE2 option value
         /// @param jo    JPCRE2 option value
-        ///
-        Regex(const String* re, Uint po, Uint jo) {
+        Regex(String const *re, Uint po, Uint jo) {
             init_vars();
             compile(re, po, jo); 
         } 
@@ -3402,16 +3374,16 @@ struct select{
         /// A separate and new compile is performed from the copied options.
         ///
         /// @param r Constant reference to a Regex object.
-        Regex(const Regex& r) {
+        Regex(Regex const &r) {
             init_vars();
             deepCopy(r);
         } 
         
         /// Overloaded assignment operator.
         ///Thread safety: same as `Regex::compile()`.
-        /// @param r const Regex&
+        /// @param r Regex const &
         /// @return *this
-        Regex& operator=(const Regex& r) { 
+        Regex& operator=(Regex const &r) { 
             if (this == &r) return *this;
             deepCopy(r); 
             return *this; 
@@ -3499,7 +3471,6 @@ struct select{
         /// }
         /// ```
         /// @return true if regex compile failed, false otherwise.
-        ///
         bool operator!() const { 
             return (code == 0); 
         } 
@@ -3512,7 +3483,6 @@ struct select{
         /// Clear all class variables to its default (initial) state.
         ///Release any memory used by existing compiled pattern, RegexMatch, RegexReplace objects etc..
         ///@return Reference to the calling Regex object.
-        ///
         Regex& clear() { 
             freeRegexMemory();
             freeCompileContext();
@@ -3554,15 +3524,13 @@ struct select{
 
         /// Get pattern string
         ///@return pattern string of type jpcre2::select::String
-        ///
         String getPattern() const  { 
             return *pat_str_ptr; 
         }
         
         /// Get pointer to pattern string
         ///@return Pointer to pattern string
-        ///
-        const String* getPatternPointer() const  { 
+        String const * getPatternPointer() const  { 
             return pat_str_ptr; 
         }
 
@@ -3582,7 +3550,6 @@ struct select{
         /// @return Calculated modifier string (std::string)
         ///@see RegexMatch::getModifier()
         ///@see RegexReplace::getModifier()
-        ///
         std::string getModifier() const {
             return Modifier().fromOptionC(compile_opts, jpcre2_compile_opts).str();
         }
@@ -3591,7 +3558,6 @@ struct select{
         /// @return Compile time PCRE2 option value
         ///@see RegexReplace::getPcre2Option()
         ///@see RegexMatch::getPcre2Option()
-        ///
         Uint getPcre2Option() const  { 
             return compile_opts; 
         } 
@@ -3600,7 +3566,6 @@ struct select{
         /// @return Compile time JPCRE2 option value
         ///@see RegexReplace::getJpcre2Option()
         ///@see RegexMatch::getJpcre2Option()
-        ///
         Uint getJpcre2Option() const  { 
             return jpcre2_compile_opts; 
         } 
@@ -3662,7 +3627,7 @@ struct select{
         /// Set the pattern string to compile
         /// @param re Pattern string 
         /// @return Reference to the calling Regex object.
-        Regex& setPattern(const String& re) { 
+        Regex& setPattern(String const &re) { 
             pat_str = re;
             pat_str_ptr = &pat_str; //must overwrite
             return *this; 
@@ -3680,7 +3645,7 @@ struct select{
         /// @overload
         /// @param re Pattern string pointer, null pointer will unset it.
         /// @return Reference to the calling Regex object.
-        Regex& setPattern(const String* re) {
+        Regex& setPattern(String const *re) {
             if(re) pat_str_ptr = re;
             else {
                 pat_str.clear();
@@ -3692,11 +3657,11 @@ struct select{
         /// set the modifier (clears all JPCRE2 and PCRE2 options) by calling Regex::changeModifier().
         /// Re-initializes the option bits for PCRE2 and JPCRE2 options, then parses the modifier and sets
         /// equivalent PCRE2 and JPCRE2 options.
-        /// @param x Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes const char*
+        /// @param x Modifier string, null pointer will produce undefined behavior because of std::string constructor that takes char const *
         /// @return Reference to the calling Regex object.
         /// @see RegexMatch::setModifier()
         /// @see RegexReplace::setModifier()
-        Regex& setModifier(const Modifier& x) { 
+        Regex& setModifier(Modifier const &x) { 
             compile_opts = 0; 
             jpcre2_compile_opts = 0; 
             return changeModifier(x, true); 
@@ -3734,7 +3699,7 @@ struct select{
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::changeModifier()
         /// @see RegexReplace::changeModifier()
-        Regex& changeModifier(const Modifier& mod, bool x){
+        Regex& changeModifier(Modifier const &mod, bool x){
             mod.toOptionC(x, &compile_opts, &jpcre2_compile_opts, &error_number, &error_offset);
             return *this;
         }
@@ -3774,7 +3739,7 @@ struct select{
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::addModifier()
         /// @see RegexReplace::addModifier()
-        Regex& addModifier(const Modifier& mod){ 
+        Regex& addModifier(Modifier const &mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -3799,11 +3764,10 @@ struct select{
         } 
 
         ///Compile pattern using info from class variables.
-        ///@see Regex::compile(const String& re, Uint po, Uint jo)
-        ///@see Regex::compile(const String& re, Uint po)
-        ///@see Regex::compile(const String& re, const Modifier& mod)
-        ///@see Regex::compile(const String& re)
-        ///
+        ///@see Regex::compile(String const &re, Uint po, Uint jo)
+        ///@see Regex::compile(String const &re, Uint po)
+        ///@see Regex::compile(String const &re, Modifier const &mod)
+        ///@see Regex::compile(String const &re)
         void compile(void); 
 
         ///@overload
@@ -3812,8 +3776,7 @@ struct select{
         /// @param re Pattern string 
         /// @param po PCRE2 option
         /// @param jo JPCRE2 option
-        ///
-        void compile(const String& re, Uint po, Uint jo) { 
+        void compile(String const &re, Uint po, Uint jo) { 
             setPattern(re).setPcre2Option(po).setJpcre2Option(jo);
             compile(); 
         } 
@@ -3822,7 +3785,6 @@ struct select{
         /// @param re Pattern string .
         /// @param po PCRE2 option.
         /// @param jo JPCRE2 option.
-        ///
         void compile(String& re, Uint po, Uint jo) {
             setPattern(re).setPcre2Option(po).setJpcre2Option(jo);
             compile(); 
@@ -3833,8 +3795,7 @@ struct select{
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param po PCRE2 option
         /// @param jo JPCRE2 option
-        ///
-        void compile(const String* re, Uint po, Uint jo) { 
+        void compile(String const *re, Uint po, Uint jo) { 
             setPattern(re).setPcre2Option(po).setJpcre2Option(jo);
             compile(); 
         } 
@@ -3842,8 +3803,7 @@ struct select{
         ///@overload
         /// @param re Pattern string 
         /// @param po PCRE2 option
-        ///
-        void compile(const String& re, Uint po) { 
+        void compile(String const &re, Uint po) { 
             setPattern(re).setPcre2Option(po);
             compile(); 
         } 
@@ -3851,7 +3811,6 @@ struct select{
         ///@overload
         /// @param re Pattern string 
         /// @param po PCRE2 option
-        ///
         void compile(String& re, Uint po) { 
             setPattern(re).setPcre2Option(po);
             compile(); 
@@ -3860,8 +3819,7 @@ struct select{
         ///@overload
         /// @param re  Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param po PCRE2 option
-        ///
-        void compile(const String* re, Uint po) { 
+        void compile(String const *re, Uint po) { 
             setPattern(re).setPcre2Option(po);
             compile(); 
         } 
@@ -3869,8 +3827,7 @@ struct select{
         /// @overload
         /// @param re Pattern string 
         /// @param mod Modifier string.
-        ///
-        void compile(const String& re, const Modifier& mod) { 
+        void compile(String const &re, Modifier const &mod) { 
             setPattern(re).setModifier(mod);
             compile(); 
         } 
@@ -3878,8 +3835,7 @@ struct select{
         /// @overload
         /// @param re Pattern string 
         /// @param mod Modifier string.
-        ///
-        void compile(String& re, const Modifier& mod) { 
+        void compile(String& re, Modifier const &mod) { 
             setPattern(re).setModifier(mod);
             compile(); 
         } 
@@ -3887,23 +3843,20 @@ struct select{
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param mod Modifier string.
-        ///
-        void compile(const String* re, const Modifier& mod) {
+        void compile(String const *re, Modifier const &mod) {
             setPattern(re).setModifier(mod);
             compile(); 
         } 
 
         ///@overload
         /// @param re Pattern string .
-        ///
-        void compile(const String& re) { 
+        void compile(String const &re) { 
             setPattern(re);
             compile(); 
         } 
 
         ///@overload
         /// @param re Pattern string .
-        ///
         void compile(String& re) { 
             setPattern(re);
             compile(); 
@@ -3911,8 +3864,7 @@ struct select{
 
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
-        ///
-        void compile(const String* re) {
+        void compile(String const *re) {
             setPattern(re);
             compile(); 
         } 
@@ -3930,8 +3882,7 @@ struct select{
         /// @param start_offset Offset from where matching will start in the subject string.
         /// @return Match count
         /// @see RegexMatch::match()
-        ///
-        SIZE_T match(const String& s, const Modifier& mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(String const &s, Modifier const &mod, PCRE2_SIZE start_offset=0) {
             return RegexMatch(this).setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         } 
         
@@ -3943,8 +3894,7 @@ struct select{
         /// @param start_offset Offset from where matching will start in the subject string.
         /// @return Match count
         /// @see RegexMatch::match()
-        ///
-        SIZE_T match(String& s, const Modifier& mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(String& s, Modifier const &mod, PCRE2_SIZE start_offset=0) {
             return RegexMatch(this).setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         } 
         
@@ -3955,7 +3905,7 @@ struct select{
         ///@param mod Modifier string.
         ///@param start_offset Offset from where matching will start in the subject string.
         ///@return Match count
-        SIZE_T match(const String* s, const Modifier& mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(String const *s, Modifier const &mod, PCRE2_SIZE start_offset=0) {
             return RegexMatch(this).setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         }
         
@@ -3966,8 +3916,7 @@ struct select{
         /// @param start_offset Offset from where matching will start in the subject string.
         /// @return Match count
         /// @see RegexMatch::match()
-        ///
-        SIZE_T match(const String& s,  PCRE2_SIZE start_offset=0) { 
+        SIZE_T match(String const &s,  PCRE2_SIZE start_offset=0) { 
             return RegexMatch(this).setStartOffset(start_offset).setSubject(s).match(); 
         } 
 
@@ -3978,7 +3927,6 @@ struct select{
         /// @param start_offset Offset from where matching will start in the subject string.
         /// @return Match count
         /// @see RegexMatch::match()
-        ///
         SIZE_T match(String& s,  PCRE2_SIZE start_offset=0) { 
             return RegexMatch(this).setStartOffset(start_offset).setSubject(s).match(); 
         } 
@@ -3990,8 +3938,7 @@ struct select{
         /// @param start_offset Offset from where matching will start in the subject string.
         /// @return Match count
         /// @see RegexMatch::match()
-        ///
-        SIZE_T match(const String* s,  PCRE2_SIZE start_offset=0) { 
+        SIZE_T match(String const *s,  PCRE2_SIZE start_offset=0) { 
             return RegexMatch(this).setStartOffset(start_offset).setSubject(s).match(); 
         }
         
@@ -4009,8 +3956,7 @@ struct select{
         /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        ///
-        String replace(const String& mains, const String& repl, const Modifier& mod="") { 
+        String replace(String const &mains, String const &repl, Modifier const &mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -4021,8 +3967,7 @@ struct select{
         /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        ///
-        String replace(const String& mains, String& repl, const Modifier& mod="") { 
+        String replace(String const &mains, String& repl, Modifier const &mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -4033,8 +3978,7 @@ struct select{
         /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        ///
-        String replace(String& mains, const String& repl, const Modifier& mod="") { 
+        String replace(String& mains, String const &repl, Modifier const &mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -4045,8 +3989,7 @@ struct select{
         /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        ///
-        String replace(String& mains, String& repl, const Modifier& mod="") { 
+        String replace(String& mains, String& repl, Modifier const &mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -4057,8 +4000,7 @@ struct select{
         /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        ///
-        String replace(const String* mains, const String& repl, const Modifier& mod="") { 
+        String replace(String const *mains, String const &repl, Modifier const &mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -4069,8 +4011,7 @@ struct select{
         /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        ///
-        String replace(const String* mains, String& repl, const Modifier& mod="") { 
+        String replace(String const *mains, String& repl, Modifier const &mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -4082,8 +4023,7 @@ struct select{
         /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        ///
-        String replace(const String& mains, const String* repl, const Modifier& mod="") { 
+        String replace(String const &mains, String const *repl, Modifier const &mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -4095,8 +4035,7 @@ struct select{
         /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        ///
-        String replace(String& mains, const String* repl, const Modifier& mod="") { 
+        String replace(String& mains, String const *repl, Modifier const &mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
         
@@ -4108,8 +4047,7 @@ struct select{
         /// @param mod Modifier string.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        ///
-        String replace(const String* mains, const String* repl, const Modifier& mod="") { 
+        String replace(String const *mains, String const *repl, Modifier const &mod="") { 
             return RegexReplace(this).setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
     };
@@ -4117,7 +4055,7 @@ struct select{
     private:
     //prevent object instantiation of select class
     select();
-    select(const select&);
+    select(select const &);
     ~select();
 };//struct select
 }//jpcre2 namespace
