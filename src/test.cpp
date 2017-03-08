@@ -22,8 +22,8 @@
  * */
 
 #include <iostream>
-#include "jpcre2.hpp"
 #include <cassert>
+#include "jpcre2.hpp"
 
 
 typedef jpcre2::select<char> jp;
@@ -268,7 +268,44 @@ int main(){
     /*//checking the string converter with null input*/ \
     assert(jp::toString((jp::Char)0) == jp::String()); \
     assert(jp::toString((jp::Char*)0) == jp::String()); \
-    assert(jp::toString((jp::Pcre2Uchar*)0) == jp::String());
+    assert(jp::toString((jp::Pcre2Uchar*)0) == jp::String());\
+    jp::MatchEvaluator me;\
+    assert(me.match()==0);\
+    assert(me.nreplace()==jp::String()); \
+    me.setRegexObject(0); \
+    me.getErrorMessage(); \
+    me.getErrorNumber(); \
+    me.getErrorOffset(); \
+    me.getPcre2Option(); \
+    me.getJpcre2Option(); \
+    me.getModifier(); \
+    me.getStartOffset(); \
+    me.getSubject(); \
+    me.getSubjectPointer(); \
+    me.getRegexObject(); \
+    me.setJpcre2Option(0); \
+    me.setPcre2Option(0); \
+    me.changeJpcre2Option(0, true); \
+    me.changeJpcre2Option(0, false); \
+    me.changePcre2Option(0, true); \
+    me.changePcre2Option(0, false); \
+     \
+    me.addPcre2Option(0); \
+    me.getNumberedSubstringVector(); \
+    me.getNamedSubstringVector(); \
+    me.getNameToNumberMapVector(); \
+    me.changePcre2Option(PCRE2_ANCHORED, true); \
+    me.changePcre2Option(PCRE2_ANCHORED, false); \
+    me.addModifier("g"); \
+    me.addJpcre2Option(jpcre2::FIND_ALL); \
+    me.changeJpcre2Option(jpcre2::FIND_ALL,false); \
+    me.changeJpcre2Option(jpcre2::FIND_ALL,true); \
+    me.setFindAll(); \
+    me.setFindAll(false); \
+    me.changeModifier("gAgfdsf", false); \
+    jp::getErrorMessage(jpcre2::ERROR::INSUFFICIENT_OVECTOR, 0); \
+    me.getMatchEndOffsetVector();\
+    me.getMatchStartOffsetVector();\
     
     
 #define JPCRE2_JOIN(a,b) a ## b
@@ -297,6 +334,7 @@ int main(){
 #define vec_nas JPCRE2_SUFFIX(vec_nas)
 #define vec_soff JPCRE2_SUFFIX(vec_soff)
 #define vec_eoff JPCRE2_SUFFIX(vec_eoff)
+#define me JPCRE2_SUFFIX(me)
 
 #define JPCRE2_LOCAL_CHAR c
 #define TEXT "I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"

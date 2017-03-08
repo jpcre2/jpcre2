@@ -13,7 +13,8 @@ EXTRA_DIST += \
   test.cpp \
   testio.cpp \
   testme.cpp \
-  testcovme.cpp
+  testcovme.cpp \
+  testmd.cpp
 
 include_HEADERS = \
   jpcre2.hpp
@@ -108,8 +109,8 @@ test0_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-noinst_PROGRAMS += test testio testme
-TESTS += test testio testme
+noinst_PROGRAMS += test testio testme testmd
+TESTS += test testio testme testmd
 
 #Building test
 test_SOURCES = \
@@ -134,6 +135,15 @@ testme_SOURCES = \
   testme.cpp \
   $(JPCRE2_SOURCES)
 testme_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS) \
+  $(COVERAGE_FLAGS)
+  
+#Building testmd
+testmd_SOURCES = \
+  testme.cpp \
+  $(JPCRE2_SOURCES)
+testmd_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS) \
   $(COVERAGE_FLAGS)
@@ -231,7 +241,7 @@ endif
 
 check-local: $(thread_tests)
 	for test in $(thread_tests); do \
-	$(VALGRIND) --tool=helgrind ./$$test ; \
+	$(VALGRIND) --tool=drd ./$$test ; \
 	done
 endif
 
