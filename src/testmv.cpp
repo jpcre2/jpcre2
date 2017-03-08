@@ -1,32 +1,31 @@
 #include <iostream>
-#define JPCRE2_DISABLE_CHAR1632
-#include "jpcre2.hpp"
-#include <cstring>
+#include <pthread.h>
+//~ #define JPCRE2_DISABLE_CHAR1632
+//~ #include "jpcre2.hpp"
+//~ #include <cstring>
 
-using namespace jpcre2;
+//~ using namespace jpcre2;
+//~ #include <unistd.h>
 
 
+pthread_mutex_t mtx1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mtx2 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mtx3 = PTHREAD_MUTEX_INITIALIZER;
+pthread_attr_t tha1;
 
-
-
+void* fun1(void*){ return 0; }
+void* fun2(void*){ return 0; }
 
 int main(){
+    pthread_t th1, th2;
+    pthread_attr_init(&tha1); 
+    pthread_attr_setdetachstate(&tha1, PTHREAD_CREATE_DETACHED);
     
-    //~ size_t sj = sizeof(MOD::MJ_V)/sizeof(Uint);
-    //~ size_t s =  sizeof(MOD::M_V)/sizeof(Uint);
-    Uint po=0,jo=0;
-    int en=0;
-    size_t eo=0;
-    Modifier("").toOptionM(true, &po,&jo,&en,&eo);
+    pthread_create( &th1, &tha1, fun1, 0);
+    pthread_create( &th2, &tha1, fun2, 0);
     
-    std::cout<<en<<(char)eo<<po;
-    
-    std::vector<std::string> v;
-    v.push_back("fds");
-    
-    std::vector<std::string> v1;
-    v1 = std::move(v);
-    std::vector<std::string>().swap(v);
-   
+    pthread_attr_destroy(&tha1);
+    //~ pthread_exit((void*) 0);
     return 0;
+
 }

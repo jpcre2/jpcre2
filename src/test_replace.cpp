@@ -27,7 +27,7 @@ int main(){
     
     jp::RegexReplace rr;
     std::cout<<"\nreplaced string: \n"<<
-    rr.setRegexObject(&re)                                              //set associated Regex object
+    rr.setRegexObject(re)                                               //set associated Regex object
       .setSubject(s)                                                    //Set various parameters
       .setReplaceWith("(replaced:$1)(replaced:$2)(replaced:${word})")   //...
       .addModifier("xEafds")                                            //

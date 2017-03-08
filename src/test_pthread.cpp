@@ -13,7 +13,7 @@ typedef jpcre2::select<char> jp;
 pthread_mutex_t mtx1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mtx2 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mtx3 = PTHREAD_MUTEX_INITIALIZER;
-
+pthread_attr_t thattr;
 
 void sleep(double sec){
     clock_t st = clock();
@@ -21,7 +21,8 @@ void sleep(double sec){
 }
 
 
-//this is an example how you can use pre-defined data objects in multithreaded program.
+//This is an example how you can use pre-defined data objects in multithreaded program which
+//will act independently of one another without any lock:
 //The logic is to wrap your objects inside another class and initialize them with constructor.
 //Thus when you create objects of this wrapper class, they will have identical member objects.
 //see the task() function that is using this class as a wrapper class to save 5 Regex objects.
@@ -62,7 +63,7 @@ void* thread_safe_fun2(void*){ //uses no global or static variable, thus thread 
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t2";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.02);
+        sleep(0.009);
     }
     return 0;
 }
@@ -76,7 +77,7 @@ void* thread_safe_fun3(void*){//uses no global or static variable, thus thread s
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t3";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.015);
+        sleep(0.0095);
     }
     return 0;
 }
@@ -85,7 +86,9 @@ jp::Regex rec("\\w", "g");
 
 void* thread_safe_fun4(void*){
     //uses global variable 'rec', but uses
-    //mutex lock, thus thread safe:
+    //mutex lock, thus thread safe when the thread is joined with the main thread.
+    //But when thread is detached from the main thread, it won't be thread safe any more,
+    //Because, the main thread will destroy the rec object while possibly being used by the detached child thread.
     pthread_mutex_lock(&mtx1);
     jp::RegexMatch rm(&rec);
     rm.setSubject("fdsf").setModifier("g").match();
@@ -95,26 +98,23 @@ void* thread_safe_fun4(void*){
         pthread_mutex_lock(&mtx2);
         std::cout<<"\t4";
         pthread_mutex_unlock(&mtx2);
-        sleep(0.017);
+        sleep(0.008);
     }
     return 0;
 }
 
 int main(){
-    pthread_t th[5];
+    pthread_t th1, th2, th3, th4;
+    pthread_attr_init(&thattr);
+    pthread_attr_setdetachstate(&thattr, PTHREAD_CREATE_DETACHED);
     
-    if(pthread_create( &th[1], 0, thread_safe_fun1, 0));
-    else pthread_join(th[1],0);
-    
-    if(pthread_create( &th[2], 0, thread_safe_fun2, 0));
-    else pthread_join(th[2],0);
-    
-    if(pthread_create( &th[3], 0, thread_safe_fun3, 0));
-    else pthread_join(th[3],0);
-    
-    if(pthread_create( &th[4], 0, thread_safe_fun4, 0));
-    else pthread_join(th[4],0);
+    if(pthread_create( &th1, &thattr, thread_safe_fun1, 0));
+    if(pthread_create( &th2, &thattr, thread_safe_fun2, 0));
+    if(pthread_create( &th3, &thattr, thread_safe_fun3, 0));
+    if(pthread_create( &th4, 0, thread_safe_fun4, 0));
+    else pthread_join(th4,0); //detach is unsafe for this one.
 
+    pthread_attr_destroy(&thattr);
     pthread_exit((void*) 0);
     return 0;
 

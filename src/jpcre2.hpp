@@ -4609,10 +4609,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
         }
 
         if (vec_nas || vec_ntn) {
-            if (namecount <= 0); /*No named substrings*/
-            else {}
-            /// Get named substrings if #nas_map isn't null.
-            /// Get name to number map if #ntn_map isn't null.
+            //must call this whether we have named substrings or not:
             if(!getNamedSubstrings(namecount, name_entry_size, name_table, subject, ovector))
                 return count;
         }
