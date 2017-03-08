@@ -20,6 +20,13 @@ int main(){
     Modifier("").toOptionM(true, &po,&jo,&en,&eo);
     
     std::cout<<en<<(char)eo<<po;
+    
+    std::vector<std::string> v;
+    v.push_back("fds");
+    
+    std::vector<std::string> v1;
+    v1 = std::move(v);
+    std::vector<std::string>().swap(v);
    
     return 0;
 }

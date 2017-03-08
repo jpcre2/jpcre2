@@ -63,7 +63,7 @@ such as pcre2_compile(). */
 int main(int argc, char **argv)
 {
 pcre2_code *re;
-PCRE2_SPTR pattern = (PCRE2_SPTR) "(?:(?<word>[\\w\\s]+)|(?<word>\\w+))\\s*(?<digit>\\d+)";     /* PCRE2_SPTR is a pointer to unsigned code units of */
+PCRE2_SPTR pattern = (PCRE2_SPTR) "((?<spc>[.?#@]+)|(?<w_s>\\w+))\\s*(?<digit>\\d+)";     /* PCRE2_SPTR is a pointer to unsigned code units of */
 PCRE2_SPTR subject = (PCRE2_SPTR) "(I am a string with words and digits 45 and specials chars: ?.#@ 443 অ আ ক খ গ ঘ  56)";     /* the appropriate width (8, 16, or 32 bits). */
 PCRE2_SPTR name_table;
 
@@ -449,8 +449,9 @@ for (;;)
       printf("(%d) %*s: %.*s\n", n, name_entry_size - 3, tabptr + 2,
         (int)(ovector[2*n+1] - ovector[2*n]), subject + ovector[2*n]);
     key = std::string((char*)tabptr + 2);
-    std::string tmps2 = std::string((char*)(subject + ovector[2*n]));
-    value = tmps2.substr(0, ovector[2*n+1] - ovector[2*n]);
+    //~ std::string tmps2 = std::string((char*)(subject + ovector[2*n]));
+    //~ value = tmps2.substr(0, ovector[2*n+1] - ovector[2*n]);
+    value = std::string((char*)(subject + ovector[2*n]), ovector[2*n+1] - ovector[2*n]);
     std::cout<<"key: "<<key<<"\tvalue: "<<value<<std::endl;
       #elif PCRE2_CODE_UNIT_WIDTH == 16 || PCRE2_CODE_UNIT_WIDTH == 32
       int n = tabptr[0];

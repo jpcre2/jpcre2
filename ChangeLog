@@ -7,12 +7,11 @@ Version 10.30.01 -
 * API change.
 * Remove `initMatch()`, `getMatchObject()`, `initReplace()`, `getReplaceObject()` and their associates.
 * Improvement to `match()` function.
-* Rename all reset functions: `reset()`, `resetErrors()` to `clear()`, `clearErrors()`, etc..
-* Rename `resetCharacterTables()` to `createCharacterTables()`
 * Implement move constructors and move-assignment operator.
 * Allow setter functions to take, value, pointer or reference.
 * Guard against null pointer with well defined behavior.
-* rename `setMatcdata()` to `setMatcdataBlock()`.
+* Rename confusing name `setMatchData()` to `setMatchDataBlock()`.
+* Add `MatchEvaluator::resetMatchData()`
 
 
 Version 10.29.03 - Mon Mar  6 21:55:29 UTC 2017

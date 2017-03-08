@@ -44,11 +44,11 @@ int main(){
 
     size_t matched = 0;
     jp::RegexMatch rm;
-    rm.setRegexObject(&re)                        //set associated Regex object
-      .setNumberedSubstringVector(&vec_num)       //pointer to numbered substring vector
+    rm.setRegexObject(re)                        //set associated Regex object
+      .setNumberedSubstringVector(vec_num)       //pointer to numbered substring vector
       .setNamedSubstringVector(&vec_nas)          //pointer to named substring vector
-      .setNameToNumberMapVector(&vec_ntn)         //pointer to name-to-number map vector
-      //.match()                                  //Let's do the match later
+      .setNameToNumberMapVector(vec_ntn)         //pointer to name-to-number map vector
+      //.match()                                 //Let's do the match later
       ;
 		
         

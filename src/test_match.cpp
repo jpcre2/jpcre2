@@ -20,12 +20,12 @@ int main(){
     jp::Regex re;
     
     //Compile the pattern
-    re.setPattern("(?:(?<w_s>[.?#@]+)|(?<w_s>\\w+))\\s*(?<digit>\\d+)")  //set pattern
+    re.setPattern("((?<spc>[.?#@]+)|(?<w_s>\\w+))\\s*(?<digit>\\d+)")  //set pattern
       .setModifier("minJ")                                               //set modifier
       .addJpcre2Option(jpcre2::JIT_COMPILE)                              //perform JIT compile
       .addPcre2Option(0)                                                 //add pcre2 option
       .compile();                                                        //Finally compile it.
-      re.setModifier("fdsfsd"); //creating a invalid modifier error
+      re.setModifier("fdsfsd"); //creating an invalid modifier error
     std::cerr<<re.getErrorMessage()<<"\terror number: "<<re.getErrorNumber();
     // JIT error is a harmless, it just means that an optimization failed.
     
@@ -34,14 +34,14 @@ int main(){
     
     size_t count = 0;
     jp::RegexMatch rm;
-    count = rm.setRegexObject(&re)                          //set associated Regex object
+    count = rm.setRegexObject(re)                           //set associated Regex object
               .addModifier("gi")                            //set various parameters
               //'invalid modifier: i' error (i is a compile modifier)
               //modifier error is harmless
               .setSubject(subject)                          //...
-              .setNumberedSubstringVector(&vec_num)         //...
-              .setNamedSubstringVector(&vec_nas)            //...
-              .setNameToNumberMapVector(&vec_ntn)           //...
+              .setNumberedSubstringVector(vec_num)          //...
+              .setNamedSubstringVector(vec_nas)             //...
+              .setNameToNumberMapVector(vec_ntn)            //...
               .addPcre2Option(0)                            //...
               .match();                                     //Finally perform the match
     

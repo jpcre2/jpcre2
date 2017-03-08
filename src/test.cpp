@@ -62,22 +62,22 @@ int main(){
     re2 = jp::Regex(re); \
      \
     std::setlocale(LC_CTYPE, "en_US"); \
-    re2.createCharacterTables().compile(); \
+    re2.resetCharacterTables().compile(); \
      \
     jp::Regex re3(re2); \
     re = jp::Regex(re3); \
-    /*//check bollean operator*/ \
+    /*//check boolean operator*/ \
     RE_TEST \
      \
-    re.clearErrors(); \
-    re.clear(); \
+    re.resetErrors(); \
+    re.reset(); \
     re.addModifier("eijmnsuxADJUS"); \
     re.addPcre2Option(PCRE2_ANCHORED); \
     re.addJpcre2Option(jpcre2::JIT_COMPILE); \
     std::setlocale(LC_CTYPE, "fr_FR"); \
-    re.createCharacterTables().compile(); \
-    re.createCharacterTables().compile(); \
-    re.createCharacterTables().compile(); \
+    re.resetCharacterTables().compile(); \
+    re.resetCharacterTables().compile(); \
+    re.resetCharacterTables().compile(); \
     re.getErrorMessage(); \
     re.getErrorNumber(); \
     re.getErrorOffset(); \
@@ -87,8 +87,8 @@ int main(){
     re.getJpcre2Option(); \
     re.getModifier(); \
      \
-    re.clearErrors(); \
-    re.clear(); \
+    re.resetErrors(); \
+    re.reset().clear(); \
     re.changeJpcre2Option(0, false); \
     re.changePcre2Option(0, false); \
     re.changeModifier("i", false); \
@@ -107,8 +107,8 @@ int main(){
     assert(re.getErrorNumber() == jpcre2::ERROR::INVALID_MODIFIER); \
     re.getErrorMessage(); \
      \
-    re.clear().clearErrors(); \
-    re.clear().clearErrors(); \
+    re.reset().resetErrors(); \
+    re.reset().resetErrors(); \
      \
     re.match(PAT); \
     re.match(PAT, 0); \
@@ -129,8 +129,8 @@ int main(){
     rm.setSubject(&text); \
     jp::RegexMatch rm2 = rm; \
     jp::RegexMatch rm3 = jp::RegexMatch(rm2); \
-    rm2.clear(); \
-    rm.clearErrors(); \
+    rm2.reset().clear(); \
+    rm.resetErrors(); \
      \
     rm.setNumberedSubstringVector(&vec_num); \
     rm.setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn); \
@@ -156,7 +156,7 @@ int main(){
      \
     rm.addModifier("E"); \
     \
-    re.clear().setNewLine(PCRE2_NEWLINE_CRLF); \
+    re.reset().setNewLine(PCRE2_NEWLINE_CRLF); \
     re.compile(PAT,"J"); \
     assert(PCRE2_NEWLINE_CRLF == re.getNewLine()); \
      \
@@ -228,8 +228,8 @@ int main(){
     re.replace(&text, &text); \
     re.replace(&text, &text, "g"); \
      \
-    rr.clearErrors(); \
-    rr.clear(); \
+    rr.resetErrors(); \
+    rr.reset().clear(); \
     rr.getErrorMessage(); \
     rr.getErrorNumber(); \
     rr.getErrorOffset(); \
@@ -255,7 +255,7 @@ int main(){
     rr.changePcre2Option(0, false); \
     rr.changeModifier("gfdsf", false); \
      \
-    rr.clear().setSubject(TEXT).setReplaceWith(TEXT).replace(); \
+    rr.reset().setSubject(TEXT).setReplaceWith(TEXT).replace(); \
     rr.changePcre2Option(PCRE2_SUBSTITUTE_OVERFLOW_LENGTH, false); \
     rr.setRegexObject(&re); \
     rr.setSubject(TEXT).setReplaceWith(TEXT).replace(); /* replace error: */ \

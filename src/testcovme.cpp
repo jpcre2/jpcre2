@@ -8,7 +8,7 @@
  * */
 //~ #define NDEBUG
 #include <iostream>
-#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while usin c++11
+#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while using c++11
 #include "jpcre2.hpp"
 
 
@@ -82,7 +82,7 @@ int main(){
     
     //The following will give you assertion failure, because the callback1 only populates NumSub vector,
     //but callback2 requires pre-exisiting (due to the 'false' argument to nreplace()) MapNas data:
-    cme.clear().setSubject(&s3).setRegexObject(&re).setFindAll().setMatchEvaluatorCallback(callback1).nreplace();
+    cme.reset().setSubject(&s3).setRegexObject(&re).setFindAll().setMatchEvaluatorCallback(callback1).nreplace();
     std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false); //Assertion failure.
     
     return 0;

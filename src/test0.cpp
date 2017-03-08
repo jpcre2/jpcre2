@@ -23,11 +23,11 @@ int main(){
     
     jpw::RegexMatch rmw;
     size_t count =
-    rmw.setRegexObject(&rew)
+    rmw.setRegexObject(rew)
        .setSubject(L"123456789")
        .setModifier("g")
-       .setNumberedSubstringVector(&vec_num32)
-       .setMatchEndOffsetVector(&vec_eoff)
+       .setNumberedSubstringVector(vec_num32)
+       .setMatchEndOffsetVector(vec_eoff)
        .match();
     
     std::cout<<"\nMatch count: "<<count;
@@ -40,14 +40,14 @@ int main(){
     jpc::RegexMatch rm;
     jpc::RegexReplace rr;
     
-    rm.setRegexObject(&rec);
-    rr.setRegexObject(&rec);
+    rm.setRegexObject(rec);
+    rr.setRegexObject(rec);
     
 
     jpc::VecNum vec_num8;
     rm.setSubject("I am a subject with digits 3343242 4433243 443244")
       .setModifier("g")
-      .setNumberedSubstringVector(&vec_num8)
+      .setNumberedSubstringVector(vec_num8)
       .match();
      
     std::cout<<"\nFirst match: " + vec_num8[0][0];
@@ -55,7 +55,7 @@ int main(){
     jpc::Regex rec_2("[\\S]+");
     rm.setRegexObject(&rec_2)
       .setSubject("I am subject")
-      .setNumberedSubstringVector(&vec_num8)
+      .setNumberedSubstringVector(vec_num8)
       .match();
     std::cout<<"\nFirst match: " + vec_num8[0][0];
     
@@ -70,7 +70,7 @@ int main(){
             rr.setSubject("I am a subject with digits 3343242 4433243 443244")
               .setReplaceWith("@")
               .setModifier("g")
-              .setRegexObject(&rec_2)
+              .setRegexObject(rec_2)
               .replace();
    
    return 0;

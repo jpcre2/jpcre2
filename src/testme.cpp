@@ -154,7 +154,7 @@ int main(){
     me1 = jp::MatchEvaluator(callback7);
     me1 = jp::MatchEvaluator(callback1);
     
-    me1.clearErrors().clearMatchDataVectors().clear();
+    me1.resetErrors().resetMatchData().reset();
     me1.setModifier("g").addModifier("").changeModifier("",true);
     me1.setPcre2Option(0).addPcre2Option(0).changePcre2Option(0, !0);
     me1.setJpcre2Option(0).addJpcre2Option(0).changeJpcre2Option(0,!0);
