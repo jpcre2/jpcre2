@@ -140,5 +140,20 @@ int main(){
     ////////////////////////////////////////////////////////////////////
     #endif
     
+    std::string s("");
+    jpcre2::Modifier md1;
+    jpcre2::Modifier md2(s);
+    md1.str();
+    md2.c_str();
+    
+    jpc::RegexReplace rrc;
+    
+    #if __cplusplus >= 201103L
+    jpc::RegexMatch rmc1(std::move(rmc));
+    jpc::Regex rec1(std::move(rec));
+    jpc::RegexReplace rrc1(std::move(rrc));
+    #endif
+    
+    
     return 0;
 }

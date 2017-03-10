@@ -126,10 +126,12 @@ int main(){
     //The string returned by callback0: "\nw: $2\ts: $3\td: $4\n" which is interpreted by PCRE2 substitue function.
     //thus allow all options provided by PCRE2 library.
     //Short note: 
-    // * replace() funtion is for PCRE2 compatible substitue.
-    // * nreplace() is JPCRE2 native replace() function.
+    // * replace() funtion is for PCRE2 compatible substitute.
+    // * nreplace() is JPCRE2 native replace function.
     
     std::cout<<"\ncallback7: \n"<<cme.setMatchEvaluatorCallback(callback7).setFindAll(false).replace(0);
+    
+    
     
     
     ////////////////////////////////////////////////////////////////////
@@ -175,7 +177,7 @@ int main(){
     me1.setRegexObject(&re).setSubject(s3);
     me1.setMatchEvaluatorCallback(jp::callback::fill).nreplace();
     me1.setMatchEvaluatorCallback(jp::callback::eraseFill).nreplace();
-    //~ me1.setMatchEvaluatorCallback(jp::callback::erase).nreplace();
+    me1.setMatchEvaluatorCallback(jp::callback::erase).nreplace();
 
     return 0;
 }

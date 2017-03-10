@@ -141,7 +141,7 @@ testme_CXXFLAGS = \
   
 #Building testmd
 testmd_SOURCES = \
-  testme.cpp \
+  testmd.cpp \
   $(JPCRE2_SOURCES)
 testmd_CXXFLAGS = \
   $(AM_CXXFLAGS) \
@@ -167,7 +167,7 @@ COVERAGE_NAME = $(PACKAGE)-$(VERSION)
 COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
 COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
 
-COV_PROGS = $(TESTS) testcovme
+COV_PROGS = $(TESTS)
 
 #COVERAGE_LCOV_EXTRA_FLAGS =
 #COVERAGE_GENHTML_EXTRA_FLAGS =

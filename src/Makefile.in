@@ -236,8 +236,8 @@ testio_LDADD = $(LDADD)
 testio_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(testio_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__testmd_SOURCES_DIST = testme.cpp
-@WITH_TEST_SUIT_TRUE@am_testmd_OBJECTS = testmd-testme.$(OBJEXT) \
+am__testmd_SOURCES_DIST = testmd.cpp
+@WITH_TEST_SUIT_TRUE@am_testmd_OBJECTS = testmd-testmd.$(OBJEXT) \
 @WITH_TEST_SUIT_TRUE@	$(am__objects_1)
 testmd_OBJECTS = $(am_testmd_OBJECTS)
 testmd_LDADD = $(LDADD)
@@ -806,7 +806,7 @@ DISTCLEANFILES =
 
 #Building testmd
 @WITH_TEST_SUIT_TRUE@testmd_SOURCES = \
-@WITH_TEST_SUIT_TRUE@  testme.cpp \
+@WITH_TEST_SUIT_TRUE@  testmd.cpp \
 @WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
 
 @WITH_TEST_SUIT_TRUE@testmd_CXXFLAGS = \
@@ -824,7 +824,7 @@ DISTCLEANFILES =
 @WITH_COVERAGE_TRUE@COVERAGE_NAME = $(PACKAGE)-$(VERSION)
 @WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_FILE = $(COVERAGE_NAME)-coverage.info
 @WITH_COVERAGE_TRUE@COVERAGE_OUTPUT_DIR = $(COVERAGE_NAME)-coverage
-@WITH_COVERAGE_TRUE@COV_PROGS = $(TESTS) testcovme
+@WITH_COVERAGE_TRUE@COV_PROGS = $(TESTS)
 @WITH_THREAD_TEST_TRUE@thread_tests = test_pthread $(am__append_5)
 #TESTS += test_pthread
 
@@ -966,7 +966,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_shorts-test_shorts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testcovme-testcovme.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testio-testio.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testmd-testme.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testmd-testmd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testme-testme.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/teststdthread-teststdthread.Po@am__quote@
 
@@ -1159,19 +1159,19 @@ testio-testio.obj: testio.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testio_CXXFLAGS) $(CXXFLAGS) -c -o testio-testio.obj `if test -f 'testio.cpp'; then $(CYGPATH_W) 'testio.cpp'; else $(CYGPATH_W) '$(srcdir)/testio.cpp'; fi`
 
-testmd-testme.o: testme.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testmd_CXXFLAGS) $(CXXFLAGS) -MT testmd-testme.o -MD -MP -MF $(DEPDIR)/testmd-testme.Tpo -c -o testmd-testme.o `test -f 'testme.cpp' || echo '$(srcdir)/'`testme.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/testmd-testme.Tpo $(DEPDIR)/testmd-testme.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='testme.cpp' object='testmd-testme.o' libtool=no @AMDEPBACKSLASH@
+testmd-testmd.o: testmd.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testmd_CXXFLAGS) $(CXXFLAGS) -MT testmd-testmd.o -MD -MP -MF $(DEPDIR)/testmd-testmd.Tpo -c -o testmd-testmd.o `test -f 'testmd.cpp' || echo '$(srcdir)/'`testmd.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/testmd-testmd.Tpo $(DEPDIR)/testmd-testmd.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='testmd.cpp' object='testmd-testmd.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testmd_CXXFLAGS) $(CXXFLAGS) -c -o testmd-testme.o `test -f 'testme.cpp' || echo '$(srcdir)/'`testme.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testmd_CXXFLAGS) $(CXXFLAGS) -c -o testmd-testmd.o `test -f 'testmd.cpp' || echo '$(srcdir)/'`testmd.cpp
 
-testmd-testme.obj: testme.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testmd_CXXFLAGS) $(CXXFLAGS) -MT testmd-testme.obj -MD -MP -MF $(DEPDIR)/testmd-testme.Tpo -c -o testmd-testme.obj `if test -f 'testme.cpp'; then $(CYGPATH_W) 'testme.cpp'; else $(CYGPATH_W) '$(srcdir)/testme.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/testmd-testme.Tpo $(DEPDIR)/testmd-testme.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='testme.cpp' object='testmd-testme.obj' libtool=no @AMDEPBACKSLASH@
+testmd-testmd.obj: testmd.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testmd_CXXFLAGS) $(CXXFLAGS) -MT testmd-testmd.obj -MD -MP -MF $(DEPDIR)/testmd-testmd.Tpo -c -o testmd-testmd.obj `if test -f 'testmd.cpp'; then $(CYGPATH_W) 'testmd.cpp'; else $(CYGPATH_W) '$(srcdir)/testmd.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/testmd-testmd.Tpo $(DEPDIR)/testmd-testmd.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='testmd.cpp' object='testmd-testmd.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testmd_CXXFLAGS) $(CXXFLAGS) -c -o testmd-testme.obj `if test -f 'testme.cpp'; then $(CYGPATH_W) 'testme.cpp'; else $(CYGPATH_W) '$(srcdir)/testme.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testmd_CXXFLAGS) $(CXXFLAGS) -c -o testmd-testmd.obj `if test -f 'testmd.cpp'; then $(CYGPATH_W) 'testmd.cpp'; else $(CYGPATH_W) '$(srcdir)/testmd.cpp'; fi`
 
 testme-testme.o: testme.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testme_CXXFLAGS) $(CXXFLAGS) -MT testme-testme.o -MD -MP -MF $(DEPDIR)/testme-testme.Tpo -c -o testme-testme.o `test -f 'testme.cpp' || echo '$(srcdir)/'`testme.cpp

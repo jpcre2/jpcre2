@@ -38,6 +38,9 @@ typedef jpcre2::select<char32_t> jp32;
 #endif
 
 int main(){
+    
+    jpcre2::Modifier md;
+    
     #define FUNKY_CODE \
     jp::String text(TEXT); \
      \
@@ -159,6 +162,7 @@ int main(){
     re.reset().setNewLine(PCRE2_NEWLINE_CRLF); \
     re.compile(PAT,"J"); \
     assert(PCRE2_NEWLINE_CRLF == re.getNewLine()); \
+    re.setPattern(0); \
      \
     rm.getErrorMessage(); \
     rm.getErrorNumber(); \
@@ -193,6 +197,9 @@ int main(){
     jp::getErrorMessage(jpcre2::ERROR::INSUFFICIENT_OVECTOR, 0); \
     rm.getMatchEndOffsetVector();\
     rm.getMatchStartOffsetVector();\
+    rm.setSubject(0); \
+    rm.getMatchContext(); \
+    rm.getMatchDataBlock(); \
      \
      \
      \
@@ -249,6 +256,8 @@ int main(){
     rr.setPcre2Option(0); \
     rr.setMatchContext(0); \
     rr.setMatchDataBlock(0); \
+    rr.setSubject(0);\
+    rr.setReplaceWith(0);\
     rr.changeJpcre2Option(0, true); \
     rr.changeJpcre2Option(0, false); \
     rr.changePcre2Option(0, true); \
@@ -306,6 +315,9 @@ int main(){
     jp::getErrorMessage(jpcre2::ERROR::INSUFFICIENT_OVECTOR, 0); \
     me.getMatchEndOffsetVector();\
     me.getMatchStartOffsetVector();\
+    me.setModifierTable(0);\
+    jp::toString(TEXT);\
+    jp::toString((jp::Char const*)0);
     
     
 #define JPCRE2_JOIN(a,b) a ## b
