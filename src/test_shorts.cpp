@@ -60,10 +60,10 @@ int main(){
     jp::RegexMatch rm;
     jp::Regex re("(\\w+)\\s*(\\d+)","m");
     count =
-    jp::RegexMatch(re).setSubject("I am 23, I am digits 10")
-                      .setModifier("g")
-                      .setNumberedSubstringVector(vec_num)
-                      .match();
+    jp::RegexMatch(&re).setSubject("I am 23, I am digits 10")
+                       .setModifier("g")
+                       .setNumberedSubstringVector(&vec_num)
+                       .match();
     /*
     * count (the return value) is guaranteed to give you the correct number of matches,
     * while vec_num.size() may give you wrong result if any match result
@@ -103,12 +103,12 @@ int main(){
     jp::VecNtN vec_ntn; // We will get name to number map vector too
     re.compile("(?<word>\\w+)\\s*(?<digit>\\d+)","m");
     count =
-    jp::RegexMatch(re).setSubject("I am 23, I am digits 10")
-                      .setModifier("g")
-                      //.setNumberedSubstringVector(vec_num) // We don't need it in this example
-                      .setNamedSubstringVector(vec_nas)
-                      .setNameToNumberMapVector(vec_ntn) // Additional (name to number maps)
-                      .match();
+    jp::RegexMatch(&re).setSubject("I am 23, I am digits 10")
+                       .setModifier("g")
+                       //.setNumberedSubstringVector(vec_num) // We don't need it in this example
+                       .setNamedSubstringVector(&vec_nas)
+                       .setNameToNumberMapVector(&vec_ntn) // Additional (name to number maps)
+                       .match();
     std::cout<<"\nNumber of matches: "<<vec_nas.size()/* or count */;
     //Now vec_nas is populated with named substrings for each match
     //The size of vec_nas is the total match count
@@ -162,8 +162,8 @@ int main(){
         
     //Doing the above with method chain:
     re.compile("^([^\t]+)\t([^\t]+)$");
-    jp::RegexReplace(re).setSubject("I am the subject\tTo be swapped according to tab")
-                        .setReplaceWith("$2 $1")
-                        .replace();
+    jp::RegexReplace(&re).setSubject("I am the subject\tTo be swapped according to tab")
+                         .setReplaceWith("$2 $1")
+                         .replace();
     return 0;
 }

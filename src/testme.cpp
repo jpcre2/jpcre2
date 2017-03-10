@@ -17,7 +17,7 @@ String toString (size_t x){
 }
 
 String callback0(void*, void*, void*){
-    return "dummy";
+    return "\nw: $2\ts: $3\td: $4\n";
 }
 
 String callback1(const jp::NumSub& m1, void*, void*){
@@ -52,12 +52,12 @@ String callback6(void*, const jp::MapNas& m2, const jp::MapNtn& m3){
 String callback7(const jp::NumSub& m1, const jp::MapNas& m2, const jp::MapNtn& m3){
     jp::MapNas mn2 = m2;
     jp::MapNtN mn3 = m3;
-    return "("+m1[0]+"/"+mn2["total"]+"/"+toString(mn3["total"])+")";
+    return "("+m1[0]+"/"+mn2["total"]+"/"+toString(mn3["total"])+"/$0)";
 }
 
 int main(){
-    jp::Regex re("(?<total>\\w+)", "n");
-    jp::RegexReplace rr(re);
+    jp::Regex re("(?<total>(?<w>\\w+)(?<s>\\s+)(?<d>\\d+))", "n");
+    jp::RegexReplace rr(&re);
     
     String s3 = "I am a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ ঘ";
     
@@ -65,7 +65,7 @@ int main(){
     rr.setSubject(&s3)
       .setPcre2Option(PCRE2_SUBSTITUTE_GLOBAL);
       
-    rr.setSubject(s3); //this is allowed too
+    rr.setSubject(s3); //this is allowed too, makes a copy.
     
     #if __cplusplus >= 201103L
     //example with lambda
@@ -103,7 +103,7 @@ int main(){
      * ****************************************************************/
     
     jp::MatchEvaluator cme(jp::callback::fill);
-    //perform a match to populate all the vectos with match data.
+    //~ //perform a match to populate all the vectos with match data.
     cme.setSubject(&s3).setRegexObject(&re).setFindAll().match();
     
     std::cout<<"\n\n###### Re-using existing match data of MatchEvaluator:";
@@ -114,9 +114,22 @@ int main(){
     std::cout<<"\n\n### callback4: \n"<<cme.setMatchEvaluatorCallback(callback4).nreplace(false);
     std::cout<<"\n\n### callback5: \n"<<cme.setMatchEvaluatorCallback(callback5).nreplace(false);
     std::cout<<"\n\n### callback6: \n"<<cme.setMatchEvaluatorCallback(callback6).nreplace(false);
-    std::cout<<"\n\n### callback7: \n"<<cme.setMatchEvaluatorCallback(callback7).nreplace(false);
+    std::cout<<"\n\n### callback7: \n"<<cme.setMatchEvaluatorCallback(callback7).setFindAll(false).nreplace(false);
     
     //note the 'false' in the above nreplace() functions, it says 'do not perform a new match' i.e 'use previous match data'
+    
+    /* *****************************************************************
+     *                 PCRE2 compatible replace
+     * MatchEvaluator has a replace() funtion that uses pcre2_substitute
+     * ****************************************************************/
+    std::cout<<"\n####replace: \n"<<cme.setMatchEvaluatorCallback(callback0).replace(0);
+    //The string returned by callback0: "\nw: $2\ts: $3\td: $4\n" which is interpreted by PCRE2 substitue function.
+    //thus allow all options provided by PCRE2 library.
+    //Short note: 
+    // * replace() funtion is for PCRE2 compatible substitue.
+    // * nreplace() is JPCRE2 native replace() function.
+    
+    std::cout<<"\ncallback7: \n"<<cme.setMatchEvaluatorCallback(callback7).setFindAll(false).replace(0);
     
     
     ////////////////////////////////////////////////////////////////////
@@ -162,7 +175,7 @@ int main(){
     me1.setRegexObject(&re).setSubject(s3);
     me1.setMatchEvaluatorCallback(jp::callback::fill).nreplace();
     me1.setMatchEvaluatorCallback(jp::callback::eraseFill).nreplace();
-    me1.setMatchEvaluatorCallback(jp::callback::erase).nreplace();
+    //~ me1.setMatchEvaluatorCallback(jp::callback::erase).nreplace();
 
     return 0;
 }

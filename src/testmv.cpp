@@ -8,14 +8,26 @@ using namespace jpcre2;
 #include <unistd.h>
 
 
+    std::string const * m;
+
+void fun(std::string const & s){
+     m = &s;
+    }
+
+void fun2(){
     
-
-
+    fun("fsdfsd");
+    }
 
 int main(){
     
-    //~ parseC("abcdefg", {1,2,3,4,5});
+    std::string s = "fdsfds";
     
+    fun2();
+    
+    std::cout<<*m;
+    std::cout<<*m;
+    std::cout<<*m;
     return 0;
 
 }

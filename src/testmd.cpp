@@ -29,9 +29,9 @@ int main(){
     
     jp::Regex re;
     
-    re.setModifierTable(mdt).compile("JPCRE2","I");
+    re.setModifierTable(&mdt).compile("JPCRE2","I");
     
-    jp::RegexMatch rm(re);
+    jp::RegexMatch rm(&re);
     
     std::cout<<rm.setSubject("jpcre2").match(); //capital I is now working as caseless modifier.
     //and the small i is now an invalid modifier :

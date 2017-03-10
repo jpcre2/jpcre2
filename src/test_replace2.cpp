@@ -55,7 +55,7 @@ int main(){
     //perform replace
     jp::RegexReplace rr;
     std::cout<<"\nreplaced string: "<<
-        rr.setRegexObject(re)
+        rr.setRegexObject(&re)
           .setSubject(subject)
           .setReplaceWith(repl)
           .addModifier(repl_mod)

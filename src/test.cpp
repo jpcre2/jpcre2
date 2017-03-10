@@ -134,14 +134,14 @@ int main(){
      \
     rm.setNumberedSubstringVector(&vec_num); \
     rm.setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn); \
-    rm.setNumberedSubstringVector(vec_num); \
-    rm.setNamedSubstringVector(vec_nas).setNameToNumberMapVector(vec_ntn); \
+    rm.setNumberedSubstringVector(&vec_num); \
+    rm.setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn); \
     jpcre2::VecOff vec_soff; \
     jpcre2::VecOff vec_eoff; \
     rm.setMatchStartOffsetVector(&vec_soff); \
     rm.setMatchEndOffsetVector(&vec_eoff); \
-    rm.setMatchStartOffsetVector(vec_soff); \
-    rm.setMatchEndOffsetVector(vec_eoff); \
+    rm.setMatchStartOffsetVector(&vec_soff); \
+    rm.setMatchEndOffsetVector(&vec_eoff); \
     re = jp::Regex(PAT, "in"); \
     rm.setRegexObject(&re); \
     rm.setMatchContext(0); \
