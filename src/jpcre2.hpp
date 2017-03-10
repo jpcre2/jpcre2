@@ -199,7 +199,7 @@ struct IsSame<T,T>{ static const bool value = true; };
 
 ////////////////////////// The following are type and function mappings from PCRE2 interface to JPCRE2 interface /////////////////////////
 
-//forward decalration
+//forward declaration
 
 template<Ush BS> struct Pcre2Type;
 template<Ush BS> struct Pcre2Func;
@@ -627,7 +627,7 @@ template<> struct Pcre2Func<32> {
 
 ///Class to take a std::string modifier value with null safety.
 ///You don't need to make an instance of this class to pass modifier,
-///just pass std::string or char const* whatever seems feasible,
+///just pass std::string or char const*, whatever seems feasible,
 ///implicit conversion will kick in and take care of things for you.
 class Modifier{
     std::string mod;
@@ -1003,7 +1003,7 @@ class ModifierTable{
     ///The modifier string can be get by calling the str() function.
     ///@param po PCRE2 option.
     ///@param jo JPCRE2 option.
-    ///@return A reference to the calling Modifier object.
+    ///@return A reference to the calling ModifierTable object.
     std::string fromMatchOption(Uint po, Uint jo) const {
         return fromOption(tabjmv,tabjms,tabmv,tabms,po,jo);
     }
@@ -1012,7 +1012,7 @@ class ModifierTable{
     ///The modifier string can be get by calling the str() function.
     ///@param po PCRE2 option.
     ///@param jo JPCRE2 option.
-    ///@return A reference to the calling Modifier object.
+    ///@return A reference to the calling ModifierTable object.
     std::string fromReplaceOption(Uint po, Uint jo) const {
         return fromOption(tabjrv,tabjrs,tabrv,tabrs,po,jo);
     }
@@ -1021,7 +1021,7 @@ class ModifierTable{
     ///The modifier string can be get by calling the str() function.
     ///@param po PCRE2 option.
     ///@param jo JPCRE2 option.
-    ///@return A reference to the calling Modifier object.
+    ///@return A reference to the calling ModifierTable object.
     std::string fromCompileOption(Uint po, Uint jo) const {
         return fromOption(tabjcv,tabjcs,tabcv,tabcs,po,jo);
     }
@@ -1030,9 +1030,22 @@ class ModifierTable{
     ///Takes a string and a vector of sequential options.
     ///@param tabs modifier string (list of modifiers)
     ///@param tabv vector of Uint (options).
-    ///@return reference to the Modifier object.
+    ///@return A reference to the calling ModifierTable object.
     ModifierTable& setMatchModifierTable(std::string tabs, VecOpt tabv){
         parseModifierTable(tabjms, tabjmv, tabms, tabmv, tabs, tabv);
+        return *this;
+    }
+    
+    ///Set modifier table for match.
+    ///Takes a string and an array of sequential options.
+    ///@param tabs modifier string (list of modifiers)
+    ///@param tabvp array of Uint (options). If null, table is set to empty.
+    ///@return A reference to the calling ModifierTable object.
+    ModifierTable& setMatchModifierTable(std::string tabs, const Uint* tabvp){
+        if(tabvp) {
+            VecOpt tabv(tabvp, tabvp + tabs.length());
+            setMatchModifierTable(tabs, tabv);
+        } else clearMatchModifierTable();
         return *this;
     }
     
@@ -1043,7 +1056,7 @@ class ModifierTable{
     ///If any of the argument is null, the table is set empty.
     ///@param tabsp modifier string (list of modifiers).
     ///@param tabvp array of Uint (options).
-    ///@return reference to the Modifier object.
+    ///@return A reference to the calling ModifierTable object.
     ModifierTable& setMatchModifierTable(const char* tabsp, const Uint* tabvp){
         if(tabsp && tabvp) {
             std::string tabs(tabsp);
@@ -1057,9 +1070,22 @@ class ModifierTable{
     ///Takes a string and a vector of sequential options.
     ///@param tabs modifier string (list of modifiers)
     ///@param tabv vector of Uint (options).
-    ///@return reference to the Modifier object.
+    ///@return A reference to the calling ModifierTable object.
     ModifierTable& setReplaceModifierTable(std::string tabs, VecOpt tabv){
         parseModifierTable(tabjrs, tabjrv, tabrs, tabrv, tabs, tabv);
+        return *this;
+    }
+    
+    ///Set modifier table for replace.
+    ///Takes a string and an array of sequential options.
+    ///@param tabs modifier string (list of modifiers)
+    ///@param tabvp array of Uint (options). If null, table is set to empty.
+    ///@return A reference to the calling ModifierTable object.
+    ModifierTable& setReplaceModifierTable(std::string tabs, const Uint* tabvp){
+        if(tabvp) {
+            VecOpt tabv(tabvp, tabvp + tabs.length());
+            setReplaceModifierTable(tabs, tabv);
+        } else clearReplaceModifierTable();
         return *this;
     }
     
@@ -1070,7 +1096,7 @@ class ModifierTable{
     ///If any of the argument is null, the table is set empty.
     ///@param tabsp modifier string (list of modifiers).
     ///@param tabvp array of Uint (options).
-    ///@return reference to the Modifier object.
+    ///@return A reference to the calling ModifierTable object.
     ModifierTable& setReplaceModifierTable(const char* tabsp, const Uint* tabvp){
         if(tabsp && tabvp) {
             std::string tabs(tabsp);
@@ -1084,9 +1110,22 @@ class ModifierTable{
     ///Takes a string and a vector of sequential options.
     ///@param tabs modifier string (list of modifiers)
     ///@param tabv vector of Uint (options).
-    ///@return reference to the Modifier object.
+    ///@return A reference to the calling ModifierTable object.
     ModifierTable& setCompileModifierTable(std::string tabs, VecOpt tabv){
         parseModifierTable(tabjcs, tabjcv, tabcs, tabcv, tabs, tabv);
+        return *this;
+    }
+    
+    ///Set modifier table for compile.
+    ///Takes a string and an array of sequential options.
+    ///@param tabs modifier string (list of modifiers)
+    ///@param tabvp array of Uint (options). If null, table is set to empty.
+    ///@return A reference to the calling ModifierTable object.
+    ModifierTable& setCompileModifierTable(std::string tabs, const Uint* tabvp){
+        if(tabvp) {
+            VecOpt tabv(tabvp, tabvp + tabs.length());
+            setCompileModifierTable(tabs, tabv);
+        } else clearCompileModifierTable();
         return *this;
     }
     
@@ -1097,7 +1136,7 @@ class ModifierTable{
     ///If any of the argument is null, the table is set empty.
     ///@param tabsp modifier string (list of modifiers).
     ///@param tabvp array of Uint (options).
-    ///@return reference to the Modifier object.
+    ///@return A reference to the calling ModifierTable object.
     ModifierTable& setCompileModifierTable(const char* tabsp, const Uint* tabvp){
         if(tabsp && tabvp) {
             std::string tabs(tabsp);
@@ -2176,20 +2215,24 @@ struct select{
     /// }
     ///
     /// jp::MatchEvaluator me;
-    /// me.setRegexObject(&re).setSubject("string").setMatchEvaluatorCallback(callback5).nreplace();
+    /// me.setRegexObject(&re).setSubject("string").setCallback(callback5).nreplace();
     /// //In above, nreplace() populates jp::NumSub and jp::MapNtn with match data.
     ///
-    /// me.setMatchEvaluatorCallback(callback4).nreplace(false);
+    /// me.setCallback(callback4).nreplace(false);
     /// //the above uses previous match result (note the 'false') which is OK, 
     /// //because, callback4 requires jp::MapNtn which was made available in the previous operation.
     ///
     /// //but the following is not OK: (assertion failure)
-    /// me.setMatchEvaluatorCallback(callback2).nreplace(false);
+    /// me.setCallback(callback2).nreplace(false);
     /// //because, callback2 requires jp::MapNas data which is not available.
     /// //now, this is OK:
-    /// me.setMatchEvaluatorCallback(callback2).nreplace();
+    /// me.setCallback(callback2).nreplace();
     /// //because, it will recreate those match data including this one (jp::MapNas).
     /// ```
+    ///
+    /// # Replace options
+    /// MatchEvaluator can not take replace options.
+    /// Replace options are taken directly by the replace functions: `nreplace()` and `replace()` (second param).
     /// 
     /// # Using as a match object
     /// As it's just a subclass of RegexMatch, it can do all the things that RegexMatch can do, with some restrictions:
@@ -2358,85 +2401,85 @@ struct select{
         ///@overload
         ///...
         ///Constructor taking a callback function.
-        ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
+        ///It calls a corresponding MatchEvaluator::setCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallback<void*, void*, void*>::Callback mef): RegexMatch(){
             init();
-            setMatchEvaluatorCallback(mef);
+            setCallback(mef);
         }
         
         ///@overload
         /// ...
-        ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
+        ///It calls a corresponding MatchEvaluator::setCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallback<NumSub const &, void*, void*>::Callback mef): RegexMatch(){
             init();
-            setMatchEvaluatorCallback(mef);
+            setCallback(mef);
         }
         
         ///@overload
         /// ...
-        ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
+        ///It calls a corresponding MatchEvaluator::setCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, void*>::Callback mef): RegexMatch(){
             init();
-            setMatchEvaluatorCallback(mef);
+            setCallback(mef);
         }
         
         ///@overload
         /// ...
-        ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
+        ///It calls a corresponding MatchEvaluator::setCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallback<NumSub const &, void*,  MapNtN const &>::Callback mef): RegexMatch(){
             init();
-            setMatchEvaluatorCallback(mef);
+            setCallback(mef);
         }
         
         ///@overload
         /// ...
-        ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
+        ///It calls a corresponding MatchEvaluator::setCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, MapNtN const &>::Callback mef): RegexMatch(){
             init();
-            setMatchEvaluatorCallback(mef);
+            setCallback(mef);
         }
         
         ///@overload
         /// ...
-        ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
+        ///It calls a corresponding MatchEvaluator::setCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallback<void*, MapNas const &, void*>::Callback mef): RegexMatch(){
             init();
-            setMatchEvaluatorCallback(mef);
+            setCallback(mef);
         }
         
         
         ///@overload
         /// ...
-        ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
+        ///It calls a corresponding MatchEvaluator::setCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallback<void*, MapNas const &,  MapNtN const &>::Callback mef): RegexMatch(){
             init();
-            setMatchEvaluatorCallback(mef);
+            setCallback(mef);
         }
         
         
         
         ///@overload
         /// ...
-        ///It calls a corresponding MatchEvaluator::setMatchEvaluatorCallback() function to set the callback function.
+        ///It calls a corresponding MatchEvaluator::setCallback() function to set the callback function.
         ///@param mef Callback function.
         explicit
         MatchEvaluator(typename MatchEvaluatorCallback<void*, void*,  MapNtN const &>::Callback mef): RegexMatch(){
             init();
-            setMatchEvaluatorCallback(mef);
+            setCallback(mef);
         }
         
         
@@ -2501,7 +2544,7 @@ struct select{
         ///when `match()` or `nreplace()` is called.
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, void*, void*>::Callback mef){
+        MatchEvaluator& setCallback(typename MatchEvaluatorCallback<void*, void*, void*>::Callback mef){
             callback0 = mef;
             callbackn = 0;
             return *this;
@@ -2513,7 +2556,7 @@ struct select{
         ///You will be working with a reference to the constant vector.
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<NumSub const &, void*, void*>::Callback mef){
+        MatchEvaluator& setCallback(typename MatchEvaluatorCallback<NumSub const &, void*, void*>::Callback mef){
             callback1 = mef;
             callbackn = 1;
             setNumberedSubstringVector(&vec_num);
@@ -2536,7 +2579,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, void*>::Callback mef){
+        MatchEvaluator& setCallback(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, void*>::Callback mef){
             callback3 = mef;
             callbackn = 3;
             setNumberedSubstringVector(&vec_num);
@@ -2560,7 +2603,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<NumSub const &, void*,  MapNtN const &>::Callback mef){
+        MatchEvaluator& setCallback(typename MatchEvaluatorCallback<NumSub const &, void*,  MapNtN const &>::Callback mef){
             callback5 = mef;
             callbackn = 5;
             setNumberedSubstringVector(&vec_num);
@@ -2585,7 +2628,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, MapNtN const &>::Callback mef){
+        MatchEvaluator& setCallback(typename MatchEvaluatorCallback<NumSub const &, MapNas const &, MapNtN const &>::Callback mef){
             callback7 = mef;
             callbackn = 7;
             setNumberedSubstringVector(&vec_num);
@@ -2610,7 +2653,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, MapNas const &, void*>::Callback mef){
+        MatchEvaluator& setCallback(typename MatchEvaluatorCallback<void*, MapNas const &, void*>::Callback mef){
             callback2 = mef;
             callbackn = 2;
             setNamedSubstringVector(&vec_nas);
@@ -2633,7 +2676,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, MapNas const &,  MapNtN const &>::Callback mef){
+        MatchEvaluator& setCallback(typename MatchEvaluatorCallback<void*, MapNas const &,  MapNtN const &>::Callback mef){
             callback6 = mef;
             callbackn = 6;
             setNamedSubstringVector(&vec_nas);
@@ -2657,7 +2700,7 @@ struct select{
         ///```
         ///@param mef Callback function.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setMatchEvaluatorCallback(typename MatchEvaluatorCallback<void*, void*,  MapNtN const &>::Callback mef){
+        MatchEvaluator& setCallback(typename MatchEvaluatorCallback<void*, void*,  MapNtN const &>::Callback mef){
             callback4 = mef;
             callbackn = 4;
             setNameToNumberMapVector(&vec_ntn);
@@ -2893,7 +2936,7 @@ struct select{
         
         ///Perform regex replace with this match evaluator.
         ///This is a JPCRE2 native replace function (thus the name nreplace).
-        ///It uses the `MatchEvaluatorCallback` function that was set with a constructor or `MatchEvaluator::setMatchEvaluatorCallback()` function
+        ///It uses the `MatchEvaluatorCallback` function that was set with a constructor or `MatchEvaluator::setCallback()` function
         ///to generate the replacement strings on the fly.
         ///The string returned by the callback function will be treated as literal and will
         ///not go through any further processing.
@@ -2905,7 +2948,7 @@ struct select{
         ///## Complexity
         /// 1. Changes in replace related option takes effect without a re-match.
         /// 2. Changes in match related option (e.g start offset) needs a re-match to take effect.
-        /// 3. To re-use existing match data, callback funtion must be compatible with the data, otherwise assertion error.
+        /// 3. To re-use existing match data, callback function must be compatible with the data, otherwise assertion error.
         /// 4. If the associated Regex object or subject string changes, a new match must be performed,
         ///    trying to use the existing match data in such cases is undefined behavior.
         ///
@@ -2927,7 +2970,7 @@ struct select{
         ///## Complexity
         /// 1. Changes in replace related option takes effect without a re-match.
         /// 2. Changes in match related option (e.g start offset) needs a re-match to take effect.
-        /// 3. To re-use existing match data, callback funtion must be compatible with the data, otherwise assertion error.
+        /// 3. To re-use existing match data, callback function must be compatible with the data, otherwise assertion error.
         /// 4. If the associated Regex object or subject string changes, a new match must be performed,
         ///    trying to use the existing match data in such cases is undefined behavior.
         ///
@@ -4287,7 +4330,7 @@ struct select{
         }
         
         /// Perform regex replace and return the replaced string using a temporary replace object.
-        /// This temporary replace object will get available options from this Regex objec,
+        /// This temporary replace object will get available options from this Regex object,
         /// that includes modifier table.
         /// @param mains Subject string.
         /// @param repl String to replace with

@@ -114,9 +114,9 @@ int main(){
     
     
     
-    ////////////////////////////////////////////////////////////////////
-    ///////////// Some random sanity checks
-    ////////////////////////////////////////////////////////////////////
+    /* *****************************************************************
+     *              Some random sanity checks
+     * ****************************************************************/
     
     
     mdt.clear().reset();
@@ -140,6 +140,12 @@ int main(){
     mdt.setMatchModifierTable(0,0); //clear
     mdt.setReplaceModifierTable(0,0); //clear
     mdt.setCompileModifierTable(0,0);
+    mdt.setCompileModifierTable(nametabrs,0);
+    mdt.setCompileModifierTable(nametabrs,&valtabs[0]);
+    mdt.setMatchModifierTable(nametabrs,0);
+    mdt.setMatchModifierTable(nametabrs,&valtabs[0]);
+    mdt.setReplaceModifierTable(nametabrs,0);
+    mdt.setReplaceModifierTable(nametabrs,&valtabs[0]);
     
     mdt = rm.getModifierTable();
     mdt = re.getModifierTable();

@@ -84,7 +84,7 @@ void* thread_pseudo_safe_fun4(){
     //uses global variable 'rec', but uses
     //mutex lock, thus thread safe when the thread is joined with the main thread.
     //But when thread is detached from the main thread, it won't be thread safe any more,
-    //because, the main thread will destroy the rec object while possibly being used by the detached child thread.
+    //because, the main thread can destroy the rec object while possibly being used by the detached child thread.
     mtx1.lock();
     jp::RegexMatch rm(&rec);
     rm.setSubject("fdsf").setModifier("g").match();

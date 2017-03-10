@@ -107,14 +107,14 @@ int main(){
     cme.setSubject(&s3).setRegexObject(&re).setFindAll().match();
     
     std::cout<<"\n\n###### Re-using existing match data of MatchEvaluator:";
-    std::cout<<"\n\n### callback0: \n"<<cme.setMatchEvaluatorCallback(callback0).nreplace();      //this one performs the match again (redundant).
-    std::cout<<"\n\n### callback1: \n"<<cme.setMatchEvaluatorCallback(callback1).nreplace(false); //this one and all the following
-    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false); //uses existing match data
-    std::cout<<"\n\n### callback3: \n"<<cme.setMatchEvaluatorCallback(callback3).nreplace(false); //from the previous match
-    std::cout<<"\n\n### callback4: \n"<<cme.setMatchEvaluatorCallback(callback4).nreplace(false);
-    std::cout<<"\n\n### callback5: \n"<<cme.setMatchEvaluatorCallback(callback5).nreplace(false);
-    std::cout<<"\n\n### callback6: \n"<<cme.setMatchEvaluatorCallback(callback6).nreplace(false);
-    std::cout<<"\n\n### callback7: \n"<<cme.setMatchEvaluatorCallback(callback7).setFindAll(false).nreplace(false);
+    std::cout<<"\n\n### callback0: \n"<<cme.setCallback(callback0).nreplace();      //this one performs the match again (redundant).
+    std::cout<<"\n\n### callback1: \n"<<cme.setCallback(callback1).nreplace(false); //this one and all the following
+    std::cout<<"\n\n### callback2: \n"<<cme.setCallback(callback2).nreplace(false); //uses existing match data
+    std::cout<<"\n\n### callback3: \n"<<cme.setCallback(callback3).nreplace(false); //from the previous match
+    std::cout<<"\n\n### callback4: \n"<<cme.setCallback(callback4).nreplace(false);
+    std::cout<<"\n\n### callback5: \n"<<cme.setCallback(callback5).nreplace(false);
+    std::cout<<"\n\n### callback6: \n"<<cme.setCallback(callback6).nreplace(false);
+    std::cout<<"\n\n### callback7: \n"<<cme.setCallback(callback7).setFindAll(false).nreplace(false);
     
     //note the 'false' in the above nreplace() functions, it says 'do not perform a new match' i.e 'use previous match data'
     
@@ -122,22 +122,22 @@ int main(){
     cme.setSubject(&s3).setRegexObject(&re).setFindAll().match();
     
     //the following nreplace() performs a new match populating NumSub and MapNas because of callback3:
-    std::cout<<"\n\n### callback3: \n"<<cme.setMatchEvaluatorCallback(callback3).nreplace();
+    std::cout<<"\n\n### callback3: \n"<<cme.setCallback(callback3).nreplace();
     
     //Now you can use either one of callback1, callback2 or callback3 without performing a new match,
     //as the required vectors NumSub and MapNas are both populated.
-    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false);
+    std::cout<<"\n\n### callback2: \n"<<cme.setCallback(callback2).nreplace(false);
     
     //jp::callback::eraseFill function initiates all vectors (kinda like callback7). Thus, the following
     //populates all vectors. It erases the matched part/s from the subject string.
-    std::cout<<"\n\n### default callback: \n"<<cme.setMatchEvaluatorCallback(jp::callback::eraseFill).nreplace();
+    std::cout<<"\n\n### default callback: \n"<<cme.setCallback(jp::callback::eraseFill).nreplace();
     //After populating all vectors, you can use any type of callback without performing the match again.
     
     
     //The following (uncomment if you wanna test) will give you assertion failure, because the callback1 only populates NumSub vector,
     //but callback2 requires pre-exisiting (due to the 'false' argument to nreplace()) MapNas data:
-    cme.reset().setSubject(&s3).setRegexObject(&re).setFindAll().setMatchEvaluatorCallback(callback1).nreplace();
-    //~ std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false); //Assertion failure.
+    cme.reset().setSubject(&s3).setRegexObject(&re).setFindAll().setCallback(callback1).nreplace();
+    //~ std::cout<<"\n\n### callback2: \n"<<cme.setCallback(callback2).nreplace(false); //Assertion failure.
     
 
 
@@ -149,36 +149,36 @@ int main(){
      
      
      
-    std::cout<<"\n####replace: \n"<<cme.setMatchEvaluatorCallback(callback0).replace();
+    std::cout<<"\n####replace: \n"<<cme.setCallback(callback0).replace();
     //The string returned by callback0: "\nw: $2\ts: $3\td: $4\n" which is interpreted by PCRE2 substitue function.
     //thus allow all options provided by PCRE2 library.
     //Short note: 
     // * replace() funtion is for PCRE2 compatible substitute.
     // * nreplace() is JPCRE2 native replace function.
     
-    std::cout<<"\ncallback7: \n"<<cme.setMatchEvaluatorCallback(callback7).setFindAll(false).replace();
+    std::cout<<"\ncallback7: \n"<<cme.setCallback(callback7).setFindAll(false).replace();
     
     //this can also be done with RegexReplace::replace()
     std::cout<<"\ncallback7: \n"<<rr.replace(cme); //rr is set with global match. this replace always performs a new match.
     
     std::cout<<"\n\n### Doing another array of replacement with PCRE2 compatible replace:\n";
-    std::cout<<"\n\n### callback0: \n"<<cme.setMatchEvaluatorCallback(callback0).replace();      //this one performs the match again (redundant).
-    std::cout<<"\n\n### callback1: \n"<<cme.setMatchEvaluatorCallback(callback1).replace(false); //this one and all the following
-    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).replace(false); //uses existing match data
-    std::cout<<"\n\n### callback3: \n"<<cme.setMatchEvaluatorCallback(callback3).replace(false); //from the previous match
-    std::cout<<"\n\n### callback4: \n"<<cme.setMatchEvaluatorCallback(callback4).replace(false);
-    std::cout<<"\n\n### callback5: \n"<<cme.setMatchEvaluatorCallback(callback5).replace(false);
-    std::cout<<"\n\n### callback6: \n"<<cme.setMatchEvaluatorCallback(callback6).replace(false);
-    std::cout<<"\n\n### callback7: \n"<<cme.setMatchEvaluatorCallback(callback7).setFindAll(false).replace(false);
+    std::cout<<"\n\n### callback0: \n"<<cme.setCallback(callback0).replace();      //this one performs the match again (redundant).
+    std::cout<<"\n\n### callback1: \n"<<cme.setCallback(callback1).replace(false); //this one and all the following
+    std::cout<<"\n\n### callback2: \n"<<cme.setCallback(callback2).replace(false); //uses existing match data
+    std::cout<<"\n\n### callback3: \n"<<cme.setCallback(callback3).replace(false); //from the previous match
+    std::cout<<"\n\n### callback4: \n"<<cme.setCallback(callback4).replace(false);
+    std::cout<<"\n\n### callback5: \n"<<cme.setCallback(callback5).replace(false);
+    std::cout<<"\n\n### callback6: \n"<<cme.setCallback(callback6).replace(false);
+    std::cout<<"\n\n### callback7: \n"<<cme.setCallback(callback7).setFindAll(false).replace(false);
     
     
     
     
-    ////////////////////////////////////////////////////////////////////
-    ///////////// Some random sanity checks
-    ////////////////////////////////////////////////////////////////////
+    /* *****************************************************************
+     *              Some random sanity checks
+     * ****************************************************************/
     
-    cme.setMatchEvaluatorCallback(callback1);
+    cme.setCallback(callback1);
     std::cout<<"\n\nanother: "<<
     jp::Regex("[\\d\\s]*\\K\\w+").initReplace().setSubject("fds 324 fd34").setModifier("g").replace(cme);
     
@@ -231,9 +231,9 @@ int main(){
     me1.setJpcre2Option(0).addJpcre2Option(0).changeJpcre2Option(0,!0);
     me1.setStartOffset(0).setMatchContext(0);
     me1.setRegexObject(&re).setSubject(s3);
-    me1.setMatchEvaluatorCallback(jp::callback::fill).nreplace();
-    me1.setMatchEvaluatorCallback(jp::callback::eraseFill).nreplace();
-    me1.setMatchEvaluatorCallback(jp::callback::erase).nreplace();
+    me1.setCallback(jp::callback::fill).nreplace();
+    me1.setCallback(jp::callback::eraseFill).nreplace();
+    me1.setCallback(jp::callback::erase).nreplace();
 
     return 0;
 }

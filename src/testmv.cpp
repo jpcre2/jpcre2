@@ -21,7 +21,7 @@ void fun2(){
 
 int main(){
     
-    std::string s = "fdsfds";
+    std::string s = 0;
     
     fun2();
     
