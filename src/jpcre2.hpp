@@ -4252,6 +4252,8 @@ template<typename Char_T, jpcre2::Ush BS>
 void jpcre2::select<Char_T, BS>::Regex::compile() {
     //Get c_str of pattern
     Pcre2Sptr c_pattern = (Pcre2Sptr) pat_str_ptr->c_str();
+    int err_number = 0;
+    PCRE2_SIZE err_offset = 0;
 
     /**************************************************************************
      * Compile the regular expression pattern, and handle 
@@ -4263,13 +4265,15 @@ void jpcre2::select<Char_T, BS>::Regex::compile() {
     code = Pcre2Func<BS>::compile(  c_pattern,              /* the pattern */
                                     PCRE2_ZERO_TERMINATED,  /* indicates pattern is zero-terminated */
                                     compile_opts,           /* default options */
-                                    &error_number,          /* for error number */
-                                    &error_offset,          /* for error offset */
+                                    &err_number,            /* for error number */
+                                    &err_offset,            /* for error offset */
                                     ccontext);              /* use compile context */
     
     if (code == 0) {
         /* Compilation failed */
         //must not free regex memory, the only function has that right is the destructor
+        error_number = err_number;
+        error_offset = err_offset;
         return;
     } else if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
         ///perform JIT compilation it it's enabled
@@ -4277,8 +4281,6 @@ void jpcre2::select<Char_T, BS>::Regex::compile() {
         if(jit_ret < 0) error_number = jit_ret;
     }
     //everythings OK
-    error_number = 0;
-    error_offset = 0;
 }
 
 

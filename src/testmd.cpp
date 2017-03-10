@@ -37,6 +37,7 @@ int main(){
     //and the small i is now an invalid modifier :
     re.compile("JPCRE2", "i");
     std::cout<<rm.match(); //doesn't match, small i is not a valid modifier now.
+    std::cout<<"\n"<<re.getErrorMessage();
     
     
     
