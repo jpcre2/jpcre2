@@ -21,7 +21,7 @@ int main(){
     
     //Compile the pattern
     //Different name for the same group is permitted (deviation from the PCRE2 spec 10.21):
-    re.setPattern("((?<spc>\\w+)|(?<w_s>\\w+))\\s*(?<digit>\\d+)")  //set pattern
+    re.setPattern("((?<spc>[.?#@])|(?<w_s>\\w+))\\s*(?<digit>\\d+)")  //set pattern
       .setModifier("minJ")                                               //set modifier
       .addJpcre2Option(jpcre2::JIT_COMPILE)                              //perform JIT compile
       .addPcre2Option(0)                                                 //add pcre2 option

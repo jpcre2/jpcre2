@@ -91,16 +91,16 @@ int main(){
     std::cout<<"\n\n### 7 Calling directly MatchEvaluator::nreplace()\n"
              <<jp::MatchEvaluator(callback7)
                                  .setSubject(&s3)
-                                 .setRegexObject(&re) //without this, there would be an assertion failure.
+                                 .setRegexObject(&re) 
                                  .setFindAll()
                                  .nreplace();
     //note the setFindAll() in above, without it, only single replacement would occur because there would be only one match.
     
     
-    /* *****************************************************************
-     * Re-using same MatchEvaluator for different replace operation
-     * by using existing match data with different callback function:
-     * ****************************************************************/
+        /* *****************************************************************
+         * Re-using same MatchEvaluator for different replace operation
+         * by using existing match data with different callback function:
+         * ****************************************************************/
     
     jp::MatchEvaluator cme(jp::callback::fill);
     //~ //perform a match to populate all the vectos with match data.
@@ -118,18 +118,58 @@ int main(){
     
     //note the 'false' in the above nreplace() functions, it says 'do not perform a new match' i.e 'use previous match data'
     
-    /* *****************************************************************
-     *                 PCRE2 compatible replace
-     * MatchEvaluator has a replace() funtion that uses pcre2_substitute
-     * ****************************************************************/
-    std::cout<<"\n####replace: \n"<<cme.setMatchEvaluatorCallback(callback0).replace(0);
+    cme.reset();
+    cme.setSubject(&s3).setRegexObject(&re).setFindAll().match();
+    
+    //the following nreplace() performs a new match populating NumSub and MapNas because of callback3:
+    std::cout<<"\n\n### callback3: \n"<<cme.setMatchEvaluatorCallback(callback3).nreplace();
+    
+    //Now you can use either one of callback1, callback2 or callback3 without performing a new match,
+    //as the required vectors NumSub and MapNas are both populated.
+    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false);
+    
+    //jp::callback::eraseFill function initiates all vectors (kinda like callback7). Thus, the following
+    //populates all vectors. It erases the matched part/s from the subject string.
+    std::cout<<"\n\n### default callback: \n"<<cme.setMatchEvaluatorCallback(jp::callback::eraseFill).nreplace();
+    //After populating all vectors, you can use any type of callback without performing the match again.
+    
+    
+    //The following (uncomment if you wanna test) will give you assertion failure, because the callback1 only populates NumSub vector,
+    //but callback2 requires pre-exisiting (due to the 'false' argument to nreplace()) MapNas data:
+    cme.reset().setSubject(&s3).setRegexObject(&re).setFindAll().setMatchEvaluatorCallback(callback1).nreplace();
+    //~ std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false); //Assertion failure.
+    
+
+
+
+        /* *****************************************************************
+         *                 PCRE2 compatible replace
+         * MatchEvaluator has a replace() funtion that uses pcre2_substitute
+         * ****************************************************************/
+     
+     
+     
+    std::cout<<"\n####replace: \n"<<cme.setMatchEvaluatorCallback(callback0).replace();
     //The string returned by callback0: "\nw: $2\ts: $3\td: $4\n" which is interpreted by PCRE2 substitue function.
     //thus allow all options provided by PCRE2 library.
     //Short note: 
     // * replace() funtion is for PCRE2 compatible substitute.
     // * nreplace() is JPCRE2 native replace function.
     
-    std::cout<<"\ncallback7: \n"<<cme.setMatchEvaluatorCallback(callback7).setFindAll(false).replace(0);
+    std::cout<<"\ncallback7: \n"<<cme.setMatchEvaluatorCallback(callback7).setFindAll(false).replace();
+    
+    //this can also be done with RegexReplace::replace()
+    std::cout<<"\ncallback7: \n"<<rr.replace(cme); //rr is set with global match. this replace always performs a new match.
+    
+    std::cout<<"\n\n### Doing another array of replacement with PCRE2 compatible replace:\n";
+    std::cout<<"\n\n### callback0: \n"<<cme.setMatchEvaluatorCallback(callback0).replace();      //this one performs the match again (redundant).
+    std::cout<<"\n\n### callback1: \n"<<cme.setMatchEvaluatorCallback(callback1).replace(false); //this one and all the following
+    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).replace(false); //uses existing match data
+    std::cout<<"\n\n### callback3: \n"<<cme.setMatchEvaluatorCallback(callback3).replace(false); //from the previous match
+    std::cout<<"\n\n### callback4: \n"<<cme.setMatchEvaluatorCallback(callback4).replace(false);
+    std::cout<<"\n\n### callback5: \n"<<cme.setMatchEvaluatorCallback(callback5).replace(false);
+    std::cout<<"\n\n### callback6: \n"<<cme.setMatchEvaluatorCallback(callback6).replace(false);
+    std::cout<<"\n\n### callback7: \n"<<cme.setMatchEvaluatorCallback(callback7).setFindAll(false).replace(false);
     
     
     
@@ -137,6 +177,18 @@ int main(){
     ////////////////////////////////////////////////////////////////////
     ///////////// Some random sanity checks
     ////////////////////////////////////////////////////////////////////
+    
+    cme.setMatchEvaluatorCallback(callback1);
+    std::cout<<"\n\nanother: "<<
+    jp::Regex("[\\d\\s]*\\K\\w+").initReplace().setSubject("fds 324 fd34").setModifier("g").replace(cme);
+    
+    
+    jp::Regex("[\\d\\s]*\\K\\w+").initReplace()
+                                 .setSubject("fds 324 fd34")
+                                 .setModifier("g")
+                                 .changePcre2Option(PCRE2_SUBSTITUTE_OVERFLOW_LENGTH, false) //this is wrong, will perform no replace if buffer is not enough
+                                 .replace(cme);
+    
     
     rr.setRegexObject(0);
     JPCRE2_ASSERT(rr.nreplace(jp::MatchEvaluator(callback1))==s3,"InvalidResult"); 
@@ -163,13 +215,17 @@ int main(){
     
     rr.nreplace(me1);
     me2 = me1;
+    #if __cplusplus >= 201103L
+    me2 = std::move(me1);
+    jp::MatchEvaluator mem(std::move(me2));
+    #endif
     me1 = me3;
     me1 = jp::MatchEvaluator(callback5);
     me1 = jp::MatchEvaluator(callback6);
     me1 = jp::MatchEvaluator(callback7);
     me1 = jp::MatchEvaluator(callback1);
     
-    me1.resetErrors().resetMatchData().reset();
+    me1.resetErrors().resetMatchData().reset().clear().setBufferSize(3).getBufferSize();
     me1.setModifier("g").addModifier("").changeModifier("",true);
     me1.setPcre2Option(0).addPcre2Option(0).changePcre2Option(0, !0);
     me1.setJpcre2Option(0).addJpcre2Option(0).changeJpcre2Option(0,!0);

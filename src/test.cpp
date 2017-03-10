@@ -121,6 +121,11 @@ int main(){
     re.match(&text, 21); \
     re.match(&text, "g"); \
     re.match(&text, "g", 22); \
+    re.getPcre2Code();\
+    re.changeJpcre2Option(0,!0);\
+    re.changePcre2Option(0, !0);\
+    re.getMatchObject();\
+    re.getReplaceObject();\
      \
     jp::RegexMatch rm; \
     jp::VecNum vec_num; \
@@ -200,6 +205,7 @@ int main(){
     rm.setSubject(0); \
     rm.getMatchContext(); \
     rm.getMatchDataBlock(); \
+    rm.match(); \
      \
      \
      \
@@ -279,6 +285,7 @@ int main(){
     assert(jp::toString((jp::Char*)0) == jp::String()); \
     assert(jp::toString((jp::Pcre2Uchar*)0) == jp::String());\
     jp::MatchEvaluator me;\
+    me.replace();\
     assert(me.match()==0);\
     assert(me.nreplace()==jp::String()); \
     me.setRegexObject(0); \

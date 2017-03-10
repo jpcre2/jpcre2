@@ -16,9 +16,9 @@ typedef jp::String String;
 
 int main(){
     
-    /* ***************************
-     * Compile modifier table 
-     * ***************************/
+            /* ***************************
+             * Compile modifier table 
+             * ***************************/
     
     const char* nametab = "IJMS"; //arbitrary modifier character.
     //now the option values sequentially
@@ -47,9 +47,12 @@ int main(){
     std::cout<<rm.match(); //doesn't match, small i is not a valid modifier now.
     std::cout<<"\n"<<re.getErrorMessage();
     
-    /* ***************************
-     * Match modifier table 
-     * ***************************/
+    
+    
+            /* ***************************
+             * Match modifier table 
+             * ***************************/
+    
     
     const char* namtabm = "Ga";
     uint32_t valtabm[]= {jpcre2::FIND_ALL, PCRE2_ANCHORED};
@@ -64,9 +67,13 @@ int main(){
     std::cout<<"\nmatched: "<<
     jp::Regex("\\w").setModifierTable(&mdt).match("jpcre2", "G");
     
-    /* ***************************
-     * Replace modifier table 
-     * ***************************/
+    
+    
+            /* ***************************
+             * Replace modifier table 
+             * ***************************/
+            
+    
     
     const char* nametabr = "Ge";
     uint32_t valtabr[] = {PCRE2_SUBSTITUTE_GLOBAL, PCRE2_SUBSTITUTE_UNSET_EMPTY};

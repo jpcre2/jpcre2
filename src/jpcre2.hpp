@@ -2124,6 +2124,9 @@ struct select{
         //prevent onject instantiation.
         callback();
         callback(callback const &);
+        #if __cplusplus >= 201103L
+        callback(callback&&);
+        #endif
         ~callback();
     };
 
@@ -2817,6 +2820,7 @@ struct select{
         ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& setBufferSize(PCRE2_SIZE x){
             buffer_size = x;
+            return *this;
         }
         
         ///Get the initial buffer size that is being used by internal function pcre2_substitute
