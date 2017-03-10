@@ -672,58 +672,58 @@ namespace MOD {
     // Array of compile modifier values for PCRE2 options
     // Uint is being used in getModifier() in for loop to get the number of element in this array,
     // be sure to chnage there if you change here.
-    static const jpcre2::Uint C_V[12] = {   PCRE2_MATCH_UNSET_BACKREF,                  // Modifier e
-                                            PCRE2_CASELESS,                             // Modifier i
-                                            PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, // Modifier j
-                                            PCRE2_MULTILINE,                            // Modifier m
-                                            PCRE2_UTF | PCRE2_UCP,                      // Modifier n (includes u)
-                                            PCRE2_DOTALL,                               // Modifier s
-                                            PCRE2_UTF,                                  // Modifier u
-                                            PCRE2_EXTENDED,                             // Modifier x
-                                            PCRE2_ANCHORED,                             // Modifier A
-                                            PCRE2_DOLLAR_ENDONLY,                       // Modifier D
-                                            PCRE2_DUPNAMES,                             // Modifier J
-                                            PCRE2_UNGREEDY                              // Modifier U
-                                          };
+    static const jpcre2::Uint C_V[12] = { PCRE2_MATCH_UNSET_BACKREF,                  // Modifier e
+                                          PCRE2_CASELESS,                             // Modifier i
+                                          PCRE2_ALT_BSUX | PCRE2_MATCH_UNSET_BACKREF, // Modifier j
+                                          PCRE2_MULTILINE,                            // Modifier m
+                                          PCRE2_UTF | PCRE2_UCP,                      // Modifier n (includes u)
+                                          PCRE2_DOTALL,                               // Modifier s
+                                          PCRE2_UTF,                                  // Modifier u
+                                          PCRE2_EXTENDED,                             // Modifier x
+                                          PCRE2_ANCHORED,                             // Modifier A
+                                          PCRE2_DOLLAR_ENDONLY,                       // Modifier D
+                                          PCRE2_DUPNAMES,                             // Modifier J
+                                          PCRE2_UNGREEDY                              // Modifier U
+                                        };
                                               
 
     // String of compile modifier characters for JPCRE2 options
     static const char CJ_N[] = "S";
     // Array of compile modifier values for JPCRE2 options
     static const jpcre2::Uint CJ_V[1] = { JIT_COMPILE,                                // Modifier S
-                                              };
+                                        };
 
 
     // Define modifiers for replace
     // String of action (replace) modifier characters for PCRE2 options
     static const char R_N[] = "eEgx";
     // Array of action (replace) modifier values for PCRE2 options
-    static const jpcre2::Uint R_V[4] = {   PCRE2_SUBSTITUTE_UNSET_EMPTY,                // Modifier  e
+    static const jpcre2::Uint R_V[4]  = {  PCRE2_SUBSTITUTE_UNSET_EMPTY,                // Modifier  e
                                            PCRE2_SUBSTITUTE_UNKNOWN_UNSET | PCRE2_SUBSTITUTE_UNSET_EMPTY,   // Modifier E (includes e)
                                            PCRE2_SUBSTITUTE_GLOBAL,                     // Modifier g
                                            PCRE2_SUBSTITUTE_EXTENDED                    // Modifier x
-                                 };
+                                        };
 
 
     // String of action (replace) modifier characters for JPCRE2 options
     static const char RJ_N[] = "";
     // Array of action (replace) modifier values for JPCRE2 options
     static const jpcre2::Uint RJ_V[1] = { NONE  //placeholder
-                                              };
+                                        };
 
     // Define modifiers for match
     // String of action (match) modifier characters for PCRE2 options
     static const char M_N[] = "A";
     // Array of action (match) modifier values for PCRE2 options
-    static const jpcre2::Uint M_V[1] = { PCRE2_ANCHORED                               // Modifier  A
-                                             };
+    static const jpcre2::Uint M_V[1]  = { PCRE2_ANCHORED                               // Modifier  A
+                                        };
 
 
     // String of action (match) modifier characters for JPCRE2 options
     static const char MJ_N[] = "g";
     // Array of action (match) modifier values for JPCRE2 options
     static const jpcre2::Uint MJ_V[1] = { FIND_ALL,                                   // Modifier  g
-                                              };
+                                        };
 
     //~ inline static void toOption(Modifier mod, bool x,
                   //~ Uint const* J_V, char const* J_N, SIZE_T SJ,
@@ -733,8 +733,7 @@ namespace MOD {
                            //~ Uint* V, char const* N, SIZE_T S,
                            //~ Uint po, Uint jo);
                            
-    static inline void toOption(
-                                Modifier mod, bool x, 
+    static inline void toOption(Modifier mod, bool x, 
                                 Uint const * J_V, char const * J_N, SIZE_T SJ,
                                 Uint const * V, char const * N, SIZE_T S,
                                 Uint* po, Uint* jo,
@@ -832,7 +831,7 @@ namespace MOD {
 
 ///Let's you create custom modifier tables.
 ///An instance of this class can be passed to
-///match, replace or compile related classes.
+///match, replace or compile related class objects.
 class ModifierTable{
     
     std::string tabjms;

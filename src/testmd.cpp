@@ -22,7 +22,7 @@ int main(){
     //if the above two doesn't have the same number of elements, the behavior is undefined.
     
     //init ModifierTable
-    jpcre2::ModifierTable mdt; //creates default table.
+    jpcre2::ModifierTable mdt; //creates empty table.
     
     //change the Compile modifier table only:
     mdt.setCompileModifierTable(nametab, valtab);
