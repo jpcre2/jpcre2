@@ -134,6 +134,9 @@ if test "$enable_coverage" = "yes"; then
   fi
   enable_test=yes
   CXXFLAGS="-O0 -ggdb3 -fprofile-arcs -ftest-coverage"
+  if test "$enable_thread_check" = yes; then
+    AC_MSG_ERROR([coverage report option is not supported with thread check])
+  fi
 fi
 
 
@@ -149,6 +152,9 @@ if test "$enable_thread_check" = "yes"; then
   #enable_valgrind=yes
 #  AC_CHECK_HEADERS([pthread.h],[AC_MSG_ERROR([Unable to find pthread.h header])])
 #  AC_CHECK_LIB([pthread], [pthread_exit((void*) 0)], [], [AC_MSG_ERROR([unable to find pthread library])])
+  if test "$enable_coverage" = yes; then
+    AC_MSG_ERROR([thread check option is not supported with converage report])
+  fi
 fi
 
 if test "$enable_valgrind" = "yes"; then
