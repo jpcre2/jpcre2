@@ -20,13 +20,14 @@ int main(){
     jp::Regex re;
     
     //Compile the pattern
-    re.setPattern("(?:(?<w_s>[.?#@]+)|(?<w_s>\\w+))\\s*(?<digit>\\d+)")  //set pattern
+    //Different name for the same group is permitted (deviation from the PCRE2 spec 10.21):
+    re.setPattern("((?<spc>[.?#@])|(?<w_s>\\w+))\\s*(?<digit>\\d+)")  //set pattern
       .setModifier("minJ")                                               //set modifier
       .addJpcre2Option(jpcre2::JIT_COMPILE)                              //perform JIT compile
       .addPcre2Option(0)                                                 //add pcre2 option
       .compile();                                                        //Finally compile it.
-      re.setModifier("fdsfsd"); //creating a invalid modifier error
-    std::cerr<<re.getErrorMessage()<<re.getErrorNumber();
+      re.setModifier("fdsfsd"); //creating an invalid modifier error
+    std::cerr<<re.getErrorMessage()<<"\terror number: "<<re.getErrorNumber();
     // JIT error is a harmless, it just means that an optimization failed.
     
     //subject string

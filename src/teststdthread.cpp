@@ -20,7 +20,8 @@ void sleep(double sec){
 }
 
 
-//this is an example how you can use pre-defined data objects in multithreaded program.
+//This is an example how you can use pre-defined data objects in multithreaded program which
+//will act independently of one another without any lock:
 //The logic is to wrap your objects inside another class and initialize them with constructor.
 //Thus when you create objects of this wrapper class, they will have identical member objects.
 //see the task() function that is using this class as a wrapper class to save 5 Regex objects.
@@ -29,10 +30,10 @@ struct MyRegex{
     jp::Regex re[5];
     MyRegex(){
         re[0].compile("\\w","i");
-        re[1].compile("\\d","iS");
-        re[2].compile("\\d\\w+","iS");
-        re[3].compile("\\d\\w\\s","mS");
-        re[4].compile("[\\w\\s]+","mS");
+        re[1].compile("\\d","i");
+        re[2].compile("\\d\\w+","i");
+        re[3].compile("\\d\\w\\s","m");
+        re[4].compile("[\\w\\s]+","m");
     }
 };
 
@@ -47,24 +48,24 @@ void thread_safe_fun1(){
         mtx2.lock();
         std::cout<<"\t1";
         mtx2.unlock();
-        sleep(0.001);
+        sleep(0.01);
     }
 }
 
 void thread_safe_fun2(){ //uses no global or static variable, thus thread safe.
 	jp::Regex re("\\w", "i"); 
-	re.getMatchObject().setSubject("fdsf").setModifier("g").match();
+    jp::RegexMatch rm(&re);
+	rm.setSubject("fdsf").setModifier("g").match();
     int c=0;
     while(c++<4){
         mtx2.lock();
         std::cout<<"\t2";
         mtx2.unlock();
-        sleep(0.002);
+        sleep(0.009);
     }
 }
 
 void thread_safe_fun3(){//uses no global or static variable, thus thread safe.
-    {
     jp::Regex re("\\w", "g");
     jp::RegexMatch rm(&re);
     rm.setSubject("fdsf").setModifier("g").match();
@@ -73,16 +74,17 @@ void thread_safe_fun3(){//uses no global or static variable, thus thread safe.
         mtx2.lock();
         std::cout<<"\t3";
         mtx2.unlock();
-        sleep(0.0015);
-    }
+        sleep(0.0095);
     }
 }
 
 jp::Regex rec("\\w", "g");
 
-void thread_safe_fun4(){
+void* thread_pseudo_safe_fun4(){
     //uses global variable 'rec', but uses
-    //mutex lock, thus thread safe:
+    //mutex lock, thus thread safe when the thread is joined with the main thread.
+    //But when thread is detached from the main thread, it won't be thread safe any more,
+    //because, the main thread can destroy the rec object while possibly being used by the detached child thread.
     mtx1.lock();
     jp::RegexMatch rm(&rec);
     rm.setSubject("fdsf").setModifier("g").match();
@@ -92,19 +94,19 @@ void thread_safe_fun4(){
         mtx2.lock();
         std::cout<<"\t4";
         mtx2.unlock();
-        sleep(0.017);
+        sleep(0.008);
     }
+    return 0;
 }
 
 int main(){
-    std::cout<<"running threads..";
     std::thread th1(thread_safe_fun1);
     std::thread th2(thread_safe_fun2);
     std::thread th3(thread_safe_fun3);
-    //~ std::thread th4(thread_safe_fun4);
-    th1.join();
-    th2.join();
-    th3.join();
-    //~ th4.join();
+    std::thread th4(thread_pseudo_safe_fun4);
+    th1.detach();
+    th2.detach();
+    th3.detach();
+    th4.join(); //detach is unsafe for this one.
     return 0;
 }

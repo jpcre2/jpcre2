@@ -22,8 +22,8 @@
  * */
 
 #include <iostream>
-#include "jpcre2.hpp"
 #include <cassert>
+#include "jpcre2.hpp"
 
 
 typedef jpcre2::select<char> jp;
@@ -38,6 +38,9 @@ typedef jpcre2::select<char32_t> jp32;
 #endif
 
 int main(){
+    
+    jpcre2::Modifier md;
+    
     #define FUNKY_CODE \
     jp::String text(TEXT); \
      \
@@ -56,7 +59,6 @@ int main(){
     re = jp::Regex(&text, PCRE2_ANCHORED); \
     re = jp::Regex(&text, PCRE2_ANCHORED, jpcre2::JIT_COMPILE); \
      \
-    re.initReplace(); \
      \
     jp::Regex re2(re); /*//check on copy constructor*/ \
      \
@@ -67,7 +69,7 @@ int main(){
      \
     jp::Regex re3(re2); \
     re = jp::Regex(re3); \
-    /*//check bollean operator*/ \
+    /*//check boolean operator*/ \
     RE_TEST \
      \
     re.resetErrors(); \
@@ -88,14 +90,8 @@ int main(){
     re.getJpcre2Option(); \
     re.getModifier(); \
      \
-    re.initMatch(); \
-    re.getMatchObject(); \
-    re.initMatch(); \
-    re.getMatchObject(); \
     re.resetErrors(); \
-    re.reset(); \
-    re.getMatchObject(); \
-    re.getReplaceObject(); \
+    re.reset().clear(); \
     re.changeJpcre2Option(0, false); \
     re.changePcre2Option(0, false); \
     re.changeModifier("i", false); \
@@ -114,11 +110,9 @@ int main(){
     assert(re.getErrorNumber() == jpcre2::ERROR::INVALID_MODIFIER); \
     re.getErrorMessage(); \
      \
-    re.getMatchObject().reset().resetErrors(); \
-    re.initMatch().reset().resetErrors(); \
-    jp::RegexMatch& m = re.getMatchObject(); \
+    re.reset().resetErrors(); \
+    re.reset().resetErrors(); \
      \
-    m.match(); re.match(); \
     re.match(PAT); \
     re.match(PAT, 0); \
     re.match(PAT, "g"); \
@@ -127,6 +121,11 @@ int main(){
     re.match(&text, 21); \
     re.match(&text, "g"); \
     re.match(&text, "g", 22); \
+    re.getPcre2Code();\
+    re.changeJpcre2Option(0,!0);\
+    re.changePcre2Option(0, !0);\
+    re.getMatchObject();\
+    re.getReplaceObject();\
      \
     jp::RegexMatch rm; \
     jp::VecNum vec_num; \
@@ -138,19 +137,23 @@ int main(){
     rm.setSubject(&text); \
     jp::RegexMatch rm2 = rm; \
     jp::RegexMatch rm3 = jp::RegexMatch(rm2); \
-    rm2.reset(); \
+    rm2.reset().clear(); \
     rm.resetErrors(); \
      \
+    rm.setNumberedSubstringVector(&vec_num); \
+    rm.setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn); \
     rm.setNumberedSubstringVector(&vec_num); \
     rm.setNamedSubstringVector(&vec_nas).setNameToNumberMapVector(&vec_ntn); \
     jpcre2::VecOff vec_soff; \
     jpcre2::VecOff vec_eoff; \
     rm.setMatchStartOffsetVector(&vec_soff); \
     rm.setMatchEndOffsetVector(&vec_eoff); \
+    rm.setMatchStartOffsetVector(&vec_soff); \
+    rm.setMatchEndOffsetVector(&vec_eoff); \
     re = jp::Regex(PAT, "in"); \
     rm.setRegexObject(&re); \
     rm.setMatchContext(0); \
-    rm.setSubject(&text).setModifier("g").match(); \
+    rm.setSubject(jp::String()).setSubject(&text).setSubject(text).setModifier("g").match(); \
     jp::Regex re4(PAT, "niJS"); \
     rm.setRegexObject(&re4); \
     size_t count = rm.setSubject(&text).setModifier("g").setStartOffset(0).match(); \
@@ -159,17 +162,12 @@ int main(){
     count = rm.setSubject(&text).setModifier("A").match(); \
      \
      \
-    re.initMatchFrom(rm); \
-    re.getMatchObject().match(); \
-    re.getMatchObject().match(); \
-    re.initMatchFrom(rm2); \
-    re.initMatch(); \
-    re.match(); \
     rm.addModifier("E"); \
     \
     re.reset().setNewLine(PCRE2_NEWLINE_CRLF); \
     re.compile(PAT,"J"); \
     assert(PCRE2_NEWLINE_CRLF == re.getNewLine()); \
+    re.setPattern(0); \
      \
     rm.getErrorMessage(); \
     rm.getErrorNumber(); \
@@ -204,6 +202,10 @@ int main(){
     jp::getErrorMessage(jpcre2::ERROR::INSUFFICIENT_OVECTOR, 0); \
     rm.getMatchEndOffsetVector();\
     rm.getMatchStartOffsetVector();\
+    rm.setSubject(0); \
+    rm.getMatchContext(); \
+    rm.getMatchDataBlock(); \
+    rm.match(); \
      \
      \
      \
@@ -226,12 +228,10 @@ int main(){
     rr.replace(); \
     rr2.replace(); \
      \
-    re.initReplace(); \
      \
     rr = rr2; \
     rr3 = jp::RegexReplace(&re2); \
      \
-    rr.replace(); re.replace(); \
     re.replace(TEXT, TEXT); \
     re.replace(TEXT, &text); \
     re.replace(TEXT, TEXT, "g"); \
@@ -242,7 +242,7 @@ int main(){
     re.replace(&text, &text, "g"); \
      \
     rr.resetErrors(); \
-    rr.reset(); \
+    rr.reset().clear(); \
     rr.getErrorMessage(); \
     rr.getErrorNumber(); \
     rr.getErrorOffset(); \
@@ -261,7 +261,9 @@ int main(){
     rr.setJpcre2Option(0); \
     rr.setPcre2Option(0); \
     rr.setMatchContext(0); \
-    rr.setMatchData(0); \
+    rr.setMatchDataBlock(0); \
+    rr.setSubject(0);\
+    rr.setReplaceWith(0);\
     rr.changeJpcre2Option(0, true); \
     rr.changeJpcre2Option(0, false); \
     rr.changePcre2Option(0, true); \
@@ -276,14 +278,53 @@ int main(){
     const jp::Regex *rep = rr.getRegexObject(); \
     if(rep); /*//rep is not null*/ \
      \
-    re.initMatchFrom(rm); \
-    re.initReplaceFrom(rr); \
      \
      \
     /*//checking the string converter with null input*/ \
     assert(jp::toString((jp::Char)0) == jp::String()); \
     assert(jp::toString((jp::Char*)0) == jp::String()); \
-    assert(jp::toString((jp::Pcre2Uchar*)0) == jp::String());
+    assert(jp::toString((jp::Pcre2Uchar*)0) == jp::String());\
+    jp::MatchEvaluator me;\
+    me.replace();\
+    assert(me.match()==0);\
+    assert(me.nreplace()==jp::String()); \
+    me.setRegexObject(0); \
+    me.getErrorMessage(); \
+    me.getErrorNumber(); \
+    me.getErrorOffset(); \
+    me.getPcre2Option(); \
+    me.getJpcre2Option(); \
+    me.getModifier(); \
+    me.getStartOffset(); \
+    me.getSubject(); \
+    me.getSubjectPointer(); \
+    me.getRegexObject(); \
+    me.setJpcre2Option(0); \
+    me.setPcre2Option(0); \
+    me.changeJpcre2Option(0, true); \
+    me.changeJpcre2Option(0, false); \
+    me.changePcre2Option(0, true); \
+    me.changePcre2Option(0, false); \
+     \
+    me.addPcre2Option(0); \
+    me.getNumberedSubstringVector(); \
+    me.getNamedSubstringVector(); \
+    me.getNameToNumberMapVector(); \
+    me.changePcre2Option(PCRE2_ANCHORED, true); \
+    me.changePcre2Option(PCRE2_ANCHORED, false); \
+    me.addModifier("g"); \
+    me.addJpcre2Option(jpcre2::FIND_ALL); \
+    me.changeJpcre2Option(jpcre2::FIND_ALL,false); \
+    me.changeJpcre2Option(jpcre2::FIND_ALL,true); \
+    me.setFindAll(); \
+    me.setFindAll(false); \
+    me.changeModifier("gAgfdsf", false); \
+    jp::getErrorMessage(jpcre2::ERROR::INSUFFICIENT_OVECTOR, 0); \
+    me.getMatchEndOffsetVector();\
+    me.getMatchStartOffsetVector();\
+    me.setModifierTable(0);\
+    jp::toString(TEXT);\
+    jp::toString((jp::Char const*)0);
     
     
 #define JPCRE2_JOIN(a,b) a ## b
@@ -312,6 +353,7 @@ int main(){
 #define vec_nas JPCRE2_SUFFIX(vec_nas)
 #define vec_soff JPCRE2_SUFFIX(vec_soff)
 #define vec_eoff JPCRE2_SUFFIX(vec_eoff)
+#define me JPCRE2_SUFFIX(me)
 
 #define JPCRE2_LOCAL_CHAR c
 #define TEXT "I am a simple\r\n text অ\r\n আ ক \nখ গ ঘ\n"

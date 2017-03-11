@@ -31,9 +31,10 @@ int main(){
     jpc::VecNum vec_numc;
     jpc::VecNas vec_nasc;
     jpc::VecNtN vec_ntnc;
+    jpc::RegexMatch rmc;
     
     rec.setPattern("(?<digit>\\d)").compile();
-    rec.getMatchObject()
+    rmc.setRegexObject(&rec)
        .setNumberedSubstringVector(&vec_numc)
        .setNamedSubstringVector(&vec_nasc)
        .setNameToNumberMapVector(&vec_ntnc)
@@ -41,7 +42,7 @@ int main(){
        .setModifier("g");
     
     //check for validity of match
-    assert(rec.match() == 9);
+    assert(rmc.match() == 9);
     assert(vec_numc[8][0] == "9");
     assert(vec_numc[8][1] == "9");
     assert(vec_nasc[8]["digit"] == "9");
@@ -61,9 +62,10 @@ int main(){
     jpw::VecNum vec_numw;
     jpw::VecNas vec_nasw;
     jpw::VecNtN vec_ntnw;
+    jpw::RegexMatch rmw;
     
     rew.setPattern(L"(?<digit>\\d)").compile();
-    rew.getMatchObject()
+    rmw.setRegexObject(&rew)
        .setNumberedSubstringVector(&vec_numw)
        .setNamedSubstringVector(&vec_nasw)
        .setNameToNumberMapVector(&vec_ntnw)
@@ -71,7 +73,7 @@ int main(){
        .setModifier("g");
     
     //check for validity of match
-    assert(rew.match() == 9);
+    assert(rmw.match() == 9);
     assert(vec_numw[8][0] == L"9");
     assert(vec_numw[8][1] == L"9");
     assert(vec_nasw[8][L"digit"] == L"9");
@@ -88,9 +90,10 @@ int main(){
     jp16::VecNum vec_num16;
     jp16::VecNas vec_nas16;
     jp16::VecNtN vec_ntn16;
+    jp16::RegexMatch rm16;
     
     re16.setPattern(u"(?<digit>\\d)").compile();
-    re16.getMatchObject()
+    rm16.setRegexObject(&re16)
         .setNumberedSubstringVector(&vec_num16)
         .setNamedSubstringVector(&vec_nas16)
         .setNameToNumberMapVector(&vec_ntn16)
@@ -98,7 +101,7 @@ int main(){
         .setModifier("g");
     
     //check for validity of match
-    assert(re16.match() == 9);
+    assert(rm16.match() == 9);
     assert(vec_num16[8][0] == u"9");
     assert(vec_num16[8][1] == u"9");
     assert(vec_nas16[8][u"digit"] == u"9");
@@ -114,9 +117,10 @@ int main(){
     jp32::VecNum vec_num32;
     jp32::VecNas vec_nas32;
     jp32::VecNtN vec_ntn32;
+    jp32::RegexMatch rm32;
     
     re32.setPattern(U"(?<digit>\\d)").compile();
-    re32.getMatchObject()
+    rm32.setRegexObject(&re32)
         .setNumberedSubstringVector(&vec_num32)
         .setNamedSubstringVector(&vec_nas32)
         .setNameToNumberMapVector(&vec_ntn32)
@@ -124,7 +128,7 @@ int main(){
         .setModifier("g");
     
     //check for validity of match
-    assert(re32.match() == 9);
+    assert(rm32.match() == 9);
     assert(vec_num32[8][0] == U"9");
     assert(vec_num32[8][1] == U"9");
     assert(vec_nas32[8][U"digit"] == U"9");
@@ -135,6 +139,21 @@ int main(){
     assert(re32.replace(U"123456789", U"d$1", "g") == U"d1d2d3d4d5d6d7d8d9");
     ////////////////////////////////////////////////////////////////////
     #endif
+    
+    std::string s("");
+    jpcre2::Modifier md1;
+    jpcre2::Modifier md2(s);
+    md1.str();
+    md2.c_str();
+    
+    jpc::RegexReplace rrc;
+    
+    #if __cplusplus >= 201103L
+    jpc::RegexMatch rmc1(std::move(rmc));
+    jpc::Regex rec1(std::move(rec));
+    jpc::RegexReplace rrc1(std::move(rrc));
+    #endif
+    
     
     return 0;
 }

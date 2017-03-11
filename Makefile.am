@@ -5,8 +5,9 @@ SUBDIRS = src
 EXTRA_DIST = autogen.sh \
 	.gitignore \
 	.gitattributes \
-	.travis.yml
-	m4/ax_cxx_compile_stdcxx.m4
+	.travis.yml \
+	m4/ax_cxx_compile_stdcxx.m4 \
+	Additional-Info.txt
 
 dist_doc_DATA = \
   AUTHORS \

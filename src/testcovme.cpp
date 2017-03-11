@@ -8,7 +8,7 @@
  * */
 //~ #define NDEBUG
 #include <iostream>
-#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while usin c++11
+#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while using c++11
 #include "jpcre2.hpp"
 
 
@@ -68,22 +68,22 @@ int main(){
     cme.setSubject(&s3).setRegexObject(&re).setFindAll().match();
     
     //the following nreplace() performs a new match populating NumSub and MapNas because of callback3:
-    std::cout<<"\n\n### callback3: \n"<<cme.setMatchEvaluatorCallback(callback3).nreplace();
+    std::cout<<"\n\n### callback3: \n"<<cme.setCallback(callback3).nreplace();
     
     //Now you can use either one of callback1, callback2 or callback3 without performing a new match,
     //as the required vectors NumSub and MapNas are both populated.
-    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false);
+    std::cout<<"\n\n### callback2: \n"<<cme.setCallback(callback2).nreplace(false);
     
     //jp::callback::eraseFill function initiates all vectors (kinda like callback7). Thus, the following
     //populates all vectors. It erases the matched part/s from the subject string.
-    std::cout<<"\n\n### default callback: \n"<<cme.setMatchEvaluatorCallback(jp::callback::eraseFill).nreplace();
+    std::cout<<"\n\n### default callback: \n"<<cme.setCallback(jp::callback::eraseFill).nreplace();
     //After populating all vectors, you can use any type of callback without performing the match again.
     
     
-    //The following will give you assertion failure, because the callback1 only populates NumSub vector,
+    //The following (uncomment if you wanna test) will give you assertion failure, because the callback1 only populates NumSub vector,
     //but callback2 requires pre-exisiting (due to the 'false' argument to nreplace()) MapNas data:
-    cme.reset().setSubject(&s3).setRegexObject(&re).setFindAll().setMatchEvaluatorCallback(callback1).nreplace();
-    std::cout<<"\n\n### callback2: \n"<<cme.setMatchEvaluatorCallback(callback2).nreplace(false); //Assertion failure.
+    cme.reset().setSubject(&s3).setRegexObject(&re).setFindAll().setCallback(callback1).nreplace();
+    //~ std::cout<<"\n\n### callback2: \n"<<cme.setCallback(callback2).nreplace(false); //Assertion failure.
     
     return 0;
 }
