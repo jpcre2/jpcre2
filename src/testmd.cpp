@@ -19,8 +19,9 @@ int main(){
             /* ***************************
              * Compile modifier table 
              * ***************************/
-    
-    const char* nametab = "IJMS"; //arbitrary modifier character.
+             
+    //character table is either std::string or const char* (not jp::String)
+    std::string nametab = "IJMS"; //arbitrary modifier characters.
     //now the option values sequentially
     jpcre2::Uint valtab[] = { PCRE2_CASELESS, PCRE2_DUPNAMES, PCRE2_MULTILINE, jpcre2::JIT_COMPILE };
     //if the above two doesn't have the same number of elements, the behavior is undefined.
@@ -54,7 +55,7 @@ int main(){
              * ***************************/
     
     
-    const char* namtabm = "Ga";
+    std::string namtabm = "Ga";
     uint32_t valtabm[]= {jpcre2::FIND_ALL, PCRE2_ANCHORED};
     
     mdt.setMatchModifierTable(namtabm, valtabm);
@@ -75,7 +76,7 @@ int main(){
             
     
     
-    const char* nametabr = "Ge";
+    std::string nametabr = "Ge";
     uint32_t valtabr[] = {PCRE2_SUBSTITUTE_GLOBAL, PCRE2_SUBSTITUTE_UNSET_EMPTY};
     mdt.setReplaceModifierTable(nametabr, valtabr);
     
@@ -140,12 +141,15 @@ int main(){
     mdt.setMatchModifierTable(0,0); //clear
     mdt.setReplaceModifierTable(0,0); //clear
     mdt.setCompileModifierTable(0,0);
-    mdt.setCompileModifierTable(nametabrs,0);
-    mdt.setCompileModifierTable(nametabrs,&valtabs[0]);
+    mdt.setCompileModifierTable(&nametabrs[0],0);
+    mdt.setCompileModifierTable(&nametabrs[0],&valtabs[0]);
+    mdt.setMatchModifierTable(&nametabrs[0],0);
+    mdt.setMatchModifierTable(&nametabrs[0],&valtabs[0]);
+    mdt.setReplaceModifierTable(&nametabrs[0],0);
+    mdt.setReplaceModifierTable(&nametabrs[0],&valtabs[0]);
     mdt.setMatchModifierTable(nametabrs,0);
-    mdt.setMatchModifierTable(nametabrs,&valtabs[0]);
     mdt.setReplaceModifierTable(nametabrs,0);
-    mdt.setReplaceModifierTable(nametabrs,&valtabs[0]);
+    mdt.setCompileModifierTable(nametabrs,0);
     
     mdt = rm.getModifierTable();
     mdt = re.getModifierTable();

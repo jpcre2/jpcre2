@@ -527,10 +527,10 @@ me.setCallback(cb7).nreplace(false); //OK, as we have all the data we need.
 
 1. Changes in replace related option takes effect without a re-match.
 2. Changes in match related option (e.g start offset) needs a re-match to take effect.
-3. To re-use existing match data, callback function must be compatible with the data, otherwise assertion error.
+3. To re-use existing match data, callback function must be compatible with the data, otherwise it's an assertion failure.
 4. If the associated Regex object or subject string changes, a new match must be performed, trying to use the existing match data in such cases is undefined behavior.
 
-**Make sure you at least understand the #3 and #4 points above before going for practical implementation of re-using match data.**
+**Make sure you at least understand the #3 and #4 points above before going for practical implementation of re-using match data. see jpcre2::select::MatchEvaluator for details**
 
 <a name="modifiers"></a>
 
@@ -538,7 +538,7 @@ me.setCallback(cb7).nreplace(false); //OK, as we have all the data we need.
 
 **JPCRE2** uses a default set of modifier to provide an easy path to setting different options for different operations. There are three basic operations, namely compile, match and replace and thus the set is divided into three subset of modifiers. For convenience, we call them modifier tables.
 
-If the default modifier is not suitable for your application, you may use a custom modifier table instead of the default one. The `jpcre2::ModifierTable` class provides this interface. (note the namespace, it's directly under `jpcre2`).
+If the default modifier table is not suitable for your application, you may use a custom modifier table instead of the default one. The `jpcre2::ModifierTable` class provides this interface. (note the namespace, it's directly under `jpcre2`).
 
 > All modifier strings are parsed and converted to equivalent PCRE2 and JPCRE2 options on the fly. If you don't want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of `addJpcre2Option()` and `addPcre2Option()` functions.
 
@@ -565,7 +565,9 @@ Examples:
         /* ***************************
          * Compile modifier table 
          * ***************************/
-const char* nametab = "IJMS"; //arbitrary modifier character.
+             
+//character table is either std::string or const char* (not jp::String)
+std::string nametab = "IJMS"; //arbitrary modifier characters.
 //now the option values sequentially
 jpcre2::Uint valtab[] = { PCRE2_CASELESS, PCRE2_DUPNAMES, PCRE2_MULTILINE, jpcre2::JIT_COMPILE };
 //if the above two doesn't have the same number of elements, the behavior is undefined.
@@ -780,7 +782,7 @@ This error occurs when you pass bad values to some functions or unintentionally 
 
 <a name="null-safety"></a>
 
-# NULL safety 
+# Null safety 
 
 JPCRE2 treats null as valid input and its usage have well-defined behavior throughout JPCRE2 interface. Most of the time a null is treated as 'set something to its initial or empty state'. And also, initial state doesn't necessarily have to be an empty state, and empty state doesn't necessarily have to be an initial state. It depends on what you are working with, refer to the [doc](http://docs.neurobin.org/jpcre2) when you are in a bind.
 
@@ -788,7 +790,9 @@ As an example, if null is passed with `setSubject()`, then the subject is set to
 
 Another example is, when a null is passed to the `setRegexObject()` function, it literally sets the Regex object to null, which is actually the initial state for that calling object.
 
-**null safety with std::string**
+<a name="null-safety-with-std-string"></a>
+
+## Null safety with std::string 
 
 Giving a null to `std::string` (and such) constructor is undefined behavior. But you don't need to worry about it with JPCRE2, if it's too much to type Two double quotes (`""`) to pass an empty string to a JPCRE2 function, you can just use `0`, it's perfectly fine. But it's a bad practice, so just use this statement as a safety measure.
 
@@ -1085,6 +1089,15 @@ Option | Details
 `--[enable/disable]-coverage` | Enable/Disable coverage report.
 `--[enable/disable]-silent-rules` | Enable/Disable silent rules (enabled by default). You will get prettified `make` output if enabled.
 
+<a name="contributing-pull-request"></a>
+
+# Contributing/Pull request 
+
+> Please do all pull requests against the master branch. The default branch is 'release' which is not where continuous development of jpcre2 is done.
+
+If you find any error in the documentation or confusing/misleading use of terms, or anything that cathces your eye and feels not right, please open an issue in the [issue page](https://github.com/jpcre2/jpcre2/issues). Or if you want to fix it and do pull request then use the master branch.
+
+This page is generated from doxy/doxydoc.md file, thus changing the README.md file will have no impact.
 
 <a name="licence"></a>
 
@@ -1092,22 +1105,5 @@ Option | Details
 This project comes with a BSD LICENCE, see the LICENCE file for more details.
 
 It is not necessary to let me know which project you are using this library on, but an optional choice. I would very much appreciate it, if you let me know about the name (and short description if applicable) of the project. So if you have the time, please send me an [email](https://neurobin.org/about/contact/?s=Using+jpcre2+in+a+project&m=I+am+using+jpcre2+in+the+following+project%3A%0A%0AProject+Name%3A+%0AShort+description%3A%0A%0AYou+can+share+the+project+name+publicly%3A+%5Byes%2Fno%5D%0AYou+can+share+the+project+description+publicly%3A+%5Byes%2Fno%5D%0AYou+can+share+the+project+author+name+publicly%3A+%5Byes%2Fno%5D%0AEmail+will+be+private+and+not+shared%3A+yes%0A).
-
-# Contributing/Pull request {contributing-pull-request}
-
-> Please do all pull requests against the master branch. The default branch is 'release' which is not where continuous development of jpcre2 is done.
-
-If you find any error in the documentation or confusing/misleading use of terms, or anything that cathces your eye and feels not right, please open an issue in the issue page. Or if you want to fix it and do pull request then use the master branch. Required automated scripts are available there which will help you through the process.
-
-This page is generated from doxy/doxydoc.md file, thus changing the README.md file will have no impact.
-
-The release branch is generated from the master branch with the following command:
-
-```bash
-./configure
-make dist
-```
-
-
 
 
