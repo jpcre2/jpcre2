@@ -770,15 +770,9 @@ If you do experiment with various erroneous situations, make use of the `resetEr
 
 JPCRE2 asserts some errors with descriptive error messages. These errors are mistakes in your code and not to be shipped to the client without fixing.
 
-In no situation these errors should be bypassed by `#define NDEBUG` before including `jpcre2.hpp`. You should investigate the error message and fix cause.
+In no situation these errors should be bypassed by `#define NDEBUG` before including `jpcre2.hpp`. You should investigate the error message and fix the cause.
 
 > When there is no such errors in your finalized code, you may use `#define NDEBUG` to strip out these assertions.
-
-<a name="value-error"></a>
-
-### Value error 
-
-This error occurs when you pass bad values to some functions or unintentionally mess up or forget to set some values the right way.
 
 <a name="null-safety"></a>
 
@@ -1054,7 +1048,7 @@ To check with `valgrind`, run:
 ./configure --enable-valgrind
 make check
 ```
-To check the multi threaded example with helgrind, run:
+To check the multi threaded examples with `drd`, run:
 
 ```sh
 #requires valgrind to be installed on the system
