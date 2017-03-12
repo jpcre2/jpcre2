@@ -10,7 +10,6 @@ Version 10.30.01 - Sat Mar 11 00:08:52 UTC 2017
 * Improvement to `match()` function.
 * Different name for the same group is permitted (deviation from the PCRE2 spec 10.21):
 * Implement move constructors and move-assignment operator.
-* Allow setter functions to take parameters as const value reference, pointer or reference.
 * Guard against null pointer with well defined behavior.
 * Rename confusing name `setMatchData()` to `setMatchDataBlock()`.
 * Add `MatchEvaluator::resetMatchData()`
