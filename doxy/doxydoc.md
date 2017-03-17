@@ -289,7 +289,7 @@ size_t count = rm.setSubject("subject")
 ```
 The `RegexMatch` class stores a pointer to its' associated Regex object. If the content of the associated Regex object is changed, it will be reflected on the next operation/result.
 
-##Replace or Substitute {#replace}
+## Replace or Substitute {#replace}
 
 Regex replace is generally performed using the `jp::RegexReplace::replace()` function.
 
