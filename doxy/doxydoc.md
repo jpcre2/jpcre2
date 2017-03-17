@@ -700,16 +700,16 @@ Giving a null to `std::string` (and such) constructor is undefined behavior. But
 
 # Multi threading {#multi-threading}
 
-##Functions {#functions-thread-safety}
+## Functions {#functions-thread-safety}
 
 <b>(C) MT safe:</b> _All functions in JPCRE2 library are MT safe provided that the instances calling those functions are themselves thread safe._
 
 **When we say '(C) MT safe' or simply 'thread safe' throughout this doc, we mean the above definition of Conditional Multi-Thread safety.**
 
-##Objects {#objects-thread-safety}
+## Objects {#objects-thread-safety}
 
 1. There is no data race between two separate objects (`Regex`, `RegexMatch`, `RegexReplace` etc..) because the classes do not contain any static variables.
-2. Temporary class objects will always be thread safe as long as no JIT operation (JIT compile) is performed.
+2. Temporary class objects are always thread safe.
 3. Temporary class object that uses another third party object reference or pointer is thread safe provided that the access to the third party object is thread safe.
 4. Simultaneous access of the same object is MT unsafe. You can use mutex lock or other mechanisms to ensure thread safety.
 
