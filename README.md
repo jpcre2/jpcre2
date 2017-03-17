@@ -327,7 +327,7 @@ The `RegexMatch` class stores a pointer to its' associated Regex object. If the 
 
 <a name="replace"></a>
 
-##Replace or Substitute 
+## Replace or Substitute 
 
 Regex replace is generally performed using the `jp::RegexReplace::replace()` function.
 
