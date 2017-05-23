@@ -553,41 +553,6 @@ All of the modifiers above can be divided further into two categories:
 1. Unique modifier
 2. Combined or mixed modifier (e.g 'n', 'E')
 
-<a name="modifier-table"></a>
-
-## Modifier table 
-
-Modifier table is an instance of the `jpcre2::ModifierTable` class. You can bind this table with any of the compile, match and replace related class objects. Different objects can have different tables.
-
-Examples:
-
-```cpp
-        /* ***************************
-         * Compile modifier table 
-         * ***************************/
-             
-//character table is either std::string or const char* (not jp::String)
-std::string nametab = "IJMS"; //arbitrary modifier characters.
-//now the option values sequentially
-jpcre2::Uint valtab[] = { PCRE2_CASELESS, PCRE2_DUPNAMES, PCRE2_MULTILINE, jpcre2::JIT_COMPILE };
-//if the above two doesn't have the same number of elements, the behavior is undefined.
-
-//init ModifierTable
-jpcre2::ModifierTable mdt; //creates empty table.
-
-//change the Compile modifier table only:
-mdt.setCompileModifierTable(nametab, valtab);
-
-//now bind the table with the object
-jp::Regex re;
-re.setModifierTable(&mdt);
-
-//let's perform a compile
-re.compile("JPCRE2","I"); //now I is PCRE2_CASELESS and small 'i' is an invalid modifier.
-```
-
-For details, see the `testmd.cpp` file.
-
 
 <a name="compile-modifier"></a>
 
@@ -624,6 +589,41 @@ Modifier | Action | Details
 `E` | replace | Extension of `e` modifier. Sets even unknown groups to empty string. Equivalent to PCRE2_SUBSTITUTE_UNSET_EMPTY \| PCRE2_SUBSTITUTE_UNKNOWN_UNSET
 `g` | match<br>replace | Global. Will perform global matching or replacement if passed. Equivalent to `jpcre2::FIND_ALL` for match and `PCRE2_SUBSTITUTE_GLOBAL` for replace.
 `x` | replace | Extended replacement operation. Equivalent to `PCRE2_SUBSTITUTE_EXTENDED`. It enables some Bash like features:<br>`${<n>:-<string>}`<br>`${<n>:+<string1>:<string2>}`<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
+
+<a name="modifier-table"></a>
+
+## Modifier table 
+
+Modifier table is an instance of the `jpcre2::ModifierTable` class. You can bind this table with any of the compile, match and replace related class objects. Different objects can have different tables.
+
+Examples:
+
+```cpp
+        /* ***************************
+         * Compile modifier table 
+         * ***************************/
+             
+//character table is either std::string or const char* (not jp::String)
+std::string nametab = "IJMS"; //arbitrary modifier characters.
+//now the option values sequentially
+jpcre2::Uint valtab[] = { PCRE2_CASELESS, PCRE2_DUPNAMES, PCRE2_MULTILINE, jpcre2::JIT_COMPILE };
+//if the above two doesn't have the same number of elements, the behavior is undefined.
+
+//init ModifierTable
+jpcre2::ModifierTable mdt; //creates empty table.
+
+//change the Compile modifier table only:
+mdt.setCompileModifierTable(nametab, valtab);
+
+//now bind the table with the object
+jp::Regex re;
+re.setModifierTable(&mdt);
+
+//let's perform a compile
+re.compile("JPCRE2","I"); //now I is PCRE2_CASELESS and small 'i' is an invalid modifier.
+```
+
+For details, see the `testmd.cpp` file.
 
 
 <a name="options"></a>
