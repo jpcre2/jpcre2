@@ -1000,28 +1000,25 @@ class ModifierTable{
     }
     
     ///Take match related option value and convert to modifier string.
-    ///The modifier string can be get by calling the str() function.
     ///@param po PCRE2 option.
     ///@param jo JPCRE2 option.
-    ///@return A reference to the calling ModifierTable object.
+    ///@return modifier string (std::string)
     std::string fromMatchOption(Uint po, Uint jo) const {
         return fromOption(tabjmv,tabjms,tabmv,tabms,po,jo);
     }
     
     ///Take replace related option value and convert to modifier string.
-    ///The modifier string can be get by calling the str() function.
     ///@param po PCRE2 option.
     ///@param jo JPCRE2 option.
-    ///@return A reference to the calling ModifierTable object.
+    ///@return modifier string (std::string)
     std::string fromReplaceOption(Uint po, Uint jo) const {
         return fromOption(tabjrv,tabjrs,tabrv,tabrs,po,jo);
     }
     
     ///Take compile related option value and convert to modifier string.
-    ///The modifier string can be get by calling the str() function.
     ///@param po PCRE2 option.
     ///@param jo JPCRE2 option.
-    ///@return A reference to the calling ModifierTable object.
+    ///@return modifier string (std::string)
     std::string fromCompileOption(Uint po, Uint jo) const {
         return fromOption(tabjcv,tabjcs,tabcv,tabcs,po,jo);
     }
