@@ -164,7 +164,7 @@ enum {
 ///Aborts with an error message if condition fails.
 ///@param cond boolean condition
 ///@param msg message (std::string)
-///@param file file where jassert was called.
+///@param f file where jassert was called.
 ///@param line line number where jassert was called.
 static inline void jassert(bool cond, const char* msg, const char* f, size_t line){
     if(!cond) {
