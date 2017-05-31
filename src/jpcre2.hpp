@@ -68,7 +68,7 @@
 #include <map>          // std::map
 #include <cstdio>       // std::sprintf
 #include <cwchar>       // std::mbstate_t, std::swprintf
-//~ #include <climits>      // CHAR_BIT //[redundant] limits.h is included by pcre2.h
+#include <climits>      // CHAR_BIT
 
 #if __cplusplus >= 201103L
     #include <utility>
