@@ -4,30 +4,44 @@
 #include "jpcre2.hpp"
 #include <cstring>
 
-using namespace jpcre2;
 #include <unistd.h>
 
-
-    std::string const * m;
-
-void fun(std::string const & s){
-     m = &s;
-    }
-
-void fun2(){
+class Modifier{
+    std::string mod;
     
-    fun("fsdfsd");
-    }
+    public:
+    ///Default constructor.
+    Modifier(){}
+    
+    ///Constructor that takes a std::string.
+    ///@param x std::string as a reference.
+    Modifier(std::string const& x):mod(x){}
+    
+    ///Constructor that takes char const * (null safety is provided by this one)
+    ///@param x char const *
+    Modifier(char const *x):mod(x?x:""){ std::cout<<"called";}
+    
+    ///Returns the modifier string
+    ///@return modifier string (std::string)
+    std::string str() const { return mod; }
+    
+    ///Returns the c_str() of modifier string
+    ///@return char const *
+    char const * c_str() const { return mod.c_str(); }
+    
+    ///Returns the length of the modifier string
+    ///@return length
+    const size_t length() const{ return mod.length(); }
+    
+    ///operator[] overload to access character by index.
+    ///@param i index
+    ///@return character at index i.
+    const char operator[](size_t i) const { return mod[i]; }
+};
 
 int main(){
+    Modifier a("");
     
-    std::string s = 0;
-    
-    fun2();
-    
-    std::cout<<*m;
-    std::cout<<*m;
-    std::cout<<*m;
     return 0;
 
 }
