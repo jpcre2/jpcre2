@@ -274,6 +274,7 @@ int main(){
     rr.changePcre2Option(PCRE2_SUBSTITUTE_OVERFLOW_LENGTH, false); \
     rr.setRegexObject(&re); \
     rr.setSubject(TEXT).setReplaceWith(TEXT).replace(); /* replace error: */ \
+    JPCRE2_ASSERT(rr.getLastReplaceCount() == 0, "Last replace count gave wrong result"); \
      \
     const jp::Regex *rep = rr.getRegexObject(); \
     if(rep); /*//rep is not null*/ \

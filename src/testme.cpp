@@ -233,7 +233,9 @@ int main(){
     me1.setRegexObject(&re).setSubject(s3);
     me1.setCallback(jp::callback::fill).nreplace();
     me1.setCallback(jp::callback::eraseFill).nreplace();
-    me1.setCallback(jp::callback::erase).nreplace();
+    me1.setCallback(jp::callback::erase).nreplace(true, 0, 0);
+    size_t counter;
+    me1.setCallback(jp::callback::erase).nreplace(true, 0, &counter);
 
     return 0;
 }
