@@ -11,7 +11,11 @@ typedef jpcre2::select<char> jp;
 
 
 int main(){
-    jp::Regex re; 
+    jp::Regex re;
+
+    int lrc = jp::Regex::getLastReplaceCount();
+    if(lrc != 0) { std::cerr << "\n" << "jp::Regex::LastReplaceCount should be 0 but instead is " << lrc << "\n"; }
+    else { std::cout << "\n" << "jp::Regex::LastReplaceCount correctly found to be " << lrc << "\n"; }
 
     //Compile the pattern
     re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")     //Set various parameters
@@ -36,6 +40,10 @@ int main(){
     
     if(rr.getErrorNumber() != 0)
         std::cerr<<"\n"<<rr.getErrorMessage();
-    
+
+    lrc = jp::Regex::getLastReplaceCount();
+    if(lrc != 1) { std::cerr << "\n" << "jp::Regex::LastReplaceCount should be 1 but instead is " << lrc << "\n"; }
+    else { std::cout << "\n" << "jp::Regex::LastReplaceCount correctly found to be " << lrc << "\n"; }
+
 	return 0;
 }
