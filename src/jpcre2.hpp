@@ -2959,7 +2959,7 @@ struct select{
         ///    trying to use the existing match data in such cases is undefined behavior.
         ///
         ///@param ro replace related PCRE2 options.
-        ///@param do_match perform a new match if if true, otherwise use existing data.
+        ///@param do_match perform a new match if true, otherwise use existing data.
         ///@param counter Pointer to a counter to store the number of replacement done.
         ///@return resultant string after replacement.
         String replace(bool do_match=true, Uint ro=0, SIZE_T* counter=0);

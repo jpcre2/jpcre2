@@ -178,7 +178,7 @@ To get the match results, you need to pass appropriate vector pointers. This is 
 jp::VecNum vec_num;
 jp::RegexMatch rm;
 size_t count=rm.setRegexObject(&re)                          //set associated Regex object
-			   .setSubject(&subject)                         //set subject string
+               .setSubject(&subject)                         //set subject string
                .addModifier(ac_mod)                          //add modifier
                .setNumberedSubstringVector(&vec_num)         //pass pointer to VecNum vector
                .match();                                     //Finally perform the match.
@@ -237,9 +237,9 @@ You can iterate through the matches for numbered substrings (`jp::VecNum`) like 
 for(size_t i=0;i<vec_num.size();++i){
     //i=0 is the first match found, i=1 is the second and so forth
     for(size_t j=0;j<vec_num[i].size();++j){
-    	//j=0 is the capture group 0 i.e the total match
-    	//j=1 is the capture group 1 and so forth.
-    	std::cout<<"\n\t"<<j<<": "<<vec_num[i][j]<<"\n";
+        //j=0 is the capture group 0 i.e the total match
+        //j=1 is the capture group 1 and so forth.
+        std::cout<<"\n\t"<<j<<": "<<vec_num[i][j]<<"\n";
     }
 }
 ```
@@ -250,9 +250,9 @@ You can iterate through named substrings (`jp::VecNas`) like this:
 for(size_t i=0;i<vec_nas.size();++i){
     //i=0 is the first match found, i=1 is the second and so forth
     for(jp::MapNas::iterator ent=vec_nas[i].begin();ent!=vec_nas[i].end();++ent){
-	    //ent->first is the number/position of substring found
-	    //ent->second is the substring itself
-	    //when ent->first is 0, ent->second is the total match.
+        //ent->first is the number/position of substring found
+        //ent->second is the substring itself
+        //when ent->first is 0, ent->second is the total match.
         std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
     }
 }
@@ -263,9 +263,9 @@ If you are using `>=C++11`, you can make the loop a lot simpler:
 <!-- if version [gte C++11] -->
 ```cpp
 for(size_t i=0;i<vec_nas.size();++i){
-	for(auto const& ent : vec_nas[i]){
-	    std::cout<<"\n\t"<<ent.first<<": "<<ent.second<<"\n";
-	}
+    for(auto const& ent : vec_nas[i]){
+        std::cout<<"\n\t"<<ent.first<<": "<<ent.second<<"\n";
+    }
 }
 ```
 <!-- end version if -->
