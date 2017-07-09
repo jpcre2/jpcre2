@@ -132,13 +132,12 @@ int main(){
     //populates all vectors. It erases the matched part/s from the subject string.
     std::cout<<"\n\n### default callback: \n"<<cme.setCallback(jp::callback::eraseFill).nreplace();
     //After populating all vectors, you can use any type of callback without performing the match again.
-    
-    
+
     //The following (uncomment if you wanna test) will give you assertion failure, because the callback1 only populates NumSub vector,
     //but callback2 requires pre-exisiting (due to the 'false' argument to nreplace()) MapNas data:
     cme.reset().setSubject(&s3).setRegexObject(&re).setFindAll().setCallback(callback1).nreplace();
     //~ std::cout<<"\n\n### callback2: \n"<<cme.setCallback(callback2).nreplace(false); //Assertion failure.
-    
+
 
 
 
@@ -155,6 +154,10 @@ int main(){
     //Short note: 
     // * replace() funtion is for PCRE2 compatible substitute.
     // * nreplace() is JPCRE2 native replace function.
+
+    int lrc = jp::Regex::getLastReplaceCount();
+    if(lrc != 1) { std::cerr << "\n" << "jp::Regex::LastReplaceCount should be 1 but instead is " << lrc << "\n"; }
+    else { std::cout << "\n" << "jp::Regex::LastReplaceCount correctly found to be " << lrc << "\n"; }
     
     std::cout<<"\ncallback7: \n"<<cme.setCallback(callback7).setFindAll(false).replace();
     

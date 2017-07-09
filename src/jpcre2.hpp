@@ -3697,6 +3697,14 @@ struct select{
         PCRE2_SIZE error_offset;
 
     public: 
+        /// static class variable, get & set number of substitutions in most recent substitute regex
+        static int LastReplaceCount;
+        static int getLastReplaceCount() {
+            return LastReplaceCount;
+        }
+        static void setLastReplaceCount(int NewReplaceCount) {
+            LastReplaceCount = NewReplaceCount;
+        }
 
         /// Default Constructor.
         /// Initializes all class variables to defaults.
@@ -4370,7 +4378,7 @@ struct select{
             return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
         } 
     };
-    
+
     private:
     //prevent object instantiation of select class
     select();
@@ -4381,6 +4389,12 @@ struct select{
     ~select();
 };//struct select
 }//jpcre2 namespace
+
+// static class variable, initialize number of substitutions in most recent substitute regex
+template<> int jpcre2::select<char, (unsigned char)8>::Regex::LastReplaceCount = 0;
+template<> int jpcre2::select<char16_t, (unsigned char)16>::Regex::LastReplaceCount = 0;
+template<> int jpcre2::select<char32_t, (unsigned char)32>::Regex::LastReplaceCount = 0;
+template<> int jpcre2::select<wchar_t, (unsigned char)32>::Regex::LastReplaceCount = 0;
 
 
 inline void jpcre2::ModifierTable::parseModifierTable(std::string& tabjs, VecOpt& tabjv,
@@ -4545,6 +4559,10 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEva
                     return RegexMatch::getSubject();
                 }
             }
+
+            // static class variable, update number of substitutions in most recent substitute regex
+            Regex::setLastReplaceCount(ret);
+
             //If everything's ok exit the loop
             break;
         }
@@ -4663,6 +4681,10 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
                 return *r_subject_ptr;
             }
         }
+
+        // static class variable, update number of substitutions in most recent substitute regex
+        Regex::setLastReplaceCount(ret);
+
         //If everything's ok exit the loop
         break;
     }

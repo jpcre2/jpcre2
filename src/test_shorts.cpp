@@ -147,23 +147,44 @@ int main(){
      * A call to RegexReplace::replace() in the method chain will return the resultant string
      */
 
+    int lrc = jp::Regex::getLastReplaceCount();
+    if(lrc != 0) { std::cerr << "\n" << "jp::Regex::LastReplaceCount should be 0 but instead is " << lrc << "\n"; }
+    else { std::cout << "\n" << "jp::Regex::LastReplaceCount correctly found to be " << lrc << "\n"; }
+
     std::cout<<"\n"<<
     //replace first occurrence of a digit with @
     jp::Regex("\\d").replace("I am the subject string 44", "@");
+
+    lrc = jp::Regex::getLastReplaceCount();
+    if(lrc != 1) { std::cerr << "\n" << "jp::Regex::LastReplaceCount should be 1 but instead is " << lrc << "\n"; }
+    else { std::cout << "\n" << "jp::Regex::LastReplaceCount correctly found to be " << lrc << "\n"; }
 
     std::cout<<"\n"<<
     //replace all occurrences of a digit with @
     jp::Regex("\\d").replace("I am the subject string 44", "@", "g");
 
+    lrc = jp::Regex::getLastReplaceCount();
+    if(lrc != 2) { std::cerr << "\n" << "jp::Regex::LastReplaceCount should be 2 but instead is " << lrc << "\n"; }
+    else { std::cout << "\n" << "jp::Regex::LastReplaceCount correctly found to be " << lrc << "\n"; }
+
     //swap two parts of a string
     std::cout<<"\n"<<
     jp::Regex("^([^\t]+)\t([^\t]+)$")
         .replace("I am the subject\tTo be swapped according to tab", "$2 $1");
+
+    lrc = jp::Regex::getLastReplaceCount();
+    if(lrc != 1) { std::cerr << "\n" << "jp::Regex::LastReplaceCount should be 1 but instead is " << lrc << "\n"; }
+    else { std::cout << "\n" << "jp::Regex::LastReplaceCount correctly found to be " << lrc << "\n"; }
         
     //Doing the above with method chain:
     re.compile("^([^\t]+)\t([^\t]+)$");
     jp::RegexReplace(&re).setSubject("I am the subject\tTo be swapped according to tab")
                          .setReplaceWith("$2 $1")
                          .replace();
+
+    lrc = jp::Regex::getLastReplaceCount();
+    if(lrc != 1) { std::cerr << "\n" << "jp::Regex::LastReplaceCount should be 1 but instead is " << lrc << "\n"; }
+    else { std::cout << "\n" << "jp::Regex::LastReplaceCount correctly found to be " << lrc << "\n"; }
+
     return 0;
 }
