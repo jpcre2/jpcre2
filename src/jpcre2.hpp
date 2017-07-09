@@ -2937,7 +2937,7 @@ struct select{
         ///
         ///@param do_match Perform a new matching operation if true, otherwise use existing match data.
         ///@param jro JPCRE2 replace options.
-        ///@param counter pointer to a counter to store the number of replacement done.
+        ///@param counter Pointer to a counter to store the number of replacement done.
         ///@return resultant string after replace.
         ///@see MatchEvaluator.
         ///@see MatchEvaluatorCallback.
@@ -2960,7 +2960,7 @@ struct select{
         ///
         ///@param ro replace related PCRE2 options.
         ///@param do_match perform a new match if if true, otherwise use existing data.
-        ///@param counter pointer to a counter to store the number of replacement done.
+        ///@param counter Pointer to a counter to store the number of replacement done.
         ///@return resultant string after replacement.
         String replace(bool do_match=true, Uint ro=0, SIZE_T* counter=0);
     };
@@ -3002,6 +3002,7 @@ struct select{
         MatchContext *mcontext;
         ModifierTable const * modtab;
         SIZE_T last_replace_count;
+        SIZE_T* last_replace_counter;
         
         void init_vars() {
             re = 0;
@@ -3017,6 +3018,7 @@ struct select{
             mcontext = 0;
             modtab = 0;
             last_replace_count = 0;
+            last_replace_counter = &last_replace_count;
         }
         
         void onlyCopy(RegexReplace const &rr){
@@ -3041,6 +3043,8 @@ struct select{
             mcontext = rr.mcontext;
             modtab = rr.modtab;
             last_replace_count = rr.last_replace_count;
+            last_replace_counter = (rr.last_replace_counter == &rr.last_replace_count) ? &last_replace_count
+                                                                                       : rr.last_replace_counter;
         }
 
         void deepCopy(RegexReplace const &rr){
@@ -3275,10 +3279,25 @@ struct select{
             return buffer_size;
         }
         
-        ///Get the number of replacement in last replace operation
+        ///Get the number of replacement in last replace operation.
+        ///If you set an external counter with RegexReplace::setReplaceCounter(),
+        ///make sure that the counter variable exists, otherwise this function will
+        ///try to dereference an invalid pointer.
         ///@return Last replace count
         SIZE_T getLastReplaceCount(){
-            return last_replace_count;
+            return *last_replace_counter;
+        }
+        
+        ///Set an external counter variable to store the replacement count.
+        ///This counter will be updated after each replacement operation on this object.
+        ///A call to this method will reset the internal counter to 0, thus when you reset the counter
+        ///to internal counter (by giving null as param), the previous replace count won't be available.
+        ///@param counter Pointer to a counter variable. Null sets the counter to default internal counter.
+        ///@return Reference to the calling RegexReplace object.
+        RegexReplace& setReplaceCounter(SIZE_T* counter){
+            last_replace_count = 0;
+            last_replace_counter = counter ? counter : &last_replace_count;
+            return *this;
         }
         
         ///Set the associated Regex object.
@@ -3549,7 +3568,7 @@ struct select{
                      .setMatchContext(getMatchContext())
                      .setMatchDataBlock(getMatchDataBlock())
                      .setStartOffset(getStartOffset())
-                     .nreplace(true, getJpcre2Option(), &last_replace_count);
+                     .nreplace(true, getJpcre2Option(), last_replace_counter);
         }
         
         ///PCRE2 compatible replace function that takes a MatchEvaluator.
@@ -3568,7 +3587,7 @@ struct select{
                      .setMatchDataBlock(getMatchDataBlock())
                      .setBufferSize(getBufferSize())
                      .setStartOffset(getStartOffset())
-                     .replace(true, getPcre2Option(), &last_replace_count);
+                     .replace(true, getPcre2Option(), last_replace_counter);
         }
     }; 
  
@@ -3771,7 +3790,6 @@ struct select{
         } 
         
         /// Overloaded assignment operator.
-        ///Thread safety: same as `Regex::compile()`.
         /// @param r Regex const &
         /// @return *this
         Regex& operator=(Regex const &r) { 
@@ -4316,20 +4334,22 @@ struct select{
         /// @param mains Subject string.
         /// @param repl String to replace with
         /// @param mod Modifier string.
+        ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const &mains, String const &repl, Modifier mod="") { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
+        String replace(String const &mains, String const &repl, Modifier mod="", SIZE_T* counter=0) { 
+            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
         
         ///@overload
         /// @param mains Pointer to subject string
         /// @param repl String to replace with
         /// @param mod Modifier string.
+        ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const *mains, String const &repl, Modifier mod="") { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
+        String replace(String const *mains, String const &repl, Modifier mod="", SIZE_T* counter=0) { 
+            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
         
         ///@overload
@@ -4337,10 +4357,11 @@ struct select{
         /// @param mains Subject string
         /// @param repl Pointer to string to replace with
         /// @param mod Modifier string.
+        ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const &mains, String const *repl, Modifier mod="") { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
+        String replace(String const &mains, String const *repl, Modifier mod="", SIZE_T* counter=0) { 
+            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
         
         ///@overload
@@ -4348,10 +4369,11 @@ struct select{
         /// @param mains Pointer to subject string
         /// @param repl Pointer to string to replace with
         /// @param mod Modifier string.
+        ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const *mains, String const *repl, Modifier mod="") { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).replace(); 
+        String replace(String const *mains, String const *repl, Modifier mod="", SIZE_T* counter=0) { 
+            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
     };
     
@@ -4606,7 +4628,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEva
 
 template<typename Char_T, jpcre2::Ush BS>
 typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexReplace::replace() {
-    last_replace_count = 0;
+    *last_replace_counter = 0;
 
     // If re or re->code is null, return the subject string unmodified.
     if (!re || re->code == 0)
@@ -4656,7 +4678,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
         //If everything's ok exit the loop
         break;
     }
-    last_replace_count += ret;
+    *last_replace_counter += ret;
     String result = String((Char*) output_buffer,(Char*) (output_buffer + outlengthptr) );
     delete[] output_buffer;
     return result;

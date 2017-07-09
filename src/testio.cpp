@@ -32,6 +32,7 @@ int main(){
     jpc::VecNas vec_nasc;
     jpc::VecNtN vec_ntnc;
     jpc::RegexMatch rmc;
+    jpc::RegexReplace rrc;
     
     rec.setPattern("(?<digit>\\d)").compile();
     rmc.setRegexObject(&rec)
@@ -50,7 +51,16 @@ int main(){
     
     //check for validity of replace
     assert(rec.replace("123456789", "d$1") == "d123456789");
+    size_t counter;
     assert(rec.replace("123456789", "d$1", "g") == "d1d2d3d4d5d6d7d8d9");
+    assert(rec.replace("123456789", "d$1", "g", &counter) == "d1d2d3d4d5d6d7d8d9");
+    JPCRE2_ASSERT(counter == 9, "replace counter gave wrong result");
+    
+    rrc.setSubject("123456789").setRegexObject(&rec).setReplaceWith("d$1");
+    rrc.replace();
+    JPCRE2_ASSERT(rrc.getLastReplaceCount() == 1, "replace counter gave wrong result");
+    rrc.setRegexObject(0).replace();
+    JPCRE2_ASSERT(rrc.getLastReplaceCount() == 0, "replace counter gave wrong result");
     
     rec.compile("\\w*\\K\\w*");
     jpc::MatchEvaluator(&rec).setSubject("----fdsjflfsd8fds68").nreplace();
@@ -82,6 +92,8 @@ int main(){
     //check for validity of replace
     assert(rew.replace(L"123456789", L"d$1") == L"d123456789");
     assert(rew.replace(L"123456789", L"d$1", "g") == L"d1d2d3d4d5d6d7d8d9");
+    assert(rew.replace(L"123456789", L"d$1", "g", &counter) == L"d1d2d3d4d5d6d7d8d9");
+    JPCRE2_ASSERT(counter == 9, "replace counter gave wrong result");
     ////////////////////////////////////////////////////////////////////
     
     #if __cplusplus >= 201103L
@@ -110,6 +122,8 @@ int main(){
     //check for validity of replace
     assert(re16.replace(u"123456789", u"d$1") == u"d123456789");
     assert(re16.replace(u"123456789", u"d$1", "g") == u"d1d2d3d4d5d6d7d8d9");
+    assert(re16.replace(u"123456789", u"d$1", "g", &counter) == u"d1d2d3d4d5d6d7d8d9");
+    JPCRE2_ASSERT(counter == 9, "replace counter gave wrong result");
     ////////////////////////////////////////////////////////////////////
     
     //////////////////////// Check with std::u32string ///////////////////
@@ -137,6 +151,8 @@ int main(){
     //check for validity of replace
     assert(re32.replace(U"123456789", U"d$1") == U"d123456789");
     assert(re32.replace(U"123456789", U"d$1", "g") == U"d1d2d3d4d5d6d7d8d9");
+    assert(re32.replace(U"123456789", U"d$1", "g", &counter) == U"d1d2d3d4d5d6d7d8d9");
+    JPCRE2_ASSERT(counter == 9, "replace counter gave wrong result");
     ////////////////////////////////////////////////////////////////////
     #endif
     
@@ -146,7 +162,6 @@ int main(){
     md1.str();
     md2.c_str();
     
-    jpc::RegexReplace rrc;
     
     #if __cplusplus >= 201103L
     jpc::RegexMatch rmc1(std::move(rmc));
