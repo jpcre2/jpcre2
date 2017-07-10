@@ -1,6 +1,14 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.30.02 - Mon Jul 10 14:04:27 UTC 2017
+-----------------------------------------------
+
+* Add `RegexReplace::getLastReplaceCount()`.
+* Add `RegexReplace::setReplaceCounter()`.
+* Add additional parameter `size_t* counter` to `MatchEvaluator::replace()` and `MatchEvaluator::nreplace()`
+* Optimize ModifierTable
+
 Version 10.30.01 - Sat Mar 11 00:08:52 UTC 2017
 -----------------------------------------------
 
