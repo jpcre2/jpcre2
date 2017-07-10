@@ -69,6 +69,7 @@
 #include <cstdio>       // std::sprintf
 #include <cwchar>       // std::mbstate_t, std::swprintf
 #include <climits>      // CHAR_BIT
+#include <cstdlib>      // std::abort()
 
 #if __cplusplus >= 201103L
     #include <utility>
@@ -169,7 +170,7 @@ enum {
 static inline void jassert(bool cond, const char* msg, const char* f, size_t line){
     if(!cond) {
         fprintf(stderr,"\nE: AssertionFailure: %s\nAssertion failed in File: %s\t at Line: %u\n", msg, f, (unsigned)line);
-        ::abort(); //abort is defined in stdlib.h which is included by pcre2.h
+        std::abort();
     }
 }
 
@@ -3281,8 +3282,8 @@ struct select{
         
         ///Get the number of replacement in last replace operation.
         ///If you set an external counter with RegexReplace::setReplaceCounter(),
-        ///make sure that the counter variable exists, otherwise this function will
-        ///try to dereference an invalid pointer.
+        ///a call to this getter method will dereference the pointer to the external counter
+        ///and return the value.
         ///@return Last replace count
         SIZE_T getLastReplaceCount(){
             return *last_replace_counter;
@@ -4502,6 +4503,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEva
                     tmp = callback6((void*)0, vec_nas[i], vec_ntn[i]); break;
             case 7: JPCRE2_VECTOR_DATA_ASSERT(vec_num.size() == mcount && vec_nas.size() == mcount && vec_ntn.size() == mcount, "VecNum\n or VecNas or VecNtn");
                     tmp = callback7(vec_num[i], vec_nas[i], vec_ntn[i]); break;
+            default: JPCRE2_ASSERT(2 == 1, "Invalid callbackn. Please file a bug report (must include the line number from below)."); break;
         }
         //reset the current offset
         current_offset = vec_eoff[i];
@@ -4612,6 +4614,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEva
                     res += callback6((void*)0, vec_nas[i], vec_ntn[i]); break;
             case 7: JPCRE2_VECTOR_DATA_ASSERT(vec_num.size() == mcount && vec_nas.size() == mcount && vec_ntn.size() == mcount, "VecNum\n or VecNas or VecNtn");
                     res += callback7(vec_num[i], vec_nas[i], vec_ntn[i]); break;
+            default: JPCRE2_ASSERT(2 == 1, "Invalid callbackn. Please file a bug report (must include the line number from below)."); break;
         }
         //reset the current offset
         current_offset = vec_eoff[i];
