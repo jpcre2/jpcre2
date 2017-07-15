@@ -6,41 +6,23 @@
 
 #include <unistd.h>
 
-class Modifier{
-    std::string mod;
-    
-    public:
-    ///Default constructor.
-    Modifier(){}
-    
-    ///Constructor that takes a std::string.
-    ///@param x std::string as a reference.
-    Modifier(std::string const& x):mod(x){}
-    
-    ///Constructor that takes char const * (null safety is provided by this one)
-    ///@param x char const *
-    Modifier(char const *x):mod(x?x:""){ std::cout<<"called";}
-    
-    ///Returns the modifier string
-    ///@return modifier string (std::string)
-    std::string str() const { return mod; }
-    
-    ///Returns the c_str() of modifier string
-    ///@return char const *
-    char const * c_str() const { return mod.c_str(); }
-    
-    ///Returns the length of the modifier string
-    ///@return length
-    const size_t length() const{ return mod.length(); }
-    
-    ///operator[] overload to access character by index.
-    ///@param i index
-    ///@return character at index i.
-    const char operator[](size_t i) const { return mod[i]; }
-};
+
+typedef jpcre2::select<char>  jp;
 
 int main(){
     Modifier a("");
+
+    jp::RegexReplace rr;
+    std::cout<<rr.getLastReplaceCount(); //should print 0
+
+    jp::Regex re("\\d");
+    rr.setSubject("123456789")
+      .setRegexObject(&re)
+      .setReplaceWith("#")
+      .addModifier("g")
+      .replace();
+
+    std::cout<<rr.getLastReplaceCount(); //should print 9
     
     return 0;
 
