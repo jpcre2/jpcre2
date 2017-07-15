@@ -24,7 +24,6 @@ void sleep(double sec){
 //will act independently of one another without any lock:
 //The logic is to wrap your objects inside another class and initialize them with constructor.
 //Thus when you create objects of this wrapper class, they will have identical member objects.
-//see the task() function that is using this class as a wrapper class to save 5 Regex objects.
 //This has the overhead of creating new objects instead of using the same ones.
 struct MyRegex{
     jp::Regex re[5];
