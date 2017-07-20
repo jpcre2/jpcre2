@@ -222,7 +222,8 @@ if test "$enable_cpp11" = "yes"; then
     [AC_MSG_ERROR([C++11 is being used but std::wstring_convert could not be found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
     
   if test "$enable_thread_check" = 'yes'; then
-    AC_CHECK_HEADERS([thread mutex ctime],[],[AC_MSG_ERROR([Unable to find thread header])])
+    AC_CHECK_HEADERS([thread mutex],[],[AC_MSG_ERROR([Unable to find thread/mutex header])])
+    AC_CHECK_HEADERS([ctime],[],[AC_MSG_ERROR([Unable to find ctime header])])
   fi
 fi
 

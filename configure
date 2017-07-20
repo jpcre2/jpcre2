@@ -17658,7 +17658,7 @@ rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 
   if test "$enable_thread_check" = 'yes'; then
-    for ac_header in thread mutex ctime
+    for ac_header in thread mutex
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_cxx_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
@@ -17668,7 +17668,21 @@ if eval test \"x\$"$as_ac_Header"\" = x"yes"; then :
 _ACEOF
 
 else
-  as_fn_error $? "Unable to find thread header" "$LINENO" 5
+  as_fn_error $? "Unable to find thread/mutex header" "$LINENO" 5
+fi
+
+done
+
+    for ac_header in ctime
+do :
+  ac_fn_cxx_check_header_mongrel "$LINENO" "ctime" "ac_cv_header_ctime" "$ac_includes_default"
+if test "x$ac_cv_header_ctime" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_CTIME 1
+_ACEOF
+
+else
+  as_fn_error $? "Unable to find ctime header" "$LINENO" 5
 fi
 
 done
