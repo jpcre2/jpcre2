@@ -7,6 +7,7 @@ EXTRA_DIST = autogen.sh \
 	.gitattributes \
 	.travis.yml \
 	m4/ax_cxx_compile_stdcxx.m4 \
+	m4/ax_check_define.m4 \
 	Additional-Info.txt
 
 dist_doc_DATA = \
