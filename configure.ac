@@ -39,7 +39,7 @@ AC_TYPE_UINT32_T
 #AC_LANG_PUSH([C])
 AC_CHECK_HEADER([pcre2.h],[],[AC_MSG_ERROR([Could not find pcre2.h header])],
     [#define PCRE2_CODE_UNIT_WIDTH 0
-    #include <pcre2.h>
+     #include <pcre2.h>
     ])
 AC_CHECK_HEADERS([string vector map cstdio cwchar climits cstdlib],[],[AC_MSG_ERROR([Required header/s not found])])
 #AC_LANG_POP([C])
@@ -207,7 +207,7 @@ if test "$enable_cpp11" = "yes"; then
   AC_LINK_IFELSE(
     [AC_LANG_PROGRAM(
       [#include <cwchar>
-#include <locale>
+       #include <locale>
       ], 
       [typedef std::codecvt<char16_t, char, std::mbstate_t> Codecvt;])],
     [echo "checking for std::codecvt... yes"], 
@@ -215,7 +215,7 @@ if test "$enable_cpp11" = "yes"; then
   AC_LINK_IFELSE(
     [AC_LANG_PROGRAM(
       [#include <cwchar>
-#include <locale>
+       #include <locale>
       ], 
       [typedef std::wstring_convert<std::codecvt<char16_t, char, std::mbstate_t>, char16_t> Converter;])],
     [echo "checking for std::wstring_convert... yes"], 
