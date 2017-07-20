@@ -7,8 +7,18 @@
 //~ #define NDEBUG
 #include <iostream>
 #include "jpcre2.hpp"
+#if __cplusplus >= 201103L
+#include <unordered_map>
+#endif
 
+#if __cplusplus >= 201103L
+//In >=C++11 you can pass an optional template parameter to select the map container that will be
+//used for MapNas and MapNtn
+typedef jpcre2::select<char, std::unordered_map> jp;
+#else
 typedef jpcre2::select<char> jp;
+#endif
+
 typedef jp::String String;
 
 String toString (int x){
