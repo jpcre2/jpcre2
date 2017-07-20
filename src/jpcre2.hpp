@@ -1211,6 +1211,7 @@ template <class internT, class externT, class stateT>
 struct Codecvt : std::codecvt<internT,externT,stateT>
 { ~Codecvt(){} };
 
+///@deprecated
 ///@struct ConvUTF
 ///`UTF-8 <> UTF-16` and `UTF-8 <> UTF32` converter (>=C++11).
 ///
@@ -1233,6 +1234,7 @@ struct Codecvt : std::codecvt<internT,externT,stateT>
 template<typename Char_T>
 struct ConvUTF { typedef std::wstring_convert<Codecvt<Char_T, char, std::mbstate_t>, Char_T> Converter; };
 
+///@deprecated
 ///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-16.
 ///Convert UTF-16 to UTF-8:
 ///```cpp
@@ -1245,6 +1247,7 @@ struct ConvUTF { typedef std::wstring_convert<Codecvt<Char_T, char, std::mbstate
 ///```
 typedef ConvUTF<char16_t>::Converter Convert16;
 
+///@deprecated
 ///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-32.
 ///Convert UTF-32 to UTF-8
 ///```cpp
@@ -1259,11 +1262,13 @@ typedef ConvUTF<char32_t>::Converter Convert32;
 #endif
 
 
+///@deprecated
 ///@struct ConvInt
 ///Contains a function to convert integer to string.
 ///Integer is converted to `std::basic_string<Char_T>`
 ///@tparam Char_T Basic character type (`char`, `wchar`, `char16_t`, `char32_t`).
 template<typename Char_T, typename T = Char_T> struct ConvInt{
+    ///@deprecated
     ///Converts an integer to string.
     ///String may be `std::string`, `std::wstring`
     ///(+ `std::u16string`, `std::u32string` if `>=C++11` is used)
@@ -1285,6 +1290,7 @@ IsSame<Char_T, char>::value|IsSame<Char_T, wchar_t>::value, Char_T>::Type>{
     //wrapper of sprintf or swprintf
     static int mysprint(Char_T*, SIZE_T size, int x);
     
+    ///@deprecated
     ///Converts an integer to std::string/std::wstring
     ///@param x the integer to convert
     ///@return std::string/std::wstring from the integer
@@ -1310,6 +1316,7 @@ template<> inline int ConvInt<wchar_t>::mysprint(wchar_t* buf, SIZE_T size, int 
 template<typename Char_T> struct ConvInt<Char_T, typename EnableIf<
 IsSame<Char_T, char16_t>::value|IsSame<Char_T, char32_t>::value, Char_T>::Type>{
     
+    ///@deprecated
     ///Converts integer to std::u16string/std::u32string.
     ///Uses `std::codecvt` for conversion.
     ///@param x int to convert
@@ -1331,8 +1338,9 @@ IsSame<Char_T, char16_t>::value|IsSame<Char_T, char32_t>::value, Char_T>::Type>{
 ///The character type (`Char_T`) must be in accordance with its' code unit width (BS).
 ///If it doesn't match with the character type, compile error will be produced if not suppressed by
 ///defining the macro `JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION`.
-///@tparam BS Code unit width (8, 16 or 32)
+///
 ///@tparam Char_T Character type (`char`, `wchar_t`, `char16_t`, `char32_t`)
+///@tparam BS Code unit width (8, 16 or 32). **[deprecated]**
 ///
 ///If BS is not given, i.e it is called like `jpcre2::select<Char_T>`.
 ///then `sizeof(Char_T)*CHAR_BIT` will be taken as the value for BS.
@@ -1341,7 +1349,7 @@ IsSame<Char_T, char16_t>::value|IsSame<Char_T, char32_t>::value, Char_T>::Type>{
 ///i.e by not defining the bit size explicitly.
 ///
 ///If you want to fix the code unit width for a character type, pass
-///the value as the second templated parameter for the selector. e.g:
+///the value as the second templated parameter for the selector (**deprecated**). e.g:
 ///```cpp
 ///jpcre2::select<char, 8>::Regex re;
 ///```
@@ -5036,6 +5044,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 #endif
 
 ///@def JPCRE2_DISABLE_CHAR1632
+///@deprecated
 ///Disable support for `char16_t` and `char32_t`.
 ///Older compiler which supposedly supports C++11
 ///but does not have `std::wstring_convert` will not work with `char16_t` and `char32_t`, in this case
@@ -5053,6 +5062,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 ///support is not available, use function pointer.
 
 ///@def JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
+///@deprecated
 ///By default JPCRE2 checks if the code unit width equals to
 ///sizeof(Char_T)*CHAR_BIT, if not,it will produce compile error.
 ///This check can be disabled by defining this macro.
