@@ -1,6 +1,17 @@
 Change Log for JPCRE2
 --------------------
 
+Version 10.31.01 -
+-----------------------------------------------
+
+* Remove explicit bit size from the selector: jpcre2::select
+* Add support for arbitrary map (std::map, std::unordered_map etc.) with jpcre2::select
+* Remove macro JPCRE2_DISABLE_CHAR1632
+* Remove macro JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
+* Remove ConvInt and ConvUTF (including Convert16 and Convert32)
+
+
+
 Version 10.30.02 - Mon Jul 10 14:04:27 UTC 2017
 -----------------------------------------------
 

@@ -8,7 +8,6 @@
  * */
 //~ #define NDEBUG
 #include <iostream>
-#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while using c++11
 #include "jpcre2.hpp"
 
 

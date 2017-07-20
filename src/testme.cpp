@@ -6,14 +6,16 @@
  * */
 //~ #define NDEBUG
 #include <iostream>
-#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while usin c++11
 #include "jpcre2.hpp"
 
 typedef jpcre2::select<char> jp;
 typedef jp::String String;
 
-String toString (size_t x){
-    return jpcre2::ConvInt<char>::toString((int)x);
+String toString (int x){
+    char buf[128];
+    int written = std::sprintf(buf, "%d", x);
+    JPCRE2_ASSERT(written > 0, "IOError: Failed to write into buffer during int to string conversion.");
+    return String(buf);
 }
 
 String callback0(void*, void*, void*){
