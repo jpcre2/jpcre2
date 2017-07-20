@@ -16272,7 +16272,7 @@ _ACEOF
 
 #AC_LANG_PUSH([C])
 ac_fn_cxx_check_header_compile "$LINENO" "pcre2.h" "ac_cv_header_pcre2_h" "#define PCRE2_CODE_UNIT_WIDTH 0
-    #include <pcre2.h>
+     #include <pcre2.h>
 
 "
 if test "x$ac_cv_header_pcre2_h" = xyes; then :
@@ -17619,7 +17619,7 @@ fi
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 #include <cwchar>
-#include <locale>
+       #include <locale>
 
 int
 main ()
@@ -17639,7 +17639,7 @@ rm -f core conftest.err conftest.$ac_objext \
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 #include <cwchar>
-#include <locale>
+       #include <locale>
 
 int
 main ()
