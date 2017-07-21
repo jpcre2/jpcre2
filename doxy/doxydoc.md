@@ -634,7 +634,7 @@ jpcre2::select<wchar_t>::Regex re;
 1. In windows, the above code will use 16-bit library and UTF-16 in UTF mode.
 2. In Linux, the above code will use 32-bit library and UTF-32 in UTF mode.
 
-> If you want to fix the code unit width, use an explicit bit size such as `jpcre2::select<Char_T, BS>`, but in this case, your code will not be portable, and you will get compile error (if not suppressed) when code unit width mismatch occurs.
+> If you want to fix the code unit width, use an explicit bit size such as `jpcre2::select<Char_T, BS>`, but in this case, your code will not be portable, and you will get compile error (if not suppressed) when code unit width mismatch occurs. Specifying explicit code unit width is deprecated as of JPCRE2-10.30.02.
 
 ## Use of string class {#use-of-string-class}
 
@@ -656,8 +656,8 @@ Instead of using full names like `std::vector<std::string>` and such for storing
 
 Other typedefs are mostly for internal use
 
-* You can use `jpcre2::Convert16` to convert between UTF-8 and UTF-16. (`>=C++11`)
-* You can use `jpcre2::Convert32` to convert between UTF-8 and UTF-32. (`>=C++11`)
+* You can use `jpcre2::Convert16` to convert between UTF-8 and UTF-16. (`>=C++11`, deprecated)
+* You can use `jpcre2::Convert32` to convert between UTF-8 and UTF-32. (`>=C++11`, deprecated)
 * You should not use the `jpcre2::Ush` as unsigned short. In JPCRE2 context, it is the smallest unsigned integer type to cover at least the numbers from 1 to 126.
 * `jpcre2::Uint` is a fixed width unsigned integer type and will be at least 32 bit wide.
 * `jpcre2::SIZE_T` is the same as `PCRE2_SIZE` which is defined as `size_t`.
@@ -917,7 +917,9 @@ jp::RegexReplace(&re).setSubject("I am the subject\tTo be swapped according to t
 
 # API change notice {#api-change-notice}
 
-* `getMatchObject()` is a synonym for `initMatch()` and `getReplaceObject()` is a synonym for `initReplace()`. Their deprecation status is withdrawn, i.e they will remain :D.
+* `getMatchObject()` is a synonym for `initMatch()` and `getReplaceObject()` is a synonym for `initReplace()`. Their deprecation status is withdrawn, i.e they will remain.
+* Explicit bit size with selector (`jpcre2::select<Char_T, BS>`) is deprecated, use `jpcre2::select<Char_T>` instead.
+* `ConvInt`, `ConvUTF` (including `Convert16` and `Convert32`) are deprecated.
 
 > For complete changes see the changelog file
 
