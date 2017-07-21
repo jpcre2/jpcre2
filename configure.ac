@@ -156,7 +156,7 @@ if test "$enable_thread_check" = "yes"; then
     Define to any value to enable thread check])
   AC_CHECK_HEADERS([pthread.h],[],[AC_MSG_ERROR([Unable to find pthread.h header])])
   AC_CHECK_LIB([pthread], [pthread_exit], [], [AC_MSG_ERROR([Could not find pthread library])])
-  LIBS="-pthread $LIBS"
+  LIBS="-pthread $LIBS" # be compatible with older compilers
   AC_ARG_VAR([VALGRIND],[the valgrind program])
   AC_PATH_PROG([VALGRIND],[valgrind],[false])
   if test "x$VALGRIND" = "xfalse"; then

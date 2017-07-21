@@ -16617,7 +16617,7 @@ else
   as_fn_error $? "Could not find pthread library" "$LINENO" 5
 fi
 
-  LIBS="-pthread $LIBS"
+  LIBS="-pthread $LIBS" # be compatible with older compilers
 
   # Extract the first word of "valgrind", so it can be a program name with args.
 set dummy valgrind; ac_word=$2
