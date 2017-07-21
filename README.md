@@ -678,7 +678,7 @@ Size of integral types (`char`, `wchar_t`, `char16_t`, `char32_t`) is implementa
 
 ## Code unit width quirk 
 
-JPCRE2 codes are portable when you use the selector (`jpcre2::select`) without an explicit bit size. In this case, code will get compiled according to the code unit width defined by your system. Consider the following example, where you do :
+JPCRE2 codes are portable in regards of code unit width. Your program gets compiled according to the code unit width defined by your system. Consider the following example, where you do:
 
 ```cpp
 #include <jpcre2.hpp>
@@ -699,9 +699,9 @@ This is what will happen when you compile:
 1. In a system where `char` is 8 bit, it will use 8-bit library and UTF-8 in UTF-mode.
 2. In a system where `char` is 16 bit, it will use 16-bit library and UTF-16 in UTF-mode.
 3. In a system where `char` is 32 bit, it will use 32-bit library and UTF-32 in UTF-mode.
-4. In a system where `char` is not 8, 16 or 32 bit, it will yield compile error.
+4. In a system where `char` is not 8 or 16 or 32 bit, it will yield compile error.
 
-So, if you don't want to be so aware of the code unit width of the character type/s you are using, link your program against all PCRE2 libraries. The code unit width will be handled automatically (unless you use explicit code unit width like `jpcre2::select<char, 8>`) and if anything unsupported is encountered, you will get compile time error.
+If you don't want to be so aware of the code unit width of the character type/s you are using, link your program against all PCRE2 libraries. The code unit width will be handled automatically and if anything unsupported is encountered, you will get compile time error.
 
 A common example in this regard can be the use of `wchar_t`:
 
@@ -712,7 +712,6 @@ jpcre2::select<wchar_t>::Regex re;
 1. In windows, the above code will use 16-bit library and UTF-16 in UTF mode.
 2. In Linux, the above code will use 32-bit library and UTF-32 in UTF mode.
 
-> If you want to fix the code unit width, use an explicit bit size such as `jpcre2::select<Char_T, BS>`, but in this case, your code will not be portable, and you will get compile error (if not suppressed) when code unit width mismatch occurs.
 
 <a name="use-of-string-class"></a>
 
@@ -727,8 +726,8 @@ For portable code, instead of using the standard names `std::string` or such, us
 Instead of using full names like `std::vector<std::string>` and such for storing match result, use the typedefs:
 
 1. `jp::NumSub`: Equivalent to `std::vector<jp::String>`
-2. `jp::MapNas`: Equivalent to `std::map<jp::String, jp::String>`
-3. `jp::MapNtN`: Equivalent to `std::map<jp::String, size_t>`
+2. `jp::MapNas`: Equivalent to `std::map<jp::String, jp::String>` (You can set arbitrary map (e.g `std::unordered_map`) instead of `std::map` when using `>=C++11`)
+3. `jp::MapNtN`: Equivalent to `std::map<jp::String, size_t>` (You can set arbitrary map (e.g `std::unordered_map`) instead of `std::map` when using `>=C++11`)
 4. `jp::VecNum`: Equivalent to `std::vector<jp::NumSub>`
 5. `jp::VecNas`: Equivalent to `std::vector<jp::MapNas>`
 6. `jp::VecNtN`: Equivalent to `std::vector<jp::MapNtN>`
@@ -740,8 +739,6 @@ Instead of using full names like `std::vector<std::string>` and such for storing
 
 Other typedefs are mostly for internal use
 
-* You can use `jpcre2::Convert16` to convert between UTF-8 and UTF-16. (`>=C++11`)
-* You can use `jpcre2::Convert32` to convert between UTF-8 and UTF-32. (`>=C++11`)
 * You should not use the `jpcre2::Ush` as unsigned short. In JPCRE2 context, it is the smallest unsigned integer type to cover at least the numbers from 1 to 126.
 * `jpcre2::Uint` is a fixed width unsigned integer type and will be at least 32 bit wide.
 * `jpcre2::SIZE_T` is the same as `PCRE2_SIZE` which is defined as `size_t`.
@@ -854,9 +851,8 @@ Example multi-threaded programs are provided in *src/test_pthread.cpp* and *src/
 
 # Compatibility with compilers 
 
-1. To use JPCRE2 in its full capability (including `>=C++11` features), use latest compilers with full `C++11` support.
-2. If you use `>=C++11`, make sure it comes with `std::wstring_convert` which is required for `char16_t` and `char32_t` support, though you can disable `char16_t` and `char32_t` support by defining `JPCRE2_DISABLE_CHAR1632` before including `jpcre2.hpp`.
-3. If you don't use `C++11`, you should be OK with older compilers.
+* To use JPCRE2 in its full capability (including `>=C++11` features), use latest compilers with full `C++11` support.
+* If you do not use `>=C++11`, you will be OK with older compilers.
 
 <a name="short-examples"></a>
 
@@ -1023,7 +1019,10 @@ jp::RegexReplace(&re).setSubject("I am the subject\tTo be swapped according to t
 
 # API change notice 
 
-* `getMatchObject()` is a synonym for `initMatch()` and `getReplaceObject()` is a synonym for `initReplace()`. Their deprecation status is withdrawn, i.e they will remain :D.
+* `jpcre2::select` no longer permits explicit bit size specification.
+* `ConvInt`, `ConvUTF` (including `Convert16` and `Convert32`) is removed.
+* `jpcre2::select` can take an optional second template parameter to specify the map container.
+* Macro `JPCRE2_DISABLE_CHAR1632` and `JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION` is removed.
 
 > For complete changes see the changelog file
 

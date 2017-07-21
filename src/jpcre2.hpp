@@ -1181,35 +1181,35 @@ template<> inline std::basic_string<char> MSG<char>::INVALID_MODIFIER(){ return 
 template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INVALID_MODIFIER(){ return L"Invalid modifier: "; }
 template<> inline std::basic_string<char> MSG<char>::INSUFFICIENT_OVECTOR(){ return "ovector wasn't big enough"; }
 template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INSUFFICIENT_OVECTOR(){ return L"ovector wasn't big enough"; }
-#if __cplusplus >= 201103L && !defined JPCRE2_DISABLE_CHAR1632
+#if __cplusplus >= 201103L
 template<> inline std::basic_string<char16_t> MSG<char16_t>::INVALID_MODIFIER(){ return u"Invalid modifier: "; }
 template<> inline std::basic_string<char32_t> MSG<char32_t>::INVALID_MODIFIER(){ return U"Invalid modifier: "; }
 template<> inline std::basic_string<char16_t> MSG<char16_t>::INSUFFICIENT_OVECTOR(){ return u"ovector wasn't big enough"; }
 template<> inline std::basic_string<char32_t> MSG<char32_t>::INSUFFICIENT_OVECTOR(){ return U"ovector wasn't big enough"; }
 #endif
 
-
-///struct to select code unit width and the character type. 
+///struct to select the types.
 ///
-///Usage: `jpcre2::select<Char_T, BS>`.
-///
-///The character type (`Char_T`) must be in accordance with its' code unit width (BS).
-///If it doesn't match with the character type, compile error will be produced if not suppressed by
-///defining the macro `JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION`.
-///@tparam BS Code unit width (8, 16 or 32)
 ///@tparam Char_T Character type (`char`, `wchar_t`, `char16_t`, `char32_t`)
+///@tparam Map Optional parameter (Only `>= C++11`) to specify a map container (`std::map`, `std::unordered_map` etc..). Default is `std::map`.
 ///
-///If BS is not given, i.e it is called like `jpcre2::select<Char_T>`.
-///then `sizeof(Char_T)*CHAR_BIT` will be taken as the value for BS.
+///The character type (`Char_T`) must be in accordance with the PCRE2 library you are linking against.
+///If not sure which library you need, link against all 3 PCRE2 libraries and they will be used as needed.
 ///
-///It is possible to write portable code by using `jpcre2::select<Char_T>`
-///i.e by not defining the bit size explicitly.
+///If you want to be specific, then here's the rule:
 ///
-///If you want to fix the code unit width for a character type, pass
-///the value as the second templated parameter for the selector. e.g:
-///```cpp
-///jpcre2::select<char, 8>::Regex re;
-///```
+///1. If `Char_T` is 8 bit, you need 8 bit PCRE2 library
+///2. If `Char_T` is 16 bit, you need 16 bit PCRE2 library
+///3. If `Char_T` is 32 bit, you need 32 bit PCRE2 library
+///4. if `Char_T` is not 8 or 16 or 32 bit, you will get compile error.
+///
+///In `>= C++11` you get an additional optional template parameter to specify a map container.
+///For example, you can use `std::unordered_map` instead of the default `std::map`:
+/// ```cpp
+/// #include <unordered_map>
+/// typedef jpcre2::select<char, std::unordered_map> jp;
+/// ```
+///
 ///We will use the following typedef throughout this doc:
 ///```cpp
 ///typedef jpcre2::select<Char_T> jp;
@@ -1221,11 +1221,11 @@ template<typename Char_T>
 #endif
 struct select{
 
-    ///Typedef for character (either one of `char`, `wchar_t`, `char16_t`, `char32_t`)
+    ///Typedef for character (`char`, `wchar_t`, `char16_t`, `char32_t`)
     typedef Char_T Char;
     
     //typedef Char_T Char;
-    ///Typedef for string (either one of `std::string`, `std::wstring`, `std::u16string`, `std::u32string`).
+    ///Typedef for string (`std::string`, `std::wstring`, `std::u16string`, `std::u32string`).
     ///Defined as `std::basic_string<Char_T>`.
     ///May be this list will make more sense:
     ///Character  | String
@@ -1276,7 +1276,7 @@ struct select{
     template<typename T>
     static String toString(T); //prevent implicit type conversion of T
     
-    ///Converts a Char_T (char, wchar_t, char16_t, char32_t) to jpcre2::select::String
+    ///Converts a Char_T to jpcre2::select::String
     ///@param a Char_T
     ///@return jpcre2::select::String
     static String toString(Char a){
@@ -1285,7 +1285,7 @@ struct select{
     
     ///@overload
     ///...
-    ///Converts a Char_T const * (char*, wchar_t*, char16_t*, char32_t*) to jpcre2::select::String
+    ///Converts a Char_T const * to jpcre2::select::String
     ///@param a Char_T const *
     ///@return jpcre2::select::String
     static String toString(Char const *a){
@@ -1294,7 +1294,7 @@ struct select{
     
     ///@overload
     ///...
-    ///Converts a Char_T* (char*, wchar_t*, char16_t*, char32_t*) to jpcre2::select::String
+    ///Converts a Char_T* to jpcre2::select::String
     ///@param a Char_T const *
     ///@return jpcre2::select::String
     static String toString(Char* a){
@@ -1989,7 +1989,7 @@ struct select{
     ///essentially callback::erase.
     ///This class does not allow object instantiation.
     struct callback{
-        ///Callback funcition that removes the matched part/s in the subject string
+        ///Callback function that removes the matched part/s in the subject string
         /// and takes all match vectors as argument.
         ///Even though this function itself does not use the vectors, it still takes them
         ///so that the caller can perform a match and populate all the match data to perform
@@ -2027,7 +2027,7 @@ struct select{
         }
         
         private:
-        //prevent onject instantiation.
+        //prevent object instantiation.
         callback();
         callback(callback const &);
         #if __cplusplus >= 201103L
@@ -2075,7 +2075,7 @@ struct select{
     ///     return m[0];
     /// }
     /// jp::String callback4(void*, void*, MapNtn const &n){
-    ///     return jpcre2::ConvInt<char>::toString(n.at("name")); //position of group 'name'.
+    ///     return std::to_string(n.at("name")); //position of group 'name'.
     /// }
     /// jp::String callback2(void*, MapNas const &m, void*){
     ///     return m.at('name'); //substring by name
