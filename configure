@@ -16617,6 +16617,7 @@ else
   as_fn_error $? "Could not find pthread library" "$LINENO" 5
 fi
 
+  LIBS="-pthread $LIBS"
 
   # Extract the first word of "valgrind", so it can be a program name with args.
 set dummy valgrind; ac_word=$2
@@ -16666,6 +16667,7 @@ fi
   if test "$enable_coverage" = yes; then
     as_fn_error $? "thread check option is not supported with coverage report" "$LINENO" 5
   fi
+  CXXFLAGS="$CXXFLAGS"
 fi
 
 if test "$enable_valgrind" = "yes"; then

@@ -156,6 +156,7 @@ if test "$enable_thread_check" = "yes"; then
     Define to any value to enable thread check])
   AC_CHECK_HEADERS([pthread.h],[],[AC_MSG_ERROR([Unable to find pthread.h header])])
   AC_CHECK_LIB([pthread], [pthread_exit], [], [AC_MSG_ERROR([Could not find pthread library])])
+  LIBS="-pthread $LIBS"
   AC_ARG_VAR([VALGRIND],[the valgrind program])
   AC_PATH_PROG([VALGRIND],[valgrind],[false])
   if test "x$VALGRIND" = "xfalse"; then
@@ -165,6 +166,7 @@ if test "$enable_thread_check" = "yes"; then
   if test "$enable_coverage" = yes; then
     AC_MSG_ERROR([thread check option is not supported with coverage report])
   fi
+  CXXFLAGS="$CXXFLAGS"
 fi
 
 if test "$enable_valgrind" = "yes"; then
