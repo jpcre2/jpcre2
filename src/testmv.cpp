@@ -1,30 +1,14 @@
 #include <iostream>
-#include <pthread.h>
-#include "jpcre2.hpp"
-#include <cstring>
 
-#include <unistd.h>
-
-typedef jpcre2::select<char>  jp;
+void fun(size_t* x){
+    std::cout<<"\n"<<(*x);
+}
 
 int main(){
-    jpcre2::Modifier a("");
-
-    jp::RegexReplace rr;
-    std::cout<<rr.getLastReplaceCount(); //should print 0
-
-    jp::Regex re("\\d");
-    rr.setSubject("123456789")
-      .setRegexObject(&re)
-      .setReplaceWith("#")
-      .addModifier("g")
-      .replace();
-
-    std::cout<<rr.getLastReplaceCount(); //should print 9
+    int rc=0;
+    fun((size_t*)&rc); //should print 0, but outputs random value
     
-    re.compile("(\\d");
-    std::cout<<"\n"<<re.getErrorMessage()<<"at offset: "<<re.getErrorOffset();
-    
+    size_t c=0;
+    fun(&c); //prints 0
     return 0;
-
 }

@@ -78,13 +78,12 @@
 #endif
 
 #define JPCRE2_UNUSED(x) ((void)(x))
-
-#ifndef NDEBUG
-    #define JPCRE2_ASSERT(cond, msg) jpcre2::jassert(cond, msg, __FILE__, __LINE__)
-    #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) jpcre2::_jvassert(cond, name, __FILE__, __LINE__)
-#else
+#if defined(NDEBUG) || defined(JPCRE2_NDEBUG)
     #define JPCRE2_ASSERT(cond, msg) ((void)0)
     #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) ((void)0)
+#else
+    #define JPCRE2_ASSERT(cond, msg) jpcre2::jassert(cond, msg, __FILE__, __LINE__)
+    #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) jpcre2::_jvassert(cond, name, __FILE__, __LINE__)
 #endif
 
 
@@ -146,6 +145,19 @@ enum {
     JIT_COMPILE             = 0x0000004u            ///< Perform JIT compilation for optimization
 };
 
+
+//enableif and is_same implementation
+template<bool B, typename T = void>
+struct EnableIf{};
+template<typename T>
+struct EnableIf<true, T>{typedef T Type;};
+
+template<typename T1, typename T2>
+struct IsSame{ static const bool value = false; };
+template<typename T>
+struct IsSame<T,T>{ static const bool value = true; };
+
+
 ///JPCRE2 assert function.
 ///Aborts with an error message if condition fails.
 ///@param cond boolean condition
@@ -154,7 +166,7 @@ enum {
 ///@param line line number where jassert was called.
 static inline void jassert(bool cond, const char* msg, const char* f, size_t line){
     if(!cond) {
-        std::fprintf(stderr,"\nE: AssertionFailure: %s\nAssertion failed in File: %s\t at Line: %u\n", msg, f, (unsigned)line);
+        std::fprintf(stderr,"\n\tE: AssertionFailure\n%s\nAssertion failed in file: %s\t at line: %u\n", msg, f, (unsigned)line);
         std::abort();
     }
 }
@@ -171,16 +183,11 @@ static inline void _jvassert(bool cond, char const * name, const char* f, size_t
     the doc in MatchEvaluator section.").c_str(), f, line);
 }
 
-//enableif and is_same implementation
-template<bool B, typename T = void>
-struct EnableIf{};
-template<typename T>
-struct EnableIf<true, T>{typedef T Type;};
-
-template<typename T1, typename T2>
-struct IsSame{ static const bool value = false; };
-template<typename T>
-struct IsSame<T,T>{ static const bool value = true; };
+static inline std::string _tostdstring(unsigned x){
+    char buf[128];
+    int written = std::sprintf(buf, "%u", x);
+    return (written > 0) ? std::string(buf, buf + written) : std::string();
+}
 
 
 ////////////////////////// The following are type and function mappings from PCRE2 interface to JPCRE2 interface /////////////////////////
@@ -835,8 +842,8 @@ class ModifierTable{
                   ) const{
         SIZE_T SJ = J_V.size();
         SIZE_T S = V.size();
-        JPCRE2_ASSERT(SJ == J_N.length(), "ValueError: Modifier character and value table must be of the same size.");
-        JPCRE2_ASSERT(S == N.length(), "ValueError: Modifier character and value table must be of the same size.");
+        JPCRE2_ASSERT(SJ == J_N.length(), ("ValueError: Modifier character and value table must be of the same size (" + _tostdstring(SJ) + " == " + _tostdstring(J_N.length()) + ").").c_str());
+        JPCRE2_ASSERT(S == N.length(), ("ValueError: Modifier character and value table must be of the same size (" + _tostdstring(S) + " == " + _tostdstring(N.length()) + ").").c_str());
         MOD::toOption(mod, x,
                      J_V.empty()?0:&J_V[0], J_N.c_str(), SJ,
                      V.empty()?0:&V[0], N.c_str(), S,
@@ -849,8 +856,8 @@ class ModifierTable{
                            Uint po, Uint jo) const{
         SIZE_T SJ = J_V.size();
         SIZE_T S = V.size();
-        JPCRE2_ASSERT(SJ == J_N.length(), "ValueError: Modifier character and value table must be of the same size.");
-        JPCRE2_ASSERT(S == N.length(), "ValueError: Modifier character and value table must be of the same size.");
+        JPCRE2_ASSERT(SJ == J_N.length(), ("ValueError: Modifier character and value table must be of the same size (" + _tostdstring(SJ) + " == " + _tostdstring(J_N.length()) + ").").c_str());
+        JPCRE2_ASSERT(S == N.length(), ("ValueError: Modifier character and value table must be of the same size (" + _tostdstring(S) + " == " + _tostdstring(N.length()) + ").").c_str());
         return MOD::fromOption(J_V.empty()?0:&J_V[0], J_N.c_str(), SJ,
                      V.empty()?0:&V[0], N.c_str(), S,
                      po, jo);
@@ -1342,7 +1349,7 @@ struct select{
     /** Provides public constructors to create RegexMatch objects.
      * Every RegexMatch object should be associated with a Regex object.
      * This class stores a pointer to its' associated Regex object, thus when
-     * the content of the associated Regex object is changed, there's no need to
+     * the content of the associated Regex object is changed, there will be no need to
      * set the pointer again.
      * 
      * Examples:
@@ -1767,7 +1774,7 @@ struct select{
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setModifier()
         /// @see Regex::setModifier()
-        virtual RegexMatch& setModifier(Modifier s) { 
+        virtual RegexMatch& setModifier(Modifier const& s) { 
             match_opts = 0; 
             jpcre2_match_opts = 0; 
             changeModifier(s, true); 
@@ -1849,6 +1856,7 @@ struct select{
         ///Set the match data block to be used.
         ///The memory is not handled by RegexMatch object and not freed.
         ///User will be responsible for freeing the memory of the match data block.
+        ///@param madt Pointer to a match data block.
         ///@return Reference to the calling RegexMatch object
         virtual RegexMatch& setMatchDataBlock(MatchData* madt){
             mdata = madt;
@@ -1874,7 +1882,7 @@ struct select{
         /// @return Reference to the RegexMatch object
         /// @see Regex::changeModifier()
         /// @see RegexReplace::changeModifier()
-        virtual RegexMatch& changeModifier(Modifier mod, bool x){
+        virtual RegexMatch& changeModifier(Modifier const& mod, bool x){
             modtab ? modtab->toMatchOption(mod, x, &match_opts, &jpcre2_match_opts, &error_number, &error_offset)
                    : MOD::toMatchOption(mod, x, &match_opts, &jpcre2_match_opts, &error_number, &error_offset);
             return *this;
@@ -1908,7 +1916,7 @@ struct select{
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::addModifier()
         /// @see Regex::addModifier()
-        virtual RegexMatch& addModifier(Modifier mod){ 
+        virtual RegexMatch& addModifier(Modifier const& mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -2612,6 +2620,7 @@ struct select{
         
         ///Clears MatchEvaluator.
         ///Returns everything to initial state (some memory may retain for further and faster use).
+        ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& clear(){
             RegexMatch::clear();
             clearMatchData();
@@ -2650,10 +2659,10 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::setModifier(Modifier s).
+        ///Call RegexMatch::setModifier(Modifier const& s).
         ///@param s modifier string.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setModifier (Modifier s){
+        MatchEvaluator& setModifier (Modifier const& s){
             RegexMatch::setModifier(s);
             return *this;
         }
@@ -2738,11 +2747,11 @@ struct select{
             return buffer_size;
         }
         
-        ///Call RegexMatch::changeModifier(Modifier mod, bool x).
+        ///Call RegexMatch::changeModifier(Modifier const& mod, bool x).
         ///@param mod modifier string.
         ///@param x true (add) or false (remove).
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& changeModifier (Modifier mod, bool x){
+        MatchEvaluator& changeModifier (Modifier const& mod, bool x){
             RegexMatch::changeModifier(mod, x);
             return *this;
         }
@@ -2765,10 +2774,10 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::addModifier(Modifier mod).
+        ///Call RegexMatch::addModifier(Modifier const& mod).
         ///@param mod modifier string.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& addModifier (Modifier mod){
+        MatchEvaluator& addModifier (Modifier const& mod){
             RegexMatch::addModifier(mod);
             return *this;
         }
@@ -2841,8 +2850,8 @@ struct select{
         /// 4. If the associated Regex object or subject string changes, a new match must be performed,
         ///    trying to use the existing match data in such cases is undefined behavior.
         ///
-        ///@param ro replace related PCRE2 options.
         ///@param do_match perform a new match if true, otherwise use existing data.
+        ///@param ro replace related PCRE2 options.
         ///@param counter Pointer to a counter to store the number of replacement done.
         ///@return resultant string after replacement.
         String replace(bool do_match=true, Uint ro=0, SIZE_T* counter=0);
@@ -2874,7 +2883,7 @@ struct select{
         Regex const *re;      
 
         String r_subject;
-        String const *r_subject_ptr;
+        String *r_subject_ptr; //preplace method modifies it in-place
         String r_replw;
         String const *r_replw_ptr;
         Uint replace_opts;          
@@ -3211,10 +3220,11 @@ struct select{
         ///@overload
         ///...
         /// Set pointer to the subject string for replace, null pointer unsets it.
+        /// The underlined data is not modified unless RegexReplace::preplace() method is used.
         ///@param s Pointer to subject string
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setSubject()
-        RegexReplace& setSubject(String const *s) {
+        RegexReplace& setSubject(String *s) {
             if(s) r_subject_ptr = s;
             else {
                 r_subject.clear();
@@ -3259,7 +3269,7 @@ struct select{
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setModifier()
         ///@see Regex::setModifier()
-        RegexReplace& setModifier(Modifier s) { 
+        RegexReplace& setModifier(Modifier const& s) { 
             replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; /* must not be initialized to 0 */ 
             jpcre2_replace_opts = 0; 
             return changeModifier(s, true); 
@@ -3346,7 +3356,7 @@ struct select{
         /// @return Reference to the RegexReplace object
         /// @see Regex::changeModifier()
         /// @see RegexMatch::changeModifier()
-        RegexReplace& changeModifier(Modifier mod, bool x){
+        RegexReplace& changeModifier(Modifier const& mod, bool x){
             modtab ? modtab->toReplaceOption(mod, x, &replace_opts, &jpcre2_replace_opts, &error_number, &error_offset)
                    : MOD::toReplaceOption(mod, x, &replace_opts, &jpcre2_replace_opts, &error_number, &error_offset);
             return *this;
@@ -3383,7 +3393,7 @@ struct select{
         /// @return Reference to the calling RegexReplace object
         /// @see RegexMatch::addModifier()
         /// @see Regex::addModifier()
-        RegexReplace& addModifier(Modifier mod){ 
+        RegexReplace& addModifier(Modifier const& mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -3420,6 +3430,38 @@ struct select{
         ///@return Replaced string
         String replace(void);
         
+        /// Perl compatible replace method.
+        /// Modifies subject string in-place and returns replace count.
+        ///
+        /// The replacement is performed with `RegexReplace::replace()` which uses `pcre2_substitute()`.
+        /// @return replace count
+        SIZE_T preplace(void){
+            *r_subject_ptr = replace();
+            return *last_replace_counter;
+        }
+        
+        /// Perl compatible replace method with match evaluator.
+        /// Modifies subject string in-place and returns replace count.
+        /// MatchEvaluator class does not have a implementation of this replace method, thus it is not possible
+        /// to re-use match data with preplace() method.
+        /// Re-using match data with preplace doesn't actually make any sense, because new subject will
+        /// always require new match data.
+        ///
+        /// The replacement is performed with `RegexReplace::replace()` which uses `pcre2_substitute()`.
+        /// @param me MatchEvaluator object.
+        /// @return replace count
+        SIZE_T preplace(MatchEvaluator me){
+            *r_subject_ptr = me.setRegexObject(getRegexObject())
+                               .setSubject(r_subject_ptr) //do not use method
+                               .setFindAll((getPcre2Option() & PCRE2_SUBSTITUTE_GLOBAL)!=0)
+                               .setMatchContext(getMatchContext())
+                               .setMatchDataBlock(getMatchDataBlock())
+                               .setBufferSize(getBufferSize())
+                               .setStartOffset(getStartOffset())
+                               .replace(true, getPcre2Option(), last_replace_counter);
+            return *last_replace_counter;
+        }
+        
         ///JPCRE2 native replace function.
         ///A different name is adopted to
         ///distinguish itself from the regular replace() function which
@@ -3443,7 +3485,6 @@ struct select{
         ///
         ///It always performs a new match.
         ///@param me A MatchEvaluator object.
-        ///@param do_match Perform a new match operation if true, otherwise use existing match result.
         ///@return The resultant string after replacement.
         ///@see MatchEvaluator::nreplace()
         ///@see MatchEvaluator
@@ -3618,7 +3659,7 @@ struct select{
         ///@overload
         /// @param re Pattern string .
         /// @param mod Modifier string.
-        Regex(String const &re, Modifier mod) {
+        Regex(String const &re, Modifier const& mod) {
             init_vars();
             compile(re, mod); 
         } 
@@ -3626,7 +3667,7 @@ struct select{
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param mod Modifier string.
-        Regex(String const *re, Modifier mod) {
+        Regex(String const *re, Modifier const& mod) {
             init_vars();
             compile(re, mod); 
         }
@@ -3967,7 +4008,7 @@ struct select{
         /// @return Reference to the calling Regex object.
         /// @see RegexMatch::setModifier()
         /// @see RegexReplace::setModifier()
-        Regex& setModifier(Modifier x) { 
+        Regex& setModifier(Modifier const& x) { 
             compile_opts = 0; 
             jpcre2_compile_opts = 0; 
             return changeModifier(x, true); 
@@ -4013,7 +4054,7 @@ struct select{
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::changeModifier()
         /// @see RegexReplace::changeModifier()
-        Regex& changeModifier(Modifier mod, bool x){
+        Regex& changeModifier(Modifier const& mod, bool x){
             modtab ? modtab->toCompileOption(mod, x, &compile_opts, &jpcre2_compile_opts, &error_number, &error_offset)
                    : MOD::toCompileOption(mod, x, &compile_opts, &jpcre2_compile_opts, &error_number, &error_offset);
             return *this;
@@ -4048,7 +4089,7 @@ struct select{
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::addModifier()
         /// @see RegexReplace::addModifier()
-        Regex& addModifier(Modifier mod){ 
+        Regex& addModifier(Modifier const& mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -4119,7 +4160,7 @@ struct select{
         /// @overload
         /// @param re Pattern string 
         /// @param mod Modifier string.
-        void compile(String const &re, Modifier mod) { 
+        void compile(String const &re, Modifier const& mod) { 
             setPattern(re).setModifier(mod);
             compile(); 
         } 
@@ -4127,7 +4168,7 @@ struct select{
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param mod Modifier string.
-        void compile(String const *re, Modifier mod) {
+        void compile(String const *re, Modifier const& mod) {
             setPattern(re).setModifier(mod);
             compile(); 
         } 
@@ -4170,7 +4211,7 @@ struct select{
         /// @param start_offset Offset from where matching will start in the subject string.
         /// @return Match count
         /// @see RegexMatch::match()
-        SIZE_T match(String const &s, Modifier mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(String const &s, Modifier const& mod, PCRE2_SIZE start_offset=0) {
             return initMatch().setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         } 
         
@@ -4180,7 +4221,7 @@ struct select{
         ///@param mod Modifier string.
         ///@param start_offset Offset from where matching will start in the subject string.
         ///@return Match count
-        SIZE_T match(String const *s, Modifier mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(String const *s, Modifier const& mod, PCRE2_SIZE start_offset=0) {
             return initMatch().setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         }
         
@@ -4228,7 +4269,7 @@ struct select{
         ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const &mains, String const &repl, Modifier mod="", SIZE_T* counter=0) { 
+        String replace(String const &mains, String const &repl, Modifier const& mod="", SIZE_T* counter=0) { 
             return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
         
@@ -4239,7 +4280,7 @@ struct select{
         ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const *mains, String const &repl, Modifier mod="", SIZE_T* counter=0) { 
+        String replace(String *mains, String const &repl, Modifier const& mod="", SIZE_T* counter=0) { 
             return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
         
@@ -4251,7 +4292,7 @@ struct select{
         ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const &mains, String const *repl, Modifier mod="", SIZE_T* counter=0) { 
+        String replace(String const &mains, String const *repl, Modifier const& mod="", SIZE_T* counter=0) { 
             return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
         
@@ -4263,9 +4304,71 @@ struct select{
         ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const *mains, String const *repl, Modifier mod="", SIZE_T* counter=0) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
-        } 
+        String replace(String *mains, String const *repl, Modifier const& mod="", SIZE_T* counter=0) { 
+            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace();
+        }
+        
+        /// Perl compatible replace method.
+        /// Modifies subject string in-place and returns replace count.
+        ///
+        /// It's a shorthand method to `RegexReplace::preplace()`.
+        /// @param mains Pointer to subject string.
+        /// @param repl Replacement string (string to replace with).
+        /// @param mod Modifier string.
+        /// @return replace count.
+        SIZE_T preplace(String * mains, String const& repl, Modifier const& mod=""){
+            SIZE_T counter = 0;
+            if(mains) *mains = initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(&counter).replace();
+            return counter;
+        }
+        
+        /// @overload
+        ///
+        /// Perl compatible replace method.
+        /// Modifies subject string in-place and returns replace count.
+        ///
+        /// It's a shorthand method to `RegexReplace::preplace()`.
+        /// @param mains Pointer to subject string.
+        /// @param repl Pointer to replacement string (string to replace with).
+        /// @param mod Modifier string.
+        /// @return replace count.
+        SIZE_T preplace(String * mains, String const* repl, Modifier const& mod=""){
+            SIZE_T counter = 0;
+            if(mains) *mains = initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(&counter).replace();
+            return counter;
+        }
+        
+        /// @overload
+        ///
+        /// Perl compatible replace method.
+        /// Returns replace count and discards subject string.
+        ///
+        /// It's a shorthand method to `RegexReplace::preplace()`.
+        /// @param mains Subject string.
+        /// @param repl Replacement string (string to replace with).
+        /// @param mod Modifier string.
+        /// @return replace count.
+        SIZE_T preplace(String const& mains, String const& repl, Modifier const& mod=""){
+            SIZE_T counter = 0;
+            initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(&counter).replace();
+            return counter;
+        }
+        
+        /// @overload
+        ///
+        /// Perl compatible replace method.
+        /// Returns replace count and discards subject string.
+        ///
+        /// It's a shorthand method to `RegexReplace::preplace()`.
+        /// @param mains Subject string.
+        /// @param repl Pointer to replacement string (string to replace with).
+        /// @param mod Modifier string.
+        /// @return replace count.
+        SIZE_T preplace(String const& mains, String const* repl, Modifier const& mod=""){
+            SIZE_T counter = 0;
+            initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(&counter).replace();
+            return counter;
+        }
     };
     
     private:
@@ -4284,8 +4387,8 @@ inline void jpcre2::ModifierTable::parseModifierTable(std::string& tabjs, VecOpt
                                                      std::string& tab_s, VecOpt& tab_v,
                                                      std::string const& tabs, VecOpt const& tabv){
     SIZE_T n = tabs.length();
-    JPCRE2_ASSERT(n == tabv.size(), "ValueError: Could not set Modifier table.\
-    Modifier character and value tables are not of the same size: ");
+    JPCRE2_ASSERT(n == tabv.size(), ("ValueError: Could not set Modifier table.\
+    Modifier character and value tables are not of the same size (" + _tostdstring(n) + " == " + _tostdstring(tabv.size()) + ").").c_str());
     tabjs.clear();
     tab_s.clear(); tab_s.reserve(n);
     tabjv.clear();
@@ -4954,6 +5057,10 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 #define JPCRE2_USE_FUNCTION_POINTER_CALLBACK
 #endif
 
+#ifndef JPCRE2_NDEBUG
+#define JPCRE2_NDEBUG
+#endif
+
 
 ///@def JPCRE2_USE_FUNCTION_POINTER_CALLBACK
 ///Use function pointer in all cases for MatchEvaluatorCallback function.
@@ -4969,10 +5076,20 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 
 ///@def JPCRE2_ASSERT(cond, msg)
 ///Macro to call `jpcre2::jassert()` with file path and line number.
-///When NDEBUG is defined before including this header, this macro will
+///When `NDEBUG` or `JPCRE2_NDEBUG` is defined before including this header, this macro will
 ///be defined as `((void)0)` thus eliminating this assertion.
 ///@param cond condtion (boolean)
 ///@param msg message
+
+
+///@def JPCRE2_NDEBUG
+///Macro to remove debug codes.
+///Using this macro is discouraged even in production mode but provided for completeness.
+///You should not use this macro to bypass any error in your program.
+///Define this macro before including this header if you want to remove debug codes included in this library.
+///
+///Using the standard `NDEBUG` macro will have the same effect,
+///but it is recommended that you use `JPCRE2_NDEBUG` to strip out debug codes specifically for this library.
 
 #endif
 

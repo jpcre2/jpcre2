@@ -13,7 +13,7 @@
 
 #if __cplusplus >= 201103L
 //In >=C++11 you can pass an optional template parameter to select the map container that will be
-//used for MapNas and MapNtn
+//used for MapNas and MapNtn instead of std::map
 typedef jpcre2::select<char, std::unordered_map> jp;
 #else
 typedef jpcre2::select<char> jp;
@@ -99,7 +99,6 @@ int main(){
     std::cout<<"\n\n### 7\n"<<rr.nreplace(jp::MatchEvaluator(callback7));
     
     //MatchEvaluator itself has an nreplace() function:
-    //Actually the RegexReplace::nreplace(MatchEvaluator me) is just a wrapper of MatchEvaluator::nreplace().
     std::cout<<"\n\n### 7 Calling directly MatchEvaluator::nreplace()\n"
              <<jp::MatchEvaluator(callback7)
                                  .setSubject(&s3)

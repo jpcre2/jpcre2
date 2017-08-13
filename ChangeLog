@@ -9,6 +9,8 @@ Version 10.31.01 -
 * Remove macro JPCRE2_DISABLE_CHAR1632
 * Remove macro JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
 * Remove ConvInt and ConvUTF (including Convert16 and Convert32)
+* Add perl compatible replace method: preplace()
+* Add macro JPCRE2_NDEBUG 
 
 
 

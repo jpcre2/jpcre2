@@ -33,7 +33,8 @@ int main(){
     
     //now bind the table with the object
     jp::Regex re;
-    re.setModifierTable(&mdt);
+    std::string m = "I";
+    re.setModifierTable(&mdt).changeModifier(m, true);
     
     //let's perform a compile
     re.compile("JPCRE2","I");
