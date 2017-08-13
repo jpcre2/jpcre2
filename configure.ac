@@ -4,7 +4,7 @@ include([ax_cxx_compile_stdcxx.m4])
 include([acx_pthread.m4])
 include([ax_check_define.m4])
 
-AC_INIT([jpcre2], [10.30.02], [https://github.com/jpcre2/jpcre2/issues])
+AC_INIT([jpcre2], [10.31.01], [https://github.com/jpcre2/jpcre2/issues])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.hpp])
 #AC_CONFIG_HEADERS([config.h])
@@ -41,7 +41,7 @@ AC_CHECK_HEADER([pcre2.h],[],[AC_MSG_ERROR([Could not find pcre2.h header])],
     [#define PCRE2_CODE_UNIT_WIDTH 0
      #include <pcre2.h>
     ])
-AC_CHECK_HEADERS([string vector map cstdio cwchar climits cstdlib],[],[AC_MSG_ERROR([Required header/s not found])])
+AC_CHECK_HEADERS([string vector map cstdio climits cstdlib],[],[AC_MSG_ERROR([Required header/s not found])])
 #AC_LANG_POP([C])
 
 # Checks for library functions.
@@ -156,6 +156,7 @@ if test "$enable_thread_check" = "yes"; then
     Define to any value to enable thread check])
   AC_CHECK_HEADERS([pthread.h],[],[AC_MSG_ERROR([Unable to find pthread.h header])])
   AC_CHECK_LIB([pthread], [pthread_exit], [], [AC_MSG_ERROR([Could not find pthread library])])
+  LIBS="-pthread $LIBS" # be compatible with older compilers
   AC_ARG_VAR([VALGRIND],[the valgrind program])
   AC_PATH_PROG([VALGRIND],[valgrind],[false])
   if test "x$VALGRIND" = "xfalse"; then
@@ -165,6 +166,7 @@ if test "$enable_thread_check" = "yes"; then
   if test "$enable_coverage" = yes; then
     AC_MSG_ERROR([thread check option is not supported with coverage report])
   fi
+  CXXFLAGS="$CXXFLAGS"
 fi
 
 if test "$enable_valgrind" = "yes"; then
@@ -203,23 +205,23 @@ if test "$enable_cpp11" = "yes"; then
   CPPFLAGS="$CXXFLAGS"
   AC_CHECK_HEADER([utility],[],[AC_MSG_ERROR([C++11 is being used but utility header not found])])
   AC_CHECK_HEADER([functional],[],[AC_MSG_ERROR([C++11 is being used but functional header not found. Either update your compiler or define JPCRE2_USE_FUNCTION_POINTER_CALLBACK before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
-  AC_CHECK_HEADER([locale],[],[AC_MSG_ERROR([Header locale not found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
-  AC_LINK_IFELSE(
-    [AC_LANG_PROGRAM(
-      [#include <cwchar>
-       #include <locale>
-      ], 
-      [typedef std::codecvt<char16_t, char, std::mbstate_t> Codecvt;])],
-    [echo "checking for std::codecvt... yes"], 
-    [AC_MSG_ERROR([C++11 is being used but std::codecvt could not be found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
-  AC_LINK_IFELSE(
-    [AC_LANG_PROGRAM(
-      [#include <cwchar>
-       #include <locale>
-      ], 
-      [typedef std::wstring_convert<std::codecvt<char16_t, char, std::mbstate_t>, char16_t> Converter;])],
-    [echo "checking for std::wstring_convert... yes"], 
-    [AC_MSG_ERROR([C++11 is being used but std::wstring_convert could not be found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
+  #~ AC_CHECK_HEADER([locale],[],[AC_MSG_ERROR([Header locale not found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
+  #~ AC_LINK_IFELSE(
+    #~ [AC_LANG_PROGRAM(
+      #~ [#include <cwchar>
+       #~ #include <locale>
+      #~ ], 
+      #~ [typedef std::codecvt<char16_t, char, std::mbstate_t> Codecvt;])],
+    #~ [echo "checking for std::codecvt... yes"], 
+    #~ [AC_MSG_ERROR([C++11 is being used but std::codecvt could not be found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
+  #~ AC_LINK_IFELSE(
+    #~ [AC_LANG_PROGRAM(
+      #~ [#include <cwchar>
+       #~ #include <locale>
+      #~ ], 
+      #~ [typedef std::wstring_convert<std::codecvt<char16_t, char, std::mbstate_t>, char16_t> Converter;])],
+    #~ [echo "checking for std::wstring_convert... yes"], 
+    #~ [AC_MSG_ERROR([C++11 is being used but std::wstring_convert could not be found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
     
   if test "$enable_thread_check" = 'yes'; then
     AC_CHECK_HEADERS([thread mutex],[],[AC_MSG_ERROR([Unable to find thread/mutex header])])

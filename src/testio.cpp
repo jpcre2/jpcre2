@@ -56,14 +56,33 @@ int main(){
     assert(rec.replace("123456789", "d$1", "g", &counter) == "d1d2d3d4d5d6d7d8d9");
     JPCRE2_ASSERT(counter == 9, "replace counter gave wrong result");
     
-    rrc.setSubject("123456789").setRegexObject(&rec).setReplaceWith("d$1");
+    rrc.setSubject("123456789").setRegexObject(&rec).setReplaceWith("d$0");
     rrc.replace();
+    JPCRE2_ASSERT(rrc.preplace() == 1, "replace counter gave wrong result");
+    std::string s1 = "123456789";
+    rrc.setSubject(&s1).setRegexObject(&rec).setReplaceWith("d$0");
+    JPCRE2_ASSERT(rrc.preplace() == 1, "replace counter gave wrong result");
+    JPCRE2_ASSERT(s1 == "d123456789", "preplace didn't modify the string in-place");
     JPCRE2_ASSERT(rrc.getLastReplaceCount() == 1, "replace counter gave wrong result");
     rrc.setRegexObject(0).replace();
     JPCRE2_ASSERT(rrc.getLastReplaceCount() == 0, "replace counter gave wrong result");
     
     rec.compile("\\w*\\K\\w*");
     jpc::MatchEvaluator(&rec).setSubject("----fdsjflfsd8fds68").nreplace();
+    
+    jpc::MatchEvaluator mec; //erase callback
+    rec.compile("\\d");
+    rrc.setRegexObject(&rec).setSubject(&s1).setModifier("g");
+    JPCRE2_ASSERT(rrc.preplace(mec) == 9, "Invalid replace count with match evaluator");
+    JPCRE2_ASSERT(s1 == "d", "Match evaluator with preplace did not work");
+    std::string rs = "d";
+    JPCRE2_ASSERT(rec.preplace("123456789", "d", "g") == 9, "Error in rec.preplace");
+    JPCRE2_ASSERT(rec.preplace("123456789", &rs, "g") == 9, "Error in rec.preplace");
+    s1 = "123456789";
+    JPCRE2_ASSERT(rec.preplace(&s1, "d", "g") == 9, "Error in rec.preplace");
+    JPCRE2_ASSERT(rec.preplace(&s1, &rs, "g") == 0, "Error in rec.preplace");
+    JPCRE2_ASSERT(s1 == "ddddddddd", "Error in rec.preplace");
+    
     
     ////////////////////////////////////////////////////////////////////
     

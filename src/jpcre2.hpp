@@ -66,40 +66,24 @@
 #include <string>       // std::string, std::wstring
 #include <vector>       // std::vector
 #include <map>          // std::map
-#include <cstdio>       // std::sprintf
-#include <cwchar>       // std::mbstate_t, std::swprintf
+#include <cstdio>       // std::fprintf
 #include <climits>      // CHAR_BIT
 #include <cstdlib>      // std::abort()
 
 #if __cplusplus >= 201103L
     #include <utility>
-    #if !defined JPCRE2_DISABLE_CHAR1632
-        #include <locale>       // std::codecvt, std::wstring_convert
-    #endif
     #ifndef JPCRE2_USE_FUNCTION_POINTER_CALLBACK
         #include <functional>   // std::function
     #endif
 #endif
 
 #define JPCRE2_UNUSED(x) ((void)(x))
-
-#ifndef NDEBUG
-    #define JPCRE2_ASSERT(cond, msg) jpcre2::jassert(cond, msg, __FILE__, __LINE__)
-    #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) jpcre2::_jvassert(cond, name, __FILE__, __LINE__)
-#else
+#if defined(NDEBUG) || defined(JPCRE2_NDEBUG)
     #define JPCRE2_ASSERT(cond, msg) ((void)0)
     #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) ((void)0)
-#endif
-
-#ifdef JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
-    template<bool B, class T = void>
-    struct Validate_Code_Unit_Width { typedef T ValidChar; };
 #else
-    template<bool B, class T=void>
-    struct Validate_Code_Unit_Width {};
-     
-    template<class T>
-    struct Validate_Code_Unit_Width<true, T> { typedef T ValidChar; };
+    #define JPCRE2_ASSERT(cond, msg) jpcre2::jassert(cond, msg, __FILE__, __LINE__)
+    #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) jpcre2::_jvassert(cond, name, __FILE__, __LINE__)
 #endif
 
 
@@ -117,7 +101,7 @@ namespace jpcre2 {
 
 ///Define for JPCRE2 version.
 ///It can be used to support changes in different versions of the lib.
-#define JPCRE2_VERSION 103002L
+#define JPCRE2_VERSION 103101L
 
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
@@ -125,10 +109,10 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.30.02";     ///< Full version string
+    static const char FULL_VERSION[] = "10.31.01";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
-    static const char VERSION_MAJOR[] = "30";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "02";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MAJOR[] = "31";          ///< Major version, updated when API change is made
+    static const char VERSION_MINOR[] = "01";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -161,6 +145,19 @@ enum {
     JIT_COMPILE             = 0x0000004u            ///< Perform JIT compilation for optimization
 };
 
+
+//enableif and is_same implementation
+template<bool B, typename T = void>
+struct EnableIf{};
+template<typename T>
+struct EnableIf<true, T>{typedef T Type;};
+
+template<typename T1, typename T2>
+struct IsSame{ static const bool value = false; };
+template<typename T>
+struct IsSame<T,T>{ static const bool value = true; };
+
+
 ///JPCRE2 assert function.
 ///Aborts with an error message if condition fails.
 ///@param cond boolean condition
@@ -169,7 +166,7 @@ enum {
 ///@param line line number where jassert was called.
 static inline void jassert(bool cond, const char* msg, const char* f, size_t line){
     if(!cond) {
-        fprintf(stderr,"\nE: AssertionFailure: %s\nAssertion failed in File: %s\t at Line: %u\n", msg, f, (unsigned)line);
+        std::fprintf(stderr,"\n\tE: AssertionFailure\n%s\nAssertion failed in file: %s\t at line: %u\n", msg, f, (unsigned)line);
         std::abort();
     }
 }
@@ -186,16 +183,11 @@ static inline void _jvassert(bool cond, char const * name, const char* f, size_t
     the doc in MatchEvaluator section.").c_str(), f, line);
 }
 
-//enableif and is_same implementation
-template<bool B, typename T = void>
-struct EnableIf{};
-template<typename T>
-struct EnableIf<true, T>{typedef T Type;};
-
-template<typename T1, typename T2>
-struct IsSame{ static const bool value = false; };
-template<typename T>
-struct IsSame<T,T>{ static const bool value = true; };
+static inline std::string _tostdstring(unsigned x){
+    char buf[128];
+    int written = std::sprintf(buf, "%u", x);
+    return (written > 0) ? std::string(buf, buf + written) : std::string();
+}
 
 
 ////////////////////////// The following are type and function mappings from PCRE2 interface to JPCRE2 interface /////////////////////////
@@ -850,8 +842,8 @@ class ModifierTable{
                   ) const{
         SIZE_T SJ = J_V.size();
         SIZE_T S = V.size();
-        JPCRE2_ASSERT(SJ == J_N.length(), "ValueError: Modifier character and value table must be of the same size.");
-        JPCRE2_ASSERT(S == N.length(), "ValueError: Modifier character and value table must be of the same size.");
+        JPCRE2_ASSERT(SJ == J_N.length(), ("ValueError: Modifier character and value table must be of the same size (" + _tostdstring(SJ) + " == " + _tostdstring(J_N.length()) + ").").c_str());
+        JPCRE2_ASSERT(S == N.length(), ("ValueError: Modifier character and value table must be of the same size (" + _tostdstring(S) + " == " + _tostdstring(N.length()) + ").").c_str());
         MOD::toOption(mod, x,
                      J_V.empty()?0:&J_V[0], J_N.c_str(), SJ,
                      V.empty()?0:&V[0], N.c_str(), S,
@@ -864,8 +856,8 @@ class ModifierTable{
                            Uint po, Uint jo) const{
         SIZE_T SJ = J_V.size();
         SIZE_T S = V.size();
-        JPCRE2_ASSERT(SJ == J_N.length(), "ValueError: Modifier character and value table must be of the same size.");
-        JPCRE2_ASSERT(S == N.length(), "ValueError: Modifier character and value table must be of the same size.");
+        JPCRE2_ASSERT(SJ == J_N.length(), ("ValueError: Modifier character and value table must be of the same size (" + _tostdstring(SJ) + " == " + _tostdstring(J_N.length()) + ").").c_str());
+        JPCRE2_ASSERT(S == N.length(), ("ValueError: Modifier character and value table must be of the same size (" + _tostdstring(S) + " == " + _tostdstring(N.length()) + ").").c_str());
         return MOD::fromOption(J_V.empty()?0:&J_V[0], J_N.c_str(), SJ,
                      V.empty()?0:&V[0], N.c_str(), S,
                      po, jo);
@@ -1196,175 +1188,51 @@ template<> inline std::basic_string<char> MSG<char>::INVALID_MODIFIER(){ return 
 template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INVALID_MODIFIER(){ return L"Invalid modifier: "; }
 template<> inline std::basic_string<char> MSG<char>::INSUFFICIENT_OVECTOR(){ return "ovector wasn't big enough"; }
 template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INSUFFICIENT_OVECTOR(){ return L"ovector wasn't big enough"; }
-#if __cplusplus >= 201103L && !defined JPCRE2_DISABLE_CHAR1632
+#if __cplusplus >= 201103L
 template<> inline std::basic_string<char16_t> MSG<char16_t>::INVALID_MODIFIER(){ return u"Invalid modifier: "; }
 template<> inline std::basic_string<char32_t> MSG<char32_t>::INVALID_MODIFIER(){ return U"Invalid modifier: "; }
 template<> inline std::basic_string<char16_t> MSG<char16_t>::INSUFFICIENT_OVECTOR(){ return u"ovector wasn't big enough"; }
 template<> inline std::basic_string<char32_t> MSG<char32_t>::INSUFFICIENT_OVECTOR(){ return U"ovector wasn't big enough"; }
 #endif
 
-
-#if __cplusplus >= 201103L && !defined JPCRE2_DISABLE_CHAR1632
-
-//Convenience wrapper of std::codecvt (`>=C++11`)
-template <class internT, class externT, class stateT>
-struct Codecvt : std::codecvt<internT,externT,stateT>
-{ ~Codecvt(){} };
-
-///@deprecated
-///@struct ConvUTF
-///`UTF-8 <> UTF-16` and `UTF-8 <> UTF32` converter (>=C++11).
-///
-///Convert `UTF-16 <> UTF-8`:
-/// ```cpp
-/// ConvUTF<char16_t>::Converter conv;
-/// //UTF-16 to UTF-8
-/// std::string s = conv.to_bytes(utf16string);
-/// //UTF-8 to UTF-16
-/// std::u16string us = conv.from_bytes(utf8string);
-/// ```
-///Convert `UTF-8 <> UTF-16`:
-/// ```cpp
-/// ConvUTF<char32_t>::Converter conv;
-/// //UTF-8 to UTF-32
-/// std::u16string us = conv.from_bytes(utf8string);
-/// //UTF-32 to UTF-8
-/// std::string s = conv.to_bytes(utf32string);
-/// ```
-template<typename Char_T>
-struct ConvUTF { typedef std::wstring_convert<Codecvt<Char_T, char, std::mbstate_t>, Char_T> Converter; };
-
-///@deprecated
-///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-16.
-///Convert UTF-16 to UTF-8:
-///```cpp
-///Convert16 conv;
-///std::string s = conv.to_bytes(utf16string);
-///```
-///Convert UTF-8 to UTF-16:
-///```cpp
-///std::u16string us = conv.from_bytes(utf8string);
-///```
-typedef ConvUTF<char16_t>::Converter Convert16;
-
-///@deprecated
-///This is a convenience typedef (>=C++11) to convert between UTF-8 <> UTF-32.
-///Convert UTF-32 to UTF-8
-///```cpp
-///Convert32 conv;
-///std::string s = conv.to_bytes(utf32string);
-///```
-///Convert UTF-8 to UTF-32
-///```cpp
-///std::u32string us = conv.from_bytes(utf8string);
-///```
-typedef ConvUTF<char32_t>::Converter Convert32;
-#endif
-
-
-///@deprecated
-///@struct ConvInt
-///Contains a function to convert integer to string.
-///Integer is converted to `std::basic_string<Char_T>`
-///@tparam Char_T Basic character type (`char`, `wchar`, `char16_t`, `char32_t`).
-template<typename Char_T, typename T = Char_T> struct ConvInt{
-    ///@deprecated
-    ///Converts an integer to string.
-    ///String may be `std::string`, `std::wstring`
-    ///(+ `std::u16string`, `std::u32string` if `>=C++11` is used)
-    ///@param x the integer to convert
-    ///@return `std::string`/`std::wstring`/`std::u16string`/`std::u32string` from the integer
-    static std::basic_string<Char_T> toString(int x);
-    
-    private:
-    ConvInt();
-    ConvInt(ConvInt const&);
-    #if __cplusplus >= 201103L
-    ConvInt(ConvInt&&);
-    #endif
-    ~ConvInt();
-};
-
-template<typename Char_T> struct ConvInt<Char_T, typename EnableIf<
-IsSame<Char_T, char>::value|IsSame<Char_T, wchar_t>::value, Char_T>::Type>{
-    //wrapper of sprintf or swprintf
-    static int mysprint(Char_T*, SIZE_T size, int x);
-    
-    ///@deprecated
-    ///Converts an integer to std::string/std::wstring
-    ///@param x the integer to convert
-    ///@return std::string/std::wstring from the integer
-    static std::basic_string<Char_T> toString(int x){
-        Char_T buf[sizeof(int)*CHAR_BIT]; //sizeof(int)*CHAR_BIT should always be sufficient
-        int written = mysprint(buf, sizeof(buf)/sizeof(Char_T), x);
-        JPCRE2_ASSERT(written > 0, "IOError: Failed to write into buffer during int to string conversion.");
-        JPCRE2_UNUSED(written); //production happy
-        return std::basic_string<Char_T>(buf);
-    }
-};
-
-template<> inline int ConvInt<char>::mysprint(char* buf, SIZE_T size, int x){
-    return std::sprintf(buf, "%d", x);
-}
-template<> inline int ConvInt<wchar_t>::mysprint(wchar_t* buf, SIZE_T size, int x){
-    return std::swprintf(buf, size, L"%d", x);
-}
-
-
-#if __cplusplus >= 201103L && !defined JPCRE2_DISABLE_CHAR1632
-
-template<typename Char_T> struct ConvInt<Char_T, typename EnableIf<
-IsSame<Char_T, char16_t>::value|IsSame<Char_T, char32_t>::value, Char_T>::Type>{
-    
-    ///@deprecated
-    ///Converts integer to std::u16string/std::u32string.
-    ///Uses `std::codecvt` for conversion.
-    ///@param x int to convert
-    ///@return std::u16string/std::u32string from the integer
-    static std::basic_string<Char_T> toString(int x){
-        std::string s = std::to_string(x);
-        typename ConvUTF<Char_T>::Converter conv;
-        return conv.from_bytes(s);
-    }
-};
-#endif
-
-
-
-///struct to select code unit width and the character type. 
-///
-///Usage: `jpcre2::select<Char_T, BS>`.
-///
-///The character type (`Char_T`) must be in accordance with its' code unit width (BS).
-///If it doesn't match with the character type, compile error will be produced if not suppressed by
-///defining the macro `JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION`.
+///struct to select the types.
 ///
 ///@tparam Char_T Character type (`char`, `wchar_t`, `char16_t`, `char32_t`)
-///@tparam BS Code unit width (8, 16 or 32). **[deprecated]**
+///@tparam Map Optional parameter (Only `>= C++11`) to specify a map container (`std::map`, `std::unordered_map` etc..). Default is `std::map`.
 ///
-///If BS is not given, i.e it is called like `jpcre2::select<Char_T>`.
-///then `sizeof(Char_T)*CHAR_BIT` will be taken as the value for BS.
+///The character type (`Char_T`) must be in accordance with the PCRE2 library you are linking against.
+///If not sure which library you need, link against all 3 PCRE2 libraries and they will be used as needed.
 ///
-///It is possible to write portable code by using `jpcre2::select<Char_T>`
-///i.e by not defining the bit size explicitly.
+///If you want to be specific, then here's the rule:
 ///
-///If you want to fix the code unit width for a character type, pass
-///the value as the second templated parameter for the selector (**deprecated**). e.g:
-///```cpp
-///jpcre2::select<char, 8>::Regex re;
-///```
+///1. If `Char_T` is 8 bit, you need 8 bit PCRE2 library
+///2. If `Char_T` is 16 bit, you need 16 bit PCRE2 library
+///3. If `Char_T` is 32 bit, you need 32 bit PCRE2 library
+///4. if `Char_T` is not 8 or 16 or 32 bit, you will get compile error.
+///
+///In `>= C++11` you get an additional optional template parameter to specify a map container.
+///For example, you can use `std::unordered_map` instead of the default `std::map`:
+/// ```cpp
+/// #include <unordered_map>
+/// typedef jpcre2::select<char, std::unordered_map> jp;
+/// ```
+///
 ///We will use the following typedef throughout this doc:
 ///```cpp
 ///typedef jpcre2::select<Char_T> jp;
 ///```
-template<typename Char_T, Ush BS = sizeof( Char_T ) * CHAR_BIT> 
+#if __cplusplus >= 201103L
+template<typename Char_T, template<typename...> class Map=std::map> 
+#else
+template<typename Char_T>
+#endif
 struct select{
 
-    ///Typedef for character (either one of `char`, `wchar_t`, `char16_t`, `char32_t`)
-    typedef typename Validate_Code_Unit_Width<BS == sizeof( Char_T ) * CHAR_BIT, Char_T>::ValidChar Char;
+    ///Typedef for character (`char`, `wchar_t`, `char16_t`, `char32_t`)
+    typedef Char_T Char;
     
     //typedef Char_T Char;
-    ///Typedef for string (either one of `std::string`, `std::wstring`, `std::u16string`, `std::u32string`).
+    ///Typedef for string (`std::string`, `std::wstring`, `std::u16string`, `std::u32string`).
     ///Defined as `std::basic_string<Char_T>`.
     ///May be this list will make more sense:
     ///Character  | String
@@ -1375,14 +1243,23 @@ struct select{
     ///char32_t | std::u32string (>=C++11) 
     typedef typename std::basic_string<Char_T> String;
     
+    #if __cplusplus >= 201103L
+    ///Map for Named substrings.
+    typedef class Map<String, String> MapNas;
+    ///Substring name to Substring number map.
+    typedef class Map<String, SIZE_T> MapNtN;
+    #else
     ///Map for Named substrings.
     typedef typename std::map<String, String> MapNas;
-    ///Vector for Numbered substrings (Sub container).
-    typedef typename std::vector<String> NumSub;     
     ///Substring name to Substring number map.
     typedef typename std::map<String, SIZE_T> MapNtN;
+    #endif
+    
     ///Allow spelling mistake of MapNtN as MapNtn.
     typedef MapNtN MapNtn;
+    
+    ///Vector for Numbered substrings (Sub container).
+    typedef typename std::vector<String> NumSub;     
     ///Vector of matches with named substrings.
     typedef typename std::vector<MapNas> VecNas;   
     ///Vector of substring name to substring number map.       
@@ -1393,20 +1270,20 @@ struct select{
     typedef typename std::vector<NumSub> VecNum;
     
     //These are to shorten the code
-    typedef typename Pcre2Type<BS>::Pcre2Uchar Pcre2Uchar;
-    typedef typename Pcre2Type<BS>::Pcre2Sptr Pcre2Sptr;
-    typedef typename Pcre2Type<BS>::Pcre2Code Pcre2Code;
-    typedef typename Pcre2Type<BS>::CompileContext CompileContext;
-    typedef typename Pcre2Type<BS>::MatchData MatchData;
-    typedef typename Pcre2Type<BS>::GeneralContext GeneralContext;
-    typedef typename Pcre2Type<BS>::MatchContext MatchContext;
-    typedef typename Pcre2Type<BS>::JitCallback JitCallback;
-    typedef typename Pcre2Type<BS>::JitStack JitStack;
+    typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::Pcre2Uchar Pcre2Uchar;
+    typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::Pcre2Sptr Pcre2Sptr;
+    typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::Pcre2Code Pcre2Code;
+    typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::CompileContext CompileContext;
+    typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::MatchData MatchData;
+    typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::GeneralContext GeneralContext;
+    typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::MatchContext MatchContext;
+    typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::JitCallback JitCallback;
+    typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::JitStack JitStack;
     
     template<typename T>
     static String toString(T); //prevent implicit type conversion of T
     
-    ///Converts a Char_T (char, wchar_t, char16_t, char32_t) to jpcre2::select::String
+    ///Converts a Char_T to jpcre2::select::String
     ///@param a Char_T
     ///@return jpcre2::select::String
     static String toString(Char a){
@@ -1415,7 +1292,7 @@ struct select{
     
     ///@overload
     ///...
-    ///Converts a Char_T const * (char*, wchar_t*, char16_t*, char32_t*) to jpcre2::select::String
+    ///Converts a Char_T const * to jpcre2::select::String
     ///@param a Char_T const *
     ///@return jpcre2::select::String
     static String toString(Char const *a){
@@ -1424,7 +1301,7 @@ struct select{
     
     ///@overload
     ///...
-    ///Converts a Char_T* (char*, wchar_t*, char16_t*, char32_t*) to jpcre2::select::String
+    ///Converts a Char_T* to jpcre2::select::String
     ///@param a Char_T const *
     ///@return jpcre2::select::String
     static String toString(Char* a){
@@ -1445,7 +1322,7 @@ struct select{
     ///@return message as jpcre2::select::String.
     static String getPcre2ErrorMessage(int err_num) {
         Pcre2Uchar buffer[sizeof(Char)*CHAR_BIT*1024];
-        Pcre2Func<BS>::get_error_message(err_num, buffer, sizeof(buffer));
+        Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::get_error_message(err_num, buffer, sizeof(buffer));
         return toString((Pcre2Uchar*) buffer);
     }          
     
@@ -1459,7 +1336,7 @@ struct select{
         } else if(err_num == (int)ERROR::INSUFFICIENT_OVECTOR){
             return MSG<Char>::INSUFFICIENT_OVECTOR();
         } else if(err_num != 0) {
-            return getPcre2ErrorMessage((int) err_num) + ConvInt<Char>::toString((int) err_off);
+            return getPcre2ErrorMessage((int) err_num);
         } else return String();
     }
 
@@ -1472,7 +1349,7 @@ struct select{
     /** Provides public constructors to create RegexMatch objects.
      * Every RegexMatch object should be associated with a Regex object.
      * This class stores a pointer to its' associated Regex object, thus when
-     * the content of the associated Regex object is changed, there's no need to
+     * the content of the associated Regex object is changed, there will be no need to
      * set the pointer again.
      * 
      * Examples:
@@ -1495,7 +1372,7 @@ struct select{
         Regex const *re;              
 
         String m_subject;
-        String const *m_subject_ptr; //for huge text avoid copy
+        String const *m_subject_ptr;
         Uint match_opts;        
         Uint jpcre2_match_opts; 
         MatchContext *mcontext;
@@ -1692,8 +1569,12 @@ struct select{
         
         /// Returns the last error message
         ///@return Last error message
-        virtual String getErrorMessage() const  { 
-            return select<Char, BS>::getErrorMessage(error_number, error_offset); 
+        virtual String getErrorMessage() const  {
+            #if __cplusplus >= 201103L
+            return select<Char, Map>::getErrorMessage(error_number, error_offset);
+            #else
+            return select<Char>::getErrorMessage(error_number, error_offset); 
+            #endif
         } 
         
         ///Get subject string (by value).
@@ -1893,7 +1774,7 @@ struct select{
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::setModifier()
         /// @see Regex::setModifier()
-        virtual RegexMatch& setModifier(Modifier s) { 
+        virtual RegexMatch& setModifier(Modifier const& s) { 
             match_opts = 0; 
             jpcre2_match_opts = 0; 
             changeModifier(s, true); 
@@ -1975,6 +1856,7 @@ struct select{
         ///Set the match data block to be used.
         ///The memory is not handled by RegexMatch object and not freed.
         ///User will be responsible for freeing the memory of the match data block.
+        ///@param madt Pointer to a match data block.
         ///@return Reference to the calling RegexMatch object
         virtual RegexMatch& setMatchDataBlock(MatchData* madt){
             mdata = madt;
@@ -2000,7 +1882,7 @@ struct select{
         /// @return Reference to the RegexMatch object
         /// @see Regex::changeModifier()
         /// @see RegexReplace::changeModifier()
-        virtual RegexMatch& changeModifier(Modifier mod, bool x){
+        virtual RegexMatch& changeModifier(Modifier const& mod, bool x){
             modtab ? modtab->toMatchOption(mod, x, &match_opts, &jpcre2_match_opts, &error_number, &error_offset)
                    : MOD::toMatchOption(mod, x, &match_opts, &jpcre2_match_opts, &error_number, &error_offset);
             return *this;
@@ -2034,7 +1916,7 @@ struct select{
         /// @return Reference to the calling RegexMatch object
         /// @see RegexReplace::addModifier()
         /// @see Regex::addModifier()
-        virtual RegexMatch& addModifier(Modifier mod){ 
+        virtual RegexMatch& addModifier(Modifier const& mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -2115,7 +1997,7 @@ struct select{
     ///essentially callback::erase.
     ///This class does not allow object instantiation.
     struct callback{
-        ///Callback funcition that removes the matched part/s in the subject string
+        ///Callback function that removes the matched part/s in the subject string
         /// and takes all match vectors as argument.
         ///Even though this function itself does not use the vectors, it still takes them
         ///so that the caller can perform a match and populate all the match data to perform
@@ -2153,7 +2035,7 @@ struct select{
         }
         
         private:
-        //prevent onject instantiation.
+        //prevent object instantiation.
         callback();
         callback(callback const &);
         #if __cplusplus >= 201103L
@@ -2201,7 +2083,7 @@ struct select{
     ///     return m[0];
     /// }
     /// jp::String callback4(void*, void*, MapNtn const &n){
-    ///     return jpcre2::ConvInt<char>::toString(n.at("name")); //position of group 'name'.
+    ///     return std::to_string(n.at("name")); //position of group 'name'.
     /// }
     /// jp::String callback2(void*, MapNas const &m, void*){
     ///     return m.at('name'); //substring by name
@@ -2738,6 +2620,7 @@ struct select{
         
         ///Clears MatchEvaluator.
         ///Returns everything to initial state (some memory may retain for further and faster use).
+        ///@return A reference to the calling MatchEvaluator object.
         MatchEvaluator& clear(){
             RegexMatch::clear();
             clearMatchData();
@@ -2776,10 +2659,10 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::setModifier(Modifier s).
+        ///Call RegexMatch::setModifier(Modifier const& s).
         ///@param s modifier string.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& setModifier (Modifier s){
+        MatchEvaluator& setModifier (Modifier const& s){
             RegexMatch::setModifier(s);
             return *this;
         }
@@ -2864,11 +2747,11 @@ struct select{
             return buffer_size;
         }
         
-        ///Call RegexMatch::changeModifier(Modifier mod, bool x).
+        ///Call RegexMatch::changeModifier(Modifier const& mod, bool x).
         ///@param mod modifier string.
         ///@param x true (add) or false (remove).
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& changeModifier (Modifier mod, bool x){
+        MatchEvaluator& changeModifier (Modifier const& mod, bool x){
             RegexMatch::changeModifier(mod, x);
             return *this;
         }
@@ -2891,10 +2774,10 @@ struct select{
             return *this;
         }
         
-        ///Call RegexMatch::addModifier(Modifier mod).
+        ///Call RegexMatch::addModifier(Modifier const& mod).
         ///@param mod modifier string.
         ///@return A reference to the calling MatchEvaluator object.
-        MatchEvaluator& addModifier (Modifier mod){
+        MatchEvaluator& addModifier (Modifier const& mod){
             RegexMatch::addModifier(mod);
             return *this;
         }
@@ -2967,8 +2850,8 @@ struct select{
         /// 4. If the associated Regex object or subject string changes, a new match must be performed,
         ///    trying to use the existing match data in such cases is undefined behavior.
         ///
-        ///@param ro replace related PCRE2 options.
         ///@param do_match perform a new match if true, otherwise use existing data.
+        ///@param ro replace related PCRE2 options.
         ///@param counter Pointer to a counter to store the number of replacement done.
         ///@return resultant string after replacement.
         String replace(bool do_match=true, Uint ro=0, SIZE_T* counter=0);
@@ -3000,7 +2883,7 @@ struct select{
         Regex const *re;      
 
         String r_subject;
-        String const *r_subject_ptr;
+        String *r_subject_ptr; //preplace method modifies it in-place
         String r_replw;
         String const *r_replw_ptr;
         Uint replace_opts;          
@@ -3183,8 +3066,12 @@ struct select{
         
         /// Returns the last error message
         ///@return Last error message
-        String getErrorMessage() const  { 
-            return select<Char, BS>::getErrorMessage(error_number, error_offset); 
+        String getErrorMessage() const  {
+            #if __cplusplus >= 201103L
+            return select<Char, Map>::getErrorMessage(error_number, error_offset); 
+            #else
+            return select<Char>::getErrorMessage(error_number, error_offset); 
+            #endif
         } 
         
         /// Get replacement string
@@ -3333,10 +3220,11 @@ struct select{
         ///@overload
         ///...
         /// Set pointer to the subject string for replace, null pointer unsets it.
+        /// The underlined data is not modified unless RegexReplace::preplace() method is used.
         ///@param s Pointer to subject string
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setSubject()
-        RegexReplace& setSubject(String const *s) {
+        RegexReplace& setSubject(String *s) {
             if(s) r_subject_ptr = s;
             else {
                 r_subject.clear();
@@ -3381,7 +3269,7 @@ struct select{
         ///@return Reference to the calling RegexReplace object
         ///@see RegexMatch::setModifier()
         ///@see Regex::setModifier()
-        RegexReplace& setModifier(Modifier s) { 
+        RegexReplace& setModifier(Modifier const& s) { 
             replace_opts = PCRE2_SUBSTITUTE_OVERFLOW_LENGTH; /* must not be initialized to 0 */ 
             jpcre2_replace_opts = 0; 
             return changeModifier(s, true); 
@@ -3468,7 +3356,7 @@ struct select{
         /// @return Reference to the RegexReplace object
         /// @see Regex::changeModifier()
         /// @see RegexMatch::changeModifier()
-        RegexReplace& changeModifier(Modifier mod, bool x){
+        RegexReplace& changeModifier(Modifier const& mod, bool x){
             modtab ? modtab->toReplaceOption(mod, x, &replace_opts, &jpcre2_replace_opts, &error_number, &error_offset)
                    : MOD::toReplaceOption(mod, x, &replace_opts, &jpcre2_replace_opts, &error_number, &error_offset);
             return *this;
@@ -3505,7 +3393,7 @@ struct select{
         /// @return Reference to the calling RegexReplace object
         /// @see RegexMatch::addModifier()
         /// @see Regex::addModifier()
-        RegexReplace& addModifier(Modifier mod){ 
+        RegexReplace& addModifier(Modifier const& mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -3542,6 +3430,38 @@ struct select{
         ///@return Replaced string
         String replace(void);
         
+        /// Perl compatible replace method.
+        /// Modifies subject string in-place and returns replace count.
+        ///
+        /// The replacement is performed with `RegexReplace::replace()` which uses `pcre2_substitute()`.
+        /// @return replace count
+        SIZE_T preplace(void){
+            *r_subject_ptr = replace();
+            return *last_replace_counter;
+        }
+        
+        /// Perl compatible replace method with match evaluator.
+        /// Modifies subject string in-place and returns replace count.
+        /// MatchEvaluator class does not have a implementation of this replace method, thus it is not possible
+        /// to re-use match data with preplace() method.
+        /// Re-using match data with preplace doesn't actually make any sense, because new subject will
+        /// always require new match data.
+        ///
+        /// The replacement is performed with `RegexReplace::replace()` which uses `pcre2_substitute()`.
+        /// @param me MatchEvaluator object.
+        /// @return replace count
+        SIZE_T preplace(MatchEvaluator me){
+            *r_subject_ptr = me.setRegexObject(getRegexObject())
+                               .setSubject(r_subject_ptr) //do not use method
+                               .setFindAll((getPcre2Option() & PCRE2_SUBSTITUTE_GLOBAL)!=0)
+                               .setMatchContext(getMatchContext())
+                               .setMatchDataBlock(getMatchDataBlock())
+                               .setBufferSize(getBufferSize())
+                               .setStartOffset(getStartOffset())
+                               .replace(true, getPcre2Option(), last_replace_counter);
+            return *last_replace_counter;
+        }
+        
         ///JPCRE2 native replace function.
         ///A different name is adopted to
         ///distinguish itself from the regular replace() function which
@@ -3565,7 +3485,6 @@ struct select{
         ///
         ///It always performs a new match.
         ///@param me A MatchEvaluator object.
-        ///@param do_match Perform a new match operation if true, otherwise use existing match result.
         ///@return The resultant string after replacement.
         ///@see MatchEvaluator::nreplace()
         ///@see MatchEvaluator
@@ -3646,12 +3565,12 @@ struct select{
         } 
 
         void freeRegexMemory(void) {
-            Pcre2Func<BS>::code_free(code);
+            Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::code_free(code);
             code = 0; //we may use it again
         }
         
         void freeCompileContext(){
-            Pcre2Func<BS>::compile_context_free(ccontext);
+            Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::compile_context_free(ccontext);
             ccontext = 0;
         }
 
@@ -3676,9 +3595,9 @@ struct select{
             tabv = r.tabv;
             //copy ccontext if it's not null
             freeCompileContext();
-            ccontext = (r.ccontext) ? Pcre2Func<BS>::compile_context_copy(r.ccontext) : 0;
+            ccontext = (r.ccontext) ? Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::compile_context_copy(r.ccontext) : 0;
             //if tabv is not empty and ccontext is ok (not null) set the table pointer to ccontext
-            if(ccontext  && !tabv.empty()) Pcre2Func<BS>::set_character_tables(ccontext, &tabv[0]);
+            if(ccontext  && !tabv.empty()) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::set_character_tables(ccontext, &tabv[0]);
             
             //table pointer must be updated in the compiled code itself, jit memory copy is not available.
             //copy is not going to work, we need a recompile.
@@ -3700,7 +3619,7 @@ struct select{
             //steal ccontext
             freeCompileContext();
             ccontext = r.ccontext; r.ccontext = 0; //must set this to 0
-            if(ccontext && !tabv.empty()) Pcre2Func<BS>::set_character_tables(ccontext, &tabv[0]);
+            if(ccontext && !tabv.empty()) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::set_character_tables(ccontext, &tabv[0]);
             
             //steal the code
             freeRegexMemory();
@@ -3740,7 +3659,7 @@ struct select{
         ///@overload
         /// @param re Pattern string .
         /// @param mod Modifier string.
-        Regex(String const &re, Modifier mod) {
+        Regex(String const &re, Modifier const& mod) {
             init_vars();
             compile(re, mod); 
         } 
@@ -3748,7 +3667,7 @@ struct select{
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param mod Modifier string.
-        Regex(String const *re, Modifier mod) {
+        Regex(String const *re, Modifier const& mod) {
             init_vars();
             compile(re, mod); 
         }
@@ -3936,12 +3855,12 @@ struct select{
         /// to apply the new character tables.
         /// @return Reference to the calling Regex object.
         Regex& resetCharacterTables() {
-            const unsigned char* tables = Pcre2Func<BS>::maketables(0); //must pass 0, we are using free() to free the tables.
+            const unsigned char* tables = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::maketables(0); //must pass 0, we are using free() to free the tables.
             tabv = std::vector<unsigned char>(tables, tables+1088);
             ::free((void*)tables); //must free memory
             if(!ccontext)
-                ccontext = Pcre2Func<BS>::compile_context_create(0);
-            Pcre2Func<BS>::set_character_tables(ccontext, &tabv[0]);
+                ccontext = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::compile_context_create(0);
+            Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::set_character_tables(ccontext, &tabv[0]);
             return *this; 
         }
         
@@ -4011,8 +3930,12 @@ struct select{
         
         /// Returns the last error message
         ///@return Last error message
-        String getErrorMessage() const  { 
-            return select<Char, BS>::getErrorMessage(error_number, error_offset); 
+        String getErrorMessage() const  {
+            #if __cplusplus >= 201103L
+            return select<Char, Map>::getErrorMessage(error_number, error_offset);
+            #else
+            return select<Char>::getErrorMessage(error_number, error_offset);
+            #endif
         } 
         
         ///Get new line convention from compiled code.
@@ -4027,7 +3950,7 @@ struct select{
         Uint getNewLine() {
             if(!code) return 0;
             Uint newline = 0;
-            int ret = Pcre2Func<BS>::pattern_info(code, PCRE2_INFO_NEWLINE, &newline);
+            int ret = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info(code, PCRE2_INFO_NEWLINE, &newline);
             if(ret < 0) error_number = ret;
             return newline;
         }
@@ -4051,8 +3974,8 @@ struct select{
         ///@return Reference to the calling Regex object
         Regex& setNewLine(Uint value){
             if(!ccontext)
-                ccontext = Pcre2Func<BS>::compile_context_create(0);
-            int ret = Pcre2Func<BS>::set_newline(ccontext, value);
+                ccontext = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::compile_context_create(0);
+            int ret = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::set_newline(ccontext, value);
             if(ret < 0) error_number = ret;
             return *this;
         }
@@ -4085,7 +4008,7 @@ struct select{
         /// @return Reference to the calling Regex object.
         /// @see RegexMatch::setModifier()
         /// @see RegexReplace::setModifier()
-        Regex& setModifier(Modifier x) { 
+        Regex& setModifier(Modifier const& x) { 
             compile_opts = 0; 
             jpcre2_compile_opts = 0; 
             return changeModifier(x, true); 
@@ -4131,7 +4054,7 @@ struct select{
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::changeModifier()
         /// @see RegexReplace::changeModifier()
-        Regex& changeModifier(Modifier mod, bool x){
+        Regex& changeModifier(Modifier const& mod, bool x){
             modtab ? modtab->toCompileOption(mod, x, &compile_opts, &jpcre2_compile_opts, &error_number, &error_offset)
                    : MOD::toCompileOption(mod, x, &compile_opts, &jpcre2_compile_opts, &error_number, &error_offset);
             return *this;
@@ -4166,7 +4089,7 @@ struct select{
         /// @return Reference to the calling Regex object
         /// @see RegexMatch::addModifier()
         /// @see RegexReplace::addModifier()
-        Regex& addModifier(Modifier mod){ 
+        Regex& addModifier(Modifier const& mod){ 
             return changeModifier(mod, true); 
         } 
 
@@ -4237,7 +4160,7 @@ struct select{
         /// @overload
         /// @param re Pattern string 
         /// @param mod Modifier string.
-        void compile(String const &re, Modifier mod) { 
+        void compile(String const &re, Modifier const& mod) { 
             setPattern(re).setModifier(mod);
             compile(); 
         } 
@@ -4245,7 +4168,7 @@ struct select{
         ///@overload
         /// @param re Pointer to pattern string. A null pointer will unset the pattern and perform a compile with empty pattern.
         /// @param mod Modifier string.
-        void compile(String const *re, Modifier mod) {
+        void compile(String const *re, Modifier const& mod) {
             setPattern(re).setModifier(mod);
             compile(); 
         } 
@@ -4288,7 +4211,7 @@ struct select{
         /// @param start_offset Offset from where matching will start in the subject string.
         /// @return Match count
         /// @see RegexMatch::match()
-        SIZE_T match(String const &s, Modifier mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(String const &s, Modifier const& mod, PCRE2_SIZE start_offset=0) {
             return initMatch().setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         } 
         
@@ -4298,7 +4221,7 @@ struct select{
         ///@param mod Modifier string.
         ///@param start_offset Offset from where matching will start in the subject string.
         ///@return Match count
-        SIZE_T match(String const *s, Modifier mod, PCRE2_SIZE start_offset=0) {
+        SIZE_T match(String const *s, Modifier const& mod, PCRE2_SIZE start_offset=0) {
             return initMatch().setStartOffset(start_offset).setSubject(s).setModifier(mod).match(); 
         }
         
@@ -4346,7 +4269,7 @@ struct select{
         ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const &mains, String const &repl, Modifier mod="", SIZE_T* counter=0) { 
+        String replace(String const &mains, String const &repl, Modifier const& mod="", SIZE_T* counter=0) { 
             return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
         
@@ -4357,7 +4280,7 @@ struct select{
         ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const *mains, String const &repl, Modifier mod="", SIZE_T* counter=0) { 
+        String replace(String *mains, String const &repl, Modifier const& mod="", SIZE_T* counter=0) { 
             return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
         
@@ -4369,7 +4292,7 @@ struct select{
         ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const &mains, String const *repl, Modifier mod="", SIZE_T* counter=0) { 
+        String replace(String const &mains, String const *repl, Modifier const& mod="", SIZE_T* counter=0) { 
             return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
         } 
         
@@ -4381,9 +4304,71 @@ struct select{
         ///@param counter Pointer to a counter to store the number of replacement done.
         /// @return Resultant string after regex replace
         /// @see RegexReplace::replace()
-        String replace(String const *mains, String const *repl, Modifier mod="", SIZE_T* counter=0) { 
-            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace(); 
-        } 
+        String replace(String *mains, String const *repl, Modifier const& mod="", SIZE_T* counter=0) { 
+            return initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(counter).replace();
+        }
+        
+        /// Perl compatible replace method.
+        /// Modifies subject string in-place and returns replace count.
+        ///
+        /// It's a shorthand method to `RegexReplace::preplace()`.
+        /// @param mains Pointer to subject string.
+        /// @param repl Replacement string (string to replace with).
+        /// @param mod Modifier string.
+        /// @return replace count.
+        SIZE_T preplace(String * mains, String const& repl, Modifier const& mod=""){
+            SIZE_T counter = 0;
+            if(mains) *mains = initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(&counter).replace();
+            return counter;
+        }
+        
+        /// @overload
+        ///
+        /// Perl compatible replace method.
+        /// Modifies subject string in-place and returns replace count.
+        ///
+        /// It's a shorthand method to `RegexReplace::preplace()`.
+        /// @param mains Pointer to subject string.
+        /// @param repl Pointer to replacement string (string to replace with).
+        /// @param mod Modifier string.
+        /// @return replace count.
+        SIZE_T preplace(String * mains, String const* repl, Modifier const& mod=""){
+            SIZE_T counter = 0;
+            if(mains) *mains = initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(&counter).replace();
+            return counter;
+        }
+        
+        /// @overload
+        ///
+        /// Perl compatible replace method.
+        /// Returns replace count and discards subject string.
+        ///
+        /// It's a shorthand method to `RegexReplace::preplace()`.
+        /// @param mains Subject string.
+        /// @param repl Replacement string (string to replace with).
+        /// @param mod Modifier string.
+        /// @return replace count.
+        SIZE_T preplace(String const& mains, String const& repl, Modifier const& mod=""){
+            SIZE_T counter = 0;
+            initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(&counter).replace();
+            return counter;
+        }
+        
+        /// @overload
+        ///
+        /// Perl compatible replace method.
+        /// Returns replace count and discards subject string.
+        ///
+        /// It's a shorthand method to `RegexReplace::preplace()`.
+        /// @param mains Subject string.
+        /// @param repl Pointer to replacement string (string to replace with).
+        /// @param mod Modifier string.
+        /// @return replace count.
+        SIZE_T preplace(String const& mains, String const* repl, Modifier const& mod=""){
+            SIZE_T counter = 0;
+            initReplace().setSubject(mains).setReplaceWith(repl).setModifier(mod).setReplaceCounter(&counter).replace();
+            return counter;
+        }
     };
     
     private:
@@ -4403,7 +4388,7 @@ inline void jpcre2::ModifierTable::parseModifierTable(std::string& tabjs, VecOpt
                                                      std::string const& tabs, VecOpt const& tabv){
     SIZE_T n = tabs.length();
     JPCRE2_ASSERT(n == tabv.size(), ("ValueError: Could not set Modifier table.\
-    Modifier character and value tables are not of the same size: "+ConvInt<char>::toString((int)n)+" == "+ConvInt<char>::toString((int)tabv.size())).c_str());
+    Modifier character and value tables are not of the same size (" + _tostdstring(n) + " == " + _tostdstring(tabv.size()) + ").").c_str());
     tabjs.clear();
     tab_s.clear(); tab_s.reserve(n);
     tabjv.clear();
@@ -4419,9 +4404,13 @@ inline void jpcre2::ModifierTable::parseModifierTable(std::string& tabjs, VecOpt
 }
 
 
-
-template<typename Char_T, jpcre2::Ush BS>
-void jpcre2::select<Char_T, BS>::Regex::compile() {
+#if __cplusplus >= 201103L
+template<typename Char_T, template<typename...> class Map>
+void jpcre2::select<Char_T, Map>::Regex::compile() {
+#else
+template<typename Char_T>
+void jpcre2::select<Char_T>::Regex::compile() {
+#endif
     //Get c_str of pattern
     Pcre2Sptr c_pattern = (Pcre2Sptr) pat_str_ptr->c_str();
     int err_number = 0;
@@ -4434,7 +4423,7 @@ void jpcre2::select<Char_T, BS>::Regex::compile() {
 
     //first release any previous memory
     freeRegexMemory();
-    code = Pcre2Func<BS>::compile(  c_pattern,              /* the pattern */
+    code = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::compile(  c_pattern,              /* the pattern */
                                     PCRE2_ZERO_TERMINATED,  /* indicates pattern is zero-terminated */
                                     compile_opts,           /* default options */
                                     &err_number,            /* for error number */
@@ -4449,15 +4438,20 @@ void jpcre2::select<Char_T, BS>::Regex::compile() {
         return;
     } else if ((jpcre2_compile_opts & JIT_COMPILE) != 0) {
         ///perform JIT compilation it it's enabled
-        int jit_ret = Pcre2Func<BS>::jit_compile(code, PCRE2_JIT_COMPLETE);
+        int jit_ret = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::jit_compile(code, PCRE2_JIT_COMPLETE);
         if(jit_ret < 0) error_number = jit_ret;
     }
     //everything's OK
 }
 
 
-template<typename Char_T, jpcre2::Ush BS>
-typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEvaluator::replace(bool do_match, Uint replace_opts, SIZE_T * counter) {
+#if __cplusplus >= 201103L
+template<typename Char_T, template<typename...> class Map>
+typename jpcre2::select<Char_T, Map>::String jpcre2::select<Char_T, Map>::MatchEvaluator::replace(bool do_match, Uint replace_opts, SIZE_T * counter) {
+#else
+template<typename Char_T>
+typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::MatchEvaluator::replace(bool do_match, Uint replace_opts, SIZE_T * counter) {
+#endif
     if(counter) *counter = 0;
     
     replace_opts |= PCRE2_SUBSTITUTE_OVERFLOW_LENGTH;
@@ -4532,7 +4526,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEva
         Pcre2Uchar* output_buffer = new Pcre2Uchar[outlengthptr + 1]();
         
         while (true) {
-            ret = Pcre2Func<BS>::substitute(
+            ret = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::substitute(
                         re->code,               /*Points to the compiled pattern*/
                         subject,                /*Points to the subject string*/
                         subject_length,         /*Length of the subject string*/
@@ -4579,8 +4573,13 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEva
 }
 
 
-template<typename Char_T, jpcre2::Ush BS>
-typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEvaluator::nreplace(bool do_match, Uint jo, SIZE_T* counter){
+#if __cplusplus >= 201103L
+template<typename Char_T, template<typename...> class Map>
+typename jpcre2::select<Char_T, Map>::String jpcre2::select<Char_T, Map>::MatchEvaluator::nreplace(bool do_match, Uint jo, SIZE_T* counter){
+#else
+template<typename Char_T>
+typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::MatchEvaluator::nreplace(bool do_match, Uint jo, SIZE_T* counter){
+#endif
     if(counter) *counter = 0;
     if(do_match) match();
     SIZE_T mcount = vec_soff.size();
@@ -4637,8 +4636,13 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::MatchEva
 }
 
 
-template<typename Char_T, jpcre2::Ush BS>
-typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexReplace::replace() {
+#if __cplusplus >= 201103L
+template<typename Char_T, template<typename...> class Map>
+typename jpcre2::select<Char_T, Map>::String jpcre2::select<Char_T, Map>::RegexReplace::replace() {
+#else
+template<typename Char_T>
+typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::RegexReplace::replace() {
+#endif
     *last_replace_counter = 0;
 
     // If re or re->code is null, return the subject string unmodified.
@@ -4655,7 +4659,7 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
     Pcre2Uchar* output_buffer = new Pcre2Uchar[outlengthptr + 1]();
 
     while (true) {
-        ret = Pcre2Func<BS>::substitute(
+        ret = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::substitute(
                     re->code,               /*Points to the compiled pattern*/
                     subject,                /*Points to the subject string*/
                     subject_length,         /*Length of the subject string*/
@@ -4696,8 +4700,13 @@ typename jpcre2::select<Char_T, BS>::String jpcre2::select<Char_T, BS>::RegexRep
 }
 
 
-template<typename Char_T, jpcre2::Ush BS>
-bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, Pcre2Sptr subject, PCRE2_SIZE* ovector) {
+#if __cplusplus >= 201103L
+template<typename Char_T, template<typename...> class Map>
+bool jpcre2::select<Char_T, Map>::RegexMatch::getNumberedSubstrings(int rc, Pcre2Sptr subject, PCRE2_SIZE* ovector) {
+#else
+template<typename Char_T>
+bool jpcre2::select<Char_T>::RegexMatch::getNumberedSubstrings(int rc, Pcre2Sptr subject, PCRE2_SIZE* ovector) {
+#endif
     NumSub num_sub;
     num_sub.reserve(rc); //we know exactly how many elements it will have.
     for (int i = 0; i < rc; i++)
@@ -4707,18 +4716,24 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNumberedSubstrings(int rc, Pcre2
 }
 
 
-
-template<typename Char_T, jpcre2::Ush BS>
-bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
+#if __cplusplus >= 201103L
+template<typename Char_T, template<typename...> class Map>
+bool jpcre2::select<Char_T, Map>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
                                                             Pcre2Sptr name_table,
                                                             Pcre2Sptr subject, PCRE2_SIZE* ovector ) {
+#else
+template<typename Char_T>
+bool jpcre2::select<Char_T>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
+                                                            Pcre2Sptr name_table,
+                                                            Pcre2Sptr subject, PCRE2_SIZE* ovector ) {
+#endif
     Pcre2Sptr tabptr = name_table;
     String key;
     MapNas map_nas;
     MapNtN map_ntn;
     for (int i = 0; i < namecount; i++) {
         int n;
-        if(BS == 8){
+        if(sizeof( Char_T ) * CHAR_BIT == 8){
             n = (int)((tabptr[0] << 8) | tabptr[1]);
             key = toString((Char*) (tabptr + 2));
         }
@@ -4739,9 +4754,13 @@ bool jpcre2::select<Char_T, BS>::RegexMatch::getNamedSubstrings(int namecount, i
 }
 
 
-
-template<typename Char_T, jpcre2::Ush BS>
-jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
+#if __cplusplus >= 201103L
+template<typename Char_T, template<typename...> class Map>
+jpcre2::SIZE_T jpcre2::select<Char_T, Map>::RegexMatch::match() {
+#else
+template<typename Char_T>
+jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
+#endif
 
     // If re or re->code is null, return 0 as the match count
     if (!re || re->code == 0)
@@ -4775,11 +4794,11 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
      the number of capturing parentheses in the pattern. */
     if(mdata) match_data = mdata;
     else {
-        match_data = Pcre2Func<BS>::match_data_create_from_pattern(re->code, 0);
+        match_data = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::match_data_create_from_pattern(re->code, 0);
         mdc = true;
     }
 
-    rc = Pcre2Func<BS>::match(  re->code,       /* the compiled pattern */
+    rc = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::match(  re->code,       /* the compiled pattern */
                                 subject,        /* the subject string */
                                 subject_length, /* the length of the subject */
                                 _start_offset,  /* start at offset 'start_offset' in the subject */
@@ -4791,7 +4810,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
     if (rc < 0) {
         if(mdc)
-            Pcre2Func<BS>::match_data_free(match_data); /* Release memory used for the match */
+            Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::match_data_free(match_data); /* Release memory used for the match */
         //must not free code. This function has no right to modify regex
         switch (rc) {
             case PCRE2_ERROR_NOMATCH:
@@ -4808,7 +4827,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     ++count; //Increment the counter
     /* Match succeded. Get a pointer to the output vector, where string offsets are
      stored. */
-    ovector = Pcre2Func<BS>::get_ovector_pointer(match_data);
+    ovector = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::get_ovector_pointer(match_data);
 
     /************************************************************************//*
      * We have found the first match within the subject string. If the output *
@@ -4822,7 +4841,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     if (rc == 0) {
         //ovector was not big enough for all the captured substrings;
         error_number = (int)ERROR::INSUFFICIENT_OVECTOR;
-        rc = Pcre2Func<BS>::get_ovector_count(match_data);
+        rc = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::get_ovector_count(match_data);
     }
     //match succeeded at offset ovector[0]
     if(vec_soff) vec_soff->push_back(ovector[0]);
@@ -4839,7 +4858,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
         /* See if there are any named substrings, and if so, show them by name. First
          we have to extract the count of named parentheses from the pattern. */
 
-        (void) Pcre2Func<BS>::pattern_info( re->code,               /* the compiled pattern */
+        (void) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info( re->code,               /* the compiled pattern */
                                             PCRE2_INFO_NAMECOUNT,   /* get the number of named substrings */
                                             &namecount);            /* where to put the answer */
 
@@ -4849,11 +4868,11 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
             /* Before we can access the substrings, we must extract the table for
              translating names to numbers, and the size of each entry in the table. */
 
-            (void) Pcre2Func<BS>::pattern_info( re->code,               /* the compiled pattern */
+            (void) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info( re->code,               /* the compiled pattern */
                                                 PCRE2_INFO_NAMETABLE,   /* address of the table */
                                                 &name_table);           /* where to put the answer */
 
-            (void) Pcre2Func<BS>::pattern_info( re->code,                   /* the compiled pattern */
+            (void) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info( re->code,                   /* the compiled pattern */
                                                 PCRE2_INFO_NAMEENTRYSIZE,   /* size of each entry in the table */
                                                 &name_entry_size);          /* where to put the answer */
 
@@ -4901,7 +4920,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
     if ((jpcre2_match_opts & FIND_ALL) == 0) {
         if(mdc)
-            Pcre2Func<BS>::match_data_free(match_data); /* Release the memory that was used */
+            Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::match_data_free(match_data); /* Release the memory that was used */
         // Must not free code. This function has no right to modify regex.
         return count; /* Exit the program. */
     }
@@ -4910,13 +4929,13 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
      sequence. First, find the options with which the regex was compiled and extract
      the UTF state. */
 
-    (void) Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_ALLOPTIONS, &option_bits);
+    (void) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info(re->code, PCRE2_INFO_ALLOPTIONS, &option_bits);
     utf = ((option_bits & PCRE2_UTF) != 0);
     
     /* Now find the newline convention and see whether CRLF is a valid newline
      sequence. */
 
-    (void) Pcre2Func<BS>::pattern_info(re->code, PCRE2_INFO_NEWLINE, &newline);
+    (void) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info(re->code, PCRE2_INFO_NEWLINE, &newline);
     crlf_is_newline = newline == PCRE2_NEWLINE_ANY
             || newline == PCRE2_NEWLINE_CRLF
             || newline == PCRE2_NEWLINE_ANYCRLF;
@@ -4940,7 +4959,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
         /// Run the next matching operation */
 
-        rc = Pcre2Func<BS>::match(  re->code,       /* the compiled pattern */
+        rc = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::match(  re->code,       /* the compiled pattern */
                                     subject,        /* the subject string */
                                     subject_length, /* the length of the subject */
                                     start_offset,   /* starting offset in the subject */
@@ -4971,9 +4990,9 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
                 ovector[1] += 1;                        /* Advance by one more. */
             else if (utf) { /* advance a whole UTF (8 or 16), for UTF-32, it's not needed */
                 while (ovector[1] < subject_length) {
-                    if(BS == 8 && (subject[ovector[1]] & 0xc0) != 0x80) break;
-                    else if(BS == 16 && (subject[ovector[1]] & 0xfc00) != 0xdc00) break;
-                    else if(BS == 32) break; //must be else if
+                    if(sizeof( Char_T ) * CHAR_BIT == 8 && (subject[ovector[1]] & 0xc0) != 0x80) break;
+                    else if(sizeof( Char_T ) * CHAR_BIT == 16 && (subject[ovector[1]] & 0xfc00) != 0xdc00) break;
+                    else if(sizeof( Char_T ) * CHAR_BIT == 32) break; //must be else if
                     ovector[1] += 1;
                 }
             }
@@ -4984,7 +5003,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
         if (rc < 0) {
             if(mdc)
-                Pcre2Func<BS>::match_data_free(match_data);
+                Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::match_data_free(match_data);
             // Must not free code. This function has no right to modify regex.
             error_number = rc;
             return count;
@@ -4997,7 +5016,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
             /* The match succeeded, but the output vector wasn't big enough. This
              should not happen. */
             error_number = (int)ERROR::INSUFFICIENT_OVECTOR;
-            rc = Pcre2Func<BS>::get_ovector_count(match_data);
+            rc = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::get_ovector_count(match_data);
         }
         
         //match succeded at ovector[0]
@@ -5021,7 +5040,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
     } /* End of loop to find second and subsequent matches */
     
     if(mdc)
-        Pcre2Func<BS>::match_data_free(match_data);
+        Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::match_data_free(match_data);
     // Must not free code. This function has no right to modify regex.
     return count;
 }
@@ -5033,22 +5052,15 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 
 #ifdef __DOXYGEN__
 
-#ifndef JPCRE2_DISABLE_CHAR1632
-#define JPCRE2_DISABLE_CHAR1632
-#endif
+
 #ifndef JPCRE2_USE_FUNCTION_POINTER_CALLBACK
 #define JPCRE2_USE_FUNCTION_POINTER_CALLBACK
 #endif
-#ifndef JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
-#define JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
+
+#ifndef JPCRE2_NDEBUG
+#define JPCRE2_NDEBUG
 #endif
 
-///@def JPCRE2_DISABLE_CHAR1632
-///@deprecated
-///Disable support for `char16_t` and `char32_t`.
-///Older compiler which supposedly supports C++11
-///but does not have `std::wstring_convert` will not work with `char16_t` and `char32_t`, in this case
-///define this macro before including `jpcre2.hpp` to disable `char16_t` and `char32_t` support.
 
 ///@def JPCRE2_USE_FUNCTION_POINTER_CALLBACK
 ///Use function pointer in all cases for MatchEvaluatorCallback function.
@@ -5061,19 +5073,23 @@ jpcre2::SIZE_T jpcre2::select<Char_T, BS>::RegexMatch::match() {
 ///For example, with gcc-4.7, `std::function` will give compile error in C++11 mode, in such cases where full C++11
 ///support is not available, use function pointer.
 
-///@def JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION
-///@deprecated
-///By default JPCRE2 checks if the code unit width equals to
-///sizeof(Char_T)*CHAR_BIT, if not,it will produce compile error.
-///This check can be disabled by defining this macro.
-
 
 ///@def JPCRE2_ASSERT(cond, msg)
 ///Macro to call `jpcre2::jassert()` with file path and line number.
-///When NDEBUG is defined before including this header, this macro will
+///When `NDEBUG` or `JPCRE2_NDEBUG` is defined before including this header, this macro will
 ///be defined as `((void)0)` thus eliminating this assertion.
 ///@param cond condtion (boolean)
 ///@param msg message
+
+
+///@def JPCRE2_NDEBUG
+///Macro to remove debug codes.
+///Using this macro is discouraged even in production mode but provided for completeness.
+///You should not use this macro to bypass any error in your program.
+///Define this macro before including this header if you want to remove debug codes included in this library.
+///
+///Using the standard `NDEBUG` macro will have the same effect,
+///but it is recommended that you use `JPCRE2_NDEBUG` to strip out debug codes specifically for this library.
 
 #endif
 

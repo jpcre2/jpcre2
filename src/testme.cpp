@@ -6,14 +6,26 @@
  * */
 //~ #define NDEBUG
 #include <iostream>
-#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while usin c++11
 #include "jpcre2.hpp"
+#if __cplusplus >= 201103L
+#include <unordered_map>
+#endif
 
+#if __cplusplus >= 201103L
+//In >=C++11 you can pass an optional template parameter to select the map container that will be
+//used for MapNas and MapNtn instead of std::map
+typedef jpcre2::select<char, std::unordered_map> jp;
+#else
 typedef jpcre2::select<char> jp;
+#endif
+
 typedef jp::String String;
 
-String toString (size_t x){
-    return jpcre2::ConvInt<char>::toString((int)x);
+String toString (int x){
+    char buf[128];
+    int written = std::sprintf(buf, "%d", x);
+    JPCRE2_ASSERT(written > 0, "IOError: Failed to write into buffer during int to string conversion.");
+    return String(buf);
 }
 
 String callback0(void*, void*, void*){
@@ -87,7 +99,6 @@ int main(){
     std::cout<<"\n\n### 7\n"<<rr.nreplace(jp::MatchEvaluator(callback7));
     
     //MatchEvaluator itself has an nreplace() function:
-    //Actually the RegexReplace::nreplace(MatchEvaluator me) is just a wrapper of MatchEvaluator::nreplace().
     std::cout<<"\n\n### 7 Calling directly MatchEvaluator::nreplace()\n"
              <<jp::MatchEvaluator(callback7)
                                  .setSubject(&s3)

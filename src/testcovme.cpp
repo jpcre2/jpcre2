@@ -8,15 +8,17 @@
  * */
 //~ #define NDEBUG
 #include <iostream>
-#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while using c++11
 #include "jpcre2.hpp"
 
 
 typedef jpcre2::select<char> jp;
 typedef jp::String String;
 
-String toString (size_t x){
-    return jpcre2::ConvInt<char>::toString((int)x);
+String toString (int x){
+    char buf[128];
+    int written = std::sprintf(buf, "%d", x);
+    JPCRE2_ASSERT(written > 0, "IOError: Failed to write into buffer during int to string conversion.");
+    return String(buf);
 }
 
 String callback0(void*, void*, void*){
@@ -83,7 +85,7 @@ int main(){
     //The following (uncomment if you wanna test) will give you assertion failure, because the callback1 only populates NumSub vector,
     //but callback2 requires pre-exisiting (due to the 'false' argument to nreplace()) MapNas data:
     cme.reset().setSubject(&s3).setRegexObject(&re).setFindAll().setCallback(callback1).nreplace();
-    //~ std::cout<<"\n\n### callback2: \n"<<cme.setCallback(callback2).nreplace(false); //Assertion failure.
+    std::cout<<"\n\n### callback2: \n"<<cme.setCallback(callback2).nreplace(false); //Assertion failure.
     
     return 0;
 }

@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include "jpcre2.hpp"
+#include <sstream>
 
 typedef jpcre2::select<wchar_t> jpw; //for windows it's 16
 #if __cplusplus >= 201103L
@@ -21,8 +22,8 @@ int main() {
     jpw::Regex(L"[\\w]+").match(L"I am a subject with 7 matches", "g"); //modifier is always std::string
     
     //Replace
-    std::wcout<<"\n"<<
-    jpw::Regex(L"subject").replace(L"I am a subject",L"string"); 
+    std::wcout<<L"\n"<<
+    jpw::Regex(L"subject").replace(L"I am a subject",L"string (got replaced)"); 
     
     
     #if __cplusplus >= 201103L
@@ -33,9 +34,8 @@ int main() {
     jpu::Regex(u"[\\w]+").match(u"I am a subject with 7 matches", "g"); //modifier is always std::string
     
     //Replace
-    jpcre2::Convert16 conv;
-    std::cout<<"\n"<<
-    conv.to_bytes(jpu::Regex(u"subject").replace(u"I am a subject",u"string")); //print by converting it to utf-8
+    std::u16string us = jpu::Regex(u"subject").replace(u"I am a subject", u"string (got replaced)");
+    std::wcout<<L"\n"<<std::wstring(us.begin(), us.end()); //naive conversion, will work for this example.
     #endif
     
     return 0;

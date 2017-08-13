@@ -7,7 +7,6 @@
  * */
 //~ #define NDEBUG
 #include <iostream>
-#define JPCRE2_DISABLE_CHAR1632 //being compatible with older compilers like gcc >=4.8 while using c++11
 #include "jpcre2.hpp"
 
 typedef jpcre2::select<char> jp;
@@ -34,7 +33,8 @@ int main(){
     
     //now bind the table with the object
     jp::Regex re;
-    re.setModifierTable(&mdt);
+    std::string m = "I";
+    re.setModifierTable(&mdt).changeModifier(m, true);
     
     //let's perform a compile
     re.compile("JPCRE2","I");

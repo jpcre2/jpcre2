@@ -34,9 +34,8 @@ int main() {
     jpu::Regex(U"[\\w]+").match(U"I am a subject with 7 matches", "g"); //modifier is always std::string
     
     //Replace
-    jpcre2::Convert32 conv;
-    std::cout<<"\n"<<
-    conv.to_bytes(jpu::Regex(U"subject").replace(U"I am a subject",U"string")); //printing by converting it to utf-8
+    std::u32string us = jpu::Regex(U"subject").replace(U"I am a subject",U"string");
+    std::wcout<<L"\n"<<std::wstring(us.begin(), us.end()); //naive conversion, may fail on windows for string with surrogates.
     #endif
     
     return 0;
