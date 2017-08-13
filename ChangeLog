@@ -1,7 +1,7 @@
 Change Log for JPCRE2
 --------------------
 
-Version 10.31.01 -
+Version 10.31.01 - Sun Aug 13 14:18:10 UTC 2017
 -----------------------------------------------
 
 * Remove explicit bit size from the selector: jpcre2::select
