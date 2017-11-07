@@ -64,7 +64,7 @@ int main(){
      \
     re2 = jp::Regex(re); \
      \
-    std::setlocale(LC_CTYPE, "en_US"); \
+    setlocale(LC_CTYPE, "en_US"); \
     re2.resetCharacterTables().compile(); \
      \
     jp::Regex re3(re2); \
@@ -77,7 +77,7 @@ int main(){
     re.addModifier("eijmnsuxADJUS"); \
     re.addPcre2Option(PCRE2_ANCHORED); \
     re.addJpcre2Option(jpcre2::JIT_COMPILE); \
-    std::setlocale(LC_CTYPE, "fr_FR"); \
+    setlocale(LC_CTYPE, "fr_FR"); \
     re.resetCharacterTables().compile(); \
     re.resetCharacterTables().compile(); \
     re.resetCharacterTables().compile(); \
