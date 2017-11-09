@@ -4,7 +4,7 @@ include([ax_cxx_compile_stdcxx.m4])
 include([acx_pthread.m4])
 include([ax_check_define.m4])
 
-AC_INIT([jpcre2], [10.31.01], [https://github.com/jpcre2/jpcre2/issues])
+AC_INIT([jpcre2], [10.31.02], [https://github.com/jpcre2/jpcre2/issues])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.hpp])
 #AC_CONFIG_HEADERS([config.h])
