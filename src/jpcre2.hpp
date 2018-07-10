@@ -1642,13 +1642,17 @@ struct select{
         }
         
         ///Get match start offset vector pointer.
+        ///The pointer must be set with RegexMatch::setMatchStartOffsetVector(),
+        ///i.e it is just a convenience method to get the pre-set vector pointer.
         ///@return pointer to the const match start offset vector
         virtual VecOff const* getMatchStartOffsetVector() const {
             return vec_soff;
         }
         
         ///Get match end offset vector pointer.
-        ///@return pointer to the const end start offset vector
+        ///The pointer must be set with RegexMatch::setMatchEndOffsetVector(),
+        ///i.e it is just a convenience method to get the pre-set vector pointer.
+        ///@return pointer to the const end offset vector
         virtual VecOff const* getMatchEndOffsetVector() const {
             return vec_eoff;
         }
