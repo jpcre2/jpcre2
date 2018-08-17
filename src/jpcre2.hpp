@@ -1,7 +1,7 @@
 /* *****************************************************************************
  * ******************* C++ wrapper for PCRE2 Library ****************************
  * *****************************************************************************
- *            Copyright (c) 2015-2017 Md. Jahidul Hamid
+ *            Copyright (c) 2015-2018 Md. Jahidul Hamid
  * 
  * -----------------------------------------------------------------------------
  * Redistribution and use in source and binary forms, with or without
@@ -1853,7 +1853,7 @@ struct select{
         ///Return pointer to the match context that was previously set with setMatchContext().
         ///Handling memory is the callers' responsibility.
         ///@return pointer to the match context (default: null).
-        MatchContext* getMatchContext(){
+        virtual MatchContext* getMatchContext(){
             return mcontext;
         }
         
