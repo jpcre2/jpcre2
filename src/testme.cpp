@@ -67,6 +67,15 @@ String callback7(const jp::NumSub& m1, const jp::MapNas& m2, const jp::MapNtn& m
     return "("+m1[0]+"/"+mn2["total"]+"/"+toString(mn3["total"])+"/$0)";
 }
 
+//The following is an example how you can use start_offset and 
+//end_offset inside callback
+jpcre2::VecOff const* start_offset, *end_offset;
+size_t offset_count = 0;
+String callback_using_offset(const jp::NumSub& m1, void*, void* ){
+    size_t count = offset_count++;
+    return "(m[0]: "+ m1[0] + "/" + "start_offset: " + toString((*start_offset)[count]) + "/end_offset: " +  toString((*end_offset)[count]);
+}
+
 int main(){
     jp::Regex re("(?<total>(?<w>\\w+)(?<s>\\s+)(?<d>\\d+))", "n");
     jp::RegexReplace rr(&re);
@@ -183,6 +192,28 @@ int main(){
     std::cout<<"\n\n### callback7: \n"<<cme.setCallback(callback7).setFindAll(false).replace(false);
     
     
+    /* *********************************************************************
+     * The following is an example how you can use start_offset and 
+     * end_offset inside callback
+     * *********************************************************************/
+    
+    start_offset = cme.getMatchStartOffsetVector();
+    end_offset = cme.getMatchEndOffsetVector();
+    std::cout<<"\n\n### callback_using_offset: \n"<<cme.setCallback(callback_using_offset).replace();
+    
+    #if __cplusplus >= 201103L
+    //using lambda
+    jpcre2::VecOff const * so = cme.getMatchStartOffsetVector();
+    jpcre2::VecOff const * eo = cme.getMatchEndOffsetVector();
+    size_t off_count = 0;
+    cme.setCallback(
+        [&](const jp::NumSub& m1, void*, void*){
+            size_t count = off_count++;
+            return "(m[0]: "+ m1[0] + "/" + "start_offset: " + toString((*so)[count]) + "/end_offset: " +  toString((*eo)[count]) + ")";
+        }
+    );
+    std::cout<<"\n\n### lambda_callback_using_offset: \n"<<cme.replace();
+    #endif
     
     
     /* *****************************************************************
