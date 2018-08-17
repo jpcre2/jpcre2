@@ -873,7 +873,7 @@ File | Containing examples
 `test_replace2.cpp` |  Contains an example to take subject string, replacement string, modifier and pattern from user input and perform regex replace with JPCRE2
 `test_pthread.cpp` | Multi threaded examples with POSIX pthread.
 `teststdthread.cpp` |  Multi threaded examples with `std::thread`.
-`test_shorts.cpp` | Contains some short examples of performing regex match and regex replace with JPCRE2.
+`test_shorts.cpp` | Contains some short examples.
 
 <a name="short-examples"></a>
 
