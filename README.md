@@ -854,6 +854,27 @@ Example multi-threaded programs are provided in *src/test_pthread.cpp* and *src/
 * To use JPCRE2 in its full capability (including `>=C++11` features), use latest compilers with full `C++11` support.
 * If you do not use `>=C++11`, you will be OK with older compilers.
 
+<a name="examples"></a>
+
+# Examples 
+
+Examples and test programs are available in `src/test*.cpp` files.
+
+File | Containing examples
+---- | -------------------
+`test0.cpp` | Handling `std::string` and `std::wstring`.
+`test16.cpp` | Performing regex match and regex replace with `std::wstring` and `std::u16string`.
+`test32.cpp` | Performing regex match and regex replace with `std::wstring` and `std::u32string`.
+`test_match.cpp` | Performing regex match against a pattern and getting the match count and match results. Shows how to iterate over the match results to get the captured groups/substrings.
+`test_match2.cpp` | Contains an example to take subject string, pattern and modifier from user input and perform regex match using JPCRE2.
+`testmd.cpp` | Examples of working with modifier table.
+`testme.cpp` | Examples of using MatchEvaluator to perform replace.
+`test_replace.cpp` | Example of doing regex replace.
+`test_replace2.cpp` |  Contains an example to take subject string, replacement string, modifier and pattern from user input and perform regex replace with JPCRE2
+`test_pthread.cpp` | Multi threaded examples with POSIX pthread.
+`teststdthread.cpp` |  Multi threaded examples with `std::thread`.
+`test_shorts.cpp` | Contains some short examples of performing regex match and regex replace with JPCRE2.
+
 <a name="short-examples"></a>
 
 # Short examples 
