@@ -647,12 +647,12 @@ class Modifier{
     
     ///Returns the length of the modifier string
     ///@return length
-    const SIZE_T length() const{ return mod.length(); }
+    SIZE_T length() const{ return mod.length(); }
     
     ///operator[] overload to access character by index.
     ///@param i index
     ///@return character at index i.
-    const char operator[](SIZE_T i) const { return mod[i]; }
+    char operator[](SIZE_T i) const { return mod[i]; }
 };
 
 
