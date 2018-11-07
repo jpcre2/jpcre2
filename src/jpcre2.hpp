@@ -101,7 +101,7 @@ namespace jpcre2 {
 
 ///Define for JPCRE2 version.
 ///It can be used to support changes in different versions of the lib.
-#define JPCRE2_VERSION 103102L
+#define JPCRE2_VERSION 103103L
 
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
@@ -109,10 +109,10 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.31.02";     ///< Full version string
+    static const char FULL_VERSION[] = "10.31.03";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
     static const char VERSION_MAJOR[] = "31";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "02";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MINOR[] = "03";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
