@@ -2,6 +2,12 @@ Change Log for JPCRE2
 --------------------
 
 
+Version 10.31.04 - Thu 09 Apr 2020 02:19:28 PM UTC
+--------------------------------------------------
+
+* Fix windows build, thanks to Vasily Lobaskin <https://github.com/Liastre>
+
+
 Version 10.31.03 - Wed Nov  7 11:02:10 UTC 2018
 -----------------------------------------------
 
