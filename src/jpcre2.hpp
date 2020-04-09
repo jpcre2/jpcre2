@@ -86,6 +86,10 @@
     #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) jpcre2::_jvassert(cond, name, __FILE__, __LINE__)
 #endif
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 
 /** @namespace jpcre2
  *  Top level namespace of JPCRE2.
