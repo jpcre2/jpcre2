@@ -576,7 +576,6 @@ Modifier | Details
 `S` | When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching/replacing. It may also be beneficial for a very long subject string or pattern. Equivalent to an extra compilation with JIT\_COMPILER with the option `PCRE2_JIT_COMPLETE`.
 `U` | This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by `?`. Equivalent to `PCRE2_UNGREEDY` option.
 
-<a name="action-modifiers"></a>
 
 ## Default Replace or Match modifiers 
 
@@ -589,6 +588,7 @@ Modifier | Action | Details
 `E` | replace | Extension of `e` modifier. Sets even unknown groups to empty string. Equivalent to `PCRE2_SUBSTITUTE_UNSET_EMPTY | PCRE2_SUBSTITUTE_UNKNOWN_UNSET`
 `g` | match<br>replace | Global. Will perform global matching or replacement if passed. Equivalent to `jpcre2::FIND_ALL` for match and `PCRE2_SUBSTITUTE_GLOBAL` for replace.
 `x` | replace | Extended replacement operation. Equivalent to `PCRE2_SUBSTITUTE_EXTENDED`. It enables some Bash like features:<br>`${<n>:-<string>}`<br>`${<n>:+<string1>:<string2>}`<br>`<n>` may be a group number or a name. The first form specifies a default value. If group `<n>` is set, its value is inserted; if not, `<string>` is expanded and the result is inserted. The second form specifies strings that are expanded and inserted when group `<n>` is set or unset, respectively. The first form is just a convenient shorthand for `${<n>:+${<n>}:<string>}`.
+
 
 <a name="modifier-table"></a>
 

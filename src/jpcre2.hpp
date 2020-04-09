@@ -1,7 +1,7 @@
 /* *****************************************************************************
  * ******************* C++ wrapper for PCRE2 Library ****************************
  * *****************************************************************************
- *            Copyright (c) 2015-2018 Md. Jahidul Hamid
+ *            Copyright (c) Md. Jahidul Hamid
  * 
  * -----------------------------------------------------------------------------
  * Redistribution and use in source and binary forms, with or without
@@ -70,11 +70,14 @@
 #include <climits>      // CHAR_BIT
 #include <cstdlib>      // std::abort()
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L || _MSVC_LANG >= 201103L
+    #define JPCRE2_USE_MINIMUM_CXX_11 1
     #include <utility>
     #ifndef JPCRE2_USE_FUNCTION_POINTER_CALLBACK
         #include <functional>   // std::function
     #endif
+#else
+    #define JPCRE2_USE_MINIMUM_CXX_11 0
 #endif
 
 #define JPCRE2_UNUSED(x) ((void)(x))
@@ -84,6 +87,12 @@
 #else
     #define JPCRE2_ASSERT(cond, msg) jpcre2::jassert(cond, msg, __FILE__, __LINE__)
     #define JPCRE2_VECTOR_DATA_ASSERT(cond, name) jpcre2::_jvassert(cond, name, __FILE__, __LINE__)
+#endif
+
+// In Windows, Windows.h defines ERROR macro
+// It conflicts with our jpcre2::ERROR namespace
+#ifdef ERROR
+#undef ERROR
 #endif
 
 
@@ -101,7 +110,7 @@ namespace jpcre2 {
 
 ///Define for JPCRE2 version.
 ///It can be used to support changes in different versions of the lib.
-#define JPCRE2_VERSION 103103L
+#define JPCRE2_VERSION 103104L
 
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
@@ -109,10 +118,10 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.31.03";     ///< Full version string
+    static const char FULL_VERSION[] = "10.31.04";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
     static const char VERSION_MAJOR[] = "31";          ///< Major version, updated when API change is made
-    static const char VERSION_MINOR[] = "03";          ///< Minor version, includes bug fix or minor feature upgrade
+    static const char VERSION_MINOR[] = "04";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
 
@@ -1188,7 +1197,7 @@ template<> inline std::basic_string<char> MSG<char>::INVALID_MODIFIER(){ return 
 template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INVALID_MODIFIER(){ return L"Invalid modifier: "; }
 template<> inline std::basic_string<char> MSG<char>::INSUFFICIENT_OVECTOR(){ return "ovector wasn't big enough"; }
 template<> inline std::basic_string<wchar_t> MSG<wchar_t>::INSUFFICIENT_OVECTOR(){ return L"ovector wasn't big enough"; }
-#if __cplusplus >= 201103L
+#if JPCRE2_USE_MINIMUM_CXX_11
 template<> inline std::basic_string<char16_t> MSG<char16_t>::INVALID_MODIFIER(){ return u"Invalid modifier: "; }
 template<> inline std::basic_string<char32_t> MSG<char32_t>::INVALID_MODIFIER(){ return U"Invalid modifier: "; }
 template<> inline std::basic_string<char16_t> MSG<char16_t>::INSUFFICIENT_OVECTOR(){ return u"ovector wasn't big enough"; }
@@ -1221,7 +1230,7 @@ template<> inline std::basic_string<char32_t> MSG<char32_t>::INSUFFICIENT_OVECTO
 ///```cpp
 ///typedef jpcre2::select<Char_T> jp;
 ///```
-#if __cplusplus >= 201103L
+#if JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map=std::map> 
 #else
 template<typename Char_T>
@@ -1243,7 +1252,7 @@ struct select{
     ///char32_t | std::u32string (>=C++11) 
     typedef typename std::basic_string<Char_T> String;
     
-    #if __cplusplus >= 201103L
+    #if JPCRE2_USE_MINIMUM_CXX_11
     ///Map for Named substrings.
     typedef class Map<String, String> MapNas;
     ///Substring name to Substring number map.
@@ -1440,7 +1449,7 @@ struct select{
             onlyCopy(rm);
         }
         
-        #if __cplusplus >= 201103L
+        #if JPCRE2_USE_MINIMUM_CXX_11
         void deepMove(RegexMatch& rm){
             m_subject = std::move_if_noexcept(rm.m_subject);
             onlyCopy(rm);
@@ -1489,7 +1498,7 @@ struct select{
             return *this;
         }
         
-        #if __cplusplus >= 201103L
+        #if JPCRE2_USE_MINIMUM_CXX_11
         ///@overload
         ///...
         ///Move constructor.
@@ -1570,7 +1579,7 @@ struct select{
         /// Returns the last error message
         ///@return Last error message
         virtual String getErrorMessage() const  {
-            #if __cplusplus >= 201103L
+            #if JPCRE2_USE_MINIMUM_CXX_11
             return select<Char, Map>::getErrorMessage(error_number, error_offset);
             #else
             return select<Char>::getErrorMessage(error_number, error_offset); 
@@ -1988,7 +1997,7 @@ struct select{
     ///@see MatchEvaluator
     template<typename T1, typename T2, typename T3>
     struct MatchEvaluatorCallback{
-        #if !defined JPCRE2_USE_FUNCTION_POINTER_CALLBACK && __cplusplus >= 201103L
+        #if !defined JPCRE2_USE_FUNCTION_POINTER_CALLBACK && JPCRE2_USE_MINIMUM_CXX_11
         typedef std::function<String (T1,T2,T3)> Callback;
         #else
         typedef String (*Callback)(T1,T2,T3);
@@ -2042,7 +2051,7 @@ struct select{
         //prevent object instantiation.
         callback();
         callback(callback const &);
-        #if __cplusplus >= 201103L
+        #if JPCRE2_USE_MINIMUM_CXX_11
         callback(callback&&);
         #endif
         ~callback();
@@ -2210,7 +2219,7 @@ struct select{
             onlyCopy(me);
         }
 
-        #if __cplusplus >= 201103L
+        #if JPCRE2_USE_MINIMUM_CXX_11
         void deepMove(MatchEvaluator& me){
             vec_num = std::move_if_noexcept(me.vec_num);
             vec_nas = std::move_if_noexcept(me.vec_nas);
@@ -2382,7 +2391,7 @@ struct select{
             return *this;
         }
         
-        #if __cplusplus >= 201103L
+        #if JPCRE2_USE_MINIMUM_CXX_11
         
         ///@overload
         /// ...
@@ -2948,7 +2957,7 @@ struct select{
             onlyCopy(rr);
         }
         
-        #if __cplusplus >= 201103L
+        #if JPCRE2_USE_MINIMUM_CXX_11
         void deepMove(RegexReplace& rr){
             r_subject = std::move_if_noexcept(rr.r_subject);
             onlyCopy(rr);
@@ -2996,7 +3005,7 @@ struct select{
             return *this;
         }
         
-        #if __cplusplus >= 201103L
+        #if JPCRE2_USE_MINIMUM_CXX_11
         
         ///@overload
         ///...
@@ -3071,7 +3080,7 @@ struct select{
         /// Returns the last error message
         ///@return Last error message
         String getErrorMessage() const  {
-            #if __cplusplus >= 201103L
+            #if JPCRE2_USE_MINIMUM_CXX_11
             return select<Char, Map>::getErrorMessage(error_number, error_offset); 
             #else
             return select<Char>::getErrorMessage(error_number, error_offset); 
@@ -3610,7 +3619,7 @@ struct select{
                    : freeRegexMemory();
         }
         
-        #if __cplusplus >= 201103L
+        #if JPCRE2_USE_MINIMUM_CXX_11
         
         void deepMove(Regex& r) {
             pat_str = std::move_if_noexcept(r.pat_str);
@@ -3731,7 +3740,7 @@ struct select{
         }
         
         
-        #if __cplusplus >= 201103L
+        #if JPCRE2_USE_MINIMUM_CXX_11
         
         
         /// @overload
@@ -3935,7 +3944,7 @@ struct select{
         /// Returns the last error message
         ///@return Last error message
         String getErrorMessage() const  {
-            #if __cplusplus >= 201103L
+            #if JPCRE2_USE_MINIMUM_CXX_11
             return select<Char, Map>::getErrorMessage(error_number, error_offset);
             #else
             return select<Char>::getErrorMessage(error_number, error_offset);
@@ -4379,7 +4388,7 @@ struct select{
     //prevent object instantiation of select class
     select();
     select(select const &);
-    #if __cplusplus >= 201103L
+    #if JPCRE2_USE_MINIMUM_CXX_11
     select(select&&);
     #endif
     ~select();
@@ -4408,7 +4417,7 @@ inline void jpcre2::ModifierTable::parseModifierTable(std::string& tabjs, VecOpt
 }
 
 
-#if __cplusplus >= 201103L
+#if JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map>
 void jpcre2::select<Char_T, Map>::Regex::compile() {
 #else
@@ -4449,7 +4458,7 @@ void jpcre2::select<Char_T>::Regex::compile() {
 }
 
 
-#if __cplusplus >= 201103L
+#if JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map>
 typename jpcre2::select<Char_T, Map>::String jpcre2::select<Char_T, Map>::MatchEvaluator::replace(bool do_match, Uint replace_opts, SIZE_T * counter) {
 #else
@@ -4577,7 +4586,7 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::MatchEvaluator::
 }
 
 
-#if __cplusplus >= 201103L
+#if JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map>
 typename jpcre2::select<Char_T, Map>::String jpcre2::select<Char_T, Map>::MatchEvaluator::nreplace(bool do_match, Uint jo, SIZE_T* counter){
 #else
@@ -4640,7 +4649,7 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::MatchEvaluator::
 }
 
 
-#if __cplusplus >= 201103L
+#if JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map>
 typename jpcre2::select<Char_T, Map>::String jpcre2::select<Char_T, Map>::RegexReplace::replace() {
 #else
@@ -4704,7 +4713,7 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::RegexReplace::re
 }
 
 
-#if __cplusplus >= 201103L
+#if JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map>
 bool jpcre2::select<Char_T, Map>::RegexMatch::getNumberedSubstrings(int rc, Pcre2Sptr subject, PCRE2_SIZE* ovector) {
 #else
@@ -4720,7 +4729,7 @@ bool jpcre2::select<Char_T>::RegexMatch::getNumberedSubstrings(int rc, Pcre2Sptr
 }
 
 
-#if __cplusplus >= 201103L
+#if JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map>
 bool jpcre2::select<Char_T, Map>::RegexMatch::getNamedSubstrings(int namecount, int name_entry_size,
                                                             Pcre2Sptr name_table,
@@ -4758,7 +4767,7 @@ bool jpcre2::select<Char_T>::RegexMatch::getNamedSubstrings(int namecount, int n
 }
 
 
-#if __cplusplus >= 201103L
+#if JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map>
 jpcre2::SIZE_T jpcre2::select<Char_T, Map>::RegexMatch::match() {
 #else
@@ -5051,6 +5060,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 
 #undef JPCRE2_VECTOR_DATA_ASSERT
 #undef JPCRE2_UNUSED
+#undef JPCRE2_USE_MINIMUM_CXX_11
 
 //some macro documentation for doxygen
 
