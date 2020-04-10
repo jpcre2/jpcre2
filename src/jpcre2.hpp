@@ -61,10 +61,12 @@
 //previous inclusion of pcre2.h will be respected and we won't try to include it twice.
 //Thus one can pre-include pcre2.h from an arbitrary/non-standard path.
 #ifndef PCRE2_MAJOR
+extern "C" {
     #ifdef PCRE2_HAS_CONFIG
     #include <config.h> // pcre2 config
     #endif
     #include <pcre2.h>  // pcre2 header
+}
 #endif
 #include <string>       // std::string, std::wstring
 #include <vector>       // std::vector
