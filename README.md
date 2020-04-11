@@ -1103,7 +1103,7 @@ Option | Details
 
 # Contributing/Pull request 
 
-~~**Please do all pull requests against the master branch. The default branch is 'release' which is not where continuous development of JPCRE2 is done.**~~
+**Please do all pull requests against the master branch. ~~The default branch is 'release' which is not where continuous development of JPCRE2 is done~~.**
 
 If you find any error in the documentation or confusing/misleading use of terms, or anything that cathces your eye and feels not right, please open an issue in the [issue page](https://github.com/jpcre2/jpcre2/issues). Or if you want to fix it and do pull request then use the master branch.
 
