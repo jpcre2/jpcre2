@@ -12,7 +12,7 @@ C++ wrapper for PCRE2 library
 
 This provides some C++ wrapper classes/functions to perform regex operations such as regex match and regex replace.
 
-You can read the complete documentation [here](http://docs.neurobin.org/jpcre2/index.html) or download it from [jpcre2-doc repository](https://github.com/jpcre2/jpcre2-doc).
+You can read the complete documentation [here](http://docs.neurobin.org/jpcre2/) or download it from [jpcre2-doc repository](https://github.com/jpcre2/jpcre2-doc).
 
 
 <a name="dependency"></a>
@@ -46,6 +46,12 @@ This is a **header only** library. All you need to do is include the header `jpc
 
 You can copy this header to a standard include directory (folder) so that it becomes available from a standard include path.
 
+**[Download](https://github.com/jpcre2/jpcre2/archive/release.zip) or clone the release branch unless you want the master (continuous dev) branch specifically:**
+
+```bash
+git clone --branch release https://github.com/jpcre2/jpcre2
+```
+
 On Unix you can do:
 
 ```sh
@@ -53,6 +59,7 @@ On Unix you can do:
 make
 make install #(may require root privilege)
 ```
+
 It will check if all dependencies are satisfied and install the header in a standard include path.
 
 **Compile/Build:**
@@ -74,7 +81,7 @@ g++ main.cpp -L/my/library/path -lpcre2-8
 
 <a name="coding-guide"></a>
 
-# Coding guide 
+# Basic usage 
 
 Performing a match or replacement against regex pattern involves two steps: 
 
@@ -1036,17 +1043,6 @@ jp::RegexReplace(&re).setSubject("I am the subject\tTo be swapped according to t
                      .replace();
 ```
 
-<a name="api-change-notice"></a>
-
-# API change notice 
-
-* `jpcre2::select` no longer permits explicit bit size specification.
-* `ConvInt`, `ConvUTF` (including `Convert16` and `Convert32`) is removed.
-* `jpcre2::select` can take an optional second template parameter to specify the map container.
-* Macro `JPCRE2_DISABLE_CHAR1632` and `JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION` is removed.
-
-> For complete changes see the changelog file
-
 <a name="test-suit"></a>
 
 # Test suit 
@@ -1107,7 +1103,7 @@ Option | Details
 
 # Contributing/Pull request 
 
-**Please do all pull requests against the master branch. The default branch is 'release' which is not where continuous development of JPCRE2 is done.**
+**Please do all pull requests against the master branch. ~~The default branch is 'release' which is not where continuous development of JPCRE2 is done~~.**
 
 If you find any error in the documentation or confusing/misleading use of terms, or anything that cathces your eye and feels not right, please open an issue in the [issue page](https://github.com/jpcre2/jpcre2/issues). Or if you want to fix it and do pull request then use the master branch.
 
