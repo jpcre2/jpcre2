@@ -1043,17 +1043,6 @@ jp::RegexReplace(&re).setSubject("I am the subject\tTo be swapped according to t
                      .replace();
 ```
 
-<a name="api-change-notice"></a>
-
-# API change notice 
-
-* `jpcre2::select` no longer permits explicit bit size specification.
-* `ConvInt`, `ConvUTF` (including `Convert16` and `Convert32`) is removed.
-* `jpcre2::select` can take an optional second template parameter to specify the map container.
-* Macro `JPCRE2_DISABLE_CHAR1632` and `JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION` is removed.
-
-> For complete changes see the changelog file
-
 <a name="test-suit"></a>
 
 # Test suit 

@@ -939,15 +939,6 @@ jp::RegexReplace(&re).setSubject("I am the subject\tTo be swapped according to t
                      .replace();
 ```
 
-# API change notice {#api-change-notice}
-
-* `jpcre2::select` no longer permits explicit bit size specification.
-* `ConvInt`, `ConvUTF` (including `Convert16` and `Convert32`) is removed.
-* `jpcre2::select` can take an optional second template parameter to specify the map container.
-* Macro `JPCRE2_DISABLE_CHAR1632` and `JPCRE2_DISABLE_CODE_UNIT_WIDTH_VALIDATION` is removed.
-
-> For complete changes see the changelog file
-
 # Test suit {#test-suit}
 
 Some test programs are written to check for major flaws like segfault, memory leak and crucial input/output validation. Before trying to run the tests, make sure you have all 3 PCRE2 libraries installed on your system.
