@@ -40,6 +40,12 @@ This is a **header only** library. All you need to do is include the header `jpc
 
 You can copy this header to a standard include directory (folder) so that it becomes available from a standard include path.
 
+**[Download](https://github.com/jpcre2/jpcre2/archive/release.zip) or clone the release branch unless you want the master (continuous dev) branch specifically:**
+
+```bash
+git clone --branch release https://github.com/jpcre2/jpcre2
+```
+
 On Unix you can do:
 
 ```sh
@@ -47,6 +53,7 @@ On Unix you can do:
 make
 make install #(may require root privilege)
 ```
+
 It will check if all dependencies are satisfied and install the header in a standard include path.
 
 **Compile/Build:**
@@ -995,7 +1002,7 @@ Option | Details
 
 # Contributing/Pull request {#contributing-pull-request}
 
-**Please do all pull requests against the master branch. The default branch is 'release' which is not where continuous development of JPCRE2 is done.**
+~~**Please do all pull requests against the master branch. The default branch is 'release' which is not where continuous development of JPCRE2 is done.**~~
 
 If you find any error in the documentation or confusing/misleading use of terms, or anything that cathces your eye and feels not right, please open an issue in the [issue page](https://github.com/jpcre2/jpcre2/issues). Or if you want to fix it and do pull request then use the master branch.
 
