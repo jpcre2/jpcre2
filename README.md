@@ -81,7 +81,7 @@ g++ main.cpp -L/my/library/path -lpcre2-8
 
 <a name="coding-guide"></a>
 
-# Coding guide 
+# Basic usage 
 
 Performing a match or replacement against regex pattern involves two steps: 
 

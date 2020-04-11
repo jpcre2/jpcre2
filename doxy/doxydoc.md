@@ -73,7 +73,7 @@ If PCRE2 is not installed in the standard path, add the path with `-L` option:
 g++ main.cpp -L/my/library/path -lpcre2-8
 ```
 
-# Coding guide {#coding-guide}
+# Basic usage {#coding-guide}
 
 Performing a match or replacement against regex pattern involves two steps: 
 
