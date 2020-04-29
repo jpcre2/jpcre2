@@ -490,7 +490,7 @@ me.setCallback(cb7).nreplace(false); //OK, as we have all the data we need.
 If the default modifier table is not suitable for your application, you may use a custom modifier table instead of the default one. The `jpcre2::ModifierTable` class provides this interface. (note the namespace, it's directly under `jpcre2`).
 
 > All modifier strings are parsed and converted to equivalent PCRE2 and JPCRE2 options on the fly. If you don't want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of `addJpcre2Option()` and `addPcre2Option()` functions.
-
+>
 > Be careful when you pass these options. A common mistake is to pass compile related options such as `PCRE2_CASELESS` (modifier i) to match operation; `PCRE2_CASELESS` needs to be compiled in the regex, passing it during match will have no effect.
 
 **Types of modifiers:**
