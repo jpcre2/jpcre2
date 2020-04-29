@@ -3,7 +3,7 @@ JPCRE2                         {#mainpage}
 
 C++ wrapper for PCRE2 library
 
-[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![Coverage Status](https://coveralls.io/repos/github/jpcre2/jpcre2/badge.svg?branch=release)](https://coveralls.io/github/jpcre2/jpcre2?branch=release) [![CPP depends image](https://neurobin.org/img/badge/CPP-depends1.svg)](https://isocpp.org/) [![PCRE2 depends image](https://neurobin.org/img/badge/PCRE2-dep1.svg)](http://www.pcre.org/) 
+[![Build status image](https://travis-ci.org/jpcre2/jpcre2.svg?branch=release)](https://travis-ci.org/jpcre2/jpcre2/) [![Coverage Status](https://coveralls.io/repos/github/jpcre2/jpcre2/badge.svg?branch=release)](https://coveralls.io/github/jpcre2/jpcre2?branch=release) [![CPP depends image](https://neurobin.org/img/badge/CPP-depends1.svg)](https://isocpp.org/) [![PCRE2 depends image](https://neurobin.org/img/badge/PCRE2-dep1.svg)](http://www.pcre.org/)
 
 
 > PCRE2 is the name used for a revised API for the PCRE library, which is a set of functions, written in C, that implement regular expression pattern matching using the same syntax and semantics as Perl, with just a few differences. Some features that appeared in Python and the original PCRE before they appeared in Perl are also available using the Python syntax.
@@ -29,7 +29,7 @@ This is a **header only** library. All you need to do is include the header `jpc
 #include "jpcre2.hpp"
 ```
 
-**Notes:** 
+**Notes:**
 
 * `jpcre2.hpp` \#includes `pcre2.h`, thus you don't need to include `pcre2.h` manually in your program.
 * If `pcre2.h` is in a non-standard path then you may include it before `jpcre2.hpp` with correct path (you will need to define `PCRE2_CODE_UNIT_WIDTH` before including `pcre2.h` in this case)
@@ -75,7 +75,7 @@ g++ main.cpp -L/my/library/path -lpcre2-8
 
 # Basic usage {#coding-guide}
 
-Performing a match or replacement against regex pattern involves two steps: 
+Performing a match or replacement against regex pattern involves two steps:
 
 1. Compiling the pattern
 2. Performing the match or replacement operation
@@ -109,7 +109,7 @@ Each object for each regex pattern.
 re.setPattern("(?:(?<word>[?.#@:]+)|(?<word>\\w+))\\s*(?<digit>\\d+)")  //set pattern
   .addModifier("iJ")                                                    //add modifier (J for PCRE2_DUPNAMES)
   .compile();                                                           //Finally compile it.
-      
+
 //Do not use setModifier() after adding any modifier/s, it will reset them.
 
 //Another way is to use constructor to initialize and compile at the same time:
@@ -377,7 +377,7 @@ String s3 = "I am a string 879879 fdsjkll ১ ২ ৩ ৪ অ আ ক খ গ �
 rr.setRegexObject(&re)
   .setSubject(&s3)
   .setModifier("g");
-  
+
 std::cout<<"Result:\n"<<
     rr.nreplace(jp::MatchEvaluator(callback1)); //replace() function can take the same argument
 ```
@@ -453,7 +453,7 @@ me.setSubject(sub).setRegexObject(&re); //no data yet.
 Let's say, we have a callback `cb3` that implements NumSub and MapNas and we do this:
 
 ```cpp
-me.setCallback(cb3).nreplace(); 
+me.setCallback(cb3).nreplace();
 //this creates match data for NumSub and MapNas and performs the replacement.
 ```
 Now, if we want to perform the replacement with a different callback function `cb2` which implements only MapNas or NumSub or both, we can re-use the data created above:
@@ -491,7 +491,9 @@ If the default modifier table is not suitable for your application, you may use 
 
 > All modifier strings are parsed and converted to equivalent PCRE2 and JPCRE2 options on the fly. If you don't want it to spend any time parsing modifier then pass the equivalent option directly with one of the many variants of `addJpcre2Option()` and `addPcre2Option()` functions.
 
-**Types of modifiers:** 
+> Be careful when you pass these options. A common mistake is to pass compile related options such as `PCRE2_CASELESS` (modifier i) to match operation; `PCRE2_CASELESS` needs to be compiled in the regex, passing it during match will have no effect.
+
+**Types of modifiers:**
 
 1. Compile modifier
 2. Match modifier
@@ -505,7 +507,7 @@ All of the modifiers above can be divided further into two categories:
 
 ## Default Compile modifiers {#compile-modifier}
 
-These modifiers define the behavior of a regex pattern (they are integrated in the compiled regex). They have more or less the same meaning as the [PHP regex modifiers](https://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>\*</sup>). 
+These modifiers define the behavior of a regex pattern (they are integrated in the compiled regex). They have more or less the same meaning as the [PHP regex modifiers](https://php.net/manual/en/reference.pcre.pattern.modifiers.php) except for `e, j and n` (marked with <sup>\*</sup>).
 
 Modifier | Details
 -------- | -------
@@ -524,7 +526,7 @@ Modifier | Details
 `U` | This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by `?`. Equivalent to `PCRE2_UNGREEDY` option.
 
 
-## Default Replace or Match modifiers 
+## Default Replace or Match modifiers
 
 These modifiers are not compiled in the regex itself, rather they are used per call of each match or replace function.
 
@@ -545,9 +547,9 @@ Examples:
 
 ```cpp
         /* ***************************
-         * Compile modifier table 
+         * Compile modifier table
          * ***************************/
-             
+
 //character table is either std::string or const char* (not jp::String)
 std::string nametab = "IJMS"; //arbitrary modifier characters.
 //now the option values sequentially
@@ -621,7 +623,7 @@ int main(){
 
     ///other things
     // ...
-    
+
     return 0;
 }
 ```
@@ -890,7 +892,7 @@ std::cout<<"\nCaptured group (word) of first match: "<<vec_nas[0]["word"];
 std::cout<<"\nCaptured group (digit) of first match: "<<vec_nas[0]["digit"];
 
 //Trying to access a non-existence named substirng with [] operator will give you empty string
-//If the existence of a substring is important, use the std::map::find() or std::map::at() 
+//If the existence of a substring is important, use the std::map::find() or std::map::at()
 //(>=C++11) function to access map elements.
 /* //>=C++11
 try{
@@ -913,7 +915,7 @@ std::cout<<"\nPosition of captured group (digit) in first match: "<<vec_ntn[0]["
  * Replace pattern in a string with a replacement string
  *
  * The Regex::replace() function can take a subject and replacement string as argument.
- * 
+ *
  * You can also pass the subject with setSubject() function in method chain,
  * replacement string with setReplaceWith() function in method chain, etc ...
  * A call to RegexReplace::replace() in the method chain will return the resultant string
@@ -931,7 +933,7 @@ jp::Regex("\\d").replace("I am the subject string 44", "@", "g");
 std::cout<<"\n"<<
 jp::Regex("^([^\t]+)\t([^\t]+)$")
     .replace("I am the subject\tTo be swapped according to tab", "$2 $1");
-    
+
 //Doing the above with method chain:
 re.compile("^([^\t]+)\t([^\t]+)$");
 jp::RegexReplace(&re).setSubject("I am the subject\tTo be swapped according to tab")
@@ -1003,5 +1005,3 @@ This page is generated from doxy/doxydoc.md file, thus changing the README.md fi
 This project comes with a BSD LICENCE, see the LICENCE file for more details.
 
 It is not necessary to let me know which project you are using this library on, but an optional choice. I would very much appreciate it, if you let me know about the name (and short description if applicable) of the project. So if you have the time, please send me an [email](https://neurobin.org/about/contact/?s=Using+jpcre2+in+a+project&m=I+am+using+jpcre2+in+the+following+project%3A%0A%0AProject+Name%3A+%0AShort+description%3A%0A%0AYou+can+share+the+project+name+publicly%3A+%5Byes%2Fno%5D%0AYou+can+share+the+project+description+publicly%3A+%5Byes%2Fno%5D%0AYou+can+share+the+project+author+name+publicly%3A+%5Byes%2Fno%5D%0AEmail+will+be+private+and+not+shared%3A+yes%0A).
-
-
