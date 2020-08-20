@@ -14,16 +14,17 @@ EXTRA_DIST += \
   testio.cpp \
   testme.cpp \
   testcovme.cpp \
-  testmd.cpp
+  testmd.cpp \
+  test_issue_29.cpp
 
 include_HEADERS = \
   jpcre2.hpp
-  
-noinst_PROGRAMS = 
+
+noinst_PROGRAMS =
 TESTS =
 
 
-JPCRE2_SOURCES = 
+JPCRE2_SOURCES =
 
 COVERAGE_FLAGS =
 DISTCLEANFILES =
@@ -109,6 +110,17 @@ test0_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
+noinst_PROGRAMS += test_issue_29
+TESTS += test_issue_29
+
+#Building test_issue_29
+test_issue_29_SOURCES = \
+  test_issue_29.cpp \
+  $(JPCRE2_SOURCES)
+test_issue_29_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  $(AM_LDFLAGS)
+
 noinst_PROGRAMS += test testio testme testmd
 TESTS += test testio testme testmd
 
@@ -138,7 +150,7 @@ testme_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS) \
   $(COVERAGE_FLAGS)
-  
+
 #Building testmd
 testmd_SOURCES = \
   testmd.cpp \
@@ -224,7 +236,7 @@ test_pthread_SOURCES = \
   $(JPCRE2_SOURCES)
 test_pthread_CXXFLAGS = \
   $(AM_CXXFLAGS) \
-  $(AM_LDFLAGS) 
+  $(AM_LDFLAGS)
 
 if WITH_CPP11
 thread_tests += teststdthread
@@ -235,7 +247,7 @@ noinst_PROGRAMS += teststdthread
 teststdthread_SOURCES = teststdthread.cpp $(JPCRE2_SOURCES)
 teststdthread_CXXFLAGS = \
   $(AM_CXXFLAGS) \
-  $(AM_LDFLAGS) 
+  $(AM_LDFLAGS)
 
 endif
 
@@ -244,4 +256,3 @@ check-local: $(thread_tests)
 	$(VALGRIND) --tool=drd ./$$test ; \
 	done
 endif
-

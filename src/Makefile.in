@@ -94,11 +94,11 @@ noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
 TESTS = $(am__EXEEXT_5)
 @WITH_TEST_SUIT_TRUE@am__append_1 = test_match2 test_replace2 \
 @WITH_TEST_SUIT_TRUE@	test_match test_replace test_shorts \
-@WITH_TEST_SUIT_TRUE@	test16 test32 test0 test testio testme \
-@WITH_TEST_SUIT_TRUE@	testmd
-@WITH_TEST_SUIT_TRUE@am__append_2 = test_match test_replace \
-@WITH_TEST_SUIT_TRUE@	test_shorts test16 test32 test0 test \
+@WITH_TEST_SUIT_TRUE@	test16 test32 test0 test_issue_29 test \
 @WITH_TEST_SUIT_TRUE@	testio testme testmd
+@WITH_TEST_SUIT_TRUE@am__append_2 = test_match test_replace \
+@WITH_TEST_SUIT_TRUE@	test_shorts test16 test32 test0 \
+@WITH_TEST_SUIT_TRUE@	test_issue_29 test testio testme testmd
 @WITH_COVERAGE_TRUE@am__append_3 = testcovme
 @WITH_THREAD_TEST_TRUE@am__append_4 = test_pthread
 @WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@am__append_5 = teststdthread
@@ -122,8 +122,9 @@ CONFIG_CLEAN_VPATH_FILES =
 @WITH_TEST_SUIT_TRUE@	test_match$(EXEEXT) test_replace$(EXEEXT) \
 @WITH_TEST_SUIT_TRUE@	test_shorts$(EXEEXT) test16$(EXEEXT) \
 @WITH_TEST_SUIT_TRUE@	test32$(EXEEXT) test0$(EXEEXT) \
-@WITH_TEST_SUIT_TRUE@	test$(EXEEXT) testio$(EXEEXT) \
-@WITH_TEST_SUIT_TRUE@	testme$(EXEEXT) testmd$(EXEEXT)
+@WITH_TEST_SUIT_TRUE@	test_issue_29$(EXEEXT) test$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	testio$(EXEEXT) testme$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	testmd$(EXEEXT)
 @WITH_COVERAGE_TRUE@am__EXEEXT_2 = testcovme$(EXEEXT)
 @WITH_THREAD_TEST_TRUE@am__EXEEXT_3 = test_pthread$(EXEEXT)
 @WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@am__EXEEXT_4 = teststdthread$(EXEEXT)
@@ -165,6 +166,16 @@ test32_LDADD = $(LDADD)
 test32_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(test32_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am__test_issue_29_SOURCES_DIST = test_issue_29.cpp
+@WITH_TEST_SUIT_TRUE@am_test_issue_29_OBJECTS =  \
+@WITH_TEST_SUIT_TRUE@	test_issue_29-test_issue_29.$(OBJEXT) \
+@WITH_TEST_SUIT_TRUE@	$(am__objects_1)
+test_issue_29_OBJECTS = $(am_test_issue_29_OBJECTS)
+test_issue_29_LDADD = $(LDADD)
+test_issue_29_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(test_issue_29_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
 am__test_match_SOURCES_DIST = test_match.cpp
 @WITH_TEST_SUIT_TRUE@am_test_match_OBJECTS =  \
 @WITH_TEST_SUIT_TRUE@	test_match-test_match.$(OBJEXT) \
@@ -280,6 +291,7 @@ am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/test-test.Po \
 	./$(DEPDIR)/test0-test0.Po ./$(DEPDIR)/test16-test16.Po \
 	./$(DEPDIR)/test32-test32.Po \
+	./$(DEPDIR)/test_issue_29-test_issue_29.Po \
 	./$(DEPDIR)/test_match-test_match.Po \
 	./$(DEPDIR)/test_match2-test_match2.Po \
 	./$(DEPDIR)/test_pthread-test_pthread.Po \
@@ -310,13 +322,15 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(test_SOURCES) $(test0_SOURCES) $(test16_SOURCES) \
-	$(test32_SOURCES) $(test_match_SOURCES) $(test_match2_SOURCES) \
+	$(test32_SOURCES) $(test_issue_29_SOURCES) \
+	$(test_match_SOURCES) $(test_match2_SOURCES) \
 	$(test_pthread_SOURCES) $(test_replace_SOURCES) \
 	$(test_replace2_SOURCES) $(test_shorts_SOURCES) \
 	$(testcovme_SOURCES) $(testio_SOURCES) $(testmd_SOURCES) \
 	$(testme_SOURCES) $(teststdthread_SOURCES)
 DIST_SOURCES = $(am__test_SOURCES_DIST) $(am__test0_SOURCES_DIST) \
 	$(am__test16_SOURCES_DIST) $(am__test32_SOURCES_DIST) \
+	$(am__test_issue_29_SOURCES_DIST) \
 	$(am__test_match_SOURCES_DIST) $(am__test_match2_SOURCES_DIST) \
 	$(am__test_pthread_SOURCES_DIST) \
 	$(am__test_replace_SOURCES_DIST) \
@@ -538,8 +552,9 @@ AM_RECURSIVE_TARGETS = check recheck
 @WITH_TEST_SUIT_TRUE@	test_replace$(EXEEXT) \
 @WITH_TEST_SUIT_TRUE@	test_shorts$(EXEEXT) test16$(EXEEXT) \
 @WITH_TEST_SUIT_TRUE@	test32$(EXEEXT) test0$(EXEEXT) \
-@WITH_TEST_SUIT_TRUE@	test$(EXEEXT) testio$(EXEEXT) \
-@WITH_TEST_SUIT_TRUE@	testme$(EXEEXT) testmd$(EXEEXT)
+@WITH_TEST_SUIT_TRUE@	test_issue_29$(EXEEXT) test$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	testio$(EXEEXT) testme$(EXEEXT) \
+@WITH_TEST_SUIT_TRUE@	testmd$(EXEEXT)
 TEST_SUITE_LOG = test-suite.log
 TEST_EXTENSIONS = @EXEEXT@ .test
 LOG_DRIVER = $(SHELL) $(top_srcdir)/config/test-driver
@@ -695,7 +710,7 @@ top_srcdir = @top_srcdir@
 EXTRA_DIST = jpcre2.hpp test_match.cpp test_replace.cpp \
 	test_match2.cpp test_replace2.cpp test_shorts.cpp test16.cpp \
 	test32.cpp test0.cpp test.cpp testio.cpp testme.cpp \
-	testcovme.cpp testmd.cpp
+	testcovme.cpp testmd.cpp test_issue_29.cpp
 include_HEADERS = \
   jpcre2.hpp
 
@@ -783,6 +798,16 @@ DISTCLEANFILES =
 @WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
 
 
+#Building test_issue_29
+@WITH_TEST_SUIT_TRUE@test_issue_29_SOURCES = \
+@WITH_TEST_SUIT_TRUE@  test_issue_29.cpp \
+@WITH_TEST_SUIT_TRUE@  $(JPCRE2_SOURCES)
+
+@WITH_TEST_SUIT_TRUE@test_issue_29_CXXFLAGS = \
+@WITH_TEST_SUIT_TRUE@  $(AM_CXXFLAGS) \
+@WITH_TEST_SUIT_TRUE@  $(AM_LDFLAGS)
+
+
 #Building test
 @WITH_TEST_SUIT_TRUE@test_SOURCES = \
 @WITH_TEST_SUIT_TRUE@  test.cpp \
@@ -847,7 +872,7 @@ DISTCLEANFILES =
 
 @WITH_THREAD_TEST_TRUE@test_pthread_CXXFLAGS = \
 @WITH_THREAD_TEST_TRUE@  $(AM_CXXFLAGS) \
-@WITH_THREAD_TEST_TRUE@  $(AM_LDFLAGS) 
+@WITH_THREAD_TEST_TRUE@  $(AM_LDFLAGS)
 
 #TESTS += teststdthread
 
@@ -855,7 +880,7 @@ DISTCLEANFILES =
 @WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@teststdthread_SOURCES = teststdthread.cpp $(JPCRE2_SOURCES)
 @WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@teststdthread_CXXFLAGS = \
 @WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@  $(AM_CXXFLAGS) \
-@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@  $(AM_LDFLAGS) 
+@WITH_CPP11_TRUE@@WITH_THREAD_TEST_TRUE@  $(AM_LDFLAGS)
 
 all: all-am
 
@@ -916,6 +941,10 @@ test32$(EXEEXT): $(test32_OBJECTS) $(test32_DEPENDENCIES) $(EXTRA_test32_DEPENDE
 	@rm -f test32$(EXEEXT)
 	$(AM_V_CXXLD)$(test32_LINK) $(test32_OBJECTS) $(test32_LDADD) $(LIBS)
 
+test_issue_29$(EXEEXT): $(test_issue_29_OBJECTS) $(test_issue_29_DEPENDENCIES) $(EXTRA_test_issue_29_DEPENDENCIES) 
+	@rm -f test_issue_29$(EXEEXT)
+	$(AM_V_CXXLD)$(test_issue_29_LINK) $(test_issue_29_OBJECTS) $(test_issue_29_LDADD) $(LIBS)
+
 test_match$(EXEEXT): $(test_match_OBJECTS) $(test_match_DEPENDENCIES) $(EXTRA_test_match_DEPENDENCIES) 
 	@rm -f test_match$(EXEEXT)
 	$(AM_V_CXXLD)$(test_match_LINK) $(test_match_OBJECTS) $(test_match_LDADD) $(LIBS)
@@ -970,6 +999,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test0-test0.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test16-test16.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test32-test32.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_issue_29-test_issue_29.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_match-test_match.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_match2-test_match2.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_pthread-test_pthread.Po@am__quote@ # am--include-marker
@@ -1064,6 +1094,20 @@ test32-test32.obj: test32.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test32.cpp' object='test32-test32.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test32_CXXFLAGS) $(CXXFLAGS) -c -o test32-test32.obj `if test -f 'test32.cpp'; then $(CYGPATH_W) 'test32.cpp'; else $(CYGPATH_W) '$(srcdir)/test32.cpp'; fi`
+
+test_issue_29-test_issue_29.o: test_issue_29.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_issue_29_CXXFLAGS) $(CXXFLAGS) -MT test_issue_29-test_issue_29.o -MD -MP -MF $(DEPDIR)/test_issue_29-test_issue_29.Tpo -c -o test_issue_29-test_issue_29.o `test -f 'test_issue_29.cpp' || echo '$(srcdir)/'`test_issue_29.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_issue_29-test_issue_29.Tpo $(DEPDIR)/test_issue_29-test_issue_29.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_issue_29.cpp' object='test_issue_29-test_issue_29.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_issue_29_CXXFLAGS) $(CXXFLAGS) -c -o test_issue_29-test_issue_29.o `test -f 'test_issue_29.cpp' || echo '$(srcdir)/'`test_issue_29.cpp
+
+test_issue_29-test_issue_29.obj: test_issue_29.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_issue_29_CXXFLAGS) $(CXXFLAGS) -MT test_issue_29-test_issue_29.obj -MD -MP -MF $(DEPDIR)/test_issue_29-test_issue_29.Tpo -c -o test_issue_29-test_issue_29.obj `if test -f 'test_issue_29.cpp'; then $(CYGPATH_W) 'test_issue_29.cpp'; else $(CYGPATH_W) '$(srcdir)/test_issue_29.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_issue_29-test_issue_29.Tpo $(DEPDIR)/test_issue_29-test_issue_29.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='test_issue_29.cpp' object='test_issue_29-test_issue_29.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_issue_29_CXXFLAGS) $(CXXFLAGS) -c -o test_issue_29-test_issue_29.obj `if test -f 'test_issue_29.cpp'; then $(CYGPATH_W) 'test_issue_29.cpp'; else $(CYGPATH_W) '$(srcdir)/test_issue_29.cpp'; fi`
 
 test_match-test_match.o: test_match.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_match_CXXFLAGS) $(CXXFLAGS) -MT test_match-test_match.o -MD -MP -MF $(DEPDIR)/test_match-test_match.Tpo -c -o test_match-test_match.o `test -f 'test_match.cpp' || echo '$(srcdir)/'`test_match.cpp
@@ -1481,6 +1525,13 @@ test0.log: test0$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+test_issue_29.log: test_issue_29$(EXEEXT)
+	@p='test_issue_29$(EXEEXT)'; \
+	b='test_issue_29'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 test.log: test$(EXEEXT)
 	@p='test$(EXEEXT)'; \
 	b='test'; \
@@ -1611,6 +1662,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/test0-test0.Po
 	-rm -f ./$(DEPDIR)/test16-test16.Po
 	-rm -f ./$(DEPDIR)/test32-test32.Po
+	-rm -f ./$(DEPDIR)/test_issue_29-test_issue_29.Po
 	-rm -f ./$(DEPDIR)/test_match-test_match.Po
 	-rm -f ./$(DEPDIR)/test_match2-test_match2.Po
 	-rm -f ./$(DEPDIR)/test_pthread-test_pthread.Po
@@ -1671,6 +1723,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/test0-test0.Po
 	-rm -f ./$(DEPDIR)/test16-test16.Po
 	-rm -f ./$(DEPDIR)/test32-test32.Po
+	-rm -f ./$(DEPDIR)/test_issue_29-test_issue_29.Po
 	-rm -f ./$(DEPDIR)/test_match-test_match.Po
 	-rm -f ./$(DEPDIR)/test_match2-test_match2.Po
 	-rm -f ./$(DEPDIR)/test_pthread-test_pthread.Po
