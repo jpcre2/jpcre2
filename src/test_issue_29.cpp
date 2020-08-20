@@ -1,5 +1,5 @@
 /**@file test_issue_29.cpp
- *  Test cases for issue 29 on Github.
+ *  Test cases for [issue 29 on Github](https://github.com/jpcre2/jpcre2/issues/29)
  * @include test_issue_29.cpp
  * @author [Md Jahidul Hamid](https://github.com/neurobin)
  * @author [Moritz Bunkus](https://github.com/mbunkus)
