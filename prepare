@@ -2,4 +2,4 @@
 doxygen Doxyfile
 ./crmd
 ./autogen.sh
-chmod +x config/install-sh
+chmod +x config/install-sh config/config.guess config/compile config/depcomp config/ltmain.sh config/missing config/test-driver
