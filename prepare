@@ -2,3 +2,4 @@
 doxygen Doxyfile
 ./crmd
 ./autogen.sh
+chmod +x config/install-sh
