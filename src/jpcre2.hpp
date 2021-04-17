@@ -3895,6 +3895,15 @@ struct select{
             return pat_str_ptr;
         }
 
+        ///Get number of captures from compiled code.
+        ///@return New line option value or 0.
+        Uint getNumCaptures() {
+            if(!code) return 0;
+            Uint numCaptures = 0;
+            int ret = Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info(code, PCRE2_INFO_CAPTURECOUNT, &numCaptures);
+            if(ret < 0) error_number = ret;
+            return numCaptures;
+        }
 
         /// Calculate modifier string from PCRE2 and JPCRE2 options and return it.
         ///
