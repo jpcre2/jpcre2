@@ -4497,7 +4497,7 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::MatchEvaluator::
     SIZE_T last = vec_eoff.size();
     last = (last>0)?last-1:0;
     JPCRE2_ASSERT(vec_eoff[last] <= RegexMatch::getSubject().size(), "ValueError: subject string is not of the required size, may be it's changed!!!\
-    If you are using esisting match data, try a new match.");
+    If you are using existing match data, try a new match.");
 
     //loop through the matches
     for(SIZE_T i=0;i<mcount;++i){
@@ -4535,7 +4535,7 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::MatchEvaluator::
         //second part
         ///the matched part is the subject
         //~ Pcre2Sptr subject = (Pcre2Sptr) RegexMatch::getSubjectPointer()->c_str();
-        //substr(vec_soff[i], vec_eoff[i] - vec_soff[i]).c_str();//->substr(vec_soff[i], vec_eoff[i]-vec_soff[i]);
+        //substr(vec_soff[i], vec_eoff[i] - vec_soff[i]).c_str();
         Pcre2Sptr subject = r_subject_ptr + vec_soff[i];
         PCRE2_SIZE subject_length = vec_eoff[i] - vec_soff[i];
 
@@ -4614,7 +4614,7 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::MatchEvaluator::
     SIZE_T last = vec_eoff.size();
     last = (last>0)?last-1:0;
     JPCRE2_ASSERT(vec_eoff[last] <= RegexMatch::getSubject().size(), "ValueError: subject string is not of the required size, may be it's changed!!!\
-    If you are using esisting match data, try a new match.");
+    If you are using existing match data, try a new match.");
 
     //loop through the matches
     for(SIZE_T i=0;i<mcount;++i){
