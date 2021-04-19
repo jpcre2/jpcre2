@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "jpcre2.hpp"
+#include "test.hpp"
 
 
 void getLine(std::string& a) { std::getline(std::cin,a,'\n'); }
@@ -86,7 +87,7 @@ int main(){
                 std::cout<<"\n-------------------------------------------------------------------------";
                 std::cout<< "\n--- Numbered Substrings (number: substring) for match "<<i+1<<" ---\n";
                 for(size_t j=0;j<vec_num[i].size();++j){
-                    std::cout<<"\n\t"<<j<<": "<<vec_num[i][j]<<"\n";
+                    std::cout<<"\n\t"<<j<<": "<<VEC_NUM[i][j]<<"\n";
                 }
                 
                 

@@ -80,6 +80,13 @@ AC_ARG_ENABLE(cpp11,
               , enable_cpp11=unset)
 AC_SUBST(enable_cpp11)
 
+# Handle --enable-cpp17 (disabled by default)
+AC_ARG_ENABLE(cpp17,
+              AS_HELP_STRING([--enable-cpp17],
+                             [enable compiling with cpp17]),
+              , enable_cpp17=unset)
+AC_SUBST(enable_cpp17)
+
 AC_ARG_ENABLE(coverage,
               AS_HELP_STRING([--enable-coverage],
                               [use Gcov and lcov to test the test suite]),
@@ -97,6 +104,12 @@ AC_SUBST(enable_valgrind)
 if test "x$enable_cpp11" = "xunset"
 then
   enable_cpp11=no
+fi
+
+# Set the default value for cpp17
+if test "x$enable_cpp17" = "xunset"
+then
+  enable_cpp17=no
 fi
 
 # Set the default value silent-rules
@@ -202,7 +215,6 @@ if test "$enable_cpp11" = "yes"; then
     Define to any value to enable C++ 11])
   #check for c++11 support and add flags
   AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
-  CPPFLAGS="$CXXFLAGS"
   AC_CHECK_HEADER([utility],[],[AC_MSG_ERROR([C++11 is being used but utility header not found])])
   AC_CHECK_HEADER([functional],[],[AC_MSG_ERROR([C++11 is being used but functional header not found. Either update your compiler or define JPCRE2_USE_FUNCTION_POINTER_CALLBACK before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
   #~ AC_CHECK_HEADER([locale],[],[AC_MSG_ERROR([Header locale not found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
@@ -229,6 +241,13 @@ if test "$enable_cpp11" = "yes"; then
   fi
 fi
 
+if test "$enable_cpp17" = "yes"; then
+  AC_DEFINE([SUPPORT_CPP17], [], [
+    Define to any value to enable C++ 17])
+  #check for c++17 support and add flags
+  AX_CXX_COMPILE_STDCXX([17], [noext], [mandatory])
+fi
+
 # Conditional compilation
 AM_CONDITIONAL(WITH_TEST_SUIT, test "x$enable_valgrind" = "xyes" || test "x$enable_coverage" = "xyes" || test "x$enable_test" = "xyes")
 AM_CONDITIONAL(WITH_COVERAGE, test "x$enable_coverage" = "xyes")
@@ -252,6 +271,7 @@ configuration summary:
     Extra libraries ................... : ${LIBS}
     Build tests ....................... : ${enable_test}
     Build with C++ 11 ................. : ${enable_cpp11}
+    Build with C++ 17 ................. : ${enable_cpp17}
     Valgrind memory leak test ......... : ${enable_valgrind}
     Multi-thread test ................. : ${enable_thread_check}
     Coverage report ................... : ${enable_coverage}
