@@ -28,7 +28,7 @@ int main(){
       .addPcre2Option(0)                                                 //add pcre2 option
       .compile();                                                        //Finally compile it.
       re.setModifier("fdsfsd"); //creating an invalid modifier error
-    std::cerr<<re.getErrorMessage()<<"\terror number: "<<re.getErrorNumber();
+      std::cerr<<re.getErrorMessage()<<"\terror number: "<<re.getErrorNumber() << std::endl;
     // JIT error is a harmless, it just means that an optimization failed.
     
     //subject string
@@ -53,7 +53,7 @@ int main(){
     // re.reset(); // re-initialize re
     
     
-    std::cout<<"\nTotal number of mathces: "<<count<<std::endl;
+    std::cout<<"\nTotal number of matches: "<<count<<std::endl;
     //Now let's access the matched data
     
     //Each of these vectors contains maps, except the VecNum which contains vectors.
