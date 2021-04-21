@@ -2670,7 +2670,6 @@ ac_configure="$SHELL $ac_aux_dir/configure"  # Please don't use this var.
 
 
 
-#AC_CONFIG_HEADERS([config.h])
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -3955,7 +3954,6 @@ END
   fi
 fi
 
-#AM_INIT_AUTOMAKE([foreign parallel-tests color-tests])
 
 
 ac_ext=cpp
@@ -4366,8 +4364,6 @@ esac
 # Checks for programs.
 
 
-
-#AM_DISABLE_SHARED
 
 case `pwd` in
   *\ * | *\	*)
@@ -16112,11 +16108,6 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
-#AC_PROG_CXX
-#AC_PROG_CC
-
-#CXXFLAGS=
-
 
 # Checks for typedefs, structures, and compiler characteristics.
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for stdbool.h that conforms to C99" >&5
@@ -16274,7 +16265,6 @@ _ACEOF
   esac
 
 
-#AC_LANG_PUSH([C])
 ac_fn_cxx_check_header_compile "$LINENO" "pcre2.h" "ac_cv_header_pcre2_h" "#define PCRE2_CODE_UNIT_WIDTH 0
      #include <pcre2.h>
 
@@ -16301,11 +16291,8 @@ fi
 
 done
 
-#AC_LANG_POP([C])
 
 # Checks for library functions.
-#AC_FUNC_MALLOC
-#AC_FUNC_REALLOC
 for ac_func in free
 do :
   ac_fn_cxx_check_func "$LINENO" "free" "ac_cv_func_free"
@@ -16683,7 +16670,6 @@ fi
   if test "x$VALGRIND" = "xfalse"; then
     as_fn_error $? "The program valgrind not installed" "$LINENO" 5
   fi
-  #enable_valgrind=yes
   if test "$enable_coverage" = yes; then
     as_fn_error $? "thread check option is not supported with coverage report" "$LINENO" 5
   fi
@@ -17330,24 +17316,6 @@ else
   as_fn_error $? "C++11 is being used but functional header not found. Either update your compiler or define JPCRE2_USE_FUNCTION_POINTER_CALLBACK before including jpcre2.hpp in your program if applicable and update configure script to ignore this error." "$LINENO" 5
 fi
 
-
-  #~ AC_CHECK_HEADER([locale],[],[AC_MSG_ERROR([Header locale not found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
-  #~ AC_LINK_IFELSE(
-    #~ [AC_LANG_PROGRAM(
-      #~ [#include <cwchar>
-       #~ #include <locale>
-      #~ ],
-      #~ [typedef std::codecvt<char16_t, char, std::mbstate_t> Codecvt;])],
-    #~ [echo "checking for std::codecvt... yes"],
-    #~ [AC_MSG_ERROR([C++11 is being used but std::codecvt could not be found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
-  #~ AC_LINK_IFELSE(
-    #~ [AC_LANG_PROGRAM(
-      #~ [#include <cwchar>
-       #~ #include <locale>
-      #~ ],
-      #~ [typedef std::wstring_convert<std::codecvt<char16_t, char, std::mbstate_t>, char16_t> Converter;])],
-    #~ [echo "checking for std::wstring_convert... yes"],
-    #~ [AC_MSG_ERROR([C++11 is being used but std::wstring_convert could not be found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
 
   if test "$enable_thread_check" = 'yes'; then
     for ac_header in thread mutex
