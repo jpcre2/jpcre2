@@ -82,7 +82,7 @@
     #include <optional>
 #else
     #ifdef JPCRE2_UNSET_CAPTURES_NULL
-        #error JPCRE2_UNSET_CAPTURES_NULL requires C++17
+        #error JPCRE2_UNSET_CAPTURES_NULL requires minimum C++17
     #endif
 #endif
 
@@ -116,7 +116,7 @@ namespace jpcre2 {
 
 ///Define for JPCRE2 version.
 ///It can be used to support changes in different versions of the lib.
-#define JPCRE2_VERSION 103201L
+#define JPCRE2_VERSION 103301L
 
 /** @namespace jpcre2::INFO
  *  Namespace to provide information about JPCRE2 library itself.
@@ -124,9 +124,9 @@ namespace jpcre2 {
  */
 namespace INFO {
     static const char NAME[] = "JPCRE2";               ///< Name of the project
-    static const char FULL_VERSION[] = "10.32.01";     ///< Full version string
+    static const char FULL_VERSION[] = "10.33.01";     ///< Full version string
     static const char VERSION_GENRE[] = "10";          ///< Generation, depends on original PCRE2 version
-    static const char VERSION_MAJOR[] = "32";          ///< Major version, updated when API change is made
+    static const char VERSION_MAJOR[] = "33";          ///< Major version, updated when API change is made
     static const char VERSION_MINOR[] = "01";          ///< Minor version, includes bug fix or minor feature upgrade
     static const char VERSION_PRE_RELEASE[] = "";      ///< Alpha or beta (testing) release version
 }
@@ -1361,9 +1361,316 @@ struct select{
 
     //forward declaration
     class Regex;
+    class MatchConfig;
+    class Match;
     class RegexMatch;
     class RegexReplace;
     class MatchEvaluator;
+
+    ///Class to configure what data should be included
+    ///in Match object for each match.
+    class MatchConfig{
+
+        // private:
+
+        // friend class RegexMatch;
+        // friend class MatchEvaluator;
+        // friend class RegexReplace;
+        // friend class Match;
+        // friend class Regex;
+
+        public:
+
+        bool match_text;
+        bool start_offset;
+        bool end_offset;
+        bool group_number;
+        bool group_name;
+        bool unset_unset;
+
+        virtual ~MatchConfig() {}
+        MatchConfig(
+                    bool match_text=false,
+                    bool group_number=false,
+                    bool group_name=false,
+                    bool start_offset=false,
+                    bool end_offset=false,
+                    bool unset_unset=false,
+                    ){
+            this->m = m;
+            this->match_text = match_text;
+            this->group_number = group_number;
+            this->group_name = group_name;
+            this->start_offset = start_offset;
+            this->end_offset = end_offset;
+            this->unset_unset = unset_unset;
+        }
+    };
+
+
+    class Match{
+        private:
+
+        friend class RegexMatch;
+        friend class MatchEvaluator;
+        friend class RegexReplace;
+        friend class MatchConfig;
+        friend class Regex;
+
+        MatchConfig* mc;
+
+        String _match_text;
+        bool _exists;
+        Uint _start_offset;
+        Uint _end_offset;
+        Uint _group_number;
+        String _group_name;
+
+        bool _match_text_set;
+        bool _start_offset_set;
+        bool _end_offset_set;
+        bool _group_number_set;
+        bool _group_name_set;
+
+
+        void _init() {
+            _exists = false;
+            _match_text_set = false;
+            _start_offset_set = false;
+            _end_offset_set = false;
+            _group_number_set = false;
+            _group_name_set = false;
+        }
+
+        Match& set_match_text(String const & match_text){
+            if(!exists() && (this->mc).unset_unset) return *this;
+            if((this->mc).match_text){
+                _match_text = match_text;
+                _match_text_set = true;
+            }
+            return *this;
+        }
+
+        Match& set_start_offset(Uint start_offset){
+            if(!exists() && (this->mc).unset_unset) return *this;
+            if(!(this->mc).start_offset) return *this;
+            _start_offset = start_offset;
+            _start_offset_set = true;
+            return *this;
+        }
+
+        Match& set_end_offset(Uint end_offset){
+            if(!exists() && (this->mc).unset_unset) return *this;
+            if(!(this->mc).end_offset) return *this;
+            _end_offset = end_offset;
+            _end_offset_set = true;
+            return *this;
+        }
+
+        Match& set_group_number(Uint group_number){
+            if(!exists() && (this->mc).unset_unset) return *this;
+            if(!(this->mc).group_number) return *this;
+            _group_number = group_number;
+            _group_number_set = true;
+            return *this;
+        }
+
+        Match& set_group_name(String const & group_name){
+            if(!exists() && (this->mc).unset_unset) return *this;
+            if(!(this->mc).group_name) return *this;
+            _group_name = group_name;
+            _group_name_set = true;
+            return *this;
+        }
+
+        virtual ~Match() {}
+        ///Default constructor.
+        Match(bool exists, MatchConfig* mc){
+            _init();
+            _exists = exists;
+            this->mc = mc;
+        }
+
+        public:
+        bool has_value() const{
+            return has_match_text();
+        }
+        bool has_match_text() const{
+            return _match_text_set;
+        }
+        bool has_group_name() const{
+            return _group_name_set;
+        }
+        bool has_group_number() const{
+            return _group_number_set;
+        }
+        bool has_start_offset() const{
+            return _start_offset_set;
+        }
+        bool has_end_offset() const{
+            return _end_offset_set;
+        }
+        bool exists() const{
+            return _exists;
+        }
+        #ifdef JPCRE2_USE_MINIMUM_CXX_11
+
+        explicit operator bool() const {
+            return exists();
+        }
+        #endif
+        bool operator!() const {
+            return !exists();
+        }
+
+        String const & match_text() const{
+            if(has_match_text()){
+                return _match_text;
+            }else{
+                throw std::range_error("match_text unavailable. Is there any match at this position? Did you pass a correct MatchConfig with match_text=true?");
+            }
+        }
+
+
+        String const & match_text_or(String const & default_match_text) const{
+            if(has_match_text()){
+                return _match_text;
+            }else{
+                return default_match_text;
+            }
+        }
+
+        //
+        String const & value() const{
+            return match_text();
+        }
+        String const & value_or(String const & default_match_text) const{
+            return match_text_or(default_match_text);
+        }
+
+        Uint group_number() const{
+            if(has_group_number()){
+                return _group_number;
+            }else{
+                throw std::range_error("group_number unavailable. Is there any match at this position? Did you pass a correct MatchConfig with group_number=true?");
+            }
+        }
+
+
+        Uint group_number_or(Uint default_group_number) const{
+            if(has_group_number()){
+                return _group_number;
+            }else{
+                return default_group_number;
+            }
+        }
+
+        String const & group_name() const{
+            if(has_group_name()){
+                return _group_name;
+            }else{
+                throw std::range_error("group_name unavailable. Is there any match at this position? Did you pass a correct MatchConfig with group_name=true?");
+            }
+        }
+
+
+        String const & group_name_or(String const & default_group_name) const{
+            if(has_group_name()){
+                return _group_name;
+            }else{
+                return default_group_name;
+            }
+        }
+
+        Uint start_offset() const{
+            if(has_start_offset()){
+                return _start_offset;
+            }else{
+                throw std::range_error("start_offset unavailable. Is there any match at this position? Did you pass a correct MatchConfig with start_offset=true?");
+            }
+        }
+
+
+        Uint start_offset_or(Uint default_start_offset) const{
+            if(has_start_offset()){
+                return _start_offset;
+            }else{
+                return default_start_offset;
+            }
+        }
+
+        Uint end_offset() const{
+            if(has_end_offset()){
+                return _end_offset;
+            }else{
+                throw std::range_error("end_offset unavailable. Is there any match at this position? Did you pass a correct MatchConfig with end_offset=true?");
+            }
+        }
+
+
+        Uint end_offset_or(Uint default_end_offset) const{
+            if(has_end_offset()){
+                return _end_offset;
+            }else{
+                return default_end_offset;
+            }
+        }
+
+        Uint length(){
+            return match_text().length();
+        }
+
+        char const & operator[](size_t pos){
+            return match_text()[pos];
+        }
+        char const & at(size_t pos){
+            return match_text().at(pos);
+        }
+        char const & front() const{
+            return match_text().at(0);
+        }
+        char back() const{
+            size_t n = match_text().length();
+            return n ? match_text().at(n-1) : '\0';
+        }
+
+        String const & operator*() const{
+            return match_text();
+        }
+
+        String operator+(String const & other) const{
+            return match_text() + other;
+        }
+
+        String operator+=(String const & other) const{
+            return match_text() + other;
+        }
+
+        int compare(String const & other) const{
+            return match_text().compare(other);
+        }
+
+        bool operator>(String const & other){
+            return match_text().compare(other) > 0;
+        }
+
+        bool operator<(String const & other){
+            return match_text().compare(other) < 0;
+        }
+
+        bool operator>=(String const & other){
+            return match_text().compare(other) >= 0;
+        }
+
+        bool operator<=(String const & other){
+            return match_text().compare(other) <= 0;
+        }
+
+        bool operator==(String const & other){
+            return match_text().compare(other) == 0;
+        }
+    };
+
 
     /** Provides public constructors to create RegexMatch objects.
      * Every RegexMatch object should be associated with a Regex object.
@@ -1389,6 +1696,7 @@ struct select{
         friend class MatchEvaluator;
 
         Regex const *re;
+        MatchConfig match_config;
 
         String m_subject;
         String const *m_subject_ptr;
@@ -4792,6 +5100,42 @@ bool jpcre2::select<Char_T>::RegexMatch::getNamedSubstrings(int namecount, int n
         String value((Char*)(subject + ovector[2*n]), ovector[2*n+1] - ovector[2*n]); //n, not i.
         if(vec_nas) map_nas[key] = value;
         if(vec_ntn) map_ntn[key] = n;
+    }
+    //push the maps into vectors:
+    if(vec_nas) vec_nas->push_back(map_nas);
+    if(vec_ntn) vec_ntn->push_back(map_ntn);
+    return true;
+}
+
+#ifdef JPCRE2_USE_MINIMUM_CXX_11
+template<typename Char_T, template<typename...> class Map>
+bool jpcre2::select<Char_T, Map>::RegexMatch::getMatchObjects(int namecount, int name_entry_size,
+                                                            Pcre2Sptr name_table,
+                                                            Pcre2Sptr subject, PCRE2_SIZE* ovector ) {
+#else
+template<typename Char_T>
+bool jpcre2::select<Char_T>::RegexMatch::getMatchObjects(int namecount, int name_entry_size,
+                                                            Pcre2Sptr name_table,
+                                                            Pcre2Sptr subject, PCRE2_SIZE* ovector ) {
+#endif
+    Pcre2Sptr tabptr = name_table;
+    String key;
+    for (int i = 0; i < namecount; i++) {
+        int n;
+        if(sizeof( Char_T ) * CHAR_BIT == 8){
+            n = (int)((tabptr[0] << 8) | tabptr[1]);
+            key = toString((Char*) (tabptr + 2));
+        }
+        else{
+            n = (int)tabptr[0];
+            key = toString((Char*) (tabptr + 1));
+        }
+        //Use of tabptr is finished for this iteration, let's increment it now.
+        tabptr += name_entry_size;
+        String value((Char*)(subject + ovector[2*n]), ovector[2*n+1] - ovector[2*n]); //n, not i.
+        if(vec_nas) map_nas[key] = value;
+        if(vec_ntn) map_ntn[key] = n;
+        if(vec_mv)
     }
     //push the maps into vectors:
     if(vec_nas) vec_nas->push_back(map_nas);

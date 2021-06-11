@@ -50,7 +50,7 @@ void test_match(jp::Regex &re, std::string const &subject, size_t captures_expec
     assert(string_present(matches[0], 2) == !!(captures_expected & 0x2));
     assert(string_present(matches[0], 3) == !!(captures_expected & 0x4));
     out_of_range_occurred = !string_present(matches[0], 4); // idx 4 should never be present
-    
+
     if(!out_of_range_occurred){
         std::cout<<"E: std::out_of_range exception was not thrown. vecnum has more capture groups than expected.\n";
         exit(1);
