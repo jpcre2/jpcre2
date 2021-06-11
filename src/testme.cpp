@@ -7,6 +7,7 @@
 //~ #define NDEBUG
 #include <iostream>
 #include "jpcre2.hpp"
+#include "test.hpp"
 #if __cplusplus >= 201103L
 #include <unordered_map>
 #endif
@@ -32,17 +33,17 @@ String callback0(void*, void*, void*){
     return "\nw: $2\ts: $3\td: $4\n";
 }
 
-String callback1(const jp::NumSub& m1, void*, void*){
-    return "("+m1[0]+")";
+String callback1(const jp::NumSub& vec_num, void*, void*){
+    return "("+VEC_NUM[0]+")";
 }
 
 String callback2(void*, const jp::MapNas& m2, void*){
     return "("+m2.at("total")+")";
 }
 
-String callback3(const jp::NumSub& m1,const jp::MapNas& m2, void*){
+String callback3(const jp::NumSub& vec_num,const jp::MapNas& m2, void*){
     jp::MapNas mn2 = m2;
-    return "("+m1[0]+"/"+mn2["total"]+")";
+    return "("+VEC_NUM[0]+"/"+mn2["total"]+")";
 }
 
 String callback4(void*, void*, const jp::MapNtN& m3){
@@ -50,9 +51,9 @@ String callback4(void*, void*, const jp::MapNtN& m3){
     return "("+toString(mn3["total"])+")";
 }
 
-String callback5(const jp::NumSub& m1, void*, const jp::MapNtN& m3){
+String callback5(const jp::NumSub& vec_num, void*, const jp::MapNtN& m3){
     jp::MapNtN mn = m3;
-    return "("+m1[0]+"/"+toString(mn["total"])+")";
+    return "("+VEC_NUM[0]+"/"+toString(mn["total"])+")";
 }
 
 String callback6(void*, const jp::MapNas& m2, const jp::MapNtn& m3){
@@ -61,19 +62,19 @@ String callback6(void*, const jp::MapNas& m2, const jp::MapNtn& m3){
     return "("+mn2["total"]+"/"+toString(mn3["total"])+")";
 }
 
-String callback7(const jp::NumSub& m1, const jp::MapNas& m2, const jp::MapNtn& m3){
+String callback7(const jp::NumSub& vec_num, const jp::MapNas& m2, const jp::MapNtn& m3){
     jp::MapNas mn2 = m2;
     jp::MapNtN mn3 = m3;
-    return "("+m1[0]+"/"+mn2["total"]+"/"+toString(mn3["total"])+"/$0)";
+    return "("+VEC_NUM[0]+"/"+mn2["total"]+"/"+toString(mn3["total"])+"/$0)";
 }
 
 //The following is an example how you can use start_offset and 
 //end_offset inside callback
 jpcre2::VecOff const* start_offset, *end_offset;
 size_t offset_count = 0;
-String callback_using_offset(const jp::NumSub& m1, void*, void* ){
+String callback_using_offset(const jp::NumSub& vec_num, void*, void* ){
     size_t count = offset_count++;
-    return "(m[0]: "+ m1[0] + "/" + "start_offset: " + toString((*start_offset)[count]) + "/end_offset: " +  toString((*end_offset)[count]);
+    return "(m[0]: "+ VEC_NUM[0] + "/" + "start_offset: " + toString((*start_offset)[count]) + "/end_offset: " +  toString((*end_offset)[count]);
 }
 
 int main(){
@@ -92,8 +93,8 @@ int main(){
     //example with lambda
     std::cout<<"\n\n### Lambda\n"<<rr.nreplace(
                 jp::MatchEvaluator(
-                    [](const jp::NumSub& m1, const jp::MapNas& m2, void*){
-                        return "("+m1[0]+"/"+m2.at("total")+")";
+                    [](const jp::NumSub& vec_num, const jp::MapNas& m2, void*){
+                        return "("+VEC_NUM[0]+"/"+m2.at("total")+")";
                     }
                 ));
     #endif
@@ -207,9 +208,9 @@ int main(){
     jpcre2::VecOff const * eo = cme.getMatchEndOffsetVector();
     size_t off_count = 0;
     cme.setCallback(
-        [&](const jp::NumSub& m1, void*, void*){
+        [&](const jp::NumSub& vec_num, void*, void*){
             size_t count = off_count++;
-            return "(m[0]: "+ m1[0] + "/" + "start_offset: " + toString((*so)[count]) + "/end_offset: " +  toString((*eo)[count]) + ")";
+            return "(m[0]: "+ VEC_NUM[0] + "/" + "start_offset: " + toString((*so)[count]) + "/end_offset: " +  toString((*eo)[count]) + ")";
         }
     );
     std::cout<<"\n\n### lambda_callback_using_offset: \n"<<cme.replace();

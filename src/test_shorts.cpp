@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include "jpcre2.hpp"
+#include "test.hpp"
 
 typedef jpcre2::select<char> jp; 
 
@@ -76,9 +77,9 @@ int main(){
     //The size of vec_num is the total match count
     //vec_num[0] is the first match
     //The type of vec_num[0] is jp::NumSub
-    std::cout<<"\nTotal match of first match: "<<vec_num[0][0];
-    std::cout<<"\nCaptured group 1 of first match: "<<vec_num[0][1];
-    std::cout<<"\nCaptured group 2 of first match: "<<vec_num[0][2];
+    std::cout<<"\nTotal match of first match: "<<VEC_NUM[0][0];
+    std::cout<<"\nCaptured group 1 of first match: "<<VEC_NUM[0][1];
+    std::cout<<"\nCaptured group 2 of first match: "<<VEC_NUM[0][2];
 
     //captured group 3 doesn't exist, (with operator [] it's a segfault)
     //std::cout<<"\nCaptured group 3 of first match: "<<vec_num[0][3];
@@ -92,9 +93,9 @@ int main(){
 
 
     //There were two matches found (vec_num.size() == 2) in the above example
-    std::cout<<"\nTotal match of second match: "<<vec_num[1][0];      //Total match (group 0) from second match
-    std::cout<<"\nCaptured group 1 of second match: "<<vec_num[1][1]; //captured group 1 from second match
-    std::cout<<"\nCaptured group 2 of second match: "<<vec_num[1][2]; //captured group 2 from second match
+    std::cout<<"\nTotal match of second match: "<<VEC_NUM[1][0];      //Total match (group 0) from second match
+    std::cout<<"\nCaptured group 1 of second match: "<<VEC_NUM[1][1]; //captured group 1 from second match
+    std::cout<<"\nCaptured group 2 of second match: "<<VEC_NUM[1][2]; //captured group 2 from second match
 
 
     // ***** Get named substring ***** //

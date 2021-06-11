@@ -5,6 +5,10 @@
  * @author [Moritz Bunkus](https://github.com/mbunkus)
  * */
 
+// Ensure that JPCRE2_UNSET_CAPTURES_NULL is not set, as this test is
+// explicitly for the default configuration.
+#undef JPCRE2_UNSET_CAPTURES_NULL
+
 #include <cassert>
 #include <iostream>
 #include "jpcre2.hpp"

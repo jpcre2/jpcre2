@@ -7,12 +7,10 @@ include([ax_check_define.m4])
 AC_INIT([jpcre2], [10.32.01], [https://github.com/jpcre2/jpcre2/issues])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/jpcre2.hpp])
-#AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
 AC_LANG([C++])
 
 AM_INIT_AUTOMAKE
-#AM_INIT_AUTOMAKE([foreign parallel-tests color-tests])
 
 AC_TYPE_INT64_T
 
@@ -20,14 +18,7 @@ AC_TYPE_INT64_T
 
 AC_PROG_INSTALL
 
-#AM_DISABLE_SHARED
-
 LT_INIT([shared])
-
-#AC_PROG_CXX
-#AC_PROG_CC
-
-#CXXFLAGS=
 
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -36,17 +27,13 @@ AC_C_INLINE
 AC_TYPE_SIZE_T
 AC_TYPE_UINT32_T
 
-#AC_LANG_PUSH([C])
 AC_CHECK_HEADER([pcre2.h],[],[AC_MSG_ERROR([Could not find pcre2.h header])],
     [#define PCRE2_CODE_UNIT_WIDTH 0
      #include <pcre2.h>
     ])
 AC_CHECK_HEADERS([string vector map cstdio climits cstdlib],[],[AC_MSG_ERROR([Required header/s not found])])
-#AC_LANG_POP([C])
 
 # Checks for library functions.
-#AC_FUNC_MALLOC
-#AC_FUNC_REALLOC
 AC_CHECK_FUNCS([free],[],[AC_MSG_ERROR([The function free() could not be found])])
 
 # Check for macros
@@ -80,6 +67,13 @@ AC_ARG_ENABLE(cpp11,
               , enable_cpp11=unset)
 AC_SUBST(enable_cpp11)
 
+# Handle --enable-cpp17 (disabled by default)
+AC_ARG_ENABLE(cpp17,
+              AS_HELP_STRING([--enable-cpp17],
+                             [enable compiling with cpp17]),
+              , enable_cpp17=unset)
+AC_SUBST(enable_cpp17)
+
 AC_ARG_ENABLE(coverage,
               AS_HELP_STRING([--enable-coverage],
                               [use Gcov and lcov to test the test suite]),
@@ -97,6 +91,12 @@ AC_SUBST(enable_valgrind)
 if test "x$enable_cpp11" = "xunset"
 then
   enable_cpp11=no
+fi
+
+# Set the default value for cpp17
+if test "x$enable_cpp17" = "xunset"
+then
+  enable_cpp17=no
 fi
 
 # Set the default value silent-rules
@@ -162,7 +162,6 @@ if test "$enable_thread_check" = "yes"; then
   if test "x$VALGRIND" = "xfalse"; then
     AC_MSG_ERROR([The program valgrind not installed])
   fi
-  #enable_valgrind=yes
   if test "$enable_coverage" = yes; then
     AC_MSG_ERROR([thread check option is not supported with coverage report])
   fi
@@ -188,7 +187,7 @@ fi
 
 if test "$enable_test" = "yes"; then
   AC_DEFINE([SUPPORT_TEST], [], [
-    Define to any value to enable the test suit])
+    Define to any value to enable the test suite])
   AC_CHECK_LIB([pcre2-8], [pcre2_code_free_8], [], [AC_MSG_ERROR([Could not find pcre2-8 library])])
   AC_CHECK_LIB([pcre2-16], [pcre2_code_free_16], [], [AC_MSG_ERROR([Could not find pcre2-16 library])])
   AC_CHECK_LIB([pcre2-32], [pcre2_code_free_32], [], [AC_MSG_ERROR([Could not find pcre2-32 library])])
@@ -202,31 +201,19 @@ if test "$enable_cpp11" = "yes"; then
     Define to any value to enable C++ 11])
   #check for c++11 support and add flags
   AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
-  CPPFLAGS="$CXXFLAGS"
   AC_CHECK_HEADER([utility],[],[AC_MSG_ERROR([C++11 is being used but utility header not found])])
   AC_CHECK_HEADER([functional],[],[AC_MSG_ERROR([C++11 is being used but functional header not found. Either update your compiler or define JPCRE2_USE_FUNCTION_POINTER_CALLBACK before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
-  #~ AC_CHECK_HEADER([locale],[],[AC_MSG_ERROR([Header locale not found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
-  #~ AC_LINK_IFELSE(
-    #~ [AC_LANG_PROGRAM(
-      #~ [#include <cwchar>
-       #~ #include <locale>
-      #~ ], 
-      #~ [typedef std::codecvt<char16_t, char, std::mbstate_t> Codecvt;])],
-    #~ [echo "checking for std::codecvt... yes"], 
-    #~ [AC_MSG_ERROR([C++11 is being used but std::codecvt could not be found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
-  #~ AC_LINK_IFELSE(
-    #~ [AC_LANG_PROGRAM(
-      #~ [#include <cwchar>
-       #~ #include <locale>
-      #~ ], 
-      #~ [typedef std::wstring_convert<std::codecvt<char16_t, char, std::mbstate_t>, char16_t> Converter;])],
-    #~ [echo "checking for std::wstring_convert... yes"], 
-    #~ [AC_MSG_ERROR([C++11 is being used but std::wstring_convert could not be found. Either update your compiler or define JPCRE2_DISABLE_CHAR1632 before including jpcre2.hpp in your program if applicable and update configure script to ignore this error.])])
-    
   if test "$enable_thread_check" = 'yes'; then
     AC_CHECK_HEADERS([thread mutex],[],[AC_MSG_ERROR([Unable to find thread/mutex header])])
     AC_CHECK_HEADERS([ctime],[],[AC_MSG_ERROR([Unable to find ctime header])])
   fi
+fi
+
+if test "$enable_cpp17" = "yes"; then
+  AC_DEFINE([SUPPORT_CPP17], [], [
+    Define to any value to enable C++ 17])
+  #check for c++17 support and add flags
+  AX_CXX_COMPILE_STDCXX([17], [noext], [mandatory])
 fi
 
 # Conditional compilation
@@ -252,6 +239,7 @@ configuration summary:
     Extra libraries ................... : ${LIBS}
     Build tests ....................... : ${enable_test}
     Build with C++ 11 ................. : ${enable_cpp11}
+    Build with C++ 17 ................. : ${enable_cpp17}
     Valgrind memory leak test ......... : ${enable_valgrind}
     Multi-thread test ................. : ${enable_thread_check}
     Coverage report ................... : ${enable_coverage}
