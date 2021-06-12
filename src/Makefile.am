@@ -15,8 +15,7 @@ EXTRA_DIST += \
   testme.cpp \
   testcovme.cpp \
   testmd.cpp \
-  test_issue_29.cpp \
-  test_pr_31.cpp
+  test_issue_29.cpp
 
 include_HEADERS = \
   jpcre2.hpp
@@ -122,17 +121,6 @@ test_issue_29_CXXFLAGS = \
   $(AM_CXXFLAGS) \
   $(AM_LDFLAGS)
 
-noinst_PROGRAMS += test_pr_31
-TESTS += test_pr_31
-
-#Building test_pr_31
-test_pr_31_SOURCES = \
-  test_pr_31.cpp \
-  $(JPCRE2_SOURCES)
-test_pr_31_CXXFLAGS = \
-  $(AM_CXXFLAGS) \
-  $(AM_LDFLAGS)
-
 noinst_PROGRAMS += test testio testme testmd
 TESTS += test testio testme testmd
 
@@ -202,21 +190,21 @@ COV_PROGS = $(TESTS)
 
 
 coverage: $(COV_PROGS) jpcre2.hpp
-        -$(LCOV) $(coverage_quiet) --zerocounters --directory $(top_builddir)
-        for test in $(COV_PROGS); do \
-        ./$$test | true ; \
-        done
-        $(LCOV) --no-external --test-name "$(COVERAGE_TEST_NAME)" \
-                --directory . \
-                --directory "$(srcdir)" \
-                --capture \
-                --output-file "$(COVERAGE_OUTPUT_FILE)"
-        mkdir -p "$(COVERAGE_OUTPUT_DIR)"
-        $(GENHTML) -o "$(COVERAGE_OUTPUT_DIR)" "$(COVERAGE_OUTPUT_FILE)"
+	-$(LCOV) $(coverage_quiet) --zerocounters --directory $(top_builddir)
+	for test in $(COV_PROGS); do \
+	./$$test | true ; \
+	done
+	$(LCOV) --no-external --test-name "$(COVERAGE_TEST_NAME)" \
+		--directory . \
+		--directory "$(srcdir)" \
+		--capture \
+		--output-file "$(COVERAGE_OUTPUT_FILE)"
+	mkdir -p "$(COVERAGE_OUTPUT_DIR)"
+	$(GENHTML) -o "$(COVERAGE_OUTPUT_DIR)" "$(COVERAGE_OUTPUT_FILE)"
 
 distclean-local:
-        rm -f *.info *.gcno *.gcda
-        rm -rf "$(COVERAGE_OUTPUT_DIR)"
+	rm -f *.info *.gcno *.gcda
+	rm -rf "$(COVERAGE_OUTPUT_DIR)"
 covclean: distclean-local
 
 
@@ -229,9 +217,9 @@ endif
 if WITH_VALGRIND
 
 check: $(TESTS)
-        for test in $(TESTS); do \
-        $(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./$$test ; \
-        done
+	for test in $(TESTS); do \
+	$(VALGRIND) --show-reachable=no --leak-check=full --track-origins=yes ./$$test ; \
+	done
 
 endif
 
@@ -264,7 +252,7 @@ teststdthread_CXXFLAGS = \
 endif
 
 check-local: $(thread_tests)
-        for test in $(thread_tests); do \
-        $(VALGRIND) --tool=drd ./$$test ; \
-        done
+	for test in $(thread_tests); do \
+	$(VALGRIND) --tool=drd ./$$test ; \
+	done
 endif

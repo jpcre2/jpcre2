@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include "jpcre2.hpp"
-#include "test.hpp"
 
 
 typedef jpcre2::select<char> jp;
@@ -74,7 +73,7 @@ int main(){
         std::cout<<"\n-------------------------------------------------------------------------";
         std::cout<< "\n--- Numbered Substrings (number: substring) for match "<<i+1<<" ---\n";
         for(size_t j=0;j<vec_num[i].size();++j){
-            std::cout<<"\n\t"<<j<<": "<<(vec_num[i][j] ? VEC_NUM[i][j] : "")<<"\n";
+            std::cout<<"\n\t"<<j<<": "<<vec_num[i][j]<<"\n";
         }
         
         

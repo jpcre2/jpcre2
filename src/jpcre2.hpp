@@ -77,14 +77,6 @@
         #include <functional>   // std::function
     #endif
 #endif
-#if __cplusplus >= 201703L || _MSVC_LANG >= 201703L
-    #define JPCRE2_USE_MINIMUM_CXX_17 1
-    #include <optional>
-#else
-    #ifdef JPCRE2_UNSET_CAPTURES_NULL
-        #error JPCRE2_UNSET_CAPTURES_NULL requires minimum C++17
-    #endif
-#endif
 
 #define JPCRE2_UNUSED(x) ((void)(x))
 #if defined(NDEBUG) || defined(JPCRE2_NDEBUG)
@@ -1274,11 +1266,7 @@ struct select{
     typedef MapNtN MapNtn;
 
     ///Vector for Numbered substrings (Sub container).
-    #ifdef JPCRE2_UNSET_CAPTURES_NULL
-    typedef typename std::vector<std::optional<String>> NumSub;
-    #else
     typedef typename std::vector<String> NumSub;
-    #endif
     ///Vector of matches with named substrings.
     typedef typename std::vector<MapNas> VecNas;
     ///Vector of substring name to substring number map.
@@ -2362,11 +2350,7 @@ struct select{
         ///@param ntn jp::MapNtN map.
         ///@return total match (group 0) of current match.
         static String fill(NumSub const &num, MapNas const &nas, MapNtn const &ntn){
-            #ifdef JPCRE2_UNSET_CAPTURES_NULL
-            return *num[0];
-            #else
             return num[0];
-            #endif
         }
 
         private:
@@ -5055,16 +5039,10 @@ bool jpcre2::select<Char_T>::RegexMatch::getNumberedSubstrings(int rc, Pcre2Sptr
     uint32_t rcu = rc;
     num_sub.reserve(rcu); //we know exactly how many elements it will have.
     uint32_t i;
-    for (i = 0u; i < ovector_count; i++) {
-        if (ovector[2*i] != PCRE2_UNSET)
-            num_sub.push_back(String((Char*)(subject + ovector[2*i]), ovector[2*i+1] - ovector[2*i]));
-        else
-        #ifdef JPCRE2_UNSET_CAPTURES_NULL
-            num_sub.push_back(std::nullopt);
-        #else
-            num_sub.push_back(String());
-        #endif
-    }
+    for (i = 0u; i < rcu; i++)
+        num_sub.push_back(String((Char*)(subject + ovector[2*i]), ovector[2*i+1] - ovector[2*i]));
+    for (uint32_t j = i; j < ovector_count; j++)
+        num_sub.push_back(String());
     vec_num->push_back(num_sub); //this function shouldn't be called if this vector is null
     return true;
 }
@@ -5485,11 +5463,6 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 ///
 ///Using the standard `NDEBUG` macro will have the same effect,
 ///but it is recommended that you use `JPCRE2_NDEBUG` to strip out debug codes specifically for this library.
-
-
-///@def JPCRE2_UNSET_CAPTURES_NULL
-///Define to change the type of NumSub so that captures are recorded
-///with std::optional. It is undefined by default. This feature requires C++17.
 
 #endif
 
