@@ -90,9 +90,22 @@
 // In Windows, Windows.h defines ERROR macro
 // It conflicts with our jpcre2::ERROR namespace
 #ifdef ERROR
-#undef ERROR
+    #undef ERROR
 #endif
 
+#ifndef DEPRECATED
+    #if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+    #define JPCRE2_DEPRECATED(msg) [[deprecated(msg)]]
+    #elif defined(__GNUC__) || defined(__clang__)
+    #define JPCRE2_DEPRECATED(msg) __attribute__((deprecated))
+    #elif defined(_MSC_VER)
+    #define JPCRE2_DEPRECATED(msg) __declspec(deprecated)
+    #else
+    #define JPCRE2_DEPRECATED(msg)
+    #endif
+#else
+    #define JPCRE2_DEPRECATED(msg) DEPRECATED
+#endif
 
 /** @namespace jpcre2
  *  Top level namespace of JPCRE2.
@@ -1235,6 +1248,17 @@ template<typename Char_T>
 #endif
 struct select{
 
+    //forward declaration
+    //we may use some of these in our typedefs
+    class Regex;
+    class MatchConfig;
+    class SubMatch;
+    class Match;
+    class Match;
+    class RegexMatch;
+    class RegexReplace;
+    class MatchEvaluator;
+
     ///Typedef for character (`char`, `wchar_t`, `char16_t`, `char32_t`)
     typedef Char_T Char;
 
@@ -1265,6 +1289,8 @@ struct select{
     ///Allow spelling mistake of MapNtN as MapNtn.
     typedef MapNtN MapNtn;
 
+    ///Vector for matches
+    typedef typename std::vector<Match> VecMatch;
     ///Vector for Numbered substrings (Sub container).
     typedef typename std::vector<String> NumSub;
     ///Vector of matches with named substrings.
@@ -1347,63 +1373,71 @@ struct select{
         } else return String();
     }
 
-    //forward declaration
-    class Regex;
-    class MatchConfig;
-    class Match;
-    class RegexMatch;
-    class RegexReplace;
-    class MatchEvaluator;
 
     ///Class to configure what data should be included
     ///in Match object for each match.
     class MatchConfig{
 
-        // private:
+        private:
 
         // friend class RegexMatch;
         // friend class MatchEvaluator;
         // friend class RegexReplace;
-        // friend class Match;
-        // friend class Regex;
+        friend class SubMatch;
+        friend class Match;
 
-        public:
+        // friend class Regex;
 
         bool match_text;
         bool start_offset;
         bool end_offset;
         bool group_number;
         bool group_name;
-        bool unset_unset;
+        bool unset_empty;
 
-        virtual ~MatchConfig() {}
-        MatchConfig(
-                    bool match_text=false,
-                    bool group_number=false,
-                    bool group_name=false,
-                    bool start_offset=false,
-                    bool end_offset=false,
-                    bool unset_unset=false,
-                    ){
-            this->m = m;
-            this->match_text = match_text;
-            this->group_number = group_number;
-            this->group_name = group_name;
-            this->start_offset = start_offset;
-            this->end_offset = end_offset;
-            this->unset_unset = unset_unset;
+        public:
+
+        MatchConfig(bool all=true){
+            match_text = all;
+            group_number = all;
+            group_name = all;
+            start_offset = all;
+            end_offset = all;
+            unset_empty = all;
+        }
+
+        MatchConfig& match_text(bool set=true){
+            match_text = set;
+            return *this;
+        }
+        MatchConfig& group_number(bool set=true){
+            group_number = set;
+            return *this;
+        }
+        MatchConfig& group_name(bool set=true){
+            group_name = set;
+            return *this;
+        }
+        MatchConfig& start_offset(bool set=true){
+            start_offset = set;
+            return *this;
+        }
+        MatchConfig& end_offset(bool set=true){
+            end_offset = set;
+            return *this;
+        }
+        MatchConfig& unset_empty(bool set=true){
+            unset_empty = set;
+            return *this;
         }
     };
 
 
-    class Match{
+    class SubMatch{
         private:
 
-        friend class RegexMatch;
-        friend class MatchEvaluator;
-        friend class RegexReplace;
         friend class MatchConfig;
-        friend class Regex;
+        friend class Match;
 
         MatchConfig* mc;
 
@@ -1430,56 +1464,55 @@ struct select{
             _group_name_set = false;
         }
 
-        Match& set_match_text(String const & match_text){
-            if(!exists() && (this->mc).unset_unset) return *this;
-            if((this->mc).match_text){
+        SubMatch& set_match_text(String const & match_text){
+            // if(!exists() && !mc->unset_empty) return *this;
+            if(mc->match_text){
                 _match_text = match_text;
                 _match_text_set = true;
             }
             return *this;
         }
 
-        Match& set_start_offset(Uint start_offset){
-            if(!exists() && (this->mc).unset_unset) return *this;
-            if(!(this->mc).start_offset) return *this;
+        SubMatch& set_start_offset(Uint start_offset){
+            // if(!exists() && !mc->unset_empty) return *this;
+            if(!mc->start_offset) return *this;
             _start_offset = start_offset;
             _start_offset_set = true;
             return *this;
         }
 
-        Match& set_end_offset(Uint end_offset){
-            if(!exists() && (this->mc).unset_unset) return *this;
-            if(!(this->mc).end_offset) return *this;
+        SubMatch& set_end_offset(Uint end_offset){
+            // if(!exists() && !mc->unset_empty) return *this;
+            if(!mc->end_offset) return *this;
             _end_offset = end_offset;
             _end_offset_set = true;
             return *this;
         }
 
-        Match& set_group_number(Uint group_number){
-            if(!exists() && (this->mc).unset_unset) return *this;
-            if(!(this->mc).group_number) return *this;
+        SubMatch& set_group_number(Uint group_number){
+            // if(!exists() && !mc->unset_empty) return *this;
+            if(!mc->group_number) return *this;
             _group_number = group_number;
             _group_number_set = true;
             return *this;
         }
 
-        Match& set_group_name(String const & group_name){
-            if(!exists() && (this->mc).unset_unset) return *this;
-            if(!(this->mc).group_name) return *this;
+        SubMatch& set_group_name(String const & group_name){
+            // if(!exists() && !mc->unset_empty) return *this;
+            if(!mc->group_name) return *this;
             _group_name = group_name;
             _group_name_set = true;
             return *this;
         }
-
-        virtual ~Match() {}
         ///Default constructor.
-        Match(bool exists, MatchConfig* mc){
+        SubMatch(bool exists, MatchConfig* mc){
             _init();
             _exists = exists;
             this->mc = mc;
         }
 
         public:
+
         bool has_value() const{
             return has_match_text();
         }
@@ -1608,13 +1641,13 @@ struct select{
             return match_text().length();
         }
 
-        char const & operator[](size_t pos){
+        char operator[](size_t pos){
             return match_text()[pos];
         }
-        char const & at(size_t pos){
+        char at(size_t pos){
             return match_text().at(pos);
         }
-        char const & front() const{
+        char front() const{
             return match_text().at(0);
         }
         char back() const{
@@ -1660,6 +1693,103 @@ struct select{
     };
 
 
+    class Match{
+        private:
+        friend class SubMatch;
+        friend class MatchConfig;
+        friend class RegexMatch;
+
+        std::vector<SubMatch> sub_matches;
+
+        Uint _start_offset;
+        Uint _end_offset;
+
+        Match& push_back(SubMatch const & sub_match){
+            sub_matches.push_back(sub_match);
+            return *this;
+        }
+
+        public:
+
+        size_t size() const{
+            return sub_matches.size();
+        }
+
+        size_t max_size() const{
+            return sub_matches.max_size();
+        }
+
+        size_t capacity() const{
+            return sub_matches.capacity();
+        }
+
+        bool empty() const{
+            return sub_matches.empty();
+        }
+
+        std::vector<SubMatch>::iterator const begin() const{
+            return sub_matches.begin()
+        }
+
+        std::vector<SubMatch>::iterator const end() const{
+            return sub_matches.end()
+        }
+
+        std::vector<SubMatch>::reverse_iterator const rbegin() const{
+            return sub_matches.rbegin()
+        }
+
+        std::vector<SubMatch>::reverse_iterator const rend() const{
+            return sub_matches.rend()
+        }
+
+        String const& at(size_t idx){
+            return sub_matches.at(idx).match_text();
+        }
+
+        String const& operator[](size_t idx){
+            return sub_matches[idx].match_text();
+        }
+
+        String const& at(String const & name){
+            size_t len = sub_matches.size();
+            for(size_t i=0; i<len; ++i){
+                if(sub_matches[i].group_name() == name) return sub_matches[i].match_text();
+            }
+            throw std::range_error("Does group name '"+name+"' exists?");
+        }
+
+        String const& operator[](String const & name){
+            return at(name);
+        }
+
+        String const & front() const{
+            return sub_matches.front().match_text();
+        }
+        String const & back() const{
+            return sub_matches.back().match_text();
+        }
+
+        Uint start_offset() const{
+            return _start_offset;
+        }
+
+        Uint end_offset() const{
+            return _end_offset;
+        }
+        SubMatch const & object(size_t idx){
+            return sub_matches[idx];
+        }
+        SubMatch const & object(String const & name){
+            size_t len = sub_matches.size();
+            for(size_t i=0; i<len; ++i){
+                if(sub_matches[i].group_name() == name) return sub_matches[i];
+            }
+            throw std::range_error("Does group name '"+name+"' exists?");
+        }
+    }
+
+
     /** Provides public constructors to create RegexMatch objects.
      * Every RegexMatch object should be associated with a Regex object.
      * This class stores a pointer to its' associated Regex object, thus when
@@ -1696,6 +1826,7 @@ struct select{
 
         PCRE2_SIZE _start_offset; //name collision, use _ at start
 
+        VecMatch* vec_match;
         VecNum* vec_num;
         VecNas* vec_nas;
         VecNtN* vec_ntn;
@@ -1709,6 +1840,7 @@ struct select{
 
         void init_vars() {
             re = 0;
+            vec_match = 0;
             vec_num = 0;
             vec_nas = 0;
             vec_ntn = 0;
@@ -1734,6 +1866,7 @@ struct select{
 
             //underlying data of vectors are not handled by RegexMatch
             //thus it's safe to just copy the pointers.
+            vec_match = rm.vec_match;
             vec_num = rm.vec_num;
             vec_nas = rm.vec_nas;
             vec_ntn = rm.vec_ntn;
@@ -1960,6 +2093,7 @@ struct select{
         ///The pointer must be set with RegexMatch::setMatchStartOffsetVector() beforehand
         ///for this to work i.e it is just a convenience method to get the pre-set vector pointer.
         ///@return pointer to the const match start offset vector
+        JPCRE2_DEPRECATED("This function will be removed in future. Please use the pointer that you set with setMatchStartOffsetVector")
         virtual VecOff const* getMatchStartOffsetVector() const {
             return vec_soff;
         }
@@ -1968,6 +2102,7 @@ struct select{
         ///The pointer must be set with RegexMatch::setMatchEndOffsetVector() beforehand
         ///for this to work i.e it is just a convenience method to get the pre-set vector pointer.
         ///@return pointer to the const end offset vector
+        JPCRE2_DEPRECATED("This function will be removed in future. Please use the pointer that you set with setMatchEndOffsetVector")
         virtual VecOff const* getMatchEndOffsetVector() const {
             return vec_eoff;
         }
@@ -2004,6 +2139,19 @@ struct select{
         ///@return Reference to the calling RegexMatch object.
         virtual RegexMatch& setRegexObject(Regex const *r){
             re = r;
+            return *this;
+        }
+
+        /// Set a pointer to the match vector.
+        /// Null pointer unsets it.
+        ///
+        /// This vector will be filled with Match objects. Each Match
+        /// object contains all its submatches which can be accessed
+        /// by either group number or group name.
+        /// @param v pointer to the numbered substring vector
+        /// @return Reference to the calling RegexMatch object
+        virtual RegexMatch& setMatchResultVector(VecMatch* v) {
+            vec_match = v;
             return *this;
         }
 
@@ -5420,6 +5568,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 #undef JPCRE2_VECTOR_DATA_ASSERT
 #undef JPCRE2_UNUSED
 #undef JPCRE2_USE_MINIMUM_CXX_11
+#undef JPCRE2_DEPRECATED
 
 //some macro documentation for doxygen
 
