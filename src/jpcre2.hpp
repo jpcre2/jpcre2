@@ -5252,7 +5252,6 @@ bool jpcre2::select<Char_T>::RegexMatch::getMatchObjects(int rc, int namecount, 
     Match sub_matches;
     Uint rcu = rc;
     sub_matches.reserve(ovector_count); //we know exactly how many elements it will have.
-    Pcre2Sptr tabptr = name_table;
     Uint i;
     PCRE2_SIZE _start = 0, _len = 0;
     bool stext = false;
@@ -5283,6 +5282,7 @@ bool jpcre2::select<Char_T>::RegexMatch::getMatchObjects(int rc, int namecount, 
 
     //Handling group names:
     if(match_config.group_name){
+        Pcre2Sptr tabptr = name_table;
         sub_matches.group_list.reserve(namecount); //we know how many names are there.
         for (int i = 0; i < namecount; i++) {
             String key;
