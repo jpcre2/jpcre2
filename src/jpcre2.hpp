@@ -1380,6 +1380,56 @@ struct select{
     }
 
 
+    class NameTable{
+
+        MapNtN map_ntn;
+
+        public:
+
+        NameTable& set(String const& key, SIZE_T n){
+            map_ntn[key] = n;
+            return *this;
+        }
+
+        SIZE_T operator[](String const& key) const{
+            if(map_ntn.count(key) > 0){
+                return map_ntn[key];
+            }
+            throw std::out_of_range("Group name '"+key+"' does not exist in the given pattern or you have not compiled the pattern yet.")
+        }
+
+
+        SIZE_T at(String const& key) const{
+            return operator[](key);
+        }
+
+        SIZE_T size(){
+            return map_ntn.size();
+        }
+
+        SIZE_T max_size(){
+            return map_ntn.max_size();
+        }
+
+        bool empty(){
+            return map_ntn.empty();
+        }
+
+        SIZE_T count(String const& k){
+            return map_ntn.count(k);
+        }
+
+        MapNtN::const_iterator find(String const& k){
+            return map_ntn.find(k);
+        }
+
+        MapNtN const& getNameToNumberMap() const{
+            return map_ntn;
+        }
+
+    };
+
+
     ///Class to configure what data should be included
     ///in Match object for each match.
     class MatchResultConfig{
@@ -1397,7 +1447,6 @@ struct select{
         bool unset_empty;
         bool start_offset;
         bool end_offset;
-        bool group_name;
 
         public:
 
@@ -1406,7 +1455,6 @@ struct select{
             unset_empty = all;
             start_offset = all;
             end_offset = all;
-            group_name = all;
         }
 
         MatchResultConfig& match_text(bool set=true){
@@ -1423,10 +1471,6 @@ struct select{
         }
         MatchResultConfig& end_offset(bool set=true){
             end_offset = set;
-            return *this;
-        }
-        MatchResultConfig& group_name(bool set=true){
-            group_name = set;
             return *this;
         }
     };
@@ -1457,6 +1501,13 @@ struct select{
             _end_offset_set = false;
         }
 
+        public:
+
+        ///Default constructor.
+        SubMatch(){
+            _init();
+        }
+
         SubMatch& set_match_text(String const & match_text){
             _match_text = match_text;
             _match_text_set = true;
@@ -1474,13 +1525,6 @@ struct select{
             _end_offset_set = true;
             return *this;
         }
-
-        ///Default constructor.
-        SubMatch(){
-            _init();
-        }
-
-        public:
 
         bool has_value() const{
             return has_match_text();
@@ -1566,14 +1610,14 @@ struct select{
             }
         }
 
-        Uint length(){
+        Uint length() const{
             return match_text().length();
         }
 
-        char operator[](size_t pos){
+        char operator[](size_t pos) const{
             return match_text()[pos];
         }
-        char at(size_t pos){
+        char at(size_t pos) const{
             return match_text().at(pos);
         }
         char front() const{
@@ -1629,10 +1673,21 @@ struct select{
         friend class RegexMatch;
 
         VecSubMatch sub_matches;
-        MapNtN * map_ntn;
+        NameTable const* nametable;
 
         SIZE_T _start_offset;
         SIZE_T _end_offset;
+
+
+        void _init(){
+            nametable = 0;
+        }
+
+        public:
+
+        Match(){
+            _init();
+        }
 
         Match& push_back(SubMatch const & sub_match){
             sub_matches.push_back(sub_match);
@@ -1643,16 +1698,6 @@ struct select{
             sub_matches.reserve(n);
             return *this;
         }
-
-        void _init(){
-            map_ntn = 0;
-        }
-
-        Match(){
-            _init();
-        }
-
-        public:
 
         size_t size() const{
             return sub_matches.size();
@@ -1684,10 +1729,7 @@ struct select{
             return sub_matches[idx];
         }
         SubMatch const & sub_match(String const & name){
-            if(map_ntn->count(name) > 0){
-                return sub_matches[(*map_ntn)[name]];
-            }
-            throw std::range_error("Group name '"+name+"' unavailable. It does not exist or you did not set group_name=true in MatchResultConfig object.");
+            return sub_matches[(*nametable)[name]];
         }
 
         VecSubMatch::iterator const begin() const{
@@ -1715,17 +1757,11 @@ struct select{
         }
 
         String const& at(String const & name){
-            if(map_ntn->count(name) > 0){
-                return at((*map_ntn)[name]);
-            }
-            throw std::range_error("Group name '"+name+"' unavailable. It does not exist or you did not set group_name=true in MatchResultConfig object.");
+            return at((*nametable)[name]);
         }
 
         String const& operator[](String const & name){
-            if(map_ntn->count(name) > 0){
-                return operator[]((*map_ntn)[name]);
-            }
-            throw std::range_error("Group name '"+name+"' unavailable. It does not exist or you did not set group_name=true in MatchResultConfig object.");
+            return operator[]((*nametable)[name]);
         }
 
         String const & front() const{
@@ -1753,9 +1789,10 @@ struct select{
         friend class SubMatch;
 
         VecMatch vec_match;
-        MapNtN namn;
+        NameTable const* nametable;
 
         void _init(){
+            nametable = 0;
         }
 
 
@@ -1768,7 +1805,7 @@ struct select{
 
 
         MatchResult& push_back(Match const& m){
-            m.map_ntn = namn;
+            m.nametable = nametable;
             vec_match.push_back(m);
             return *this;
         }
@@ -1777,20 +1814,17 @@ struct select{
         MatchResult& clear(){
             vec_match.clear();
             _init();
-            namn.clear();
             return *this;
         }
 
         MatchResult& swap(MatchResult& other){
             vec_match.swap(other.vec_match);
-            namn.swap(other.namn);
             return *this;
         }
 
         MatchResult& reset(){
             VecMatch().swap(vec_match);
             _init();
-            MapNtN().swap(namn);
             return *this;
         }
 
@@ -1851,8 +1885,8 @@ struct select{
             return vec_match.back();
         }
 
-        MapNtN const& map_ntn(){
-            return *namn;
+        NameTable const& getNameTable(){
+            return *nametable;
         }
 
     }
@@ -1900,14 +1934,11 @@ struct select{
         VecOff* vec_soff;
         VecOff* vec_eoff;
 
-        MapNtN map_ntn;
-
-        bool getNumberedSubstrings(int, Pcre2Sptr, PCRE2_SIZE*, uint32_t);
+        bool getNumberedSubstrings(Pcre2Sptr, PCRE2_SIZE*, uint32_t);
 
         bool getNamedSubstrings(int, int, Pcre2Sptr, Pcre2Sptr, PCRE2_SIZE*);
 
-        bool saveMatchObjects(int, Pcre2Sptr, PCRE2_SIZE*,  uint32_t);
-        bool saveGroupNamesToMatchResult(int, int, Pcre2Sptr);
+        bool saveMatchObjects(Pcre2Sptr, PCRE2_SIZE*,  uint32_t);
 
         void init_vars() {
             re = 0;
@@ -1942,7 +1973,6 @@ struct select{
             vec_soff = rm.vec_soff;
             vec_eoff = rm.vec_eoff;
 
-            map_ntn = rm.map_ntn;
             match_config = rm.match_config;
             match_opts = rm.match_opts;
             jpcre2_match_opts = rm.jpcre2_match_opts;
@@ -1987,7 +2017,7 @@ struct select{
         ///@param r pointer to a Regex object
         RegexMatch(Regex const *r) {
             init_vars();
-            re = r;
+            setRegexObject(r);
         }
 
         ///@overload
@@ -2211,7 +2241,8 @@ struct select{
         ///If match_config.group_name is false, then this will return an empty map.
         ///@return MapNtN const reference.
         virtual MapNtN const& getNameToNumberMap() const {
-            return map_ntn;
+            JPCRE2_ASSERT(re != 0, "You can not call getNameToNumberMap without setting a Regex object.");
+            return (re->nametable).getNameToNumberMap();
         }
 
         ///Set the associated regex object.
@@ -2221,6 +2252,7 @@ struct select{
         ///@return Reference to the calling RegexMatch object.
         virtual RegexMatch& setRegexObject(Regex const *r){
             re = r;
+            match_result->nametable = &(re->nametable);
             return *this;
         }
 
@@ -3086,7 +3118,6 @@ struct select{
             callback5 = mef;
             callbackn = 5;
             setNumberedSubstringVector(&vec_num);
-            setNameToNumberMapVector(&vec_ntn);
             return *this;
         }
 
@@ -3112,7 +3143,6 @@ struct select{
             callbackn = 7;
             setNumberedSubstringVector(&vec_num);
             setNamedSubstringVector(&vec_nas);
-            setNameToNumberMapVector(&vec_ntn);
             return *this;
         }
 
@@ -3159,7 +3189,6 @@ struct select{
             callback6 = mef;
             callbackn = 6;
             setNamedSubstringVector(&vec_nas);
-            setNameToNumberMapVector(&vec_ntn);
             return *this;
         }
 
@@ -3182,7 +3211,6 @@ struct select{
         MatchEvaluator& setCallback(typename MatchEvaluatorCallback<void*, void*,  MapNtN const &>::Callback mef){
             callback4 = mef;
             callbackn = 4;
-            setNameToNumberMapVector(&vec_ntn);
             return *this;
         }
 
@@ -3208,7 +3236,6 @@ struct select{
             MatchResult().swap(match_result);
             VecNum().swap(vec_num);
             VecNas().swap(vec_nas);
-            VecNtN().swap(vec_ntn);
             VecOff().swap(vec_soff);
             VecOff().swap(vec_eoff);
             return *this;
@@ -4165,6 +4192,7 @@ struct select{
 
         CompileContext *ccontext;
         std::vector<unsigned char> tabv;
+        NameTable nametable;
 
 
         void init_vars() {
@@ -4198,6 +4226,7 @@ struct select{
             error_number = r.error_number;
             error_offset = r.error_offset;
             modtab = r.modtab;
+            nametable = r.nametable;
         }
 
         void deepCopy(Regex const &r) {
@@ -4241,6 +4270,58 @@ struct select{
         }
 
         #endif
+
+        void findAndSaveGroupNames() {
+            if(!code) return;
+            int namecount = 0;
+            int name_entry_size = 0;
+            Pcre2Sptr name_table = 0;
+            (void) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info(code,               /* the compiled pattern */
+                                                PCRE2_INFO_NAMECOUNT,   /* get the number of named substrings */
+                                                &namecount);            /* where to put the answer */
+
+            if (namecount <= 0); /*No named substrings*/
+
+            else {
+                /* Before we can access the substrings, we must extract the table for
+                    translating names to numbers, and the size of each entry in the table. */
+
+                (void) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info(code,               /* the compiled pattern */
+                                                    PCRE2_INFO_NAMETABLE,   /* address of the table */
+                                                    &name_table);           /* where to put the answer */
+
+                (void) Pcre2Func<sizeof( Char_T ) * CHAR_BIT>::pattern_info(code,                   /* the compiled pattern */
+                                                    PCRE2_INFO_NAMEENTRYSIZE,   /* size of each entry in the table */
+                                                    &name_entry_size);          /* where to put the answer */
+
+                /* Now we can scan the table and, for each entry, print the number, the name,
+                    and the substring itself. In the 8-bit library the number is held in two
+                    bytes, most significant first. */
+
+
+                // Get named substrings if vec_nas isn't null.
+                // Get name to number map if vec_ntn isn't null.
+            }
+            //Handling group names:
+            if(match_config.group_name){
+                Pcre2Sptr tabptr = name_table;
+                for (int i = 0; i < namecount; i++) {
+                    String key;
+                    size_t n;
+                    if(sizeof( Char_T ) * CHAR_BIT == 8){
+                        n = (size_t)((tabptr[0] << 8) | tabptr[1]);
+                        key = toString((Char*) (tabptr + 2));
+                    }
+                    else{
+                        n = (size_t)tabptr[0];
+                        key = toString((Char*) (tabptr + 1));
+                    }
+                    //Use of tabptr is finished for this iteration, let's increment it now.
+                    tabptr += name_entry_size;
+                    nametable.set(key, n); //this function should not be called if match_result is null.
+                }
+            }
+        }
 
         protected:
 
@@ -5065,6 +5146,7 @@ void jpcre2::select<Char_T>::Regex::compile() {
         if(jit_ret < 0) error_number = jit_ret;
     }
     //everything's OK
+    findAndSaveGroupNames();
 }
 
 
@@ -5325,19 +5407,21 @@ typename jpcre2::select<Char_T>::String jpcre2::select<Char_T>::RegexReplace::re
 
 #ifdef JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map>
-bool jpcre2::select<Char_T, Map>::RegexMatch::getNumberedSubstrings(int rc, Pcre2Sptr subject, PCRE2_SIZE* ovector, uint32_t ovector_count) {
+bool jpcre2::select<Char_T, Map>::RegexMatch::getNumberedSubstrings(Pcre2Sptr subject, PCRE2_SIZE* ovector, uint32_t ovector_count) {
 #else
 template<typename Char_T>
-bool jpcre2::select<Char_T>::RegexMatch::getNumberedSubstrings(int rc, Pcre2Sptr subject, PCRE2_SIZE* ovector, uint32_t ovector_count) {
+bool jpcre2::select<Char_T>::RegexMatch::getNumberedSubstrings(Pcre2Sptr subject, PCRE2_SIZE* ovector, uint32_t ovector_count) {
 #endif
     NumSub num_sub;
-    uint32_t rcu = rc;
-    num_sub.reserve(rcu); //we know exactly how many elements it will have.
+    num_sub.reserve(ovector_count); //we know exactly how many elements it will have.
     uint32_t i;
-    for (i = 0u; i < rcu; i++)
-        num_sub.push_back(String((Char*)(subject + ovector[2*i]), ovector[2*i+1] - ovector[2*i]));
-    for (uint32_t j = i; j < ovector_count; j++)
-        num_sub.push_back(String());
+    for (i = 0u; i < ovector_count; i++){
+        if(ovector[2*i] != PCRE2_UNSET){
+            num_sub.push_back(String((Char*)(subject + ovector[2*i]), ovector[2*i+1] - ovector[2*i]));
+        } else {
+            num_sub.push_back(String());
+        }
+    }
     vec_num->push_back(num_sub); //this function shouldn't be called if this vector is null
     return true;
 }
@@ -5383,42 +5467,13 @@ bool jpcre2::select<Char_T>::RegexMatch::getNamedSubstrings(int namecount, int n
 
 #ifdef JPCRE2_USE_MINIMUM_CXX_11
 template<typename Char_T, template<typename...> class Map>
-bool jpcre2::select<Char_T, Map>::RegexMatch::saveGroupNamesToMatchResult(int namecount, int name_entry_size, Pcre2Sptr name_table) {
+bool jpcre2::select<Char_T, Map>::RegexMatch::saveMatchObjects(Pcre2Sptr subject, PCRE2_SIZE* ovector,  uint32_t ovector_count) {
 #else
 template<typename Char_T>
-bool jpcre2::select<Char_T>::RegexMatch::saveGroupNamesToMatchResult(int namecount, int name_entry_size, Pcre2Sptr name_table) {
-#endif
-    //Handling group names:
-    if(match_config.group_name){
-        Pcre2Sptr tabptr = name_table;
-        for (int i = 0; i < namecount; i++) {
-            String key;
-            size_t n;
-            if(sizeof( Char_T ) * CHAR_BIT == 8){
-                n = (size_t)((tabptr[0] << 8) | tabptr[1]);
-                key = toString((Char*) (tabptr + 2));
-            }
-            else{
-                n = (size_t)tabptr[0];
-                key = toString((Char*) (tabptr + 1));
-            }
-            //Use of tabptr is finished for this iteration, let's increment it now.
-            tabptr += name_entry_size;
-            match_result->namn[key] = n; //this function should not be called if match_result is null.
-        }
-    }
-}
-
-#ifdef JPCRE2_USE_MINIMUM_CXX_11
-template<typename Char_T, template<typename...> class Map>
-bool jpcre2::select<Char_T, Map>::RegexMatch::saveMatchObjects(int rc, Pcre2Sptr subject, PCRE2_SIZE* ovector,  uint32_t ovector_count) {
-#else
-template<typename Char_T>
-bool jpcre2::select<Char_T>::RegexMatch::saveMatchObjects(int rc, Pcre2Sptr subject, PCRE2_SIZE* ovector, uint32_t ovector_count) {
+bool jpcre2::select<Char_T>::RegexMatch::saveMatchObjects(Pcre2Sptr subject, PCRE2_SIZE* ovector, uint32_t ovector_count) {
 #endif
     // NumSub num_sub;
     Match sub_matches;
-    Uint rcu = rc;
     sub_matches.reserve(ovector_count); //we know exactly how many elements it will have.
     Uint i;
     PCRE2_SIZE _start = 0, _len = 0;
@@ -5426,7 +5481,7 @@ bool jpcre2::select<Char_T>::RegexMatch::saveMatchObjects(int rc, Pcre2Sptr subj
     for (i = 0u; i < ovector_count; i++){
         SubMatch sub_match; //_exists = false
         String text;
-        if(i < rcu){
+        if(ovector[2*i] != PCRE2_UNSET){
             sub_match._exists = true;
             _start = ovector[2*i];
             _len = ovector[2*i+1] - ovector[2*i];
@@ -5437,12 +5492,9 @@ bool jpcre2::select<Char_T>::RegexMatch::saveMatchObjects(int rc, Pcre2Sptr subj
             stext = match_config.match_text && match_config.unset_empty;
         }
         if(stext) sub_match.set_match_text(text);
-        if(match_config.start_offset)
-        sub_match.set_start_offset(_start);
-        if(match_config.end_offset)
-        sub_match.set_end_offset(_start + _len);
-        if(match_config.group_number)
-        sub_match.set_group_number(i);
+        if(match_config.start_offset) sub_match.set_start_offset(_start);
+        if(match_config.end_offset) sub_match.set_end_offset(_start + _len);
+        if(match_config.group_number) sub_match.set_group_number(i);
 
         //Finally push the sub_match to sub_matches.
         sub_matches.push_back(sub_match);
@@ -5485,7 +5537,6 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 
     if (vec_num) vec_num->clear();
     if (vec_nas) vec_nas->clear();
-    if (vec_ntn) vec_ntn->clear();
     if(vec_soff) vec_soff->clear();
     if(vec_eoff) vec_eoff->clear();
 
@@ -5551,12 +5602,12 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 
     // Get numbered substrings if vec_num isn't null
     if (vec_num) { //must do null check
-        if(!getNumberedSubstrings(rc, subject, ovector, ovector_count))
+        if(!getNumberedSubstrings(subject, ovector, ovector_count))
             return count;
     }
 
     //get named substrings if either vec_nas or vec_ntn is given.
-    if (vec_nas || vec_ntn || (match_config.group_name && match_result)) {
+    if (vec_nas)) {
         /* See if there are any named substrings, and if so, show them by name. First
          we have to extract the count of named parentheses from the pattern. */
 
@@ -5731,7 +5782,7 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
 
         // Get numbered substrings if vec_num isn't null
         if (vec_num) { //must do null check
-            if(!getNumberedSubstrings(rc, subject, ovector, ovector_count))
+            if(!getNumberedSubstrings(subject, ovector, ovector_count))
                 return count;
         }
 
