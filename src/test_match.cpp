@@ -74,7 +74,11 @@ int main(){
         std::cout<<"\n-------------------------------------------------------------------------";
         std::cout<< "\n--- Numbered Substrings (number: substring) for match "<<i+1<<" ---\n";
         for(size_t j=0;j<vec_num[i].size();++j){
+#ifdef JPCRE2_UNSET_CAPTURES_NULL
             std::cout<<"\n\t"<<j<<": "<<(vec_num[i][j] ? VEC_NUM[i][j] : "")<<"\n";
+#else
+            std::cout<<"\n\t"<<j<<": "<<vec_num[i][j]<<"\n";
+#endif
         }
         
         
