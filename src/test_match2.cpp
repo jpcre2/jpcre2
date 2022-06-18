@@ -117,7 +117,7 @@ int main(){
 
                 //This vector contains vectors of substrings offsets or captured group's offsets index by index.
                 std::cout<<"\n-------------------------------------------------------------------------";
-                std::cout<< "\n--- Offsets Numbered Substrings (number: start offset - end offset) for match "<<i+1<<" ---\n";
+                std::cout<< "\n--- Numbered Substring Offsets (number: start offset - end offset) for match "<<i+1<<" ---\n";
                 for(size_t j=0;j<vec_nmo[i].size();++j){
                     std::cout<<"\n\t"<<j<<": "<<vec_nmo[i][j][0]<<" - "<<vec_nmo[i][j][1]<<"\n";
                 }
@@ -126,7 +126,7 @@ int main(){
 
                 //This vector contains maps with name as the key and the corresponding substring offsets as the value
                 std::cout<<"\n-------------------------------------------------------------------------";
-                std::cout<< "\n--- Offsets Named Substrings (name: start offset - end offset) for match "<<i+1<<" ---\n";
+                std::cout<< "\n--- Named Substring Offsets (name: start offset - end offset) for match "<<i+1<<" ---\n";
                 for(jp::MapOff::iterator ent=vec_nso[i].begin();ent!=vec_nso[i].end();++ent){
                     std::cout<<"\n\t"<<ent->first<<": "<<ent->second[0]<<" - "<<ent->second[1]<<"\n";
                 }
