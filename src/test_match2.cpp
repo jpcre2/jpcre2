@@ -19,6 +19,8 @@ int main(){
     jp::VecNum vec_num;   //Vector to store numbered substring vectors.
     jp::VecNas vec_nas;   //Vector to store named substring Map.
     jp::VecNtN vec_ntn;   //Vector to store Named substring to Number Map.
+    jp::VecNmO vec_nmo;   //Vector to store offsets of numbered substring vectors.
+    jp::VecNsO vec_nso;   //Vector to store offsets of named substring Map.
     
    
     std::string pat, mod, subject, ac_mod;
@@ -45,11 +47,13 @@ int main(){
 
     size_t matched = 0;
     jp::RegexMatch rm;
-    rm.setRegexObject(&re)                        //set associated Regex object
-      .setNumberedSubstringVector(&vec_num)       //pointer to numbered substring vector
-      .setNamedSubstringVector(&vec_nas)          //pointer to named substring vector
-      .setNameToNumberMapVector(&vec_ntn)         //pointer to name-to-number map vector
-      //.match()                                  //Let's do the match later
+    rm.setRegexObject(&re)                          //set associated Regex object
+      .setNumberedSubstringVector(&vec_num)         //pointer to numbered substring vector
+      .setNamedSubstringVector(&vec_nas)            //pointer to named substring vector
+      .setNameToNumberMapVector(&vec_ntn)           //pointer to name-to-number map vector
+      .setOffsetOfNumberedSubstringVector(&vec_nmo) //pointer to offsets of numbered substring vector
+      .setOffsetOfNamedSubstringVector(&vec_nso)    //pointer to offsets of named substring vector
+      //.match()                                    //Let's do the match later
       ;
 		
         
@@ -107,6 +111,24 @@ int main(){
                 std::cout<< "\n--- Name to number mapping (name: number/position) for match "<<i+1<<" ---\n";
                 for(jp::MapNtN::iterator ent=vec_ntn[i].begin();ent!=vec_ntn[i].end();++ent){
                     std::cout<<"\n\t"<<ent->first<<": "<<ent->second<<"\n";
+                }
+
+
+
+                //This vector contains vectors of substrings offsets or captured group's offsets index by index.
+                std::cout<<"\n-------------------------------------------------------------------------";
+                std::cout<< "\n--- Offsets Numbered Substrings (number: start offset - end offset) for match "<<i+1<<" ---\n";
+                for(size_t j=0;j<vec_nmo[i].size();++j){
+                    std::cout<<"\n\t"<<j<<": "<<vec_nmo[i][j][0]<<" - "<<vec_nmo[i][j][1]<<"\n";
+                }
+
+
+
+                //This vector contains maps with name as the key and the corresponding substring offsets as the value
+                std::cout<<"\n-------------------------------------------------------------------------";
+                std::cout<< "\n--- Offsets Named Substrings (name: start offset - end offset) for match "<<i+1<<" ---\n";
+                for(jp::MapOff::iterator ent=vec_nso[i].begin();ent!=vec_nso[i].end();++ent){
+                    std::cout<<"\n\t"<<ent->first<<": "<<ent->second[0]<<" - "<<ent->second[1]<<"\n";
                 }
             }
         }

@@ -73,6 +73,7 @@
 #if __cplusplus >= 201103L || _MSVC_LANG >= 201103L
     #define JPCRE2_USE_MINIMUM_CXX_11 1
     #include <utility>
+    #include <array>        // std::array
     #ifndef JPCRE2_USE_FUNCTION_POINTER_CALLBACK
         #include <functional>   // std::function
     #endif
@@ -1263,15 +1264,24 @@ struct select{
     typedef class Map<String, String> MapNas;
     ///Substring name to Substring number map.
     typedef class Map<String, SIZE_T> MapNtN;
+    ///array of start and end offset.
+    typedef std::array<PCRE2_SIZE, 2> ArrOff;
     #else
     ///Map for Named substrings.
     typedef typename std::map<String, String> MapNas;
     ///Substring name to Substring number map.
     typedef typename std::map<String, SIZE_T> MapNtN;
+    ///array of start and end offset.
+    typedef std::vector<PCRE2_SIZE> ArrOff;
     #endif
 
     ///Allow spelling mistake of MapNtN as MapNtn.
     typedef MapNtN MapNtn;
+
+    ///Map for start and end offset
+    typedef class Map<String, ArrOff> MapOff;
+    ///Vector for start and end offset array
+    typedef typename std::vector<ArrOff> OffSub;
 
     ///Vector for Numbered substrings (Sub container).
     #ifdef JPCRE2_UNSET_CAPTURES_NULL
@@ -1287,6 +1297,11 @@ struct select{
     typedef VecNtN VecNtn;
     ///Vector of matches with numbered substrings.
     typedef typename std::vector<NumSub> VecNum;
+
+    ///Vector of offsets with numbered substrings.
+    typedef typename std::vector<OffSub> VecNmO;
+    ///Vector of offsets with named substrings.
+    typedef typename std::vector<MapOff> VecNsO;
 
     //These are to shorten the code
     typedef typename Pcre2Type<sizeof( Char_T ) * CHAR_BIT>::Pcre2Uchar Pcre2Uchar;
@@ -1404,6 +1419,9 @@ struct select{
         VecNas* vec_nas;
         VecNtN* vec_ntn;
 
+        VecNmO* vec_nmo;
+        VecNsO* vec_nso;
+
         VecOff* vec_soff;
         VecOff* vec_eoff;
 
@@ -1416,6 +1434,8 @@ struct select{
             vec_num = 0;
             vec_nas = 0;
             vec_ntn = 0;
+            vec_nmo = 0;
+            vec_nso = 0;
             vec_soff = 0;
             vec_eoff = 0;
             match_opts = 0;
@@ -1441,6 +1461,8 @@ struct select{
             vec_num = rm.vec_num;
             vec_nas = rm.vec_nas;
             vec_ntn = rm.vec_ntn;
+            vec_nmo = rm.vec_nmo;
+            vec_nso = rm.vec_nso;
             vec_soff = rm.vec_soff;
             vec_eoff = rm.vec_eoff;
 
@@ -1701,6 +1723,18 @@ struct select{
             return vec_ntn;
         }
 
+        ///Get pointer to offset of numbered substring vector.
+        ///@return Pointer to const offset of numbered substring vector.
+        virtual VecNmO const* getOffsetOfNumberedSubstringVector() const {
+            return vec_nmo;
+        }
+
+        ///Get pointer to offset of named substring vector.
+        ///@return Pointer to const offset of named substring vector.
+        virtual VecNsO const* getOffsetOfNamedSubstringVector() const{
+            return vec_nso;
+        }
+
         ///Set the associated regex object.
         ///Null pointer unsets it.
         ///Underlying data is not modified.
@@ -1741,6 +1775,28 @@ struct select{
         /// @return Reference to the calling RegexMatch object
         virtual RegexMatch& setNameToNumberMapVector(VecNtN* v) {
             vec_ntn = v;
+            return *this;
+        }
+
+        /// Set a pointer to the offset of numbered substring vector.
+        /// Null pointer unsets it.
+        ///
+        /// This vector will be filled with numbered (indexed) captured groups.
+        /// @param v pointer to the offset of numbered substring vector
+        /// @return Reference to the calling RegexMatch object
+        virtual RegexMatch& setOffsetOfNumberedSubstringVector(VecNmO* v) {
+            vec_nmo = v;
+            return *this;
+        }
+
+        /// Set a pointer to the offset of named substring vector.
+        /// Null pointer unsets it.
+        ///
+        /// This vector will be populated with named captured groups.
+        /// @param v pointer to the offset of named substring vector
+        /// @return Reference to the calling RegexMatch object
+        virtual RegexMatch& setOffsetOfNamedSubstringVector(VecNsO* v) {
+            vec_nso = v;
             return *this;
         }
 
@@ -2076,6 +2132,8 @@ struct select{
     ///* setNumberedSubstringVector
     ///* setNamedSubstringVector
     ///* setNameToNumberMapVector
+    ///* setOffsetOfNumberedSubstringVector
+    ///* setOffsetOfNamedSubstringVector
     ///* setMatchStartOffsetVector
     ///* setMatchEndOffsetVector
     ///
@@ -2153,6 +2211,8 @@ struct select{
         VecNum vec_num;
         VecNas vec_nas;
         VecNtN vec_ntn;
+        VecNmO vec_nmo;
+        VecNsO vec_nso;
         VecOff vec_soff;
         VecOff vec_eoff;
         int callbackn;
@@ -2191,6 +2251,8 @@ struct select{
             callback5 = 0;
             callback6 = 0;
             callback7 = 0;
+            setOffsetOfNumberedSubstringVector(&vec_nmo);
+            setOffsetOfNamedSubstringVector(&vec_nso);
             setMatchStartOffsetVector(&vec_soff);
             setMatchEndOffsetVector(&vec_eoff);
             buffer_size = 0;
@@ -2228,6 +2290,8 @@ struct select{
             vec_num = me.vec_num;
             vec_nas = me.vec_nas;
             vec_ntn = me.vec_ntn;
+            vec_nmo = me.vec_nmo;
+            vec_nso = me.vec_nso;
             vec_soff = me.vec_soff;
             vec_eoff = me.vec_eoff;
             onlyCopy(me);
@@ -2238,6 +2302,8 @@ struct select{
             vec_num = std::move_if_noexcept(me.vec_num);
             vec_nas = std::move_if_noexcept(me.vec_nas);
             vec_ntn = std::move_if_noexcept(me.vec_ntn);
+            vec_nmo = std::move_if_noexcept(me.vec_nmo);
+            vec_nso = std::move_if_noexcept(me.vec_nso);
             vec_soff = std::move_if_noexcept(me.vec_soff);
             vec_eoff = std::move_if_noexcept(me.vec_eoff);
             onlyCopy(me);
@@ -2263,6 +2329,14 @@ struct select{
         }
         MatchEvaluator& setMatchEndOffsetVector(VecOff* v){
             RegexMatch::setMatchEndOffsetVector(v);
+            return *this;
+        }
+        MatchEvaluator& setOffsetOfNumberedSubstringVector(VecNmO* v) {
+            RegexMatch::setOffsetOfNumberedSubstringVector(v);
+            return *this;
+        }
+        MatchEvaluator& setOffsetOfNamedSubstringVector(VecNmO* v) {
+            RegexMatch::setOffsetOfNamedSubstringVector(v);
             return *this;
         }
 
@@ -2630,6 +2704,8 @@ struct select{
             VecNum().swap(vec_num);
             VecNas().swap(vec_nas);
             VecNtN().swap(vec_ntn);
+            VecNmO().swap(vec_nmo);
+            VecNsO().swap(vec_nso);
             VecOff().swap(vec_soff);
             VecOff().swap(vec_eoff);
             return *this;
@@ -4744,20 +4820,43 @@ template<typename Char_T>
 bool jpcre2::select<Char_T>::RegexMatch::getNumberedSubstrings(int rc, Pcre2Sptr subject, PCRE2_SIZE* ovector, uint32_t ovector_count) {
 #endif
     NumSub num_sub;
+    OffSub off_sub;
     uint32_t rcu = rc;
     num_sub.reserve(rcu); //we know exactly how many elements it will have.
+    off_sub.reserve(rcu);
     uint32_t i;
     for (i = 0u; i < ovector_count; i++) {
-        if (ovector[2*i] != PCRE2_UNSET)
-            num_sub.push_back(String((Char*)(subject + ovector[2*i]), ovector[2*i+1] - ovector[2*i]));
-        else
-        #ifdef JPCRE2_UNSET_CAPTURES_NULL
-            num_sub.push_back(std::nullopt);
-        #else
-            num_sub.push_back(String());
-        #endif
+        uint32_t st = i << 1, en = st + 1;  //avoid repetitive operations
+        if (ovector[st] != PCRE2_UNSET) {
+            if(vec_num) num_sub.push_back(String((Char*)(subject + ovector[st]), ovector[en] - ovector[st]));
+            #ifdef JPCRE2_USE_MINIMUM_CXX_11
+            if(vec_nmo) off_sub.push_back(ArrOff{ovector[st], ovector[en]});
+            #else
+            if(vec_nmo) {
+                ArrOff arr(2);
+                arr[0] = ovector[st];
+                arr[1] = ovector[en];
+                off_sub.push_back(arr);
+            }
+            #endif
+        }
+        else {
+            if(vec_num)
+                #ifdef JPCRE2_UNSET_CAPTURES_NULL
+                num_sub.push_back(std::nullopt);
+                #else
+                num_sub.push_back(String());
+                #endif
+            #ifdef JPCRE2_USE_MINIMUM_CXX_11
+            if(vec_nmo) off_sub.push_back(ArrOff{0, 0});
+            #else
+            if(vec_nmo) off_sub.push_back(ArrOff(2, 0));
+            #endif
+        }
+
     }
-    vec_num->push_back(num_sub); //this function shouldn't be called if this vector is null
+    if(vec_num) vec_num->push_back(num_sub); //this function shouldn't be called if this vector is null
+    if(vec_nmo) vec_nmo->push_back(off_sub);
     return true;
 }
 
@@ -4775,8 +4874,9 @@ bool jpcre2::select<Char_T>::RegexMatch::getNamedSubstrings(int namecount, int n
 #endif
     Pcre2Sptr tabptr = name_table;
     String key;
-    MapNas map_nas;
-    MapNtN map_ntn;
+    MapNas* map_nas = vec_nas ? new MapNas : 0;
+    MapNtN* map_ntn = vec_ntn ? new MapNtN : 0;
+    MapOff* map_off = vec_nso ? new MapOff : 0;
     for (int i = 0; i < namecount; i++) {
         int n;
         if(sizeof( Char_T ) * CHAR_BIT == 8){
@@ -4789,13 +4889,29 @@ bool jpcre2::select<Char_T>::RegexMatch::getNamedSubstrings(int namecount, int n
         }
         //Use of tabptr is finished for this iteration, let's increment it now.
         tabptr += name_entry_size;
-        String value((Char*)(subject + ovector[2*n]), ovector[2*n+1] - ovector[2*n]); //n, not i.
-        if(vec_nas) map_nas[key] = value;
-        if(vec_ntn) map_ntn[key] = n;
+        if(map_ntn) (*map_ntn)[key] = n;
+        if (map_nas || map_off) {
+            uint32_t st = n << 1, en = st + 1;  //avoid repetitive operations (n, not i.)
+            String value((Char*)(subject + ovector[st]), ovector[en] - ovector[st]);
+            if(map_nas) (*map_nas)[key] = value;
+            #ifdef JPCRE2_USE_MINIMUM_CXX_11
+            if(map_off) (*map_off)[key] = value.empty() ? ArrOff{0, 0} : ArrOff{ovector[st], ovector[en]};
+            #else
+            if(map_off) {
+                ArrOff arr(2, 0);
+                if(!value.empty()) {
+                    arr[0] = ovector[st];
+                    arr[1] = ovector[en];
+                }
+                (*map_off)[key] = arr;
+            }
+            #endif
+        }
     }
     //push the maps into vectors:
-    if(vec_nas) vec_nas->push_back(map_nas);
-    if(vec_ntn) vec_ntn->push_back(map_ntn);
+    if(vec_nas) vec_nas->push_back(*map_nas);
+    if(vec_ntn) vec_ntn->push_back(*map_ntn);
+    if(vec_nso) vec_nso->push_back(*map_off);
     return true;
 }
 
@@ -4833,8 +4949,10 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
     if (vec_num) vec_num->clear();
     if (vec_nas) vec_nas->clear();
     if (vec_ntn) vec_ntn->clear();
-    if(vec_soff) vec_soff->clear();
-    if(vec_eoff) vec_eoff->clear();
+    if (vec_nmo) vec_nmo->clear();
+    if (vec_nso) vec_nso->clear();
+    if (vec_soff) vec_soff->clear();
+    if (vec_eoff) vec_eoff->clear();
 
 
     /* Using this function ensures that the block is exactly the right size for
@@ -4897,13 +5015,13 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
     if(vec_eoff) vec_eoff->push_back(ovector[1]);
 
     // Get numbered substrings if vec_num isn't null
-    if (vec_num) { //must do null check
+    if (vec_num || vec_nmo) { //must do null check
         if(!getNumberedSubstrings(rc, subject, ovector, ovector_count))
             return count;
     }
 
     //get named substrings if either vec_nas or vec_ntn is given.
-    if (vec_nas || vec_ntn) {
+    if (vec_nas || vec_ntn || vec_nso) {
         /* See if there are any named substrings, and if so, show them by name. First
          we have to extract the count of named parentheses from the pattern. */
 
@@ -5077,12 +5195,12 @@ jpcre2::SIZE_T jpcre2::select<Char_T>::RegexMatch::match() {
          also any named substrings. */
 
         // Get numbered substrings if vec_num isn't null
-        if (vec_num) { //must do null check
+        if (vec_num || vec_nmo) { //must do null check
             if(!getNumberedSubstrings(rc, subject, ovector, ovector_count))
                 return count;
         }
 
-        if (vec_nas || vec_ntn) {
+        if (vec_nas || vec_ntn || vec_nso) {
             //must call this whether we have named substrings or not:
             if(!getNamedSubstrings(namecount, name_entry_size, name_table, subject, ovector))
                 return count;
