@@ -202,7 +202,7 @@ static inline std::string _tostdstring(size_t x){
 
 #ifndef JPCRE2_USE_MINIMUM_CXX_11
     char buf[128];
-    int written = std::sprintf(buf, "%u", x);
+    int written = std::sprintf(buf, "%ull", (unsigned long long)x);
     return (written > 0) ? std::string(buf, buf + written) : std::string();
 #else
     return std::to_string(x);
