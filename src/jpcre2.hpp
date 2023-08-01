@@ -198,10 +198,14 @@ static inline void _jvassert(bool cond, char const * name, const char* f, size_t
     the doc in MatchEvaluator section.").c_str(), f, line);
 }
 
-static inline std::string _tostdstring(unsigned x){
+static inline std::string _tostdstring(size_t x){
+#ifndef JPCRE2_USE_MINIMUM_CXX_11
     char buf[128];
-    int written = std::sprintf(buf, "%u", x);
+    int written = std::sprintf(buf, "%llu", (unsigned long long)x);
     return (written > 0) ? std::string(buf, buf + written) : std::string();
+#else
+    return std::to_string(x);
+#endif
 }
 
 
@@ -1355,7 +1359,7 @@ struct select{
         } else if(err_num == (int)ERROR::INSUFFICIENT_OVECTOR){
             return MSG<Char>::INSUFFICIENT_OVECTOR();
         } else if(err_num != 0) {
-            return getPcre2ErrorMessage((int) err_num);
+            return getPcre2ErrorMessage(err_num);
         } else return String();
     }
 
@@ -1590,7 +1594,7 @@ struct select{
         ///@return Last error message
         virtual String getErrorMessage() const  {
             #ifdef JPCRE2_USE_MINIMUM_CXX_11
-            return select<Char, Map>::getErrorMessage(error_number, error_offset);
+            return select<Char, Map>::getErrorMessage(error_number, (int)error_offset);
             #else
             return select<Char>::getErrorMessage(error_number, error_offset);
             #endif
@@ -3095,7 +3099,7 @@ struct select{
         ///@return Last error message
         String getErrorMessage() const  {
             #ifdef JPCRE2_USE_MINIMUM_CXX_11
-            return select<Char, Map>::getErrorMessage(error_number, error_offset);
+            return select<Char, Map>::getErrorMessage(error_number, (int)error_offset);
             #else
             return select<Char>::getErrorMessage(error_number, error_offset);
             #endif
@@ -3968,7 +3972,7 @@ struct select{
         ///@return Last error message
         String getErrorMessage() const  {
             #ifdef JPCRE2_USE_MINIMUM_CXX_11
-            return select<Char, Map>::getErrorMessage(error_number, error_offset);
+            return select<Char, Map>::getErrorMessage(error_number, (int)error_offset);
             #else
             return select<Char>::getErrorMessage(error_number, error_offset);
             #endif
